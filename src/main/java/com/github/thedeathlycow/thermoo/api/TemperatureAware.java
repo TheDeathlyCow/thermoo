@@ -30,7 +30,7 @@ public interface TemperatureAware {
     }
 
     /**
-     * @return Returns the minimum allowed temperature of the temperature aware object
+     * @return Returns the minimum allowed temperature of the temperature aware object.
      */
     default int thermoo$getMinTemperature() {
         throw new NotImplementedException();

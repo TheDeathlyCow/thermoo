@@ -15,6 +15,7 @@ import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -57,7 +58,8 @@ public abstract class EnvironmentAwareEntityMixin extends Entity implements Temp
 
     @Override
     public void thermoo$setWetTicks(int amount) {
-        this.dataTracker.set(THERMOO_WETNESS, amount);
+        int value = MathHelper.clamp(amount, 0, this.thermoo$getMaxWetTicks());
+        this.dataTracker.set(THERMOO_WETNESS, value);
     }
 
     @Override
@@ -87,21 +89,22 @@ public abstract class EnvironmentAwareEntityMixin extends Entity implements Temp
 
     @Override
     public void thermoo$setTemperature(int temperature) {
-        this.dataTracker.set(THERMOO_TEMPERATURE, temperature);
+        int value = MathHelper.clamp(temperature, this.thermoo$getMinTemperature(), this.thermoo$getMaxTemperature());
+        this.dataTracker.set(THERMOO_TEMPERATURE, value);
     }
 
     @Override
     public int thermoo$getMinTemperature() {
         double minTemp = this.getAttributeValue(ThermooAttributes.MIN_TEMPERATURE);
 
-        return (int) minTemp * 140;
+        return -(int) (minTemp * 140);
     }
 
     @Override
     public int thermoo$getMaxTemperature() {
-        double minTemp = this.getAttributeValue(ThermooAttributes.MAX_TEMPERATURE);
+        double maxTemp = this.getAttributeValue(ThermooAttributes.MAX_TEMPERATURE);
 
-        return (int) minTemp * 140;
+        return (int) (maxTemp * 140);
     }
 
     @Override
