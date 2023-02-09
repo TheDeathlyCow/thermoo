@@ -12,7 +12,6 @@ public class Thermoo implements ModInitializer {
 
     @Override
     public void onInitialize() {
-
     }
 
     public static Identifier id(String path) {
