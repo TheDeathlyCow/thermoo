@@ -12,6 +12,7 @@ public class Thermoo implements ModInitializer {
 
     @Override
     public void onInitialize() {
+        LOGGER.info("Thermoo initialized");
     }
 
     public static Identifier id(String path) {

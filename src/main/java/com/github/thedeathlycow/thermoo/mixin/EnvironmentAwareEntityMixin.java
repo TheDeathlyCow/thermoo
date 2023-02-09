@@ -37,9 +37,6 @@ public abstract class EnvironmentAwareEntityMixin extends Entity implements Temp
     @Shadow
     public abstract boolean hasStatusEffect(StatusEffect effect);
 
-    @Shadow
-    protected abstract boolean tryUseTotem(DamageSource source);
-
     @Unique
     private static final TrackedData<Integer> THERMOO_TEMPERATURE = DataTracker.registerData(
             EnvironmentAwareEntityMixin.class,
@@ -125,6 +122,7 @@ public abstract class EnvironmentAwareEntityMixin extends Entity implements Temp
         if (this.isSpectator()) {
             return false;
         } else if (type.isIn(ThermooTags.BENEFITS_FROM_COLD)) {
+            // entities that benefit from heat override entities that are immune to it
             return true;
         } else if (type.isIn(ThermooTags.COLD_IMMUNE)) {
             return false;
@@ -143,6 +141,7 @@ public abstract class EnvironmentAwareEntityMixin extends Entity implements Temp
         if (this.isSpectator()) {
             return false;
         } else if (type.isIn(ThermooTags.BENEFITS_FROM_HEAT)) {
+            // entities that benefit from heat override entities that are immune to it
             return true;
         } else if (type.isIn(ThermooTags.HEAT_IMMUNE)) {
             return false;
@@ -158,6 +157,14 @@ public abstract class EnvironmentAwareEntityMixin extends Entity implements Temp
     public void thermoo$addTemperature(int temperatureDelta, HeatingMode mode) {
         if (temperatureDelta == 0) {
             // adding 0 will always do nothing
+            return;
+        }
+
+        // do not add temperature if immune
+        boolean isFreezing = temperatureDelta < 0;
+        if (isFreezing && !this.thermoo$canFreeze()) {
+            return;
+        } else if (!isFreezing && !this.thermoo$canOverheat()) {
             return;
         }
 
