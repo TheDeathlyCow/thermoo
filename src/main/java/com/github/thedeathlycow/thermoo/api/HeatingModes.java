@@ -26,10 +26,10 @@ public enum HeatingModes implements HeatingMode, StringIdentifiable {
     ACTIVE("active") {
         @Override
         public int applyResistance(TemperatureAware target, int temperatureDelta) {
-            int currentTemperature = target.getTemperature();
+            int currentTemperature = target.thermoo$getTemperature();
             boolean isDeltaFreezing = temperatureDelta < 0;
 
-            double resistance = isDeltaFreezing ? target.getColdResistance() : target.getHeatResistance();
+            double resistance = isDeltaFreezing ? target.thermoo$getColdResistance() : target.thermoo$getHeatResistance();
             return HeatingModes.applyResistanceToDelta(resistance, temperatureDelta);
         }
     },
@@ -42,14 +42,14 @@ public enum HeatingModes implements HeatingMode, StringIdentifiable {
     PASSIVE("passive") {
         @Override
         public int applyResistance(TemperatureAware target, int temperatureDelta) {
-            int currentTemperature = target.getTemperature();
+            int currentTemperature = target.thermoo$getTemperature();
             boolean isDeltaFreezing = temperatureDelta < 0;
             double resistance = 0.0;
 
             if (currentTemperature < 0 && isDeltaFreezing) {
-                resistance = target.getColdResistance();
+                resistance = target.thermoo$getColdResistance();
             } else if (currentTemperature > 0 && !isDeltaFreezing) {
-                resistance = target.getHeatResistance();
+                resistance = target.thermoo$getHeatResistance();
             }
 
             return HeatingModes.applyResistanceToDelta(resistance, temperatureDelta);

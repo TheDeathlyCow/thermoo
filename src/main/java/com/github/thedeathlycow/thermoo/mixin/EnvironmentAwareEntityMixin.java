@@ -12,6 +12,7 @@ import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.world.World;
@@ -55,23 +56,23 @@ public abstract class EnvironmentAwareEntityMixin extends Entity implements Temp
     }
 
     @Override
-    public void setWetTicks(int amount) {
+    public void thermoo$setWetTicks(int amount) {
         this.dataTracker.set(THERMOO_WETNESS, amount);
     }
 
     @Override
-    public int getWetTicks() {
+    public int thermoo$getWetTicks() {
         return this.dataTracker.get(THERMOO_WETNESS);
     }
 
     @Override
-    public int getMaxWetTicks() {
+    public int thermoo$getMaxWetTicks() {
         return 20 * 30;
     }
 
 
     @Override
-    public boolean ignoresFrigidWater() {
+    public boolean thermoo$ignoresFrigidWater() {
         boolean canBreatheInWater = this.canBreatheInWater()
                 || this.hasStatusEffect(StatusEffects.WATER_BREATHING)
                 || this.hasStatusEffect(StatusEffects.CONDUIT_POWER);
@@ -80,49 +81,86 @@ public abstract class EnvironmentAwareEntityMixin extends Entity implements Temp
     }
 
     @Override
-    public int getTemperature() {
+    public int thermoo$getTemperature() {
         return this.dataTracker.get(THERMOO_TEMPERATURE);
     }
 
     @Override
-    public void setTemperature(int temperature) {
+    public void thermoo$setTemperature(int temperature) {
         this.dataTracker.set(THERMOO_TEMPERATURE, temperature);
     }
 
     @Override
-    public int getMinTemperature() {
+    public int thermoo$getMinTemperature() {
         double minTemp = this.getAttributeValue(ThermooAttributes.MIN_TEMPERATURE);
 
         return (int) minTemp * 140;
     }
 
     @Override
-    public int getMaxTemperature() {
+    public int thermoo$getMaxTemperature() {
         double minTemp = this.getAttributeValue(ThermooAttributes.MAX_TEMPERATURE);
 
         return (int) minTemp * 140;
     }
 
     @Override
-    public double getColdResistance() {
+    public double thermoo$getColdResistance() {
         return this.getAttributeValue(ThermooAttributes.FROST_RESISTANCE);
     }
 
     @Override
-    public double getHeatResistance() {
+    public double thermoo$getHeatResistance() {
         return this.getAttributeValue(ThermooAttributes.HEAT_RESISTANCE);
     }
 
     @Override
-    public void addTemperature(int temperatureDelta, HeatingMode mode) {
+    public boolean thermoo$canFreeze() {
+
+        EntityType<?> type = this.getType();
+
+        if (this.isSpectator()) {
+            return false;
+        } else if (type.isIn(ThermooTags.BENEFITS_FROM_COLD)) {
+            return true;
+        } else if (type.isIn(ThermooTags.COLD_IMMUNE)) {
+            return false;
+        } else if (this.isPlayer()) {
+            final LivingEntity instance = (LivingEntity) (Object) this;
+            return !((PlayerEntity) instance).isCreative();
+        } else {
+            return true;
+        }
+    }
+
+    @Override
+    public boolean thermoo$canOverheat() {
+        EntityType<?> type = this.getType();
+
+        if (this.isSpectator()) {
+            return false;
+        } else if (type.isIn(ThermooTags.BENEFITS_FROM_HEAT)) {
+            return true;
+        } else if (type.isIn(ThermooTags.HEAT_IMMUNE)) {
+            return false;
+        } else if (this.isPlayer()) {
+            final LivingEntity instance = (LivingEntity) (Object) this;
+            return !((PlayerEntity) instance).isCreative();
+        } else {
+            return true;
+        }
+    }
+
+    @Override
+    public void thermoo$addTemperature(int temperatureDelta, HeatingMode mode) {
         if (temperatureDelta == 0) {
             // adding 0 will always do nothing
             return;
         }
 
-        int currentTemperature = this.getTemperature();
+        int currentTemperature = this.thermoo$getTemperature();
         int modifiedDelta = mode.applyResistance(this, temperatureDelta);
-        this.setTemperature(currentTemperature + modifiedDelta);
+        this.thermoo$setTemperature(currentTemperature + modifiedDelta);
     }
 
     @Inject(
@@ -154,12 +192,12 @@ public abstract class EnvironmentAwareEntityMixin extends Entity implements Temp
     private void addDataToNbt(NbtCompound nbt, CallbackInfo ci) {
         NbtCompound thermoo = new NbtCompound();
 
-        int wetTicks = this.getWetTicks();
+        int wetTicks = this.thermoo$getWetTicks();
         if (wetTicks > 0) {
             thermoo.putInt("WetTicks", wetTicks);
         }
 
-        int temperature = this.getTemperature();
+        int temperature = this.thermoo$getTemperature();
         if (temperature > 0) {
             thermoo.putInt("Temperature", temperature);
         }
@@ -174,8 +212,8 @@ public abstract class EnvironmentAwareEntityMixin extends Entity implements Temp
     private void readDataFromNbt(NbtCompound nbt, CallbackInfo ci) {
 
         if (!nbt.contains("Thermoo", NbtElement.COMPOUND_TYPE)) {
-            this.setTemperature(0);
-            this.setWetTicks(0);
+            this.thermoo$setTemperature(0);
+            this.thermoo$setWetTicks(0);
             return;
         }
 
@@ -192,7 +230,7 @@ public abstract class EnvironmentAwareEntityMixin extends Entity implements Temp
             wetTicks = thermoo.getInt("WetTicks");
         }
 
-        this.setTemperature(temperature);
-        this.setWetTicks(wetTicks);
+        this.thermoo$setTemperature(temperature);
+        this.thermoo$setWetTicks(wetTicks);
     }
 }
