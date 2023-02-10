@@ -1,8 +1,10 @@
 package com.github.thedeathlycow.thermoo.impl;
 
 import com.github.thedeathlycow.thermoo.api.EnvironmentController;
+import com.github.thedeathlycow.thermoo.api.HeatingModes;
 import com.github.thedeathlycow.thermoo.api.Soakable;
 import com.github.thedeathlycow.thermoo.mixin.EntityInvoker;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffects;
@@ -13,16 +15,74 @@ import net.minecraft.world.LightType;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
+
 public class EnvironmentControllerImpl implements EnvironmentController {
 
+    private final Set<UUID> heatTickedEntities = new HashSet<>();
+    private final Set<UUID> tickedPlayers = new HashSet<>();
+
+    public EnvironmentControllerImpl() {
+        ServerTickEvents.END_SERVER_TICK.register(world -> {
+            heatTickedEntities.clear();
+            tickedPlayers.clear();
+        });
+    }
 
     @Override
-    public int getPassiveTemperatureDelta(PlayerEntity player) {
+    public void tickEntity(LivingEntity entity) {
 
-        int localDelta = this.getLocalTemperatureDelta(player.world, player.getBlockPos());
-        boolean isFreezing = localDelta < 0;
+        // ensure that entities arent ticked twice in the same tick
+        UUID entityID = entity.getUuid();
+        if (heatTickedEntities.contains(entityID)) {
+            return;
+        }
+        heatTickedEntities.add(entityID);
 
-        boolean isImmune = localDelta == 0
+
+        int temperatureChange = 0;
+
+        // tick heat sources
+        temperatureChange += this.getWarmthFromHeatSources(entity);
+
+        // tick on fire
+        temperatureChange += this.tickWarmthOnFire(entity);
+
+        // add passive temp change
+        entity.thermoo$addTemperature(temperatureChange, HeatingModes.PASSIVE);
+    }
+
+    @Override
+    public void tickPlayer(PlayerEntity player, ChangeTemperaturePredicate doPassiveChange) {
+
+        UUID playerID = player.getUuid();
+        boolean alreadyTicked = tickedPlayers.contains(playerID);
+        tickedPlayers.add(playerID);
+
+        // tick passive temp delta - may be ticked twice if doPassiveChange allows
+        int temperatureChange = this.getPassiveTemperatureChange(player);
+        if (doPassiveChange.test(player, player.world, temperatureChange, alreadyTicked)) {
+            player.thermoo$addTemperature(temperatureChange, HeatingModes.PASSIVE);
+        }
+
+        // ensure that player soaking isnt ticked twice in the same tick
+        if (!alreadyTicked) {
+            // tick soaking
+            int soakChange = this.getSoakChangeForPlayer(player);
+            int wetTicks = player.thermoo$getWetTicks();
+            player.thermoo$setWetTicks(wetTicks + soakChange);
+        }
+    }
+
+    @Override
+    public int getPassiveTemperatureChange(PlayerEntity player) {
+
+        int localChange = this.getLocalTemperatureChange(player.world, player.getBlockPos());
+        boolean isFreezing = localChange < 0;
+
+        boolean isImmune = localChange == 0
                 || (isFreezing && !player.thermoo$canFreeze())
                 || (!isFreezing && !player.thermoo$canOverheat());
         if (isImmune) {
@@ -31,18 +91,18 @@ public class EnvironmentControllerImpl implements EnvironmentController {
 
         if (isFreezing) {
             float modifier = this.getSoakedFreezingMultiplier(player);
-            localDelta = MathHelper.ceil(localDelta * (1 + modifier));
+            localChange = MathHelper.ceil(localChange * (1 + modifier));
         }
 
-        return localDelta;
+        return localChange;
     }
 
     @Override
-    public int getLocalTemperatureDelta(World world, BlockPos pos) {
+    public int getLocalTemperatureChange(World world, BlockPos pos) {
         if (world.getDimension().natural()) {
             Biome biome = world.getBiome(pos).value();
             float temperature = biome.getTemperature();
-            return this.getDeltaFromBiomeTemperature(
+            return this.getTempChangeFromBiomeTemperature(
                     world,
                     temperature,
                     biome.getPrecipitation() == Biome.Precipitation.NONE
@@ -142,7 +202,7 @@ public class EnvironmentControllerImpl implements EnvironmentController {
         return 2.1f * soakable.thermoo$getSoakedScale();
     }
 
-    private int getDeltaFromBiomeTemperature(World world, float temperature, boolean isDryBiome) {
+    private int getTempChangeFromBiomeTemperature(World world, float temperature, boolean isDryBiome) {
         // TODO: config
         double mul = 4.0;
         double cutoff = 0.25;

@@ -14,7 +14,9 @@ import org.apache.commons.lang3.NotImplementedException;
 public interface Soakable {
 
     /**
-     * Sets the wet ticks of a soakable to an exact amount
+     * Sets the wet ticks of a soakable to an exact amount.
+     *
+     * Clamps the amount between 0 and max wet ticks before setting.
      *
      * @param amount The amount of wet ticks
      */
