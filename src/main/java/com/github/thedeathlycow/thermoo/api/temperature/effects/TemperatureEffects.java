@@ -1,6 +1,9 @@
 package com.github.thedeathlycow.thermoo.api.temperature.effects;
 
+import com.github.thedeathlycow.thermoo.impl.TemperatureEffectLoader;
 import net.minecraft.entity.damage.DamageSource;
+
+import java.util.Collection;
 
 /**
  * A container class that contains all the various temperature effect types provided by Thermoo. You can, of course, create
@@ -18,6 +21,13 @@ public final class TemperatureEffects {
 
     public static final TemperatureEffect<?> FREEZE_DAMAGE_LEGACY = new LegacyDamageTemperatureEffect(DamageSource.FREEZE);
 
+
+    /**
+     * @return Returns all currently loaded {@link ConfiguredTemperatureEffect}s
+     */
+    public static Collection<ConfiguredTemperatureEffect<?>> getLoadedConfiguredEffects() {
+        return TemperatureEffectLoader.INSTANCE.getEffects();
+    }
 
     private TemperatureEffects() {
     }

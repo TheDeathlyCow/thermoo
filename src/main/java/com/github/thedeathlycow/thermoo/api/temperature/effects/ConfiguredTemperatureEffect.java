@@ -28,12 +28,6 @@ import java.util.Collection;
  */
 public class ConfiguredTemperatureEffect<C> {
 
-    /**
-     * @return Returns all currently loaded configured temperature effects
-     */
-    public static Collection<ConfiguredTemperatureEffect<?>> getAllEffects() {
-        return TemperatureEffectLoader.INSTANCE.getEffects();
-    }
 
     /**
      * The temperature effect type
