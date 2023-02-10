@@ -153,14 +153,14 @@ public abstract class EnvironmentAwareEntityMixin extends Entity implements Temp
     }
 
     @Override
-    public void thermoo$addTemperature(int temperatureDelta, HeatingMode mode) {
-        if (temperatureDelta == 0) {
+    public void thermoo$addTemperature(int temperatureChange, HeatingMode mode) {
+        if (temperatureChange == 0) {
             // adding 0 will always do nothing
             return;
         }
 
         // do not add temperature if immune
-        boolean isFreezing = temperatureDelta < 0;
+        boolean isFreezing = temperatureChange < 0;
         if (isFreezing && !this.thermoo$canFreeze()) {
             return;
         } else if (!isFreezing && !this.thermoo$canOverheat()) {
@@ -168,8 +168,8 @@ public abstract class EnvironmentAwareEntityMixin extends Entity implements Temp
         }
 
         int currentTemperature = this.thermoo$getTemperature();
-        int modifiedDelta = mode.applyResistance(this, temperatureDelta);
-        this.thermoo$setTemperature(currentTemperature + modifiedDelta);
+        int modifiedChange = mode.applyResistance(this, temperatureChange);
+        this.thermoo$setTemperature(currentTemperature + modifiedChange);
     }
 
     @Inject(
@@ -187,7 +187,7 @@ public abstract class EnvironmentAwareEntityMixin extends Entity implements Temp
     )
     private static void addThermooAttributesToLivingEntities(CallbackInfoReturnable<DefaultAttributeContainer.Builder> cir) {
         DefaultAttributeContainer.Builder builder = cir.getReturnValue();
-
+        // register attributes to living entities
         builder.add(ThermooAttributes.MAX_TEMPERATURE);
         builder.add(ThermooAttributes.MIN_TEMPERATURE);
         builder.add(ThermooAttributes.FROST_RESISTANCE);

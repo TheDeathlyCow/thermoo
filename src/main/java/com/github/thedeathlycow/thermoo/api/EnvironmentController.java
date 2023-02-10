@@ -23,6 +23,7 @@ public interface EnvironmentController {
 
     /**
      * Ticks the entity once. Ensures that entities are not ticked twice in the same server tick.
+     * It is recommended that this method from a mixin to {@link LivingEntity#tick}
      *
      * @param entity The entity to tick
      */
@@ -31,6 +32,7 @@ public interface EnvironmentController {
     /**
      * Ticks the player once. Ensures that player soaking is not ticked twice; however their temperature may be ticked
      * twice depending on the behaviour of {@code doPassiveChange}.
+     * It is recommended that this method from a mixin to {@link PlayerEntity#tick}
      * <p>
      * Note that {@link EnvironmentController#tickEntity(LivingEntity)} should also be called on the player.
      *

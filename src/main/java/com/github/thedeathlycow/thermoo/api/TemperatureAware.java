@@ -89,20 +89,20 @@ public interface TemperatureAware {
      * Adds or removes some amount of temperature to the thermally aware object. Resistance can be applied by specifying
      * a {@link HeatingMode}. See {@link HeatingModes} for some common modes.
      *
-     * @param temperatureDelta The amount of temperature to add/remove. Positive delta adds, negative delta removes.
-     * @param mode             The mode of resistance to apply to the delta.
+     * @param temperatureChange The amount of temperature to add/remove. Positive change adds, negative change removes.
+     * @param mode              The mode of resistance to apply to the change.
      */
-    default void thermoo$addTemperature(int temperatureDelta, HeatingMode mode) {
+    default void thermoo$addTemperature(int temperatureChange, HeatingMode mode) {
         throw new NotImplementedException();
     }
 
     /**
      * Adds or removes some amount of temperature to the thermally aware object. Applies no resistance.
      *
-     * @param temperatureDelta The amount of temperature to add/remove. Positive delta adds, negative delta removes.
+     * @param temperatureChange The amount of temperature to add/remove. Positive change adds, negative change removes.
      */
-    default void thermoo$addTemperature(int temperatureDelta) {
-        this.thermoo$addTemperature(temperatureDelta, HeatingModes.ABSOLUTE);
+    default void thermoo$addTemperature(int temperatureChange) {
+        this.thermoo$addTemperature(temperatureChange, HeatingModes.ABSOLUTE);
     }
 
     /**

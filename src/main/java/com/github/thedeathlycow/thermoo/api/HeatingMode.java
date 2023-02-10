@@ -1,17 +1,17 @@
 package com.github.thedeathlycow.thermoo.api;
 
 /**
- * The mode of temperature increase/decrease for a {@link TemperatureAware}.
- * Applies resistances to temperature deltas under various conditions.
+ * The mode of temperature change for a {@link TemperatureAware}.
+ * Applies resistances to temperature changes under various conditions.
  */
 public interface HeatingMode {
 
     /**
      * Applies thermal resistance to a {@link TemperatureAware} target
      * @param target The thermally-aware target
-     * @param temperatureDelta The temperature delta to apply resistance to
+     * @param temperatureChange The temperature change to apply resistance to
      * @return Returns the adjusted delta after applying resistance.
      */
-    int applyResistance(TemperatureAware target, int temperatureDelta);
+    int applyResistance(TemperatureAware target, int temperatureChange);
 
 }

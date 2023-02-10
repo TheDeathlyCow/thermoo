@@ -8,29 +8,29 @@ import net.minecraft.util.math.MathHelper;
  */
 public enum HeatingModes implements HeatingMode, StringIdentifiable {
     /**
-     * Applies temperature deltas absolutely - ignoring all resistance in all conditions.
+     * Applies temperature changes absolutely - ignoring all resistance in all conditions.
      * Used as the default mode in commands or other debug environments.
      */
     ABSOLUTE("absolute") {
         @Override
-        public int applyResistance(TemperatureAware target, int temperatureDelta) {
-            return temperatureDelta;
+        public int applyResistance(TemperatureAware target, int temperatureChange) {
+            return temperatureChange;
         }
     },
     /**
-     * Always applies the relevant resistance for the delta - cold resistance when the delta is negative (decreasing temperature)
-     * and heat resistance when the delta is positive (increasing temperature).
+     * Always applies the relevant resistance for the change - cold resistance when the change is negative
+     * (decreasing temperature) and heat resistance when the change is positive (increasing temperature).
      *
      * Used for non-environmental effects, like a Frostologer freezing their victim or an Enchantment that drains heat.
      */
     ACTIVE("active") {
         @Override
-        public int applyResistance(TemperatureAware target, int temperatureDelta) {
+        public int applyResistance(TemperatureAware target, int temperatureChange) {
             int currentTemperature = target.thermoo$getTemperature();
-            boolean isDeltaFreezing = temperatureDelta < 0;
+            boolean isChangeFreezing = temperatureChange < 0;
 
-            double resistance = isDeltaFreezing ? target.thermoo$getColdResistance() : target.thermoo$getHeatResistance();
-            return HeatingModes.applyResistanceToDelta(resistance, temperatureDelta);
+            double resistance = isChangeFreezing ? target.thermoo$getColdResistance() : target.thermoo$getHeatResistance();
+            return HeatingModes.applyResistanceToDelta(resistance, temperatureChange);
         }
     },
     /**
@@ -41,18 +41,18 @@ public enum HeatingModes implements HeatingMode, StringIdentifiable {
      */
     PASSIVE("passive") {
         @Override
-        public int applyResistance(TemperatureAware target, int temperatureDelta) {
+        public int applyResistance(TemperatureAware target, int temperatureChange) {
             int currentTemperature = target.thermoo$getTemperature();
-            boolean isDeltaFreezing = temperatureDelta < 0;
+            boolean isChangeFreezing = temperatureChange < 0;
             double resistance = 0.0;
 
-            if (currentTemperature < 0 && isDeltaFreezing) {
+            if (currentTemperature < 0 && isChangeFreezing) {
                 resistance = target.thermoo$getColdResistance();
-            } else if (currentTemperature > 0 && !isDeltaFreezing) {
+            } else if (currentTemperature > 0 && !isChangeFreezing) {
                 resistance = target.thermoo$getHeatResistance();
             }
 
-            return HeatingModes.applyResistanceToDelta(resistance, temperatureDelta);
+            return HeatingModes.applyResistanceToDelta(resistance, temperatureChange);
         }
     };
 
@@ -68,17 +68,17 @@ public enum HeatingModes implements HeatingMode, StringIdentifiable {
     }
 
     /**
-     * Applies a cold/heat resistance value to a temperature delta.
+     * Applies a cold/heat resistance value to a temperature change.
      * Resistance values are on a scale of 0 - 10, where 0 = 0% and 10 = 100%.
      *
      * @param resistance A raw resistance value, on a scale of 0-10.
-     * @param temperatureDelta The temperature delta
+     * @param temperatureChange The temperature change
      * @return Returns
      */
-    public static int applyResistanceToDelta(double resistance, int temperatureDelta) {
+    private static int applyResistanceToDelta(double resistance, int temperatureChange) {
 
         double resistanceAsPercent = ((resistance * 10.0) / 100.0);
 
-        return MathHelper.ceil((1 - resistanceAsPercent) * temperatureDelta);
+        return MathHelper.ceil((1 - resistanceAsPercent) * temperatureChange);
     }
 }
