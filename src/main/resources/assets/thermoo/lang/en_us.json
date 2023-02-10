@@ -1,0 +1,6 @@
+{
+    "attribute.thermoo.generic.min_temperature": "Minimum Temperature",
+    "attribute.thermoo.generic.max_temperature": "Maximum Temperature",
+    "attribute.thermoo.generic.frost_resistance": "Frost Resistance",
+    "attribute.thermoo.generic.heat_resistance": "Heat Resistance"
+}

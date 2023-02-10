@@ -12,6 +12,9 @@ public class Thermoo implements ModInitializer {
 
     @Override
     public void onInitialize() {
+
+        ThermooCommonRegisters.registerAttributes();
+
         LOGGER.info("Thermoo initialized");
     }
 
