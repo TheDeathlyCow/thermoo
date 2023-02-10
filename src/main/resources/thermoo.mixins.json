@@ -4,6 +4,7 @@
 	"package": "com.github.thedeathlycow.thermoo.mixin",
 	"compatibilityLevel": "JAVA_17",
 	"mixins": [
+		"EntityInvoker",
 		"EnvironmentAwareEntityMixin"
 	],
 	"client": [

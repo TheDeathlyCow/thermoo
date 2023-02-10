@@ -77,6 +77,14 @@ public interface TemperatureAware {
         throw new NotImplementedException();
     }
 
+    default boolean thermoo$isCold() {
+        return this.thermoo$getTemperature() <= 0;
+    }
+
+    default boolean thermoo$isWarm() {
+        return this.thermoo$getTemperature() >= 0;
+    }
+
     /**
      * Adds or removes some amount of temperature to the thermally aware object. Resistance can be applied by specifying
      * a {@link HeatingMode}. See {@link HeatingModes} for some common modes.

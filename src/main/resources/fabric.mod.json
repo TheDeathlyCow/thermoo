@@ -34,8 +34,8 @@
 	"custom": {
 		"loom:injected_interfaces": {
 			"net/minecraft/class_1309": [
-				"com/github/thedeathlycow/thermoo/TemperatureAware",
-				"com/github/thedeathlycow/thermoo/Soakable"
+				"com/github/thedeathlycow/thermoo/api/TemperatureAware",
+				"com/github/thedeathlycow/thermoo/api/Soakable"
 			]
 		}
 	}
