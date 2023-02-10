@@ -1,4 +1,4 @@
-package com.github.thedeathlycow.thermoo.api;
+package com.github.thedeathlycow.thermoo.api.temperature;
 
 import net.minecraft.util.math.MathHelper;
 import org.apache.commons.lang3.NotImplementedException;

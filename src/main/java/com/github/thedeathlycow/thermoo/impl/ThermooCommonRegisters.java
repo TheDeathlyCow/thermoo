@@ -1,6 +1,6 @@
 package com.github.thedeathlycow.thermoo.impl;
 
-import com.github.thedeathlycow.thermoo.api.ThermooAttributes;
+import com.github.thedeathlycow.thermoo.api.temperature.ThermooAttributes;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.util.registry.Registry;
 

@@ -1,8 +1,8 @@
 package com.github.thedeathlycow.thermoo.impl;
 
-import com.github.thedeathlycow.thermoo.api.EnvironmentController;
-import com.github.thedeathlycow.thermoo.api.HeatingModes;
-import com.github.thedeathlycow.thermoo.api.Soakable;
+import com.github.thedeathlycow.thermoo.api.temperature.EnvironmentController;
+import com.github.thedeathlycow.thermoo.api.temperature.HeatingModes;
+import com.github.thedeathlycow.thermoo.api.temperature.Soakable;
 import com.github.thedeathlycow.thermoo.mixin.EntityInvoker;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.block.Blocks;

@@ -1,4 +1,4 @@
-package com.github.thedeathlycow.thermoo.api;
+package com.github.thedeathlycow.thermoo.api.temperature;
 
 import com.github.thedeathlycow.thermoo.impl.EnvironmentControllerImpl;
 import net.minecraft.entity.LivingEntity;
