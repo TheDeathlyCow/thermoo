@@ -2,13 +2,13 @@
 	"schemaVersion": 1,
 	"id": "thermoo",
 	"version": "${version}",
-	"name": "Example Mod",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"name": "Thermoo",
+	"description": "A temperature library used by Frostiful",
 	"authors": [
-		"Me!"
+		"TheDeathlyCow"
 	],
 	"contact": {
-		"homepage": "https://github.com/TheDeathlyCow",
+		"homepage": "https://github.com/TheDeathlyCow/thermoo",
 		"sources": "https://github.com/TheDeathlyCow/thermoo"
 	},
 	"license": "LGPL-3",
@@ -29,13 +29,21 @@
 		"java": ">=17"
 	},
 	"suggests": {
-		"another-mod": "*"
+		"frostiful": "*"
 	},
 	"custom": {
 		"loom:injected_interfaces": {
 			"net/minecraft/class_1309": [
 				"com/github/thedeathlycow/thermoo/api/TemperatureAware",
 				"com/github/thedeathlycow/thermoo/api/Soakable"
+			]
+		},
+		"modmenu": {
+			"links": {
+				"modmenu.discord": "https://discord.gg/aqASuWebRU"
+			},
+			"badges": [
+				"library"
 			]
 		}
 	}
