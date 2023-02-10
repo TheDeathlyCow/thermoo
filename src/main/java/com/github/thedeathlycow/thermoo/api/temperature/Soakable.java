@@ -15,7 +15,7 @@ public interface Soakable {
 
     /**
      * Sets the wet ticks of a soakable to an exact amount.
-     *
+     * <p>
      * Clamps the amount between 0 and max wet ticks before setting.
      *
      * @param amount The amount of wet ticks

@@ -8,7 +8,8 @@ public interface HeatingMode {
 
     /**
      * Applies thermal resistance to a {@link TemperatureAware} target
-     * @param target The thermally-aware target
+     *
+     * @param target            The thermally-aware target
      * @param temperatureChange The temperature change to apply resistance to
      * @return Returns the adjusted delta after applying resistance.
      */

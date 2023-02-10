@@ -20,7 +20,7 @@ public enum HeatingModes implements HeatingMode, StringIdentifiable {
     /**
      * Always applies the relevant resistance for the change - cold resistance when the change is negative
      * (decreasing temperature) and heat resistance when the change is positive (increasing temperature).
-     *
+     * <p>
      * Used for non-environmental effects, like a Frostologer freezing their victim or an Enchantment that drains heat.
      */
     ACTIVE("active") {
@@ -36,7 +36,7 @@ public enum HeatingModes implements HeatingMode, StringIdentifiable {
     /**
      * Only applies thermal resistance when the target is currently in the relevant temperature range. For example, cold
      * resistance is only applied to targets that are cold; and heat resistance only to targets that are warm.
-     *
+     * <p>
      * Used for passive environmental effects, such as the temperature change of a biome or of a torch.
      */
     PASSIVE("passive") {
@@ -71,7 +71,7 @@ public enum HeatingModes implements HeatingMode, StringIdentifiable {
      * Applies a cold/heat resistance value to a temperature change.
      * Resistance values are on a scale of 0 - 10, where 0 = 0% and 10 = 100%.
      *
-     * @param resistance A raw resistance value, on a scale of 0-10.
+     * @param resistance        A raw resistance value, on a scale of 0-10.
      * @param temperatureChange The temperature change
      * @return Returns
      */
