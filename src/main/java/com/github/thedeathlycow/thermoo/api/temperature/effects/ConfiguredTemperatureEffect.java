@@ -1,7 +1,6 @@
 package com.github.thedeathlycow.thermoo.api.temperature.effects;
 
 import com.github.thedeathlycow.thermoo.api.ThermooRegistries;
-import com.github.thedeathlycow.thermoo.impl.TemperatureEffectLoader;
 import com.google.gson.*;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.loot.LootGsons;
@@ -16,7 +15,6 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Type;
-import java.util.Collection;
 
 /**
  * Represents a configured instance of a {@link TemperatureEffect} type.

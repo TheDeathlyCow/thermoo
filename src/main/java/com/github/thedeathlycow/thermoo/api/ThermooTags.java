@@ -1,4 +1,4 @@
-package com.github.thedeathlycow.thermoo.api.temperature;
+package com.github.thedeathlycow.thermoo.api;
 
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import net.minecraft.entity.EntityType;

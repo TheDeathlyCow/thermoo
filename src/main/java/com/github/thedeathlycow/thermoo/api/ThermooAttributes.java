@@ -1,4 +1,4 @@
-package com.github.thedeathlycow.thermoo.api.temperature;
+package com.github.thedeathlycow.thermoo.api;
 
 import net.minecraft.entity.attribute.ClampedEntityAttribute;
 import net.minecraft.entity.attribute.EntityAttribute;

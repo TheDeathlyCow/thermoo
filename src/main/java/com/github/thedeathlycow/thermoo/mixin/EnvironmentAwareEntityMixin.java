@@ -1,5 +1,7 @@
 package com.github.thedeathlycow.thermoo.mixin;
 
+import com.github.thedeathlycow.thermoo.api.ThermooAttributes;
+import com.github.thedeathlycow.thermoo.api.ThermooTags;
 import com.github.thedeathlycow.thermoo.api.temperature.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
