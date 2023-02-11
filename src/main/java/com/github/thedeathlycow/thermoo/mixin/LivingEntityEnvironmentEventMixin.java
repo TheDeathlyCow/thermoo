@@ -54,7 +54,7 @@ public class LivingEntityEnvironmentEventMixin {
 
         if (soakChange != 0) {
             EnvironmentChangeResult result = new EnvironmentChangeResult();
-            LivingEntityEnvironmentEvents.TICK_IN_WET_LOCATION.invoker().onTemperatureChange(
+            LivingEntityEnvironmentEvents.TICK_IN_WET_LOCATION.invoker().onSoakChange(
                     controller, entity, soakChange, result
             );
         }

@@ -45,10 +45,6 @@ public class PlayerTemperatureEventMixin {
             PlayerEnvironmentEvents.TICK_WARM_BIOME_TEMPERATURE_CHANGE.invoker().onBiomeTemperatureChange(
                     EnvironmentController.INSTANCE, player, biome, temperatureChange, result
             );
-        } else {
-            PlayerEnvironmentEvents.TEMPERATE_BIOME_TICK.invoker().onTemperatureChangeTick(
-                    EnvironmentController.INSTANCE, player, biome
-            );
         }
 
     }
