@@ -2,5 +2,12 @@
     "attribute.thermoo.generic.min_temperature": "Minimum Temperature",
     "attribute.thermoo.generic.max_temperature": "Maximum Temperature",
     "attribute.thermoo.generic.frost_resistance": "Frost Resistance",
-    "attribute.thermoo.generic.heat_resistance": "Heat Resistance"
+    "attribute.thermoo.generic.heat_resistance": "Heat Resistance",
+
+    "text.autoconfig.thermoo.option.updateConfig": "Update Config",
+    "text.autoconfig.thermoo.option.updateConfig.currentConfigVersion": "Current config version",
+    "text.autoconfig.thermoo.option.updateConfig.enableConfigUpdates": "Enable config auto updates",
+    "text.autoconfig.thermoo.option.updateConfig.enableConfigUpdates.@Tooltip[0]": "When enabled, automatically update the config whenever",
+    "text.autoconfig.thermoo.option.updateConfig.enableConfigUpdates.@Tooltip[1]": "the mod makes changes to the default values.",
+    "text.autoconfig.thermoo.option.updateConfig.enableConfigUpdates.@Tooltip[2]": "It is recommended that modpacks turn this OFF"  
 }

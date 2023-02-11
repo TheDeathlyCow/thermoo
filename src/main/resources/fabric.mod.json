@@ -17,6 +17,9 @@
 	"entrypoints": {
 		"main": [
 			"com.github.thedeathlycow.thermoo.impl.Thermoo"
+		],
+		"modmenu": [
+			"com.github.thedeathlycow.thermoo.impl.ThermooModMenu"
 		]
 	},
 	"mixins": [

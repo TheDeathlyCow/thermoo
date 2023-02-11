@@ -3,6 +3,8 @@ package com.github.thedeathlycow.thermoo.impl;
 import com.github.thedeathlycow.thermoo.api.temperature.EnvironmentController;
 import com.github.thedeathlycow.thermoo.api.temperature.HeatingModes;
 import com.github.thedeathlycow.thermoo.api.temperature.Soakable;
+import com.github.thedeathlycow.thermoo.impl.config.ThermooConfig;
+import com.github.thedeathlycow.thermoo.impl.config.ThermooEnvironmentConfig;
 import com.github.thedeathlycow.thermoo.mixin.EntityInvoker;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.block.Blocks;
@@ -108,7 +110,7 @@ public class EnvironmentControllerImpl implements EnvironmentController {
                     biome.getPrecipitation() == Biome.Precipitation.NONE
             );
         } else if (world.getDimension().ultrawarm()) {
-            return -100; // TODO: config
+            return Thermoo.getConfig().environmentConfig.getUltrawarmWarmRate();
         }
         return 0;
     }
@@ -118,13 +120,21 @@ public class EnvironmentControllerImpl implements EnvironmentController {
         World world = entity.getWorld();
         BlockPos pos = entity.getBlockPos();
         int warmth = 0;
+        ThermooConfig config = Thermoo.getConfig();
 
         int lightLevel = world.getLightLevel(LightType.BLOCK, pos);
 
-        int minLightLevel = 5;
+        int minLightLevel = config.environmentConfig.getMinLightForWarmth();
 
         if (entity.thermoo$isCold() && lightLevel >= minLightLevel) {
-            warmth += 10 * (lightLevel - minLightLevel); // TODO: config
+            warmth += config.environmentConfig.getWarmthPerLightLevel() * (lightLevel - minLightLevel);
+        }
+
+        boolean isSubmerged = entity.isSubmergedInWater()
+                || ((EntityInvoker) entity).thermoo$invokeIsInsideBubbleColumn();
+
+        if (isSubmerged && entity.hasStatusEffect(StatusEffects.CONDUIT_POWER)) {
+            warmth += config.environmentConfig.getConduitPowerWarmthPerTick();
         }
 
         return warmth;
@@ -133,13 +143,14 @@ public class EnvironmentControllerImpl implements EnvironmentController {
     @Override
     public int tickWarmthOnFire(LivingEntity entity) {
         int warmth = 0;
+        ThermooConfig config = Thermoo.getConfig();
         if (entity.isOnFire()) {
-            warmth += 100; // TODO: config
+            warmth += config.environmentConfig.getOnFireWarmRate();
 
             boolean isImmuneToFire = entity.hasStatusEffect(StatusEffects.FIRE_RESISTANCE)
                     || entity.isFireImmune();
 
-            // entities that are on fire but resistant to it should are extinguished
+            // entities that are on fire but resistant to it are extinguished
             if (isImmuneToFire && entity.thermoo$isCold()) {
                 entity.extinguish();
             }
@@ -155,16 +166,18 @@ public class EnvironmentControllerImpl implements EnvironmentController {
 
         boolean isDry = true;
         int soakChange = 0;
+        ThermooConfig config = Thermoo.getConfig();
+
 
         // add wetness from rain
         if (invoker.thermoo$invokeIsBeingRainedOn()) {
-            soakChange += 1;
+            soakChange += config.environmentConfig.getRainWetnessIncrease();
             isDry = false;
         }
 
         // add wetness when touching, but not submerged in, water
         if (player.isTouchingWater() || player.getBlockStateAtPos().isOf(Blocks.WATER_CAULDRON)) {
-            soakChange += 5;
+            soakChange += config.environmentConfig.getTouchingWaterWetnessIncrease();
             isDry = false;
         }
 
@@ -176,7 +189,7 @@ public class EnvironmentControllerImpl implements EnvironmentController {
 
         // dry off slowly when not being wetted
         if (isDry) {
-            soakChange = -1;
+            soakChange = -config.environmentConfig.getDryRate();
         }
 
         // increase drying from block light
@@ -186,7 +199,7 @@ public class EnvironmentControllerImpl implements EnvironmentController {
         }
 
         if (player.isOnFire()) {
-            soakChange -= 100;
+            soakChange -= config.environmentConfig.getOnFireDryDate();
         }
 
         return soakChange;
@@ -198,24 +211,25 @@ public class EnvironmentControllerImpl implements EnvironmentController {
         if (soakable.thermoo$ignoresFrigidWater()) {
             return 0.0f;
         }
+        ThermooEnvironmentConfig config = Thermoo.getConfig().environmentConfig;
 
-        return 2.1f * soakable.thermoo$getSoakedScale();
+        return config.getPassiveFreezingWetnessScaleMultiplier() * soakable.thermoo$getSoakedScale();
     }
 
     private int getTempChangeFromBiomeTemperature(World world, float temperature, boolean isDryBiome) {
-        // TODO: config
-        double mul = 4.0;
-        double cutoff = 0.25;
+        ThermooConfig config = Thermoo.getConfig();
+        double mul = config.environmentConfig.getBiomeTemperatureMultiplier();
+        double cutoff = config.environmentConfig.getPassiveFreezingMaxTemp();
 
         double tempShift = 0.0;
-        if (world.isNight()) {
+        if (world.isNight() && config.environmentConfig.doDryBiomeNightFreezing()) {
             if (isDryBiome) {
-                temperature = Math.min(temperature, 0.0f);
+                temperature = Math.min(temperature, config.environmentConfig.getDryBiomeNightTemperature());
             } else {
-                tempShift = 0.25;
+                tempShift = config.environmentConfig.getNightTimeTemperatureDecrease();
             }
         }
 
-        return MathHelper.floor(-mul * (temperature - cutoff - tempShift) + 1);
+        return MathHelper.floor(mul * (temperature - cutoff - tempShift) - 1);
     }
 }

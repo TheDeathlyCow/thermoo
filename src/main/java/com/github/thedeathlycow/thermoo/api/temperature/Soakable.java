@@ -39,6 +39,8 @@ public interface Soakable {
     }
 
     /**
+     * Soakables ignore frigid water if they can breathe in water.
+     *
      * @return Returns if the soakable ignores the effects of frigid water
      */
     default boolean thermoo$ignoresFrigidWater() {
