@@ -3,7 +3,6 @@ package com.github.thedeathlycow.thermoo.api.temperature.event;
 import com.github.thedeathlycow.thermoo.api.temperature.EnvironmentController;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.profiler.Profiler;
 import net.minecraft.world.biome.Biome;
@@ -21,14 +20,14 @@ public final class PlayerEnvironmentEvents {
 
                     for (BiomeTemperatureChangeTick event : callbacks) {
                         profiler.push(EventFactory.getHandlerName(event));
-                        event.onTemperatureChangeTick(controller, player, biome, temperatureChange, result);
+                        event.onBiomeTemperatureChange(controller, player, biome, temperatureChange, result);
                         profiler.pop();
                     }
 
                     profiler.pop();
                 } else {
                     for (BiomeTemperatureChangeTick event : callbacks) {
-                        event.onTemperatureChangeTick(controller, player, biome, temperatureChange, result);
+                        event.onBiomeTemperatureChange(controller, player, biome, temperatureChange, result);
                     }
                 }
             }
@@ -42,14 +41,14 @@ public final class PlayerEnvironmentEvents {
 
                     for (BiomeTemperatureChangeTick event : callbacks) {
                         profiler.push(EventFactory.getHandlerName(event));
-                        event.onTemperatureChangeTick(controller, player, biome, temperatureChange, result);
+                        event.onBiomeTemperatureChange(controller, player, biome, temperatureChange, result);
                         profiler.pop();
                     }
 
                     profiler.pop();
                 } else {
                     for (BiomeTemperatureChangeTick event : callbacks) {
-                        event.onTemperatureChangeTick(controller, player, biome, temperatureChange, result);
+                        event.onBiomeTemperatureChange(controller, player, biome, temperatureChange, result);
                     }
                 }
             }
@@ -57,7 +56,9 @@ public final class PlayerEnvironmentEvents {
 
     @FunctionalInterface
     public interface BiomeTemperatureChangeTick {
-        void onTemperatureChangeTick(EnvironmentController controller, PlayerEntity player, Biome biome, int temperatureChange, EnvironmentChangeResult result);
+
+        void onBiomeTemperatureChange(EnvironmentController controller, PlayerEntity player, Biome biome, int temperatureChange, EnvironmentChangeResult result);
+        
     }
 
 }

@@ -36,7 +36,7 @@ public class LivingEntityEnvironmentEventMixin {
 
         if (heatSourceTemperatureChange != 0) {
             EnvironmentChangeResult result = new EnvironmentChangeResult();
-            LivingEntityEnvironmentEvents.TICK_IN_HEATED_LOCATED.invoker().onTemperatureChange(
+            LivingEntityEnvironmentEvents.TICK_IN_HEATED_LOCATION.invoker().onTemperatureChange(
                     controller, entity, heatSourceTemperatureChange, result
             );
         }
