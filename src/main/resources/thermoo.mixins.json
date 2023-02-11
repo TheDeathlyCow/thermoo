@@ -6,6 +6,8 @@
 	"mixins": [
 		"EntityInvoker",
 		"EnvironmentAwareEntityMixin",
+		"LivingEntityEnvironmentEventMixin",
+		"PlayerTemperatureEventMixin",
 		"TemperatureEffectTickerMixin"
 	],
 	"client": [
