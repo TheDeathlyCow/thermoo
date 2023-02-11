@@ -36,7 +36,7 @@ public class LivingEntityEnvironmentEventMixin {
 
         if (heatSourceTemperatureChange != 0) {
             EnvironmentChangeResult result = new EnvironmentChangeResult();
-            LivingEntityEnvironmentEvents.IN_HEATED_AREA.invoker().onTemperatureChange(
+            LivingEntityEnvironmentEvents.TICK_IN_HEATED_LOCATED.invoker().onTemperatureChange(
                     controller, entity, heatSourceTemperatureChange, result
             );
         }
@@ -45,7 +45,7 @@ public class LivingEntityEnvironmentEventMixin {
 
         if (effectTemperatureChange != 0) {
             EnvironmentChangeResult result = new EnvironmentChangeResult();
-            LivingEntityEnvironmentEvents.HEAT_EFFECT_TEMPERATURE_CHANGE.invoker().onTemperatureChange(
+            LivingEntityEnvironmentEvents.TICK_HEAT_EFFECT_TEMPERATURE_CHANGE.invoker().onTemperatureChange(
                     controller, entity, heatSourceTemperatureChange, result
             );
         }
@@ -54,7 +54,7 @@ public class LivingEntityEnvironmentEventMixin {
 
         if (soakChange != 0) {
             EnvironmentChangeResult result = new EnvironmentChangeResult();
-            LivingEntityEnvironmentEvents.IN_WET_AREA.invoker().onTemperatureChange(
+            LivingEntityEnvironmentEvents.TICK_IN_WET_LOCATION.invoker().onTemperatureChange(
                     controller, entity, soakChange, result
             );
         }

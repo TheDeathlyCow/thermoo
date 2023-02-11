@@ -38,11 +38,11 @@ public class PlayerTemperatureEventMixin {
 
         EnvironmentChangeResult result = new EnvironmentChangeResult();
         if (temperatureChange < 0) {
-            PlayerEnvironmentEvents.COLD_BIOME_TICK.invoker().onTemperatureChangeTick(
+            PlayerEnvironmentEvents.TICK_COLD_BIOME_TEMPERATURE_CHANGE.invoker().onTemperatureChangeTick(
                     EnvironmentController.INSTANCE, player, biome, temperatureChange, result
             );
         } else if (temperatureChange > 0) {
-            PlayerEnvironmentEvents.WARM_BIOME_TICK.invoker().onTemperatureChangeTick(
+            PlayerEnvironmentEvents.TICK_WARM_BIOME_TEMPERATURE_CHANGE.invoker().onTemperatureChangeTick(
                     EnvironmentController.INSTANCE, player, biome, temperatureChange, result
             );
         } else {

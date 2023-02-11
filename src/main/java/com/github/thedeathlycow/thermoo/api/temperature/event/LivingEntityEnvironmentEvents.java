@@ -10,7 +10,7 @@ public final class LivingEntityEnvironmentEvents {
     private LivingEntityEnvironmentEvents() {
     }
 
-    public static final Event<EnvironmentChangEvent> IN_HEATED_AREA = EventFactory.createArrayBacked(EnvironmentChangEvent.class,
+    public static final Event<EnvironmentChangEvent> TICK_IN_HEATED_LOCATED = EventFactory.createArrayBacked(EnvironmentChangEvent.class,
             callbacks -> (controller, entity, temperatureChange, result) -> {
                 for (EnvironmentChangEvent event : callbacks) {
                     event.onTemperatureChange(controller, entity, temperatureChange, result);
@@ -18,7 +18,7 @@ public final class LivingEntityEnvironmentEvents {
             }
     );
 
-    public static final Event<EnvironmentChangEvent> HEAT_EFFECT_TEMPERATURE_CHANGE = EventFactory.createArrayBacked(EnvironmentChangEvent.class,
+    public static final Event<EnvironmentChangEvent> TICK_HEAT_EFFECT_TEMPERATURE_CHANGE = EventFactory.createArrayBacked(EnvironmentChangEvent.class,
             callbacks -> (controller, entity, temperatureChange, result) -> {
                 for (EnvironmentChangEvent event : callbacks) {
                     event.onTemperatureChange(controller, entity, temperatureChange, result);
@@ -27,7 +27,7 @@ public final class LivingEntityEnvironmentEvents {
     );
 
 
-    public static final Event<EnvironmentChangEvent> IN_WET_AREA = EventFactory.createArrayBacked(EnvironmentChangEvent.class,
+    public static final Event<EnvironmentChangEvent> TICK_IN_WET_LOCATION = EventFactory.createArrayBacked(EnvironmentChangEvent.class,
             callbacks -> (controller, entity, soakChange, result) -> {
                 for (EnvironmentChangEvent event : callbacks) {
                     event.onTemperatureChange(controller, entity, soakChange, result);
