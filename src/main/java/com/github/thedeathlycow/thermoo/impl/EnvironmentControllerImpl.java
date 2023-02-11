@@ -1,10 +1,8 @@
 package com.github.thedeathlycow.thermoo.impl;
 
 import com.github.thedeathlycow.thermoo.api.temperature.EnvironmentController;
-import com.github.thedeathlycow.thermoo.api.temperature.Soakable;
 import com.github.thedeathlycow.thermoo.api.temperature.TemperatureAware;
 import com.github.thedeathlycow.thermoo.impl.config.ThermooConfig;
-import com.github.thedeathlycow.thermoo.impl.config.ThermooEnvironmentConfig;
 import com.github.thedeathlycow.thermoo.mixin.EntityInvoker;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.LivingEntity;
@@ -113,16 +111,6 @@ public class EnvironmentControllerImpl implements EnvironmentController {
         }
 
         return soakChange;
-    }
-
-    @Override
-    public float getSoakedFreezingMultiplier(Soakable soakable) {
-        if (soakable.thermoo$ignoresFrigidWater()) {
-            return 0.0f;
-        }
-        ThermooEnvironmentConfig config = Thermoo.getConfig().environmentConfig;
-
-        return config.getPassiveFreezingWetnessScaleMultiplier() * soakable.thermoo$getSoakedScale();
     }
 
     private int getTempChangeFromBiomeTemperature(World world, float temperature, boolean isDryBiome) {

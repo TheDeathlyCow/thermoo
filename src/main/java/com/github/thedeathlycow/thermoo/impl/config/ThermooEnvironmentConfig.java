@@ -17,8 +17,6 @@ public class ThermooEnvironmentConfig implements ConfigData {
 
     double nightTimeTemperatureDecrease = 0.25;
 
-    float passiveFreezingWetnessScaleMultiplier = 2.1f;
-
     int rainWetnessIncrease = 1;
     int touchingWaterWetnessIncrease = 5;
     int dryRate = 1;
@@ -57,10 +55,6 @@ public class ThermooEnvironmentConfig implements ConfigData {
 
     public double getNightTimeTemperatureDecrease() {
         return nightTimeTemperatureDecrease;
-    }
-
-    public float getPassiveFreezingWetnessScaleMultiplier() {
-        return passiveFreezingWetnessScaleMultiplier;
     }
 
     public int getRainWetnessIncrease() {

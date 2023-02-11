@@ -54,14 +54,5 @@ public interface EnvironmentController {
      */
     int getSoakChange(LivingEntity entity);
 
-    /**
-     * Computes how much a {@link Soakable}'s passive <b>freezing</b> should be increased by
-     * with respect to their wetness. Only relevant if the Soakable is also a {@link TemperatureAware}.
-     *
-     * @param soakable The soakable
-     * @return Returns the multiplier for passive freezing based on the wetness.
-     */
-    float getSoakedFreezingMultiplier(Soakable soakable);
-
 
 }
