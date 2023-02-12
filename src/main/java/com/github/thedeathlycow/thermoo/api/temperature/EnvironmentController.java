@@ -34,6 +34,8 @@ public interface EnvironmentController {
      * most artificial light producing sources, such as torches, campfires, lit furnaces, glowstone, and more.
      *
      * @param temperatureAware The temperature aware to compute the warmth of
+     * @param world The world the temperature aware is in
+     * @param pos The position to check
      * @return Returns the temperature change that should be applied from nearby temperature sources.
      */
     int getWarmthFromHeatSources(TemperatureAware temperatureAware, World world, BlockPos pos);
@@ -49,7 +51,7 @@ public interface EnvironmentController {
     /**
      * Gets the wetness increase for a {@link Soakable} player this tick
      *
-     * @param player The player to compute increase for
+     * @param entity The player to compute increase for
      * @return Returns the soaking change for the player.
      */
     int getSoakChange(LivingEntity entity);
