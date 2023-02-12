@@ -34,7 +34,7 @@ public class LegacyDamageTemperatureEffect extends TemperatureEffect<LegacyDamag
 
     @Override
     public boolean shouldApply(LivingEntity victim, Config config) {
-        return victim.age % config.damageInterval == 0 && config.progressThreshold.test(victim.getFreezingScale());
+        return victim.age % config.damageInterval == 0 && config.progressThreshold.test(victim.thermoo$getTemperatureScale());
     }
 
     @Override
