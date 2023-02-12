@@ -1,8 +1,8 @@
 package com.github.thedeathlycow.thermoo.mixin;
 
 import com.github.thedeathlycow.thermoo.api.temperature.EnvironmentController;
-import com.github.thedeathlycow.thermoo.api.temperature.event.PlayerEnvironmentEvents;
 import com.github.thedeathlycow.thermoo.api.temperature.event.EnvironmentChangeResult;
+import com.github.thedeathlycow.thermoo.api.temperature.event.PlayerEnvironmentEvents;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;

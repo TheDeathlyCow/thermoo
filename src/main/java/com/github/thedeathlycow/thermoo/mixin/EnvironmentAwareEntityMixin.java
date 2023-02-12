@@ -2,7 +2,9 @@ package com.github.thedeathlycow.thermoo.mixin;
 
 import com.github.thedeathlycow.thermoo.api.ThermooAttributes;
 import com.github.thedeathlycow.thermoo.api.ThermooTags;
-import com.github.thedeathlycow.thermoo.api.temperature.*;
+import com.github.thedeathlycow.thermoo.api.temperature.HeatingMode;
+import com.github.thedeathlycow.thermoo.api.temperature.Soakable;
+import com.github.thedeathlycow.thermoo.api.temperature.TemperatureAware;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;

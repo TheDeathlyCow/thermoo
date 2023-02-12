@@ -18,6 +18,13 @@ import java.util.Collection;
 import static net.minecraft.server.command.CommandManager.argument;
 import static net.minecraft.server.command.CommandManager.literal;
 
+/**
+ * Command relating to temperature. Allows temperature to be modified in game.
+ * <p>
+ * Usage:
+ * <p>
+ * {@code thermoo temperature <subcommand> <args>}
+ */
 public class TemperatureCommand {
 
     private static final SimpleCommandExceptionType NOT_LIVING_ENTITY = new SimpleCommandExceptionType(Text.translatable("commands.thermoo.temperature.exception.not_living_entity"));

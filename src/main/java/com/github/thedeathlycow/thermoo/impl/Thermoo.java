@@ -1,5 +1,6 @@
 package com.github.thedeathlycow.thermoo.impl;
 
+import com.github.thedeathlycow.thermoo.api.command.EnvironmentCommand;
 import com.github.thedeathlycow.thermoo.api.command.HeatingModeArgumentType;
 import com.github.thedeathlycow.thermoo.api.command.TemperatureCommand;
 import com.github.thedeathlycow.thermoo.impl.config.ThermooConfig;
@@ -36,6 +37,7 @@ public class Thermoo implements ModInitializer {
         CommandRegistrationCallback.EVENT.register(
                 (dispatcher, registryAccess, environment) -> {
                     TemperatureCommand.register(dispatcher);
+                    EnvironmentCommand.register(dispatcher);
                 }
         );
 
