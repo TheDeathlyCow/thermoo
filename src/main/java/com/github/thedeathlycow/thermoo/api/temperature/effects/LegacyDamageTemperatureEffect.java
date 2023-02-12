@@ -52,7 +52,7 @@ public class LegacyDamageTemperatureEffect extends TemperatureEffect<LegacyDamag
             JsonObject object = json.getAsJsonObject();
 
             // get progress range
-            NumberRange.FloatRange progressThreshold = NumberRange.FloatRange.fromJson(object.get("progress_threshold"));
+            NumberRange.FloatRange progressThreshold = NumberRange.FloatRange.fromJson(object.get("temperature_scale_range"));
 
             float amount = object.get("amount").getAsFloat();
 
