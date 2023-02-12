@@ -117,7 +117,7 @@ public interface TemperatureAware {
 
         int bound = 0;
         if (temperature < 0) {
-            bound = this.thermoo$getMinTemperature();
+            bound = -this.thermoo$getMinTemperature();
         } else {
             bound = this.thermoo$getMaxTemperature();
         }
