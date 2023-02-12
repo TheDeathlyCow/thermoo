@@ -41,7 +41,7 @@ public interface EnvironmentController {
     int getWarmthFromHeatSources(TemperatureAware temperatureAware, World world, BlockPos pos);
 
     /**
-     * Computes passive warmth for {@link TemperatureAware} entities on fire, and ticks effects.
+     * Computes passive warmth for {@link TemperatureAware} entities on fire.
      *
      * @param entity The entity to tick warm from other sources
      * @return Returns the temperature change that should be applied

@@ -122,10 +122,10 @@ public abstract class EnvironmentAwareEntityMixin extends Entity implements Temp
 
         if (this.isSpectator()) {
             return false;
-        } else if (type.isIn(ThermooTags.BENEFITS_FROM_COLD)) {
+        } else if (type.isIn(ThermooTags.BENEFITS_FROM_COLD_ENTITY_TYPE)) {
             // entities that benefit from heat override entities that are immune to it
             return true;
-        } else if (type.isIn(ThermooTags.COLD_IMMUNE)) {
+        } else if (type.isIn(ThermooTags.COLD_IMMUNE_ENTITY_TYPE)) {
             return false;
         } else if (this.isPlayer()) {
             final LivingEntity instance = (LivingEntity) (Object) this;
@@ -141,10 +141,10 @@ public abstract class EnvironmentAwareEntityMixin extends Entity implements Temp
 
         if (this.isSpectator()) {
             return false;
-        } else if (type.isIn(ThermooTags.BENEFITS_FROM_HEAT)) {
+        } else if (type.isIn(ThermooTags.BENEFITS_FROM_HEAT_ENTITY_TYPE)) {
             // entities that benefit from heat override entities that are immune to it
             return true;
-        } else if (type.isIn(ThermooTags.HEAT_IMMUNE)) {
+        } else if (type.isIn(ThermooTags.HEAT_IMMUNE_ENTITY_TYPE)) {
             return false;
         } else if (this.isPlayer()) {
             final LivingEntity instance = (LivingEntity) (Object) this;

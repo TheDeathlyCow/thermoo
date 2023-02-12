@@ -1,10 +1,15 @@
 package com.github.thedeathlycow.thermoo.impl;
 
+import com.github.thedeathlycow.thermoo.api.command.HeatingModeArgumentType;
+import com.github.thedeathlycow.thermoo.api.command.TemperatureCommand;
 import com.github.thedeathlycow.thermoo.impl.config.ThermooConfig;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.command.v2.ArgumentTypeRegistry;
+import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
+import net.minecraft.command.argument.serialize.ConstantArgumentSerializer;
 import net.minecraft.resource.ResourceType;
 import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
@@ -21,6 +26,18 @@ public class Thermoo implements ModInitializer {
     public void onInitialize() {
         AutoConfig.register(ThermooConfig.class, GsonConfigSerializer::new);
         ThermooConfig.updateConfig(AutoConfig.getConfigHolder(ThermooConfig.class));
+
+        ArgumentTypeRegistry.registerArgumentType(
+                Thermoo.id("heating_mode"),
+                HeatingModeArgumentType.class,
+                ConstantArgumentSerializer.of(HeatingModeArgumentType::heatingMode)
+        );
+
+        CommandRegistrationCallback.EVENT.register(
+                (dispatcher, registryAccess, environment) -> {
+                    TemperatureCommand.register(dispatcher);
+                }
+        );
 
         ThermooCommonRegisters.registerAttributes();
         ThermooCommonRegisters.registerTemperatureEffects();

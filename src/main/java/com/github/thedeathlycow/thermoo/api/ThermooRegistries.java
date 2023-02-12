@@ -6,8 +6,15 @@ import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryKey;
 
+/**
+ * Custom registries provided by Thermoo
+ */
 public class ThermooRegistries {
 
+    /**
+     * Temperature effects
+     * @see TemperatureEffect
+     */
     public static final Registry<TemperatureEffect<?>> TEMPERATURE_EFFECTS =
             FabricRegistryBuilder.createSimple(
                     ThermooRegistries.<TemperatureEffect<?>>castClass(TemperatureEffect.class),

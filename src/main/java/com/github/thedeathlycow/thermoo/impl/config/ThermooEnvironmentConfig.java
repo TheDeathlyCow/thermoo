@@ -81,10 +81,6 @@ public class ThermooEnvironmentConfig implements ConfigData {
         return onFireWarmRate;
     }
 
-    public int getConduitPowerWarmthPerTick() {
-        return conduitPowerWarmthPerTick;
-    }
-
     public int getWarmthPerLightLevel() {
         return warmthPerLightLevel;
     }

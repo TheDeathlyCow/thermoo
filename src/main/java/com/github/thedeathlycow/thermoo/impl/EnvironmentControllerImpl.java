@@ -56,13 +56,6 @@ public class EnvironmentControllerImpl implements EnvironmentController {
             warmth += config.environmentConfig.getOnFireWarmRate();
         }
 
-        boolean isSubmerged = entity.isSubmergedInWater()
-                || ((EntityInvoker) entity).thermoo$invokeIsInsideBubbleColumn();
-
-        if (isSubmerged && entity.hasStatusEffect(StatusEffects.CONDUIT_POWER)) {
-            warmth += config.environmentConfig.getConduitPowerWarmthPerTick();
-        }
-
         return warmth;
     }
 

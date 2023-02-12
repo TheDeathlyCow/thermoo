@@ -110,13 +110,23 @@ public interface TemperatureAware {
      */
     default float thermoo$getTemperatureScale() {
         int temperature = this.thermoo$getTemperature();
+
         if (temperature == 0) {
             return 0.0f;
-        } else if (temperature < 0) {
-            return -((float) temperature) / this.thermoo$getMinTemperature();
-        } else {
-            return ((float) temperature) / this.thermoo$getMaxTemperature();
         }
+
+        int bound = 0;
+        if (temperature < 0) {
+            bound = this.thermoo$getMinTemperature();
+        } else {
+            bound = this.thermoo$getMaxTemperature();
+        }
+
+        if (bound == 0) {
+            return 0.0f;
+        }
+
+        return ((float) temperature) / bound;
     }
 
 }
