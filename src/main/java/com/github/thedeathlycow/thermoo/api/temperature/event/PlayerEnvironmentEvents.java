@@ -40,7 +40,7 @@ public final class PlayerEnvironmentEvents {
     );
 
     /**
-     * Tick when the player is in a cold biome (local biome temperature < 0)
+     * Tick when the player is in a cold biome (local biome temperature less than 0)
      */
     public static final Event<BiomeTemperatureChangeTickCallback> TICK_COLD_BIOME_TEMPERATURE_CHANGE = EventFactory.createArrayBacked(BiomeTemperatureChangeTickCallback.class,
             callbacks -> (controller, player, biome, temperatureChange, result) -> {
