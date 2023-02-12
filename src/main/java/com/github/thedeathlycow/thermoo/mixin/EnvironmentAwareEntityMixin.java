@@ -209,9 +209,7 @@ public abstract class EnvironmentAwareEntityMixin extends Entity implements Temp
         }
 
         int temperature = this.thermoo$getTemperature();
-        if (temperature > 0) {
-            thermoo.putInt("Temperature", temperature);
-        }
+        thermoo.putInt("Temperature", temperature);
 
         nbt.put("Thermoo", thermoo);
     }
