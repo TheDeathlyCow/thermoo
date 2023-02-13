@@ -19,21 +19,21 @@ public final class PlayerEnvironmentEvents {
      * Tick when the player is in a warm biome (local biome temperature > 0)
      */
     public static final Event<BiomeTemperatureChangeTickCallback> TICK_WARM_BIOME_TEMPERATURE_CHANGE = EventFactory.createArrayBacked(BiomeTemperatureChangeTickCallback.class,
-            callbacks -> (controller, player, biome, temperatureChange, result) -> {
+            callbacks -> (controller, player, biome, result) -> {
                 if (EventFactory.isProfilingEnabled()) {
                     final Profiler profiler = player.world.getProfiler();
                     profiler.push("thermooWarmBiomeTemperatureChangeTick");
 
                     for (BiomeTemperatureChangeTickCallback event : callbacks) {
                         profiler.push(EventFactory.getHandlerName(event));
-                        event.onBiomeTemperatureChange(controller, player, biome, temperatureChange, result);
+                        event.onBiomeTemperatureChange(controller, player, biome, result);
                         profiler.pop();
                     }
 
                     profiler.pop();
                 } else {
                     for (BiomeTemperatureChangeTickCallback event : callbacks) {
-                        event.onBiomeTemperatureChange(controller, player, biome, temperatureChange, result);
+                        event.onBiomeTemperatureChange(controller, player, biome, result);
                     }
                 }
             }
@@ -43,21 +43,21 @@ public final class PlayerEnvironmentEvents {
      * Tick when the player is in a cold biome (local biome temperature less than 0)
      */
     public static final Event<BiomeTemperatureChangeTickCallback> TICK_COLD_BIOME_TEMPERATURE_CHANGE = EventFactory.createArrayBacked(BiomeTemperatureChangeTickCallback.class,
-            callbacks -> (controller, player, biome, temperatureChange, result) -> {
+            callbacks -> (controller, player, biome, result) -> {
                 if (EventFactory.isProfilingEnabled()) {
                     final Profiler profiler = player.world.getProfiler();
                     profiler.push("thermooColdBiomeTemperatureChangeTick");
 
                     for (BiomeTemperatureChangeTickCallback event : callbacks) {
                         profiler.push(EventFactory.getHandlerName(event));
-                        event.onBiomeTemperatureChange(controller, player, biome, temperatureChange, result);
+                        event.onBiomeTemperatureChange(controller, player, biome, result);
                         profiler.pop();
                     }
 
                     profiler.pop();
                 } else {
                     for (BiomeTemperatureChangeTickCallback event : callbacks) {
-                        event.onBiomeTemperatureChange(controller, player, biome, temperatureChange, result);
+                        event.onBiomeTemperatureChange(controller, player, biome, result);
                     }
                 }
             }
@@ -73,13 +73,12 @@ public final class PlayerEnvironmentEvents {
          * Invoked when the temperature change should be applied. Note that the change is NOT applied by this event,
          * listeners must apply it themselves.
          *
-         * @param controller        The {@link EnvironmentController} relevant to this event
-         * @param player            The player being ticked
-         * @param biome             The biome the player is in
-         * @param temperatureChange The temperature change of the {@code biome}
-         * @param result            Contains whether or not the change has been applied
+         * @param controller The {@link EnvironmentController} relevant to this event
+         * @param player     The player being ticked
+         * @param biome      The biome the player is in
+         * @param result     Stores information about the change to be applied
          */
-        void onBiomeTemperatureChange(EnvironmentController controller, PlayerEntity player, Biome biome, int temperatureChange, EnvironmentChangeResult result);
+        void onBiomeTemperatureChange(EnvironmentController controller, PlayerEntity player, Biome biome, EnvironmentChangeResult result);
 
     }
 

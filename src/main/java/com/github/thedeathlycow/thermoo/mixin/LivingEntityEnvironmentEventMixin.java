@@ -35,27 +35,23 @@ public class LivingEntityEnvironmentEventMixin {
         int heatSourceTemperatureChange = controller.getWarmthFromHeatSources(entity, world, entity.getBlockPos());
 
         if (heatSourceTemperatureChange != 0) {
-            EnvironmentChangeResult result = new EnvironmentChangeResult();
+            EnvironmentChangeResult result = new EnvironmentChangeResult(heatSourceTemperatureChange);
             LivingEntityEnvironmentEvents.TICK_IN_HEATED_LOCATION.invoker().onTemperatureChange(
-                    controller, entity, heatSourceTemperatureChange, result
+                    controller, entity, result
             );
         }
 
-        int effectTemperatureChange = controller.getWarmthFromEffects(entity);
-
-        if (effectTemperatureChange != 0) {
-            EnvironmentChangeResult result = new EnvironmentChangeResult();
-            LivingEntityEnvironmentEvents.TICK_HEAT_EFFECT_TEMPERATURE_CHANGE.invoker().onTemperatureChange(
-                    controller, entity, heatSourceTemperatureChange, result
-            );
-        }
+        EnvironmentChangeResult result = new EnvironmentChangeResult(controller.getOnFireWarmthRate(entity));
+        LivingEntityEnvironmentEvents.TICK_HEAT_EFFECTS.invoker().onTemperatureChange(
+                controller, entity, result
+        );
 
         int soakChange = controller.getSoakChange(entity);
 
         if (soakChange != 0) {
-            EnvironmentChangeResult result = new EnvironmentChangeResult();
+            result = new EnvironmentChangeResult(soakChange);
             LivingEntityEnvironmentEvents.TICK_IN_WET_LOCATION.invoker().onSoakChange(
-                    controller, entity, soakChange, result
+                    controller, entity, result
             );
         }
     }

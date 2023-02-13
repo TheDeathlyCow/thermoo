@@ -8,9 +8,6 @@ public class ThermooEnvironmentConfig implements ConfigData {
 
     boolean doDryBiomeNightFreezing = true;
 
-    float passiveTemperatureChangeMinScale = -1.0f;
-    float passiveTemperatureChangeMaxScale = 1.0f;
-
     double biomeTemperatureMultiplier = 4.0;
 
     double passiveFreezingMaxTemp = 0.25;
@@ -21,10 +18,8 @@ public class ThermooEnvironmentConfig implements ConfigData {
     int touchingWaterWetnessIncrease = 5;
     int dryRate = 1;
     int onFireDryDate = 50;
-    float soakPercentFromWaterPotion = 0.5f;
 
     int onFireWarmRate = 50;
-    int conduitPowerWarmthPerTick = 12;
 
     int warmthPerLightLevel = 2;
     int minLightForWarmth = 5;
@@ -35,14 +30,6 @@ public class ThermooEnvironmentConfig implements ConfigData {
 
     public boolean doDryBiomeNightFreezing() {
         return doDryBiomeNightFreezing;
-    }
-
-    public float getPassiveTemperatureChangeMinScale() {
-        return passiveTemperatureChangeMinScale;
-    }
-
-    public float getPassiveTemperatureChangeMaxScale() {
-        return passiveTemperatureChangeMaxScale;
     }
 
     public double getBiomeTemperatureMultiplier() {
@@ -71,10 +58,6 @@ public class ThermooEnvironmentConfig implements ConfigData {
 
     public int getOnFireDryDate() {
         return onFireDryDate;
-    }
-
-    public float getSoakPercentFromWaterPotion() {
-        return soakPercentFromWaterPotion;
     }
 
     public int getOnFireWarmRate() {

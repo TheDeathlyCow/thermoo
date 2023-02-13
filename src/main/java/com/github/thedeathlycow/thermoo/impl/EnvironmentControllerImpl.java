@@ -46,7 +46,7 @@ public class EnvironmentControllerImpl implements EnvironmentController {
     }
 
     @Override
-    public int getWarmthFromEffects(LivingEntity entity) {
+    public int getOnFireWarmthRate(LivingEntity entity) {
 
         int warmth = 0;
         ThermooConfig config = Thermoo.getConfig();
