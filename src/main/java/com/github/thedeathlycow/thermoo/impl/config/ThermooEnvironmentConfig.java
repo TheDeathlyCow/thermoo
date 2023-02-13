@@ -10,7 +10,7 @@ public class ThermooEnvironmentConfig implements ConfigData {
 
     double biomeTemperatureMultiplier = 4.0;
 
-    double passiveFreezingMaxTemp = 0.25;
+    double passiveFreezingCutoffTemp = 0.25;
 
     double nightTimeTemperatureDecrease = 0.25;
 
@@ -24,7 +24,7 @@ public class ThermooEnvironmentConfig implements ConfigData {
     int warmthPerLightLevel = 2;
     int minLightForWarmth = 5;
 
-    int ultrawarmThawRate = 15;
+    int ultrawarmWarmRate = 15;
 
     float dryBiomeNightTemperature = 0.0f;
 
@@ -36,8 +36,8 @@ public class ThermooEnvironmentConfig implements ConfigData {
         return biomeTemperatureMultiplier;
     }
 
-    public double getPassiveFreezingMaxTemp() {
-        return passiveFreezingMaxTemp;
+    public double getPassiveFreezingCutoffTemp() {
+        return passiveFreezingCutoffTemp;
     }
 
     public double getNightTimeTemperatureDecrease() {
@@ -73,7 +73,7 @@ public class ThermooEnvironmentConfig implements ConfigData {
     }
 
     public int getUltrawarmWarmRate() {
-        return ultrawarmThawRate;
+        return ultrawarmWarmRate;
     }
 
     public float getDryBiomeNightTemperature() {

@@ -108,7 +108,7 @@ public class EnvironmentControllerImpl implements EnvironmentController {
     private int getTempChangeFromBiomeTemperature(World world, float temperature, boolean isDryBiome) {
         ThermooConfig config = Thermoo.getConfig();
         double mul = config.environmentConfig.getBiomeTemperatureMultiplier();
-        double cutoff = config.environmentConfig.getPassiveFreezingMaxTemp();
+        double cutoff = config.environmentConfig.getPassiveFreezingCutoffTemp();
 
         double tempShift = 0.0;
         if (world.isNight() && config.environmentConfig.doDryBiomeNightFreezing()) {

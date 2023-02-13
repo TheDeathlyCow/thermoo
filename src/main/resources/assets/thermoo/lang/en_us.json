@@ -25,5 +25,21 @@
     "text.autoconfig.thermoo.option.updateConfig.enableConfigUpdates": "Enable config auto updates",
     "text.autoconfig.thermoo.option.updateConfig.enableConfigUpdates.@Tooltip[0]": "When enabled, automatically update the config whenever",
     "text.autoconfig.thermoo.option.updateConfig.enableConfigUpdates.@Tooltip[1]": "the mod makes changes to the default values.",
-    "text.autoconfig.thermoo.option.updateConfig.enableConfigUpdates.@Tooltip[2]": "It is recommended that modpacks turn this OFF"  
+    "text.autoconfig.thermoo.option.updateConfig.enableConfigUpdates.@Tooltip[2]": "It is recommended that modpacks turn this OFF"  ,
+
+    "text.autoconfig.thermoo.option.environmentConfig": "Environment Config",
+    "text.autoconfig.thermoo.option.environmentConfig.doDryBiomeNightFreezing": "Do dry biome night freezing",
+    "text.autoconfig.thermoo.option.environmentConfig.biomeTemperatureMultiplier": "Biome temperature multiplier",
+    "text.autoconfig.thermoo.option.environmentConfig.passiveFreezingCutoffTemp": "Passive freezing cutoff temp",
+    "text.autoconfig.thermoo.option.environmentConfig.nightTimeTemperatureDecrease": "Night time temperature decrease",
+    "text.autoconfig.thermoo.option.environmentConfig.rainWetnessIncrease": "Rain wetness increase per tick",
+    "text.autoconfig.thermoo.option.environmentConfig.touchingWaterWetnessIncrease": "Touching water wetness increase per tick",
+    "text.autoconfig.thermoo.option.environmentConfig.dryRate": "Dry rate",
+    "text.autoconfig.thermoo.option.environmentConfig.onFireDryDate": "On fire dry rate",
+    "text.autoconfig.thermoo.option.environmentConfig.onFireWarmRate": "On fire warm rate",
+    "text.autoconfig.thermoo.option.environmentConfig.onFireThawRate": "On fire thaw rate",
+    "text.autoconfig.thermoo.option.environmentConfig.warmthPerLightLevel": "Warmth per light level",
+    "text.autoconfig.thermoo.option.environmentConfig.minLightForWarmth": "Minimum block light level for warmth",
+    "text.autoconfig.thermoo.option.environmentConfig.ultrawarmWarmRate": "Ultrawarm dimension warm rate",
+    "text.autoconfig.thermoo.option.environmentConfig.dryBiomeNightTemperature": "Dry biome night temperature"
 }
