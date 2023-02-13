@@ -4,6 +4,7 @@ import com.github.thedeathlycow.thermoo.api.temperature.EnvironmentController;
 import com.github.thedeathlycow.thermoo.api.temperature.TemperatureAware;
 import com.github.thedeathlycow.thermoo.impl.config.ThermooConfig;
 import com.github.thedeathlycow.thermoo.mixin.EntityInvoker;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.BlockPos;
@@ -33,15 +34,9 @@ public class EnvironmentControllerImpl implements EnvironmentController {
     @Override
     public int getWarmthFromHeatSources(TemperatureAware temperatureAware, World world, BlockPos pos) {
         int warmth = 0;
-        ThermooConfig config = Thermoo.getConfig();
-
-        int lightLevel = world.getLightLevel(LightType.BLOCK, pos);
-        int minLightLevel = config.environmentConfig.getMinLightForWarmth();
-
-        if (temperatureAware.thermoo$isCold() && lightLevel >= minLightLevel) {
-            warmth += config.environmentConfig.getWarmthPerLightLevel() * (lightLevel - minLightLevel);
+        if (temperatureAware.thermoo$isCold()) {
+            warmth += this.getHeatAtLocation(world, pos);
         }
-
         return warmth;
     }
 
@@ -105,6 +100,38 @@ public class EnvironmentControllerImpl implements EnvironmentController {
         return soakChange;
     }
 
+    @Override
+    public int getHeatAtLocation(World world, BlockPos pos) {
+        ThermooConfig config = Thermoo.getConfig();
+
+        int lightLevel = world.getLightLevel(LightType.BLOCK, pos);
+        int minLightLevel = config.environmentConfig.getMinLightForWarmth();
+
+        int warmth = 0;
+        if (lightLevel >= minLightLevel) {
+            warmth += config.environmentConfig.getWarmthPerLightLevel() * (lightLevel - minLightLevel);
+        }
+
+        return warmth;
+    }
+
+    @Override
+    public int getHeatFromBlockState(BlockState state) {
+        return state.getLuminance();
+    }
+
+    @Override
+    public boolean isHeatSource(BlockState state) {
+        int minLightForWarmth = Thermoo.getConfig().environmentConfig.getMinLightForWarmth();
+        return state.getLuminance() >= minLightForWarmth;
+    }
+
+    @Override
+    public boolean isAreaHeated(World world, BlockPos pos) {
+        int minLightForWarmth = Thermoo.getConfig().environmentConfig.getMinLightForWarmth();
+        return world.getLightLevel(LightType.BLOCK, pos) > minLightForWarmth;
+    }
+
     private int getTempChangeFromBiomeTemperature(World world, float temperature, boolean isDryBiome) {
         ThermooConfig config = Thermoo.getConfig();
         double mul = config.environmentConfig.getBiomeTemperatureMultiplier();
@@ -121,4 +148,5 @@ public class EnvironmentControllerImpl implements EnvironmentController {
 
         return MathHelper.floor(mul * (temperature - cutoff - tempShift) - 1);
     }
+
 }
