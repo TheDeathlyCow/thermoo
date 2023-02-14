@@ -1,10 +1,7 @@
 package com.github.thedeathlycow.thermoo.api.temperature.effects;
 
 import com.github.thedeathlycow.thermoo.api.temperature.TemperatureAware;
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
+import com.google.gson.*;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeInstance;
@@ -34,7 +31,7 @@ public class ScalingAttributeModifierTemperatureEffect extends TemperatureEffect
     }
 
     @Override
-    public Config configFromJson(JsonElement json, JsonDeserializationContext context) throws JsonParseException {
+    public Config configFromJson(JsonElement json, JsonDeserializationContext context) throws JsonSyntaxException {
         return Config.fromJson(json);
     }
 
@@ -73,7 +70,7 @@ public class ScalingAttributeModifierTemperatureEffect extends TemperatureEffect
             EntityAttributeModifier.Operation operation
     ) {
 
-        public static Config fromJson(JsonElement jsonElement) throws JsonParseException {
+        public static Config fromJson(JsonElement jsonElement) throws JsonSyntaxException {
 
             //// init defaults ////
             float scale = 1.0f;

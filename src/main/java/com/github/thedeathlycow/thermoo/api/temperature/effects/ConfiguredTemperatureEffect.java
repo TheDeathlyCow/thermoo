@@ -8,6 +8,7 @@ import net.minecraft.loot.condition.LootCondition;
 import net.minecraft.loot.context.LootContext;
 import net.minecraft.loot.context.LootContextParameters;
 import net.minecraft.loot.context.LootContextTypes;
+import net.minecraft.predicate.NumberRange;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
@@ -44,20 +45,29 @@ public class ConfiguredTemperatureEffect<C> {
     @Nullable
     private final LootCondition predicate;
 
-    public ConfiguredTemperatureEffect(TemperatureEffect<C> type, C config, @Nullable LootCondition predicate) {
+    private final NumberRange.FloatRange temperatureScaleRange;
+
+    public ConfiguredTemperatureEffect(
+            TemperatureEffect<C> type,
+            C config,
+            @Nullable LootCondition predicate,
+            NumberRange.FloatRange temperatureScaleRange
+    ) {
         this.type = type;
         this.config = config;
         this.predicate = predicate;
+        this.temperatureScaleRange = temperatureScaleRange;
     }
 
     /**
      * Constructs a new {@link ConfiguredTemperatureEffect} of a specified type and config JSON object
      *
-     * @param type       The type of the effect to create
-     * @param configJson The config of the type
-     * @param context    The JSON deserialization context
-     * @param predicate  The entity predicate of the effect
-     * @param <C>        The type of the effect type config
+     * @param type                  The type of the effect to create
+     * @param configJson            The config of the type
+     * @param context               The JSON deserialization context
+     * @param predicate             The entity predicate of the effect
+     * @param temperatureScaleRange Temperature scale range predicate
+     * @param <C>                   The type of the effect type config
      * @return Returns a new {@link ConfiguredTemperatureEffect} based on the JSON representation given by {@code configJson}
      * @throws JsonParseException Thrown if {@code configJson} is not a valid representation of the config type {@code C}
      */
@@ -65,9 +75,15 @@ public class ConfiguredTemperatureEffect<C> {
             TemperatureEffect<C> type,
             JsonElement configJson,
             JsonDeserializationContext context,
-            @Nullable LootCondition predicate
-    ) throws JsonParseException {
-        return new ConfiguredTemperatureEffect<>(type, type.configFromJson(configJson, context), predicate);
+            @Nullable LootCondition predicate,
+            NumberRange.FloatRange temperatureScaleRange
+    ) throws JsonSyntaxException {
+        return new ConfiguredTemperatureEffect<>(
+                type,
+                type.configFromJson(configJson, context),
+                predicate,
+                temperatureScaleRange
+        );
     }
 
     /**
@@ -84,7 +100,8 @@ public class ConfiguredTemperatureEffect<C> {
         }
 
         ServerWorld serverWorld = (ServerWorld) world;
-        boolean shouldApply = this.type.shouldApply(victim, this.config)
+        boolean shouldApply = this.temperatureScaleRange.test(victim.thermoo$getTemperatureScale())
+                && this.type.shouldApply(victim, this.config)
                 && this.testPredicate(victim, serverWorld);
 
         if (shouldApply) {
@@ -124,7 +141,18 @@ public class ConfiguredTemperatureEffect<C> {
             // set optional values
             LootCondition predicate = JsonHelper.deserialize(json, "entity", null, jsonDeserializationContext, LootCondition.class);
 
-            return ConfiguredTemperatureEffect.fromJson(effectType, json.get("config"), jsonDeserializationContext, predicate);
+            NumberRange.FloatRange temperatureScaleRange = NumberRange.FloatRange.ANY;
+            if (json.has("temperature_scale_range")) {
+                temperatureScaleRange = NumberRange.FloatRange.fromJson(json.get("temperature_scale_range"));
+            }
+
+            return ConfiguredTemperatureEffect.fromJson(
+                    effectType,
+                    json.get("config"),
+                    jsonDeserializationContext,
+                    predicate,
+                    temperatureScaleRange
+            );
         }
     }
 

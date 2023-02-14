@@ -45,7 +45,7 @@ public class TemperatureEffectLoader implements SimpleSynchronousResourceReloadL
                 );
 
                 newEffects.put(entry.getKey(), effect);
-            } catch (IOException | JsonParseException e) {
+            } catch (Exception e) {
                 Thermoo.LOGGER.error("An error occurred while loading temperature effect {}: {}", entry.getKey(), e);
             }
         }

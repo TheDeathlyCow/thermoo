@@ -1,12 +1,8 @@
 package com.github.thedeathlycow.thermoo.api.temperature.effects;
 
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
+import com.google.gson.*;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.predicate.NumberRange;
 import net.minecraft.server.world.ServerWorld;
 
 /**
@@ -34,31 +30,27 @@ public class LegacyDamageTemperatureEffect extends TemperatureEffect<LegacyDamag
 
     @Override
     public boolean shouldApply(LivingEntity victim, Config config) {
-        return victim.age % config.damageInterval == 0 && config.progressThreshold.test(victim.thermoo$getTemperatureScale());
+        return victim.age % config.damageInterval == 0;
     }
 
     @Override
-    public Config configFromJson(JsonElement json, JsonDeserializationContext context) throws JsonParseException {
+    public Config configFromJson(JsonElement json, JsonDeserializationContext context) throws JsonSyntaxException {
         return Config.fromJson(json, context);
     }
 
     public record Config(
-            NumberRange.FloatRange progressThreshold,
             float amount,
             int damageInterval
     ) {
 
-        public static Config fromJson(JsonElement json, JsonDeserializationContext context) throws JsonParseException {
+        public static Config fromJson(JsonElement json, JsonDeserializationContext context) throws JsonSyntaxException {
             JsonObject object = json.getAsJsonObject();
-
-            // get progress range
-            NumberRange.FloatRange progressThreshold = NumberRange.FloatRange.fromJson(object.get("temperature_scale_range"));
 
             float amount = object.get("amount").getAsFloat();
 
             int damageInterval = object.get("damage_interval").getAsInt();
 
-            return new Config(progressThreshold, amount, damageInterval);
+            return new Config(amount, damageInterval);
         }
     }
 

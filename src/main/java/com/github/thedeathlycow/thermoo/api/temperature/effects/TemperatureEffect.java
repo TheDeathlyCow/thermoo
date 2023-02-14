@@ -3,6 +3,7 @@ package com.github.thedeathlycow.thermoo.api.temperature.effects;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
+import com.google.gson.JsonSyntaxException;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.server.world.ServerWorld;
 
@@ -48,9 +49,9 @@ public abstract class TemperatureEffect<C> {
      * @param json    The JSON element that represents the config of this effect type
      * @param context The JSON deserialization context
      * @return Returns a new config instance specified by the JSON element given
-     * @throws JsonParseException Thrown if the given JSON element is not a legal representation of the config for this
+     * @throws JsonSyntaxException Thrown if the given JSON element is not a legal representation of the config for this
      *                            effect type
      */
-    public abstract C configFromJson(JsonElement json, JsonDeserializationContext context) throws JsonParseException;
+    public abstract C configFromJson(JsonElement json, JsonDeserializationContext context) throws JsonSyntaxException;
 
 }
