@@ -23,25 +23,23 @@ public class StatusEffectTemperatureEffect extends TemperatureEffect<StatusEffec
 
     @Override
     public void apply(LivingEntity victim, ServerWorld serverWorld, Config config) {
-        for (StatusEffectInstance effect : config.effects) {
-            victim.addStatusEffect(new StatusEffectInstance(effect), null);
+        for (Config.ConfigEffect effect : config.effects) {
+            victim.addStatusEffect(
+                    new StatusEffectInstance(
+                            effect.type,
+                            effect.duration,
+                            effect.amplifier,
+                            true, true
+                    ),
+                    null
+            );
         }
     }
 
     @Override
     public boolean shouldApply(LivingEntity victim, Config config) {
         // only try to apply every 5 ticks
-        if (victim.age % 5 != 0) {
-            return false;
-        }
-
-        // can apply if any effect can be applied
-        for (var effect : config.effects) {
-            if (victim.canHaveStatusEffect(effect)) {
-                return true;
-            }
-        }
-        return false;
+        return victim.age % 5 == 0;
     }
 
     @Override
@@ -50,15 +48,23 @@ public class StatusEffectTemperatureEffect extends TemperatureEffect<StatusEffec
     }
 
     public record Config(
-            Collection<StatusEffectInstance> effects
+            Collection<ConfigEffect> effects
     ) {
+
+        protected record ConfigEffect(
+                StatusEffect type,
+                int duration,
+                int amplifier
+        ) {
+        }
+
         public static Config fromJson(JsonElement json) throws JsonSyntaxException {
             JsonObject object = json.getAsJsonObject();
 
             // get effects
             JsonElement effectsJson = object.get("effects");
 
-            Collection<StatusEffectInstance> effects;
+            Collection<ConfigEffect> effects;
             if (effectsJson.isJsonArray()) {
                 effects = new ArrayList<>();
                 for (var effect : effectsJson.getAsJsonArray()) {
@@ -71,7 +77,7 @@ public class StatusEffectTemperatureEffect extends TemperatureEffect<StatusEffec
             return new Config(effects);
         }
 
-        private static StatusEffectInstance deserializeEffect(JsonElement json) throws JsonSyntaxException {
+        private static ConfigEffect deserializeEffect(JsonElement json) throws JsonSyntaxException {
             JsonObject object = json.getAsJsonObject();
 
             // get numbers
@@ -90,7 +96,7 @@ public class StatusEffectTemperatureEffect extends TemperatureEffect<StatusEffec
                 throw new JsonParseException("Unknown status effect: " + effectID);
             }
 
-            return new StatusEffectInstance(effect, amplifier, duration);
+            return new ConfigEffect(effect, duration, amplifier);
         }
     }
 
