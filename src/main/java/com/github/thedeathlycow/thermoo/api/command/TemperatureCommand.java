@@ -2,8 +2,8 @@ package com.github.thedeathlycow.thermoo.api.command;
 
 import com.github.thedeathlycow.thermoo.api.temperature.HeatingModes;
 import com.github.thedeathlycow.thermoo.api.temperature.TemperatureAware;
-import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import net.minecraft.command.argument.EntityArgumentType;
@@ -12,8 +12,10 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.MathHelper;
+import org.jetbrains.annotations.Contract;
 
 import java.util.Collection;
+import java.util.function.Supplier;
 
 import static net.minecraft.server.command.CommandManager.argument;
 import static net.minecraft.server.command.CommandManager.literal;
@@ -29,8 +31,15 @@ public class TemperatureCommand {
 
     private static final SimpleCommandExceptionType NOT_LIVING_ENTITY = new SimpleCommandExceptionType(Text.translatable("commands.thermoo.temperature.exception.not_living_entity"));
 
-    public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
+    /**
+     * Supplier for creating a new temperature command builder to be registered to the Minecraft server
+     * <p>
+     * Registered by the default implementation of this API.
+     */
+    public static final Supplier<LiteralArgumentBuilder<ServerCommandSource>> COMMAND_BUILDER = TemperatureCommand::buildCommand;
 
+    @Contract("->new")
+    private static LiteralArgumentBuilder<ServerCommandSource> buildCommand() {
         var getSubCommand = literal("get")
                 .then(
                         argument("target", EntityArgumentType.entity())
@@ -163,14 +172,12 @@ public class TemperatureCommand {
                                 )
                 );
 
-        dispatcher.register(
-                literal("thermoo").then(
-                        (literal("temperature").requires((src) -> src.hasPermissionLevel(2)))
-                                .then(getSubCommand)
-                                .then(remove)
-                                .then(add)
-                                .then(setSubCommand)
-                )
+        return literal("thermoo").then(
+                (literal("temperature").requires((src) -> src.hasPermissionLevel(2)))
+                        .then(getSubCommand)
+                        .then(remove)
+                        .then(add)
+                        .then(setSubCommand)
         );
     }
 
@@ -306,5 +313,6 @@ public class TemperatureCommand {
 
         return sum;
     }
+
 }
 

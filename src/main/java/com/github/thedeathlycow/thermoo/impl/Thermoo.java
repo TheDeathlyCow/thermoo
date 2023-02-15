@@ -36,8 +36,8 @@ public class Thermoo implements ModInitializer {
 
         CommandRegistrationCallback.EVENT.register(
                 (dispatcher, registryAccess, environment) -> {
-                    TemperatureCommand.register(dispatcher);
-                    EnvironmentCommand.register(dispatcher);
+                    dispatcher.register(TemperatureCommand.COMMAND_BUILDER.get());
+                    dispatcher.register(EnvironmentCommand.COMMAND_BUILDER.get());
                 }
         );
 

@@ -17,7 +17,7 @@
     "commands.thermoo.temperature.set.success.single": "Set the temperature of %s to %d",
     "commands.thermoo.temperature.set.success.multiple": "Set the temperature of %s entities to %d",
 
-    "commands.thermoo.environment.checktemperature.success": "The passive temperature change at %s (%s) is %d",
+    "commands.thermoo.environment.checktemperature.success": "The passive temperature change at %s, %s, %s (%s) is %d",
 
 
     "text.autoconfig.thermoo.option.updateConfig": "Update Config",
