@@ -15,7 +15,7 @@ public final class LivingEntityEnvironmentEvents {
     }
 
     /**
-     * Invoked when an entity is located in a heated location
+     * Invoked on each entity in a heated location
      */
     public static final Event<TemperatureChangeEventCallback> TICK_IN_HEATED_LOCATION = EventFactory.createArrayBacked(TemperatureChangeEventCallback.class,
             callbacks -> (controller, entity, result) -> {
@@ -41,9 +41,11 @@ public final class LivingEntityEnvironmentEvents {
     /**
      * Invoked on each living entity every tick, primarily for the purpose of tracking temperature changes
      * from entity-related effects such as being on fire.
-     *
+     * <p>
      * The result will contain the on fire warmth change as its initial change; however this value will be 0 if the
      * entity is not on fire.
+     * <p>
+     * Is not invoked on spectators
      */
     public static final Event<TemperatureChangeEventCallback> TICK_HEAT_EFFECTS = EventFactory.createArrayBacked(TemperatureChangeEventCallback.class,
             callbacks -> (controller, entity, result) -> {
@@ -69,6 +71,8 @@ public final class LivingEntityEnvironmentEvents {
 
     /**
      * Invoked when an entity is in a wet location
+     * <p>
+     * Is not invoked on spectators
      */
     public static final Event<SoakChangeEventCallback> TICK_IN_WET_LOCATION = EventFactory.createArrayBacked(SoakChangeEventCallback.class,
             callbacks -> (controller, entity, result) -> {

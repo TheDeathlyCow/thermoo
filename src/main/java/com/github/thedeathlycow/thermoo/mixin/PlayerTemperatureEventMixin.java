@@ -37,12 +37,8 @@ public class PlayerTemperatureEventMixin {
         int temperatureChange = EnvironmentController.INSTANCE.getLocalTemperatureChange(world, pos);
 
         EnvironmentChangeResult result = new EnvironmentChangeResult(temperatureChange);
-        if (temperatureChange < 0) {
-            PlayerEnvironmentEvents.TICK_COLD_BIOME_TEMPERATURE_CHANGE.invoker().onBiomeTemperatureChange(
-                    EnvironmentController.INSTANCE, player, biome, result
-            );
-        } else if (temperatureChange > 0) {
-            PlayerEnvironmentEvents.TICK_WARM_BIOME_TEMPERATURE_CHANGE.invoker().onBiomeTemperatureChange(
+        if (temperatureChange != 0) {
+            PlayerEnvironmentEvents.TICK_BIOME_TEMPERATURE_CHANGE.invoker().onBiomeTemperatureChange(
                     EnvironmentController.INSTANCE, player, biome, result
             );
         }

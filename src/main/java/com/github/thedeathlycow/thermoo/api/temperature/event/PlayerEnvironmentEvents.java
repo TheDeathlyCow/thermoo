@@ -16,13 +16,15 @@ public final class PlayerEnvironmentEvents {
     }
 
     /**
-     * Tick when the player is in a warm biome (local biome temperature > 0)
+     * Invoked on each player in a biome with a non-zero passive temperature change.
+     * <p>
+     * Is not invoked on spectators
      */
-    public static final Event<BiomeTemperatureChangeTickCallback> TICK_WARM_BIOME_TEMPERATURE_CHANGE = EventFactory.createArrayBacked(BiomeTemperatureChangeTickCallback.class,
+    public static final Event<BiomeTemperatureChangeTickCallback> TICK_BIOME_TEMPERATURE_CHANGE = EventFactory.createArrayBacked(BiomeTemperatureChangeTickCallback.class,
             callbacks -> (controller, player, biome, result) -> {
                 if (EventFactory.isProfilingEnabled()) {
                     final Profiler profiler = player.world.getProfiler();
-                    profiler.push("thermooWarmBiomeTemperatureChangeTick");
+                    profiler.push("thermooBiomeTemperatureChangeTick");
 
                     for (BiomeTemperatureChangeTickCallback event : callbacks) {
                         profiler.push(EventFactory.getHandlerName(event));
@@ -39,29 +41,6 @@ public final class PlayerEnvironmentEvents {
             }
     );
 
-    /**
-     * Tick when the player is in a cold biome (local biome temperature less than 0)
-     */
-    public static final Event<BiomeTemperatureChangeTickCallback> TICK_COLD_BIOME_TEMPERATURE_CHANGE = EventFactory.createArrayBacked(BiomeTemperatureChangeTickCallback.class,
-            callbacks -> (controller, player, biome, result) -> {
-                if (EventFactory.isProfilingEnabled()) {
-                    final Profiler profiler = player.world.getProfiler();
-                    profiler.push("thermooColdBiomeTemperatureChangeTick");
-
-                    for (BiomeTemperatureChangeTickCallback event : callbacks) {
-                        profiler.push(EventFactory.getHandlerName(event));
-                        event.onBiomeTemperatureChange(controller, player, biome, result);
-                        profiler.pop();
-                    }
-
-                    profiler.pop();
-                } else {
-                    for (BiomeTemperatureChangeTickCallback event : callbacks) {
-                        event.onBiomeTemperatureChange(controller, player, biome, result);
-                    }
-                }
-            }
-    );
 
     /**
      * Callback for passive temperature change ticks
