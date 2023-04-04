@@ -109,7 +109,7 @@ public final class LivingEntityEnvironmentEvents {
          * @param entity     The entity affected by this event
          * @param result     Stores information about the change to be applied
          */
-        void onTemperatureChange(EnvironmentController controller, LivingEntity entity, EnvironmentChangeResult result);
+        void onTemperatureChange(EnvironmentController controller, LivingEntity entity, InitialTemperatureChangeResult result);
 
     }
 
@@ -127,7 +127,7 @@ public final class LivingEntityEnvironmentEvents {
          * @param entity     The entity affected by this event
          * @param result     Stores information about the change to be applied
          */
-        void onSoakChange(EnvironmentController controller, LivingEntity entity, EnvironmentChangeResult result);
+        void onSoakChange(EnvironmentController controller, LivingEntity entity, InitialSoakChangeResult result);
 
     }
 

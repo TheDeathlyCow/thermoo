@@ -1,9 +1,9 @@
 package com.github.thedeathlycow.thermoo.mixin;
 
-import com.github.thedeathlycow.thermoo.api.temperature.EnvironmentController;
 import com.github.thedeathlycow.thermoo.api.temperature.EnvironmentManager;
-import com.github.thedeathlycow.thermoo.api.temperature.event.EnvironmentChangeResult;
+import com.github.thedeathlycow.thermoo.api.temperature.HeatingModes;
 import com.github.thedeathlycow.thermoo.api.temperature.event.PlayerEnvironmentEvents;
+import com.github.thedeathlycow.thermoo.api.temperature.event.InitialTemperatureChangeResult;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -38,7 +38,7 @@ public class PlayerTemperatureEventMixin {
         var controller = EnvironmentManager.INSTANCE.getController();
         int temperatureChange = controller.getLocalTemperatureChange(world, pos);
 
-        EnvironmentChangeResult result = new EnvironmentChangeResult(temperatureChange);
+        var result = new InitialTemperatureChangeResult(temperatureChange, HeatingModes.PASSIVE);
         if (temperatureChange != 0) {
             PlayerEnvironmentEvents.TICK_BIOME_TEMPERATURE_CHANGE.invoker().onBiomeTemperatureChange(
                     controller, player, biome, result

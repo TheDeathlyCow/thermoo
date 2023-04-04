@@ -2,8 +2,10 @@ package com.github.thedeathlycow.thermoo.mixin;
 
 import com.github.thedeathlycow.thermoo.api.temperature.EnvironmentController;
 import com.github.thedeathlycow.thermoo.api.temperature.EnvironmentManager;
-import com.github.thedeathlycow.thermoo.api.temperature.event.EnvironmentChangeResult;
+import com.github.thedeathlycow.thermoo.api.temperature.HeatingModes;
 import com.github.thedeathlycow.thermoo.api.temperature.event.LivingEntityEnvironmentEvents;
+import com.github.thedeathlycow.thermoo.api.temperature.event.InitialSoakChangeResult;
+import com.github.thedeathlycow.thermoo.api.temperature.event.InitialTemperatureChangeResult;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
@@ -36,23 +38,23 @@ public class LivingEntityEnvironmentEventMixin {
         int heatSourceTemperatureChange = controller.getWarmthFromHeatSources(entity, world, entity.getBlockPos());
 
         if (heatSourceTemperatureChange != 0) {
-            EnvironmentChangeResult result = new EnvironmentChangeResult(heatSourceTemperatureChange);
+            var heatedLocationResult = new InitialTemperatureChangeResult(heatSourceTemperatureChange, HeatingModes.PASSIVE);
             LivingEntityEnvironmentEvents.TICK_IN_HEATED_LOCATION.invoker().onTemperatureChange(
-                    controller, entity, result
+                    controller, entity, heatedLocationResult
             );
         }
 
-        EnvironmentChangeResult result = new EnvironmentChangeResult(controller.getOnFireWarmthRate(entity));
+        var heatFxResult = new InitialTemperatureChangeResult(controller.getOnFireWarmthRate(entity), HeatingModes.ACTIVE);
         LivingEntityEnvironmentEvents.TICK_HEAT_EFFECTS.invoker().onTemperatureChange(
-                controller, entity, result
+                controller, entity, heatFxResult
         );
 
         int soakChange = controller.getSoakChange(entity);
 
         if (soakChange != 0) {
-            result = new EnvironmentChangeResult(soakChange);
+            var wetResult = new InitialSoakChangeResult(soakChange);
             LivingEntityEnvironmentEvents.TICK_IN_WET_LOCATION.invoker().onSoakChange(
-                    controller, entity, result
+                    controller, entity, wetResult
             );
         }
     }

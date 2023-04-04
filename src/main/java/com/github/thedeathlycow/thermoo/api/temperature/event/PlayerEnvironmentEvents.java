@@ -57,7 +57,7 @@ public final class PlayerEnvironmentEvents {
          * @param biome      The biome the player is in
          * @param result     Stores information about the change to be applied
          */
-        void onBiomeTemperatureChange(EnvironmentController controller, PlayerEntity player, Biome biome, EnvironmentChangeResult result);
+        void onBiomeTemperatureChange(EnvironmentController controller, PlayerEntity player, Biome biome, InitialTemperatureChangeResult result);
 
     }
 
