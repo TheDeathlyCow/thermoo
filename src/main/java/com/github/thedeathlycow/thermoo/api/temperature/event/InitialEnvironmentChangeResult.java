@@ -14,11 +14,6 @@ public abstract class InitialEnvironmentChangeResult<T> {
     private boolean appliedInitialChange = false;
 
     /**
-     * Whether any extra changes have been applied by a listener
-     */
-    private boolean appliedExtraChange = false;
-
-    /**
      * The initial temperature change that triggered the event
      */
     private final int initialChange;
@@ -40,6 +35,14 @@ public abstract class InitialEnvironmentChangeResult<T> {
      */
     public int getInitialChange() {
         return initialChange;
+    }
+
+    /**
+     *
+     * @return Returns true if the initial change was applied
+     */
+    public boolean isInitialChangeApplied() {
+        return appliedInitialChange;
     }
 
     /**
