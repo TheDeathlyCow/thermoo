@@ -16,11 +16,6 @@ import net.minecraft.world.World;
 public interface EnvironmentController {
 
     /**
-     * The default controller used by the Frostiful family of mods.
-     */
-    EnvironmentController INSTANCE = new EnvironmentControllerImpl();
-
-    /**
      * Computes the local temperature change at a given position in a world.
      *
      * @param world The world

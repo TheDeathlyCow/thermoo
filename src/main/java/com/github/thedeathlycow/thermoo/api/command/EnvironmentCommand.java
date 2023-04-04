@@ -1,6 +1,7 @@
 package com.github.thedeathlycow.thermoo.api.command;
 
 import com.github.thedeathlycow.thermoo.api.temperature.EnvironmentController;
+import com.github.thedeathlycow.thermoo.api.temperature.EnvironmentManager;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import net.minecraft.command.argument.BlockPosArgumentType;
 import net.minecraft.command.argument.EntityArgumentType;
@@ -80,7 +81,7 @@ public class EnvironmentCommand {
 
     private static int executeCheckTemperature(ServerCommandSource source, BlockPos location) {
 
-        int temperatureChange = EnvironmentController.INSTANCE.getLocalTemperatureChange(
+        int temperatureChange = EnvironmentManager.INSTANCE.getController().getLocalTemperatureChange(
                 source.getWorld(),
                 location
         );

@@ -1,6 +1,7 @@
 package com.github.thedeathlycow.thermoo.mixin;
 
 import com.github.thedeathlycow.thermoo.api.temperature.EnvironmentController;
+import com.github.thedeathlycow.thermoo.api.temperature.EnvironmentManager;
 import com.github.thedeathlycow.thermoo.api.temperature.event.EnvironmentChangeResult;
 import com.github.thedeathlycow.thermoo.api.temperature.event.LivingEntityEnvironmentEvents;
 import net.minecraft.entity.LivingEntity;
@@ -30,7 +31,7 @@ public class LivingEntityEnvironmentEventMixin {
             return;
         }
 
-        EnvironmentController controller = EnvironmentController.INSTANCE;
+        EnvironmentController controller = EnvironmentManager.INSTANCE.getController();
 
         int heatSourceTemperatureChange = controller.getWarmthFromHeatSources(entity, world, entity.getBlockPos());
 
