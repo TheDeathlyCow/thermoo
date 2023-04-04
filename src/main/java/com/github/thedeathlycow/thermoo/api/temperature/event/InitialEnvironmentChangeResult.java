@@ -31,9 +31,16 @@ public abstract class InitialEnvironmentChangeResult<T> {
      * Applies the initial change to an affectee.
      *
      * @param affectee The affectee of the change
-     * @param amount The amount of change to apply
+     * @param amount   The amount of change to apply
      */
     protected abstract void applyChange(T affectee, int amount);
+
+    /**
+     * @return Returns the initial change value of the result
+     */
+    public int getInitialChange() {
+        return initialChange;
+    }
 
     /**
      * Applies the initial change to the environment aware entity, if it has not already been applied
