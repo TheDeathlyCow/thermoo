@@ -10,7 +10,7 @@ import net.minecraft.world.World;
  * Implements computations for various passive environmental effects, such as passive freezing/warming from biomes,
  * and passive warming from heat sources (torches, campfires, etc).
  * <p>
- * The default implementation is provided by {@link EnvironmentController#INSTANCE}, and what is used by Frostiful,
+ * The default implementation is provided by {@link EnvironmentManager#getController()}, and what is used by Frostiful,
  * however if you wish you may re-implement this class for your own mod.
  */
 public interface EnvironmentController {
