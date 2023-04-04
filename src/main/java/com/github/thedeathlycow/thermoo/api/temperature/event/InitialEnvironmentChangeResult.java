@@ -23,14 +23,8 @@ public abstract class InitialEnvironmentChangeResult<T> {
      */
     private final int initialChange;
 
-    /**
-     * The sum total of extra temperature changes applied by listeners in addition to the initial change
-     */
-    private int extraTemperatureChange;
-
     public InitialEnvironmentChangeResult(int initialChange) {
         this.initialChange = initialChange;
-        this.extraTemperatureChange = 0;
     }
 
     /**
