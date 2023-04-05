@@ -7,8 +7,14 @@ import com.github.thedeathlycow.thermoo.api.temperature.Soakable;
  */
 public class InitialSoakChangeResult extends InitialEnvironmentChangeResult<Soakable> {
 
-    public InitialSoakChangeResult(int initialChange) {
-        super(initialChange);
+    /**
+     * Creates a soak change result with a soakable affectee and an initial change value
+     *
+     * @param soakable      The soakable to affect
+     * @param initialChange The initial value of the change
+     */
+    public InitialSoakChangeResult(Soakable soakable, int initialChange) {
+        super(soakable, initialChange);
     }
 
     /**

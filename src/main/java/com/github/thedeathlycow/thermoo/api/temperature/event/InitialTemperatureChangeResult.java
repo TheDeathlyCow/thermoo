@@ -13,11 +13,12 @@ public class InitialTemperatureChangeResult extends InitialEnvironmentChangeResu
     /**
      * Constructs a result with an initial amount and a mode
      *
+     * @param temperatureAware         The temperature aware entity to apply the change to
      * @param initialTemperatureChange The initial temp change to apply
      * @param mode                     The mode to apply the temp change in
      */
-    public InitialTemperatureChangeResult(int initialTemperatureChange, HeatingMode mode) {
-        super(initialTemperatureChange);
+    public InitialTemperatureChangeResult(TemperatureAware temperatureAware, int initialTemperatureChange, HeatingMode mode) {
+        super(temperatureAware, initialTemperatureChange);
         this.mode = mode;
     }
 

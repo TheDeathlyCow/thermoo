@@ -38,11 +38,12 @@ public class PlayerTemperatureEventMixin {
         var controller = EnvironmentManager.INSTANCE.getController();
         int temperatureChange = controller.getLocalTemperatureChange(world, pos);
 
-        var result = new InitialTemperatureChangeResult(temperatureChange, HeatingModes.PASSIVE);
+        var result = new InitialTemperatureChangeResult(player, temperatureChange, HeatingModes.PASSIVE);
         if (temperatureChange != 0) {
             PlayerEnvironmentEvents.TICK_BIOME_TEMPERATURE_CHANGE.invoker().onBiomeTemperatureChange(
                     controller, player, biome, result
             );
+            result.onEventComplete();
         }
 
     }
