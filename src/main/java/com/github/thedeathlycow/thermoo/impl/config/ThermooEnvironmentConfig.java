@@ -1,11 +1,15 @@
 package com.github.thedeathlycow.thermoo.impl.config;
 
+import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.Config;
+import me.shedaniel.autoconfig.annotation.ConfigEntry;
 
 @Config(name = "thermoo.environment")
 public class ThermooEnvironmentConfig implements ConfigData {
 
+    @ConfigEntry.Gui.RequiresRestart
+    String controller = Thermoo.MODID;
     boolean doDryBiomeNightFreezing = true;
 
     double biomeTemperatureMultiplier = 4.0;
@@ -27,6 +31,10 @@ public class ThermooEnvironmentConfig implements ConfigData {
     int ultrawarmWarmRate = 15;
 
     float dryBiomeNightTemperature = 0.0f;
+
+    public String getController() {
+        return controller;
+    }
 
     public boolean doDryBiomeNightFreezing() {
         return doDryBiomeNightFreezing;

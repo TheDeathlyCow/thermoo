@@ -28,6 +28,7 @@
     "text.autoconfig.thermoo.option.updateConfig.enableConfigUpdates.@Tooltip[2]": "It is recommended that modpacks turn this OFF"  ,
 
     "text.autoconfig.thermoo.option.environmentConfig": "Environment Config",
+    "text.autoconfig.thermoo.option.environmentConfig.controller": "Default controller",
     "text.autoconfig.thermoo.option.environmentConfig.doDryBiomeNightFreezing": "Do dry biome night freezing",
     "text.autoconfig.thermoo.option.environmentConfig.biomeTemperatureMultiplier": "Biome temperature multiplier",
     "text.autoconfig.thermoo.option.environmentConfig.passiveFreezingCutoffTemp": "Passive freezing cutoff temp",
