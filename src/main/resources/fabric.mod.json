@@ -3,7 +3,7 @@
 	"id": "thermoo",
 	"version": "${version}",
 	"name": "Thermoo",
-	"description": "A temperature library used by Frostiful",
+	"description": "A temperature library for Fabric mods",
 	"authors": [
 		"TheDeathlyCow"
 	],
