@@ -1,6 +1,7 @@
 package com.github.thedeathlycow.thermoo.api.temperature;
 
 import com.github.thedeathlycow.thermoo.impl.EnvironmentControllerImpl;
+import com.github.thedeathlycow.thermoo.impl.Thermoo;
 
 /**
  * Controls what instance of the {@link EnvironmentManager} is to be used by Thermoo events
@@ -32,6 +33,17 @@ public final class EnvironmentManager {
      */
     public void setController(EnvironmentController controller) {
         this.controller = controller;
+
+        var sb = new StringBuilder();
+        sb.append("The Thermoo Environment Controller has been updated");
+        var trace = Thread.currentThread().getStackTrace();
+        if (trace.length >= 3) {
+            sb.append(" by ");
+            sb.append(trace[2].getClassName());
+            sb.append("#");
+            sb.append(trace[2].getMethodName());
+        }
+        Thermoo.LOGGER.info(sb.toString());
     }
 
     private EnvironmentManager() {
