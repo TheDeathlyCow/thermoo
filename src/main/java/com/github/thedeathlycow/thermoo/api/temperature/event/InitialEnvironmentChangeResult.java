@@ -68,8 +68,9 @@ public abstract class InitialEnvironmentChangeResult<T> {
     }
 
     /**
-     * Marks the affectee as
-     * Applies the initial change to the environment aware entity, if it has not already been applied
+     * Tells Thermoo to apply the change to the affectee
+     * <p>
+     * If multiple listeners call this, then it will only be applied once.
      * <p>
      * Changes are not actually applied until after the event invocation is complete, so that it may be modified by listeners.
      */
