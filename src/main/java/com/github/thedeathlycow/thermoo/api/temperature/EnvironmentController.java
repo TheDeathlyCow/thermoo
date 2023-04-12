@@ -24,9 +24,7 @@ public interface EnvironmentController {
     int getLocalTemperatureChange(World world, BlockPos pos);
 
     /**
-     * Gets the passive warmth that should be applied to a {@link TemperatureAware} from nearby heat sources. Temperature
-     * awares are only given warmth from these sources if they are already cold.
-     *
+     * Gets the passive warmth that should be applied to a {@link TemperatureAware} from nearby heat sources.
      *
      * @param temperatureAware The temperature aware to compute the warmth of
      * @param world            The world the temperature aware is in

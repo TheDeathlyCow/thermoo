@@ -34,9 +34,7 @@ public class EnvironmentControllerImpl implements EnvironmentController {
     @Override
     public int getWarmthFromHeatSources(TemperatureAware temperatureAware, World world, BlockPos pos) {
         int warmth = 0;
-        if (temperatureAware.thermoo$isCold()) {
-            warmth += this.getHeatAtLocation(world, pos);
-        }
+        warmth += this.getHeatAtLocation(world, pos);
         return warmth;
     }
 
@@ -58,7 +56,7 @@ public class EnvironmentControllerImpl implements EnvironmentController {
         int warmth = 0;
         ThermooConfig config = Thermoo.getConfig();
 
-        if (entity.inPowderSnow) {
+        if (entity.wasInPowderSnow) {
             warmth -= config.environmentConfig.getPowderSnowFreezeRate();
         }
 
