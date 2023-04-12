@@ -37,7 +37,7 @@
     "text.autoconfig.thermoo.option.environmentConfig.dryRate": "Dry rate",
     "text.autoconfig.thermoo.option.environmentConfig.onFireDryDate": "On fire dry rate",
     "text.autoconfig.thermoo.option.environmentConfig.onFireWarmRate": "On fire warm rate",
-    "text.autoconfig.thermoo.option.environmentConfig.onFireThawRate": "On fire thaw rate",
+    "text.autoconfig.thermoo.option.environmentConfig.powderSnowFreezeRate": "Powder snow freeze rate",
     "text.autoconfig.thermoo.option.environmentConfig.warmthPerLightLevel": "Warmth per light level",
     "text.autoconfig.thermoo.option.environmentConfig.minLightForWarmth": "Minimum block light level for warmth",
     "text.autoconfig.thermoo.option.environmentConfig.ultrawarmWarmRate": "Ultrawarm dimension warm rate",

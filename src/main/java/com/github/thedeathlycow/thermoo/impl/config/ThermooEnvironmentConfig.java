@@ -21,6 +21,8 @@ public class ThermooEnvironmentConfig implements ConfigData {
 
     int onFireWarmRate = 50;
 
+    int powderSnowFreezeRate = 30;
+
     int warmthPerLightLevel = 2;
     int minLightForWarmth = 5;
 
@@ -62,6 +64,10 @@ public class ThermooEnvironmentConfig implements ConfigData {
 
     public int getOnFireWarmRate() {
         return onFireWarmRate;
+    }
+
+    public int getPowderSnowFreezeRate() {
+        return powderSnowFreezeRate;
     }
 
     public int getWarmthPerLightLevel() {

@@ -53,6 +53,18 @@ public class EnvironmentControllerImpl implements EnvironmentController {
         return warmth;
     }
 
+    @Override
+    public int getPowderSnowFreezeRate(LivingEntity entity) {
+        int warmth = 0;
+        ThermooConfig config = Thermoo.getConfig();
+
+        if (entity.inPowderSnow) {
+            warmth -= config.environmentConfig.getPowderSnowFreezeRate();
+        }
+
+        return warmth;
+    }
+
 
     @Override
     public int getSoakChange(LivingEntity entity) {

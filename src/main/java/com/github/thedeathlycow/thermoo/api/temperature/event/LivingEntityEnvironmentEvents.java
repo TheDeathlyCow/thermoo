@@ -40,7 +40,7 @@ public final class LivingEntityEnvironmentEvents {
 
     /**
      * Invoked on each living entity every tick, primarily for the purpose of tracking temperature changes
-     * from entity-related effects such as being on fire.
+     * from entity-related effects such as being on fire or being in powder snow.
      * <p>
      * The result will contain the on fire warmth change as its initial change; however this value will be 0 if the
      * entity is not on fire.
