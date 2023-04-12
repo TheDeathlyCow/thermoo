@@ -87,7 +87,6 @@ public interface EnvironmentController {
      * @param world The world of the position
      * @param pos   The position to check
      * @return Returns if the location in the world is heated
-     * @see EnvironmentController#getWarmthFromHeatSources(TemperatureAware, World, BlockPos)
      * @see EnvironmentController#getHeatAtLocation(World, BlockPos)
      */
     boolean isAreaHeated(World world, BlockPos pos);
