@@ -41,7 +41,7 @@ public abstract class LivingEntityEnvironmentEventMixin {
         EnvironmentController controller = EnvironmentManager.INSTANCE.getController();
 
         TickHeatSources: {
-            int heatSourceTemperatureChange = controller.getWarmthFromHeatSources(entity, world, entity.getBlockPos());
+            int heatSourceTemperatureChange = controller.getHeatAtLocation(world, entity.getBlockPos());
 
             if (heatSourceTemperatureChange == 0) {
                 break TickHeatSources;

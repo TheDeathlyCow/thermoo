@@ -24,17 +24,6 @@ public interface EnvironmentController {
     int getLocalTemperatureChange(World world, BlockPos pos);
 
     /**
-     * Gets the passive warmth that should be applied to a {@link TemperatureAware} from nearby heat sources.
-     *
-     * @param temperatureAware The temperature aware to compute the warmth of
-     * @param world            The world the temperature aware is in
-     * @param pos              The position to check
-     * @return Returns the temperature change that should be applied from nearby temperature sources.
-     * @see EnvironmentController#getHeatAtLocation(World, BlockPos)
-     */
-    int getWarmthFromHeatSources(TemperatureAware temperatureAware, World world, BlockPos pos);
-
-    /**
      * Computes passive warmth for {@link LivingEntity}s on fire. If the entity is not on fire,
      * this will return 0.
      *

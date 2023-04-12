@@ -32,13 +32,6 @@ public class EnvironmentControllerImpl implements EnvironmentController {
     }
 
     @Override
-    public int getWarmthFromHeatSources(TemperatureAware temperatureAware, World world, BlockPos pos) {
-        int warmth = 0;
-        warmth += this.getHeatAtLocation(world, pos);
-        return warmth;
-    }
-
-    @Override
     public int getOnFireWarmthRate(LivingEntity entity) {
 
         int warmth = 0;
