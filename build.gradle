@@ -42,6 +42,20 @@ dependencies {
     modApi("me.shedaniel.cloth:cloth-config-fabric:${project.cloth_config_version}") {
         exclude(group: "net.fabricmc.fabric-api")
     }
+
+    //// Bring depends into testmod ////
+
+    afterEvaluate {
+        subprojects.each {
+            api project(path: ":${it.name}", configuration: "namedElements")
+
+            if (!(it.name in devOnlyModules)) {
+                include project("${it.name}:")
+            }
+
+            testmodImplementation project("${it.name}:").sourceSets.testmod.output
+        }
+    }
 }
 
 processResources {
@@ -52,9 +66,40 @@ processResources {
     }
 }
 
+sourceSets {
+    testmod {
+        compileClasspath += main.compileClasspath
+        runtimeClasspath += main.runtimeClasspath
+        compileClasspath += main.output
+        runtimeClasspath += main.output
+    }
+}
+
+subprojects {
+    dependencies {
+        testmodImplementation sourceSets.main.output
+        testmodImplementation project(path: ':', configuration: 'namedElements')
+    }
+}
+
 loom {
     interfaceInjection {
         enableDependencyInterfaceInjection = true
+    }
+
+    runs {
+        testmodClient {
+            client()
+            ideConfigGenerated project.rootProject == project
+            name = "Testmod Client"
+            source sourceSets.testmod
+        }
+        testmodServer {
+            server()
+            ideConfigGenerated project.rootProject == project
+            name = "Testmod Server"
+            source sourceSets.testmod
+        }
     }
 }
 
