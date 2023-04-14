@@ -41,7 +41,5 @@
     "text.autoconfig.thermoo.option.environmentConfig.warmthPerLightLevel": "Warmth per light level",
     "text.autoconfig.thermoo.option.environmentConfig.minLightForWarmth": "Minimum block light level for warmth",
     "text.autoconfig.thermoo.option.environmentConfig.ultrawarmWarmRate": "Ultrawarm dimension warm rate",
-    "text.autoconfig.thermoo.option.environmentConfig.dryBiomeNightTemperature": "Dry biome night temperature",
-    "text.autoconfig.thermoo.option.environmentConfig.hotFloorWarmth": "Hot floor warmth"
-    
+    "text.autoconfig.thermoo.option.environmentConfig.dryBiomeNightTemperature": "Dry biome night temperature"
 }

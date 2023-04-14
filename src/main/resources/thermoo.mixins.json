@@ -7,7 +7,6 @@
 		"EntityInvoker",
 		"EntityPredicateMixin",
 		"EnvironmentAwareEntityMixin",
-		"HotFloorMixin",
 		"LivingEntityEnvironmentEventMixin",
 		"PlayerTemperatureEventMixin",
 		"TemperatureEffectTickerMixin"

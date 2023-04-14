@@ -32,12 +32,6 @@ public class EnvironmentControllerImpl implements EnvironmentController {
     }
 
     @Override
-    public int getHotFloorWarmth(BlockState state) {
-        ThermooConfig config = Thermoo.getConfig();
-        return config.environmentConfig.getHotFloorWarmth();
-    }
-
-    @Override
     public int getOnFireWarmthRate(LivingEntity entity) {
 
         int warmth = 0;

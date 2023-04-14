@@ -30,8 +30,6 @@ public class ThermooEnvironmentConfig implements ConfigData {
 
     float dryBiomeNightTemperature = 0.0f;
 
-    int hotFloorWarmth = 12;
-
     public boolean doDryBiomeNightFreezing() {
         return doDryBiomeNightFreezing;
     }
@@ -86,9 +84,5 @@ public class ThermooEnvironmentConfig implements ConfigData {
 
     public float getDryBiomeNightTemperature() {
         return dryBiomeNightTemperature;
-    }
-
-    public int getHotFloorWarmth() {
-        return hotFloorWarmth;
     }
 }
