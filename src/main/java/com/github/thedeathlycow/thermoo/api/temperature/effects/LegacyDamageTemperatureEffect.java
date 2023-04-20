@@ -5,6 +5,9 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.server.world.ServerWorld;
 
+import java.util.function.Function;
+import java.util.function.Supplier;
+
 /**
  * Applies damage to {@link net.minecraft.entity.LivingEntity}s when their temperature scale is within a given range.
  * The amount and interval of the damage pulses, but the damage source cannot be at this time. Instead, damage sources are
@@ -15,16 +18,17 @@ import net.minecraft.server.world.ServerWorld;
 public class LegacyDamageTemperatureEffect extends TemperatureEffect<LegacyDamageTemperatureEffect.Config> {
 
 
-    private final DamageSource damageSource;
+    private final Function<ServerWorld, DamageSource> damageSourceSupplier;
 
-    public LegacyDamageTemperatureEffect(DamageSource damageSource) {
-        this.damageSource = damageSource;
+    public LegacyDamageTemperatureEffect(Function<ServerWorld, DamageSource> damageSourceSupplier) {
+        this.damageSourceSupplier = damageSourceSupplier;
     }
 
     @Override
     public void apply(LivingEntity victim, ServerWorld serverWorld, Config config) {
         if (!victim.world.isClient) {
-            victim.damage(this.damageSource, config.amount);
+            serverWorld.getDamageSources().freeze();
+            victim.damage(this.damageSourceSupplier.apply(serverWorld), config.amount);
         }
     }
 

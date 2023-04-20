@@ -23,7 +23,7 @@ public class EnvironmentControllerImpl implements EnvironmentController {
             return this.getTempChangeFromBiomeTemperature(
                     world,
                     temperature,
-                    biome.getPrecipitation() == Biome.Precipitation.NONE
+                    !biome.hasPrecipitation()
             );
         } else if (world.getDimension().ultrawarm()) {
             return Thermoo.getConfig().environmentConfig.getUltrawarmWarmRate();

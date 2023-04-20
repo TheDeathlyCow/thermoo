@@ -6,9 +6,9 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeInstance;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
+import net.minecraft.registry.Registries;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
 import java.util.UUID;
 
@@ -92,7 +92,7 @@ public class ScalingAttributeModifierTemperatureEffect extends TemperatureEffect
             UUID id = UUID.fromString(json.get("modifier_uuid").getAsString());
 
             Identifier attrID = new Identifier(json.get("attribute_type").getAsString());
-            EntityAttribute attribute = Registry.ATTRIBUTE.get(attrID);
+            EntityAttribute attribute = Registries.ATTRIBUTE.get(attrID);
 
             if (attribute == null) {
                 throw new JsonParseException("Unknown attribute: " + attrID);

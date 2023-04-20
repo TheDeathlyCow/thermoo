@@ -5,9 +5,9 @@ import com.google.gson.*;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.registry.Registries;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -102,7 +102,7 @@ public class StatusEffectTemperatureEffect extends TemperatureEffect<StatusEffec
 
             // get effect
             Identifier effectID = new Identifier(object.get("effect").getAsString());
-            StatusEffect effect = Registry.STATUS_EFFECT.get(effectID);
+            StatusEffect effect = Registries.STATUS_EFFECT.get(effectID);
             if (effect == null) {
                 throw new JsonParseException("Unknown status effect: " + effectID);
             }

@@ -38,9 +38,10 @@ public class EnvironmentCommand {
         var checkTemperature = literal("checktemperature")
                 .executes(
                         context -> {
+                            var pos = context.getSource().getPosition();
                             return executeCheckTemperature(
                                     context.getSource(),
-                                    new BlockPos(context.getSource().getPosition())
+                                    new BlockPos((int) pos.x, (int) pos.y, (int) pos.z)
                             );
                         }
                 )
