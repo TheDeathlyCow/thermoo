@@ -12,10 +12,8 @@ import java.util.function.Supplier;
  * Applies damage to {@link net.minecraft.entity.LivingEntity}s when their temperature scale is within a given range.
  * The amount and interval of the damage pulses, but the damage source cannot be at this time. Instead, damage sources are
  * hard coded into a specific type (such as {@code thermoo:freeze_damage_legacy}).
- * <p>
- * In 1.19.4, this will be replaced with the new damage source data system. As such, it is called "Legacy".
  *
- * @deprecated Use {@link DamageTemperatureEffect} instead
+ * @deprecated For 1.19.4+, use {@link DamageTemperatureEffect} instead
  */
 @Deprecated
 public class LegacyDamageTemperatureEffect extends TemperatureEffect<LegacyDamageTemperatureEffect.Config> {
@@ -29,10 +27,7 @@ public class LegacyDamageTemperatureEffect extends TemperatureEffect<LegacyDamag
 
     @Override
     public void apply(LivingEntity victim, ServerWorld serverWorld, Config config) {
-        if (!victim.world.isClient) {
-            serverWorld.getDamageSources().freeze();
-            victim.damage(this.damageSourceSupplier.apply(serverWorld), config.amount);
-        }
+        victim.damage(this.damageSourceSupplier.apply(serverWorld), config.amount);
     }
 
     @Override
