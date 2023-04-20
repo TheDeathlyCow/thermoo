@@ -14,7 +14,10 @@ import java.util.function.Supplier;
  * hard coded into a specific type (such as {@code thermoo:freeze_damage_legacy}).
  * <p>
  * In 1.19.4, this will be replaced with the new damage source data system. As such, it is called "Legacy".
+ *
+ * @deprecated Use {@link DamageTemperatureEffect} instead
  */
+@Deprecated
 public class LegacyDamageTemperatureEffect extends TemperatureEffect<LegacyDamageTemperatureEffect.Config> {
 
 

@@ -19,6 +19,7 @@ public final class TemperatureEffects {
 
     public static final TemperatureEffect<?> SCALING_ATTRIBUTE_MODIFIER = new ScalingAttributeModifierTemperatureEffect();
 
+    @Deprecated
     public static final TemperatureEffect<?> FREEZE_DAMAGE_LEGACY = new LegacyDamageTemperatureEffect(
             (serverWorld) -> serverWorld.getDamageSources().freeze()
     );

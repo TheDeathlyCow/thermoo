@@ -10,6 +10,7 @@ import net.minecraft.registry.Registry;
 
 public class ThermooCommonRegisters {
 
+    @SuppressWarnings("deprecation")
     public static void registerTemperatureEffects() {
         registerTemperatureEffect("empty", TemperatureEffects.EMPTY);
         registerTemperatureEffect("status_effect", TemperatureEffects.STATUS_EFFECT);
