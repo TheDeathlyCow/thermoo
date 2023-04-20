@@ -24,16 +24,27 @@ public class StatusEffectTemperatureEffect extends TemperatureEffect<StatusEffec
     @Override
     public void apply(LivingEntity victim, ServerWorld serverWorld, Config config) {
         for (Config.ConfigEffect effect : config.effects) {
-            victim.addStatusEffect(
-                    new StatusEffectInstance(
-                            effect.type,
-                            effect.duration,
-                            effect.amplifier,
-                            true, true
-                    ),
-                    null
-            );
+
         }
+    }
+
+    private void addEffect(LivingEntity victim, Config.ConfigEffect effect) {
+        StatusEffectInstance existingEffect = victim.getStatusEffect(effect.type);
+        if (existingEffect != null) {
+            if (existingEffect.getAmplifier() == effect.amplifier && existingEffect.getDuration() > effect.duration / 2) {
+                return;
+            }
+        }
+
+        victim.addStatusEffect(
+                new StatusEffectInstance(
+                        effect.type,
+                        effect.duration,
+                        effect.amplifier,
+                        true, true
+                ),
+                null
+        );
     }
 
     @Override
