@@ -3,9 +3,9 @@ package com.github.thedeathlycow.thermoo.mixin;
 import com.github.thedeathlycow.thermoo.api.temperature.EnvironmentController;
 import com.github.thedeathlycow.thermoo.api.temperature.EnvironmentManager;
 import com.github.thedeathlycow.thermoo.api.temperature.HeatingModes;
-import com.github.thedeathlycow.thermoo.api.temperature.event.LivingEntityEnvironmentEvents;
 import com.github.thedeathlycow.thermoo.api.temperature.event.InitialSoakChangeResult;
 import com.github.thedeathlycow.thermoo.api.temperature.event.InitialTemperatureChangeResult;
+import com.github.thedeathlycow.thermoo.api.temperature.event.LivingEntityEnvironmentEvents;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
@@ -17,9 +17,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityEnvironmentEventMixin {
 
-    @Shadow protected abstract void tickStatusEffects();
+    @Shadow
+    protected abstract void tickStatusEffects();
 
-    @Shadow public abstract void endCombat();
+    @Shadow
+    public abstract void endCombat();
 
     @Inject(
             method = "tick",
@@ -40,7 +42,8 @@ public abstract class LivingEntityEnvironmentEventMixin {
 
         EnvironmentController controller = EnvironmentManager.INSTANCE.getController();
 
-        TickHeatSources: {
+        TickHeatSources:
+        {
             int heatSourceTemperatureChange = controller.getHeatAtLocation(world, entity.getBlockPos());
 
             if (heatSourceTemperatureChange == 0) {
@@ -54,7 +57,8 @@ public abstract class LivingEntityEnvironmentEventMixin {
             heatedLocationResult.onEventComplete();
         }
 
-        TickHeatEffects: {
+        TickHeatEffects:
+        {
             int tempChange = 0;
             tempChange += controller.getOnFireWarmthRate(entity);
             tempChange += controller.getPowderSnowFreezeRate(entity);
@@ -71,7 +75,8 @@ public abstract class LivingEntityEnvironmentEventMixin {
             heatFxResult.onEventComplete();
         }
 
-        SoakChange: {
+        SoakChange:
+        {
             int soakChange = controller.getSoakChange(entity);
 
             if (soakChange == 0) {

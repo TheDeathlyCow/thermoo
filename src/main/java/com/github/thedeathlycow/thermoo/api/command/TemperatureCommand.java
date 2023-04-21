@@ -29,7 +29,12 @@ import static net.minecraft.server.command.CommandManager.literal;
  */
 public class TemperatureCommand {
 
-    private static final SimpleCommandExceptionType NOT_LIVING_ENTITY = new SimpleCommandExceptionType(Text.translatable("commands.thermoo.temperature.exception.not_living_entity"));
+    private static final SimpleCommandExceptionType NOT_LIVING_ENTITY = new SimpleCommandExceptionType(
+            Text.translatableWithFallback(
+                    "commands.thermoo.temperature.exception.not_living_entity",
+                    "Target is not a living entity!"
+            )
+    );
 
     /**
      * Supplier for creating a new temperature command builder to be registered to the Minecraft server
@@ -212,7 +217,12 @@ public class TemperatureCommand {
     private static int runGetMin(ServerCommandSource source, Entity target) throws CommandSyntaxException {
         if (target instanceof LivingEntity livingEntity) {
             int amount = livingEntity.thermoo$getMinTemperature();
-            Text msg = Text.translatable("commands.thermoo.temperature.get.min.success", target.getDisplayName(), amount);
+            Text msg = Text.translatableWithFallback(
+                    "commands.thermoo.temperature.get.min.success",
+                    "%s can have a minimum temperature of %d",
+                    target.getDisplayName(),
+                    amount
+            );
             source.sendFeedback(msg, false);
             return amount;
         } else {
@@ -223,7 +233,12 @@ public class TemperatureCommand {
     private static int runGetCurrent(ServerCommandSource source, Entity target) throws CommandSyntaxException {
         if (target instanceof LivingEntity livingEntity) {
             int amount = livingEntity.thermoo$getTemperature();
-            Text msg = Text.translatable("commands.thermoo.temperature.get.current.success", target.getDisplayName(), amount);
+            Text msg = Text.translatableWithFallback(
+                    "commands.thermoo.temperature.get.current.success",
+                    "The current temperature of %s is %d",
+                    target.getDisplayName(),
+                    amount
+            );
             source.sendFeedback(msg, false);
             return amount;
         } else {
@@ -248,15 +263,17 @@ public class TemperatureCommand {
         if (isRemoving) {
             if (targets.size() == 1) {
                 var target = targets.iterator().next();
-                msg = Text.translatable(
+                msg = Text.translatableWithFallback(
                         "commands.thermoo.temperature.remove.success.single",
+                        "Removed %d temperature from %s (now %d)",
                         amount,
                         target.getName(),
                         ((TemperatureAware) target).thermoo$getTemperature()
                 );
             } else {
-                msg = Text.translatable(
+                msg = Text.translatableWithFallback(
                         "commands.thermoo.temperature.remove.success.multiple",
+                        "Removed %d temperature from %d entities",
                         amount,
                         targets.size()
                 );
@@ -264,15 +281,17 @@ public class TemperatureCommand {
         } else {
             if (targets.size() == 1) {
                 var target = targets.iterator().next();
-                msg = Text.translatable(
+                msg = Text.translatableWithFallback(
                         "commands.thermoo.temperature.add.success.single",
+                        "Added %d temperature to %s (now %d)",
                         amount,
                         target.getName(),
                         ((TemperatureAware) target).thermoo$getTemperature()
                 );
             } else {
-                msg = Text.translatable(
+                msg = Text.translatableWithFallback(
                         "commands.thermoo.temperature.add.success.multiple",
+                        "Added %d temperature to %d entities",
                         amount,
                         targets.size()
                 );
@@ -297,14 +316,16 @@ public class TemperatureCommand {
 
         Text msg;
         if (targets.size() == 1) {
-            msg = Text.translatable(
+            msg = Text.translatableWithFallback(
                     "commands.thermoo.temperature.set.success.single",
+                    "Set the temperature of %s to %d",
                     targets.iterator().next().getName(),
                     amount
             );
         } else {
-            msg = Text.translatable(
+            msg = Text.translatableWithFallback(
                     "commands.thermoo.temperature.set.success.multiple",
+                    "Set the temperature of %s entities to %d",
                     targets.size(),
                     amount
             );

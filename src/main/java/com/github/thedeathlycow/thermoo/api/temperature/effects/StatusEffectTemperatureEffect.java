@@ -5,9 +5,9 @@ import com.google.gson.*;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.registry.Registries;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -24,16 +24,27 @@ public class StatusEffectTemperatureEffect extends TemperatureEffect<StatusEffec
     @Override
     public void apply(LivingEntity victim, ServerWorld serverWorld, Config config) {
         for (Config.ConfigEffect effect : config.effects) {
-            victim.addStatusEffect(
-                    new StatusEffectInstance(
-                            effect.type,
-                            effect.duration,
-                            effect.amplifier,
-                            true, true
-                    ),
-                    null
-            );
+
         }
+    }
+
+    private void addEffect(LivingEntity victim, Config.ConfigEffect effect) {
+        StatusEffectInstance existingEffect = victim.getStatusEffect(effect.type);
+        if (existingEffect != null) {
+            if (existingEffect.getAmplifier() == effect.amplifier && existingEffect.getDuration() > effect.duration / 2) {
+                return;
+            }
+        }
+
+        victim.addStatusEffect(
+                new StatusEffectInstance(
+                        effect.type,
+                        effect.duration,
+                        effect.amplifier,
+                        true, true
+                ),
+                null
+        );
     }
 
     @Override
@@ -91,7 +102,7 @@ public class StatusEffectTemperatureEffect extends TemperatureEffect<StatusEffec
 
             // get effect
             Identifier effectID = new Identifier(object.get("effect").getAsString());
-            StatusEffect effect = Registry.STATUS_EFFECT.get(effectID);
+            StatusEffect effect = Registries.STATUS_EFFECT.get(effectID);
             if (effect == null) {
                 throw new JsonParseException("Unknown status effect: " + effectID);
             }

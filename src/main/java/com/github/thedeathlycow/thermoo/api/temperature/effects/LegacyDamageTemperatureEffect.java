@@ -1,31 +1,35 @@
 package com.github.thedeathlycow.thermoo.api.temperature.effects;
 
-import com.google.gson.*;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonSyntaxException;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.server.world.ServerWorld;
+
+import java.util.function.Function;
 
 /**
  * Applies damage to {@link net.minecraft.entity.LivingEntity}s when their temperature scale is within a given range.
  * The amount and interval of the damage pulses, but the damage source cannot be at this time. Instead, damage sources are
  * hard coded into a specific type (such as {@code thermoo:freeze_damage_legacy}).
- * <p>
- * In 1.19.4, this will be replaced with the new damage source data system. As such, it is called "Legacy".
+ *
+ * @deprecated For 1.19.4+, use {@link DamageTemperatureEffect} instead
  */
+@Deprecated
 public class LegacyDamageTemperatureEffect extends TemperatureEffect<LegacyDamageTemperatureEffect.Config> {
 
 
-    private final DamageSource damageSource;
+    private final Function<ServerWorld, DamageSource> damageSourceSupplier;
 
-    public LegacyDamageTemperatureEffect(DamageSource damageSource) {
-        this.damageSource = damageSource;
+    public LegacyDamageTemperatureEffect(Function<ServerWorld, DamageSource> damageSourceSupplier) {
+        this.damageSourceSupplier = damageSourceSupplier;
     }
 
     @Override
     public void apply(LivingEntity victim, ServerWorld serverWorld, Config config) {
-        if (!victim.world.isClient) {
-            victim.damage(this.damageSource, config.amount);
-        }
+        victim.damage(this.damageSourceSupplier.apply(serverWorld), config.amount);
     }
 
     @Override

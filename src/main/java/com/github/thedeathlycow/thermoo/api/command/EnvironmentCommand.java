@@ -1,12 +1,10 @@
 package com.github.thedeathlycow.thermoo.api.command;
 
-import com.github.thedeathlycow.thermoo.api.temperature.EnvironmentController;
 import com.github.thedeathlycow.thermoo.api.temperature.EnvironmentManager;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import net.minecraft.command.argument.BlockPosArgumentType;
 import net.minecraft.command.argument.EntityArgumentType;
 import net.minecraft.server.command.ServerCommandSource;
-import net.minecraft.server.command.SetBlockCommand;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import org.jetbrains.annotations.Contract;
@@ -38,9 +36,10 @@ public class EnvironmentCommand {
         var checkTemperature = literal("checktemperature")
                 .executes(
                         context -> {
+                            var pos = context.getSource().getPosition();
                             return executeCheckTemperature(
                                     context.getSource(),
-                                    new BlockPos(context.getSource().getPosition())
+                                    new BlockPos((int) pos.x, (int) pos.y, (int) pos.z)
                             );
                         }
                 )
@@ -89,8 +88,9 @@ public class EnvironmentCommand {
 
         var biome = source.getWorld().getBiome(location).getKey().orElse(null);
 
-        Text msg = Text.translatable(
+        Text msg = Text.translatableWithFallback(
                 "commands.thermoo.environment.checktemperature.success",
+                "The passive temperature change at %s, %s, %s (%s) is %d",
                 location.getX(),
                 location.getY(),
                 location.getZ(),

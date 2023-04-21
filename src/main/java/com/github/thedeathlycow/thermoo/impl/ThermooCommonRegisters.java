@@ -5,14 +5,17 @@ import com.github.thedeathlycow.thermoo.api.ThermooRegistries;
 import com.github.thedeathlycow.thermoo.api.temperature.effects.TemperatureEffect;
 import com.github.thedeathlycow.thermoo.api.temperature.effects.TemperatureEffects;
 import net.minecraft.entity.attribute.EntityAttribute;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 
 public class ThermooCommonRegisters {
 
+    @SuppressWarnings("deprecation")
     public static void registerTemperatureEffects() {
         registerTemperatureEffect("empty", TemperatureEffects.EMPTY);
         registerTemperatureEffect("status_effect", TemperatureEffects.STATUS_EFFECT);
         registerTemperatureEffect("scaling_attribute_modifier", TemperatureEffects.SCALING_ATTRIBUTE_MODIFIER);
+        registerTemperatureEffect("damage", TemperatureEffects.DAMAGE);
         registerTemperatureEffect("freeze_damage_legacy", TemperatureEffects.FREEZE_DAMAGE_LEGACY);
     }
 
@@ -24,7 +27,7 @@ public class ThermooCommonRegisters {
     }
 
     private static void registerAttribute(String name, EntityAttribute attribute) {
-        Registry.register(Registry.ATTRIBUTE, Thermoo.id(name), attribute);
+        Registry.register(Registries.ATTRIBUTE, Thermoo.id(name), attribute);
     }
 
     private static void registerTemperatureEffect(String name, TemperatureEffect<?> temperatureEffect) {

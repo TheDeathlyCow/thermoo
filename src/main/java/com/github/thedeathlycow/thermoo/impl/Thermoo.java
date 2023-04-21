@@ -13,6 +13,7 @@ import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.command.argument.serialize.ConstantArgumentSerializer;
 import net.minecraft.resource.ResourceType;
 import net.minecraft.util.Identifier;
+import org.jetbrains.annotations.Contract;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -55,6 +56,13 @@ public class Thermoo implements ModInitializer {
         return AutoConfig.getConfigHolder(ThermooConfig.class).getConfig();
     }
 
+    /**
+     * Creates a new {@link Identifier} under the namespace {@value MODID}
+     *
+     * @param path The identifier path
+     * @return Returns a new {@link Identifier}
+     */
+    @Contract("->new")
     public static Identifier id(String path) {
         return new Identifier(MODID, path);
     }

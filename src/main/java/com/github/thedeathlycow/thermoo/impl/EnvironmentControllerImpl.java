@@ -1,7 +1,6 @@
 package com.github.thedeathlycow.thermoo.impl;
 
 import com.github.thedeathlycow.thermoo.api.temperature.EnvironmentController;
-import com.github.thedeathlycow.thermoo.api.temperature.TemperatureAware;
 import com.github.thedeathlycow.thermoo.impl.config.ThermooConfig;
 import com.github.thedeathlycow.thermoo.mixin.EntityInvoker;
 import net.minecraft.block.BlockState;
@@ -23,12 +22,18 @@ public class EnvironmentControllerImpl implements EnvironmentController {
             return this.getTempChangeFromBiomeTemperature(
                     world,
                     temperature,
-                    biome.getPrecipitation() == Biome.Precipitation.NONE
+                    !biome.hasPrecipitation()
             );
         } else if (world.getDimension().ultrawarm()) {
             return Thermoo.getConfig().environmentConfig.getUltrawarmWarmRate();
         }
         return 0;
+    }
+
+    @Override
+    public int getHotFloorWarmth(BlockState state) {
+        ThermooConfig config = Thermoo.getConfig();
+        return config.environmentConfig.getHotFloorWarmth();
     }
 
     @Override

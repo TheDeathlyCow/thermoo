@@ -16,7 +16,7 @@ import org.jetbrains.annotations.Nullable;
  * This mean that this is NOT a new loot condition, it is actually an extension of the vanilla predicate
  * {@link net.minecraft.predicate.entity.EntityPredicate} and can therefore be used anywhere that it is used. For exameple,
  * as part of the vanilla loot condition {@code minecraft:entity_properties}
- *
+ * <p>
  * Example usage:
  * <pre>
  * {
@@ -30,7 +30,7 @@ import org.jetbrains.annotations.Nullable;
  *      }
  * }
  * </pre>
- *
+ * <p>
  * Note that both {@code scale} and {@code temperature} are optional, and if not supplied will default to
  * {@link NumberRange.FloatRange#ANY} and {@link NumberRange.IntRange#ANY} respectively.
  *

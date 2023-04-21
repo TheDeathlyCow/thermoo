@@ -1,12 +1,13 @@
 package com.github.thedeathlycow.thermoo.api;
 
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
+import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
-import net.minecraft.tag.TagKey;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.tag.TagKey;
 
 /**
- * All tags used by Thermoo
+ * All tags used by Thermoo. Thermoo by default leaves these tags as empty - even for vanilla entries
  */
 public class ThermooTags {
 
@@ -30,9 +31,17 @@ public class ThermooTags {
      */
     public static final TagKey<EntityType<?>> HEAT_IMMUNE_ENTITY_TYPE = createEntityTypeTag("heat_immune");
 
+    /**
+     * Blocks that are hot to step on
+     */
+    public static final TagKey<Block> HOT_FLOOR = createBlockTag("hot_floor");
 
     private static TagKey<EntityType<?>> createEntityTypeTag(String path) {
-        return TagKey.of(Registry.ENTITY_TYPE_KEY, Thermoo.id(path));
+        return TagKey.of(RegistryKeys.ENTITY_TYPE, Thermoo.id(path));
+    }
+
+    private static TagKey<Block> createBlockTag(String path) {
+        return TagKey.of(RegistryKeys.BLOCK, Thermoo.id(path));
     }
 
 }

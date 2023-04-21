@@ -1,7 +1,6 @@
 package com.github.thedeathlycow.thermoo.api.temperature.effects;
 
 import com.github.thedeathlycow.thermoo.impl.TemperatureEffectLoader;
-import net.minecraft.entity.damage.DamageSource;
 
 import java.util.Collection;
 
@@ -19,7 +18,12 @@ public final class TemperatureEffects {
 
     public static final TemperatureEffect<?> SCALING_ATTRIBUTE_MODIFIER = new ScalingAttributeModifierTemperatureEffect();
 
-    public static final TemperatureEffect<?> FREEZE_DAMAGE_LEGACY = new LegacyDamageTemperatureEffect(DamageSource.FREEZE);
+    public static final TemperatureEffect<?> DAMAGE = new DamageTemperatureEffect();
+
+    @Deprecated
+    public static final TemperatureEffect<?> FREEZE_DAMAGE_LEGACY = new LegacyDamageTemperatureEffect(
+            (serverWorld) -> serverWorld.getDamageSources().freeze()
+    );
 
 
     /**
