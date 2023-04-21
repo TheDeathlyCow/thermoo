@@ -1,12 +1,14 @@
 package com.github.thedeathlycow.thermoo.api.temperature.effects;
 
-import com.google.gson.*;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonSyntaxException;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.server.world.ServerWorld;
 
 import java.util.function.Function;
-import java.util.function.Supplier;
 
 /**
  * Applies damage to {@link net.minecraft.entity.LivingEntity}s when their temperature scale is within a given range.

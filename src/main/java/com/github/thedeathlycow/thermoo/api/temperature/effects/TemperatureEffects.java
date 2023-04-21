@@ -1,7 +1,6 @@
 package com.github.thedeathlycow.thermoo.api.temperature.effects;
 
 import com.github.thedeathlycow.thermoo.impl.TemperatureEffectLoader;
-import net.minecraft.entity.damage.DamageSource;
 
 import java.util.Collection;
 

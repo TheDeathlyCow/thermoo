@@ -1,7 +1,6 @@
 package com.github.thedeathlycow.thermoo.api;
 
 import com.github.thedeathlycow.thermoo.api.temperature.effects.TemperatureEffect;
-import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
 import net.minecraft.registry.Registry;
 

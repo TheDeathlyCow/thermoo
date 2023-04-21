@@ -2,8 +2,8 @@ package com.github.thedeathlycow.thermoo.mixin;
 
 import com.github.thedeathlycow.thermoo.api.temperature.EnvironmentManager;
 import com.github.thedeathlycow.thermoo.api.temperature.HeatingModes;
-import com.github.thedeathlycow.thermoo.api.temperature.event.PlayerEnvironmentEvents;
 import com.github.thedeathlycow.thermoo.api.temperature.event.InitialTemperatureChangeResult;
+import com.github.thedeathlycow.thermoo.api.temperature.event.PlayerEnvironmentEvents;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
