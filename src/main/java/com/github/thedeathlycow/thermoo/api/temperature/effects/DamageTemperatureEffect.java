@@ -20,6 +20,11 @@ import org.jetbrains.annotations.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Applies damage to {@link net.minecraft.entity.LivingEntity}s when their temperature scale is within a given range.
+ * The amount and interval of the damage pulses can be configured, as well as the damage type. However, the {@link DamageSource}
+ * applied only stores the type - the direct source entity, attacker, and position are all {@code null}.
+ */
 public class DamageTemperatureEffect extends TemperatureEffect<DamageTemperatureEffect.Config> {
 
     @Nullable
