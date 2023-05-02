@@ -18,6 +18,8 @@ public final class LivingEntityTemperatureEvents {
      * <p>
      * By default, the change will not be applied. A listener must specify that the change should be applied.
      * <p>
+     * Blocks are only considered to be a "hot floor" if they are tagged with {@link com.github.thedeathlycow.thermoo.api.ThermooTags#HOT_FLOOR}
+     * <p>
      * Event stops its invocation as soon as a single listener returns {@code true}, so it should not be used for ticking
      * behaviours that should always be run.
      */
