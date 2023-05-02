@@ -16,6 +16,8 @@ public final class LivingEntityTemperatureEvents {
     /**
      * An event that checks if the heat change should be applied from hot floor.
      * <p>
+     * By default, the change will not be applied. A listener must specify that the change should be applied.
+     * <p>
      * Event stops its invocation as soon as a single listener returns {@code true}, so it should not be used for ticking
      * behaviours that should always be run.
      */

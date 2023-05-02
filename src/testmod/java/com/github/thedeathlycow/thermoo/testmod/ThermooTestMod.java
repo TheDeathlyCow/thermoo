@@ -1,10 +1,7 @@
 package com.github.thedeathlycow.thermoo.testmod;
 
 import com.github.thedeathlycow.thermoo.api.temperature.EnvironmentController;
-import com.github.thedeathlycow.thermoo.api.temperature.event.InitialSoakChangeResult;
-import com.github.thedeathlycow.thermoo.api.temperature.event.InitialTemperatureChangeResult;
-import com.github.thedeathlycow.thermoo.api.temperature.event.LivingEntityEnvironmentEvents;
-import com.github.thedeathlycow.thermoo.api.temperature.event.PlayerEnvironmentEvents;
+import com.github.thedeathlycow.thermoo.api.temperature.event.*;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
@@ -32,6 +29,7 @@ public class ThermooTestMod implements ModInitializer {
         LivingEntityEnvironmentEvents.TICK_IN_HEATED_LOCATION.register(this::tickHeatSources);
         LivingEntityEnvironmentEvents.TICK_HEAT_EFFECTS.register(this::tickHeatEffects);
         LivingEntityEnvironmentEvents.TICK_IN_WET_LOCATION.register(this::tickWetChange);
+        LivingEntityTemperatureEvents.ON_STEPPED_ON_HOT_FLOOR.register((e, s, t) -> true);
     }
 
     public void applyTemperatureChanges(
