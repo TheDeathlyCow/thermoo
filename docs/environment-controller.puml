@@ -1,0 +1,53 @@
+@startuml
+
+hide empty member
+skinparam backgroundColor #dddddd
+
+class EnvironmentManager <<singleton>> {
+    -controller: EnvironmentController
+    +addController(constructor: Function<EnvironmentController, EnvironmentController>)
+}
+note left of EnvironmentManager::addController
+The param would usually be something
+like MyDecorator::new
+end note
+
+interface EnvironmentController {
+
+    +{abstract} getLocalTemperatureChange(world: World, pos: BlockPos): int
+    +{abstract} getOnFireWarmthRate(entity: LivingEntity): int
+    +{abstract} getHotFloorWarmth(state: BlockState): int
+    +{abstract} getPowderSnowFreezeRate(entity: LivingEntity): int
+    +{abstract} getSoakChange(entity: LivingEntity): int
+    +{abstract} getHeatAtLocation(world: World, pos: BlockPos): int
+    +{abstract} getHeatFromBlockState(state: BlockState): int
+    +{abstract} isHeatSource(state: BlockState): int
+    +{abstract} isAreaHeated(world: World, pos: BlockPos): int
+
+}
+
+class DefaultEnvironmentController {
+
+}
+
+abstract class EnvironmentControllerDecorator {
+
+    #controller: EnvironmentController
+
+    #EnvironmentControllerDecorator(controller: EnvironmentController)
+
+}
+note left of EnvironmentControllerDecorator
+All EnvironmentController methods are implemented here by just
+calling the same method on its controller field
+end note
+note bottom of EnvironmentControllerDecorator
+Extend this class to add your functionality
+end note
+
+EnvironmentManager *--right-- EnvironmentController
+
+EnvironmentController <|.. DefaultEnvironmentController
+EnvironmentController <|... EnvironmentControllerDecorator
+EnvironmentController ---* EnvironmentControllerDecorator
+@enduml

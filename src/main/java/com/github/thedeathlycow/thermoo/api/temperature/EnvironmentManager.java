@@ -1,7 +1,8 @@
 package com.github.thedeathlycow.thermoo.api.temperature;
 
-import com.github.thedeathlycow.thermoo.impl.EnvironmentControllerImpl;
-import com.github.thedeathlycow.thermoo.impl.Thermoo;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.function.Function;
 
 /**
  * Controls what instance of the {@link EnvironmentManager} is to be used by Thermoo events
@@ -13,41 +14,45 @@ public final class EnvironmentManager {
      */
     public static final EnvironmentManager INSTANCE = new EnvironmentManager();
 
+    @NotNull
     private EnvironmentController controller;
 
     /**
      * @return Returns the current default {@link EnvironmentController} used by Thermoo events
      */
+    @NotNull
     public EnvironmentController getController() {
         return controller;
     }
 
     /**
-     * Sets the default {@link EnvironmentController} to be used by Thermoo events.
-     * <p>
-     * If this is NOT set, then it will be set to a default instance provided by Thermoo.
-     * <p>
-     * NOTE: This will override the existing event, so be careful that no other mods are using this!
+     * Appends an additional environment controller decorator to the existing environment controller
      *
-     * @param controller The controller to set
+     * @param decorator The controller decorator constructor
      */
-    public void setController(EnvironmentController controller) {
-        this.controller = controller;
+    public void addController(Function<EnvironmentController, EnvironmentController> decorator) {
+        this.controller = decorator.apply(this.controller);
+    }
 
-        var sb = new StringBuilder();
-        sb.append("The Thermoo Environment Controller has been updated");
-        var trace = Thread.currentThread().getStackTrace();
-        if (trace.length >= 3) {
-            sb.append(" by ");
-            sb.append(trace[2].getClassName());
-            sb.append("#");
-            sb.append(trace[2].getMethodName());
+    /**
+     * Peels off the top decorator of the controller. If the controller has no child, then this will do nothing.
+     *
+     * @return Returns the previous decorator
+     */
+    @NotNull
+    public EnvironmentController peelController() {
+        EnvironmentController old = this.controller;
+
+        EnvironmentController decorated = this.controller.getDecorated();
+        if (decorated != null) {
+            this.controller = decorated;
         }
-        Thermoo.LOGGER.info(sb.toString());
+
+        return old;
     }
 
     private EnvironmentManager() {
-        this.controller = new EnvironmentControllerImpl();
+        this.controller = new DefaultEnvironmentController();
     }
 
 }

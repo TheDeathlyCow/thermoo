@@ -24,7 +24,7 @@ public class StatusEffectTemperatureEffect extends TemperatureEffect<StatusEffec
     @Override
     public void apply(LivingEntity victim, ServerWorld serverWorld, Config config) {
         for (Config.ConfigEffect effect : config.effects) {
-
+            this.addEffect(victim, effect);
         }
     }
 

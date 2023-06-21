@@ -33,6 +33,13 @@ public class EnvironmentCommand {
     @Contract("->new")
     private static LiteralArgumentBuilder<ServerCommandSource> buildCommand() {
 
+        var printController = literal("printcontroller")
+                .executes(
+                        context ->  {
+                            return printController(context.getSource());
+                        }
+                );
+
         var checkTemperature = literal("checktemperature")
                 .executes(
                         context -> {
@@ -75,7 +82,14 @@ public class EnvironmentCommand {
         return literal("thermoo").then(
                 (literal("environment").requires((src) -> src.hasPermissionLevel(2)))
                         .then(checkTemperature)
+                        .then(printController)
         );
+    }
+
+    private static int printController(ServerCommandSource source) {
+        Text msg = Text.literal(EnvironmentManager.INSTANCE.getController().toString());
+        source.sendFeedback(msg, false);
+        return 0;
     }
 
     private static int executeCheckTemperature(ServerCommandSource source, BlockPos location) {

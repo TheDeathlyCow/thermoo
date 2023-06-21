@@ -4,15 +4,33 @@ import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Implements computations for various passive environmental effects, such as passive freezing/warming from biomes,
  * and passive warming from heat sources (torches, campfires, etc).
  * <p>
- * The default implementation is provided by {@link EnvironmentManager#getController()}, and what is used by Frostiful,
- * however if you wish you may re-implement this class for your own mod.
+ * The default implementation is provided by {@link DefaultEnvironmentController}, and what is used by Frostiful,
+ * however if you wish you may extend (or even replace!) the functionality of the default controller by use of the
+ * {@link EnvironmentControllerDecorator}
+ *
+ * @see EnvironmentControllerDecorator
+ * @see DefaultEnvironmentController
  */
-public interface EnvironmentController {
+public sealed interface EnvironmentController permits DefaultEnvironmentController, EnvironmentControllerDecorator {
+
+    /**
+     * Gets the controller that this controller decorates. If this controller is a leaf (not a decorator), then returns
+     * null.
+     *
+     * @return Returns the environment controller that this controller decorates. Returns null if this decorates no
+     * controller (i.e., is a leaf)
+     */
+    @Nullable
+    default EnvironmentController getDecorated() {
+        return null;
+    }
 
     /**
      * Computes the local temperature change at a given position in a world.

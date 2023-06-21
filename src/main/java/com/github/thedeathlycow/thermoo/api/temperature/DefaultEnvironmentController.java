@@ -1,6 +1,6 @@
-package com.github.thedeathlycow.thermoo.impl;
+package com.github.thedeathlycow.thermoo.api.temperature;
 
-import com.github.thedeathlycow.thermoo.api.temperature.EnvironmentController;
+import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import com.github.thedeathlycow.thermoo.impl.config.ThermooConfig;
 import com.github.thedeathlycow.thermoo.mixin.EntityInvoker;
 import net.minecraft.block.BlockState;
@@ -12,7 +12,12 @@ import net.minecraft.world.LightType;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 
-public class EnvironmentControllerImpl implements EnvironmentController {
+/**
+ * The default implementation of the environment controller used by Thermoo. All values are
+ * based on config values set in {@code thermoo.json}. Mods wishing to extend this controller may do so through the
+ * {@link EnvironmentControllerDecorator}
+ */
+public final class DefaultEnvironmentController implements EnvironmentController {
 
     @Override
     public int getLocalTemperatureChange(World world, BlockPos pos) {
@@ -157,4 +162,11 @@ public class EnvironmentControllerImpl implements EnvironmentController {
         return MathHelper.floor(mul * (temperature - cutoff - tempShift) - 1);
     }
 
+    /**
+     * @return Returns the name of the class as the string representation
+     */
+    @Override
+    public String toString() {
+        return this.getClass().getName();
+    }
 }
