@@ -191,8 +191,13 @@ public class TemperatureCommand {
             float progress = livingEntity.thermoo$getTemperatureScale();
             int result = MathHelper.floor(progress * scale);
 
-            Text msg = Text.translatable("commands.thermoo.temperature.get.scale.success", target.getDisplayName(), result);
-            source.sendFeedback(msg, false);
+            source.sendFeedback(
+                    () -> Text.translatable(
+                            "commands.thermoo.temperature.get.scale.success",
+                            target.getDisplayName(),
+                            result
+                    ), false
+            );
 
             return result;
         } else {
@@ -204,8 +209,10 @@ public class TemperatureCommand {
 
         if (target instanceof LivingEntity livingEntity) {
             int amount = livingEntity.thermoo$getMaxTemperature();
-            Text msg = Text.translatable("commands.thermoo.temperature.get.max.success", target.getDisplayName(), amount);
-            source.sendFeedback(msg, false);
+            source.sendFeedback(
+                    () -> Text.translatable("commands.thermoo.temperature.get.max.success", target.getDisplayName(), amount),
+                    false
+            );
             return amount;
         } else {
             throw NOT_LIVING_ENTITY.create();
@@ -217,13 +224,15 @@ public class TemperatureCommand {
     private static int runGetMin(ServerCommandSource source, Entity target) throws CommandSyntaxException {
         if (target instanceof LivingEntity livingEntity) {
             int amount = livingEntity.thermoo$getMinTemperature();
-            Text msg = Text.translatableWithFallback(
-                    "commands.thermoo.temperature.get.min.success",
-                    "%s can have a minimum temperature of %d",
-                    target.getDisplayName(),
-                    amount
+            source.sendFeedback(
+                    () -> Text.translatableWithFallback(
+                            "commands.thermoo.temperature.get.min.success",
+                            "%s can have a minimum temperature of %d",
+                            target.getDisplayName(),
+                            amount
+                    ),
+                    false
             );
-            source.sendFeedback(msg, false);
             return amount;
         } else {
             throw NOT_LIVING_ENTITY.create();
@@ -233,13 +242,15 @@ public class TemperatureCommand {
     private static int runGetCurrent(ServerCommandSource source, Entity target) throws CommandSyntaxException {
         if (target instanceof LivingEntity livingEntity) {
             int amount = livingEntity.thermoo$getTemperature();
-            Text msg = Text.translatableWithFallback(
-                    "commands.thermoo.temperature.get.current.success",
-                    "The current temperature of %s is %d",
-                    target.getDisplayName(),
-                    amount
+            source.sendFeedback(
+                    () -> Text.translatableWithFallback(
+                            "commands.thermoo.temperature.get.current.success",
+                            "The current temperature of %s is %d",
+                            target.getDisplayName(),
+                            amount
+                    ),
+                    false
             );
-            source.sendFeedback(msg, false);
             return amount;
         } else {
             throw NOT_LIVING_ENTITY.create();
@@ -298,7 +309,7 @@ public class TemperatureCommand {
             }
         }
 
-        source.sendFeedback(msg, true);
+        source.sendFeedback(() -> msg, true);
         return sum;
     }
 
@@ -330,7 +341,7 @@ public class TemperatureCommand {
                     amount
             );
         }
-        source.sendFeedback(msg, true);
+        source.sendFeedback(() -> msg, true);
 
         return sum;
     }

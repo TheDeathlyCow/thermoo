@@ -6,6 +6,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.loot.LootGsons;
 import net.minecraft.loot.condition.LootCondition;
 import net.minecraft.loot.context.LootContext;
+import net.minecraft.loot.context.LootContextParameterSet;
 import net.minecraft.loot.context.LootContextParameters;
 import net.minecraft.loot.context.LootContextTypes;
 import net.minecraft.predicate.NumberRange;
@@ -100,8 +101,8 @@ public class ConfiguredTemperatureEffect<C> {
         }
 
         ServerWorld serverWorld = (ServerWorld) world;
-        boolean shouldApply = this.temperatureScaleRange.test(victim.thermoo$getTemperatureScale())
-                && this.type.shouldApply(victim, this.config)
+        boolean shouldApply = this.type.shouldApply(victim, this.config)
+                && this.temperatureScaleRange.test(victim.thermoo$getTemperatureScale())
                 && this.testPredicate(victim, serverWorld);
 
         if (shouldApply) {
@@ -112,10 +113,12 @@ public class ConfiguredTemperatureEffect<C> {
     private boolean testPredicate(LivingEntity victim, ServerWorld world) {
         return this.predicate == null
                 || this.predicate.test(
-                new LootContext.Builder(world)
-                        .parameter(LootContextParameters.THIS_ENTITY, victim)
-                        .parameter(LootContextParameters.ORIGIN, victim.getPos())
-                        .build(LootContextTypes.COMMAND)
+                new LootContext.Builder(
+                        new LootContextParameterSet.Builder(world)
+                                .add(LootContextParameters.THIS_ENTITY, victim)
+                                .add(LootContextParameters.ORIGIN, victim.getPos())
+                                .build(LootContextTypes.COMMAND)
+                ).build(null)
         );
     }
 

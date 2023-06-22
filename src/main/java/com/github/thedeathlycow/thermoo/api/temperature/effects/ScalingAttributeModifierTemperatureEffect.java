@@ -1,7 +1,9 @@
 package com.github.thedeathlycow.thermoo.api.temperature.effects;
 
 import com.github.thedeathlycow.thermoo.api.temperature.TemperatureAware;
+import com.google.common.math.DoubleMath;
 import com.google.gson.*;
+import com.ibm.icu.number.Precision;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeInstance;
@@ -10,6 +12,7 @@ import net.minecraft.registry.Registries;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
 
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -20,37 +23,15 @@ public class ScalingAttributeModifierTemperatureEffect extends TemperatureEffect
 
     @Override
     public void apply(LivingEntity victim, ServerWorld serverWorld, Config config) {
-        this.removeModifier(victim, config); // remove the existing modifier
-        this.addModifierIfNeeded(victim, config); // add the modifier back with greater strength if needed
-    }
-
-    @Override
-    public boolean shouldApply(LivingEntity victim, Config config) {
-        // this effect will always apply as it scales with the temperature
-        return true;
-    }
-
-    @Override
-    public Config configFromJson(JsonElement json, JsonDeserializationContext context) throws JsonSyntaxException {
-        return Config.fromJson(json);
-    }
-
-    private void removeModifier(LivingEntity victim, Config config) {
-        EntityAttributeInstance attrInstance = victim.getAttributeInstance(config.attribute);
-        if (attrInstance != null) {
-            if (attrInstance.getModifier(config.uuid) != null) {
-                attrInstance.removeModifier(config.uuid);
-            }
-        }
-    }
-
-    private void addModifierIfNeeded(LivingEntity victim, Config config) {
         EntityAttributeInstance attrInstance = victim.getAttributeInstance(config.attribute);
         if (attrInstance == null) {
             return;
         }
 
-        float amount = config.scale * victim.thermoo$getTemperatureScale();
+        // remove the existing modifier
+
+        // add the modifier back with greater strength
+        double amount = config.scale * victim.thermoo$getTemperatureScale();
 
         attrInstance.addTemporaryModifier(
                 new EntityAttributeModifier(
@@ -60,6 +41,38 @@ public class ScalingAttributeModifierTemperatureEffect extends TemperatureEffect
                         config.operation
                 )
         );
+    }
+
+    @Override
+    public boolean shouldApply(LivingEntity victim, Config config) {
+        // this effect will always apply as it scales with the temperature
+        EntityAttributeInstance attrInstance = victim.getAttributeInstance(config.attribute);
+
+        if (attrInstance == null) {
+            return false;
+        }
+
+        EntityAttributeModifier modifier = attrInstance.getModifier(config.uuid);
+        if (modifier == null) {
+            return true;
+        }
+
+        double newAmount = config.scale * victim.thermoo$getTemperatureScale();
+        double currentValue = modifier.getValue();
+
+        boolean shouldApply = newAmount != currentValue;
+
+        if (shouldApply) {
+            // remove the modifier - even if the other predicate tests fail
+            attrInstance.removeModifier(config.uuid);
+        }
+
+        return shouldApply;
+    }
+
+    @Override
+    public Config configFromJson(JsonElement json, JsonDeserializationContext context) throws JsonSyntaxException {
+        return Config.fromJson(json);
     }
 
     public record Config(

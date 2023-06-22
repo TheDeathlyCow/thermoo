@@ -22,21 +22,8 @@ public final class PlayerEnvironmentEvents {
      */
     public static final Event<BiomeTemperatureChangeTickCallback> TICK_BIOME_TEMPERATURE_CHANGE = EventFactory.createArrayBacked(BiomeTemperatureChangeTickCallback.class,
             callbacks -> (controller, player, biome, result) -> {
-                if (EventFactory.isProfilingEnabled()) {
-                    final Profiler profiler = player.world.getProfiler();
-                    profiler.push("thermooBiomeTemperatureChangeTick");
-
-                    for (BiomeTemperatureChangeTickCallback event : callbacks) {
-                        profiler.push(EventFactory.getHandlerName(event));
-                        event.onBiomeTemperatureChange(controller, player, biome, result);
-                        profiler.pop();
-                    }
-
-                    profiler.pop();
-                } else {
-                    for (BiomeTemperatureChangeTickCallback event : callbacks) {
-                        event.onBiomeTemperatureChange(controller, player, biome, result);
-                    }
+                for (BiomeTemperatureChangeTickCallback event : callbacks) {
+                    event.onBiomeTemperatureChange(controller, player, biome, result);
                 }
             }
     );

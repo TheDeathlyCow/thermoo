@@ -35,7 +35,7 @@ public class EnvironmentCommand {
 
         var printController = literal("printcontroller")
                 .executes(
-                        context ->  {
+                        context -> {
                             return printController(context.getSource());
                         }
                 );
@@ -87,8 +87,7 @@ public class EnvironmentCommand {
     }
 
     private static int printController(ServerCommandSource source) {
-        Text msg = Text.literal(EnvironmentManager.INSTANCE.getController().toString());
-        source.sendFeedback(msg, false);
+        source.sendFeedback(() -> Text.literal(EnvironmentManager.INSTANCE.getController().toString()), false);
         return 0;
     }
 
@@ -102,16 +101,18 @@ public class EnvironmentCommand {
 
         var biome = source.getWorld().getBiome(location).getKey().orElse(null);
 
-        Text msg = Text.translatableWithFallback(
-                "commands.thermoo.environment.checktemperature.success",
-                "The passive temperature change at %s, %s, %s (%s) is %d",
-                location.getX(),
-                location.getY(),
-                location.getZ(),
-                biome == null ? "unknown" : biome.getValue(),
-                temperatureChange
+        source.sendFeedback(
+                () -> Text.translatableWithFallback(
+                        "commands.thermoo.environment.checktemperature.success",
+                        "The passive temperature change at %s, %s, %s (%s) is %d",
+                        location.getX(),
+                        location.getY(),
+                        location.getZ(),
+                        biome == null ? "unknown" : biome.getValue(),
+                        temperatureChange
+                ),
+                false
         );
-        source.sendFeedback(msg, false);
 
         return temperatureChange;
     }

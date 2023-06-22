@@ -6,6 +6,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -27,11 +28,13 @@ public abstract class TemperatureEffectTickerMixin extends Entity {
     )
     private void tickFreezingEffects(CallbackInfo ci) {
         // ticks effects for all living entities
-        if (this.world.isClient) {
+
+        World world = this.getWorld();
+        if (world.isClient) {
             return;
         }
 
-        var profiler = this.world.getProfiler();
+        var profiler = world.getProfiler();
         profiler.push("thermoo.temperature_effects");
 
         final LivingEntity instance = (LivingEntity) (Object) this;
