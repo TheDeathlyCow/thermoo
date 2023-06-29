@@ -17,7 +17,7 @@ import java.util.function.Function;
  *
  * @deprecated For 1.19.4+, use {@link DamageTemperatureEffect} instead
  */
-@Deprecated
+@Deprecated(since = "1.5")
 public class LegacyDamageTemperatureEffect extends TemperatureEffect<LegacyDamageTemperatureEffect.Config> {
 
 
