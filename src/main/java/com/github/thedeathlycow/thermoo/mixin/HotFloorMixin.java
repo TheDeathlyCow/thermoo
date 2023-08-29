@@ -1,9 +1,7 @@
 package com.github.thedeathlycow.thermoo.mixin;
 
-import com.github.thedeathlycow.thermoo.api.ThermooTags;
 import com.github.thedeathlycow.thermoo.api.temperature.EnvironmentManager;
 import com.github.thedeathlycow.thermoo.api.temperature.HeatingModes;
-import com.github.thedeathlycow.thermoo.api.temperature.event.LivingEntityTemperatureEvents;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
@@ -24,7 +22,7 @@ public class HotFloorMixin {
     )
     private void heatEntitiesFromHotFloor(World world, BlockPos pos, BlockState state, Entity entity, CallbackInfo ci) {
 
-        if (world.isClient || !state.isIn(ThermooTags.HOT_FLOOR)) {
+        if (world.isClient) {
             return;
         }
 
@@ -33,19 +31,14 @@ public class HotFloorMixin {
                 return;
             }
 
-            int temperatureChange = EnvironmentManager.INSTANCE.getController().getHotFloorWarmth(state);
-            boolean shouldApplyChange = LivingEntityTemperatureEvents.ON_STEPPED_ON_HOT_FLOOR.invoker().shouldApplyChange(livingEntity, state, temperatureChange);
-
-            if (shouldApplyChange) {
+            int temperatureChange = EnvironmentManager.INSTANCE.getController().getFloorTemperature(state);
+            if (temperatureChange != 0) {
                 livingEntity.thermoo$addTemperature(
                         temperatureChange,
                         HeatingModes.ACTIVE
                 );
             }
-
         }
-
-
     }
 
 }

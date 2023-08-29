@@ -3,9 +3,6 @@ package com.github.thedeathlycow.thermoo.mixin;
 import com.github.thedeathlycow.thermoo.api.temperature.EnvironmentController;
 import com.github.thedeathlycow.thermoo.api.temperature.EnvironmentManager;
 import com.github.thedeathlycow.thermoo.api.temperature.HeatingModes;
-import com.github.thedeathlycow.thermoo.api.temperature.event.InitialSoakChangeResult;
-import com.github.thedeathlycow.thermoo.api.temperature.event.InitialTemperatureChangeResult;
-import com.github.thedeathlycow.thermoo.api.temperature.event.LivingEntityEnvironmentEvents;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
@@ -42,54 +39,23 @@ public abstract class LivingEntityEnvironmentEventMixin {
 
         EnvironmentController controller = EnvironmentManager.INSTANCE.getController();
 
-        TickHeatSources:
-        {
-            int heatSourceTemperatureChange = controller.getHeatAtLocation(world, entity.getBlockPos());
+        int tempChange;
 
-            if (heatSourceTemperatureChange == 0) {
-                break TickHeatSources;
-            }
-
-            var heatedLocationResult = new InitialTemperatureChangeResult(entity, heatSourceTemperatureChange, HeatingModes.PASSIVE);
-            LivingEntityEnvironmentEvents.TICK_IN_HEATED_LOCATION.invoker().onTemperatureChange(
-                    controller, entity, heatedLocationResult
-            );
-            heatedLocationResult.onEventComplete();
+        // tick area heat sources
+        tempChange = controller.getHeatAtLocation(world, entity.getBlockPos());
+        if (tempChange != 0) {
+            entity.thermoo$addTemperature(tempChange, HeatingModes.PASSIVE);
         }
 
-        TickHeatEffects:
-        {
-            int tempChange = 0;
-            tempChange += controller.getOnFireWarmthRate(entity);
-            tempChange += controller.getPowderSnowFreezeRate(entity);
-
-            if (tempChange == 0) {
-                break TickHeatEffects;
-            }
-
-            var heatFxResult = new InitialTemperatureChangeResult(entity, tempChange, HeatingModes.ACTIVE);
-
-            LivingEntityEnvironmentEvents.TICK_HEAT_EFFECTS.invoker().onTemperatureChange(
-                    controller, entity, heatFxResult
-            );
-            heatFxResult.onEventComplete();
+        tempChange = controller.getTemperatureEffectsChange(entity);
+        if (tempChange != 0) {
+            entity.thermoo$addTemperature(tempChange, HeatingModes.ACTIVE);
         }
 
-        SoakChange:
-        {
-            int soakChange = controller.getSoakChange(entity);
-
-            if (soakChange == 0) {
-                break SoakChange;
-            }
-
-            var wetResult = new InitialSoakChangeResult(entity, soakChange);
-            LivingEntityEnvironmentEvents.TICK_IN_WET_LOCATION.invoker().onSoakChange(
-                    controller, entity, wetResult
-            );
-            wetResult.onEventComplete();
+        int soakChange = controller.getSoakChange(entity);
+        if (soakChange != 0) {
+            entity.thermoo$addWetTicks(soakChange);
         }
-
     }
 
 }

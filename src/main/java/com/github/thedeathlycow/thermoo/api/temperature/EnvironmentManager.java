@@ -52,7 +52,7 @@ public final class EnvironmentManager {
     }
 
     private EnvironmentManager() {
-        this.controller = new DefaultEnvironmentController();
+        this.controller = new EmptyEnvironmentController();
     }
 
 }

@@ -13,14 +13,14 @@ public final class ThermooAttributes {
      * The minimum temperature of an entity
      */
     public static final EntityAttribute MIN_TEMPERATURE = new ClampedEntityAttribute(
-            "attribute.thermoo.generic.min_temperature", 40.0, 0.0, 8192
+            "attribute.thermoo.generic.min_temperature", 0.0, 0.0, 8192
     ).setTracked(false);
 
     /**
      * The maximum temperature of an entity
      */
     public static final EntityAttribute MAX_TEMPERATURE = new ClampedEntityAttribute(
-            "attribute.thermoo.generic.max_temperature", 40.0, 0.0, 8192
+            "attribute.thermoo.generic.max_temperature", 0.0, 0.0, 8192
     ).setTracked(false);
 
     /**

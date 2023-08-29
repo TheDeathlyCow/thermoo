@@ -30,23 +30,18 @@ public abstract non-sealed class EnvironmentControllerDecorator implements Envir
     }
 
     @Override
-    public int getOnFireWarmthRate(LivingEntity entity) {
-        return controller.getOnFireWarmthRate(entity);
+    public int getTemperatureEffectsChange(LivingEntity entity) {
+        return controller.getTemperatureEffectsChange(entity);
     }
 
     @Override
-    public int getHotFloorWarmth(BlockState state) {
-        return controller.getHotFloorWarmth(state);
+    public int getFloorTemperature(BlockState state) {
+        return controller.getFloorTemperature(state);
     }
 
     @Override
-    public int getPowderSnowFreezeRate(LivingEntity entity) {
-        return controller.getPowderSnowFreezeRate(entity);
-    }
-
-    @Override
-    public int getSoakChange(LivingEntity entity) {
-        return controller.getSoakChange(entity);
+    public int getSoakChange(Soakable soakable) {
+        return controller.getSoakChange(soakable);
     }
 
     @Override
