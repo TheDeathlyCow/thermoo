@@ -1,5 +1,7 @@
 package com.github.thedeathlycow.thermoo.api.temperature;
 
+import com.github.thedeathlycow.thermoo.api.temperature.event.EnvironmentControllerInitializeEvent;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Function;
@@ -14,7 +16,6 @@ public final class EnvironmentManager {
      */
     public static final EnvironmentManager INSTANCE = new EnvironmentManager();
 
-    @NotNull
     private EnvironmentController controller;
 
     /**
@@ -51,8 +52,19 @@ public final class EnvironmentManager {
         return old;
     }
 
-    private EnvironmentManager() {
+    private void resetController() {
         this.controller = new EmptyEnvironmentController();
+    }
+
+    private EnvironmentManager() {
+        this.resetController();
+
+        ServerLifecycleEvents.SERVER_STARTING.register(
+                server -> {
+                    this.resetController();
+                    this.addController(EnvironmentControllerInitializeEvent.EVENT.invoker()::decorateController);
+                }
+        );
     }
 
 }

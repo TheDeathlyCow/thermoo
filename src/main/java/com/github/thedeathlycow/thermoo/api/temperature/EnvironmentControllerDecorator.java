@@ -15,6 +15,11 @@ public abstract non-sealed class EnvironmentControllerDecorator implements Envir
     protected final EnvironmentController controller;
 
     protected EnvironmentControllerDecorator(EnvironmentController controller) {
+
+        if (controller == null) {
+            throw new IllegalArgumentException("The base controller for the decorator may not be null!");
+        }
+
         this.controller = controller;
     }
 
