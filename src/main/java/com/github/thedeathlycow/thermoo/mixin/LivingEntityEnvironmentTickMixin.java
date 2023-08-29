@@ -12,13 +12,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(LivingEntity.class)
-public abstract class LivingEntityEnvironmentEventMixin {
-
-    @Shadow
-    protected abstract void tickStatusEffects();
-
-    @Shadow
-    public abstract void endCombat();
+public abstract class LivingEntityEnvironmentTickMixin {
 
     @Inject(
             method = "tick",

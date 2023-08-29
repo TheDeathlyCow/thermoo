@@ -7,8 +7,8 @@
 		"EntityPredicateMixin",
 		"EnvironmentAwareEntityMixin",
 		"HotFloorMixin",
-		"LivingEntityEnvironmentEventMixin",
-		"PlayerTemperatureEventMixin",
+		"LivingEntityEnvironmentTickMixin",
+		"PlayerTemperatureTickMixin",
 		"TemperatureEffectTickerMixin"
 	],
 	"client": [
