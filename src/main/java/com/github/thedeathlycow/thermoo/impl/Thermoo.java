@@ -3,12 +3,15 @@ package com.github.thedeathlycow.thermoo.impl;
 import com.github.thedeathlycow.thermoo.api.command.EnvironmentCommand;
 import com.github.thedeathlycow.thermoo.api.command.HeatingModeArgumentType;
 import com.github.thedeathlycow.thermoo.api.command.TemperatureCommand;
+import com.github.thedeathlycow.thermoo.api.temperature.EnvironmentManager;
+import com.github.thedeathlycow.thermoo.api.temperature.event.EnvironmentControllerInitializeEvent;
 import com.github.thedeathlycow.thermoo.impl.config.ThermooConfig;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.ArgumentTypeRegistry;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.command.argument.serialize.ConstantArgumentSerializer;
 import net.minecraft.resource.ResourceType;
@@ -48,7 +51,7 @@ public class Thermoo implements ModInitializer {
         ResourceManagerHelper serverManager = ResourceManagerHelper.get(ResourceType.SERVER_DATA);
 
         serverManager.registerReloadListener(TemperatureEffectLoader.INSTANCE);
-
+        LOGGER.info("Creating environment manager {}", EnvironmentManager.INSTANCE);
         LOGGER.info("Thermoo initialized");
     }
 

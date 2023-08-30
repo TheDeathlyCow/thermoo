@@ -1,6 +1,7 @@
 package com.github.thedeathlycow.thermoo.api.temperature;
 
 import com.github.thedeathlycow.thermoo.api.temperature.event.EnvironmentControllerInitializeEvent;
+import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -72,16 +73,27 @@ public final class EnvironmentManager {
         return new EmptyEnvironmentController();
     }
 
+    @Override
+    public String toString() {
+        return "EnvironmentManager{" +
+                "controller=" + controller +
+                '}';
+    }
+
     private EnvironmentManager() {
         this.controller = this.createDefaultController();
-
         ServerLifecycleEvents.SERVER_STARTING.register(
                 server -> {
-                    this.addController(EnvironmentControllerInitializeEvent.EVENT.invoker()::decorateController);
+                    Thermoo.LOGGER.info("Initializing environment controller...");
+                    EnvironmentManager.INSTANCE
+                            .addController(
+                                    EnvironmentControllerInitializeEvent.EVENT.invoker()::decorateController
+                            );
                 }
         );
         ServerLifecycleEvents.SERVER_STOPPING.register(
                 server -> {
+                    Thermoo.LOGGER.info("Resetting environment controller...");
                     this.controller = this.createDefaultController();
                 }
         );

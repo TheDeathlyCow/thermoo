@@ -63,4 +63,12 @@ public final class EmptyEnvironmentController implements EnvironmentController {
     public boolean isAreaHeated(World world, BlockPos pos) {
         return false;
     }
+
+    /**
+     * @return Returns the name of the class as the string representation
+     */
+    @Override
+    public String toString() {
+        return this.getClass().getName();
+    }
 }

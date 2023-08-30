@@ -36,8 +36,8 @@ public class EnvironmentControllerInitializeEvent {
      * <p>
      * The event runs in phases which are ordered as follows:
      * <ol>
-     *     <li>{@link Event#DEFAULT_PHASE}: Earliest phase, sets the initial values for the event.</li>
-     *     <li>{@link #MODIFY_PHASE}: Modifies base values (such as percentage increases).</li>
+     *     <li>{@link Event#DEFAULT_PHASE}: Earliest phase, sets the initial values for the controller.</li>
+     *     <li>{@link #MODIFY_PHASE}: Modifies controller initial values (such as percentage increases).</li>
      *     <li>{@link #OVERRIDE_PHASE}: Force override values. Used if you really want to specifically disable something or set a new value. Should never rely on base values.</li>
      *     <li>{@link #LISTENER_PHASE}: Listener phase. Occurs last, but should not write any new values, just read and return base values.</li>
      * </ol>

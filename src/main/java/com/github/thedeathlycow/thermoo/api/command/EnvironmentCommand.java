@@ -1,6 +1,7 @@
 package com.github.thedeathlycow.thermoo.api.command;
 
 import com.github.thedeathlycow.thermoo.api.temperature.EnvironmentManager;
+import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import net.minecraft.command.argument.BlockPosArgumentType;
 import net.minecraft.command.argument.EntityArgumentType;
@@ -87,7 +88,13 @@ public class EnvironmentCommand {
     }
 
     private static int printController(ServerCommandSource source) {
-        source.sendFeedback(() -> Text.literal(EnvironmentManager.INSTANCE.getController().toString()), false);
+        String controller = EnvironmentManager.INSTANCE.getController().toString();
+
+        source.sendFeedback(() -> Text.translatableWithFallback(
+                "commands.thermoo.environment.printcontroller.success",
+                "Controller logged to console"
+        ), false);
+        Thermoo.LOGGER.info("The current controller is: {}", controller);
         return 0;
     }
 
