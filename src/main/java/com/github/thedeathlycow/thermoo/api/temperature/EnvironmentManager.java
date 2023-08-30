@@ -2,6 +2,7 @@ package com.github.thedeathlycow.thermoo.api.temperature;
 
 import com.github.thedeathlycow.thermoo.api.temperature.event.EnvironmentControllerInitializeEvent;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Function;
@@ -16,10 +17,14 @@ public final class EnvironmentManager {
      */
     public static final EnvironmentManager INSTANCE = new EnvironmentManager();
 
+    @NotNull
     private EnvironmentController controller;
 
     /**
-     * @return Returns the current default {@link EnvironmentController} used by Thermoo events
+     * Gets the currently configured environment controller. Note that the controller is reset on server stop/start.
+     * By default, the controller is an instance of {@link EmptyEnvironmentController}.
+     *
+     * @return Returns the current environment controller used by Thermoo.
      */
     @NotNull
     public EnvironmentController getController() {
@@ -27,7 +32,12 @@ public final class EnvironmentManager {
     }
 
     /**
-     * Appends an additional environment controller decorator to the existing environment controller
+     * Appends an additional environment controller decorator to the existing environment controller.
+     * <p>
+     * Note that this controller will be removed on server stop, and then reinitialized with {@link EnvironmentControllerInitializeEvent}.
+     * It is therefore preferred for mods to add their decorators via that event rather than through direct access to this method.
+     * <p>
+     * This method is left public primarily for testing/mocking purposes, and should not be used normally.
      *
      * @param decorator The controller decorator constructor
      */
@@ -52,17 +62,27 @@ public final class EnvironmentManager {
         return old;
     }
 
-    private void resetController() {
-        this.controller = new EmptyEnvironmentController();
+    /**
+     * Factory method for creating a default controller instance
+     *
+     * @return Returns a new instance of the default controller
+     */
+    @Contract("->new")
+    private EnvironmentController createDefaultController() {
+        return new EmptyEnvironmentController();
     }
 
     private EnvironmentManager() {
-        this.resetController();
+        this.controller = this.createDefaultController();
 
         ServerLifecycleEvents.SERVER_STARTING.register(
                 server -> {
-                    this.resetController();
                     this.addController(EnvironmentControllerInitializeEvent.EVENT.invoker()::decorateController);
+                }
+        );
+        ServerLifecycleEvents.SERVER_STOPPING.register(
+                server -> {
+                    this.controller = this.createDefaultController();
                 }
         );
     }

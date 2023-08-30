@@ -3,16 +3,20 @@ package com.github.thedeathlycow.thermoo.mixin;
 import com.github.thedeathlycow.thermoo.api.temperature.EnvironmentManager;
 import com.github.thedeathlycow.thermoo.api.temperature.HeatingModes;
 import com.github.thedeathlycow.thermoo.api.temperature.event.PlayerEnvironmentEvents;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(PlayerEntity.class)
-public class PlayerTemperatureTickMixin {
+public abstract class PlayerTemperatureTickMixin {
+
+    @Shadow protected abstract void collideWithEntity(Entity entity);
 
     @Inject(
             method = "tick",
@@ -41,6 +45,7 @@ public class PlayerTemperatureTickMixin {
                         .canApplyChange(temperatureChange, player);
 
         if (canApplyChange) {
+            temperatureChange = controller.getEnvironmentTemperatureForPlayer(player, temperatureChange);
             player.thermoo$addTemperature(temperatureChange, HeatingModes.PASSIVE);
         }
 

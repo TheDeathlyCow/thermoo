@@ -2,18 +2,30 @@ package com.github.thedeathlycow.thermoo.api.temperature;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Decorator for the {@link EnvironmentController}, to be extended by clients for the purpose of adding or replacing
+ * Decorator for the {@link EnvironmentController}, to be extended by other mods for the purpose of adding or replacing
  * functionality from the default environment controller.
+ * <p>
+ * Every method by default delegates to the base {@link #controller}
  */
 public abstract non-sealed class EnvironmentControllerDecorator implements EnvironmentController {
 
+    /**
+     * The base controller to decorate with new functionality. This field may never be {@code null}
+     */
+    @NotNull
     protected final EnvironmentController controller;
 
+    /**
+     * Constructs a decorator out of a base controller
+     *
+     * @param controller The base {@link #controller}
+     */
     protected EnvironmentControllerDecorator(EnvironmentController controller) {
 
         if (controller == null) {
@@ -23,6 +35,11 @@ public abstract non-sealed class EnvironmentControllerDecorator implements Envir
         this.controller = controller;
     }
 
+    /**
+     * Getter for the base controller
+     *
+     * @return Returns the decorated base controller
+     */
     @Override
     @NotNull
     public final EnvironmentController getDecorated() {
@@ -32,6 +49,11 @@ public abstract non-sealed class EnvironmentControllerDecorator implements Envir
     @Override
     public int getLocalTemperatureChange(World world, BlockPos pos) {
         return controller.getLocalTemperatureChange(world, pos);
+    }
+
+    @Override
+    public int getEnvironmentTemperatureForPlayer(PlayerEntity player, int localTemperature) {
+        return controller.getEnvironmentTemperatureForPlayer(player, localTemperature);
     }
 
     @Override

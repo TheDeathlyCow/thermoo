@@ -2,9 +2,11 @@ package com.github.thedeathlycow.thermoo.api.temperature;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
+import oshi.annotation.concurrent.Immutable;
 
 /**
  * Implements computations for various passive environmental effects, such as passive freezing/warming from biomes,
@@ -12,11 +14,13 @@ import org.jetbrains.annotations.Nullable;
  * <p>
  * The default implementation is provided by {@link EmptyEnvironmentController} which sets all values to either 0, false,
  * or null by default. However, if you wish you may extend (or even replace!) the functionality of the default controller
- * by use of the {@link EnvironmentControllerDecorator}
+ * by use of the {@link EnvironmentControllerDecorator}. It is best to do this through the initialize event in
+ * {@link com.github.thedeathlycow.thermoo.api.temperature.event.EnvironmentControllerInitializeEvent}
  *
  * @see EnvironmentControllerDecorator
  * @see EmptyEnvironmentController
  */
+@Immutable
 public sealed interface EnvironmentController permits EnvironmentControllerDecorator, EmptyEnvironmentController {
 
     /**
@@ -32,13 +36,23 @@ public sealed interface EnvironmentController permits EnvironmentControllerDecor
     }
 
     /**
-     * Computes the local temperature change at a given position in a world.
+     * Computes the local temperature change from the environment at a given position in a world.
      *
      * @param world The world
      * @param pos   The position in that world
      * @return The passive temperature change at {@code pos} in {@code world}.
      */
     int getLocalTemperatureChange(World world, BlockPos pos);
+
+    /**
+     * Computes the environmental temperature change for a player, based on a local temperature computed from
+     * {@link #getLocalTemperatureChange(World, BlockPos)}
+     *
+     * @param player           The player to compute the temperature change for
+     * @param localTemperature The base local temperature
+     * @return Returns the passive environmental temperature change for the player this tick
+     */
+    int getEnvironmentTemperatureForPlayer(PlayerEntity player, int localTemperature);
 
     /**
      * Computes temperature changes for {@link LivingEntity}s from heat effects. For example, being on fire or freezing
