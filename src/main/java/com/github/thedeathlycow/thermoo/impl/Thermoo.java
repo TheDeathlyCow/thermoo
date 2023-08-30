@@ -4,14 +4,9 @@ import com.github.thedeathlycow.thermoo.api.command.EnvironmentCommand;
 import com.github.thedeathlycow.thermoo.api.command.HeatingModeArgumentType;
 import com.github.thedeathlycow.thermoo.api.command.TemperatureCommand;
 import com.github.thedeathlycow.thermoo.api.temperature.EnvironmentManager;
-import com.github.thedeathlycow.thermoo.api.temperature.event.EnvironmentControllerInitializeEvent;
-import com.github.thedeathlycow.thermoo.impl.config.ThermooConfig;
-import me.shedaniel.autoconfig.AutoConfig;
-import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.ArgumentTypeRegistry;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.command.argument.serialize.ConstantArgumentSerializer;
 import net.minecraft.resource.ResourceType;
@@ -29,8 +24,6 @@ public class Thermoo implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        AutoConfig.register(ThermooConfig.class, GsonConfigSerializer::new);
-        ThermooConfig.updateConfig(AutoConfig.getConfigHolder(ThermooConfig.class));
 
         ArgumentTypeRegistry.registerArgumentType(
                 Thermoo.id("heating_mode"),
@@ -55,12 +48,8 @@ public class Thermoo implements ModInitializer {
         LOGGER.info("Thermoo initialized");
     }
 
-    public static ThermooConfig getConfig() {
-        return AutoConfig.getConfigHolder(ThermooConfig.class).getConfig();
-    }
-
     /**
-     * Creates a new {@link Identifier} under the namespace {@value MODID}
+     * Creates a new {@link Identifier} under the namespace {@value #MODID}
      *
      * @param path The identifier path
      * @return Returns a new {@link Identifier}

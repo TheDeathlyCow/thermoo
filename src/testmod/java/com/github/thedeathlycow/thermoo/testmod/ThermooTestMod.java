@@ -3,13 +3,14 @@ package com.github.thedeathlycow.thermoo.testmod;
 import com.github.thedeathlycow.thermoo.api.temperature.event.EnvironmentControllerInitializeEvent;
 import com.github.thedeathlycow.thermoo.api.temperature.event.PlayerEnvironmentEvents;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
+import com.github.thedeathlycow.thermoo.testmod.config.ThermooConfig;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
 import net.minecraft.world.GameRules;
 
 public class ThermooTestMod implements ModInitializer {
+
 
     /**
      * Gamerule to enable/disable passive changes for testing purposes
@@ -21,6 +22,8 @@ public class ThermooTestMod implements ModInitializer {
                     GameRuleFactory.createBooleanRule(true)
             );
 
+    private static final ThermooConfig config = new ThermooConfig();
+
     @Override
     public void onInitialize() {
         PlayerEnvironmentEvents.CAN_APPLY_PASSIVE_TEMPERATURE_CHANGE
@@ -30,5 +33,8 @@ public class ThermooTestMod implements ModInitializer {
         EnvironmentControllerInitializeEvent.EVENT.register(TestmodController::new);
     }
 
+    public static ThermooConfig getConfig() {
+        return config;
+    }
 
 }

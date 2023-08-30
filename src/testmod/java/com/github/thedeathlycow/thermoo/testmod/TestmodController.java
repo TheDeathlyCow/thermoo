@@ -4,7 +4,7 @@ import com.github.thedeathlycow.thermoo.api.temperature.EnvironmentController;
 import com.github.thedeathlycow.thermoo.api.temperature.EnvironmentControllerDecorator;
 import com.github.thedeathlycow.thermoo.api.temperature.Soakable;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
-import com.github.thedeathlycow.thermoo.impl.config.ThermooConfig;
+import com.github.thedeathlycow.thermoo.testmod.config.ThermooConfig;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.LivingEntity;
@@ -36,7 +36,7 @@ public class TestmodController extends EnvironmentControllerDecorator {
                     !biome.hasPrecipitation()
             );
         } else if (world.getDimension().ultrawarm()) {
-            return Thermoo.getConfig().environmentConfig.getUltrawarmWarmRate();
+            return ThermooTestMod.getConfig().environmentConfig.getUltrawarmWarmRate();
         }
         return 0;
     }
@@ -49,7 +49,7 @@ public class TestmodController extends EnvironmentControllerDecorator {
     @Override
     public int getFloorTemperature(BlockState state) {
         if (state.isOf(Blocks.MAGMA_BLOCK)) {
-            ThermooConfig config = Thermoo.getConfig();
+            ThermooConfig config = ThermooTestMod.getConfig();
             return config.environmentConfig.getHotFloorWarmth();
         } else {
             return controller.getFloorTemperature(state);
@@ -60,7 +60,7 @@ public class TestmodController extends EnvironmentControllerDecorator {
     public int getTemperatureEffectsChange(LivingEntity entity) {
 
         int warmth = 0;
-        ThermooConfig config = Thermoo.getConfig();
+        ThermooConfig config = ThermooTestMod.getConfig();
 
         if (entity.isOnFire()) {
             warmth += config.environmentConfig.getOnFireWarmRate();
@@ -84,7 +84,7 @@ public class TestmodController extends EnvironmentControllerDecorator {
 
         boolean isAreaDry = true;
         int soakChange = 0;
-        ThermooConfig config = Thermoo.getConfig();
+        ThermooConfig config = ThermooTestMod.getConfig();
 
 
         // add wetness from rain
@@ -125,7 +125,7 @@ public class TestmodController extends EnvironmentControllerDecorator {
 
     @Override
     public int getHeatAtLocation(World world, BlockPos pos) {
-        ThermooConfig config = Thermoo.getConfig();
+        ThermooConfig config = ThermooTestMod.getConfig();
 
         int lightLevel = world.getLightLevel(LightType.BLOCK, pos);
         int minLightLevel = config.environmentConfig.getMinLightForWarmth();
@@ -145,18 +145,18 @@ public class TestmodController extends EnvironmentControllerDecorator {
 
     @Override
     public boolean isHeatSource(BlockState state) {
-        int minLightForWarmth = Thermoo.getConfig().environmentConfig.getMinLightForWarmth();
+        int minLightForWarmth = ThermooTestMod.getConfig().environmentConfig.getMinLightForWarmth();
         return state.getLuminance() >= minLightForWarmth;
     }
 
     @Override
     public boolean isAreaHeated(World world, BlockPos pos) {
-        int minLightForWarmth = Thermoo.getConfig().environmentConfig.getMinLightForWarmth();
+        int minLightForWarmth = ThermooTestMod.getConfig().environmentConfig.getMinLightForWarmth();
         return world.getLightLevel(LightType.BLOCK, pos) > minLightForWarmth;
     }
 
     private int getTempChangeFromBiomeTemperature(World world, float temperature, boolean isDryBiome) {
-        ThermooConfig config = Thermoo.getConfig();
+        ThermooConfig config = ThermooTestMod.getConfig();
         double mul = config.environmentConfig.getBiomeTemperatureMultiplier();
         double cutoff = config.environmentConfig.getPassiveFreezingCutoffTemp();
 
