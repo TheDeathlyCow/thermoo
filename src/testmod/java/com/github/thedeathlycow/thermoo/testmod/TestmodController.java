@@ -48,8 +48,12 @@ public class TestmodController extends EnvironmentControllerDecorator {
 
     @Override
     public int getFloorTemperature(BlockState state) {
-        ThermooConfig config = Thermoo.getConfig();
-        return config.environmentConfig.getHotFloorWarmth();
+        if (state.isOf(Blocks.MAGMA_BLOCK)) {
+            ThermooConfig config = Thermoo.getConfig();
+            return config.environmentConfig.getHotFloorWarmth();
+        } else {
+            return controller.getFloorTemperature(state);
+        }
     }
 
     @Override
