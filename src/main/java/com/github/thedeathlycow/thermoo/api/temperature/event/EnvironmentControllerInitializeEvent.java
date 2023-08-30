@@ -1,11 +1,11 @@
 package com.github.thedeathlycow.thermoo.api.temperature.event;
 
 import com.github.thedeathlycow.thermoo.api.temperature.EnvironmentController;
+import com.github.thedeathlycow.thermoo.api.temperature.EnvironmentManager;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.util.Identifier;
-import com.github.thedeathlycow.thermoo.api.temperature.EnvironmentManager;
 
 /**
  * Phased event for applying environment controllers in an ordered manner.
