@@ -21,21 +21,28 @@ public final class ThermooAttributes {
     /**
      * The minimum temperature of an entity. By default, this is 0.
      * <p>
-     * Note that this is separate from {@link #MAX_TEMPERATURE}. Each point of this attribute is reduces the minimum
+     * Note that this is separate from {@link #MAX_TEMPERATURE}. Each point of this attribute is decreases the minimum
      * temperature of an entity by 140 points (140 points is the maximum number of freezing ticks that entities may have
      * for powder snow freezing in vanilla).
      * <p>
-     * The default value for all entities is set to 0. To override this default for specific entities, you have two
+     * The default value for all entities is set to 0. To override this default for specific <b>VANILLA</b> entities, you have two
      * choices:
-     * <p>
+     * <ol>
+     * <li>
      * First, you can apply an attribute modifier with {@link com.github.thedeathlycow.thermoo.api.temperature.TemperatureBoundModifiers}.
      * This modifier is applied additively to the base attribute value of this attribute everytime an instance of a given
      * entity type is constructed as an attribute modifier.
-     * <p>
+     * </li>
+     * <li>
      * Alternatively, you can mixin-inject into the {@code createXAttributes()} method. For example, for all living
      * entities you could inject into {@link LivingEntity#createLivingAttributes()}, and for players inject into
      * {@link PlayerEntity#createPlayerAttributes()}. This has the benefit of applying to the base value and does not
      * create extra data for the game to track.
+     * </li>
+     * </ol>
+     * If you are creating your own <b>CUSTOM</b> entity, you should make a {@code createXAttributes()} method that contains
+     * the temperature attribute values and register it with {@link net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry}
+     *
      * @see #MAX_TEMPERATURE
      */
     public static final EntityAttribute MIN_TEMPERATURE = new ClampedEntityAttribute(
@@ -49,17 +56,24 @@ public final class ThermooAttributes {
      * temperature of an entity by 140 points (140 points is the maximum number of freezing ticks that entities may have
      * for powder snow freezing in vanilla).
      * <p>
-     * The default value for all entities is set to 0. To override this default for specific entities, you have two
+     * The default value for all entities is set to 0. To override this default for specific <b>VANILLA</b> entities, you have two
      * choices:
-     * <p>
+     * <ol>
+     * <li>
      * First, you can apply an attribute modifier with {@link com.github.thedeathlycow.thermoo.api.temperature.TemperatureBoundModifiers}.
      * This modifier is applied additively to the base attribute value of this attribute everytime an instance of a given
      * entity type is constructed as an attribute modifier.
-     * <p>
+     * </li>
+     * <li>
      * Alternatively, you can mixin-inject into the {@code createXAttributes()} method. For example, for all living
      * entities you could inject into {@link LivingEntity#createLivingAttributes()}, and for players inject into
      * {@link PlayerEntity#createPlayerAttributes()}. This has the benefit of applying to the base value and does not
      * create extra data for the game to track.
+     * </li>
+     * </ol>
+     * If you are creating your own <b>CUSTOM</b> entity, you should make a {@code createXAttributes()} method that contains
+     * the temperature attribute values and register it with {@link net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry}
+     *
      * @see #MIN_TEMPERATURE
      */
     public static final EntityAttribute MAX_TEMPERATURE = new ClampedEntityAttribute(

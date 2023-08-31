@@ -209,7 +209,7 @@ public abstract class EnvironmentAwareEntityMixin extends Entity implements Temp
                     value
             );
         });
-        boundRegistry.getLowerBoundIncrease(entityType).ifPresent(value -> {
+        boundRegistry.getUpperBoundIncrease(entityType).ifPresent(value -> {
             addTemperatureOverrideModifier(
                     ThermooAttributes.MAX_TEMPERATURE,
                     THERMOO_MAX_TEMPERATURE_OVERRIDE_ID,
