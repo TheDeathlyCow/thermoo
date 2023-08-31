@@ -1,16 +1,13 @@
 package com.github.thedeathlycow.thermoo.api;
 
-import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.ClampedEntityAttribute;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.registry.Registries;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 /**
  * Custom {@link EntityAttribute}s provided by Thermoo
@@ -22,7 +19,7 @@ public final class ThermooAttributes {
 
 
     /**
-     * The minimum temperature of an entity.
+     * The minimum temperature of an entity. By default, this is 0.
      * <p>
      * Note that this is separate from {@link #MAX_TEMPERATURE}. Each point of this attribute is reduces the minimum
      * temperature of an entity by 140 points (140 points is the maximum number of freezing ticks that entities may have
@@ -46,7 +43,7 @@ public final class ThermooAttributes {
     ).setTracked(false);
 
     /**
-     * The maximum temperature of an entity.
+     * The maximum temperature of an entity. By default, this is 0.
      * <p>
      * Note that this is separate from {@link #MIN_TEMPERATURE}. Each point of this attribute is increases the maximum
      * temperature of an entity by 140 points (140 points is the maximum number of freezing ticks that entities may have
@@ -71,6 +68,8 @@ public final class ThermooAttributes {
 
     /**
      * The cold resistance of an entity. 1 point of frost resistance corresponds to a 10% cold reduction
+     *
+     * @see #HEAT_RESISTANCE
      */
     public static final EntityAttribute FROST_RESISTANCE = new ClampedEntityAttribute(
             "attribute.thermoo.generic.frost_resistance", 0.0, -10.0, 10.0
@@ -78,6 +77,8 @@ public final class ThermooAttributes {
 
     /**
      * The heat resistance of an entity. 1 point of heat resistance corresponds to a 10% heat reduction
+     *
+     * @see #FROST_RESISTANCE
      */
     public static final EntityAttribute HEAT_RESISTANCE = new ClampedEntityAttribute(
             "attribute.thermoo.generic.heat_resistance", 0.0, -10.0, 10.0
