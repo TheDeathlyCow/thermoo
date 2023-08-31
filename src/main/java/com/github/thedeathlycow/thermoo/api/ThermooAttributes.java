@@ -1,7 +1,16 @@
 package com.github.thedeathlycow.thermoo.api;
 
+import com.github.thedeathlycow.thermoo.impl.Thermoo;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.ClampedEntityAttribute;
 import net.minecraft.entity.attribute.EntityAttribute;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.registry.Registries;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 /**
  * Custom {@link EntityAttribute}s provided by Thermoo
@@ -9,15 +18,52 @@ import net.minecraft.entity.attribute.EntityAttribute;
 public final class ThermooAttributes {
 
 
+    private static final Map<EntityType<?>, Object> TEMPERATURE_BOUNDS = new HashMap<>();
+
+
     /**
-     * The minimum temperature of an entity
+     * The minimum temperature of an entity.
+     * <p>
+     * Note that this is separate from {@link #MAX_TEMPERATURE}. Each point of this attribute is reduces the minimum
+     * temperature of an entity by 140 points (140 points is the maximum number of freezing ticks that entities may have
+     * for powder snow freezing in vanilla).
+     * <p>
+     * The default value for all entities is set to 0. To override this default for specific entities, you have two
+     * choices:
+     * <p>
+     * First, you can apply an attribute modifier with {@link com.github.thedeathlycow.thermoo.api.temperature.TemperatureBoundModifiers}.
+     * This modifier is applied additively to the base attribute value of this attribute everytime an instance of a given
+     * entity type is constructed as an attribute modifier.
+     * <p>
+     * Alternatively, you can mixin-inject into the {@code createXAttributes()} method. For example, for all living
+     * entities you could inject into {@link LivingEntity#createLivingAttributes()}, and for players inject into
+     * {@link PlayerEntity#createPlayerAttributes()}. This has the benefit of applying to the base value and does not
+     * create extra data for the game to track.
+     * @see #MAX_TEMPERATURE
      */
     public static final EntityAttribute MIN_TEMPERATURE = new ClampedEntityAttribute(
             "attribute.thermoo.generic.min_temperature", 0.0, 0.0, 8192
     ).setTracked(false);
 
     /**
-     * The maximum temperature of an entity
+     * The maximum temperature of an entity.
+     * <p>
+     * Note that this is separate from {@link #MIN_TEMPERATURE}. Each point of this attribute is increases the maximum
+     * temperature of an entity by 140 points (140 points is the maximum number of freezing ticks that entities may have
+     * for powder snow freezing in vanilla).
+     * <p>
+     * The default value for all entities is set to 0. To override this default for specific entities, you have two
+     * choices:
+     * <p>
+     * First, you can apply an attribute modifier with {@link com.github.thedeathlycow.thermoo.api.temperature.TemperatureBoundModifiers}.
+     * This modifier is applied additively to the base attribute value of this attribute everytime an instance of a given
+     * entity type is constructed as an attribute modifier.
+     * <p>
+     * Alternatively, you can mixin-inject into the {@code createXAttributes()} method. For example, for all living
+     * entities you could inject into {@link LivingEntity#createLivingAttributes()}, and for players inject into
+     * {@link PlayerEntity#createPlayerAttributes()}. This has the benefit of applying to the base value and does not
+     * create extra data for the game to track.
+     * @see #MIN_TEMPERATURE
      */
     public static final EntityAttribute MAX_TEMPERATURE = new ClampedEntityAttribute(
             "attribute.thermoo.generic.max_temperature", 0.0, 0.0, 8192
@@ -36,5 +82,4 @@ public final class ThermooAttributes {
     public static final EntityAttribute HEAT_RESISTANCE = new ClampedEntityAttribute(
             "attribute.thermoo.generic.heat_resistance", 0.0, -10.0, 10.0
     ).setTracked(false);
-
 }
