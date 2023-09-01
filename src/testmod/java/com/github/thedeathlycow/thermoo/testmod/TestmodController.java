@@ -1,5 +1,6 @@
 package com.github.thedeathlycow.thermoo.testmod;
 
+import com.github.thedeathlycow.thermoo.api.ThermooAttributes;
 import com.github.thedeathlycow.thermoo.api.temperature.EnvironmentController;
 import com.github.thedeathlycow.thermoo.api.temperature.EnvironmentControllerDecorator;
 import com.github.thedeathlycow.thermoo.api.temperature.Soakable;
@@ -7,6 +8,7 @@ import com.github.thedeathlycow.thermoo.testmod.config.ThermooConfig;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -22,6 +24,21 @@ public class TestmodController extends EnvironmentControllerDecorator {
      */
     public TestmodController(EnvironmentController controller) {
         super(controller);
+    }
+
+    @Override
+    public double getBaseValueForAttribute(EntityAttribute attribute, LivingEntity entity) {
+        double base = controller.getBaseValueForAttribute(attribute, entity);
+
+        if (base != 0) {
+            return base;
+        }
+
+        if (attribute == ThermooAttributes.MIN_TEMPERATURE) {
+            return 40.0;
+        }
+
+        return base;
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.github.thedeathlycow.thermoo.api.temperature;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -44,6 +45,11 @@ public abstract non-sealed class EnvironmentControllerDecorator implements Envir
     @NotNull
     public final EnvironmentController getDecorated() {
         return this.controller;
+    }
+
+    @Override
+    public double getBaseValueForAttribute(EntityAttribute attribute, LivingEntity entity) {
+        return controller.getBaseValueForAttribute(attribute, entity);
     }
 
     @Override

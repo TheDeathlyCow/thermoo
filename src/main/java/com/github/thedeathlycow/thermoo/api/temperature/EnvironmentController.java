@@ -2,6 +2,7 @@ package com.github.thedeathlycow.thermoo.api.temperature;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -34,6 +35,17 @@ public sealed interface EnvironmentController permits EnvironmentControllerDecor
     default EnvironmentController getDecorated() {
         return null;
     }
+
+    /**
+     * Gets the base value for one of the {@link com.github.thedeathlycow.thermoo.api.ThermooAttributes}. If the return of
+     * this method is non-zero, then this value will be applied as an attribute modifier to the {@code entity} when the
+     * entity is created, with the addition operation. This method is called for each of the Thermoo attributes.
+     *
+     * @param attribute The attribute to get the base value for. Strictly the attributes in {@link com.github.thedeathlycow.thermoo.api.ThermooAttributes}.
+     * @param entity    The entity to apply the attribute to.
+     * @return Returns the base value for the attribute to apply to the entity.
+     */
+    double getBaseValueForAttribute(EntityAttribute attribute, LivingEntity entity);
 
     /**
      * Computes the local temperature change from the environment at a given position in a world.

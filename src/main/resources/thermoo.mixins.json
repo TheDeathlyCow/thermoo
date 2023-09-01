@@ -1,19 +1,20 @@
 {
-	"required": true,
-	"minVersion": "0.8",
-	"package": "com.github.thedeathlycow.thermoo.mixin",
-	"compatibilityLevel": "JAVA_17",
-	"mixins": [
-		"EntityPredicateMixin",
-		"EnvironmentAwareEntityMixin",
-		"HotFloorMixin",
-		"LivingEntityEnvironmentTickMixin",
-		"PlayerTemperatureTickMixin",
-		"TemperatureEffectTickerMixin"
-	],
-	"client": [
-	],
-	"injectors": {
-		"defaultRequire": 1
+    "required": true,
+    "minVersion": "0.8",
+    "package": "com.github.thedeathlycow.thermoo.mixin",
+    "compatibilityLevel": "JAVA_17",
+    "mixins": [
+        "EntityPredicateMixin",
+        "EnvironmentAwareEntityMixin",
+        "HotFloorMixin",
+        "LivingEntityAttributeMixin",
+        "LivingEntityEnvironmentTickMixin",
+        "PlayerTemperatureTickMixin",
+        "TemperatureEffectTickerMixin"
+    ],
+    "client": [
+    ],
+    "injectors": {
+        "defaultRequire": 1
 	}
 }

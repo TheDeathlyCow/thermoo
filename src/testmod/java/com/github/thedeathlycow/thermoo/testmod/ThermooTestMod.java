@@ -1,6 +1,5 @@
 package com.github.thedeathlycow.thermoo.testmod;
 
-import com.github.thedeathlycow.thermoo.api.temperature.TemperatureBoundModifiers;
 import com.github.thedeathlycow.thermoo.api.temperature.event.EnvironmentControllerInitializeEvent;
 import com.github.thedeathlycow.thermoo.api.temperature.event.PlayerEnvironmentEvents;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
@@ -8,7 +7,6 @@ import com.github.thedeathlycow.thermoo.testmod.config.ThermooConfig;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
-import net.minecraft.entity.EntityType;
 import net.minecraft.world.GameRules;
 
 public class ThermooTestMod implements ModInitializer {
@@ -33,9 +31,6 @@ public class ThermooTestMod implements ModInitializer {
                         (change, player) -> player.getWorld().getGameRules().getBoolean(APPLY_PASSIVE_CHANGES)
                 );
         EnvironmentControllerInitializeEvent.EVENT.register(TestmodController::new);
-
-        TemperatureBoundModifiers.getInstance()
-                .setBounds(EntityType.PLAYER, 45, 45);
     }
 
     public static ThermooConfig getConfig() {

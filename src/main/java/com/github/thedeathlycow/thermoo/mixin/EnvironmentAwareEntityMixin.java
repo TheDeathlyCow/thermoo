@@ -5,7 +5,6 @@ import com.github.thedeathlycow.thermoo.api.ThermooTags;
 import com.github.thedeathlycow.thermoo.api.temperature.HeatingMode;
 import com.github.thedeathlycow.thermoo.api.temperature.Soakable;
 import com.github.thedeathlycow.thermoo.api.temperature.TemperatureAware;
-import com.github.thedeathlycow.thermoo.api.temperature.TemperatureBoundModifiers;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -21,6 +20,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -194,31 +194,6 @@ public abstract class EnvironmentAwareEntityMixin extends Entity implements Temp
         this.dataTracker.startTracking(THERMOO_WETNESS, 0);
     }
 
-    @Inject(
-            method = "<init>",
-            at = @At("TAIL")
-    )
-    private void addOverrideBoundsModifiers(EntityType<? extends LivingEntity> entityType, World world, CallbackInfo ci) {
-
-        var boundRegistry = TemperatureBoundModifiers.getInstance();
-        boundRegistry.getLowerBoundIncrease(entityType).ifPresent(value -> {
-            addTemperatureOverrideModifier(
-                    ThermooAttributes.MIN_TEMPERATURE,
-                    THERMOO_MIN_TEMPERATURE_OVERRIDE_ID,
-                    "Base minimum temperature modifier",
-                    value
-            );
-        });
-        boundRegistry.getUpperBoundIncrease(entityType).ifPresent(value -> {
-            addTemperatureOverrideModifier(
-                    ThermooAttributes.MAX_TEMPERATURE,
-                    THERMOO_MAX_TEMPERATURE_OVERRIDE_ID,
-                    "Base maximum temperature modifier",
-                    value
-            );
-        });
-    }
-
     private void addTemperatureOverrideModifier(EntityAttribute attribute, UUID id, String name, double value) {
         EntityAttributeInstance temperature = this.getAttributeInstance(attribute);
         var modifier = new EntityAttributeModifier(
@@ -240,8 +215,6 @@ public abstract class EnvironmentAwareEntityMixin extends Entity implements Temp
         DefaultAttributeContainer.Builder builder = cir.getReturnValue();
 
         // register attributes to living entities
-        Thermoo.LOGGER.info("Current class lookup: {}", MethodHandles.lookup().lookupClass().getSimpleName());
-
         builder.add(ThermooAttributes.MIN_TEMPERATURE);
         builder.add(ThermooAttributes.MAX_TEMPERATURE);
         builder.add(ThermooAttributes.FROST_RESISTANCE);
