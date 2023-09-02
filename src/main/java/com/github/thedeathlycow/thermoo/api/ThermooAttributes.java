@@ -66,6 +66,6 @@ public final class ThermooAttributes {
     ).setTracked(false);
 
     private ThermooAttributes() {
-        
+
     }
 }
