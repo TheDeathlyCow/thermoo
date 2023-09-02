@@ -85,9 +85,9 @@ public sealed interface EnvironmentController permits EnvironmentControllerDecor
      * You can also use this for blocks that are cold to step on.
      *
      * @param entity The entity that is stepping on the given {@code state}
-     * @param world
-     * @param state  The state of the floor.
-     * @param pos
+     * @param world  The world/level where the floor is located
+     * @param state  The state of the floor. This is exactly the state at the {@code pos} in the {@code world}
+     * @param pos    The position of the world in the world
      * @return Returns the heat to apply each tick to entities standing on the block state
      */
     int getFloorTemperature(LivingEntity entity, World world, BlockState state, BlockPos pos);
