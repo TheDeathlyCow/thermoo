@@ -47,9 +47,6 @@ public abstract class EnvironmentAwareEntityMixin extends Entity implements Temp
     @Shadow
     public abstract boolean hasStatusEffect(StatusEffect effect);
 
-    private static final UUID THERMOO_MIN_TEMPERATURE_OVERRIDE_ID = UUID.fromString("f68aeafc-2d30-446a-8930-57404eb308a2");
-    private static final UUID THERMOO_MAX_TEMPERATURE_OVERRIDE_ID = UUID.fromString("45a74c0c-1696-4cd9-b849-2b82e174f82d");
-
     @Unique
     private static final TrackedData<Integer> THERMOO_TEMPERATURE = DataTracker.registerData(
             EnvironmentAwareEntityMixin.class,

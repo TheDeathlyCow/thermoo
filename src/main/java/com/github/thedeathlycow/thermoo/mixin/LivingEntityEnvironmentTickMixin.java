@@ -4,6 +4,7 @@ import com.github.thedeathlycow.thermoo.api.temperature.EnvironmentController;
 import com.github.thedeathlycow.thermoo.api.temperature.EnvironmentManager;
 import com.github.thedeathlycow.thermoo.api.temperature.HeatingModes;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -22,11 +23,11 @@ public abstract class LivingEntityEnvironmentTickMixin {
                     shift = At.Shift.AFTER
             )
     )
-    private void onTick(CallbackInfo ci) {
+    private void temperatureTick(CallbackInfo ci) {
         LivingEntity entity = (LivingEntity) (Object) this;
         World world = entity.getWorld();
 
-        if (world.isClient() || entity.isSpectator() || entity.isDead()) {
+        if (world.isClient() || entity.isSpectator() || entity.isDead() || entity.isRemoved()) {
             return;
         }
 
@@ -35,7 +36,7 @@ public abstract class LivingEntityEnvironmentTickMixin {
         int tempChange;
 
         // tick area heat sources
-        tempChange = controller.getHeatAtLocation(world, entity.getBlockPos());
+        tempChange = controller.getHeatAtLocation(world, entity.getRootVehicle().getBlockPos());
         if (tempChange != 0) {
             entity.thermoo$addTemperature(tempChange, HeatingModes.PASSIVE);
         }
