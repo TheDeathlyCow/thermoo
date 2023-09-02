@@ -1,9 +1,7 @@
 package com.github.thedeathlycow.thermoo.api.temperature.effects;
 
 import com.github.thedeathlycow.thermoo.api.temperature.TemperatureAware;
-import com.google.common.math.DoubleMath;
 import com.google.gson.*;
-import com.ibm.icu.number.Precision;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeInstance;
@@ -12,7 +10,6 @@ import net.minecraft.registry.Registries;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
 
-import java.util.Objects;
 import java.util.UUID;
 
 /**

@@ -31,11 +31,6 @@ public class ThermooTags {
      */
     public static final TagKey<EntityType<?>> HEAT_IMMUNE_ENTITY_TYPE = createEntityTypeTag("heat_immune");
 
-    /**
-     * Blocks that are hot to step on
-     */
-    public static final TagKey<Block> HOT_FLOOR = createBlockTag("hot_floor");
-
     private static TagKey<EntityType<?>> createEntityTypeTag(String path) {
         return TagKey.of(RegistryKeys.ENTITY_TYPE, Thermoo.id(path));
     }
@@ -44,4 +39,6 @@ public class ThermooTags {
         return TagKey.of(RegistryKeys.BLOCK, Thermoo.id(path));
     }
 
+    private ThermooTags() {
+    }
 }

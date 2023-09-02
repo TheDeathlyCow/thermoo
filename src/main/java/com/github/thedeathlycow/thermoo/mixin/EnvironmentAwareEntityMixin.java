@@ -10,6 +10,8 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttribute;
+import net.minecraft.entity.attribute.EntityAttributeInstance;
+import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
@@ -28,11 +30,16 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import java.util.UUID;
+
 @Mixin(LivingEntity.class)
 public abstract class EnvironmentAwareEntityMixin extends Entity implements TemperatureAware, Soakable {
 
     @Shadow
     public abstract double getAttributeValue(EntityAttribute attribute);
+
+    @Shadow
+    public abstract EntityAttributeInstance getAttributeInstance(EntityAttribute attribute);
 
     @Shadow
     public abstract boolean canBreatheInWater();
@@ -165,9 +172,8 @@ public abstract class EnvironmentAwareEntityMixin extends Entity implements Temp
 
         // do not add temperature if immune
         boolean isFreezing = temperatureChange < 0;
-        if (isFreezing && !this.thermoo$canFreeze()) {
-            return;
-        } else if (!isFreezing && !this.thermoo$canOverheat()) {
+
+        if ((isFreezing && !this.thermoo$canFreeze()) || (!isFreezing && !this.thermoo$canOverheat())) {
             return;
         }
 
@@ -185,15 +191,29 @@ public abstract class EnvironmentAwareEntityMixin extends Entity implements Temp
         this.dataTracker.startTracking(THERMOO_WETNESS, 0);
     }
 
+    private void addTemperatureOverrideModifier(EntityAttribute attribute, UUID id, String name, double value) {
+        EntityAttributeInstance temperature = this.getAttributeInstance(attribute);
+        var modifier = new EntityAttributeModifier(
+                id,
+                name,
+                value,
+                EntityAttributeModifier.Operation.ADDITION
+        );
+        if (!temperature.hasModifier(modifier)) {
+            temperature.addPersistentModifier(modifier);
+        }
+    }
+
     @Inject(
             method = "createLivingAttributes",
             at = @At("TAIL")
     )
     private static void addThermooAttributesToLivingEntities(CallbackInfoReturnable<DefaultAttributeContainer.Builder> cir) {
         DefaultAttributeContainer.Builder builder = cir.getReturnValue();
+
         // register attributes to living entities
-        builder.add(ThermooAttributes.MAX_TEMPERATURE);
         builder.add(ThermooAttributes.MIN_TEMPERATURE);
+        builder.add(ThermooAttributes.MAX_TEMPERATURE);
         builder.add(ThermooAttributes.FROST_RESISTANCE);
         builder.add(ThermooAttributes.HEAT_RESISTANCE);
     }

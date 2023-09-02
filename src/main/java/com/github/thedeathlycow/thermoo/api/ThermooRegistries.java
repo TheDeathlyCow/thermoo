@@ -19,11 +19,6 @@ public final class ThermooRegistries {
                     ThermooRegistryKeys.TEMPERATURE_EFFECT
             ).buildAndRegister();
 
-    @SuppressWarnings("unchecked")
-    private static <T> Class<T> castClass(Class<?> clazz) {
-        return (Class<T>) clazz;
-    }
-
     private ThermooRegistries() {
 
     }

@@ -1,23 +1,45 @@
-package com.github.thedeathlycow.thermoo.api.temperature;
+package com.github.thedeathlycow.thermoo.testmod;
 
-import com.github.thedeathlycow.thermoo.impl.Thermoo;
-import com.github.thedeathlycow.thermoo.impl.config.ThermooConfig;
-import com.github.thedeathlycow.thermoo.mixin.EntityInvoker;
+import com.github.thedeathlycow.thermoo.api.ThermooAttributes;
+import com.github.thedeathlycow.thermoo.api.temperature.EnvironmentController;
+import com.github.thedeathlycow.thermoo.api.temperature.EnvironmentControllerDecorator;
+import com.github.thedeathlycow.thermoo.api.temperature.Soakable;
+import com.github.thedeathlycow.thermoo.testmod.config.ThermooConfig;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.attribute.EntityAttribute;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.LightType;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 
-/**
- * The default implementation of the environment controller used by Thermoo. All values are
- * based on config values set in {@code thermoo.json}. Mods wishing to extend this controller may do so through the
- * {@link EnvironmentControllerDecorator}
- */
-public final class DefaultEnvironmentController implements EnvironmentController {
+public class TestmodController extends EnvironmentControllerDecorator {
+    /**
+     * Constructs a decorator out of a base controller
+     *
+     * @param controller The base {@link #controller}
+     */
+    public TestmodController(EnvironmentController controller) {
+        super(controller);
+    }
+
+    @Override
+    public double getBaseValueForAttribute(EntityAttribute attribute, LivingEntity entity) {
+        double base = controller.getBaseValueForAttribute(attribute, entity);
+
+        if (base != 0) {
+            return base;
+        }
+
+        if (attribute == ThermooAttributes.MIN_TEMPERATURE) {
+            return 40.0;
+        }
+
+        return base;
+    }
 
     @Override
     public int getLocalTemperatureChange(World world, BlockPos pos) {
@@ -30,34 +52,35 @@ public final class DefaultEnvironmentController implements EnvironmentController
                     !biome.hasPrecipitation()
             );
         } else if (world.getDimension().ultrawarm()) {
-            return Thermoo.getConfig().environmentConfig.getUltrawarmWarmRate();
+            return ThermooTestMod.getConfig().environmentConfig.getUltrawarmWarmRate();
         }
         return 0;
     }
 
     @Override
-    public int getHotFloorWarmth(BlockState state) {
-        ThermooConfig config = Thermoo.getConfig();
-        return config.environmentConfig.getHotFloorWarmth();
+    public int getEnvironmentTemperatureForPlayer(PlayerEntity player, int localTemperature) {
+        return localTemperature;
     }
 
     @Override
-    public int getOnFireWarmthRate(LivingEntity entity) {
+    public int getFloorTemperature(LivingEntity entity, World world, BlockState state, BlockPos pos) {
+        if (state.isOf(Blocks.MAGMA_BLOCK)) {
+            ThermooConfig config = ThermooTestMod.getConfig();
+            return config.environmentConfig.getHotFloorWarmth();
+        } else {
+            return controller.getFloorTemperature(entity, world, state, pos);
+        }
+    }
+
+    @Override
+    public int getTemperatureEffectsChange(LivingEntity entity) {
 
         int warmth = 0;
-        ThermooConfig config = Thermoo.getConfig();
+        ThermooConfig config = ThermooTestMod.getConfig();
 
         if (entity.isOnFire()) {
             warmth += config.environmentConfig.getOnFireWarmRate();
         }
-
-        return warmth;
-    }
-
-    @Override
-    public int getPowderSnowFreezeRate(LivingEntity entity) {
-        int warmth = 0;
-        ThermooConfig config = Thermoo.getConfig();
 
         if (entity.wasInPowderSnow) {
             warmth -= config.environmentConfig.getPowderSnowFreezeRate();
@@ -68,20 +91,23 @@ public final class DefaultEnvironmentController implements EnvironmentController
 
 
     @Override
-    public int getSoakChange(LivingEntity entity) {
+    public int getSoakChange(Soakable soakable) {
 
-        EntityInvoker invoker = (EntityInvoker) entity;
+        if (!(soakable instanceof LivingEntity entity)) {
+            return controller.getSoakChange(soakable);
+        }
+
 
         boolean isAreaDry = true;
         int soakChange = 0;
-        ThermooConfig config = Thermoo.getConfig();
+        ThermooConfig config = ThermooTestMod.getConfig();
 
 
         // add wetness from rain
-        if (invoker.thermoo$invokeIsBeingRainedOn()) {
-            soakChange += config.environmentConfig.getRainWetnessIncrease();
-            isAreaDry = false;
-        }
+//        if (entity.thermoo$invokeIsBeingRainedOn()) {
+//            soakChange += config.environmentConfig.getRainWetnessIncrease();
+//            isAreaDry = false;
+//        }
 
         // add wetness when touching, but not submerged in, water
         if (entity.isTouchingWater() || entity.getBlockStateAtPos().isOf(Blocks.WATER_CAULDRON)) {
@@ -90,7 +116,7 @@ public final class DefaultEnvironmentController implements EnvironmentController
         }
 
         // immediately soak players in water
-        if (entity.isSubmergedInWater() || invoker.thermoo$invokeIsInsideBubbleColumn()) {
+        if (entity.isSubmergedInWater() /*|| invoker.thermoo$invokeIsInsideBubbleColumn()*/) {
             soakChange = entity.thermoo$getMaxWetTicks();
             isAreaDry = false;
         }
@@ -115,7 +141,7 @@ public final class DefaultEnvironmentController implements EnvironmentController
 
     @Override
     public int getHeatAtLocation(World world, BlockPos pos) {
-        ThermooConfig config = Thermoo.getConfig();
+        ThermooConfig config = ThermooTestMod.getConfig();
 
         int lightLevel = world.getLightLevel(LightType.BLOCK, pos);
         int minLightLevel = config.environmentConfig.getMinLightForWarmth();
@@ -135,18 +161,18 @@ public final class DefaultEnvironmentController implements EnvironmentController
 
     @Override
     public boolean isHeatSource(BlockState state) {
-        int minLightForWarmth = Thermoo.getConfig().environmentConfig.getMinLightForWarmth();
+        int minLightForWarmth = ThermooTestMod.getConfig().environmentConfig.getMinLightForWarmth();
         return state.getLuminance() >= minLightForWarmth;
     }
 
     @Override
     public boolean isAreaHeated(World world, BlockPos pos) {
-        int minLightForWarmth = Thermoo.getConfig().environmentConfig.getMinLightForWarmth();
+        int minLightForWarmth = ThermooTestMod.getConfig().environmentConfig.getMinLightForWarmth();
         return world.getLightLevel(LightType.BLOCK, pos) > minLightForWarmth;
     }
 
     private int getTempChangeFromBiomeTemperature(World world, float temperature, boolean isDryBiome) {
-        ThermooConfig config = Thermoo.getConfig();
+        ThermooConfig config = ThermooTestMod.getConfig();
         double mul = config.environmentConfig.getBiomeTemperatureMultiplier();
         double cutoff = config.environmentConfig.getPassiveFreezingCutoffTemp();
 
@@ -162,11 +188,4 @@ public final class DefaultEnvironmentController implements EnvironmentController
         return MathHelper.floor(mul * (temperature - cutoff - tempShift) - 1);
     }
 
-    /**
-     * @return Returns the name of the class as the string representation
-     */
-    @Override
-    public String toString() {
-        return this.getClass().getName();
-    }
 }

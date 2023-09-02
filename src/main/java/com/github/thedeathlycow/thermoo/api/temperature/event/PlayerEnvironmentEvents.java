@@ -1,51 +1,48 @@
 package com.github.thedeathlycow.thermoo.api.temperature.event;
 
-import com.github.thedeathlycow.thermoo.api.temperature.EnvironmentController;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.profiler.Profiler;
-import net.minecraft.world.biome.Biome;
 
 /**
  * Events relevant to player ticking and passive temperature changes
  */
 public final class PlayerEnvironmentEvents {
 
-    private PlayerEnvironmentEvents() {
-    }
-
     /**
-     * Invoked on each player in a biome with a non-zero passive temperature change.
+     * Called to check that a player is vulnerable to passive temperature changes.
      * <p>
-     * Is not invoked on spectators
+     * If any listener returns false, then further processing is cancelled and the event will return false.
      */
-    public static final Event<BiomeTemperatureChangeTickCallback> TICK_BIOME_TEMPERATURE_CHANGE = EventFactory.createArrayBacked(BiomeTemperatureChangeTickCallback.class,
-            callbacks -> (controller, player, biome, result) -> {
-                for (BiomeTemperatureChangeTickCallback event : callbacks) {
-                    event.onBiomeTemperatureChange(controller, player, biome, result);
+    public static final Event<TemperatureChangeEventCallback> CAN_APPLY_PASSIVE_TEMPERATURE_CHANGE = EventFactory.createArrayBacked(
+            TemperatureChangeEventCallback.class,
+            callbacks -> (change, player) -> {
+                for (TemperatureChangeEventCallback event : callbacks) {
+                    if (!event.canApplyChange(change, player)) {
+                        return false;
+                    }
                 }
+
+                return true;
             }
     );
 
-
-    /**
-     * Callback for passive temperature change ticks
-     */
     @FunctionalInterface
-    public interface BiomeTemperatureChangeTickCallback {
+    public interface TemperatureChangeEventCallback {
 
         /**
-         * Invoked when the temperature change should be applied. Note that the change is NOT applied by this event,
-         * listeners must apply it themselves.
+         * Checks that a player can have the given {@code change} applied as a passive temperature change.
          *
-         * @param controller The {@link EnvironmentController} relevant to this event
-         * @param player     The player being ticked
-         * @param biome      The biome the player is in
-         * @param result     Stores information about the change to be applied
+         * @param change The passive temperature change to be applied
+         * @param player The player to check
+         * @return Returns {@code true} if this callback will allow for the {@code change} to be applied to the
+         * {@code player}. If this returns {@code false}, further processing is cancelled and the change is not applied.
          */
-        void onBiomeTemperatureChange(EnvironmentController controller, PlayerEntity player, Biome biome, InitialTemperatureChangeResult result);
+        boolean canApplyChange(int change, PlayerEntity player);
 
+    }
+
+    private PlayerEnvironmentEvents() {
     }
 
 }

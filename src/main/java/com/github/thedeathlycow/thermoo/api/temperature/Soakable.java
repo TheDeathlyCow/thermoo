@@ -54,6 +54,10 @@ public interface Soakable {
         return this.thermoo$getWetTicks() > 0;
     }
 
+    default void thermoo$addWetTicks(int delta) {
+        this.thermoo$setWetTicks(this.thermoo$getWetTicks() + delta);
+    }
+
     /**
      * @return Returns if the soakable's current wet ticks is greater than or equal to its maximum wet ticks
      */

@@ -1,10 +1,6 @@
-package com.github.thedeathlycow.thermoo.impl.config;
+package com.github.thedeathlycow.thermoo.testmod.config;
 
-import me.shedaniel.autoconfig.ConfigData;
-import me.shedaniel.autoconfig.annotation.Config;
-
-@Config(name = "thermoo.environment")
-public class ThermooEnvironmentConfig implements ConfigData {
+public class ThermooEnvironmentConfig {
 
     boolean doDryBiomeNightFreezing = true;
 
