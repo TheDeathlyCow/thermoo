@@ -41,7 +41,7 @@ public final class EmptyEnvironmentController implements EnvironmentController {
     }
 
     @Override
-    public int getFloorTemperature(BlockState state) {
+    public int getFloorTemperature(LivingEntity entity, World world, BlockState state, BlockPos pos) {
         return 0;
     }
 

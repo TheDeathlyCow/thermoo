@@ -68,8 +68,8 @@ public abstract non-sealed class EnvironmentControllerDecorator implements Envir
     }
 
     @Override
-    public int getFloorTemperature(BlockState state) {
-        return controller.getFloorTemperature(state);
+    public int getFloorTemperature(LivingEntity entity, World world, BlockState state, BlockPos pos) {
+        return controller.getFloorTemperature(entity, world, state, pos);
     }
 
     @Override

@@ -31,7 +31,13 @@ public class HotFloorMixin {
                 return;
             }
 
-            int temperatureChange = EnvironmentManager.INSTANCE.getController().getFloorTemperature(state);
+            int temperatureChange = EnvironmentManager.INSTANCE.getController().getFloorTemperature(
+                    livingEntity,
+                    world,
+                    state,
+                    pos
+            );
+
             if (temperatureChange != 0) {
                 livingEntity.thermoo$addTemperature(
                         temperatureChange,
