@@ -26,9 +26,13 @@ interface EnvironmentController {
 
 }
 
-class DefaultEnvironmentController {
+class EmptyEnvironmentController {
 
 }
+note right of EmptyEnvironmentController
+All methods are implemented with a 0, false, or null return value,
+depending on the type.
+end note
 
 abstract class EnvironmentControllerDecorator {
 
@@ -47,7 +51,7 @@ end note
 
 EnvironmentManager *--right-- EnvironmentController
 
-EnvironmentController <|.. DefaultEnvironmentController
+EnvironmentController <|.. EmptyEnvironmentController
 EnvironmentController <|... EnvironmentControllerDecorator
 EnvironmentController ---* EnvironmentControllerDecorator
 @enduml
