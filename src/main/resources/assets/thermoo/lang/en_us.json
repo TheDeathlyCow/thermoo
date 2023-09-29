@@ -16,7 +16,7 @@
     "commands.thermoo.temperature.remove.success.multiple": "Removed %d temperature from %d entities",
     "commands.thermoo.temperature.set.success.single": "Set the temperature of %s to %d",
     "commands.thermoo.temperature.set.success.multiple": "Set the temperature of %s entities to %d",
-    "commands.thermoo.environment.printcontroller.success": "Controller logged to console   ",
+    "commands.thermoo.environment.printcontroller.success": "Controller logged to console",
 
     "commands.thermoo.environment.checktemperature.success": "The passive temperature change at %s, %s, %s (%s) is %d"
 }

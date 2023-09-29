@@ -5,6 +5,7 @@ import com.github.thedeathlycow.thermoo.api.ThermooTags;
 import com.github.thedeathlycow.thermoo.api.temperature.HeatingMode;
 import com.github.thedeathlycow.thermoo.api.temperature.Soakable;
 import com.github.thedeathlycow.thermoo.api.temperature.TemperatureAware;
+import com.github.thedeathlycow.thermoo.impl.ThermooComponents;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -12,22 +13,15 @@ import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeInstance;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
-import net.minecraft.entity.data.DataTracker;
-import net.minecraft.entity.data.TrackedData;
-import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.UUID;
@@ -47,18 +41,6 @@ public abstract class EnvironmentAwareEntityMixin extends Entity implements Temp
     @Shadow
     public abstract boolean hasStatusEffect(StatusEffect effect);
 
-    @Unique
-    private static final TrackedData<Integer> THERMOO_TEMPERATURE = DataTracker.registerData(
-            EnvironmentAwareEntityMixin.class,
-            TrackedDataHandlerRegistry.INTEGER
-    );
-
-    @Unique
-    private static final TrackedData<Integer> THERMOO_WETNESS = DataTracker.registerData(
-            EnvironmentAwareEntityMixin.class,
-            TrackedDataHandlerRegistry.INTEGER
-    );
-
     public EnvironmentAwareEntityMixin(EntityType<?> type, World world) {
         super(type, world);
     }
@@ -66,12 +48,12 @@ public abstract class EnvironmentAwareEntityMixin extends Entity implements Temp
     @Override
     public void thermoo$setWetTicks(int amount) {
         int value = MathHelper.clamp(amount, 0, this.thermoo$getMaxWetTicks());
-        this.dataTracker.set(THERMOO_WETNESS, value);
+        ThermooComponents.WETNESS.get(this).setValue(value);
     }
 
     @Override
     public int thermoo$getWetTicks() {
-        return this.dataTracker.get(THERMOO_WETNESS);
+        return ThermooComponents.WETNESS.get(this).getValue();
     }
 
     @Override
@@ -91,13 +73,13 @@ public abstract class EnvironmentAwareEntityMixin extends Entity implements Temp
 
     @Override
     public int thermoo$getTemperature() {
-        return this.dataTracker.get(THERMOO_TEMPERATURE);
+        return ThermooComponents.TEMPERATURE.get(this).getValue();
     }
 
     @Override
     public void thermoo$setTemperature(int temperature) {
         int value = MathHelper.clamp(temperature, this.thermoo$getMinTemperature(), this.thermoo$getMaxTemperature());
-        this.dataTracker.set(THERMOO_TEMPERATURE, value);
+        ThermooComponents.TEMPERATURE.get(this).setValue(value);
     }
 
     @Override
@@ -182,15 +164,6 @@ public abstract class EnvironmentAwareEntityMixin extends Entity implements Temp
         this.thermoo$setTemperature(currentTemperature + modifiedChange);
     }
 
-    @Inject(
-            method = "initDataTracker",
-            at = @At("TAIL")
-    )
-    private void syncData(CallbackInfo ci) {
-        this.dataTracker.startTracking(THERMOO_TEMPERATURE, 0);
-        this.dataTracker.startTracking(THERMOO_WETNESS, 0);
-    }
-
     private void addTemperatureOverrideModifier(EntityAttribute attribute, UUID id, String name, double value) {
         EntityAttributeInstance temperature = this.getAttributeInstance(attribute);
         var modifier = new EntityAttributeModifier(
@@ -216,52 +189,5 @@ public abstract class EnvironmentAwareEntityMixin extends Entity implements Temp
         builder.add(ThermooAttributes.MAX_TEMPERATURE);
         builder.add(ThermooAttributes.FROST_RESISTANCE);
         builder.add(ThermooAttributes.HEAT_RESISTANCE);
-    }
-
-    @Inject(
-            method = "writeCustomDataToNbt",
-            at = @At("TAIL")
-    )
-    private void addDataToNbt(NbtCompound nbt, CallbackInfo ci) {
-        NbtCompound thermoo = new NbtCompound();
-
-        int wetTicks = this.thermoo$getWetTicks();
-        if (wetTicks > 0) {
-            thermoo.putInt("WetTicks", wetTicks);
-        }
-
-        int temperature = this.thermoo$getTemperature();
-        thermoo.putInt("Temperature", temperature);
-
-        nbt.put("Thermoo", thermoo);
-    }
-
-    @Inject(
-            method = "readCustomDataFromNbt",
-            at = @At("TAIL")
-    )
-    private void readDataFromNbt(NbtCompound nbt, CallbackInfo ci) {
-
-        if (!nbt.contains("Thermoo", NbtElement.COMPOUND_TYPE)) {
-            this.thermoo$setTemperature(0);
-            this.thermoo$setWetTicks(0);
-            return;
-        }
-
-        NbtCompound thermoo = nbt.getCompound("Thermoo");
-
-        int temperature = 0;
-        int wetTicks = 0;
-
-        if (thermoo.contains("Temperature", NbtElement.INT_TYPE)) {
-            temperature = thermoo.getInt("Temperature");
-        }
-
-        if (thermoo.contains("WetTicks", NbtElement.INT_TYPE)) {
-            wetTicks = thermoo.getInt("WetTicks");
-        }
-
-        this.thermoo$setTemperature(temperature);
-        this.thermoo$setWetTicks(wetTicks);
     }
 }

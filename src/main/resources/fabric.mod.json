@@ -17,6 +17,9 @@
 	"entrypoints": {
 		"main": [
 			"com.github.thedeathlycow.thermoo.impl.Thermoo"
+		],
+		"cardinal-components-entity": [
+			"com.github.thedeathlycow.thermoo.impl.ThermooComponents"
 		]
 	},
 	"mixins": [
@@ -45,6 +48,10 @@
 			"badges": [
 				"library"
 			]
-		}
+		},
+		"cardinal-components": [
+			"thermoo:temperature",
+			"thermoo:wetness"
+		]
 	}
 }
