@@ -25,10 +25,7 @@ public class TemperatureComponent implements EnvironmentComponent, AutoSyncedCom
 
     @Override
     public void setValue(int value) {
-        if (this.temperature != value) {
-            this.temperature = value;
-            ThermooComponents.TEMPERATURE.sync(this.provider);
-        }
+        this.temperature = value;
     }
 
     @Override

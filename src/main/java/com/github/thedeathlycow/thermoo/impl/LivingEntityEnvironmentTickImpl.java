@@ -9,7 +9,7 @@ import net.minecraft.world.World;
 public class LivingEntityEnvironmentTickImpl {
 
 
-    public static void tick(LivingEntity entity) {
+    public static void tick(LivingEntity entity, int lastTickTemperature) {
         World world = entity.getWorld();
 
         if (world.isClient && entity.isPlayer() && entity.age % 20 == 0) {
@@ -23,19 +23,16 @@ public class LivingEntityEnvironmentTickImpl {
         EnvironmentController controller = EnvironmentManager.INSTANCE.getController();
 
         int tempChange;
-        boolean syncTemperature = false;
 
         // tick area heat sources
         tempChange = controller.getHeatAtLocation(world, entity.getRootVehicle().getBlockPos());
         if (tempChange != 0) {
             entity.thermoo$addTemperature(tempChange, HeatingModes.PASSIVE);
-            syncTemperature = true;
         }
 
         tempChange = controller.getTemperatureEffectsChange(entity);
         if (tempChange != 0) {
             entity.thermoo$addTemperature(tempChange, HeatingModes.ACTIVE);
-            syncTemperature = true;
         }
 
         int soakChange = controller.getSoakChange(entity);
@@ -44,7 +41,7 @@ public class LivingEntityEnvironmentTickImpl {
             ThermooComponents.WETNESS.sync(entity);
         }
 
-        if (syncTemperature) {
+        if (lastTickTemperature != entity.thermoo$getTemperature()) {
             ThermooComponents.TEMPERATURE.sync(entity);
         }
     }
