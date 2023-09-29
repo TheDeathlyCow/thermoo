@@ -12,10 +12,6 @@ public class LivingEntityEnvironmentTickImpl {
     public static void tick(LivingEntity entity, int lastTickTemperature) {
         World world = entity.getWorld();
 
-        if (world.isClient && entity.isPlayer() && entity.age % 20 == 0) {
-            Thermoo.LOGGER.info("Temperature: {}, Wetness: {}", entity.thermoo$getTemperature(), entity.thermoo$getWetTicks());
-        }
-
         if (world.isClient() || entity.isSpectator() || entity.isDead() || entity.isRemoved()) {
             return;
         }
