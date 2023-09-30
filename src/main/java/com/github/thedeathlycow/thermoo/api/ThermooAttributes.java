@@ -23,7 +23,7 @@ public final class ThermooAttributes {
      */
     public static final EntityAttribute MIN_TEMPERATURE = new ClampedEntityAttribute(
             "attribute.thermoo.generic.min_temperature", 0.0, 0.0, 8192
-    ).setTracked(false);
+    ).setTracked(true);
 
     /**
      * The maximum temperature of an entity. By default, this is 0.
@@ -39,7 +39,7 @@ public final class ThermooAttributes {
      */
     public static final EntityAttribute MAX_TEMPERATURE = new ClampedEntityAttribute(
             "attribute.thermoo.generic.max_temperature", 0.0, 0.0, 8192
-    ).setTracked(false);
+    ).setTracked(true);
 
     /**
      * The cold resistance of an entity. 1 point of frost resistance corresponds to a 10% cold reduction
@@ -51,7 +51,7 @@ public final class ThermooAttributes {
      */
     public static final EntityAttribute FROST_RESISTANCE = new ClampedEntityAttribute(
             "attribute.thermoo.generic.frost_resistance", 0.0, -10.0, 10.0
-    ).setTracked(false);
+    ).setTracked(true);
 
     /**
      * The heat resistance of an entity. 1 point of heat resistance corresponds to a 10% heat reduction
@@ -63,7 +63,7 @@ public final class ThermooAttributes {
      */
     public static final EntityAttribute HEAT_RESISTANCE = new ClampedEntityAttribute(
             "attribute.thermoo.generic.heat_resistance", 0.0, -10.0, 10.0
-    ).setTracked(false);
+    ).setTracked(true);
 
     private ThermooAttributes() {
 
