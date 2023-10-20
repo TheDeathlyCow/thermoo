@@ -20,6 +20,9 @@
 		],
 		"modmenu": [
 			"com.github.thedeathlycow.thermoo.impl.ThermooModMenu"
+		],
+		"cardinal-components-entity": [
+			"com.github.thedeathlycow.thermoo.impl.ThermooComponents"
 		]
 	},
 	"mixins": [
@@ -48,6 +51,10 @@
 			"badges": [
 				"library"
 			]
-		}
+		},
+		"cardinal-components": [
+			"thermoo:temperature",
+			"thermoo:wetness"
+		]
 	}
 }

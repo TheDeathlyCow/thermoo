@@ -5,6 +5,7 @@ import com.github.thedeathlycow.thermoo.api.ThermooTags;
 import com.github.thedeathlycow.thermoo.api.temperature.HeatingMode;
 import com.github.thedeathlycow.thermoo.api.temperature.Soakable;
 import com.github.thedeathlycow.thermoo.api.temperature.TemperatureAware;
+import com.github.thedeathlycow.thermoo.impl.ThermooComponents;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -40,18 +41,6 @@ public abstract class EnvironmentAwareEntityMixin extends Entity implements Temp
     @Shadow
     public abstract boolean hasStatusEffect(StatusEffect effect);
 
-    @Unique
-    private static final TrackedData<Integer> THERMOO_TEMPERATURE = DataTracker.registerData(
-            EnvironmentAwareEntityMixin.class,
-            TrackedDataHandlerRegistry.INTEGER
-    );
-
-    @Unique
-    private static final TrackedData<Integer> THERMOO_WETNESS = DataTracker.registerData(
-            EnvironmentAwareEntityMixin.class,
-            TrackedDataHandlerRegistry.INTEGER
-    );
-
     public EnvironmentAwareEntityMixin(EntityType<?> type, World world) {
         super(type, world);
     }
@@ -59,12 +48,12 @@ public abstract class EnvironmentAwareEntityMixin extends Entity implements Temp
     @Override
     public void thermoo$setWetTicks(int amount) {
         int value = MathHelper.clamp(amount, 0, this.thermoo$getMaxWetTicks());
-        this.dataTracker.set(THERMOO_WETNESS, value);
+        ThermooComponents.WETNESS.get(this).setValue(value);
     }
 
     @Override
     public int thermoo$getWetTicks() {
-        return this.dataTracker.get(THERMOO_WETNESS);
+        return ThermooComponents.WETNESS.get(this).getValue();
     }
 
     @Override
@@ -84,13 +73,13 @@ public abstract class EnvironmentAwareEntityMixin extends Entity implements Temp
 
     @Override
     public int thermoo$getTemperature() {
-        return this.dataTracker.get(THERMOO_TEMPERATURE);
+        return ThermooComponents.TEMPERATURE.get(this).getValue();
     }
 
     @Override
     public void thermoo$setTemperature(int temperature) {
         int value = MathHelper.clamp(temperature, this.thermoo$getMinTemperature(), this.thermoo$getMaxTemperature());
-        this.dataTracker.set(THERMOO_TEMPERATURE, value);
+        ThermooComponents.TEMPERATURE.get(this).setValue(value);
     }
 
     @Override
@@ -174,15 +163,6 @@ public abstract class EnvironmentAwareEntityMixin extends Entity implements Temp
         int currentTemperature = this.thermoo$getTemperature();
         int modifiedChange = mode.applyResistance(this, temperatureChange);
         this.thermoo$setTemperature(currentTemperature + modifiedChange);
-    }
-
-    @Inject(
-            method = "initDataTracker",
-            at = @At("TAIL")
-    )
-    private void syncData(CallbackInfo ci) {
-        this.dataTracker.startTracking(THERMOO_TEMPERATURE, 0);
-        this.dataTracker.startTracking(THERMOO_WETNESS, 0);
     }
 
     @Inject(

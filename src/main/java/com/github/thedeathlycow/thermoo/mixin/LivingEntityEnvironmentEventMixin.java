@@ -6,10 +6,12 @@ import com.github.thedeathlycow.thermoo.api.temperature.HeatingModes;
 import com.github.thedeathlycow.thermoo.api.temperature.event.LivingEntityEnvironmentEvents;
 import com.github.thedeathlycow.thermoo.api.temperature.event.InitialSoakChangeResult;
 import com.github.thedeathlycow.thermoo.api.temperature.event.InitialTemperatureChangeResult;
+import com.github.thedeathlycow.thermoo.impl.ThermooComponents;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -20,6 +22,9 @@ public abstract class LivingEntityEnvironmentEventMixin {
     @Shadow protected abstract void tickStatusEffects();
 
     @Shadow public abstract void endCombat();
+
+    @Unique
+    private int thermoo_lastTickTemperature = 0;
 
     @Inject(
             method = "tick",
@@ -85,6 +90,12 @@ public abstract class LivingEntityEnvironmentEventMixin {
             wetResult.onEventComplete();
         }
 
+        int temperature = entity.thermoo$getTemperature();
+        if (thermoo_lastTickTemperature != temperature) {
+            ThermooComponents.TEMPERATURE.sync(entity);
+        }
+
+        thermoo_lastTickTemperature = temperature;
     }
 
 }
