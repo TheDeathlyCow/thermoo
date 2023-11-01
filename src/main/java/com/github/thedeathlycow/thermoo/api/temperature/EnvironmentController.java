@@ -97,7 +97,7 @@ public sealed interface EnvironmentController permits EnvironmentControllerDecor
      *
      * @param soakable The soakable to get the max wet ticks for.
      * @return Returns the default maximum wet ticks for the {@code soakable}.
-     * @implNote Important note - so that behaviour will remain consistent with previous versions,
+     * @apiNote Important note - so that behaviour will remain consistent with previous versions,
      * this will return {@code 600} by default, instead of the normal {@code 0} for this type.
      */
     default int getMaxWetTicks(Soakable soakable) {
