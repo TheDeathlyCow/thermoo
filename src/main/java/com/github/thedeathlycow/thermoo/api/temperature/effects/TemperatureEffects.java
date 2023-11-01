@@ -1,6 +1,7 @@
 package com.github.thedeathlycow.thermoo.api.temperature.effects;
 
 import com.github.thedeathlycow.thermoo.impl.TemperatureEffectLoader;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSources;
 
 import java.util.Collection;
@@ -46,12 +47,21 @@ public final class TemperatureEffects {
             (serverWorld) -> serverWorld.getDamageSources().freeze()
     );
 
+    /**
+     * Returns all currently loaded {@link ConfiguredTemperatureEffect}s that are mapped to the {@code entity}'s type.
+     * @param entity The entity to fetch the effects for
+     * @return Returns the effects loaded for the entity type
+     */
+    public static Collection<ConfiguredTemperatureEffect<?>> getEffectsForEntity(LivingEntity entity) {
+        return TemperatureEffectLoader.INSTANCE.getEffectsForEntity(entity);
+    }
+
 
     /**
      * @return Returns all currently loaded {@link ConfiguredTemperatureEffect}s
      */
     public static Collection<ConfiguredTemperatureEffect<?>> getLoadedConfiguredEffects() {
-        return TemperatureEffectLoader.INSTANCE.getEffects();
+        return TemperatureEffectLoader.INSTANCE.getGlobalEffects();
     }
 
     private TemperatureEffects() {

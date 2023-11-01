@@ -37,6 +37,11 @@ public abstract class TemperatureEffectTickerMixin extends Entity {
         profiler.push("thermoo.temperature_effects");
 
         final LivingEntity instance = (LivingEntity) (Object) this;
+
+        for (var effect : TemperatureEffects.getEffectsForEntity(instance)) {
+            effect.applyIfPossible(instance);
+        }
+
         for (var effect : TemperatureEffects.getLoadedConfiguredEffects()) {
             effect.applyIfPossible(instance);
         }
