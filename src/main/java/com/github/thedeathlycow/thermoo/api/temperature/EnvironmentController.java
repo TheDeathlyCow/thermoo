@@ -102,8 +102,10 @@ public sealed interface EnvironmentController permits EnvironmentControllerDecor
 
     /**
      * Calculates the passive warmth nearby heat sources at a location in a world.
-     * 'Heat sources' being things that exist in the world that produce heat around them. By default, this includes
-     * most artificial light producing sources, such as torches, campfires, lit furnaces, glowstone, and more.
+     * 'Heat sources' being things that exist in the world that produce heat around them. For example, this could include
+     * artificial light producing sources, such as torches, campfires, lit furnaces, glowstone, and more.
+     * <p>
+     * This can also be negative, to indicate a cold position.
      *
      * @param world The world the temperature aware is in
      * @param pos   The position to check
@@ -112,7 +114,7 @@ public sealed interface EnvironmentController permits EnvironmentControllerDecor
     int getHeatAtLocation(World world, BlockPos pos);
 
     /**
-     * Calculates the heat produced by a block state.
+     * Calculates the heat produced by a block state. May be negative, indicating a cold source.
      *
      * @param state The block state heat source
      * @return The warmth that the state produces around it
@@ -120,13 +122,22 @@ public sealed interface EnvironmentController permits EnvironmentControllerDecor
     int getHeatFromBlockState(BlockState state);
 
     /**
-     * Checks if a block state is a heat source, as defined by this controller
+     * Checks if a block state is a heat source, as defined by this controller.
      *
      * @param state The block state to check
      * @return Returns if a block state is a heat source
      * @see EnvironmentController#getHeatFromBlockState(BlockState)
      */
     boolean isHeatSource(BlockState state);
+
+    /**
+     * Checks if a block state is a cold source, as defined by this controller.
+     *
+     * @param state The block state to check
+     * @return Returns true if a block state is a cold source
+     * @see EnvironmentController#getHeatFromBlockState(BlockState)
+     */
+    boolean isColdSource(BlockState state);
 
     /**
      * Check if a position in a world is heated

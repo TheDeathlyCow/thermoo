@@ -93,6 +93,11 @@ public abstract non-sealed class EnvironmentControllerDecorator implements Envir
     }
 
     @Override
+    public boolean isColdSource(BlockState state) {
+        return controller.isColdSource(state);
+    }
+
+    @Override
     public boolean isAreaHeated(World world, BlockPos pos) {
         return controller.isAreaHeated(world, pos);
     }

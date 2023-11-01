@@ -66,6 +66,11 @@ public final class EmptyEnvironmentController implements EnvironmentController {
     }
 
     @Override
+    public boolean isColdSource(BlockState state) {
+        return false;
+    }
+
+    @Override
     public boolean isAreaHeated(World world, BlockPos pos) {
         return false;
     }
