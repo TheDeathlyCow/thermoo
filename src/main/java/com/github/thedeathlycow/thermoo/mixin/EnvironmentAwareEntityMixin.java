@@ -2,6 +2,7 @@ package com.github.thedeathlycow.thermoo.mixin;
 
 import com.github.thedeathlycow.thermoo.api.ThermooAttributes;
 import com.github.thedeathlycow.thermoo.api.ThermooTags;
+import com.github.thedeathlycow.thermoo.api.temperature.EnvironmentManager;
 import com.github.thedeathlycow.thermoo.api.temperature.HeatingMode;
 import com.github.thedeathlycow.thermoo.api.temperature.Soakable;
 import com.github.thedeathlycow.thermoo.api.temperature.TemperatureAware;
@@ -58,7 +59,7 @@ public abstract class EnvironmentAwareEntityMixin extends Entity implements Temp
 
     @Override
     public int thermoo$getMaxWetTicks() {
-        return 20 * 30;
+        return EnvironmentManager.INSTANCE.getController().getMaxWetTicks(this);
     }
 
 

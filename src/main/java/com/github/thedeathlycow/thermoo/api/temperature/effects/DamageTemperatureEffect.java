@@ -28,7 +28,7 @@ import java.util.Map;
 public class DamageTemperatureEffect extends TemperatureEffect<DamageTemperatureEffect.Config> {
 
     @Nullable
-    Registry<DamageType> registry;
+    private Registry<DamageType> registry;
 
     private final Map<RegistryKey<DamageType>, DamageSource> damageSourcePool = new HashMap<>();
 

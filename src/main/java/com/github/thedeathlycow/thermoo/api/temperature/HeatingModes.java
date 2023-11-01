@@ -26,7 +26,6 @@ public enum HeatingModes implements HeatingMode, StringIdentifiable {
     ACTIVE("active") {
         @Override
         public int applyResistance(TemperatureAware target, int temperatureChange) {
-            int currentTemperature = target.thermoo$getTemperature();
             boolean isChangeFreezing = temperatureChange < 0;
 
             double resistance = isChangeFreezing ? target.thermoo$getColdResistance() : target.thermoo$getHeatResistance();

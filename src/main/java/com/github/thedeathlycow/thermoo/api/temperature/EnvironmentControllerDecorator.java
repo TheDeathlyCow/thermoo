@@ -73,6 +73,11 @@ public abstract non-sealed class EnvironmentControllerDecorator implements Envir
     }
 
     @Override
+    public int getMaxWetTicks(Soakable soakable) {
+        return controller.getMaxWetTicks(soakable);
+    }
+
+    @Override
     public int getSoakChange(Soakable soakable) {
         return controller.getSoakChange(soakable);
     }
