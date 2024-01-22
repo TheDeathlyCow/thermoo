@@ -32,12 +32,14 @@ public class LivingEntityEnvironmentTickImpl {
         }
 
         int soakChange = controller.getSoakChange(entity);
-        if (soakChange != 0) {
+        boolean isSyncTick = entity.age % 20 == 0;
+
+        if (isSyncTick || soakChange != 0) {
             entity.thermoo$addWetTicks(soakChange);
             ThermooComponents.WETNESS.sync(entity);
         }
 
-        if (entity.age % 20 == 0 || lastTickTemperature != entity.thermoo$getTemperature()) {
+        if (isSyncTick || lastTickTemperature != entity.thermoo$getTemperature()) {
             ThermooComponents.TEMPERATURE.sync(entity);
         }
     }
