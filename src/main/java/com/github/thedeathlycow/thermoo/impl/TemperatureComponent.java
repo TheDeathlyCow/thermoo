@@ -4,7 +4,9 @@ import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.server.network.EntityTrackerEntry;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.util.math.BlockPos;
 
 public class TemperatureComponent implements EnvironmentComponent, AutoSyncedComponent {
 
@@ -46,5 +48,12 @@ public class TemperatureComponent implements EnvironmentComponent, AutoSyncedCom
     @Override
     public void applySyncPacket(PacketByteBuf buf) {
         this.temperature = buf.readVarInt();
+    }
+
+    @Override
+    public boolean shouldSyncWith(ServerPlayerEntity player) {
+        final BlockPos providerPos = this.provider.getBlockPos();
+        return player == this.provider
+                || providerPos.isWithinDistance(player.getSyncedPos(), EnvironmentComponent.SYNC_DISTANCE);
     }
 }

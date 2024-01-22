@@ -37,7 +37,7 @@ public class LivingEntityEnvironmentTickImpl {
             ThermooComponents.WETNESS.sync(entity);
         }
 
-        if (lastTickTemperature != entity.thermoo$getTemperature()) {
+        if (entity.age % 20 == 0 || lastTickTemperature != entity.thermoo$getTemperature()) {
             ThermooComponents.TEMPERATURE.sync(entity);
         }
     }

@@ -6,6 +6,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.util.math.BlockPos;
 
 public class WetComponent implements EnvironmentComponent, AutoSyncedComponent {
 
@@ -54,5 +55,12 @@ public class WetComponent implements EnvironmentComponent, AutoSyncedComponent {
     @Override
     public void applySyncPacket(PacketByteBuf buf) {
         this.wetness = buf.readVarInt();
+    }
+
+    @Override
+    public boolean shouldSyncWith(ServerPlayerEntity player) {
+        final BlockPos providerPos = this.provider.getBlockPos();
+        return player == this.provider
+                || providerPos.isWithinDistance(player.getSyncedPos(), EnvironmentComponent.SYNC_DISTANCE);
     }
 }
