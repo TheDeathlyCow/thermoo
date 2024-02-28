@@ -58,13 +58,17 @@ public sealed interface EnvironmentController permits EnvironmentControllerDecor
 
     /**
      * Computes the environmental temperature change for a player, based on a local temperature computed from
-     * {@link #getLocalTemperatureChange(World, BlockPos)}
+     * {@link #getLocalTemperatureChange(World, BlockPos)}.
+     * <p>
+     * By default, this returns the value of {@code localTemperature}
      *
      * @param player           The player to compute the temperature change for
      * @param localTemperature The base local temperature
      * @return Returns the passive environmental temperature change for the player this tick
      */
-    int getEnvironmentTemperatureForPlayer(PlayerEntity player, int localTemperature);
+    default int getEnvironmentTemperatureForPlayer(PlayerEntity player, int localTemperature) {
+        return localTemperature;
+    }
 
     /**
      * Computes temperature changes for {@link LivingEntity}s from heat effects. For example, being on fire or freezing
@@ -94,7 +98,7 @@ public sealed interface EnvironmentController permits EnvironmentControllerDecor
 
     /**
      * Gets the default maximum wet ticks for the {@code soakable}.
-     *
+     * <p>
      * Important note - so that behaviour will remain consistent with previous versions,
      * this will return {@code 600} by default, instead of the normal {@code 0} for this type.
      *

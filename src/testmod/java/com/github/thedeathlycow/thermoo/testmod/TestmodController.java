@@ -58,11 +58,6 @@ public class TestmodController extends EnvironmentControllerDecorator {
     }
 
     @Override
-    public int getEnvironmentTemperatureForPlayer(PlayerEntity player, int localTemperature) {
-        return localTemperature;
-    }
-
-    @Override
     public int getFloorTemperature(LivingEntity entity, World world, BlockState state, BlockPos pos) {
         if (state.isOf(Blocks.MAGMA_BLOCK)) {
             ThermooConfig config = ThermooTestMod.getConfig();

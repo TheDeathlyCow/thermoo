@@ -31,11 +31,6 @@ public final class EmptyEnvironmentController implements EnvironmentController {
     }
 
     @Override
-    public int getEnvironmentTemperatureForPlayer(PlayerEntity player, int localTemperature) {
-        return 0;
-    }
-
-    @Override
     public int getTemperatureEffectsChange(LivingEntity entity) {
         return 0;
     }
