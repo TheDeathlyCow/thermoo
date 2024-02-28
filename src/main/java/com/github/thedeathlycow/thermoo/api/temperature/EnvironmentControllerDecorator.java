@@ -88,6 +88,11 @@ public abstract non-sealed class EnvironmentControllerDecorator implements Envir
     }
 
     @Override
+    public int applyAwareHeat(TemperatureAware temperatureAware, int locationHeat) {
+        return controller.applyAwareHeat(temperatureAware, locationHeat);
+    }
+
+    @Override
     public int getHeatFromBlockState(BlockState state) {
         return controller.getHeatFromBlockState(state);
     }

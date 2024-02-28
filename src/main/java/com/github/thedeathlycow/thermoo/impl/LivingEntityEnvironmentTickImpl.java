@@ -22,6 +22,7 @@ public class LivingEntityEnvironmentTickImpl {
 
         // tick area heat sources
         tempChange = controller.getHeatAtLocation(world, entity.getRootVehicle().getBlockPos());
+        tempChange = controller.applyAwareHeat(entity, tempChange);
         if (tempChange != 0) {
             entity.thermoo$addTemperature(tempChange, HeatingModes.PASSIVE);
         }

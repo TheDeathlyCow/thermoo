@@ -14,9 +14,9 @@ import oshi.annotation.concurrent.Immutable;
  * and passive warming from heat sources (torches, campfires, etc).
  * <p>
  * The default implementation is provided by {@link EmptyEnvironmentController} which sets all values to either 0, false,
- * or null by default. However, if you wish you may extend (or even replace!) the functionality of the default controller
- * by use of the {@link EnvironmentControllerDecorator}. It is best to do this through the initialize event in
- * {@link com.github.thedeathlycow.thermoo.api.temperature.event.EnvironmentControllerInitializeEvent}
+ * or null by default, except where noted. However, if you wish you may extend (or even replace!) the functionality of
+ * the default controller by use of the {@link EnvironmentControllerDecorator}. It is best to do this through the
+ * initialize event in {@link com.github.thedeathlycow.thermoo.api.temperature.event.EnvironmentControllerInitializeEvent}
  *
  * @see EnvironmentControllerDecorator
  * @see EmptyEnvironmentController
@@ -60,7 +60,7 @@ public sealed interface EnvironmentController permits EnvironmentControllerDecor
      * Computes the environmental temperature change for a player, based on a local temperature computed from
      * {@link #getLocalTemperatureChange(World, BlockPos)}.
      * <p>
-     * By default, this returns the value of {@code localTemperature}
+     * By default, this returns the value of {@code localTemperature}, and NOT {@code 0}.
      *
      * @param player           The player to compute the temperature change for
      * @param localTemperature The base local temperature
@@ -129,6 +129,21 @@ public sealed interface EnvironmentController permits EnvironmentControllerDecor
      * @return Returns the temperature change that should be applied from nearby temperature sources.
      */
     int getHeatAtLocation(World world, BlockPos pos);
+
+    /**
+     * Gets the heat {@linkplain #getHeatAtLocation(World, BlockPos) from nearby heat sources} to apply to a Temperature
+     * Aware this tick.
+     * <p>
+     * By default, the temperature aware will accept all heat from nearby heat sources.
+     *
+     * @param temperatureAware The temperature aware affected.
+     * @param locationHeat     The heat at the temperature aware's location, as computed by
+     *                         {@link #getHeatAtLocation(World, BlockPos)}
+     * @return Returns {@code locationHeat} by default.
+     */
+    default int applyAwareHeat(TemperatureAware temperatureAware, int locationHeat) {
+        return locationHeat;
+    }
 
     /**
      * Calculates the heat produced by a block state. May be negative, indicating a cold source.
