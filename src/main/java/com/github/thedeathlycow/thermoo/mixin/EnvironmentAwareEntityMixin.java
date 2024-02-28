@@ -6,7 +6,7 @@ import com.github.thedeathlycow.thermoo.api.temperature.EnvironmentManager;
 import com.github.thedeathlycow.thermoo.api.temperature.HeatingMode;
 import com.github.thedeathlycow.thermoo.api.temperature.Soakable;
 import com.github.thedeathlycow.thermoo.api.temperature.TemperatureAware;
-import com.github.thedeathlycow.thermoo.impl.ThermooComponents;
+import com.github.thedeathlycow.thermoo.impl.component.ThermooComponents;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;

@@ -1,5 +1,6 @@
-package com.github.thedeathlycow.thermoo.impl;
+package com.github.thedeathlycow.thermoo.impl.component;
 
+import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import dev.onyxstudios.cca.api.v3.component.ComponentKey;
 import dev.onyxstudios.cca.api.v3.component.ComponentRegistry;
 import dev.onyxstudios.cca.api.v3.entity.EntityComponentFactoryRegistry;
@@ -24,12 +25,12 @@ public final class ThermooComponents implements EntityComponentInitializer {
         registry.registerFor(
                 LivingEntity.class,
                 TEMPERATURE,
-                TemperatureComponent::new
+                EnvironmentComponent::new
         );
         registry.registerFor(
                 LivingEntity.class,
                 WETNESS,
-                WetComponent::new
+                EnvironmentComponent::new
         );
     }
 }

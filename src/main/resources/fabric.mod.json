@@ -19,7 +19,7 @@
 			"com.github.thedeathlycow.thermoo.impl.Thermoo"
 		],
 		"cardinal-components-entity": [
-			"com.github.thedeathlycow.thermoo.impl.ThermooComponents"
+			"com.github.thedeathlycow.thermoo.impl.component.ThermooComponents"
 		]
 	},
 	"mixins": [
