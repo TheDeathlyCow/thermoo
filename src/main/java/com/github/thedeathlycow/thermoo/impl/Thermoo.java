@@ -1,5 +1,7 @@
 package com.github.thedeathlycow.thermoo.impl;
 
+import com.github.thedeathlycow.thermoo.api.ThermooRegistryKeys;
+import com.github.thedeathlycow.thermoo.api.attribute.ItemAttributeModifier;
 import com.github.thedeathlycow.thermoo.api.command.EnvironmentCommand;
 import com.github.thedeathlycow.thermoo.api.command.HeatingModeArgumentType;
 import com.github.thedeathlycow.thermoo.api.command.TemperatureCommand;
@@ -7,6 +9,7 @@ import com.github.thedeathlycow.thermoo.api.temperature.EnvironmentManager;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.ArgumentTypeRegistry;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
+import net.fabricmc.fabric.api.event.registry.DynamicRegistries;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.command.argument.serialize.ConstantArgumentSerializer;
 import net.minecraft.resource.ResourceType;
@@ -37,6 +40,14 @@ public class Thermoo implements ModInitializer {
                     dispatcher.register(EnvironmentCommand.COMMAND_BUILDER.get());
                 }
         );
+
+        DynamicRegistries.registerSynced(
+                ThermooRegistryKeys.ITEM_ATTRIBUTE_MODIFIER,
+                ItemAttributeModifier.CODEC,
+                DynamicRegistries.SyncOption.SKIP_WHEN_EMPTY
+        );
+
+        ItemAttributeModifierManager.registerToEventsCommon(new ItemAttributeModifierManager());
 
         ThermooCommonRegisters.registerAttributes();
         ThermooCommonRegisters.registerTemperatureEffects();

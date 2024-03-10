@@ -1,7 +1,7 @@
 package com.github.thedeathlycow.thermoo.api;
 
-import com.github.thedeathlycow.thermoo.api.attribute.ItemAttributeModifier;
 import com.google.gson.JsonElement;
+import com.mojang.datafixers.util.Either;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.*;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -14,7 +14,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.random.Random;
 import org.jetbrains.annotations.ApiStatus;
 
-import java.util.UUID;
+import java.util.Objects;
 
 /**
  * Helpful codecs used by Thermoo.
@@ -26,9 +26,7 @@ public class ThermooCodecs {
 
     public static final Codec<EquipmentSlot> EQUIPMENT_SLOT_CODEC = createEnumCodec(EquipmentSlot.class);
 
-    public static final Codec<EntityAttributeModifier.Operation> ENTITY_ATTRIBUTE_OPERATION_CODEC = createEnumCodec(
-            EntityAttributeModifier.Operation.class
-    );
+    public static final Codec<EntityAttributeModifier.Operation> ENTITY_ATTRIBUTE_OPERATION_CODEC = createEnumCodec(EntityAttributeModifier.Operation.class);
 
     public static final Codec<EntityAttributeModifier> ATTRIBUTE_MODIFIER_CODEC = RecordCodecBuilder.create(
             instance -> instance.group(
@@ -76,16 +74,26 @@ public class ThermooCodecs {
     };
 
     /**
-     * Creates a codec for an Enum backed by the enum ordinal for more efficient storage.
+     * Creates a codec for an Enum. Either uses the enum ordinal or the name, but prefers the ordinal for more efficient
+     * storage.
      *
      * @param clazz The class of the enum.
      * @param <E>   The enum type
      * @return Returns a codec for the enum class
      */
-    public static <E extends Enum<?>> Codec<E> createEnumCodec(Class<E> clazz) {
-        return Codec.INT.xmap(
-                ordinal -> clazz.getEnumConstants()[ordinal],
-                Enum::ordinal
+    public static <E extends Enum<E>> Codec<E> createEnumCodec(Class<E> clazz) {
+        return Codec.either(
+                Codec.INT.xmap(
+                        ordinal -> clazz.getEnumConstants()[ordinal],
+                        Enum::ordinal
+                ),
+                Codec.STRING.xmap(
+                        name -> Enum.valueOf(clazz, name),
+                        Objects::toString
+                )
+        ).xmap(
+                either -> either.left().orElseGet(() -> either.right().orElseThrow()),
+                Either::left
         );
     }
 

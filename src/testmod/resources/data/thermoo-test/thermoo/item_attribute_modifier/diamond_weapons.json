@@ -1,0 +1,16 @@
+{
+    "attribute": "minecraft:generic.max_health",
+    "modifier": {
+        "uuid": "413a10a0-bf0b-47db-a9a9-2eb3dda3bbaf",
+        "name": "Test",
+        "value": 1.0,
+        "operation": "ADDITION"
+    },
+    "item": {
+        "items": [
+            "minecraft:diamond_axe",
+            "minecraft:diamond_sword"
+        ]
+    },
+    "slot": "MAINHAND"
+}

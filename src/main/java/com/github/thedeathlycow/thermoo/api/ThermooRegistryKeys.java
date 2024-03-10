@@ -1,5 +1,6 @@
 package com.github.thedeathlycow.thermoo.api;
 
+import com.github.thedeathlycow.thermoo.api.attribute.ItemAttributeModifier;
 import com.github.thedeathlycow.thermoo.api.temperature.effects.TemperatureEffect;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import net.minecraft.registry.Registry;
@@ -9,6 +10,8 @@ public final class ThermooRegistryKeys {
 
 
     public static final RegistryKey<Registry<TemperatureEffect<?>>> TEMPERATURE_EFFECT = createRegistryKey("temperature_effects");
+
+    public static final RegistryKey<Registry<ItemAttributeModifier>> ITEM_ATTRIBUTE_MODIFIER = createRegistryKey("item_attribute_modifier");
 
     private static <T> RegistryKey<Registry<T>> createRegistryKey(String registryId) {
         return RegistryKey.ofRegistry(Thermoo.id(registryId));

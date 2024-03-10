@@ -10,12 +10,11 @@ import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.item.ItemStack;
 import net.minecraft.predicate.item.ItemPredicate;
 import net.minecraft.registry.Registries;
-import net.minecraft.util.dynamic.Codecs;
 
 public record ItemAttributeModifier(
         EntityAttribute attribute,
         EntityAttributeModifier modifier,
-        ItemPredicate itemTest,
+        ItemPredicate item,
         EquipmentSlot slot
 ) {
 
@@ -29,7 +28,7 @@ public record ItemAttributeModifier(
                             .forGetter(ItemAttributeModifier::modifier),
                     ThermooCodecs.ITEM_PREDICATE_CODEC
                             .fieldOf("item")
-                            .forGetter(ItemAttributeModifier::itemTest),
+                            .forGetter(ItemAttributeModifier::item),
                     ThermooCodecs.EQUIPMENT_SLOT_CODEC
                             .fieldOf("slot")
                             .forGetter(ItemAttributeModifier::slot)
@@ -41,7 +40,7 @@ public record ItemAttributeModifier(
             EquipmentSlot slot,
             Multimap<EntityAttribute, EntityAttributeModifier> attributeModifiers
     ) {
-        if (this.slot == slot && this.itemTest.test(stack)) {
+        if (this.slot == slot && this.item.test(stack)) {
             attributeModifiers.put(this.attribute, this.modifier);
         }
     }
