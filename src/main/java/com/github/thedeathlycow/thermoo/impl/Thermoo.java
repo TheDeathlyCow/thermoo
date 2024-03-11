@@ -9,9 +9,12 @@ import com.github.thedeathlycow.thermoo.api.temperature.EnvironmentManager;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.ArgumentTypeRegistry;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.registry.DynamicRegistries;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.command.argument.serialize.ConstantArgumentSerializer;
+import net.minecraft.registry.DynamicRegistryManager;
+import net.minecraft.registry.Registry;
 import net.minecraft.resource.ResourceType;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Contract;
@@ -23,11 +26,8 @@ public class Thermoo implements ModInitializer {
     public static final String MODID = "thermoo";
     public static final Logger LOGGER = LoggerFactory.getLogger(MODID);
 
-    public static final int CONFIG_VERSION = 0;
-
     @Override
     public void onInitialize() {
-
         ArgumentTypeRegistry.registerArgumentType(
                 Thermoo.id("heating_mode"),
                 HeatingModeArgumentType.class,
@@ -47,7 +47,7 @@ public class Thermoo implements ModInitializer {
                 DynamicRegistries.SyncOption.SKIP_WHEN_EMPTY
         );
 
-        ItemAttributeModifierManager.registerToEventsCommon(new ItemAttributeModifierManager());
+        ItemAttributeModifierManager.INSTANCE.registerToEventsCommon();
 
         ThermooCommonRegisters.registerAttributes();
         ThermooCommonRegisters.registerTemperatureEffects();

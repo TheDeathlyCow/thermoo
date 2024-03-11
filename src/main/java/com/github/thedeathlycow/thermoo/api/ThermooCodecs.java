@@ -1,20 +1,14 @@
 package com.github.thedeathlycow.thermoo.api;
 
-import com.google.gson.JsonElement;
 import com.mojang.datafixers.util.Either;
-import com.mojang.datafixers.util.Pair;
-import com.mojang.serialization.*;
+import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
-import net.minecraft.predicate.item.ItemPredicate;
 import net.minecraft.util.Uuids;
-import net.minecraft.util.dynamic.Codecs;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.random.Random;
 import org.jetbrains.annotations.ApiStatus;
-
-import java.util.Objects;
 
 /**
  * Helpful codecs used by Thermoo.
@@ -46,33 +40,6 @@ public class ThermooCodecs {
             ).apply(instance, EntityAttributeModifier::new)
     );
 
-    public static final Codec<ItemPredicate> ITEM_PREDICATE_CODEC = new Codec<>() {
-        @Override
-        public <T> DataResult<Pair<ItemPredicate, T>> decode(DynamicOps<T> ops, T input) {
-            try {
-                JsonElement json = Dynamic.convert(ops, JsonOps.INSTANCE, input);
-                ItemPredicate predicate = ItemPredicate.fromJson(json);
-                return DataResult.success(Pair.of(predicate, ops.empty()));
-            } catch (Exception e) {
-                return DataResult.error(e::getMessage);
-            }
-        }
-
-        @Override
-        public <T> DataResult<T> encode(ItemPredicate input, DynamicOps<T> ops, T prefix) {
-            try {
-                return ops.mergeToPrimitive(prefix, Dynamic.convert(JsonOps.INSTANCE, ops, input.toJson()));
-            } catch (Exception e) {
-                return DataResult.error(e::getMessage);
-            }
-        }
-
-        @Override
-        public String toString() {
-            return "ItemPredicate";
-        }
-    };
-
     /**
      * Creates a codec for an Enum. Either uses the enum ordinal or the name, but prefers the ordinal for more efficient
      * storage.
@@ -89,7 +56,7 @@ public class ThermooCodecs {
                 ),
                 Codec.STRING.xmap(
                         name -> Enum.valueOf(clazz, name),
-                        Objects::toString
+                        Enum::name
                 )
         ).xmap(
                 either -> either.left().orElseGet(() -> either.right().orElseThrow()),

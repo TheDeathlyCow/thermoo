@@ -1,6 +1,7 @@
 package com.github.thedeathlycow.thermoo.impl;
 
 import com.github.thedeathlycow.thermoo.api.ThermooRegistryKeys;
+import com.github.thedeathlycow.thermoo.api.attribute.ItemAttributeModifier;
 import com.google.common.collect.Multimap;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
@@ -10,31 +11,48 @@ import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.DynamicRegistryManager;
+import net.minecraft.registry.Registry;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * Applies {@link com.github.thedeathlycow.thermoo.api.attribute.ItemAttributeModifier}s to the default attributes of
+ * item stacks
+ */
 public class ItemAttributeModifierManager implements ModifyItemAttributeModifiersCallback {
+
+    public static final ItemAttributeModifierManager INSTANCE = new ItemAttributeModifierManager();
 
     @Nullable
     private DynamicRegistryManager manager;
 
-    public static void registerToEventsCommon(ItemAttributeModifierManager instance) {
+    public void registerToEventsCommon() {
         ServerLifecycleEvents.SERVER_STARTING.register(server -> {
-            instance.manager = server.getRegistryManager();
+            this.manager = server.getRegistryManager();
         });
+
+        ServerLifecycleEvents.SERVER_STARTED.register(server -> {
+            if (this.manager == null) {
+                return;
+            }
+
+            Registry<ItemAttributeModifier> registry = this.manager.get(ThermooRegistryKeys.ITEM_ATTRIBUTE_MODIFIER);
+            Thermoo.LOGGER.info("Loaded {} items attribute modifier(s)", registry != null ? registry.size() : 0);
+        });
+
         ServerLifecycleEvents.SERVER_STOPPING.register(server -> {
-            instance.manager = null;
+            this.manager = null;
         });
-        ModifyItemAttributeModifiersCallback.EVENT.register(instance);
+        ModifyItemAttributeModifiersCallback.EVENT.register(this);
     }
 
-    public static void registerToEventsClient(ItemAttributeModifierManager instance) {
+    public void registerToEventsClient() {
         ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> {
-            if (instance.manager == null) {
-                instance.manager = handler.getRegistryManager();
+            if (this.manager == null) {
+                this.manager = handler.getRegistryManager();
             }
         });
         ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> {
-            instance.manager = null;
+            this.manager = null;
         });
     }
 
@@ -58,5 +76,9 @@ public class ItemAttributeModifierManager implements ModifyItemAttributeModifier
         } else {
             Thermoo.LOGGER.info("Manager is null");
         }
+    }
+
+    private ItemAttributeModifierManager() {
+
     }
 }
