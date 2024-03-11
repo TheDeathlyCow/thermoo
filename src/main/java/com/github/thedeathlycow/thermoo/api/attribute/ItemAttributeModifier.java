@@ -19,6 +19,56 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.function.Predicate;
 
+/**
+ * Applies changes to the default attributes of an item. Item attribute modifiers are provided in datapack JSON files at
+ * {@code data/<entry namespace>/thermoo/item_attribute_modifier/<entry path>}. They are synchronized to clients so that
+ * they will properly show up in the item tooltip.
+ * <p>
+ * Example JSON file:
+ * <pre>
+ *     {
+ *          "attribute": "thermoo:generic.heat_resistance",
+ *          "modifier": {
+ *              "uuid": "413a10a0-bf0b-47db-a9a9-2eb3dda3bbaf",
+ *              "name": "Test",
+ *              "value": -1.0,
+ *              "operation": "ADDITION"
+ *          },
+ *          "item": {
+ *              "items": [
+ *                  "minecraft:diamond_helmet",
+ *                  "minecraft:iron_helmet",
+ *                  "minecraft:leather_helmet"
+ *              ]
+ *          },
+ *          "slot": "HELMET"
+ *     }
+ * </pre>
+ * <p>
+ * You can also use tags:
+ * <pre>
+ *     {
+ *          "attribute": "thermoo:generic.heat_resistance",
+ *          "modifier": {
+ *              "uuid": "413a10a0-bf0b-47db-a9a9-2eb3dda3bbaf",
+ *              "name": "Test",
+ *              "value": 2.0,
+ *              "operation": "ADDITION"
+ *          },
+ *          "item": {
+ *              "tag": "scorchful:turtle_armor"
+ *          },
+ *          "slot": "HELMET"
+ *     }
+ * </pre>
+ * <p>
+ * This class is experimental and subject to change. Please use the datapack JSON instead of referencing this class directly.
+ *
+ * @param attribute     The attribute this modifier affects
+ * @param modifier      The modifier that this applies to the attribute
+ * @param itemPredicate A type predicate for items this should apply to
+ * @param slot          The slot this should apply to
+ */
 @ApiStatus.Experimental
 public record ItemAttributeModifier(
         EntityAttribute attribute,
