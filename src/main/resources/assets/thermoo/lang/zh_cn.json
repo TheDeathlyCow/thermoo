@@ -1,0 +1,22 @@
+{
+    "attribute.thermoo.generic.min_temperature": "最低温度",
+    "attribute.thermoo.generic.max_temperature": "最高温度",
+    "attribute.thermoo.generic.frost_resistance": "低温抗性",
+    "attribute.thermoo.generic.heat_resistance": "高温抗性",
+    
+
+    "commands.thermoo.temperature.exception.not_living_entity": "目标不是生物实体",
+    "commands.thermoo.temperature.get.scale.success": "%s的温度是%d",
+    "commands.thermoo.temperature.get.max.success": "%s能承受最高温度为%d",
+    "commands.thermoo.temperature.get.min.success": "%s能承受最低温度为%d",
+    "commands.thermoo.temperature.get.current.success": "%s的当前温度为%d",
+    "commands.thermoo.temperature.add.success.single": "已升高%2$s的温度%1$d(现在是%3$d)",
+    "commands.thermoo.temperature.add.success.multiple": "已将%2$d个实体的温度升高%1$d",
+    "commands.thermoo.temperature.remove.success.single": "已降低%2$s的温度%1$d(现在是%3$d)",
+    "commands.thermoo.temperature.remove.success.multiple": "已将%2$d个实体的温度降低%1$d",
+    "commands.thermoo.temperature.set.success.single": "已将%s的温度设置为%d",
+    "commands.thermoo.temperature.set.success.multiple": "已将%s个实体的温度设置为%d",
+    "commands.thermoo.environment.printcontroller.success": "控制器已记录至控制台",
+
+    "commands.thermoo.environment.checktemperature.success": "在%s，%s，%s(%s)处的温度变化为%d度"
+}
