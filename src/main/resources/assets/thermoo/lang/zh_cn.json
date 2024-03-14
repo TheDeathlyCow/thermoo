@@ -18,5 +18,5 @@
     "commands.thermoo.temperature.set.success.multiple": "已将%s个实体的温度设置为%d",
     "commands.thermoo.environment.printcontroller.success": "控制器已记录至控制台",
 
-    "commands.thermoo.environment.checktemperature.success": "在%s，%s，%s(%s)处的温度变化为%d度"
+    "commands.thermoo.environment.checktemperature.success": "在%s，%s，%s(%s)处的被动温度变化为%d"
 }
