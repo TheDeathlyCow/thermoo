@@ -13,6 +13,7 @@ public class ThermooCommonRegisters {
     @SuppressWarnings("deprecation")
     public static void registerTemperatureEffects() {
         registerTemperatureEffect("empty", TemperatureEffects.EMPTY);
+        registerTemperatureEffect("sequence", TemperatureEffects.SEQUENCE);
         registerTemperatureEffect("status_effect", TemperatureEffects.STATUS_EFFECT);
         registerTemperatureEffect("scaling_attribute_modifier", TemperatureEffects.SCALING_ATTRIBUTE_MODIFIER);
         registerTemperatureEffect("damage", TemperatureEffects.DAMAGE);

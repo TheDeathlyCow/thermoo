@@ -1,0 +1,36 @@
+{
+    "type": "thermoo:sequence",
+    "entity": {
+        "condition": "minecraft:reference",
+        "name": "thermoo-test:is_warm"
+    },
+    "config": {
+        "children": [
+            {
+                "type": "thermoo:damage",
+                "entity_type": "minecraft:player",
+                "config": {
+                    "amount": 1,
+                    "damage_interval": 20,
+                    "damage_type": "minecraft:in_fire"
+                }
+            },
+            {
+                "type": "thermoo:status_effect",
+                "entity": {
+                    "condition": "minecraft:reference",
+                    "name": "thermoo-test:is_cold"
+                },
+                "config": {
+                    "effects": [
+                        {
+                            "amplifier": 0,
+                            "duration": 200,
+                            "effect": "minecraft:nausea"
+                        }
+                    ]
+                }
+            }
+        ]
+    }
+}
