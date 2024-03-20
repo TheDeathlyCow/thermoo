@@ -41,7 +41,7 @@ import java.util.function.Predicate;
  *                  "minecraft:leather_helmet"
  *              ]
  *          },
- *          "slot": "HELMET"
+ *          "slot": "HEAD"
  *     }
  * </pre>
  * <p>
@@ -58,7 +58,7 @@ import java.util.function.Predicate;
  *          "item": {
  *              "tag": "scorchful:turtle_armor"
  *          },
- *          "slot": "HELMET"
+ *          "slot": "HEAD"
  *     }
  * </pre>
  * <p>
