@@ -1,36 +1,49 @@
 package com.github.thedeathlycow.thermoo.api.util;
 
+import net.minecraft.util.StringIdentifiable;
+
 import java.util.function.DoubleUnaryOperator;
 
 /**
  * Defines the basic units of temperature and allows for conversions between them.
  */
-public enum TemperatureUnit {
+public enum TemperatureUnit implements StringIdentifiable {
 
     CELSIUS(
-            value -> value,
+            "C",
+            celsiusValue -> celsiusValue,
             celsiusValue -> celsiusValue
     ),
     KELVIN(
-            value -> value - 273.15,
+            "K",
+            kelvinValue -> kelvinValue - 273.15,
             celsiusValue -> celsiusValue + 273.15
     ),
     FAHRENHEIT(
-            value -> (value - 32.0) * 5.0 / 9.0,
-            celsiusValue -> (5.0 / 9.0) * celsiusValue + 32.0
+            "F",
+            fahrenheitValue -> (fahrenheitValue - 32.0) * 5.0 / 9.0,
+            celsiusValue -> (9.0 / 5.0) * celsiusValue + 32.0
     ),
     RANKINE(
-            value -> FAHRENHEIT.toCelsius(value - 459.67),
-            celsiusValue -> FAHRENHEIT.fromCelsius(celsiusValue) - 459.67
+            "R",
+            rankineValue -> FAHRENHEIT.toCelsius(rankineValue - 459.67),
+            celsiusValue -> FAHRENHEIT.fromCelsius(celsiusValue) + 459.67
     );
+
+    private final String unitSymbol;
 
     private final DoubleUnaryOperator toCelsius;
 
     private final DoubleUnaryOperator fromCelsius;
 
-    TemperatureUnit(DoubleUnaryOperator toCelsius, DoubleUnaryOperator fromCelsius) {
+    TemperatureUnit(String unitSymbol, DoubleUnaryOperator toCelsius, DoubleUnaryOperator fromCelsius) {
+        this.unitSymbol = unitSymbol;
         this.toCelsius = toCelsius;
         this.fromCelsius = fromCelsius;
+    }
+
+    public String getUnitSymbol() {
+        return this.unitSymbol;
     }
 
     /**
@@ -61,8 +74,15 @@ public enum TemperatureUnit {
      * @return Returns the equivalent temperature value in this unit.
      */
     public double convertTemperature(double inputValue, TemperatureUnit inputUnit) {
+        if (this == inputUnit) {
+            return inputValue;
+        }
         double inputCelsius = inputUnit.toCelsius(inputValue);
         return this.fromCelsius(inputCelsius);
     }
 
+    @Override
+    public String asString() {
+        return this.toString().toLowerCase();
+    }
 }

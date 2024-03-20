@@ -5,16 +5,14 @@ import com.github.thedeathlycow.thermoo.api.attribute.ItemAttributeModifier;
 import com.github.thedeathlycow.thermoo.api.command.EnvironmentCommand;
 import com.github.thedeathlycow.thermoo.api.command.HeatingModeArgumentType;
 import com.github.thedeathlycow.thermoo.api.command.TemperatureCommand;
+import com.github.thedeathlycow.thermoo.api.command.TemperatureUnitArgumentType;
 import com.github.thedeathlycow.thermoo.api.temperature.EnvironmentManager;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.ArgumentTypeRegistry;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.registry.DynamicRegistries;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.command.argument.serialize.ConstantArgumentSerializer;
-import net.minecraft.registry.DynamicRegistryManager;
-import net.minecraft.registry.Registry;
 import net.minecraft.resource.ResourceType;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Contract;
@@ -33,6 +31,12 @@ public class Thermoo implements ModInitializer {
                 HeatingModeArgumentType.class,
                 ConstantArgumentSerializer.of(HeatingModeArgumentType::heatingMode)
         );
+        ArgumentTypeRegistry.registerArgumentType(
+                Thermoo.id("temperature_unit"),
+                TemperatureUnitArgumentType.class,
+                ConstantArgumentSerializer.of(TemperatureUnitArgumentType::temperatureUnit)
+        );
+
 
         CommandRegistrationCallback.EVENT.register(
                 (dispatcher, registryAccess, environment) -> {

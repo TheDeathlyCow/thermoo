@@ -1,6 +1,8 @@
 package com.github.thedeathlycow.thermoo.api.command;
 
 import com.github.thedeathlycow.thermoo.api.temperature.EnvironmentManager;
+import com.github.thedeathlycow.thermoo.api.util.TemperatureConverter;
+import com.github.thedeathlycow.thermoo.api.util.TemperatureUnit;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import net.minecraft.command.argument.BlockPosArgumentType;
@@ -64,6 +66,24 @@ public class EnvironmentCommand {
                                             );
                                         }
                                 )
+                                .then(
+                                        argument("unit", TemperatureUnitArgumentType.temperatureUnit())
+                                                .executes(
+                                                        context -> {
+                                                            return executeCheckTemperature(
+                                                                    context.getSource(),
+                                                                    EntityArgumentType.getEntity(
+                                                                            context,
+                                                                            "target"
+                                                                    ).getBlockPos(),
+                                                                    TemperatureUnitArgumentType.getTemperatureUnit(
+                                                                            context,
+                                                                            "unit"
+                                                                    )
+                                                            );
+                                                        }
+                                                )
+                                )
                 )
                 .then(
                         argument("location", BlockPosArgumentType.blockPos())
@@ -77,6 +97,24 @@ public class EnvironmentCommand {
                                                     )
                                             );
                                         }
+                                )
+                                .then(
+                                        argument("unit", TemperatureUnitArgumentType.temperatureUnit())
+                                                .executes(
+                                                        context -> {
+                                                            return executeCheckTemperature(
+                                                                    context.getSource(),
+                                                                    BlockPosArgumentType.getBlockPos(
+                                                                            context,
+                                                                            "location"
+                                                                    ),
+                                                                    TemperatureUnitArgumentType.getTemperatureUnit(
+                                                                            context,
+                                                                            "unit"
+                                                                    )
+                                                            );
+                                                        }
+                                                )
                                 )
                 );
 
@@ -122,5 +160,37 @@ public class EnvironmentCommand {
         );
 
         return temperatureChange;
+    }
+
+    private static int executeCheckTemperature(ServerCommandSource source, BlockPos location, TemperatureUnit unit) {
+
+        int temperatureTick = EnvironmentManager.INSTANCE.getController().getLocalTemperatureChange(
+                source.getWorld(),
+                location
+        );
+
+
+        var biome = source.getWorld().getBiome(location).getKey().orElse(null);
+
+        double temperature = TemperatureConverter.temperatureTickToAmbientTemperature(
+                temperatureTick,
+                new TemperatureConverter.Settings(unit, 1, 0)
+        );
+
+        source.sendFeedback(
+                () -> Text.translatableWithFallback(
+                        "commands.thermoo.environment.checktemperature.unit.success",
+                        "The temperature at %s, %s, %s (%s) is %.2f°%s",
+                        location.getX(),
+                        location.getY(),
+                        location.getZ(),
+                        biome == null ? "unknown" : biome.getValue(),
+                        temperature,
+                        unit.getUnitSymbol()
+                ),
+                false
+        );
+
+        return (int) temperature;
     }
 }

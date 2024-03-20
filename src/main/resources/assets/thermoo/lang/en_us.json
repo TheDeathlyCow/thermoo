@@ -18,5 +18,7 @@
     "commands.thermoo.temperature.set.success.multiple": "Set the temperature of %s entities to %d",
     "commands.thermoo.environment.printcontroller.success": "Controller logged to console",
 
-    "commands.thermoo.environment.checktemperature.success": "The passive temperature change at %s, %s, %s (%s) is %d"
+    "commands.thermoo.environment.checktemperature.success": "The passive temperature change at %s, %s, %s (%s) is %d",
+    "commands.thermoo.environment.checktemperature.unit.success": "The temperature at %s, %s, %s (%s) is %.2f°%s"
+    
 }
