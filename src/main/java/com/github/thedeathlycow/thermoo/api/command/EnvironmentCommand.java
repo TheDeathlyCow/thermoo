@@ -152,7 +152,7 @@ public class EnvironmentCommand {
         source.sendFeedback(
                 () -> Text.translatableWithFallback(
                         "commands.thermoo.environment.checktemperature.success",
-                        "The passive temperature change at %s, %s, %s (%s) is %d",
+                        "The passive temperature change at %s, %s, %s (%s) is %s",
                         location.getX(),
                         location.getY(),
                         location.getZ(),
@@ -183,12 +183,12 @@ public class EnvironmentCommand {
         source.sendFeedback(
                 () -> Text.translatableWithFallback(
                         "commands.thermoo.environment.checktemperature.unit.success",
-                        "The temperature at %s, %s, %s (%s) is %.2f°%s",
+                        "The temperature at %s, %s, %s (%s) is %s°%s",
                         location.getX(),
                         location.getY(),
                         location.getZ(),
                         biome == null ? "unknown" : biome.getValue(),
-                        temperature,
+                        String.format("%.2f", temperature),
                         unit.getUnitSymbol()
                 ),
                 false
