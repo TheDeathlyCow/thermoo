@@ -7,7 +7,10 @@ import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import net.minecraft.command.argument.BlockPosArgumentType;
 import net.minecraft.command.argument.EntityArgumentType;
+import net.minecraft.server.command.FillCommand;
 import net.minecraft.server.command.ServerCommandSource;
+import net.minecraft.server.command.SetBlockCommand;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import org.jetbrains.annotations.Contract;
@@ -91,7 +94,7 @@ public class EnvironmentCommand {
                                         context -> {
                                             return executeCheckTemperature(
                                                     context.getSource(),
-                                                    BlockPosArgumentType.getBlockPos(
+                                                    BlockPosArgumentType.getLoadedBlockPos(
                                                             context,
                                                             "location"
                                                     )
@@ -104,7 +107,7 @@ public class EnvironmentCommand {
                                                         context -> {
                                                             return executeCheckTemperature(
                                                                     context.getSource(),
-                                                                    BlockPosArgumentType.getBlockPos(
+                                                                    BlockPosArgumentType.getLoadedBlockPos(
                                                                             context,
                                                                             "location"
                                                                     ),
