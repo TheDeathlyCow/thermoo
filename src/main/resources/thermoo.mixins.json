@@ -12,9 +12,7 @@
         "PlayerTemperatureTickMixin",
         "TemperatureEffectTickerMixin"
     ],
-    "client": [
-    ],
     "injectors": {
         "defaultRequire": 1
-	}
+    }
 }

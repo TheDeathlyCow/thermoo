@@ -26,7 +26,11 @@
 		]
 	},
 	"mixins": [
-		"thermoo.mixins.json"
+		"thermoo.mixins.json",
+		{
+			"config": "scorchful.client.mixins.json",
+			"environment": "client"
+		}
 	],
 	"depends": {
 		"fabricloader": ">=0.15.7",
