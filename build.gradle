@@ -1,5 +1,5 @@
 plugins {
-    id 'fabric-loom' version '1.2-SNAPSHOT'
+    id 'fabric-loom' version '1.5-SNAPSHOT'
     id 'maven-publish'
 }
 
@@ -86,6 +86,9 @@ subprojects {
 }
 
 loom {
+
+    accessWidenerPath = file("src/main/resources/thermoo.accesswidener")
+
     interfaceInjection {
         enableDependencyInterfaceInjection = true
     }

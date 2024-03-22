@@ -6,40 +6,50 @@ import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import org.joml.Vector2f;
+import org.joml.Vector2i;
 
 /**
- * Event for rendering temperature overlays on the health bar. Invoked after the health bar has been rendered.
+ * Event for rendering temperature overlays on the health bar. Invoked after the health bar has been rendered. This is
+ * not rendered for the absorption bar.
  * <p>
  * Supports Colourful Hearts and Overflowing Bars natively.
  * <p>
  * Custom heart types, like Frozen Hearts, should be handled separately.
  */
 @Environment(EnvType.CLIENT)
-@SuppressWarnings("UNUSED")
 public class HeartOverlayRenderEvent {
 
-    public static final Event<RenderHeartBarCallback> EVENT = EventFactory.createArrayBacked(
-            RenderHeartBarCallback.class,
-            callbacks -> (context, player, heartPositions, maxHalfHearts) -> {
-                for (RenderHeartBarCallback callback : callbacks) {
-                    callback.render(context, player, heartPositions, maxHalfHearts);
+    public static final Event<RenderHealthBarCallback> AFTER_HEALTH_BAR = EventFactory.createArrayBacked(
+            RenderHealthBarCallback.class,
+            callbacks -> (context, player, heartPositions, displayHealth, maxDisplayHeath) -> {
+                for (RenderHealthBarCallback callback : callbacks) {
+                    callback.render(context, player, heartPositions, displayHealth, maxDisplayHeath);
                 }
             }
     );
 
     @FunctionalInterface
-    public interface RenderHeartBarCallback {
+    public interface RenderHealthBarCallback {
 
         /**
-         * @param context        DrawContext for the HUD
-         * @param player         The player rendering hearts for
-         * @param heartPositions An array of heart positions on the HUD
-         * @param maxHalfHearts  The maximum number of half hearts the player could have, including empty hearts.
-         *                       This is NOT always the same as the max health, e.g. with a health bar overriding mod
-         *                       like Colourful Hearts it is at most 20.
+         * Note that {@code displayHealth} and {@code maxDisplayHealth} are not always the same as health and max health. Mods that
+         * override the health bar rendering like Colorful Hearts may change these values.
+         *
+         * @param context         DrawContext for the HUD
+         * @param player          The player rendering hearts for
+         * @param heartPositions  An array of heart positions on the HUD
+         * @param displayHealth   How many half hearts are to be displayed
+         * @param maxDisplayHeath The maximum number of half hearts to be displayed
          */
-        void render(DrawContext context, ClientPlayerEntity player, Vector2f[] heartPositions, float maxHalfHearts);
+        void render(
+                DrawContext context,
+                PlayerEntity player,
+                Vector2i[] heartPositions,
+                int displayHealth,
+                int maxDisplayHeath
+        );
 
     }
 

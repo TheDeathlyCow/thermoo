@@ -4,6 +4,7 @@
     "compatibilityLevel": "JAVA_17",
     "plugin": "com.github.thedeathlycow.thermoo.mixin.client.compat.Plugin",
     "client": [
+        "compat.overflowingbars.absent.InGameHudMixin"
     ],
     "injectors": {
         "defaultRequire": 1

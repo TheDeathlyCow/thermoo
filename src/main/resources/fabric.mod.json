@@ -42,6 +42,7 @@
 		"frostiful": "*",
 		"scorchful": "*"
 	},
+	"accessWidener": "thermoo.accesswidener",
 	"custom": {
 		"loom:injected_interfaces": {
 			"net/minecraft/class_1309": [
