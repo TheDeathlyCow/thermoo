@@ -1,6 +1,7 @@
 package com.github.thedeathlycow.thermoo.impl.client;
 
 import net.minecraft.util.Util;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Vector2i;
 
 import java.util.Arrays;
@@ -13,13 +14,12 @@ public class HeartOverlayImpl {
 
     private final Vector2i[] heartPositions = Util.make(() -> {
         var positions = new Vector2i[MAX_OVERLAY_HEARTS];
-        Arrays.setAll(positions, i -> new Vector2i());
+        Arrays.fill(positions, null);
         return positions;
     });
 
     public void setHeartPosition(int index, int heartX, int heartY) {
-        heartPositions[index].x = heartX;
-        heartPositions[index].y = heartY;
+        heartPositions[index] = new Vector2i(heartX, heartY);
     }
 
     public Vector2i[] getHeartPositions() {

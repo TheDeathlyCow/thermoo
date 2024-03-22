@@ -13,6 +13,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
+import java.util.Arrays;
+
 @Mixin(InGameHud.class)
 public class InGameHudMixin {
     @Inject(
@@ -79,6 +81,7 @@ public class InGameHudMixin {
                         displayHealth,
                         maxDisplayHealth
                 );
+        Arrays.fill(HeartOverlayImpl.INSTANCE.getHeartPositions(), null);
     }
 
 }

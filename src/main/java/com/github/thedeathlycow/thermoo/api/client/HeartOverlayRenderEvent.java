@@ -5,9 +5,7 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import org.joml.Vector2f;
 import org.joml.Vector2i;
 
 /**
@@ -39,7 +37,8 @@ public class HeartOverlayRenderEvent {
          *
          * @param context         DrawContext for the HUD
          * @param player          The player rendering hearts for
-         * @param heartPositions  An array of heart positions on the HUD
+         * @param heartPositions  An array of heart positions on the HUD. Elements may be null, indicating that a heart
+         *                        should not be rendered at this index.
          * @param displayHealth   How many half hearts are to be displayed
          * @param maxDisplayHeath The maximum number of half hearts to be displayed
          */
