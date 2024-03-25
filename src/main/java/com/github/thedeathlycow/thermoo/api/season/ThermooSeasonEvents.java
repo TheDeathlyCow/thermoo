@@ -7,16 +7,19 @@ import net.minecraft.world.World;
 import java.util.Optional;
 
 /**
- * Events related to Seasons mod integration in Thermoo
+ * Events related to Seasons mod integration in Thermoo. Thermoo does not add seasonal functionality by itself, seasons
+ * must be implemented by another mod like Fabric Seasons or Serene Seasons. This only provides the ability to query
+ * seasons if you want to use them.
  */
 public class ThermooSeasonEvents {
 
     /**
-     * Retrieves the current season, if a season mod is loaded. Thermoo does not add seasons by itself, seasons must be
-     * implemented by another mod like Fabric Seasons or Serene Seasons. This event just places season integration into
+     * Retrieves the current season. This event just places season integration into
      * a common source.
      * <p>
-     * Returns empty if no season mod is installed.
+     * If any listener returns a non-empty season, then all further processing is cancelled and that season is returned.
+     * <p>
+     * Returns empty by default.
      */
     public static final Event<CurrentSeasonCallback> GET_CURRENT_SEASON = EventFactory.createArrayBacked(
             CurrentSeasonCallback.class,
