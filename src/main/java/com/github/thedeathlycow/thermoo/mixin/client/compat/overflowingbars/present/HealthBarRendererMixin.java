@@ -1,6 +1,6 @@
 package com.github.thedeathlycow.thermoo.mixin.client.compat.overflowingbars.present;
 
-import com.github.thedeathlycow.thermoo.api.client.HeartOverlayRenderEvent;
+import com.github.thedeathlycow.thermoo.api.client.StatusBarOverlayRenderEvents;
 import com.github.thedeathlycow.thermoo.impl.client.HeartOverlayImpl;
 import fuzs.overflowingbars.client.handler.HealthBarRenderer;
 import net.fabricmc.api.EnvType;
@@ -72,7 +72,7 @@ public class HealthBarRendererMixin {
             boolean blink,
             CallbackInfo ci
     ) {
-        HeartOverlayRenderEvent.AFTER_HEALTH_BAR.invoker()
+        StatusBarOverlayRenderEvents.AFTER_HEALTH_BAR.invoker()
                 .render(
                         guiGraphics,
                         player,

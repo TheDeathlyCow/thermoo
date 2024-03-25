@@ -1,6 +1,6 @@
 package com.github.thedeathlycow.thermoo.testmod;
 
-import com.github.thedeathlycow.thermoo.api.client.HeartOverlayRenderEvent;
+import com.github.thedeathlycow.thermoo.api.client.StatusBarOverlayRenderEvents;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import net.fabricmc.api.ClientModInitializer;
 import net.minecraft.client.gui.DrawContext;
@@ -19,7 +19,7 @@ public class ThermooTestModClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        HeartOverlayRenderEvent.AFTER_HEALTH_BAR.register(ThermooTestModClient::renderFireHeartBar);
+        StatusBarOverlayRenderEvents.AFTER_HEALTH_BAR.register(ThermooTestModClient::renderFireHeartBar);
     }
 
     public static void renderFireHeartBar(

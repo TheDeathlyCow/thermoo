@@ -1,6 +1,6 @@
 package com.github.thedeathlycow.thermoo.mixin.client.compat.overflowingbars.absent;
 
-import com.github.thedeathlycow.thermoo.api.client.HeartOverlayRenderEvent;
+import com.github.thedeathlycow.thermoo.api.client.StatusBarOverlayRenderEvents;
 import com.github.thedeathlycow.thermoo.impl.client.HeartOverlayImpl;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
@@ -73,7 +73,7 @@ public class InGameHudMixin {
         int displayHealth = Math.min(health, heartPositions.length);
         int maxDisplayHealth = Math.min(MathHelper.ceil(maxHealth), heartPositions.length);
 
-        HeartOverlayRenderEvent.AFTER_HEALTH_BAR.invoker()
+        StatusBarOverlayRenderEvents.AFTER_HEALTH_BAR.invoker()
                 .render(
                         context,
                         player,

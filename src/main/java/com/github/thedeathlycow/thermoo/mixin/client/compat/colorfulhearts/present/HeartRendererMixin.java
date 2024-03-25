@@ -1,14 +1,12 @@
 package com.github.thedeathlycow.thermoo.mixin.client.compat.colorfulhearts.present;
 
-import com.github.thedeathlycow.thermoo.api.client.HeartOverlayRenderEvent;
+import com.github.thedeathlycow.thermoo.api.client.StatusBarOverlayRenderEvents;
 import com.github.thedeathlycow.thermoo.impl.ThermooIntegrations;
 import com.github.thedeathlycow.thermoo.impl.client.HeartOverlayImpl;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.entity.player.PlayerEntity;
-import org.joml.Vector2i;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -75,7 +73,7 @@ public class HeartRendererMixin {
         if (ThermooIntegrations.isModLoaded(ThermooIntegrations.OVERFLOWING_BARS_ID)) {
             return;
         }
-        HeartOverlayRenderEvent.AFTER_HEALTH_BAR.invoker()
+        StatusBarOverlayRenderEvents.AFTER_HEALTH_BAR.invoker()
                 .render(
                         drawContext,
                         player,
