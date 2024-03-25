@@ -55,6 +55,7 @@ dependencies {
     modCompileOnly("maven.modrinth:overflowing-bars:${project.overflowing_bars_version}") { transitive = false }
     modCompileOnly("maven.modrinth:colorful-hearts:${project.colorful_hearts_version}") { transitive = false }
 
+    modCompileOnly("maven.modrinth:fabric-seasons:${project.fabric_seasons_version}") { transitive = false }
     // Uncomment the following line to enable the deprecated Fabric API modules.
     // These are included in the Fabric API production distribution and allow you to update your mod to the latest modules at a later more convenient time.
 
