@@ -9,6 +9,9 @@
 		"main": [
 			"com.github.thedeathlycow.thermoo.testmod.ThermooTestMod"
 		],
+		"client": [
+			"com.github.thedeathlycow.thermoo.testmod.ThermooTestModClient"
+		],
 		"fabric-gametest": [
 		]
 	}

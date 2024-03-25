@@ -20,13 +20,19 @@ public final class TemperatureEffects {
     public static final TemperatureEffect<?> EMPTY = new EmptyTemperatureEffect();
 
     /**
-     * Applies {@link net.minecraft.entity.effect.StatusEffect}s to entities based on their temperature
+     * A meta temperature effect that allows multiple child effects to be applied under the same conditions.
+     */
+    public static final TemperatureEffect<?> SEQUENCE = new SequenceTemperatureEffect();
+
+    /**
+     * Applies {@linkplain  net.minecraft.entity.effect.StatusEffect status effects} to entities based on their
+     * temperature
      */
     public static final TemperatureEffect<?> STATUS_EFFECT = new StatusEffectTemperatureEffect();
 
     /**
-     * Applies scaled {@link net.minecraft.entity.attribute.EntityAttributeModifier}s to entities based on their
-     * temperature
+     * Applies scaled {@linkplain net.minecraft.entity.attribute.EntityAttributeModifier attribute modifiers} to
+     * entities based on their temperature
      */
     public static final TemperatureEffect<?> SCALING_ATTRIBUTE_MODIFIER = new ScalingAttributeModifierTemperatureEffect();
 
@@ -49,6 +55,7 @@ public final class TemperatureEffects {
 
     /**
      * Returns all currently loaded {@link ConfiguredTemperatureEffect}s that are mapped to the {@code entity}'s type.
+     *
      * @param entity The entity to fetch the effects for
      * @return Returns the effects loaded for the entity type
      */

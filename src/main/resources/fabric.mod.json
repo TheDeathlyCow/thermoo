@@ -18,22 +18,31 @@
 		"main": [
 			"com.github.thedeathlycow.thermoo.impl.Thermoo"
 		],
+		"client": [
+			"com.github.thedeathlycow.thermoo.impl.ThermooClient"
+		],
 		"cardinal-components-entity": [
 			"com.github.thedeathlycow.thermoo.impl.component.ThermooComponents"
 		]
 	},
 	"mixins": [
-		"thermoo.mixins.json"
+		"thermoo.mixins.json",
+		{
+			"config": "thermoo.client.mixins.json",
+			"environment": "client"
+		}
 	],
 	"depends": {
-		"fabricloader": ">=0.14.19",
-		"fabric-api": "*",
-		"minecraft": ">=1.20",
+		"fabricloader": ">=0.15.7",
+		"fabric-api": ">=0.91.0",
+		"minecraft": "~1.20.1",
 		"java": ">=17"
 	},
 	"suggests": {
-		"frostiful": "*"
+		"frostiful": "*",
+		"scorchful": "*"
 	},
+	"accessWidener": "thermoo.accesswidener",
 	"custom": {
 		"loom:injected_interfaces": {
 			"net/minecraft/class_1309": [

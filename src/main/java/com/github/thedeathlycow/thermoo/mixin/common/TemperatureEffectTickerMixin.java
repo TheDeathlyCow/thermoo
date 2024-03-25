@@ -1,4 +1,4 @@
-package com.github.thedeathlycow.thermoo.mixin;
+package com.github.thedeathlycow.thermoo.mixin.common;
 
 import com.github.thedeathlycow.thermoo.api.temperature.effects.TemperatureEffects;
 import net.minecraft.entity.Entity;
