@@ -28,7 +28,7 @@
 	"mixins": [
 		"thermoo.mixins.json",
 		{
-			"config": "scorchful.client.mixins.json",
+			"config": "thermoo.client.mixins.json",
 			"environment": "client"
 		}
 	],

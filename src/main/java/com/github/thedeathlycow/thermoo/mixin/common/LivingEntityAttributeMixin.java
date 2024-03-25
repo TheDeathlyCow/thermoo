@@ -1,4 +1,4 @@
-package com.github.thedeathlycow.thermoo.mixin;
+package com.github.thedeathlycow.thermoo.mixin.common;
 
 import com.github.thedeathlycow.thermoo.api.ThermooAttributes;
 import com.github.thedeathlycow.thermoo.api.temperature.EnvironmentController;
