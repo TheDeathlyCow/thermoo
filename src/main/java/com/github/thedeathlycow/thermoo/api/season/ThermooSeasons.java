@@ -5,7 +5,8 @@ import net.minecraft.world.World;
 import java.util.Optional;
 
 /**
- * Mod-agnostic Seasons enum for any Thermoo dependencies.
+ * Mod-agnostic Seasons enum. Thermoo does not provide seasons itself, but this can be used to better integrate with any
+ * mods that do provide seasons.
  */
 public enum ThermooSeasons {
     SPRING,

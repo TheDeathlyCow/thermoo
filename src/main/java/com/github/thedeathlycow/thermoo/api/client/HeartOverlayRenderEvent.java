@@ -40,14 +40,14 @@ public class HeartOverlayRenderEvent {
          * @param heartPositions  An array of heart positions on the HUD. Elements may be null, indicating that a heart
          *                        should not be rendered at this index.
          * @param displayHealth   How many half hearts are to be displayed
-         * @param maxDisplayHeath The maximum number of half hearts to be displayed
+         * @param maxDisplayHealth The maximum number of half hearts to be displayed
          */
         void render(
                 DrawContext context,
                 PlayerEntity player,
                 Vector2i[] heartPositions,
                 int displayHealth,
-                int maxDisplayHeath
+                int maxDisplayHealth
         );
 
     }
