@@ -5,6 +5,7 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import org.joml.Vector2i;
 
@@ -31,6 +32,20 @@ public class StatusBarOverlayRenderEvents {
             }
     );
 
+    public static final Event<RenderMountHealthBarCallback> AFTER_MOUNT_HEALTH_BAR = EventFactory.createArrayBacked(
+            RenderMountHealthBarCallback.class,
+            callbacks -> (context, player, mount, mountHeartPositions, displayMountHealth, maxDisplayMountHealth) -> {
+                for (RenderMountHealthBarCallback callback : callbacks) {
+                    callback.render(
+                            context,
+                            player, mount,
+                            mountHeartPositions,
+                            displayMountHealth, maxDisplayMountHealth
+                    );
+                }
+            }
+    );
+
     @FunctionalInterface
     public interface RenderHealthBarCallback {
 
@@ -51,6 +66,20 @@ public class StatusBarOverlayRenderEvents {
                 Vector2i[] heartPositions,
                 int displayHealth,
                 int maxDisplayHealth
+        );
+
+    }
+
+    @FunctionalInterface
+    public interface RenderMountHealthBarCallback {
+
+        void render(
+                DrawContext context,
+                PlayerEntity player,
+                LivingEntity mount,
+                Vector2i[] mountHeartPositions,
+                int displayMountHealth,
+                int maxDisplayMountHealth
         );
 
     }
