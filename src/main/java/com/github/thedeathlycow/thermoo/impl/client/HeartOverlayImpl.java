@@ -19,7 +19,9 @@ public class HeartOverlayImpl {
     });
 
     public void setHeartPosition(int index, int heartX, int heartY) {
-        heartPositions[index] = new Vector2i(heartX, heartY);
+        if (index < heartPositions.length) {
+            heartPositions[index] = new Vector2i(heartX, heartY);
+        }
     }
 
     public Vector2i[] getHeartPositions() {

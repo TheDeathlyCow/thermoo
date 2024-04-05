@@ -16,7 +16,8 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 import java.util.Arrays;
 
 @Mixin(InGameHud.class)
-public class InGameHudMixin {
+public abstract class InGameHudMixin {
+
     @Inject(
             method = "renderHealthBar",
             at = @At(
