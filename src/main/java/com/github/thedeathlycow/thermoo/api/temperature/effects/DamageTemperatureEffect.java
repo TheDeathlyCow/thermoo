@@ -1,10 +1,8 @@
 package com.github.thedeathlycow.thermoo.api.temperature.effects;
 
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonSyntaxException;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
@@ -14,7 +12,7 @@ import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.Identifier;
+import net.minecraft.util.dynamic.Codecs;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
@@ -27,14 +25,31 @@ import java.util.Map;
  */
 public class DamageTemperatureEffect extends TemperatureEffect<DamageTemperatureEffect.Config> {
 
+    public static final Codec<Config> CODEC = RecordCodecBuilder.create(
+            instance -> {
+                return instance.group(
+                        Codecs.POSITIVE_FLOAT
+                                .fieldOf("amount")
+                                .forGetter(Config::amount),
+                        Codecs.POSITIVE_INT
+                                .fieldOf("damage_interval")
+                                .forGetter(Config::damageInterval),
+                        RegistryKey.createCodec(RegistryKeys.DAMAGE_TYPE)
+                                .fieldOf("damage_type")
+                                .forGetter(config -> config.damageType)
+                ).apply(instance, Config::new);
+            }
+    );
+
     @Nullable
     private Registry<DamageType> registry;
 
     private final Map<RegistryKey<DamageType>, DamageSource> damageSourcePool = new HashMap<>();
 
-    public DamageTemperatureEffect() {
+    public DamageTemperatureEffect(Codec<Config> codec) {
+        super(codec);
         ServerLifecycleEvents.SERVER_STOPPING.register(
-                (server) -> this.invalidateRegistryCache()
+                server -> this.invalidateRegistryCache()
         );
     }
 
@@ -43,7 +58,6 @@ public class DamageTemperatureEffect extends TemperatureEffect<DamageTemperature
 
         if (registry == null) {
             DynamicRegistryManager registryManager = serverWorld.getServer().getRegistryManager();
-
             this.registry = registryManager.get(RegistryKeys.DAMAGE_TYPE);
         }
 
@@ -56,11 +70,6 @@ public class DamageTemperatureEffect extends TemperatureEffect<DamageTemperature
     @Override
     public boolean shouldApply(LivingEntity victim, Config config) {
         return victim.age % config.damageInterval == 0 && config.amount != 0.0f;
-    }
-
-    @Override
-    public Config configFromJson(JsonElement json, JsonDeserializationContext context) throws JsonSyntaxException {
-        return Config.fromJson(json, context);
     }
 
     @Nullable
@@ -88,20 +97,6 @@ public class DamageTemperatureEffect extends TemperatureEffect<DamageTemperature
             int damageInterval,
             RegistryKey<DamageType> damageType
     ) {
-
-        public static Config fromJson(JsonElement json, JsonDeserializationContext context) throws JsonSyntaxException {
-            JsonObject object = json.getAsJsonObject();
-
-            float amount = object.get("amount").getAsFloat();
-
-            int damageInterval = object.get("damage_interval").getAsInt();
-
-            Identifier damageTypeID = new Identifier(object.get("damage_type").getAsString());
-
-            RegistryKey<DamageType> damageType = RegistryKey.of(RegistryKeys.DAMAGE_TYPE, damageTypeID);
-
-            return new Config(amount, damageInterval, damageType);
-        }
 
     }
 

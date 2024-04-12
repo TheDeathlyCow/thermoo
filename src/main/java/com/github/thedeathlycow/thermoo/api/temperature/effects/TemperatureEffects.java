@@ -41,7 +41,7 @@ public final class TemperatureEffects {
      *
      * @since 1.5
      */
-    public static final TemperatureEffect<?> DAMAGE = new DamageTemperatureEffect();
+    public static final TemperatureEffect<?> DAMAGE = new DamageTemperatureEffect(DamageTemperatureEffect.CODEC);
 
     /**
      * Specifically applies {@link DamageSources#freeze()} to entities based on their temperature
