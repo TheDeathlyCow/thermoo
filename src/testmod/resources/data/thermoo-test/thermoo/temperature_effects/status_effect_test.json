@@ -1,4 +1,5 @@
 {
+    
     "type": "thermoo:status_effect",
     "entity": {
         "condition": "minecraft:reference",

@@ -46,7 +46,7 @@ public record ConfiguredTemperatureEffect<C>(
             .getCodec()
             .dispatch(
                     "type",
-                    configuredFeature -> configuredFeature.type,
+                    ConfiguredTemperatureEffect::type,
                     TemperatureEffect::getCodec
             );
 

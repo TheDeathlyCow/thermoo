@@ -26,7 +26,6 @@ public abstract class TemperatureEffect<C> {
 
     private final Codec<ConfiguredTemperatureEffect<C>> codec;
 
-    @SuppressWarnings("unchecked")
     protected TemperatureEffect(Codec<C> configCodec) {
         this.codec = RecordCodecBuilder.create(
                 instance -> instance.group(

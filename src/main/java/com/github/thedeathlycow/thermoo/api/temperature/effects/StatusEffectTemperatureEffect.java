@@ -80,7 +80,7 @@ public class StatusEffectTemperatureEffect extends TemperatureEffect<StatusEffec
                     instance -> {
                         return instance.group(
                                 Registries.STATUS_EFFECT.getCodec()
-                                        .fieldOf("type")
+                                        .fieldOf("effect")
                                         .forGetter(ConfigEffect::type),
                                 Codecs.POSITIVE_INT
                                         .fieldOf("duration")
