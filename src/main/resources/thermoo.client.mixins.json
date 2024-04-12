@@ -2,12 +2,9 @@
     "required": true,
     "package": "com.github.thedeathlycow.thermoo.mixin.client",
     "compatibilityLevel": "JAVA_17",
-    "plugin": "com.github.thedeathlycow.thermoo.mixin.client.compat.Plugin",
     "client": [
         "InGameHudMountTemperatureMixin",
-        "compat.colorfulhearts.present.HeartRendererMixin",
-        "InGameHudPlayerTemperatureMixin",
-        "compat.overflowingbars.present.HealthBarRendererMixin"
+        "InGameHudPlayerTemperatureMixin"
     ],
     "injectors": {
         "defaultRequire": 1
