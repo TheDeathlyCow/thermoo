@@ -22,7 +22,7 @@ public abstract class InGameHudPlayerTemperatureMixin {
             method = "renderHealthBar",
             at = @At(
                     value = "INVOKE",
-                    target = "Lnet/minecraft/client/gui/hud/InGameHud;drawHeart(Lnet/minecraft/client/gui/DrawContext;Lnet/minecraft/client/gui/hud/InGameHud$HeartType;IIIZZ)V",
+                    target = "Lnet/minecraft/client/gui/hud/InGameHud;drawHeart(Lnet/minecraft/client/gui/DrawContext;Lnet/minecraft/client/gui/hud/InGameHud$HeartType;IIZZZ)V",
                     ordinal = 0,
                     shift = At.Shift.AFTER
             ),
@@ -40,14 +40,16 @@ public abstract class InGameHudPlayerTemperatureMixin {
             int absorption,
             boolean blinking,
             CallbackInfo ci,
-            // local captures
             InGameHud.HeartType heartType,
-            int i, int j, int k, int l,
-            int m, // index of heart
-            int n, int o,
-            int p, int q // position of heart to capture
+            boolean bl,
+            int displayHearts,
+            int displayAbsorption,
+            int displayHalfHearts,
+            int index,
+            int lineY, int lineX,
+            int heartX, int heartY
     ) {
-        HeartOverlayImpl.INSTANCE.setHeartPosition(m, p, q);
+        HeartOverlayImpl.INSTANCE.setHeartPosition(index, heartX, heartY);
     }
 
     @Inject(

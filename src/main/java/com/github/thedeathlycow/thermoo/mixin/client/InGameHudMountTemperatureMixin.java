@@ -37,13 +37,13 @@ public abstract class InGameHudMountTemperatureMixin {
             method = "renderMountHealth",
             at = @At(
                     value = "INVOKE",
-                    target = "Lnet/minecraft/client/gui/DrawContext;drawTexture(Lnet/minecraft/util/Identifier;IIIIII)V",
+                    target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Lnet/minecraft/util/Identifier;IIII)V",
                     ordinal = 0
             )
     )
-    private void captureMountHealth(DrawContext instance, Identifier texture, int x, int y, int u, int v, int width, int height, Operation<Void> original) {
+    private void captureMountHealth(DrawContext instance, Identifier texture, int x, int y, int width, int height, Operation<Void> original) {
         HeartOverlayImpl.INSTANCE.setHeartPosition(scorchful$mountIndex, x, y);
-        original.call(instance, texture, x, y, u, v, width, height);
+        original.call(instance, texture, x, y, width, height);
         scorchful$mountIndex++;
     }
 
