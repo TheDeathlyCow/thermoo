@@ -21,7 +21,7 @@ public final class TemperatureEffects {
     /**
      * A meta temperature effect that allows multiple child effects to be applied under the same conditions.
      */
-    public static final TemperatureEffect<?> SEQUENCE = new SequenceTemperatureEffect();
+    public static final TemperatureEffect<?> SEQUENCE = new SequenceTemperatureEffect(SequenceTemperatureEffect.CODEC);
 
     /**
      * Applies {@linkplain  net.minecraft.entity.effect.StatusEffect status effects} to entities based on their

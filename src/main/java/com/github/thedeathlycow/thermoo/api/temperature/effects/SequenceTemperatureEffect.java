@@ -1,11 +1,11 @@
 package com.github.thedeathlycow.thermoo.api.temperature.effects;
 
-import com.google.gson.*;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.server.world.ServerWorld;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,6 +13,18 @@ import java.util.List;
  * effects under the same base set of conditions, without the overhead of checking those conditions multiple times.
  */
 public class SequenceTemperatureEffect extends TemperatureEffect<SequenceTemperatureEffect.Config> {
+
+    public static final Codec<Config> CODEC = RecordCodecBuilder.create(
+            instance -> instance.group(
+                    Codec.list(ConfiguredTemperatureEffect.CODEC)
+                            .fieldOf("children")
+                            .forGetter(Config::children)
+            ).apply(instance, Config::new)
+    );
+
+    public SequenceTemperatureEffect(Codec<Config> configCodec) {
+        super(configCodec);
+    }
 
     @Override
     public void apply(LivingEntity victim, ServerWorld serverWorld, Config config) {
@@ -29,25 +41,7 @@ public class SequenceTemperatureEffect extends TemperatureEffect<SequenceTempera
         return true;
     }
 
-    @Override
-    public Config configFromJson(JsonElement json, JsonDeserializationContext context) throws JsonSyntaxException {
-        return Config.fromJson(json, context);
-    }
-
     public record Config(List<ConfiguredTemperatureEffect<?>> children) {
-
-        public static Config fromJson(JsonElement json, JsonDeserializationContext context) throws JsonSyntaxException {
-            JsonObject object = json.getAsJsonObject();
-
-            JsonArray jsonChildren = object.get("children").getAsJsonArray();
-            List<ConfiguredTemperatureEffect<?>> children = new ArrayList<>(jsonChildren.size());
-            for (JsonElement jsonChild : jsonChildren) {
-                ConfiguredTemperatureEffect<?> child = context.deserialize(jsonChild, ConfiguredTemperatureEffect.class);
-                children.add(child);
-            }
-
-            return new Config(children);
-        }
 
     }
 
