@@ -28,7 +28,7 @@ public final class TemperatureEffects {
      * Applies {@linkplain  net.minecraft.entity.effect.StatusEffect status effects} to entities based on their
      * temperature
      */
-    public static final TemperatureEffect<?> STATUS_EFFECT = new StatusEffectTemperatureEffect();
+    public static final TemperatureEffect<?> STATUS_EFFECT = new StatusEffectTemperatureEffect(StatusEffectTemperatureEffect.CODEC);
 
     /**
      * Applies scaled {@linkplain net.minecraft.entity.attribute.EntityAttributeModifier attribute modifiers} to
