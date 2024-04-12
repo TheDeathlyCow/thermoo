@@ -17,7 +17,7 @@ public final class TemperatureEffects {
     /**
      * An empty temperature effect; does nothing. Useful for overriding effects from mods or other datapacks
      */
-    public static final TemperatureEffect<?> EMPTY = new EmptyTemperatureEffect();
+    public static final TemperatureEffect<?> EMPTY = new EmptyTemperatureEffect(EmptyTemperatureEffect.CODEC);
 
     /**
      * A meta temperature effect that allows multiple child effects to be applied under the same conditions.
