@@ -86,7 +86,7 @@ public class StatusEffectTemperatureEffect extends TemperatureEffect<StatusEffec
                                         .fieldOf("duration")
                                         .orElse(20)
                                         .forGetter(ConfigEffect::duration),
-                                Codecs.POSITIVE_INT
+                                Codecs.NONNEGATIVE_INT
                                         .fieldOf("amplifier")
                                         .forGetter(ConfigEffect::amplifier)
                         ).apply(instance, ConfigEffect::new);

@@ -1,0 +1,16 @@
+{
+    "type": "thermoo:status_effect",
+    "entity": {
+        "condition": "minecraft:reference",
+        "name": "thermoo-test:is_cold"
+    },
+    "config": {
+        "effects": [
+            {
+                "amplifier": 0,
+                "duration": 200,
+                "effect": "minecraft:regeneration"
+            }
+        ]
+    }
+}

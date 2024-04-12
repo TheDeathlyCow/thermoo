@@ -1,9 +1,5 @@
 package com.github.thedeathlycow.thermoo.api.temperature.effects;
 
-import com.github.thedeathlycow.thermoo.api.ThermooRegistries;
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonSyntaxException;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.entity.LivingEntity;
@@ -34,32 +30,33 @@ public abstract class TemperatureEffect<C> {
     protected TemperatureEffect(Codec<C> configCodec) {
         this.codec = RecordCodecBuilder.create(
                 instance -> instance.group(
-                        ThermooRegistries.TEMPERATURE_EFFECTS.getCodec()
-                                .fieldOf("type")
-                                .forGetter(ConfiguredTemperatureEffect::type),
                         configCodec
                                 .fieldOf("config")
                                 .forGetter(ConfiguredTemperatureEffect::config),
                         LootConditionTypes.CODEC
                                 .fieldOf("entity")
+                                .orElse(null)
                                 .forGetter(ConfiguredTemperatureEffect::predicate),
                         Registries.ENTITY_TYPE.getCodec()
                                 .fieldOf("entity_type")
+                                .orElse(null)
                                 .forGetter(ConfiguredTemperatureEffect::getEntityType),
                         NumberRange.DoubleRange.CODEC
                                 .fieldOf("temperature_scale_range")
+                                .orElse(NumberRange.DoubleRange.ANY)
                                 .forGetter(ConfiguredTemperatureEffect::temperatureScaleRange)
                 ).apply(
                         instance,
-                        (effect, config, lootCondition, entityType, doubleRange) -> {
+                        (config, lootCondition, entityType, doubleRange) -> {
                             return new ConfiguredTemperatureEffect<>(
-                                    (TemperatureEffect<C>) effect,
+                                    this,
                                     config,
                                     lootCondition,
                                     entityType,
                                     doubleRange
                             );
-                        })
+                        }
+                )
         );
     }
 
@@ -75,7 +72,7 @@ public abstract class TemperatureEffect<C> {
     /**
      * Tests if the effect should be applied to a living entity.
      * Note that even if this returns {@code true}, the effect is not guaranteed to be applied. This is because all
-     * entity must pass the predicate specified by {@link ConfiguredTemperatureEffect#predicate}.
+     * entity must pass the predicate specified by {@link ConfiguredTemperatureEffect#predicate()}.
      *
      * @param victim The victim to test if the effect should be applied to
      * @param config The effect config

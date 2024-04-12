@@ -26,19 +26,17 @@ import java.util.Map;
 public class DamageTemperatureEffect extends TemperatureEffect<DamageTemperatureEffect.Config> {
 
     public static final Codec<Config> CODEC = RecordCodecBuilder.create(
-            instance -> {
-                return instance.group(
-                        Codecs.POSITIVE_FLOAT
-                                .fieldOf("amount")
-                                .forGetter(Config::amount),
-                        Codecs.POSITIVE_INT
-                                .fieldOf("damage_interval")
-                                .forGetter(Config::damageInterval),
-                        RegistryKey.createCodec(RegistryKeys.DAMAGE_TYPE)
-                                .fieldOf("damage_type")
-                                .forGetter(config -> config.damageType)
-                ).apply(instance, Config::new);
-            }
+            instance -> instance.group(
+                    Codecs.POSITIVE_FLOAT
+                            .fieldOf("amount")
+                            .forGetter(Config::amount),
+                    Codecs.POSITIVE_INT
+                            .fieldOf("damage_interval")
+                            .forGetter(Config::damageInterval),
+                    RegistryKey.createCodec(RegistryKeys.DAMAGE_TYPE)
+                            .fieldOf("damage_type")
+                            .forGetter(config -> config.damageType)
+            ).apply(instance, Config::new)
     );
 
     @Nullable
