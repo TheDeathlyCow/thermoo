@@ -44,16 +44,6 @@ public final class TemperatureEffects {
     public static final TemperatureEffect<?> DAMAGE = new DamageTemperatureEffect(DamageTemperatureEffect.CODEC);
 
     /**
-     * Specifically applies {@link DamageSources#freeze()} to entities based on their temperature
-     *
-     * @deprecated As of 1.5, you should use {@link #DAMAGE} instead, as it does not hardcode a damage source
-     */
-    @Deprecated(since = "1.5")
-    public static final TemperatureEffect<?> FREEZE_DAMAGE_LEGACY = new LegacyDamageTemperatureEffect(
-            (serverWorld) -> serverWorld.getDamageSources().freeze()
-    );
-
-    /**
      * Returns all currently loaded {@link ConfiguredTemperatureEffect}s that are mapped to the {@code entity}'s type.
      *
      * @param entity The entity to fetch the effects for
