@@ -56,7 +56,7 @@ public class ConfiguredTemperatureEffect<C> {
     @Nullable
     private final EntityType<?> entityType;
 
-    private final NumberRange.FloatRange temperatureScaleRange;
+    private final NumberRange.DoubleRange temperatureScaleRange;
 
     /**
      * Constructs a new configured temperature effect. You should not need to construct your own instances of this
@@ -77,7 +77,7 @@ public class ConfiguredTemperatureEffect<C> {
             C config,
             @Nullable LootCondition predicate,
             @Nullable EntityType<?> entityType,
-            NumberRange.FloatRange temperatureScaleRange
+            NumberRange.DoubleRange temperatureScaleRange
     ) {
         this.type = type;
         this.config = config;
@@ -108,7 +108,7 @@ public class ConfiguredTemperatureEffect<C> {
             JsonDeserializationContext context,
             @Nullable LootCondition predicate,
             @Nullable EntityType<?> entityType,
-            NumberRange.FloatRange temperatureScaleRange
+            NumberRange.DoubleRange temperatureScaleRange
     ) throws JsonSyntaxException {
         return new ConfiguredTemperatureEffect<>(
                 type,

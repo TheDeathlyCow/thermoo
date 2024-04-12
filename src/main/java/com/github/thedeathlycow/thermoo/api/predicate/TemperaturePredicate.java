@@ -24,7 +24,7 @@ import org.jetbrains.annotations.Nullable;
  * 	    "entity": "this",
  * 	    "predicate": {
  * 		    "thermoo.temperature": {
- * 			    "scale": {@link NumberRange.FloatRange},
+ * 			    "scale": {@link NumberRange.DoubleRange},
  * 			    "temperature": {@link NumberRange.IntRange}
  *          }
  *      }
@@ -32,7 +32,7 @@ import org.jetbrains.annotations.Nullable;
  * </pre>
  * <p>
  * Note that both {@code scale} and {@code temperature} are optional, and if not supplied will default to
- * {@link NumberRange.FloatRange#ANY} and {@link NumberRange.IntRange#ANY} respectively.
+ * {@link NumberRange.DoubleRange#ANY} and {@link NumberRange.IntRange#ANY} respectively.
  *
  * @see net.minecraft.predicate.entity.EntityPredicate
  */
@@ -42,14 +42,14 @@ public class TemperaturePredicate {
      * "Any" predicate that will always return as true when tested
      */
     public static final TemperaturePredicate ANY = new TemperaturePredicate(
-            NumberRange.FloatRange.ANY,
+            NumberRange.DoubleRange.ANY,
             NumberRange.IntRange.ANY
     );
 
     /**
      * The temperature scale range accepted by this predicate
      */
-    private final NumberRange.FloatRange scaleRange;
+    private final NumberRange.DoubleRange scaleRange;
     /**
      * The absolute temperature value range accepted by this predicate
      */
@@ -62,7 +62,7 @@ public class TemperaturePredicate {
      * @param temperatureRange The absolute temperature value range accepted by this predicate
      */
     public TemperaturePredicate(
-            NumberRange.FloatRange scaleRange,
+            NumberRange.DoubleRange scaleRange,
             NumberRange.IntRange temperatureRange
     ) {
         this.scaleRange = scaleRange;
@@ -125,11 +125,11 @@ public class TemperaturePredicate {
 
         JsonObject jsonObject = JsonHelper.asObject(json, "thermoo.temperature");
 
-        var scaleRange = NumberRange.FloatRange.ANY;
+        var scaleRange = NumberRange.DoubleRange.ANY;
         var tempRange = NumberRange.IntRange.ANY;
 
         if (jsonObject.has("scale")) {
-            scaleRange = NumberRange.FloatRange.fromJson(jsonObject.get("scale"));
+            scaleRange = NumberRange.DoubleRange.fromJson(jsonObject.get("scale"));
         }
 
         if (jsonObject.has("temperature")) {
@@ -145,14 +145,14 @@ public class TemperaturePredicate {
      * @see TemperaturePredicate
      */
     public static class Builder {
-        private NumberRange.FloatRange scale = NumberRange.FloatRange.ANY;
+        private NumberRange.DoubleRange scale = NumberRange.DoubleRange.ANY;
         private NumberRange.IntRange temperature = NumberRange.IntRange.ANY;
 
         public static TemperaturePredicate.Builder create() {
             return new TemperaturePredicate.Builder();
         }
 
-        public TemperaturePredicate.Builder scale(NumberRange.FloatRange scale) {
+        public TemperaturePredicate.Builder scale(NumberRange.DoubleRange scale) {
             this.scale = scale;
             return this;
         }
