@@ -29,7 +29,7 @@ public class SequenceTemperatureEffect extends TemperatureEffect<SequenceTempera
     @Override
     public void apply(LivingEntity victim, ServerWorld serverWorld, Config config) {
         for (ConfiguredTemperatureEffect<?> child : config.children()) {
-            EntityType<?> childType = child.getEntityType();
+            EntityType<?> childType = child.entityType().orElse(null);
             if (childType == null || victim.getType() == childType) {
                 child.applyIfPossible(victim);
             }

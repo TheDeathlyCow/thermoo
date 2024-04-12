@@ -94,7 +94,7 @@ public class TemperatureEffectLoader implements SimpleSynchronousResourceReloadL
                 JsonParseException::new
         );
 
-        EntityType<?> type = effect.getEntityType();
+        EntityType<?> type = effect.entityType().orElse(null);
         if (type != null) {
             newTypeEffects.computeIfAbsent(
                     Registries.ENTITY_TYPE.getId(type),

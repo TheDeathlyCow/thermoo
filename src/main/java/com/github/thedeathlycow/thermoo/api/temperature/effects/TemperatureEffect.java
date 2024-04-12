@@ -33,13 +33,11 @@ public abstract class TemperatureEffect<C> {
                                 .fieldOf("config")
                                 .forGetter(ConfiguredTemperatureEffect::config),
                         LootConditionTypes.CODEC
-                                .fieldOf("entity")
-                                .orElse(null)
+                                .optionalFieldOf("entity")
                                 .forGetter(ConfiguredTemperatureEffect::predicate),
                         Registries.ENTITY_TYPE.getCodec()
-                                .fieldOf("entity_type")
-                                .orElse(null)
-                                .forGetter(ConfiguredTemperatureEffect::getEntityType),
+                                .optionalFieldOf("entity_type")
+                                .forGetter(ConfiguredTemperatureEffect::entityType),
                         NumberRange.DoubleRange.CODEC
                                 .fieldOf("temperature_scale_range")
                                 .orElse(NumberRange.DoubleRange.ANY)

@@ -15,6 +15,8 @@ import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.Feature;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Optional;
+
 /**
  * Represents a configured instance of a {@link TemperatureEffect} type.
  * See the <a href="https://github.com/TheDeathlyCow/frostiful/wiki/Temperature-Effects">wiki page</a> for details on
@@ -37,8 +39,8 @@ import org.jetbrains.annotations.Nullable;
 public record ConfiguredTemperatureEffect<C>(
         TemperatureEffect<C> type,
         C config,
-        @Nullable LootCondition predicate,
-        @Nullable EntityType<?> entityType,
+        Optional<LootCondition> predicate,
+        Optional<EntityType<?>> entityType,
         NumberRange.DoubleRange temperatureScaleRange
 ) {
 
@@ -74,8 +76,8 @@ public record ConfiguredTemperatureEffect<C>(
     }
 
     private boolean testPredicate(LivingEntity victim, ServerWorld world) {
-        return this.predicate == null
-                || this.predicate.test(
+        return this.predicate.isEmpty()
+                || this.predicate.get().test(
                 new LootContext.Builder(
                         new LootContextParameterSet.Builder(world)
                                 .add(LootContextParameters.THIS_ENTITY, victim)
@@ -83,10 +85,5 @@ public record ConfiguredTemperatureEffect<C>(
                                 .build(LootContextTypes.COMMAND)
                 ).build(java.util.Optional.empty())
         );
-    }
-
-    @Nullable
-    public EntityType<?> getEntityType() {
-        return entityType;
     }
 }
