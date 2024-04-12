@@ -2,7 +2,6 @@ package com.github.thedeathlycow.thermoo.api.temperature.effects;
 
 import com.github.thedeathlycow.thermoo.impl.TemperatureEffectLoader;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.damage.DamageSources;
 
 import java.util.Collection;
 
@@ -28,13 +27,17 @@ public final class TemperatureEffects {
      * Applies {@linkplain  net.minecraft.entity.effect.StatusEffect status effects} to entities based on their
      * temperature
      */
-    public static final TemperatureEffect<?> STATUS_EFFECT = new StatusEffectTemperatureEffect(StatusEffectTemperatureEffect.CODEC);
+    public static final TemperatureEffect<?> STATUS_EFFECT = new StatusEffectTemperatureEffect(
+            StatusEffectTemperatureEffect.CODEC
+    );
 
     /**
      * Applies scaled {@linkplain net.minecraft.entity.attribute.EntityAttributeModifier attribute modifiers} to
      * entities based on their temperature
      */
-    public static final TemperatureEffect<?> SCALING_ATTRIBUTE_MODIFIER = new ScalingAttributeModifierTemperatureEffect();
+    public static final TemperatureEffect<?> SCALING_ATTRIBUTE_MODIFIER = new ScalingAttributeModifierTemperatureEffect(
+            ScalingAttributeModifierTemperatureEffect.CODEC
+    );
 
     /**
      * Applies damage to entities on an interval
