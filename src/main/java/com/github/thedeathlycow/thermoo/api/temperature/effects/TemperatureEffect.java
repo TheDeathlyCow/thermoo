@@ -1,9 +1,15 @@
 package com.github.thedeathlycow.thermoo.api.temperature.effects;
 
+import com.github.thedeathlycow.thermoo.api.ThermooRegistries;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonSyntaxException;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.loot.condition.LootConditionTypes;
+import net.minecraft.predicate.NumberRange;
+import net.minecraft.registry.Registries;
 import net.minecraft.server.world.ServerWorld;
 
 /**
@@ -21,6 +27,41 @@ import net.minecraft.server.world.ServerWorld;
  * @see ConfiguredTemperatureEffect
  */
 public abstract class TemperatureEffect<C> {
+
+    private final Codec<ConfiguredTemperatureEffect<C>> codec;
+
+    @SuppressWarnings("unchecked")
+    protected TemperatureEffect(Codec<C> configCodec) {
+        this.codec = RecordCodecBuilder.create(
+                instance -> instance.group(
+                        ThermooRegistries.TEMPERATURE_EFFECTS.getCodec()
+                                .fieldOf("type")
+                                .forGetter(ConfiguredTemperatureEffect::type),
+                        configCodec
+                                .fieldOf("config")
+                                .forGetter(ConfiguredTemperatureEffect::config),
+                        LootConditionTypes.CODEC
+                                .fieldOf("entity")
+                                .forGetter(ConfiguredTemperatureEffect::predicate),
+                        Registries.ENTITY_TYPE.getCodec()
+                                .fieldOf("entity_type")
+                                .forGetter(ConfiguredTemperatureEffect::getEntityType),
+                        NumberRange.DoubleRange.CODEC
+                                .fieldOf("temperature_scale_range")
+                                .forGetter(ConfiguredTemperatureEffect::temperatureScaleRange)
+                ).apply(
+                        instance,
+                        (effect, config, lootCondition, entityType, doubleRange) -> {
+                            return new ConfiguredTemperatureEffect<>(
+                                    (TemperatureEffect<C>) effect,
+                                    config,
+                                    lootCondition,
+                                    entityType,
+                                    doubleRange
+                            );
+                        })
+        );
+    }
 
     /**
      * Applies the effect to a living entity
@@ -42,15 +83,7 @@ public abstract class TemperatureEffect<C> {
      */
     public abstract boolean shouldApply(LivingEntity victim, C config);
 
-    /**
-     * Deserializes a JSON element into a new config instance that is valid for this effect type
-     *
-     * @param json    The JSON element that represents the config of this effect type
-     * @param context The JSON deserialization context
-     * @return Returns a new config instance specified by the JSON element given
-     * @throws JsonSyntaxException Thrown if the given JSON element is not a legal representation of the config for this
-     *                             effect type
-     */
-    public abstract C configFromJson(JsonElement json, JsonDeserializationContext context) throws JsonSyntaxException;
-
+    public final Codec<ConfiguredTemperatureEffect<C>> getCodec() {
+        return this.codec;
+    }
 }

@@ -1,6 +1,9 @@
 package com.github.thedeathlycow.thermoo.impl;
 
 import com.github.thedeathlycow.thermoo.api.temperature.effects.ConfiguredTemperatureEffect;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonParser;
+import com.mojang.serialization.JsonOps;
 import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -8,6 +11,7 @@ import net.minecraft.registry.Registries;
 import net.minecraft.resource.Resource;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.Util;
 
 import java.io.BufferedReader;
 import java.util.*;
@@ -82,9 +86,12 @@ public class TemperatureEffectLoader implements SimpleSynchronousResourceReloadL
             Map.Entry<Identifier, Resource> entry,
             BufferedReader reader
     ) {
-        ConfiguredTemperatureEffect<?> effect = ConfiguredTemperatureEffect.Serializer.GSON.fromJson(
-                reader,
-                ConfiguredTemperatureEffect.class
+        ConfiguredTemperatureEffect<?> effect = Util.getResult(
+                ConfiguredTemperatureEffect.CODEC.parse(
+                        JsonOps.INSTANCE,
+                        JsonParser.parseReader(reader)
+                ),
+                JsonParseException::new
         );
 
         EntityType<?> type = effect.getEntityType();
