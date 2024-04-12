@@ -1,4 +1,4 @@
-package com.github.thedeathlycow.thermoo.mixin.client.compat.overflowingbars.absent;
+package com.github.thedeathlycow.thermoo.mixin.client;
 
 import com.github.thedeathlycow.thermoo.api.client.StatusBarOverlayRenderEvents;
 import com.github.thedeathlycow.thermoo.impl.client.HeartOverlayImpl;
@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 import java.util.Arrays;
 
 @Mixin(InGameHud.class)
-public abstract class InGameHudMixin {
+public abstract class InGameHudPlayerTemperatureMixin {
 
     @Inject(
             method = "renderHealthBar",

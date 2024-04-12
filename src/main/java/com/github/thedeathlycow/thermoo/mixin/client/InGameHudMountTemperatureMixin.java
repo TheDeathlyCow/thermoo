@@ -21,10 +21,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.Arrays;
 
 /**
- * For the mount health bar. For the player health bar see {@link com.github.thedeathlycow.thermoo.mixin.client.compat.overflowingbars.absent.InGameHudMixin}
+ * For the mount health bar. For the player health bar see {@link InGameHudPlayerTemperatureMixin}
  */
 @Mixin(InGameHud.class)
-public abstract class InGameHudMixin {
+public abstract class InGameHudMountTemperatureMixin {
     @Shadow
     protected abstract LivingEntity getRiddenEntity();
 
