@@ -7,7 +7,6 @@ import com.github.thedeathlycow.thermoo.api.temperature.effects.TemperatureEffec
 import com.github.thedeathlycow.thermoo.api.temperature.effects.TemperatureEffects;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.loot.condition.LootConditionType;
-import net.minecraft.loot.condition.LootConditionTypes;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 

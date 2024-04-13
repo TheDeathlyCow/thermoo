@@ -1,17 +1,9 @@
 package com.github.thedeathlycow.thermoo.api.temperature.effects;
 
 
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonSyntaxException;
 import com.mojang.serialization.Codec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.world.gen.feature.DefaultFeatureConfig;
-import net.minecraft.world.gen.feature.Feature;
-
-import java.util.function.Supplier;
 
 /**
  * Represents an 'empty' temperature effect that is never applied and does nothing.

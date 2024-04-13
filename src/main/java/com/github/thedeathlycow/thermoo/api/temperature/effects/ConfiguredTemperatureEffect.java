@@ -12,8 +12,6 @@ import net.minecraft.loot.context.LootContextTypes;
 import net.minecraft.predicate.NumberRange;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.world.World;
-import net.minecraft.world.gen.feature.Feature;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
