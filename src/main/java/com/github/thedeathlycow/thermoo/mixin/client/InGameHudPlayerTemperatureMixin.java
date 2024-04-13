@@ -1,4 +1,4 @@
-package com.github.thedeathlycow.thermoo.mixin.client.compat.overflowingbars.absent;
+package com.github.thedeathlycow.thermoo.mixin.client;
 
 import com.github.thedeathlycow.thermoo.api.client.StatusBarOverlayRenderEvents;
 import com.github.thedeathlycow.thermoo.impl.client.HeartOverlayImpl;
@@ -16,13 +16,13 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 import java.util.Arrays;
 
 @Mixin(InGameHud.class)
-public abstract class InGameHudMixin {
+public abstract class InGameHudPlayerTemperatureMixin {
 
     @Inject(
             method = "renderHealthBar",
             at = @At(
                     value = "INVOKE",
-                    target = "Lnet/minecraft/client/gui/hud/InGameHud;drawHeart(Lnet/minecraft/client/gui/DrawContext;Lnet/minecraft/client/gui/hud/InGameHud$HeartType;IIIZZ)V",
+                    target = "Lnet/minecraft/client/gui/hud/InGameHud;drawHeart(Lnet/minecraft/client/gui/DrawContext;Lnet/minecraft/client/gui/hud/InGameHud$HeartType;IIZZZ)V",
                     ordinal = 0,
                     shift = At.Shift.AFTER
             ),
@@ -40,14 +40,16 @@ public abstract class InGameHudMixin {
             int absorption,
             boolean blinking,
             CallbackInfo ci,
-            // local captures
             InGameHud.HeartType heartType,
-            int i, int j, int k, int l,
-            int m, // index of heart
-            int n, int o,
-            int p, int q // position of heart to capture
+            boolean bl,
+            int displayHearts,
+            int displayAbsorption,
+            int displayHalfHearts,
+            int index,
+            int lineY, int lineX,
+            int heartX, int heartY
     ) {
-        HeartOverlayImpl.INSTANCE.setHeartPosition(m, p, q);
+        HeartOverlayImpl.INSTANCE.setHeartPosition(index, heartX, heartY);
     }
 
     @Inject(

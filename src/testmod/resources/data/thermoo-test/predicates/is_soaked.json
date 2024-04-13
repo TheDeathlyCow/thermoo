@@ -1,0 +1,6 @@
+{
+    "condition": "thermoo:soaked",
+    "scale": {
+        "min": 1.0
+    }
+}

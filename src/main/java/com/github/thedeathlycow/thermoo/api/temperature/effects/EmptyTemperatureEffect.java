@@ -1,9 +1,7 @@
 package com.github.thedeathlycow.thermoo.api.temperature.effects;
 
 
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonSyntaxException;
+import com.mojang.serialization.Codec;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.server.world.ServerWorld;
 
@@ -14,6 +12,12 @@ import net.minecraft.server.world.ServerWorld;
  */
 public final class EmptyTemperatureEffect extends TemperatureEffect<EmptyTemperatureEffect.Config> {
 
+    public static final Codec<Config> CODEC = Codec.unit(() -> Config.INSTANCE);
+
+    public EmptyTemperatureEffect(Codec<Config> configCodec) {
+        super(configCodec);
+    }
+
     @Override
     public void apply(LivingEntity victim, ServerWorld serverWorld, Config config) {
         // does nothing
@@ -22,11 +26,6 @@ public final class EmptyTemperatureEffect extends TemperatureEffect<EmptyTempera
     @Override
     public boolean shouldApply(LivingEntity victim, Config config) {
         return false;
-    }
-
-    @Override
-    public Config configFromJson(JsonElement json, JsonDeserializationContext context) throws JsonSyntaxException {
-        return Config.INSTANCE;
     }
 
     public static final class Config {

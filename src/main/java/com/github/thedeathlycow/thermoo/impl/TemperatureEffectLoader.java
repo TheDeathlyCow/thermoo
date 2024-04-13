@@ -1,6 +1,9 @@
 package com.github.thedeathlycow.thermoo.impl;
 
 import com.github.thedeathlycow.thermoo.api.temperature.effects.ConfiguredTemperatureEffect;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonParser;
+import com.mojang.serialization.JsonOps;
 import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -8,6 +11,7 @@ import net.minecraft.registry.Registries;
 import net.minecraft.resource.Resource;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.Util;
 
 import java.io.BufferedReader;
 import java.util.*;
@@ -51,16 +55,20 @@ public class TemperatureEffectLoader implements SimpleSynchronousResourceReloadL
 
     @Override
     public void reload(ResourceManager manager) {
-        Map<Identifier, ConfiguredTemperatureEffect<?>> newEffects = new HashMap<>();
-        Map<Identifier, Set<ConfiguredTemperatureEffect<?>>> newTypeEffects = new HashMap<>();
+
+        Map<Identifier, ConfiguredTemperatureEffect<?>> registry = new HashMap<>();
 
         for (Map.Entry<Identifier, Resource> entry : manager.findResources("thermoo/temperature_effects", eid -> eid.getPath().endsWith(".json")).entrySet()) {
             try (BufferedReader reader = entry.getValue().getReader()) {
-                this.loadEffect(newEffects, newTypeEffects, entry, reader);
+                this.loadEffect(registry, entry.getKey(), reader);
             } catch (Exception e) {
                 Thermoo.LOGGER.error("An error occurred while loading temperature effect {}: {}", entry.getKey(), e);
             }
         }
+
+        Map<Identifier, ConfiguredTemperatureEffect<?>> newEffects = new HashMap<>();
+        Map<Identifier, Set<ConfiguredTemperatureEffect<?>>> newTypeEffects = new HashMap<>();
+        this.partitionRegistry(registry, newEffects, newTypeEffects);
 
         this.globalEffects.clear();
         this.globalEffects.putAll(newEffects);
@@ -77,24 +85,35 @@ public class TemperatureEffectLoader implements SimpleSynchronousResourceReloadL
     }
 
     private void loadEffect(
-            Map<Identifier, ConfiguredTemperatureEffect<?>> newEffects,
-            Map<Identifier, Set<ConfiguredTemperatureEffect<?>>> newTypeEffects,
-            Map.Entry<Identifier, Resource> entry,
+            Map<Identifier, ConfiguredTemperatureEffect<?>> registry,
+            Identifier id,
             BufferedReader reader
     ) {
-        ConfiguredTemperatureEffect<?> effect = ConfiguredTemperatureEffect.Serializer.GSON.fromJson(
-                reader,
-                ConfiguredTemperatureEffect.class
+        ConfiguredTemperatureEffect<?> effect = Util.getResult(
+                ConfiguredTemperatureEffect.CODEC.parse(
+                        JsonOps.INSTANCE,
+                        JsonParser.parseReader(reader)
+                ),
+                JsonParseException::new
         );
+        registry.put(id, effect);
+    }
 
-        EntityType<?> type = effect.getEntityType();
-        if (type != null) {
-            newTypeEffects.computeIfAbsent(
-                    Registries.ENTITY_TYPE.getId(type),
-                    eid -> new HashSet<>()
-            ).add(effect);
-        } else {
-            newEffects.put(entry.getKey(), effect);
-        }
+    private void partitionRegistry(
+            Map<Identifier, ConfiguredTemperatureEffect<?>> registry,
+            Map<Identifier, ConfiguredTemperatureEffect<?>> globalEffects,
+            Map<Identifier, Set<ConfiguredTemperatureEffect<?>>> typeEffects
+    ) {
+        registry.forEach((key, value) -> {
+            value.entityType().ifPresentOrElse(
+                    entityType -> {
+                        typeEffects.computeIfAbsent(
+                                Registries.ENTITY_TYPE.getId(entityType),
+                                eid -> new HashSet<>()
+                        ).add(value);
+                    },
+                    () -> globalEffects.put(key, value)
+            );
+        });
     }
 }

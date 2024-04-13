@@ -1,9 +1,11 @@
 package com.github.thedeathlycow.thermoo.api.temperature.effects;
 
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonSyntaxException;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.loot.condition.LootConditionTypes;
+import net.minecraft.predicate.NumberRange;
+import net.minecraft.registry.Registries;
 import net.minecraft.server.world.ServerWorld;
 
 /**
@@ -23,6 +25,45 @@ import net.minecraft.server.world.ServerWorld;
 public abstract class TemperatureEffect<C> {
 
     /**
+     * Codec for configured temperature effects with this effect type's config
+     */
+    private final Codec<ConfiguredTemperatureEffect<C>> codec;
+
+    /**
+     * @param configCodec Codec for the config type
+     */
+    protected TemperatureEffect(Codec<C> configCodec) {
+        this.codec = RecordCodecBuilder.create(
+                instance -> instance.group(
+                        configCodec
+                                .fieldOf("config")
+                                .forGetter(ConfiguredTemperatureEffect::config),
+                        LootConditionTypes.CODEC
+                                .optionalFieldOf("entity")
+                                .forGetter(ConfiguredTemperatureEffect::predicate),
+                        Registries.ENTITY_TYPE.getCodec()
+                                .optionalFieldOf("entity_type")
+                                .forGetter(ConfiguredTemperatureEffect::entityType),
+                        NumberRange.DoubleRange.CODEC
+                                .fieldOf("temperature_scale_range")
+                                .orElse(NumberRange.DoubleRange.ANY)
+                                .forGetter(ConfiguredTemperatureEffect::temperatureScaleRange)
+                ).apply(
+                        instance,
+                        (config, lootCondition, entityType, doubleRange) -> {
+                            return new ConfiguredTemperatureEffect<>(
+                                    this,
+                                    config,
+                                    lootCondition,
+                                    entityType,
+                                    doubleRange
+                            );
+                        }
+                )
+        );
+    }
+
+    /**
      * Applies the effect to a living entity
      *
      * @param victim      The living entity to apply the effect to
@@ -34,7 +75,7 @@ public abstract class TemperatureEffect<C> {
     /**
      * Tests if the effect should be applied to a living entity.
      * Note that even if this returns {@code true}, the effect is not guaranteed to be applied. This is because all
-     * entity must pass the predicate specified by {@link ConfiguredTemperatureEffect#predicate}.
+     * entity must pass the predicate specified by {@link ConfiguredTemperatureEffect#predicate()}.
      *
      * @param victim The victim to test if the effect should be applied to
      * @param config The effect config
@@ -43,14 +84,9 @@ public abstract class TemperatureEffect<C> {
     public abstract boolean shouldApply(LivingEntity victim, C config);
 
     /**
-     * Deserializes a JSON element into a new config instance that is valid for this effect type
-     *
-     * @param json    The JSON element that represents the config of this effect type
-     * @param context The JSON deserialization context
-     * @return Returns a new config instance specified by the JSON element given
-     * @throws JsonSyntaxException Thrown if the given JSON element is not a legal representation of the config for this
-     *                             effect type
+     * @return Returns the {@linkplain #codec}
      */
-    public abstract C configFromJson(JsonElement json, JsonDeserializationContext context) throws JsonSyntaxException;
-
+    public final Codec<ConfiguredTemperatureEffect<C>> getCodec() {
+        return this.codec;
+    }
 }

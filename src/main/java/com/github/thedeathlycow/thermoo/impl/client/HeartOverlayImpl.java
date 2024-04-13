@@ -1,7 +1,6 @@
 package com.github.thedeathlycow.thermoo.impl.client;
 
 import net.minecraft.util.Util;
-import org.jetbrains.annotations.Nullable;
 import org.joml.Vector2i;
 
 import java.util.Arrays;
