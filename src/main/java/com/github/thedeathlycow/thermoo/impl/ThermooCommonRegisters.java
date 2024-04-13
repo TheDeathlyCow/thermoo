@@ -31,6 +31,7 @@ public class ThermooCommonRegisters {
 
     public static void registerLootConditionTypes() {
         registerLootConditionType("temperature", ThermooLootConditionTypes.TEMPERATURE);
+        registerLootConditionType("soaked", ThermooLootConditionTypes.SOAKED);
     }
 
     private static void registerAttribute(String name, EntityAttribute attribute) {
