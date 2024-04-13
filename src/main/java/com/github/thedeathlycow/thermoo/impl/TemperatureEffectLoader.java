@@ -55,16 +55,20 @@ public class TemperatureEffectLoader implements SimpleSynchronousResourceReloadL
 
     @Override
     public void reload(ResourceManager manager) {
-        Map<Identifier, ConfiguredTemperatureEffect<?>> newEffects = new HashMap<>();
-        Map<Identifier, Set<ConfiguredTemperatureEffect<?>>> newTypeEffects = new HashMap<>();
+
+        Map<Identifier, ConfiguredTemperatureEffect<?>> registry = new HashMap<>();
 
         for (Map.Entry<Identifier, Resource> entry : manager.findResources("thermoo/temperature_effects", eid -> eid.getPath().endsWith(".json")).entrySet()) {
             try (BufferedReader reader = entry.getValue().getReader()) {
-                this.loadEffect(newEffects, newTypeEffects, entry, reader);
+                this.loadEffect(registry, entry.getKey(), reader);
             } catch (Exception e) {
                 Thermoo.LOGGER.error("An error occurred while loading temperature effect {}: {}", entry.getKey(), e);
             }
         }
+
+        Map<Identifier, ConfiguredTemperatureEffect<?>> newEffects = new HashMap<>();
+        Map<Identifier, Set<ConfiguredTemperatureEffect<?>>> newTypeEffects = new HashMap<>();
+        this.partitionRegistry(registry, newEffects, newTypeEffects);
 
         this.globalEffects.clear();
         this.globalEffects.putAll(newEffects);
@@ -81,9 +85,8 @@ public class TemperatureEffectLoader implements SimpleSynchronousResourceReloadL
     }
 
     private void loadEffect(
-            Map<Identifier, ConfiguredTemperatureEffect<?>> newEffects,
-            Map<Identifier, Set<ConfiguredTemperatureEffect<?>>> newTypeEffects,
-            Map.Entry<Identifier, Resource> entry,
+            Map<Identifier, ConfiguredTemperatureEffect<?>> registry,
+            Identifier id,
             BufferedReader reader
     ) {
         ConfiguredTemperatureEffect<?> effect = Util.getResult(
@@ -93,15 +96,24 @@ public class TemperatureEffectLoader implements SimpleSynchronousResourceReloadL
                 ),
                 JsonParseException::new
         );
+        registry.put(id, effect);
+    }
 
-        EntityType<?> type = effect.entityType().orElse(null);
-        if (type != null) {
-            newTypeEffects.computeIfAbsent(
-                    Registries.ENTITY_TYPE.getId(type),
-                    eid -> new HashSet<>()
-            ).add(effect);
-        } else {
-            newEffects.put(entry.getKey(), effect);
-        }
+    private void partitionRegistry(
+            Map<Identifier, ConfiguredTemperatureEffect<?>> registry,
+            Map<Identifier, ConfiguredTemperatureEffect<?>> globalEffects,
+            Map<Identifier, Set<ConfiguredTemperatureEffect<?>>> typeEffects
+    ) {
+        registry.forEach((key, value) -> {
+            value.entityType().ifPresentOrElse(
+                    entityType -> {
+                        typeEffects.computeIfAbsent(
+                                Registries.ENTITY_TYPE.getId(entityType),
+                                eid -> new HashSet<>()
+                        ).add(value);
+                    },
+                    () -> globalEffects.put(key, value)
+            );
+        });
     }
 }
