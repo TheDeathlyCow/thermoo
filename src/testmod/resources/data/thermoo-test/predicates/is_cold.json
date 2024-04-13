@@ -1,11 +1,6 @@
 {
-    "condition": "minecraft:entity_properties",
-    "entity": "this",
-    "predicate": {
-        "thermoo.temperature": {
-            "scale": {
-                "max": 0
-            }
-        }
+    "condition": "thermoo:temperature",
+    "value": {
+        "max": 0
     }
 }

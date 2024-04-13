@@ -2,9 +2,12 @@ package com.github.thedeathlycow.thermoo.impl;
 
 import com.github.thedeathlycow.thermoo.api.ThermooAttributes;
 import com.github.thedeathlycow.thermoo.api.ThermooRegistries;
+import com.github.thedeathlycow.thermoo.api.predicate.ThermooLootConditionTypes;
 import com.github.thedeathlycow.thermoo.api.temperature.effects.TemperatureEffect;
 import com.github.thedeathlycow.thermoo.api.temperature.effects.TemperatureEffects;
 import net.minecraft.entity.attribute.EntityAttribute;
+import net.minecraft.loot.condition.LootConditionType;
+import net.minecraft.loot.condition.LootConditionTypes;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 
@@ -26,11 +29,19 @@ public class ThermooCommonRegisters {
         registerAttribute("generic.heat_resistance", ThermooAttributes.HEAT_RESISTANCE);
     }
 
+    public static void registerLootConditionTypes() {
+        registerLootConditionType("temperature", ThermooLootConditionTypes.TEMPERATURE);
+    }
+
     private static void registerAttribute(String name, EntityAttribute attribute) {
         Registry.register(Registries.ATTRIBUTE, Thermoo.id(name), attribute);
     }
 
     private static void registerTemperatureEffect(String name, TemperatureEffect<?> temperatureEffect) {
         Registry.register(ThermooRegistries.TEMPERATURE_EFFECTS, Thermoo.id(name), temperatureEffect);
+    }
+
+    private static void registerLootConditionType(String name, LootConditionType lootConditionType) {
+        Registry.register(Registries.LOOT_CONDITION_TYPE, Thermoo.id(name), lootConditionType);
     }
 }
