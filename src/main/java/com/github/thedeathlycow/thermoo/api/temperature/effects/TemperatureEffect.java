@@ -24,8 +24,14 @@ import net.minecraft.server.world.ServerWorld;
  */
 public abstract class TemperatureEffect<C> {
 
+    /**
+     * Codec for configured temperature effects with this effect type's config
+     */
     private final Codec<ConfiguredTemperatureEffect<C>> codec;
 
+    /**
+     * @param configCodec Codec for the config type
+     */
     protected TemperatureEffect(Codec<C> configCodec) {
         this.codec = RecordCodecBuilder.create(
                 instance -> instance.group(
@@ -77,6 +83,9 @@ public abstract class TemperatureEffect<C> {
      */
     public abstract boolean shouldApply(LivingEntity victim, C config);
 
+    /**
+     * @return Returns the {@linkplain #codec}
+     */
     public final Codec<ConfiguredTemperatureEffect<C>> getCodec() {
         return this.codec;
     }

@@ -44,6 +44,10 @@ public record ConfiguredTemperatureEffect<C>(
         NumberRange.DoubleRange temperatureScaleRange
 ) {
 
+    /**
+     * Codec for all configured temperature effects. Dispatches config codec based on
+     * {@linkplain TemperatureEffect type}.
+     */
     public static final Codec<ConfiguredTemperatureEffect<?>> CODEC = ThermooRegistries.TEMPERATURE_EFFECTS
             .getCodec()
             .dispatch(
@@ -83,7 +87,7 @@ public record ConfiguredTemperatureEffect<C>(
                                 .add(LootContextParameters.THIS_ENTITY, victim)
                                 .add(LootContextParameters.ORIGIN, victim.getPos())
                                 .build(LootContextTypes.COMMAND)
-                ).build(java.util.Optional.empty())
+                ).build(Optional.empty())
         );
     }
 }
