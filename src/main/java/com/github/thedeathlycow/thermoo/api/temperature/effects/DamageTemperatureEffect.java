@@ -46,8 +46,14 @@ public class DamageTemperatureEffect extends TemperatureEffect<DamageTemperature
 
     public DamageTemperatureEffect(Codec<Config> codec) {
         super(codec);
+        ServerLifecycleEvents.SERVER_STARTING.register(
+                server -> this.invalidateRegistryCache()
+        );
         ServerLifecycleEvents.SERVER_STOPPING.register(
                 server -> this.invalidateRegistryCache()
+        );
+        ServerLifecycleEvents.START_DATA_PACK_RELOAD.register(
+                (server, resourceManager) -> this.invalidateRegistryCache()
         );
     }
 
