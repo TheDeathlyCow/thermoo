@@ -1,0 +1,6 @@
+{
+    "condition": "thermoo:soaked",
+    "value": {
+        "min": 0
+    }
+}
