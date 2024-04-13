@@ -88,7 +88,7 @@ public record ItemAttributeModifier(
                     ItemTypePredicate.CODEC
                             .fieldOf("item")
                             .forGetter(ItemAttributeModifier::itemPredicate),
-                    ThermooCodecs.EQUIPMENT_SLOT_CODEC
+                    EquipmentSlot.CODEC
                             .fieldOf("slot")
                             .forGetter(ItemAttributeModifier::slot)
             ).apply(instance, ItemAttributeModifier::new)

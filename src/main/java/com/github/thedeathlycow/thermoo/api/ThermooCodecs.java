@@ -3,7 +3,6 @@ package com.github.thedeathlycow.thermoo.api;
 import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.util.Uuids;
 import net.minecraft.util.math.MathHelper;
@@ -18,13 +17,9 @@ import org.jetbrains.annotations.ApiStatus;
 @ApiStatus.Experimental
 public class ThermooCodecs {
 
-    public static final Codec<EquipmentSlot> EQUIPMENT_SLOT_CODEC = createEnumCodec(EquipmentSlot.class);
-
-    public static final Codec<EntityAttributeModifier.Operation> ENTITY_ATTRIBUTE_OPERATION_CODEC = createEnumCodec(EntityAttributeModifier.Operation.class);
-
     public static final Codec<EntityAttributeModifier> ATTRIBUTE_MODIFIER_CODEC = RecordCodecBuilder.create(
             instance -> instance.group(
-                    Uuids.CODEC
+                    Uuids.STRING_CODEC
                             .fieldOf("uuid")
                             .orElseGet(() -> MathHelper.randomUuid(Random.createLocal()))
                             .forGetter(EntityAttributeModifier::getId),
@@ -34,7 +29,7 @@ public class ThermooCodecs {
                     Codec.DOUBLE
                             .fieldOf("value")
                             .forGetter(EntityAttributeModifier::getValue),
-                    ENTITY_ATTRIBUTE_OPERATION_CODEC
+                    EntityAttributeModifier.Operation.CODEC
                             .fieldOf("operation")
                             .forGetter(EntityAttributeModifier::getOperation)
             ).apply(instance, EntityAttributeModifier::new)
