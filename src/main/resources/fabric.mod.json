@@ -8,7 +8,7 @@
 		"TheDeathlyCow"
 	],
 	"contact": {
-		"homepage": "https://github.com/TheDeathlyCow/thermoo",
+		"homepage": "https://modrinth.com/mod/thermoo",
 		"sources": "https://github.com/TheDeathlyCow/thermoo"
 	},
 	"license": "LGPL-3",
@@ -34,8 +34,8 @@
 	],
 	"depends": {
 		"fabricloader": ">=0.15.7",
-		"fabric-api": ">=0.91.0",
-		"minecraft": "~1.20.1",
+		"fabric-api": ">=0.91.6",
+		"minecraft": "1.20.2",
 		"java": ">=17"
 	},
 	"suggests": {
