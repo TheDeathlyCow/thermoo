@@ -7,26 +7,31 @@
     "config": {
         "children": [
             {
-                "type": "thermoo:damage",
+                "type": "thermoo:scaling_attribute_modifier",
                 "entity_type": "minecraft:player",
+                "temperature_scale_range": {
+                    "min": 0.5
+                },
                 "config": {
-                    "amount": 1,
-                    "damage_interval": 20,
-                    "damage_type": "minecraft:in_fire"
+                    "scale": 0.05,
+                    "modifier_uuid": "ea305030-b7fa-4782-9682-9d55a1319236",
+                    "name": "Warming health",
+                    "attribute_type": "minecraft:generic.max_health",
+                    "operation": "addition"
                 }
             },
             {
                 "type": "thermoo:status_effect",
                 "entity": {
                     "condition": "minecraft:reference",
-                    "name": "thermoo-test:is_cold"
+                    "name": "thermoo-test:is_hot"
                 },
                 "config": {
                     "effects": [
                         {
                             "amplifier": 0,
                             "duration": 200,
-                            "effect": "minecraft:speed"
+                            "effect": "minecraft:regeneration"
                         }
                     ]
                 }

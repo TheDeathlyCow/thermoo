@@ -1,0 +1,13 @@
+{
+    "type": "thermoo:damage",
+    "entity_type": "minecraft:player",
+    "entity": {
+        "condition": "minecraft:reference",
+        "name": "thermoo-test:is_warm"
+    },
+    "config": {
+        "amount": 1.0,
+        "damage_interval": 20,
+        "damage_type": "minecraft:in_fire"
+    }
+}
