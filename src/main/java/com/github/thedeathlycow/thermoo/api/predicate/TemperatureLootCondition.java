@@ -1,5 +1,6 @@
 package com.github.thedeathlycow.thermoo.api.predicate;
 
+import com.github.thedeathlycow.thermoo.api.temperature.Soakable;
 import com.github.thedeathlycow.thermoo.api.temperature.TemperatureAware;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -10,6 +11,14 @@ import net.minecraft.loot.context.LootContext;
 import net.minecraft.loot.context.LootContextParameters;
 import net.minecraft.predicate.NumberRange;
 
+/**
+ * Loot condition used to test the soaking values of an entity in a predicate. Only works for entities that implement
+ * {@link TemperatureAware}, which by default is only {@link net.minecraft.entity.LivingEntity}. All other entities will
+ * always return false.
+ *
+ * @param value The {@linkplain TemperatureAware#thermoo$getTemperature() temperature value}
+ * @param scale The {@linkplain TemperatureAware#thermoo$getTemperatureScale() temperature scale}
+ */
 public record TemperatureLootCondition(
         NumberRange.IntRange value,
         NumberRange.DoubleRange scale
