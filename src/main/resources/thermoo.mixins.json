@@ -9,7 +9,8 @@
         "LivingEntityAttributeMixin",
         "LivingEntityEnvironmentTickMixin",
         "PlayerTemperatureTickMixin",
-        "TemperatureEffectTickerMixin"
+        "TemperatureEffectTickerMixin",
+        "accesor.EntityAttributeModiferAccessor"
     ],
     "injectors": {
         "defaultRequire": 1

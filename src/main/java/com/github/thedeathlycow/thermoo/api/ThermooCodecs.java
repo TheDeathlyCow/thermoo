@@ -1,5 +1,6 @@
 package com.github.thedeathlycow.thermoo.api;
 
+import com.github.thedeathlycow.thermoo.mixin.common.accesor.EntityAttributeModiferAccessor;
 import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -10,12 +11,13 @@ import net.minecraft.util.math.random.Random;
 import org.jetbrains.annotations.ApiStatus;
 
 /**
- * Helpful codecs used by Thermoo.
+ * Helpful codecs used by Thermoo. May be changed between MC versions as equivalent vanilla codecs are added.
  * <p>
  * Exposed in API for the convenience of API users.
  */
 @ApiStatus.Experimental
 public class ThermooCodecs {
+
 
     public static final Codec<EntityAttributeModifier> ATTRIBUTE_MODIFIER_CODEC = RecordCodecBuilder.create(
             instance -> instance.group(
@@ -25,7 +27,7 @@ public class ThermooCodecs {
                             .forGetter(EntityAttributeModifier::getId),
                     Codec.STRING
                             .fieldOf("name")
-                            .forGetter(EntityAttributeModifier::getName),
+                            .forGetter(modifier -> ((EntityAttributeModiferAccessor) modifier).thermoo$name()),
                     Codec.DOUBLE
                             .fieldOf("value")
                             .forGetter(EntityAttributeModifier::getValue),
