@@ -1,0 +1,6 @@
+{
+    "condition": "thermoo:temperature",
+    "scale": {
+        "min": 1.0
+    }
+}

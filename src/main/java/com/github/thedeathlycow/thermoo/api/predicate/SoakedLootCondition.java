@@ -10,6 +10,14 @@ import net.minecraft.loot.context.LootContext;
 import net.minecraft.loot.context.LootContextParameters;
 import net.minecraft.predicate.NumberRange;
 
+/**
+ * Loot condition used to test the soaking values of an entity in a predicate. Only works for entities that implement
+ * {@link Soakable}, which by default is only {@link net.minecraft.entity.LivingEntity}. All other entities will return
+ * always false.
+ *
+ * @param value The {@linkplain Soakable#thermoo$getWetTicks() soaking value}
+ * @param scale The {@linkplain Soakable#thermoo$getSoakedScale() soaking scale}
+ */
 public record SoakedLootCondition(
         NumberRange.IntRange value,
         NumberRange.DoubleRange scale

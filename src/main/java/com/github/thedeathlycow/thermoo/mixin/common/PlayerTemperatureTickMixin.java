@@ -16,8 +16,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(PlayerEntity.class)
 public abstract class PlayerTemperatureTickMixin {
 
-    @Shadow protected abstract void collideWithEntity(Entity entity);
-
     @Inject(
             method = "tick",
             at = @At(
