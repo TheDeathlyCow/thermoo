@@ -32,6 +32,7 @@ public class ItemAttributeModifierManager implements ModifyItemAttributeModifier
 
         ServerLifecycleEvents.SERVER_STARTED.register(server -> {
             if (this.manager == null) {
+                Thermoo.LOGGER.warn("Unable to get dynamic registry manager for Thermoo Item Attribute Modifiers.");
                 return;
             }
 
@@ -73,8 +74,6 @@ public class ItemAttributeModifierManager implements ModifyItemAttributeModifier
                                 );
                             }
                     );
-        } else {
-            Thermoo.LOGGER.info("Manager is null");
         }
     }
 
