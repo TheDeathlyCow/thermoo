@@ -1,0 +1,17 @@
+{
+    "attribute": "minecraft:generic.max_health",
+    "modifier": {
+        "uuid": "413a10a0-bf0b-47db-a9a9-2eb3dda3bbaf",
+        "name": "Test",
+        "value": 1.0,
+        "operation": "addition"
+    },
+    "item": {
+        "items": [
+            "minecraft:diamond_helmet",
+            "minecraft:diamond_chestplate"
+        ]
+    },
+    "slot": "head",
+    "require_preferred_slot": false
+}

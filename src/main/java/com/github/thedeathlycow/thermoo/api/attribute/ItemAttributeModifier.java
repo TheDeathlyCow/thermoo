@@ -5,9 +5,12 @@ import com.google.common.collect.Multimap;
 import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.fabricmc.fabric.api.item.v1.FabricItem;
 import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
+import net.minecraft.item.Equipment;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
@@ -74,7 +77,8 @@ public record ItemAttributeModifier(
         EntityAttribute attribute,
         EntityAttributeModifier modifier,
         ItemTypePredicate itemPredicate,
-        EquipmentSlot slot
+        EquipmentSlot slot,
+        boolean requirePreferredSlot
 ) {
 
     public static final Codec<ItemAttributeModifier> CODEC = RecordCodecBuilder.create(
@@ -90,7 +94,11 @@ public record ItemAttributeModifier(
                             .forGetter(ItemAttributeModifier::itemPredicate),
                     EquipmentSlot.CODEC
                             .fieldOf("slot")
-                            .forGetter(ItemAttributeModifier::slot)
+                            .forGetter(ItemAttributeModifier::slot),
+                    Codec.BOOL
+                            .fieldOf("require_preferred_slot")
+                            .orElse(false)
+                            .forGetter(ItemAttributeModifier::requirePreferredSlot)
             ).apply(instance, ItemAttributeModifier::new)
     );
 
@@ -99,6 +107,10 @@ public record ItemAttributeModifier(
             EquipmentSlot slot,
             Multimap<EntityAttribute, EntityAttributeModifier> attributeModifiers
     ) {
+        if (this.requirePreferredSlot && LivingEntity.getPreferredEquipmentSlot(stack) != slot) {
+            return;
+        }
+
         if (this.slot == slot && this.itemPredicate.test(stack)) {
             attributeModifiers.put(this.attribute, this.modifier);
         }
