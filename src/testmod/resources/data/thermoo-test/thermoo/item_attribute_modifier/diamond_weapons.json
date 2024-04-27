@@ -7,10 +7,7 @@
         "operation": "addition"
     },
     "item": {
-        "items": [
-            "minecraft:diamond_axe",
-            "minecraft:diamond_sword"
-        ]
+        "tag": "#minecraft:swords"
     },
     "slot": "mainhand"
 }
