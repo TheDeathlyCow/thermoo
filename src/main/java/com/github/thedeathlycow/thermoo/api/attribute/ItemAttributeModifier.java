@@ -20,6 +20,7 @@ import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Predicate;
 
 /**
@@ -117,42 +118,33 @@ public record ItemAttributeModifier(
     }
 
     public record ItemTypePredicate(
-            @Nullable List<Item> items,
-            @Nullable TagKey<Item> itemTag
+            Optional<List<Item>> items,
+            Optional<TagKey<Item>> itemTag
     ) implements Predicate<ItemStack> {
 
-        public static final Codec<ItemTypePredicate> CODEC = Codec.<ItemTypePredicate, ItemTypePredicate>either(
-                RecordCodecBuilder.create(
-                        instance -> instance.group(
-                                Codec.list(Registries.ITEM.getCodec())
-                                        .fieldOf("items")
-                                        .forGetter(ItemTypePredicate::items)
-                        ).apply(instance, items -> new ItemTypePredicate(items, null))
-                ),
-                RecordCodecBuilder.create(
-                        instance -> instance.group(
-                                TagKey.codec(RegistryKeys.ITEM)
-                                        .fieldOf("tag")
-                                        .forGetter(ItemTypePredicate::itemTag)
-                        ).apply(instance, tag -> new ItemTypePredicate(null, tag))
-                )
-        ).xmap(
-                either -> either.left().orElseGet(() -> either.right().orElseThrow()),
-                Either::left
+        public static final Codec<ItemTypePredicate> CODEC = RecordCodecBuilder.create(
+                instance -> instance.group(
+                        Codec.list(Registries.ITEM.getCodec())
+                                .optionalFieldOf("items")
+                                .forGetter(ItemTypePredicate::items),
+                        TagKey.codec(RegistryKeys.ITEM)
+                                .optionalFieldOf("tag")
+                                .forGetter(ItemTypePredicate::itemTag)
+                ).apply(instance, ItemTypePredicate::new)
         );
 
         @Override
         public boolean test(ItemStack stack) {
 
-            if (this.items == null && this.itemTag == null) {
+            if (this.items.isEmpty() && this.itemTag.isEmpty()) {
                 return false;
             }
 
-            if (this.items != null && !this.items.contains(stack.getItem())) {
+            if (this.items.isPresent() && !this.items.get().contains(stack.getItem())) {
                 return false;
             }
 
-            if (this.itemTag != null && !stack.isIn(this.itemTag)) {
+            if (this.itemTag.isPresent() && !stack.isIn(this.itemTag.get())) {
                 return false;
             }
 
