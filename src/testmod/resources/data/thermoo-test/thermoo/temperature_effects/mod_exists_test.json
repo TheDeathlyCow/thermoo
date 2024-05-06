@@ -1,0 +1,20 @@
+{
+    "type": "thermoo:function",
+    "temperature_scale_range": {
+        "min": 0.5
+    },
+    "entity_type": "minecraft:player",
+    "config": {
+        "function": "thermoo-test:macro_message",
+        "interval": 100,
+        "arguments": "{message:\"Thermoo exists!\"}"
+    },
+    "fabric:load_conditions": [
+        {
+            "condition": "fabric:all_mods_loaded",
+            "values": [
+                "thermoo"
+            ]
+        }
+    ]
+}

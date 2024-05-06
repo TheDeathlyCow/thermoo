@@ -1,10 +1,12 @@
 package com.github.thedeathlycow.thermoo.impl;
 
 import com.github.thedeathlycow.thermoo.api.temperature.effects.ConfiguredTemperatureEffect;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
 import com.mojang.serialization.JsonOps;
 import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener;
+import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.registry.Registries;
@@ -89,14 +91,16 @@ public class TemperatureEffectLoader implements SimpleSynchronousResourceReloadL
             Identifier id,
             BufferedReader reader
     ) {
-        ConfiguredTemperatureEffect<?> effect = Util.getResult(
-                ConfiguredTemperatureEffect.CODEC.parse(
-                        JsonOps.INSTANCE,
-                        JsonParser.parseReader(reader)
-                ),
-                JsonParseException::new
-        );
-        registry.put(id, effect);
+        JsonElement json = JsonParser.parseReader(reader);
+        if (json.isJsonObject() && ResourceConditions.objectMatchesConditions(json.getAsJsonObject())) {
+            ConfiguredTemperatureEffect<?> effect = Util.getResult(
+                    ConfiguredTemperatureEffect.CODEC.parse(JsonOps.INSTANCE, json),
+                    JsonParseException::new
+            );
+            registry.put(id, effect);
+        } else {
+            Thermoo.LOGGER.info("Temperature Effect {} not loaded, as resource conditions not met.", id);
+        }
     }
 
     private void partitionRegistry(
