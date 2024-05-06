@@ -24,6 +24,11 @@ public final class TemperatureEffects {
     public static final TemperatureEffect<?> SEQUENCE = new SequenceTemperatureEffect(SequenceTemperatureEffect.CODEC);
 
     /**
+     * A temperature effect that executes a datapack function on an interval
+     */
+    public static final TemperatureEffect<FunctionTemperatureEffect.Config> FUNCTION = new FunctionTemperatureEffect(FunctionTemperatureEffect.CODEC);
+
+    /**
      * Applies {@linkplain  net.minecraft.entity.effect.StatusEffect status effects} to entities based on their
      * temperature
      */
