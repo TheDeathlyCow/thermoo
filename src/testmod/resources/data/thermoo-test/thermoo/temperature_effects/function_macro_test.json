@@ -5,7 +5,7 @@
     },
     "entity_type": "minecraft:player",
     "config": {
-        "function": "thermoo-test:notify_temperature",
+        "function": "thermoo-test:macro_message",
         "interval": 20,
         "arguments": "{message:\"Hi there!\"}",
         "permission_level": 2
