@@ -33,7 +33,47 @@ public final class SoakingCommand {
                 (literal("soaking").requires(src -> src.hasPermissionLevel(2)))
                         .then(buildGetCommand())
                         .then(buildSetCommand())
+                        .then(buildAddCommand())
+                        .then(buildRemoveCommand())
         );
+    }
+
+    private static LiteralArgumentBuilder<ServerCommandSource> buildRemoveCommand() {
+        return literal("remove")
+                .then(
+                        argument(TARGET_KEY, EntityArgumentType.entity())
+                                .then(
+                                        argument(VALUE_KEY, IntegerArgumentType.integer(0))
+                                                .executes(
+                                                        context -> {
+                                                            return remove(
+                                                                    context.getSource(),
+                                                                    EntityArgumentType.getEntity(context, TARGET_KEY),
+                                                                    IntegerArgumentType.getInteger(context, VALUE_KEY)
+                                                            );
+                                                        }
+                                                )
+                                )
+                );
+    }
+
+    private static LiteralArgumentBuilder<ServerCommandSource> buildAddCommand() {
+        return literal("add")
+                .then(
+                        argument(TARGET_KEY, EntityArgumentType.entity())
+                                .then(
+                                        argument(VALUE_KEY, IntegerArgumentType.integer(0))
+                                                .executes(
+                                                        context -> {
+                                                            return add(
+                                                                    context.getSource(),
+                                                                    EntityArgumentType.getEntity(context, TARGET_KEY),
+                                                                    IntegerArgumentType.getInteger(context, VALUE_KEY)
+                                                            );
+                                                        }
+                                                )
+                                )
+                );
     }
 
     private static LiteralArgumentBuilder<ServerCommandSource> buildSetCommand() {
@@ -56,7 +96,6 @@ public final class SoakingCommand {
     }
 
     private static LiteralArgumentBuilder<ServerCommandSource> buildGetCommand() {
-
         Command<ServerCommandSource> getCurrent = context -> {
             return getCurrent(
                     context.getSource(),
@@ -116,6 +155,46 @@ public final class SoakingCommand {
                                 .then(getMin)
                                 .then(getMax)
                 );
+    }
+
+    private static int remove(ServerCommandSource source, Entity target, int value) throws CommandSyntaxException {
+        if (target instanceof LivingEntity entity) {
+            entity.thermoo$addWetTicks(-value);
+
+            source.sendFeedback(
+                    () -> Text.translatableWithFallback(
+                            "commands.thermoo.soaking.remove.success",
+                            "Removed %d points from the soaking value of %s (now %d)",
+                            target.getDisplayName(),
+                            value,
+                            entity.thermoo$getWetTicks()
+                    ), false
+            );
+
+            return entity.thermoo$getWetTicks();
+        } else {
+            throw TemperatureCommand.NOT_LIVING_ENTITY.create();
+        }
+    }
+
+    private static int add(ServerCommandSource source, Entity target, int value) throws CommandSyntaxException {
+        if (target instanceof LivingEntity entity) {
+            entity.thermoo$addWetTicks(value);
+
+            source.sendFeedback(
+                    () -> Text.translatableWithFallback(
+                            "commands.thermoo.soaking.add.success",
+                            "Added %d points to the soaking value of %s (now %d)",
+                            target.getDisplayName(),
+                            value,
+                            entity.thermoo$getWetTicks()
+                    ), false
+            );
+
+            return entity.thermoo$getWetTicks();
+        } else {
+            throw TemperatureCommand.NOT_LIVING_ENTITY.create();
+        }
     }
 
     private static int set(ServerCommandSource source, Entity target, int value) throws CommandSyntaxException {

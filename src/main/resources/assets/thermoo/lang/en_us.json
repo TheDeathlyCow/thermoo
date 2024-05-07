@@ -25,5 +25,7 @@
     "commands.thermoo.soaking.get.scale.success": "The current soaking scale of %s is %d",
     "commands.thermoo.soaking.get.min.success": "The minimum soaking value of %s is %d",
     "commands.thermoo.soaking.get.max.success": "The maximum soaking value of %s is %d",
-    "commands.thermoo.soaking.set.success": "Set the soaking value of %s to %d (now %d)"
+    "commands.thermoo.soaking.set.success": "Set the soaking value of %s to %d (now %d)",
+    "commands.thermoo.soaking.add.success": "Added %d points to the soaking value of %s (now %d)",
+    "commands.thermoo.soaking.remove.success": "Removed %d points from the soaking value of %s (now %d)"
 }
