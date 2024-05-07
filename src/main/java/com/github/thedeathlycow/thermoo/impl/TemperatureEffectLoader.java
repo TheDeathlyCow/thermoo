@@ -1,10 +1,12 @@
 package com.github.thedeathlycow.thermoo.impl;
 
 import com.github.thedeathlycow.thermoo.api.temperature.effects.ConfiguredTemperatureEffect;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
 import com.mojang.serialization.JsonOps;
 import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener;
+import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.registry.Registries;
@@ -58,11 +60,19 @@ public class TemperatureEffectLoader implements SimpleSynchronousResourceReloadL
 
         Map<Identifier, ConfiguredTemperatureEffect<?>> registry = new HashMap<>();
 
-        for (Map.Entry<Identifier, Resource> entry : manager.findResources("thermoo/temperature_effects", eid -> eid.getPath().endsWith(".json")).entrySet()) {
-            try (BufferedReader reader = entry.getValue().getReader()) {
-                this.loadEffect(registry, entry.getKey(), reader);
-            } catch (Exception e) {
-                Thermoo.LOGGER.error("An error occurred while loading temperature effect {}: {}", entry.getKey(), e);
+        Map<Identifier, List<Resource>> entries = manager.findAllResources(
+                "thermoo/temperature_effects",
+                eid -> eid.getPath().endsWith(".json")
+        );
+
+        for (var entry : entries.entrySet()) {
+            Identifier key = entry.getKey();
+            for (var resource : entry.getValue()) {
+                try (BufferedReader reader = resource.getReader()) {
+                    this.loadEffect(registry, key, reader);
+                } catch (Exception e) {
+                    Thermoo.LOGGER.error("An error occurred while loading temperature effect {}: {}", entry.getKey(), e);
+                }
             }
         }
 
@@ -89,14 +99,29 @@ public class TemperatureEffectLoader implements SimpleSynchronousResourceReloadL
             Identifier id,
             BufferedReader reader
     ) {
-        ConfiguredTemperatureEffect<?> effect = Util.getResult(
-                ConfiguredTemperatureEffect.CODEC.parse(
-                        JsonOps.INSTANCE,
-                        JsonParser.parseReader(reader)
-                ),
-                JsonParseException::new
-        );
-        registry.put(id, effect);
+        JsonElement json = JsonParser.parseReader(reader);
+        if (json.isJsonObject() && ResourceConditions.objectMatchesConditions(json.getAsJsonObject())) {
+            ConfiguredTemperatureEffect<?> effect = Util.getResult(
+                    ConfiguredTemperatureEffect.CODEC.parse(JsonOps.INSTANCE, json),
+                    JsonParseException::new
+            );
+
+            boolean overridden = false;
+            if (registry.containsKey(id)) {
+                ConfiguredTemperatureEffect<?> existingEffect = registry.get(id);
+                if (existingEffect.loadingPriority() > effect.loadingPriority()) {
+                    overridden = true;
+                }
+            }
+
+            if (!overridden) {
+                registry.put(id, effect);
+            } else {
+                Thermoo.LOGGER.info("Temperature Effect {} tried to load, but was overridden by a higher priority effect with the same ID.", id);
+            }
+        } else {
+            Thermoo.LOGGER.info("Temperature Effect {} not loaded, as its resource conditions were not met.", id);
+        }
     }
 
     private void partitionRegistry(

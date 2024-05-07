@@ -19,6 +19,13 @@
     "commands.thermoo.environment.printcontroller.success": "Controller logged to console",
 
     "commands.thermoo.environment.checktemperature.success": "The passive temperature change at %s, %s, %s (%s) is %s",
-    "commands.thermoo.environment.checktemperature.unit.success": "The temperature at %s, %s, %s (%s) is %s°%s"
+    "commands.thermoo.environment.checktemperature.unit.success": "The temperature at %s, %s, %s (%s) is %s°%s",
     
+    "commands.thermoo.soaking.get.current.success": "The current soaking value of %s is %d",
+    "commands.thermoo.soaking.get.scale.success": "The current soaking scale of %s is %d",
+    "commands.thermoo.soaking.get.min.success": "The minimum soaking value of %s is %d",
+    "commands.thermoo.soaking.get.max.success": "The maximum soaking value of %s is %d",
+    "commands.thermoo.soaking.set.success": "Set the soaking value of %s to %d (now %d)",
+    "commands.thermoo.soaking.add.success": "Added %d points to the soaking value of %s (now %d)",
+    "commands.thermoo.soaking.remove.success": "Removed %d points from the soaking value of %s (now %d)"
 }

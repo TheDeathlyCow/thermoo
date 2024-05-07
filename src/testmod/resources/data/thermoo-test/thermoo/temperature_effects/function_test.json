@@ -1,0 +1,10 @@
+{
+    "type": "thermoo:function",
+    "temperature_scale_range": {
+        "min": 0.5
+    },
+    "entity_type": "minecraft:player",
+    "config": {
+        "function": "thermoo-test:message"
+    }
+}

@@ -29,7 +29,7 @@ import static net.minecraft.server.command.CommandManager.literal;
  */
 public class TemperatureCommand {
 
-    private static final SimpleCommandExceptionType NOT_LIVING_ENTITY = new SimpleCommandExceptionType(
+    static final SimpleCommandExceptionType NOT_LIVING_ENTITY = new SimpleCommandExceptionType(
             Text.translatableWithFallback(
                     "commands.thermoo.temperature.exception.not_living_entity",
                     "Target is not a living entity!"
