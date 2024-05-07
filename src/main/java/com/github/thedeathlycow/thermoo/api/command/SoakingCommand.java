@@ -17,8 +17,20 @@ import java.util.function.Supplier;
 import static net.minecraft.server.command.CommandManager.argument;
 import static net.minecraft.server.command.CommandManager.literal;
 
+/**
+ * Command relating to soaking. Allows soaking values to be modified in game.
+ * <p>
+ * Usage:
+ * <p>
+ * {@code thermoo soaking (get|set|add|remove) <target> <args>}
+ */
 public final class SoakingCommand {
 
+    /**
+     * Supplier for creating a new soaking command builder to be registered to the Minecraft server
+     * <p>
+     * Registered by the default implementation of this API.
+     */
     public static final Supplier<LiteralArgumentBuilder<ServerCommandSource>> COMMAND_BUILDER = SoakingCommand::buildCommand;
 
     private static final String TARGET_KEY = "target";
