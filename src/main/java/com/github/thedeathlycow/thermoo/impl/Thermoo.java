@@ -2,10 +2,7 @@ package com.github.thedeathlycow.thermoo.impl;
 
 import com.github.thedeathlycow.thermoo.api.ThermooRegistryKeys;
 import com.github.thedeathlycow.thermoo.api.attribute.ItemAttributeModifier;
-import com.github.thedeathlycow.thermoo.api.command.EnvironmentCommand;
-import com.github.thedeathlycow.thermoo.api.command.HeatingModeArgumentType;
-import com.github.thedeathlycow.thermoo.api.command.TemperatureCommand;
-import com.github.thedeathlycow.thermoo.api.command.TemperatureUnitArgumentType;
+import com.github.thedeathlycow.thermoo.api.command.*;
 import com.github.thedeathlycow.thermoo.api.temperature.EnvironmentManager;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.ArgumentTypeRegistry;
@@ -41,6 +38,7 @@ public class Thermoo implements ModInitializer {
                 (dispatcher, registryAccess, environment) -> {
                     dispatcher.register(TemperatureCommand.COMMAND_BUILDER.get());
                     dispatcher.register(EnvironmentCommand.COMMAND_BUILDER.get());
+                    dispatcher.register(SoakingCommand.COMMAND_BUILDER.get());
                 }
         );
 

@@ -23,6 +23,8 @@ import static net.minecraft.server.command.CommandManager.literal;
  * Usage:
  * <p>
  * {@code thermoo environment checktemperature <args>}
+ *
+ * {@code thermoo environment printcontroller}
  */
 public class EnvironmentCommand {
 
