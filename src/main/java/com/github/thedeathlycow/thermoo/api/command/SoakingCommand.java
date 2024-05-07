@@ -180,7 +180,7 @@ public final class SoakingCommand {
                             target.getDisplayName(),
                             value,
                             entity.thermoo$getWetTicks()
-                    ), false
+                    ), true
             );
 
             return entity.thermoo$getWetTicks();
@@ -200,7 +200,7 @@ public final class SoakingCommand {
                             target.getDisplayName(),
                             value,
                             entity.thermoo$getWetTicks()
-                    ), false
+                    ), true
             );
 
             return entity.thermoo$getWetTicks();
@@ -220,7 +220,7 @@ public final class SoakingCommand {
                             target.getDisplayName(),
                             value,
                             entity.thermoo$getWetTicks()
-                    ), false
+                    ), true
             );
 
             return entity.thermoo$getWetTicks();
