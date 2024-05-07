@@ -39,7 +39,8 @@ public record ConfiguredTemperatureEffect<C>(
         C config,
         Optional<LootCondition> predicate,
         Optional<EntityType<?>> entityType,
-        NumberRange.DoubleRange temperatureScaleRange
+        NumberRange.DoubleRange temperatureScaleRange,
+        int loadingPriority
 ) {
 
     /**

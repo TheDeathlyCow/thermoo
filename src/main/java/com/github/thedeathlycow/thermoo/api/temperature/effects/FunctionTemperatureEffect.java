@@ -19,7 +19,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
-public class FunctionTemperatureEffect extends TemperatureEffect<FunctionTemperatureEffect.Config> {
+public final class FunctionTemperatureEffect extends TemperatureEffect<FunctionTemperatureEffect.Config> {
 
     public static final Codec<Config> CODEC = RecordCodecBuilder.create(
             instance -> instance.group(

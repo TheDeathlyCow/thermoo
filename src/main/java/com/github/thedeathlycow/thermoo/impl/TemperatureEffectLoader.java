@@ -60,11 +60,19 @@ public class TemperatureEffectLoader implements SimpleSynchronousResourceReloadL
 
         Map<Identifier, ConfiguredTemperatureEffect<?>> registry = new HashMap<>();
 
-        for (Map.Entry<Identifier, Resource> entry : manager.findResources("thermoo/temperature_effects", eid -> eid.getPath().endsWith(".json")).entrySet()) {
-            try (BufferedReader reader = entry.getValue().getReader()) {
-                this.loadEffect(registry, entry.getKey(), reader);
-            } catch (Exception e) {
-                Thermoo.LOGGER.error("An error occurred while loading temperature effect {}: {}", entry.getKey(), e);
+        Map<Identifier, List<Resource>> entries = manager.findAllResources(
+                "thermoo/temperature_effects",
+                eid -> eid.getPath().endsWith(".json")
+        );
+
+        for (var entry : entries.entrySet()) {
+            Identifier key = entry.getKey();
+            for (var resource : entry.getValue()) {
+                try (BufferedReader reader = resource.getReader()) {
+                    this.loadEffect(registry, key, reader);
+                } catch (Exception e) {
+                    Thermoo.LOGGER.error("An error occurred while loading temperature effect {}: {}", entry.getKey(), e);
+                }
             }
         }
 
@@ -97,9 +105,22 @@ public class TemperatureEffectLoader implements SimpleSynchronousResourceReloadL
                     ConfiguredTemperatureEffect.CODEC.parse(JsonOps.INSTANCE, json),
                     JsonParseException::new
             );
-            registry.put(id, effect);
+
+            boolean overridden = false;
+            if (registry.containsKey(id)) {
+                ConfiguredTemperatureEffect<?> existingEffect = registry.get(id);
+                if (existingEffect.loadingPriority() > effect.loadingPriority()) {
+                    overridden = true;
+                }
+            }
+
+            if (!overridden) {
+                registry.put(id, effect);
+            } else {
+                Thermoo.LOGGER.info("Temperature Effect {} tried to load, but was overridden by a higher priority effect with the same ID.", id);
+            }
         } else {
-            Thermoo.LOGGER.info("Temperature Effect {} not loaded, as resource conditions not met.", id);
+            Thermoo.LOGGER.info("Temperature Effect {} not loaded, as its resource conditions were not met.", id);
         }
     }
 

@@ -47,16 +47,21 @@ public abstract class TemperatureEffect<C> {
                         NumberRange.DoubleRange.CODEC
                                 .fieldOf("temperature_scale_range")
                                 .orElse(NumberRange.DoubleRange.ANY)
-                                .forGetter(ConfiguredTemperatureEffect::temperatureScaleRange)
+                                .forGetter(ConfiguredTemperatureEffect::temperatureScaleRange),
+                        Codec.INT
+                                .fieldOf("loading_priority")
+                                .orElse(0)
+                                .forGetter(ConfiguredTemperatureEffect::loadingPriority)
                 ).apply(
                         instance,
-                        (config, lootCondition, entityType, doubleRange) -> {
+                        (config, lootCondition, entityType, doubleRange, loadingPriority) -> {
                             return new ConfiguredTemperatureEffect<>(
                                     this,
                                     config,
                                     lootCondition,
                                     entityType,
-                                    doubleRange
+                                    doubleRange,
+                                    loadingPriority
                             );
                         }
                 )
