@@ -31,6 +31,11 @@ import java.util.Optional;
  * @param temperatureScaleRange The temperature scale at which this should be applied to an entity. This is more
  *                              performant than using predicates if you want to apply an effect only within a particular
  *                              temperature range
+ * @param loadingPriority       Priority for loading. Effects with a higher priority at the same resource location will
+ *                              not be overridden by effects with lower priority from other mods/datapacks at the same
+ *                              resource location. Allows mods to reliably override the temperature effects of other
+ *                              mods, regardless of mod load order (which is arbitrary in Fabric). Defaults to 0 if not
+ *                              specified.
  * @param <C>                   The config type
  * @see TemperatureEffect
  */
