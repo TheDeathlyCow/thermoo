@@ -57,6 +57,11 @@ dependencies {
 
     // modImplementation "net.fabricmc.fabric-api:fabric-api-deprecated:${project.fabric_version}"
 
+    //// Optional Dependencies ////
+
+    // Colorful Hearts https://modrinth.com/mod/colorful-hearts
+    modCompileOnly("maven.modrinth:colorful-hearts:${project.colorful_hearts_version}") { transitive = false }
+
     //// Bring depends into testmod ////
 
     afterEvaluate {

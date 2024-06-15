@@ -23,6 +23,9 @@
 		],
 		"cardinal-components-entity": [
 			"com.github.thedeathlycow.thermoo.impl.component.ThermooComponents"
+		],
+		"colorfulhearts": [
+			"com.github.thedeathlycow.thermoo.impl.compat.ColorfulHeartsIntegration"
 		]
 	},
 	"mixins": [
