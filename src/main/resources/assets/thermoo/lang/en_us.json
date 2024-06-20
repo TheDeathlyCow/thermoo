@@ -4,7 +4,6 @@
     "attribute.thermoo.generic.frost_resistance": "Frost Resistance",
     "attribute.thermoo.generic.heat_resistance": "Heat Resistance",
     
-
     "commands.thermoo.temperature.exception.not_living_entity": "Target is not a living entity!",
     "commands.thermoo.temperature.get.scale.success": "The temperature scale of %s is %d",
     "commands.thermoo.temperature.get.max.success": "%s can have a maximum temperature of %d",
