@@ -1,0 +1,30 @@
+{
+    "attribute.thermoo.generic.min_temperature": "Nhiệt độ tối thiểu",
+    "attribute.thermoo.generic.max_temperature": "Nhiệt độ tối đa",
+    "attribute.thermoo.generic.frost_resistance": "Khả năng chịu lạnh",
+    "attribute.thermoo.generic.heat_resistance": "Khả năng chịu nhiệt",
+    
+    "commands.thermoo.temperature.exception.not_living_entity": "Mục tiêu không phải là một thực thể sống!",
+    "commands.thermoo.temperature.get.scale.success": "Thang nhiệt độ của %s là %d",
+    "commands.thermoo.temperature.get.max.success": "%s có thể đạt nhiệt độ tối đa là %d",
+    "commands.thermoo.temperature.get.min.success": "%s có thể có nhiệt độ tối thiểu là %d",
+    "commands.thermoo.temperature.get.current.success": "Nhiệt độ hiện tại của %s là %d",
+    "commands.thermoo.temperature.add.success.single": "Đã thêm %d nhiệt độ cho %s (hiện tại là %d)",
+    "commands.thermoo.temperature.add.success.multiple": "Đã thêm %d nhiệt độ cho %d thực thể",
+    "commands.thermoo.temperature.remove.success.single": "Đã giảm %d nhiệt độ từ %s (hiện tại là %d)",
+    "commands.thermoo.temperature.remove.success.multiple": "Đã giảm %d nhiệt độ từ %d thực thể",
+    "commands.thermoo.temperature.set.success.single": "Đã đặt nhiệt độ của %s thành %d",
+    "commands.thermoo.temperature.set.success.multiple": "Đã đặt nhiệt độ của %d thực thể thành %d",
+    "commands.thermoo.environment.printcontroller.success": "Bộ điều khiển đã được ghi vào console",
+
+    "commands.thermoo.environment.checktemperature.success": "Sự thay đổi nhiệt độ thụ động tại %s, %s, %s (%s) là %s",
+    "commands.thermoo.environment.checktemperature.unit.success": "Nhiệt độ tại %s, %s, %s (%s) là %s°%s",
+    
+    "commands.thermoo.soaking.get.current.success": "Giá trị ngâm hiện tại của %s là %d",
+    "commands.thermoo.soaking.get.scale.success": "Thang ngâm hiện tại của %s là %d",
+    "commands.thermoo.soaking.get.min.success": "Giá trị ngâm tối thiểu của %s là %d",
+    "commands.thermoo.soaking.get.max.success": "Giá trị ngâm tối đa của %s là %d",
+    "commands.thermoo.soaking.set.success": "Đã đặt giá trị ngâm của %s thành %d (hiện tại là %d)",
+    "commands.thermoo.soaking.add.success": "Đã thêm %d điểm vào giá trị ngâm của %s (hiện tại là %d)",
+    "commands.thermoo.soaking.remove.success": "Đã giảm %d điểm từ giá trị ngâm của %s (hiện tại là %d)"
+}
