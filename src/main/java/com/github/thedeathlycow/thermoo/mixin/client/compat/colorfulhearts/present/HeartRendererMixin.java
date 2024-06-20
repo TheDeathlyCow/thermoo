@@ -12,8 +12,9 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
-import terrails.colorfulhearts.heart.Heart;
-import terrails.colorfulhearts.heart.HeartType;
+import terrails.colorfulhearts.api.event.HeartRenderEvent;
+import terrails.colorfulhearts.api.heart.drawing.Heart;
+import terrails.colorfulhearts.api.heart.drawing.OverlayHeart;
 import terrails.colorfulhearts.render.HeartRenderer;
 
 import java.util.Arrays;
@@ -25,7 +26,8 @@ public class HeartRendererMixin {
     @Inject(method = "renderPlayerHearts",
             at = @At(
                     value = "INVOKE",
-                    target = "Lterrails/colorfulhearts/heart/Heart;draw(Lnet/minecraft/client/util/math/MatrixStack;IIZZLterrails/colorfulhearts/heart/HeartType;)V",
+                    target = "Lterrails/colorfulhearts/api/heart/drawing/Heart;draw(Lnet/minecraft/client/gui/DrawContext;IIZZZ)V",
+                    ordinal = 0,
                     remap = true,
                     shift = At.Shift.AFTER
             ),
@@ -39,10 +41,12 @@ public class HeartRendererMixin {
             int displayHealth, int absorption,
             boolean renderHighlight,
             CallbackInfo ci,
+            long ticks,
             int healthHearts, int displayHealthHearts,
-            boolean absorptionSameRow,
+            boolean hardcore,
             int regenIndex,
-            HeartType heartType,
+            OverlayHeart heartType,
+            HeartRenderEvent.Pre event,
             int index,
             Heart heart,
             int xPos, int yPos,
@@ -57,8 +61,7 @@ public class HeartRendererMixin {
     @Inject(
             method = "renderPlayerHearts",
             at = @At(
-                    value = "INVOKE",
-                    target = "Lcom/mojang/blaze3d/systems/RenderSystem;disableBlend()V",
+                    value = "TAIL",
                     shift = At.Shift.BEFORE
             )
     )
