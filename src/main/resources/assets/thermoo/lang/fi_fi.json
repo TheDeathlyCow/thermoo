@@ -1,0 +1,31 @@
+{
+    "attribute.thermoo.generic.min_temperature": "Minimilämpö",
+    "attribute.thermoo.generic.max_temperature": "Maksimilämpö",
+    "attribute.thermoo.generic.frost_resistance": "Kylmänkestävyys",
+    "attribute.thermoo.generic.heat_resistance": "Kuumankestävyys",
+    
+
+    "commands.thermoo.temperature.exception.not_living_entity": "Kohde ei ole elävä olio!",
+    "commands.thermoo.temperature.get.scale.success": "Olion %s lämpöskaala on %d",
+    "commands.thermoo.temperature.get.max.success": "%s voi saada maksimilämpötilaksi %d",
+    "commands.thermoo.temperature.get.min.success": "%s voi saada minimilämpötilaksi %d",
+    "commands.thermoo.temperature.get.current.success": "Olion %s lämpötila on %d",
+    "commands.thermoo.temperature.add.success.single": "Lisättiin %d lämpöä olioon %s (nyt %d)",
+    "commands.thermoo.temperature.add.success.multiple": "Lisättiin %d lämpöä %d olioon",
+    "commands.thermoo.temperature.remove.success.single": "Poistetiin %d lämpöä oliolta %s (nyt %d)",
+    "commands.thermoo.temperature.remove.success.multiple": "Poistetiin %d lämpöä %d oliolta",
+    "commands.thermoo.temperature.set.success.single": "Pistettiin olion %s lämpötila arvoon %d",
+    "commands.thermoo.temperature.set.success.multiple": "Pistetiiin %s olion lämpötila arvoon %d",
+    "commands.thermoo.environment.printcontroller.success": "Ohjain kirjattiin konsoliin",
+
+    "commands.thermoo.environment.checktemperature.success": "Pasiivilämpötilamuutos paikassa %s, %s, %s (%s) on %s",
+    "commands.thermoo.environment.checktemperature.unit.success": "Lämpötila paikassa %s, %s, %s (%s) on %s°%s",
+    
+    "commands.thermoo.soaking.get.current.success": "Olion %s märkyysarvo on %d",
+    "commands.thermoo.soaking.get.scale.success": "Olion %s märkyysskaala on %d",
+    "commands.thermoo.soaking.get.min.success": "Olion %s minimimärkyysarvo on %d",
+    "commands.thermoo.soaking.get.max.success": "Olion %s maksimimärkyysarvo on %d",
+    "commands.thermoo.soaking.set.success": "Pistettiin olion %s märkyysarvo arvoon %d (nyt %d)",
+    "commands.thermoo.soaking.add.success": "Lisättiin %d pistettä olion %s märkyysarvoon (nyt %d)",
+    "commands.thermoo.soaking.remove.success": "Poistettiin %d pistettä olion %s märkyysarvosta (nyt %d)"
+}
