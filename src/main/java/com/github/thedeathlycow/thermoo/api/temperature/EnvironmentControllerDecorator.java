@@ -4,6 +4,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
@@ -48,7 +49,7 @@ public abstract non-sealed class EnvironmentControllerDecorator implements Envir
     }
 
     @Override
-    public double getBaseValueForAttribute(EntityAttribute attribute, LivingEntity entity) {
+    public double getBaseValueForAttribute(RegistryEntry<EntityAttribute> attribute, LivingEntity entity) {
         return controller.getBaseValueForAttribute(attribute, entity);
     }
 

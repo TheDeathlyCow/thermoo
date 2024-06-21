@@ -4,6 +4,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
@@ -45,7 +46,7 @@ public sealed interface EnvironmentController permits EnvironmentControllerDecor
      * @param entity    The entity to apply the attribute to.
      * @return Returns the base value for the attribute to apply to the entity.
      */
-    double getBaseValueForAttribute(EntityAttribute attribute, LivingEntity entity);
+    double getBaseValueForAttribute(RegistryEntry<EntityAttribute> attribute, LivingEntity entity);
 
     /**
      * Computes the local temperature change from the environment at a given position in a world.

@@ -10,6 +10,7 @@ import net.minecraft.block.Blocks;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.LightType;
@@ -27,14 +28,14 @@ public class TestmodController extends EnvironmentControllerDecorator {
     }
 
     @Override
-    public double getBaseValueForAttribute(EntityAttribute attribute, LivingEntity entity) {
+    public double getBaseValueForAttribute(RegistryEntry<EntityAttribute> attribute, LivingEntity entity) {
         double base = controller.getBaseValueForAttribute(attribute, entity);
 
         if (base != 0) {
             return base;
         }
 
-        if (attribute == ThermooAttributes.MIN_TEMPERATURE) {
+        if (ThermooAttributes.MIN_TEMPERATURE.matches(attribute)) {
             return 40.0;
         }
 

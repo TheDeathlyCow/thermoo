@@ -14,6 +14,7 @@ import net.minecraft.entity.attribute.*;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
@@ -27,17 +28,16 @@ import java.util.UUID;
 @Mixin(LivingEntity.class)
 public abstract class EnvironmentAwareEntityMixin extends Entity implements TemperatureAware, Soakable {
 
-//    @Shadow
-//    public abstract double getAttributeValue(EntityAttribute attribute);
-
     @Shadow
     public abstract EntityAttributeInstance getAttributeInstance(EntityAttribute attribute);
 
     @Shadow
     public abstract boolean canBreatheInWater();
 
-    @Shadow
-    public abstract boolean hasStatusEffect(StatusEffect effect);
+
+    @Shadow public abstract double getAttributeValue(RegistryEntry<EntityAttribute> attribute);
+
+    @Shadow public abstract boolean hasStatusEffect(RegistryEntry<StatusEffect> effect);
 
     public EnvironmentAwareEntityMixin(EntityType<?> type, World world) {
         super(type, world);
