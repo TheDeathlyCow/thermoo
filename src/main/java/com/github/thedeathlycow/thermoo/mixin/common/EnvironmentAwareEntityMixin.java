@@ -15,6 +15,7 @@ import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
@@ -27,9 +28,6 @@ import java.util.UUID;
 
 @Mixin(LivingEntity.class)
 public abstract class EnvironmentAwareEntityMixin extends Entity implements TemperatureAware, Soakable {
-
-    @Shadow
-    public abstract EntityAttributeInstance getAttributeInstance(EntityAttribute attribute);
 
     @Shadow
     public abstract boolean canBreatheInWater();
@@ -160,19 +158,6 @@ public abstract class EnvironmentAwareEntityMixin extends Entity implements Temp
         int currentTemperature = this.thermoo$getTemperature();
         int modifiedChange = mode.applyResistance(this, temperatureChange);
         this.thermoo$setTemperature(currentTemperature + modifiedChange);
-    }
-
-    private void addTemperatureOverrideModifier(EntityAttribute attribute, UUID id, String name, double value) {
-        EntityAttributeInstance temperature = this.getAttributeInstance(attribute);
-        var modifier = new EntityAttributeModifier(
-                id,
-                name,
-                value,
-                EntityAttributeModifier.Operation.ADDITION
-        );
-        if (!temperature.hasModifier(modifier)) {
-            temperature.addPersistentModifier(modifier);
-        }
     }
 
     @Inject(
