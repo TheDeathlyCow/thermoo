@@ -87,7 +87,7 @@ public record ItemAttributeModifier(
                     Registries.ATTRIBUTE.getCodec()
                             .fieldOf("attribute")
                             .forGetter(ItemAttributeModifier::attribute),
-                    ThermooCodecs.ATTRIBUTE_MODIFIER_CODEC
+                    EntityAttributeModifier.CODEC
                             .fieldOf("modifier")
                             .forGetter(ItemAttributeModifier::modifier),
                     ItemTypePredicate.CODEC

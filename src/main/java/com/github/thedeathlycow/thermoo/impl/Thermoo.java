@@ -50,7 +50,6 @@ public class Thermoo implements ModInitializer {
 
         ItemAttributeModifierManager.INSTANCE.registerToEventsCommon();
 
-        ThermooCommonRegisters.registerAttributes();
         ThermooCommonRegisters.registerTemperatureEffects();
         ThermooCommonRegisters.registerLootConditionTypes();
 
@@ -67,8 +66,8 @@ public class Thermoo implements ModInitializer {
      * @param path The identifier path
      * @return Returns a new {@link Identifier}
      */
-    @Contract("->new")
+    @Contract("_->new")
     public static Identifier id(String path) {
-        return new Identifier(MODID, path);
+        return Identifier.of(MODID, path);
     }
 }
