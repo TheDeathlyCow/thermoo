@@ -98,6 +98,10 @@ public class TemperatureConverter {
             double baseShift
     ) {
         public static final Settings DEFAULT = new Settings(TemperatureUnit.CELSIUS, 1.0, 0);
+        public static final Settings DEFAULT_CELSIUS = DEFAULT;
+        public static final Settings DEFAULT_FAHRENHEIT = new Settings(TemperatureUnit.FAHRENHEIT, 1.0, 0);
+        public static final Settings DEFAULT_KELVIN = new Settings(TemperatureUnit.KELVIN, 1.0, 0);
+        public static final Settings DEFAULT_RANKINE = new Settings(TemperatureUnit.RANKINE, 1.0, 0);
     }
 
     private TemperatureConverter() {
