@@ -2,6 +2,7 @@ package com.github.thedeathlycow.thermoo.api.temperature.event;
 
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
+import net.fabricmc.fabric.api.util.TriState;
 import net.minecraft.entity.player.PlayerEntity;
 
 /**
@@ -12,18 +13,22 @@ public final class PlayerEnvironmentEvents {
     /**
      * Called to check that a player is vulnerable to passive temperature changes.
      * <p>
-     * If any listener returns false, then further processing is cancelled and the event will return false.
+     * If any listener returns anything other than {@link TriState#DEFAULT}, then further processing is cancelled
+     * and the event will return that value.
+     * <p>
+     * By default, this event returns {@link TriState#TRUE}
      */
     public static final Event<TemperatureChangeEventCallback> CAN_APPLY_PASSIVE_TEMPERATURE_CHANGE = EventFactory.createArrayBacked(
             TemperatureChangeEventCallback.class,
             callbacks -> (change, player) -> {
                 for (TemperatureChangeEventCallback event : callbacks) {
-                    if (!event.canApplyChange(change, player)) {
-                        return false;
+                    TriState result = event.canApplyChange(change, player);
+                    if (result != TriState.DEFAULT) {
+                        return result;
                     }
                 }
 
-                return true;
+                return TriState.TRUE;
             }
     );
 
@@ -35,10 +40,11 @@ public final class PlayerEnvironmentEvents {
          *
          * @param change The passive temperature change to be applied
          * @param player The player to check
-         * @return Returns {@code true} if this callback will allow for the {@code change} to be applied to the
-         * {@code player}. If this returns {@code false}, further processing is cancelled and the change is not applied.
+         * @return Returns {@link TriState#TRUE} or {@link TriState#FALSE} if this callback should allow (or not allow)
+         * for the {@code change} to be applied to the {@code player}. If this returns {@link TriState#FALSE}, falls back
+         * to further processing.
          */
-        boolean canApplyChange(int change, PlayerEntity player);
+        TriState canApplyChange(int change, PlayerEntity player);
 
     }
 

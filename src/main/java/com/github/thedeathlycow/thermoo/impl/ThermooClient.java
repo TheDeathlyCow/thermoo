@@ -7,6 +7,6 @@ public class ThermooClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        ItemAttributeModifierManager.INSTANCE.registerToEventsClient();
+        // empty
     }
 }

@@ -1,17 +1,19 @@
 package com.github.thedeathlycow.thermoo.mixin.common;
 
-import com.github.thedeathlycow.thermoo.api.ThermooAttributes;
 import com.github.thedeathlycow.thermoo.api.temperature.EnvironmentController;
 import com.github.thedeathlycow.thermoo.api.temperature.EnvironmentManager;
+import com.github.thedeathlycow.thermoo.impl.AttributeHelper;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeInstance;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -20,7 +22,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class LivingEntityAttributeMixin {
 
     @Shadow
-    public abstract @Nullable EntityAttributeInstance getAttributeInstance(EntityAttribute attribute);
+    public abstract @Nullable EntityAttributeInstance getAttributeInstance(RegistryEntry<EntityAttribute> attribute);
 
     @Inject(
             method = "<init>",
@@ -28,31 +30,30 @@ public abstract class LivingEntityAttributeMixin {
     )
     private void addDefaultBoundsModifiers(EntityType<? extends LivingEntity> type, World world, CallbackInfo ci) {
 
-        var attributes = new EntityAttribute[]{
-                ThermooAttributes.MIN_TEMPERATURE,
-                ThermooAttributes.MAX_TEMPERATURE,
-                ThermooAttributes.HEAT_RESISTANCE,
-                ThermooAttributes.FROST_RESISTANCE
-        };
         EnvironmentController controller = EnvironmentManager.INSTANCE.getController();
         LivingEntity instance = (LivingEntity) (Object) this;
 
-        for (var attribute : attributes) {
-            double value = controller.getBaseValueForAttribute(attribute, instance);
+        for (var attribute : AttributeHelper.THERMOO_ATTRIBUTES) {
+            double value = controller.getBaseValueForAttribute(attribute.attribute(), instance);
             if (value != 0) {
-                applyValueAsModifier(type, attribute, value);
+                this.thermoo$applyValueAsModifier(type, attribute, value);
             }
         }
     }
 
-    private void applyValueAsModifier(EntityType<? extends LivingEntity> type, EntityAttribute attribute, double value) {
+    @Unique
+    private void thermoo$applyValueAsModifier(
+            EntityType<? extends LivingEntity> type,
+            AttributeHelper.IdAttributePair attribute,
+            double value
+    ) {
         var modifier = new EntityAttributeModifier(
-                "",
+                attribute.id(),
                 value,
-                EntityAttributeModifier.Operation.ADDITION
+                EntityAttributeModifier.Operation.ADD_VALUE
         );
 
-        EntityAttributeInstance attributeInstance = this.getAttributeInstance(attribute);
+        EntityAttributeInstance attributeInstance = this.getAttributeInstance(attribute.attribute());
 
         if (attributeInstance == null) {
             throw new IllegalStateException("Attribute not found on " + type + ": " + attribute);

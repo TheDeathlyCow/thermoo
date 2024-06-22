@@ -25,7 +25,7 @@ public class ThermooSeasonEvents {
             CurrentSeasonCallback.class,
             callbacks -> world -> {
                 for (CurrentSeasonCallback callback : callbacks) {
-                    Optional<ThermooSeasons> season = callback.getCurrentSeason(world);
+                    Optional<ThermooSeason> season = callback.getCurrentSeason(world);
                     if (season.isPresent()) {
                         return season;
                     }
@@ -38,7 +38,7 @@ public class ThermooSeasonEvents {
     @FunctionalInterface
     public interface CurrentSeasonCallback {
 
-        Optional<ThermooSeasons> getCurrentSeason(World world);
+        Optional<ThermooSeason> getCurrentSeason(World world);
 
     }
 

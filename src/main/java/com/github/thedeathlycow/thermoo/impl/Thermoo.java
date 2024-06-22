@@ -1,13 +1,10 @@
 package com.github.thedeathlycow.thermoo.impl;
 
-import com.github.thedeathlycow.thermoo.api.ThermooRegistryKeys;
-import com.github.thedeathlycow.thermoo.api.attribute.ItemAttributeModifier;
 import com.github.thedeathlycow.thermoo.api.command.*;
 import com.github.thedeathlycow.thermoo.api.temperature.EnvironmentManager;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.ArgumentTypeRegistry;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
-import net.fabricmc.fabric.api.event.registry.DynamicRegistries;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.command.argument.serialize.ConstantArgumentSerializer;
 import net.minecraft.resource.ResourceType;
@@ -20,6 +17,8 @@ public class Thermoo implements ModInitializer {
 
     public static final String MODID = "thermoo";
     public static final Logger LOGGER = LoggerFactory.getLogger(MODID);
+
+
 
     @Override
     public void onInitialize() {
@@ -42,15 +41,6 @@ public class Thermoo implements ModInitializer {
                 }
         );
 
-        DynamicRegistries.registerSynced(
-                ThermooRegistryKeys.ITEM_ATTRIBUTE_MODIFIER,
-                ItemAttributeModifier.CODEC,
-                DynamicRegistries.SyncOption.SKIP_WHEN_EMPTY
-        );
-
-        ItemAttributeModifierManager.INSTANCE.registerToEventsCommon();
-
-        ThermooCommonRegisters.registerAttributes();
         ThermooCommonRegisters.registerTemperatureEffects();
         ThermooCommonRegisters.registerLootConditionTypes();
 
@@ -67,8 +57,8 @@ public class Thermoo implements ModInitializer {
      * @param path The identifier path
      * @return Returns a new {@link Identifier}
      */
-    @Contract("->new")
+    @Contract("_->new")
     public static Identifier id(String path) {
-        return new Identifier(MODID, path);
+        return Identifier.of(MODID, path);
     }
 }

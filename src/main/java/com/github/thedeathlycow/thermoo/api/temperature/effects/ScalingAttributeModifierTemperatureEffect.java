@@ -8,10 +8,9 @@ import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeInstance;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.registry.Registries;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.Uuids;
-
-import java.util.UUID;
+import net.minecraft.util.Identifier;
 
 /**
  * A temperature effect that applies an attribute modifier to a victim that increases in strength with respect to the
@@ -25,16 +24,12 @@ public class ScalingAttributeModifierTemperatureEffect extends TemperatureEffect
                             .fieldOf("scale")
                             .orElse(1f)
                             .forGetter(Config::scale),
-                    Registries.ATTRIBUTE.getCodec()
+                    Registries.ATTRIBUTE.getEntryCodec()
                             .fieldOf("attribute_type")
                             .forGetter(Config::attribute),
-                    Uuids.STRING_CODEC
-                            .fieldOf("modifier_uuid")
-                            .forGetter(Config::uuid),
-                    Codec.STRING
-                            .fieldOf("name")
-                            .orElse("")
-                            .forGetter(Config::name),
+                    Identifier.CODEC
+                            .fieldOf("id")
+                            .forGetter(Config::id),
                     EntityAttributeModifier.Operation.CODEC
                             .fieldOf("operation")
                             .forGetter(Config::operation)
@@ -52,15 +47,12 @@ public class ScalingAttributeModifierTemperatureEffect extends TemperatureEffect
             return;
         }
 
-        // remove the existing modifier
-
         // add the modifier back with greater strength
         double amount = config.scale * victim.thermoo$getTemperatureScale();
 
         attrInstance.addTemporaryModifier(
                 new EntityAttributeModifier(
-                        config.uuid,
-                        config.name,
+                        config.id,
                         amount,
                         config.operation
                 )
@@ -76,19 +68,19 @@ public class ScalingAttributeModifierTemperatureEffect extends TemperatureEffect
             return false;
         }
 
-        EntityAttributeModifier modifier = attrInstance.getModifier(config.uuid);
+        EntityAttributeModifier modifier = attrInstance.getModifier(config.id);
         if (modifier == null) {
             return true;
         }
 
         double newAmount = config.scale * victim.thermoo$getTemperatureScale();
-        double currentValue = modifier.getValue();
+        double currentValue = modifier.value();
 
         boolean shouldApply = newAmount != currentValue;
 
         if (shouldApply) {
             // remove the modifier - even if the other predicate tests fail
-            attrInstance.removeModifier(config.uuid);
+            attrInstance.removeModifier(config.id);
         }
 
         return shouldApply;
@@ -96,9 +88,8 @@ public class ScalingAttributeModifierTemperatureEffect extends TemperatureEffect
 
     public record Config(
             float scale,
-            EntityAttribute attribute,
-            UUID uuid,
-            String name,
+            RegistryEntry<EntityAttribute> attribute,
+            Identifier id,
             EntityAttributeModifier.Operation operation
     ) {
     }

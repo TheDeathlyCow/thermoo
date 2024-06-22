@@ -1,8 +1,7 @@
 package com.github.thedeathlycow.thermoo.api.predicate;
 
-import com.github.thedeathlycow.thermoo.api.temperature.Soakable;
 import com.github.thedeathlycow.thermoo.api.temperature.TemperatureAware;
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.entity.Entity;
 import net.minecraft.loot.condition.LootCondition;
@@ -24,7 +23,7 @@ public record TemperatureLootCondition(
         NumberRange.DoubleRange scale
 ) implements LootCondition {
 
-    public static final Codec<TemperatureLootCondition> CODEC = RecordCodecBuilder.create(
+    public static final MapCodec<TemperatureLootCondition> CODEC = RecordCodecBuilder.mapCodec(
             instance -> instance.group(
                     NumberRange.IntRange.CODEC
                             .fieldOf("value")

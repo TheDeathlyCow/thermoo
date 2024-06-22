@@ -78,16 +78,16 @@ public class DamageTemperatureEffect extends TemperatureEffect<DamageTemperature
 
     @Nullable
     private DamageSource getDamageSourceFromType(RegistryKey<DamageType> damageType, Registry<DamageType> registry) {
-        if (this.damageSourcePool.containsKey(damageType)) {
-            return this.damageSourcePool.get(damageType);
-        } else if (registry.contains(damageType)) {
-            DamageSource source = new DamageSource(registry.entryOf(damageType));
-            this.damageSourcePool.put(damageType, source);
-            return source;
-        } else {
-            Thermoo.LOGGER.warn("Trying to use unknown damage type {}", damageType);
-            return null;
-        }
+        return this.damageSourcePool.computeIfAbsent(
+                damageType,
+                key -> {
+                    if (!registry.contains(key)) {
+                        Thermoo.LOGGER.error("Temperature effect trying to use unknown damage type {}", key);
+                        return null;
+                    }
+                    return new DamageSource(registry.entryOf(key));
+                }
+        );
     }
 
     private void invalidateRegistryCache() {

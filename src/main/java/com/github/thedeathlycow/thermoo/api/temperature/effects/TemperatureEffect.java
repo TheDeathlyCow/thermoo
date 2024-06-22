@@ -1,9 +1,10 @@
 package com.github.thedeathlycow.thermoo.api.temperature.effects;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.loot.condition.LootConditionTypes;
+import net.minecraft.loot.condition.LootCondition;
 import net.minecraft.predicate.NumberRange;
 import net.minecraft.registry.Registries;
 import net.minecraft.server.world.ServerWorld;
@@ -27,18 +28,18 @@ public abstract class TemperatureEffect<C> {
     /**
      * Codec for configured temperature effects with this effect type's config
      */
-    private final Codec<ConfiguredTemperatureEffect<C>> codec;
+    private final MapCodec<ConfiguredTemperatureEffect<C>> codec;
 
     /**
      * @param configCodec Codec for the config type
      */
     protected TemperatureEffect(Codec<C> configCodec) {
-        this.codec = RecordCodecBuilder.create(
+        this.codec = RecordCodecBuilder.mapCodec(
                 instance -> instance.group(
                         configCodec
                                 .fieldOf("config")
                                 .forGetter(ConfiguredTemperatureEffect::config),
-                        LootConditionTypes.CODEC
+                        LootCondition.CODEC
                                 .optionalFieldOf("entity")
                                 .forGetter(ConfiguredTemperatureEffect::predicate),
                         Registries.ENTITY_TYPE.getCodec()
@@ -91,7 +92,7 @@ public abstract class TemperatureEffect<C> {
     /**
      * @return Returns the {@linkplain #codec}
      */
-    public final Codec<ConfiguredTemperatureEffect<C>> getCodec() {
+    public final MapCodec<ConfiguredTemperatureEffect<C>> getCodec() {
         return this.codec;
     }
 }

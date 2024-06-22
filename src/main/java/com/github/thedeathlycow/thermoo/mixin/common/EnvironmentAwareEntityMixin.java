@@ -12,11 +12,10 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttribute;
-import net.minecraft.entity.attribute.EntityAttributeInstance;
-import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
@@ -25,22 +24,15 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import java.util.UUID;
-
 @Mixin(LivingEntity.class)
 public abstract class EnvironmentAwareEntityMixin extends Entity implements TemperatureAware, Soakable {
 
     @Shadow
-    public abstract double getAttributeValue(EntityAttribute attribute);
-
-    @Shadow
-    public abstract EntityAttributeInstance getAttributeInstance(EntityAttribute attribute);
-
-    @Shadow
     public abstract boolean canBreatheInWater();
 
-    @Shadow
-    public abstract boolean hasStatusEffect(StatusEffect effect);
+    @Shadow public abstract double getAttributeValue(RegistryEntry<EntityAttribute> attribute);
+
+    @Shadow public abstract boolean hasStatusEffect(RegistryEntry<StatusEffect> effect);
 
     public EnvironmentAwareEntityMixin(EntityType<?> type, World world) {
         super(type, world);
@@ -163,19 +155,6 @@ public abstract class EnvironmentAwareEntityMixin extends Entity implements Temp
         int currentTemperature = this.thermoo$getTemperature();
         int modifiedChange = mode.applyResistance(this, temperatureChange);
         this.thermoo$setTemperature(currentTemperature + modifiedChange);
-    }
-
-    private void addTemperatureOverrideModifier(EntityAttribute attribute, UUID id, String name, double value) {
-        EntityAttributeInstance temperature = this.getAttributeInstance(attribute);
-        var modifier = new EntityAttributeModifier(
-                id,
-                name,
-                value,
-                EntityAttributeModifier.Operation.ADDITION
-        );
-        if (!temperature.hasModifier(modifier)) {
-            temperature.addPersistentModifier(modifier);
-        }
     }
 
     @Inject(
