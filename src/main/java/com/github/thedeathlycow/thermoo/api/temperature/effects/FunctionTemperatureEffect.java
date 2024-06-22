@@ -86,8 +86,7 @@ public final class FunctionTemperatureEffect extends TemperatureEffect<FunctionT
         try {
             Procedure<ServerCommandSource> procedure = function.withMacroReplaced(
                     arguments,
-                    server.getCommandManager().getDispatcher(),
-                    source
+                    server.getCommandManager().getDispatcher()
             );
             CommandManager.callWithContext(
                     source,
