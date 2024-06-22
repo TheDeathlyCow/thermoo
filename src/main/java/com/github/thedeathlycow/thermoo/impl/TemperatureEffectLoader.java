@@ -1,19 +1,22 @@
 package com.github.thedeathlycow.thermoo.impl;
 
+import com.github.thedeathlycow.thermoo.api.ThermooRegistryKeys;
 import com.github.thedeathlycow.thermoo.api.temperature.effects.ConfiguredTemperatureEffect;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonParseException;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.mojang.serialization.DataResult;
 import com.mojang.serialization.JsonOps;
 import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener;
+import net.fabricmc.fabric.api.resource.conditions.v1.ResourceCondition;
 import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.registry.Registries;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.resource.Resource;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.Util;
 
 import java.io.BufferedReader;
 import java.util.*;
@@ -100,11 +103,11 @@ public class TemperatureEffectLoader implements SimpleSynchronousResourceReloadL
             BufferedReader reader
     ) {
         JsonElement json = JsonParser.parseReader(reader);
-        if (json.isJsonObject() && ResourceConditions.objectMatchesConditions(json.getAsJsonObject())) {
-            ConfiguredTemperatureEffect<?> effect = Util.getResult(
-                    ConfiguredTemperatureEffect.CODEC.parse(JsonOps.INSTANCE, json),
-                    JsonParseException::new
-            );
+        if (json.isJsonObject() && this.objectMatchesConditions(id, json.getAsJsonObject())) {
+            ConfiguredTemperatureEffect<?> effect = ConfiguredTemperatureEffect.CODEC.decode(
+                    JsonOps.INSTANCE,
+                    json
+            ).getOrThrow().getFirst();
 
             boolean overridden = false;
             if (registry.containsKey(id)) {
@@ -122,6 +125,40 @@ public class TemperatureEffectLoader implements SimpleSynchronousResourceReloadL
         } else {
             Thermoo.LOGGER.info("Temperature Effect {} not loaded, as its resource conditions were not met.", id);
         }
+    }
+
+    private boolean objectMatchesConditions(Identifier key, JsonObject json) {
+        if (json.has(ResourceConditions.CONDITIONS_KEY)) {
+            DataResult<ResourceCondition> conditions = ResourceCondition.CONDITION_CODEC.parse(
+                    JsonOps.INSTANCE,
+                    json.get(ResourceConditions.CONDITIONS_KEY)
+            );
+
+            if (conditions.isSuccess()) {
+                boolean matched = conditions.getOrThrow().test(null);
+
+                if (Thermoo.LOGGER.isDebugEnabled()) {
+                    String verdict = matched ? "Allowed" : "Rejected";
+                    Thermoo.LOGGER.debug(
+                            "{} resource of type {} with id {}",
+                            verdict,
+                            RegistryKeys.getPath(ThermooRegistryKeys.TEMPERATURE_EFFECT),
+                            key
+                    );
+                }
+
+                return matched;
+            } else {
+                Thermoo.LOGGER.error(
+                        "Failed to parse resource conditions for file of type {} with id {}, skipping: {}",
+                        RegistryKeys.getPath(ThermooRegistryKeys.TEMPERATURE_EFFECT),
+                        key,
+                        conditions.error().get().message()
+                );
+            }
+        }
+
+        return true;
     }
 
     private void partitionRegistry(

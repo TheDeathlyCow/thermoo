@@ -31,7 +31,7 @@ public class ScalingAttributeModifierTemperatureEffect extends TemperatureEffect
                             .fieldOf("attribute_type")
                             .forGetter(Config::attribute),
                     Identifier.CODEC
-                            .fieldOf("modifier_id")
+                            .fieldOf("id")
                             .forGetter(Config::id),
                     EntityAttributeModifier.Operation.CODEC
                             .fieldOf("operation")

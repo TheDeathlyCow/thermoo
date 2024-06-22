@@ -1,25 +1,17 @@
 package com.github.thedeathlycow.thermoo.impl;
 
-import com.github.thedeathlycow.thermoo.api.ThermooAttributes;
-import com.github.thedeathlycow.thermoo.api.ThermooRegistryKeys;
-import com.github.thedeathlycow.thermoo.api.attribute.ItemAttributeModifier;
 import com.github.thedeathlycow.thermoo.api.command.*;
 import com.github.thedeathlycow.thermoo.api.temperature.EnvironmentManager;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.ArgumentTypeRegistry;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
-import net.fabricmc.fabric.api.event.registry.DynamicRegistries;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.command.argument.serialize.ConstantArgumentSerializer;
-import net.minecraft.entity.attribute.EntityAttribute;
-import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.resource.ResourceType;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Contract;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.List;
 
 public class Thermoo implements ModInitializer {
 
@@ -48,14 +40,6 @@ public class Thermoo implements ModInitializer {
                     dispatcher.register(SoakingCommand.COMMAND_BUILDER.get());
                 }
         );
-
-        DynamicRegistries.registerSynced(
-                ThermooRegistryKeys.ITEM_ATTRIBUTE_MODIFIER,
-                ItemAttributeModifier.CODEC,
-                DynamicRegistries.SyncOption.SKIP_WHEN_EMPTY
-        );
-
-        ItemAttributeModifierManager.INSTANCE.registerToEventsCommon();
 
         ThermooCommonRegisters.registerTemperatureEffects();
         ThermooCommonRegisters.registerLootConditionTypes();

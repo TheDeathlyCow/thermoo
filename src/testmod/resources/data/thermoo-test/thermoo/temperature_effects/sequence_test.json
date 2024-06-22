@@ -14,8 +14,7 @@
                 },
                 "config": {
                     "scale": 0.05,
-                    "modifier_uuid": "ea305030-b7fa-4782-9682-9d55a1319236",
-                    "name": "Warming health",
+                    "id": "thermoo-test:warming_health",
                     "attribute_type": "minecraft:generic.max_health",
                     "operation": "addition"
                 }
