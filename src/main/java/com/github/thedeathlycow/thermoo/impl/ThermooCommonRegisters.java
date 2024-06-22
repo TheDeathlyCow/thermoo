@@ -27,6 +27,8 @@ public class ThermooCommonRegisters {
         registerLootConditionType("soaked", ThermooLootConditionTypes.SOAKED);
     }
 
+
+
     private static void registerTemperatureEffect(String name, TemperatureEffect<?> temperatureEffect) {
         Registry.register(ThermooRegistries.TEMPERATURE_EFFECTS, Thermoo.id(name), temperatureEffect);
     }
