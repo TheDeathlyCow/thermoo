@@ -7,6 +7,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.registry.Registries;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.dynamic.Codecs;
 
@@ -69,7 +70,7 @@ public class StatusEffectTemperatureEffect extends TemperatureEffect<StatusEffec
             List<ConfigEffect> effects
     ) {
         protected record ConfigEffect(
-                StatusEffect type,
+                RegistryEntry<StatusEffect> type,
                 int duration,
                 int amplifier
         ) {
@@ -77,7 +78,7 @@ public class StatusEffectTemperatureEffect extends TemperatureEffect<StatusEffec
             public static final Codec<ConfigEffect> CODEC = RecordCodecBuilder.create(
                     instance -> {
                         return instance.group(
-                                Registries.STATUS_EFFECT.getCodec()
+                                Registries.STATUS_EFFECT.getEntryCodec()
                                         .fieldOf("effect")
                                         .forGetter(ConfigEffect::type),
                                 Codecs.POSITIVE_INT
