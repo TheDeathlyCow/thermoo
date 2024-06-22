@@ -7,6 +7,7 @@ import com.github.thedeathlycow.thermoo.testmod.config.ThermooConfig;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
+import net.fabricmc.fabric.api.util.TriState;
 import net.minecraft.world.GameRules;
 
 public class ThermooTestMod implements ModInitializer {
@@ -28,7 +29,10 @@ public class ThermooTestMod implements ModInitializer {
     public void onInitialize() {
         PlayerEnvironmentEvents.CAN_APPLY_PASSIVE_TEMPERATURE_CHANGE
                 .register(
-                        (change, player) -> player.getWorld().getGameRules().getBoolean(APPLY_PASSIVE_CHANGES)
+                        (change, player) -> {
+                            boolean applyPassiveChanges = player.getWorld().getGameRules().getBoolean(APPLY_PASSIVE_CHANGES);
+                            return TriState.of(applyPassiveChanges);
+                        }
                 );
         EnvironmentControllerInitializeEvent.EVENT.register(TestmodController::new);
     }
