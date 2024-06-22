@@ -13,6 +13,7 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -35,12 +36,17 @@ public abstract class LivingEntityAttributeMixin {
         for (var attribute : AttributeHelper.THERMOO_ATTRIBUTES) {
             double value = controller.getBaseValueForAttribute(attribute.attribute(), instance);
             if (value != 0) {
-                applyValueAsModifier(type, attribute, value);
+                this.thermoo$applyValueAsModifier(type, attribute, value);
             }
         }
     }
 
-    private void applyValueAsModifier(EntityType<? extends LivingEntity> type, AttributeHelper.IdAttributePair attribute, double value) {
+    @Unique
+    private void thermoo$applyValueAsModifier(
+            EntityType<? extends LivingEntity> type,
+            AttributeHelper.IdAttributePair attribute,
+            double value
+    ) {
         var modifier = new EntityAttributeModifier(
                 attribute.id(),
                 value,
