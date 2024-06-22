@@ -1,10 +1,10 @@
 package com.github.thedeathlycow.thermoo.impl.component;
 
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
-import dev.onyxstudios.cca.api.v3.component.ComponentKey;
-import dev.onyxstudios.cca.api.v3.component.ComponentRegistry;
-import dev.onyxstudios.cca.api.v3.entity.EntityComponentFactoryRegistry;
-import dev.onyxstudios.cca.api.v3.entity.EntityComponentInitializer;
+import org.ladysnake.cca.api.v3.component.ComponentKey;
+import org.ladysnake.cca.api.v3.component.ComponentRegistry;
+import org.ladysnake.cca.api.v3.entity.EntityComponentFactoryRegistry;
+import org.ladysnake.cca.api.v3.entity.EntityComponentInitializer;
 import net.minecraft.entity.LivingEntity;
 
 public final class ThermooComponents implements EntityComponentInitializer {
