@@ -16,7 +16,7 @@
                     "scale": 0.05,
                     "id": "thermoo-test:warming_health",
                     "attribute_type": "minecraft:generic.max_health",
-                    "operation": "addition"
+                    "operation": "add_value"
                 }
             },
             {

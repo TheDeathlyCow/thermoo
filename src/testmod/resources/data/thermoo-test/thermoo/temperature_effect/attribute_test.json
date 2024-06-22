@@ -8,6 +8,6 @@
         "scale": 0.05,
         "id": "thermoo-test:warming_speed",
         "attribute_type": "minecraft:generic.movement_speed",
-        "operation": "addition"
+        "operation": "add_value"
     }
 }
