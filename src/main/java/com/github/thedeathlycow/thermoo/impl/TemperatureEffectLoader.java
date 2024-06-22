@@ -64,7 +64,7 @@ public class TemperatureEffectLoader implements SimpleSynchronousResourceReloadL
         Map<Identifier, ConfiguredTemperatureEffect<?>> registry = new HashMap<>();
 
         Map<Identifier, List<Resource>> entries = manager.findAllResources(
-                "thermoo/temperature_effects",
+                "thermoo/temperature_effect",
                 eid -> eid.getPath().endsWith(".json")
         );
 
