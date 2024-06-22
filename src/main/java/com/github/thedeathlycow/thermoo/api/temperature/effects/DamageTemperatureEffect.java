@@ -66,7 +66,9 @@ public class DamageTemperatureEffect extends TemperatureEffect<DamageTemperature
         }
 
         DamageSource source = this.getDamageSourceFromType(config.damageType, this.registry);
-        victim.damage(source, config.amount);
+        if (source != null) {
+            victim.damage(source, config.amount);
+        }
     }
 
     @Override
@@ -74,10 +76,17 @@ public class DamageTemperatureEffect extends TemperatureEffect<DamageTemperature
         return victim.age % config.damageInterval == 0 && config.amount != 0.0f;
     }
 
+    @Nullable
     private DamageSource getDamageSourceFromType(RegistryKey<DamageType> damageType, Registry<DamageType> registry) {
         return this.damageSourcePool.computeIfAbsent(
                 damageType,
-                key -> new DamageSource(registry.entryOf(key))
+                key -> {
+                    if (!registry.contains(key)) {
+                        Thermoo.LOGGER.error("Temperature effect trying to use unknown damage type {}", key);
+                        return null;
+                    }
+                    return new DamageSource(registry.entryOf(key));
+                }
         );
     }
 
