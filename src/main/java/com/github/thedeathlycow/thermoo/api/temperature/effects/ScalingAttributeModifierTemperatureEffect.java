@@ -11,9 +11,6 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.Uuids;
-
-import java.util.UUID;
 
 /**
  * A temperature effect that applies an attribute modifier to a victim that increases in strength with respect to the
