@@ -11,9 +11,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityEnvironmentTickMixin {
 
-    @Unique
-    private int thermoo_lastTickTemperature = 0;
-
     @Inject(
             method = "tick",
             at = @At(
@@ -25,8 +22,7 @@ public abstract class LivingEntityEnvironmentTickMixin {
     )
     private void temperatureTick(CallbackInfo ci) {
         LivingEntity entity = (LivingEntity) (Object) this;
-        LivingEntityEnvironmentTickImpl.tick(entity, thermoo_lastTickTemperature);
-        thermoo_lastTickTemperature = entity.thermoo$getTemperature();
+        LivingEntityEnvironmentTickImpl.tick(entity);
     }
 
 }
