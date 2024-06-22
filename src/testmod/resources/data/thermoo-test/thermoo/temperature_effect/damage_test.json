@@ -3,7 +3,7 @@
     "entity_type": "minecraft:player",
     "entity": {
         "condition": "minecraft:reference",
-        "name": "thermoo-test:is_warm"
+        "name": "thermoo-test:is_hot"
     },
     "config": {
         "amount": 1.0,

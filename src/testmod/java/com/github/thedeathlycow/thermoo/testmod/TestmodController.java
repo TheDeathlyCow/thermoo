@@ -35,7 +35,7 @@ public class TestmodController extends EnvironmentControllerDecorator {
             return base;
         }
 
-        if (ThermooAttributes.MIN_TEMPERATURE.matches(attribute)) {
+        if (ThermooAttributes.MIN_TEMPERATURE.matches(attribute) || ThermooAttributes.MAX_TEMPERATURE.matches(attribute)) {
             return 40.0;
         }
 
