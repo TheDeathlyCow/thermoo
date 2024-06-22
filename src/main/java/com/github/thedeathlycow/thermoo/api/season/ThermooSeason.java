@@ -8,7 +8,7 @@ import java.util.Optional;
  * Mod-agnostic Seasons enum. Thermoo does not provide seasons itself, but this can be used to better integrate with any
  * mods that do provide seasons.
  */
-public enum ThermooSeasons {
+public enum ThermooSeason {
     SPRING,
     SUMMER,
     AUTUMN,
@@ -24,7 +24,7 @@ public enum ThermooSeasons {
      * @param world The current world / level to get the season from.
      * @return Returns the current season if a Seasons mod is installed, or empty if no seasons mod is installed.
      */
-    public static Optional<ThermooSeasons> getCurrentSeason(World world) {
+    public static Optional<ThermooSeason> getCurrentSeason(World world) {
         return ThermooSeasonEvents.GET_CURRENT_SEASON.invoker().getCurrentSeason(world);
     }
 

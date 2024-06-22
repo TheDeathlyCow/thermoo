@@ -20,7 +20,7 @@ public final class ThermooAttributes {
      * temperature of an entity by 140 points (140 points is the maximum number of freezing ticks that entities may have
      * for powder snow freezing in vanilla).
      * <p>
-     * To set its base value, use {@link com.github.thedeathlycow.thermoo.api.temperature.EnvironmentController#getBaseValueForAttribute(EntityAttribute, LivingEntity)}
+     * To set its base value, use {@link com.github.thedeathlycow.thermoo.api.temperature.EnvironmentController#getBaseValueForAttribute(RegistryEntry, LivingEntity)}
      * and check that this attribute is the provided attribute argument.
      *
      * @see #MAX_TEMPERATURE
@@ -39,7 +39,7 @@ public final class ThermooAttributes {
      * temperature of an entity by 140 points (140 points is the maximum number of freezing ticks that entities may have
      * for powder snow freezing in vanilla).
      * <p>
-     * To set its base value, use {@link com.github.thedeathlycow.thermoo.api.temperature.EnvironmentController#getBaseValueForAttribute(EntityAttribute, LivingEntity)}
+     * To set its base value, use {@link com.github.thedeathlycow.thermoo.api.temperature.EnvironmentController#getBaseValueForAttribute(RegistryEntry, LivingEntity)}
      * and check that this attribute is the provided attribute argument.
      *
      * @see #MIN_TEMPERATURE
@@ -54,7 +54,7 @@ public final class ThermooAttributes {
     /**
      * The cold resistance of an entity. 1 point of frost resistance corresponds to a 10% cold reduction
      * <p>
-     * To set its base value, use {@link com.github.thedeathlycow.thermoo.api.temperature.EnvironmentController#getBaseValueForAttribute(EntityAttribute, LivingEntity)}
+     * To set its base value, use {@link com.github.thedeathlycow.thermoo.api.temperature.EnvironmentController#getBaseValueForAttribute(RegistryEntry, LivingEntity)}
      * and check that this attribute is the provided attribute argument.
      *
      * @see #HEAT_RESISTANCE
@@ -69,7 +69,7 @@ public final class ThermooAttributes {
     /**
      * The heat resistance of an entity. 1 point of heat resistance corresponds to a 10% heat reduction
      * <p>
-     * To set its base value, use {@link com.github.thedeathlycow.thermoo.api.temperature.EnvironmentController#getBaseValueForAttribute(EntityAttribute, LivingEntity)}
+     * To set its base value, use {@link com.github.thedeathlycow.thermoo.api.temperature.EnvironmentController#getBaseValueForAttribute(RegistryEntry, LivingEntity)}
      * and check that this attribute is the provided attribute argument.
      *
      * @see #FROST_RESISTANCE
