@@ -3,6 +3,7 @@ package com.github.thedeathlycow.thermoo.api;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
+import net.minecraft.item.ArmorMaterial;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.tag.TagKey;
 
@@ -30,6 +31,8 @@ public class ThermooTags {
      * Entity types that are heat immune
      */
     public static final TagKey<EntityType<?>> HEAT_IMMUNE_ENTITY_TYPE = createEntityTypeTag("heat_immune");
+
+
 
     private static TagKey<EntityType<?>> createEntityTypeTag(String path) {
         return TagKey.of(RegistryKeys.ENTITY_TYPE, Thermoo.id(path));
