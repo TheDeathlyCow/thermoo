@@ -2,9 +2,6 @@ package com.github.thedeathlycow.thermoo.api.armor.material;
 
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
-import net.minecraft.item.ArmorMaterial;
-
-import java.util.OptionalDouble;
 
 public class ArmorMaterialEvents {
 
@@ -12,13 +9,13 @@ public class ArmorMaterialEvents {
             GetResistance.class,
             listeners -> resistanceLevel -> {
                 for (GetResistance listener : listeners) {
-                    OptionalDouble value = listener.getValue(resistanceLevel);
-                    if (value.isPresent()) {
+                    double value = listener.getValue(resistanceLevel);
+                    if (value != 0 && !Double.isNaN(value)) {
                         return value;
                     }
                 }
 
-                return OptionalDouble.empty();
+                return Double.NaN;
             }
     );
 
@@ -26,20 +23,20 @@ public class ArmorMaterialEvents {
             GetResistance.class,
             listeners -> resistanceLevel -> {
                 for (GetResistance listener : listeners) {
-                    OptionalDouble value = listener.getValue(resistanceLevel);
-                    if (value.isPresent()) {
+                    double value = listener.getValue(resistanceLevel);
+                    if (value != 0 && !Double.isNaN(value)) {
                         return value;
                     }
                 }
 
-                return OptionalDouble.empty();
+                return Double.NaN;
             }
     );
 
     @FunctionalInterface
     public interface GetResistance {
 
-        OptionalDouble getValue(ThermalResistanceLevel resistanceLevel);
+        double getValue(ThermalResistanceLevel resistanceLevel);
 
     }
 
