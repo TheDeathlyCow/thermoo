@@ -37,20 +37,8 @@ public class ThermooTestMod implements ModInitializer {
                 );
         EnvironmentControllerInitializeEvent.EVENT.register(TestmodController::new);
 
-        ArmorMaterialEvents.GET_FROST_RESISTANCE.register(resistanceLevel -> switch (resistanceLevel) {
-            case VERY_WEAK -> -1;
-            case WEAK -> -0.5;
-            case RESISTANT -> 0.5;
-            case VERY_RESISTANT -> 1;
-            default -> Double.NaN;
-        });
-        ArmorMaterialEvents.GET_HEAT_RESISTANCE.register(resistanceLevel -> switch (resistanceLevel) {
-            case VERY_WEAK -> -1;
-            case WEAK -> -0.5;
-            case RESISTANT -> 0.5;
-            case VERY_RESISTANT -> 1;
-            default -> Double.NaN;
-        });
+        ArmorMaterialEvents.GET_FROST_RESISTANCE.register(ArmorMaterialListener.COLD);
+        ArmorMaterialEvents.GET_HEAT_RESISTANCE.register(ArmorMaterialListener.HEAT);
     }
 
     public static ThermooConfig getConfig() {

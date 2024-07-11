@@ -5,6 +5,7 @@ import net.minecraft.item.ArmorMaterial;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.tag.TagKey;
 
+@SuppressWarnings("unused")
 public class ArmorMaterialTags {
 
     public static final TagKey<ArmorMaterial> VERY_RESISTANT_TO_HEAT = createArmorMaterialTag("very_resistant_to_heat");

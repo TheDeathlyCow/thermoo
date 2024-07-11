@@ -1,6 +1,6 @@
 package com.github.thedeathlycow.thermoo.mixin.common;
 
-import com.github.thedeathlycow.thermoo.impl.armor.material.ThermalResistanceType;
+import com.github.thedeathlycow.thermoo.impl.ThermalResistanceType;
 import net.minecraft.component.type.AttributeModifiersComponent;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ArmorMaterial;
