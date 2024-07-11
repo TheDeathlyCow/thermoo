@@ -55,6 +55,9 @@ public enum ThermalResistanceType {
                     ),
                     AttributeModifierSlot.forEquipmentSlot(type.getEquipmentSlot())
             );
+            if (Thermoo.LOGGER.isDebugEnabled()) {
+                Thermoo.LOGGER.debug("Applying {} {} to armor material {}", resistanceValue, attribute, armorMaterial);
+            }
         }
     }
 
