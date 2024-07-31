@@ -2,6 +2,7 @@ package com.github.thedeathlycow.thermoo.api.season;
 
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import java.util.Optional;
@@ -20,6 +21,8 @@ public class ThermooSeasonEvents {
      * If any listener returns a non-empty season, then all further processing is cancelled and that season is returned.
      * <p>
      * Returns empty by default.
+     * 
+     * @see ThermooSeason#getCurrentSeason(World) 
      */
     public static final Event<CurrentSeasonCallback> GET_CURRENT_SEASON = EventFactory.createArrayBacked(
             CurrentSeasonCallback.class,
@@ -35,11 +38,37 @@ public class ThermooSeasonEvents {
             }
     );
 
+    /**
+     * Retrieves the current tropical season at a positive in the world. If the position queried is not in a tropical
+     * biome, or a seasons mod is not loaded, then empty should be returned.
+     * <p>
+     * If any listener returns a non-empty season, then all further processing is cancelled and that season is returned.
+     * <p>
+     * Returns empty by default.
+     * 
+     * @see ThermooSeason#getCurrentTropicalSeason(World, BlockPos)
+     */
+    public static final Event<CurrentTropicalSeasonCallback> GET_CURRENT_TROPICAL_SEASON = EventFactory.createArrayBacked(
+            CurrentTropicalSeasonCallback.class,
+            callbacks -> (world, pos) -> {
+                for (CurrentTropicalSeasonCallback callback : callbacks) {
+                    Optional<ThermooSeason> season = callback.getCurrentTropicalSeason(world, pos);
+                    if (season.isPresent()) {
+                        return season;
+                    }
+                }
+
+                return Optional.empty();
+            }
+    );
+
     @FunctionalInterface
     public interface CurrentSeasonCallback {
-
         Optional<ThermooSeason> getCurrentSeason(World world);
-
     }
 
+    @FunctionalInterface
+    public interface CurrentTropicalSeasonCallback {
+        Optional<ThermooSeason> getCurrentTropicalSeason(World world, BlockPos pos);
+    }
 }
