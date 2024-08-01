@@ -1,13 +1,14 @@
 {
-    "type": "thermoo:scaling_attribute_modifier",
+    "type": "thermoo:attribute_modifier",
     "entity_type": "minecraft:player",
     "temperature_scale_range": {
-        "min": 0.5
+        "min": 0.1,
+        "max": 0.2
     },
     "config": {
-        "scale": 0.05,
-        "id": "thermoo-test:warming_speed",
-        "attribute_type": "minecraft:generic.movement_speed",
+        "value": 2,
+        "id": "thermoo-test:fixed_max_hp",
+        "attribute_type": "minecraft:generic.max_health",
         "operation": "add_value"
     }
 }

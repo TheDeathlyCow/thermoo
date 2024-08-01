@@ -2,20 +2,19 @@
     "type": "thermoo:sequence",
     "entity": {
         "condition": "minecraft:reference",
-        "name": "thermoo-test:is_warm"
+        "name": "thermoo-test:is_cold"
     },
     "config": {
         "children": [
             {
                 "type": "thermoo:scaling_attribute_modifier",
-                "entity_type": "minecraft:player",
                 "temperature_scale_range": {
-                    "min": 0.5
+                    "max": 0
                 },
                 "config": {
-                    "scale": 0.05,
-                    "id": "thermoo-test:warming_health",
-                    "attribute_type": "minecraft:generic.max_health",
+                    "scale": -0.5,
+                    "id": "thermoo-test:freezing_small",
+                    "attribute_type": "minecraft:generic.scale",
                     "operation": "add_value"
                 }
             },
@@ -23,7 +22,7 @@
                 "type": "thermoo:status_effect",
                 "entity": {
                     "condition": "minecraft:reference",
-                    "name": "thermoo-test:is_hot"
+                    "name": "thermoo-test:is_freezing"
                 },
                 "config": {
                     "effects": [

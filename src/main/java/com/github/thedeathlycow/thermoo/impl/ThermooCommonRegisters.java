@@ -17,6 +17,7 @@ public class ThermooCommonRegisters {
         registerTemperatureEffect("function", TemperatureEffects.FUNCTION);
         registerTemperatureEffect("status_effect", TemperatureEffects.STATUS_EFFECT);
         registerTemperatureEffect("scaling_attribute_modifier", TemperatureEffects.SCALING_ATTRIBUTE_MODIFIER);
+        registerTemperatureEffect("attribute_modifier", TemperatureEffects.ATTRIBUTE_MODIFIER);
         registerTemperatureEffect("damage", TemperatureEffects.DAMAGE);
     }
 

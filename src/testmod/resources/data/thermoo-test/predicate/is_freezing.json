@@ -1,0 +1,6 @@
+{
+    "condition": "thermoo:temperature",
+    "value": {
+        "max": -1
+    }
+}

@@ -23,30 +23,70 @@ import java.util.Optional;
  * A configured temperature effect is more like an instance of a temperature effect, and this is the class that is
  * directly instantiated from a temperature effect JSON file in a datapack.
  *
- * @param type                  The temperature effect type
- * @param config                The config of the effect
- * @param predicate             If not null, then only applies the effect to entities for which this predicate is TRUE.
- * @param entityType            If not null, then only applies this effect to entities of the specific type. This is more
- *                              performant than using predicates if you want to apply an effect only to one specific type.
- * @param temperatureScaleRange The temperature scale at which this should be applied to an entity. This is more
- *                              performant than using predicates if you want to apply an effect only within a particular
- *                              temperature range
- * @param loadingPriority       Priority for loading. Effects with a higher priority at the same resource location will
- *                              not be overridden by effects with lower priority from other mods/datapacks at the same
- *                              resource location. Allows mods to reliably override the temperature effects of other
- *                              mods, regardless of mod load order (which is arbitrary in Fabric). Defaults to 0 if not
- *                              specified.
- * @param <C>                   The config type
+ * @param <C> The config type
  * @see TemperatureEffect
  */
-public record ConfiguredTemperatureEffect<C>(
-        TemperatureEffect<C> type,
-        C config,
-        Optional<LootCondition> predicate,
-        Optional<EntityType<?>> entityType,
-        NumberRange.DoubleRange temperatureScaleRange,
-        int loadingPriority
-) {
+public final class ConfiguredTemperatureEffect<C> {
+
+    /**
+     * The temperature effect type
+     */
+    private final TemperatureEffect<C> type;
+
+    /**
+     * The config of the effect
+     */
+    private final C config;
+
+    /**
+     * If not null, then only applies the effect to entities for which this predicate is TRUE.
+     */
+    private final Optional<LootCondition> predicate;
+
+    /**
+     * If not null, then only applies this effect to entities of the specific type. This is more
+     * performant than using predicates if you want to apply an effect only to one specific type.
+     */
+    private final Optional<EntityType<?>> entityType;
+
+    /**
+     * The temperature scale at which this should be applied to an entity. This is more
+     * performant than using predicates if you want to apply an effect only within a particular
+     * temperature range
+     */
+    private final NumberRange.DoubleRange temperatureScaleRange;
+
+    /**
+     * Priority for loading. Effects with a higher priority at the same resource location will
+     * not be overridden by effects with lower priority from other mods/datapacks at the same
+     * resource location. Allows mods to reliably override the temperature effects of other
+     * mods, regardless of mod load order (which is arbitrary in Fabric). Defaults to 0 if not
+     * specified.
+     */
+    private final int loadingPriority;
+
+    /**
+     * Was the effect applied in the last tick?
+     * <p>
+     * Transient value, used to determine when to call {@link TemperatureEffect#remove(LivingEntity, ServerWorld, Object)}
+     */
+    private boolean wasApplied = false;
+
+    public ConfiguredTemperatureEffect(
+            TemperatureEffect<C> type,
+            C config,
+            Optional<LootCondition> predicate,
+            Optional<EntityType<?>> entityType,
+            NumberRange.DoubleRange temperatureScaleRange,
+            int loadingPriority
+    ) {
+        this.type = type;
+        this.config = config;
+        this.predicate = predicate;
+        this.entityType = entityType;
+        this.temperatureScaleRange = temperatureScaleRange;
+        this.loadingPriority = loadingPriority;
+    }
 
     /**
      * Codec for all configured temperature effects. Dispatches config codec based on
@@ -80,6 +120,10 @@ public record ConfiguredTemperatureEffect<C>(
 
         if (shouldApply) {
             this.type.apply(victim, serverWorld, this.config);
+            wasApplied = true;
+        } else if (wasApplied) {
+            this.type.remove(victim, serverWorld, this.config);
+            wasApplied = false;
         }
     }
 
@@ -93,5 +137,29 @@ public record ConfiguredTemperatureEffect<C>(
                                 .build(LootContextTypes.COMMAND)
                 ).build(Optional.empty())
         );
+    }
+
+    public TemperatureEffect<C> type() {
+        return type;
+    }
+
+    public C config() {
+        return config;
+    }
+
+    public Optional<LootCondition> predicate() {
+        return predicate;
+    }
+
+    public Optional<EntityType<?>> entityType() {
+        return entityType;
+    }
+
+    public NumberRange.DoubleRange temperatureScaleRange() {
+        return temperatureScaleRange;
+    }
+
+    public int loadingPriority() {
+        return loadingPriority;
     }
 }

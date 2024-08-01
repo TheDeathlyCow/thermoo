@@ -51,6 +51,13 @@ public final class TemperatureEffects {
     );
 
     /**
+     * Applies {@linkplain net.minecraft.entity.attribute.EntityAttributeModifier attribute modifiers} to entities
+     */
+    public static final TemperatureEffect<AttributeModifierTemperatureEffect.Config> ATTRIBUTE_MODIFIER = new AttributeModifierTemperatureEffect(
+            AttributeModifierTemperatureEffect.CODEC
+    );
+
+    /**
      * Applies damage to entities on an interval
      *
      * @since 1.5

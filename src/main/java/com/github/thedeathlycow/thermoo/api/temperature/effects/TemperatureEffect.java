@@ -90,6 +90,17 @@ public abstract class TemperatureEffect<C> {
     public abstract boolean shouldApply(LivingEntity victim, C config);
 
     /**
+     * Called the first tick that a temperature effect could not be applied
+     *
+     * @param victim      The entity the effect was applied to
+     * @param serverWorld The server world of the entity
+     * @param config      The effect config
+     */
+    public void remove(LivingEntity victim, ServerWorld serverWorld, C config) {
+        // Empty by default
+    }
+
+    /**
      * @return Returns the {@linkplain #codec}
      */
     public final MapCodec<ConfiguredTemperatureEffect<C>> getCodec() {
