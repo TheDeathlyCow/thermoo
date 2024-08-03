@@ -1,10 +1,13 @@
 package com.github.thedeathlycow.thermoo.api.temperature.effects;
 
+import com.github.thedeathlycow.thermoo.api.ThermooRegistryKeys;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.registry.RegistryCodecs;
 import net.minecraft.registry.entry.RegistryEntryList;
+import net.minecraft.registry.entry.RegistryEntryListCodec;
 import net.minecraft.server.world.ServerWorld;
 
 import java.util.List;
@@ -17,7 +20,11 @@ public class SequenceTemperatureEffect extends TemperatureEffect<SequenceTempera
 
     public static final Codec<Config> CODEC = RecordCodecBuilder.create(
             instance -> instance.group(
-                    Codec.list(ConfiguredTemperatureEffect.CODEC)
+                    RegistryCodecs.entryList(
+                                    ThermooRegistryKeys.CONFIGURED_TEMPERATURE_EFFECT,
+                                    ConfiguredTemperatureEffect.CODEC,
+                                    true
+                            )
                             .fieldOf("children")
                             .forGetter(Config::children)
             ).apply(instance, Config::new)
@@ -29,10 +36,10 @@ public class SequenceTemperatureEffect extends TemperatureEffect<SequenceTempera
 
     @Override
     public void apply(LivingEntity victim, ServerWorld serverWorld, Config config) {
-        for (ConfiguredTemperatureEffect<?> child : config.children()) {
-            RegistryEntryList<EntityType<?>> allowedTypes = child.entityTypes();
-            if (victim.getType().isIn(allowedTypes)) {
-                child.applyIfPossible(victim);
+        for (var child : config.children()) {
+            RegistryEntryList<EntityType<?>> allowedTypes = child.value().entityTypes();
+            if (allowedTypes.size() == 0 || victim.getType().isIn(allowedTypes)) {
+                child.value().applyIfPossible(victim);
             }
         }
     }
@@ -42,7 +49,7 @@ public class SequenceTemperatureEffect extends TemperatureEffect<SequenceTempera
         return true;
     }
 
-    public record Config(List<ConfiguredTemperatureEffect<?>> children) {
+    public record Config(RegistryEntryList<ConfiguredTemperatureEffect<?>> children) {
 
     }
 

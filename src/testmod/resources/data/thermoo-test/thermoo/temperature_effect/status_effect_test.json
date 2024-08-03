@@ -9,7 +9,7 @@
             {
                 "amplifier": 0,
                 "duration": 200,
-                "effect": "minecraft:regeneration"
+                "effect": "minecraft:jump_boost"
             }
         ]
     }
