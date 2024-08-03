@@ -31,7 +31,7 @@ public enum ThermooSeason {
      * implemented by another mod like Fabric Seasons or Serene Seasons. This event just places season integration into
      * a common source.
      * <p>
-     * This event should only ever return the temperature seasons, that is {@link #SPRING}, {@link #SUMMER},
+     * This event should only ever return the temperate seasons, that is {@link #SPRING}, {@link #SUMMER},
      * {@link #AUTUMN}, or {@link #WINTER}, and never the tropical seasons. For tropical seasons, use
      * {@link #getCurrentTropicalSeason(World, BlockPos)}
      *
