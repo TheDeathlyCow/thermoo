@@ -13,6 +13,7 @@ import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.registry.Registries;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.resource.Resource;
 import net.minecraft.resource.ResourceManager;
@@ -27,7 +28,7 @@ public class TemperatureEffectLoader implements SimpleSynchronousResourceReloadL
 
     private final Map<Identifier, ConfiguredTemperatureEffect<?>> globalEffects = new HashMap<>();
 
-    private final Map<Identifier, Set<ConfiguredTemperatureEffect<?>>> typeSpecificEffects = new HashMap<>();
+    private final Map<RegistryKey<EntityType<?>>, Set<ConfiguredTemperatureEffect<?>>> entityTypeToEffect = new IdentityHashMap<>();
 
     private final Identifier id;
 
@@ -38,9 +39,8 @@ public class TemperatureEffectLoader implements SimpleSynchronousResourceReloadL
     public Collection<ConfiguredTemperatureEffect<?>> getEffectsForEntity(LivingEntity entity) {
         EntityType<?> type = entity.getType();
 
-        Identifier typeId = Registries.ENTITY_TYPE.getId(type);
-
-        Set<ConfiguredTemperatureEffect<?>> effects = typeSpecificEffects.get(typeId);
+        RegistryKey<EntityType<?>> key = type.getRegistryEntry().registryKey();
+        Set<ConfiguredTemperatureEffect<?>> effects = entityTypeToEffect.get(key);
 
         if (effects == null) {
             return Collections.emptySet();
@@ -80,16 +80,16 @@ public class TemperatureEffectLoader implements SimpleSynchronousResourceReloadL
         }
 
         Map<Identifier, ConfiguredTemperatureEffect<?>> newEffects = new HashMap<>();
-        Map<Identifier, Set<ConfiguredTemperatureEffect<?>>> newTypeEffects = new HashMap<>();
+        Map<RegistryKey<EntityType<?>>, Set<ConfiguredTemperatureEffect<?>>> newTypeEffects = new IdentityHashMap<>();
         this.partitionRegistry(registry, newEffects, newTypeEffects);
 
         this.globalEffects.clear();
         this.globalEffects.putAll(newEffects);
-        this.typeSpecificEffects.clear();
-        this.typeSpecificEffects.putAll(newTypeEffects);
+        this.entityTypeToEffect.clear();
+        this.entityTypeToEffect.putAll(newTypeEffects);
 
         int numEffects = this.globalEffects.size();
-        int numTypeEffects = this.typeSpecificEffects.values()
+        int numTypeEffects = this.entityTypeToEffect.values()
                 .stream()
                 .map(Set::size)
                 .reduce(0, Integer::sum);
@@ -164,13 +164,13 @@ public class TemperatureEffectLoader implements SimpleSynchronousResourceReloadL
     private void partitionRegistry(
             Map<Identifier, ConfiguredTemperatureEffect<?>> registry,
             Map<Identifier, ConfiguredTemperatureEffect<?>> globalEffects,
-            Map<Identifier, Set<ConfiguredTemperatureEffect<?>>> typeEffects
+            Map<RegistryKey<EntityType<?>>, Set<ConfiguredTemperatureEffect<?>>> typeEffects
     ) {
         registry.forEach((key, value) -> {
             value.entityType().ifPresentOrElse(
                     entityType -> {
                         typeEffects.computeIfAbsent(
-                                Registries.ENTITY_TYPE.getId(entityType),
+                                entityType.getRegistryEntry().registryKey(),
                                 eid -> new HashSet<>()
                         ).add(value);
                     },
