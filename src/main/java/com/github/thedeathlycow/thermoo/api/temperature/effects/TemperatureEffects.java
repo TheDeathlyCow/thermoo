@@ -71,7 +71,7 @@ public final class TemperatureEffects {
      * @return Returns the effects loaded for the entity type
      */
     public static Collection<ConfiguredTemperatureEffect<?>> getEffectsForEntity(LivingEntity entity) {
-        return TemperatureEffectLoader.INSTANCE.getEffectsForEntity(entity);
+        return TemperatureEffectLoader.INSTANCE.getEffectsForEntity(entity, entity.getRegistryManager());
     }
 
 

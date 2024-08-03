@@ -16,6 +16,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.loot.condition.LootConditionTypes;
 import net.minecraft.predicate.item.ItemPredicate;
+import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.entry.RegistryEntry;
@@ -50,7 +51,10 @@ public class TemperatureEffectLoader implements SimpleSynchronousResourceReloadL
         this.id = id;
     }
 
-    public Collection<ConfiguredTemperatureEffect<?>> getEffectsForEntity(LivingEntity entity) {
+    public Collection<ConfiguredTemperatureEffect<?>> getEffectsForEntity(
+            LivingEntity entity,
+            DynamicRegistryManager manager
+    ) {
         EntityType<?> type = entity.getType();
 
         @SuppressWarnings("deprecation")
@@ -64,7 +68,7 @@ public class TemperatureEffectLoader implements SimpleSynchronousResourceReloadL
                     if (Thermoo.LOGGER.isDebugEnabled()) {
                         Thermoo.LOGGER.debug("Computing temperature effects for {}", key);
                     }
-                    return TemperatureEffects.getLoadedConfiguredEffects()
+                    return manager.get(ThermooRegistryKeys.CONFIGURED_TEMPERATURE_EFFECT)
                             .stream()
                             .filter(configuredEffect -> {
                                 var allowedTypes = configuredEffect.entityTypes();

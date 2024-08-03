@@ -1,10 +1,13 @@
 package com.github.thedeathlycow.thermoo.impl;
 
+import com.github.thedeathlycow.thermoo.api.ThermooRegistryKeys;
 import com.github.thedeathlycow.thermoo.api.command.*;
 import com.github.thedeathlycow.thermoo.api.temperature.EnvironmentManager;
+import com.github.thedeathlycow.thermoo.api.temperature.effects.ConfiguredTemperatureEffect;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.ArgumentTypeRegistry;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
+import net.fabricmc.fabric.api.event.registry.DynamicRegistries;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.command.argument.serialize.ConstantArgumentSerializer;
 import net.minecraft.resource.ResourceType;
@@ -44,9 +47,14 @@ public class Thermoo implements ModInitializer {
         ThermooCommonRegisters.registerTemperatureEffects();
         ThermooCommonRegisters.registerLootConditionTypes();
 
-        ResourceManagerHelper serverManager = ResourceManagerHelper.get(ResourceType.SERVER_DATA);
+        DynamicRegistries.register(
+                ThermooRegistryKeys.CONFIGURED_TEMPERATURE_EFFECT,
+                ConfiguredTemperatureEffect.CODEC
+        );
 
-        serverManager.registerReloadListener(TemperatureEffectLoader.INSTANCE);
+//        ResourceManagerHelper serverManager = ResourceManagerHelper.get(ResourceType.SERVER_DATA);
+//        serverManager.registerReloadListener(TemperatureEffectLoader.INSTANCE);
+
         LOGGER.info("Creating environment manager {}", EnvironmentManager.INSTANCE);
         LOGGER.info("Thermoo initialized");
     }
