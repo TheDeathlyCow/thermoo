@@ -42,10 +42,6 @@ public abstract class TemperatureEffectTickerMixin extends Entity {
             effect.applyIfPossible(instance);
         }
 
-        for (var effect : TemperatureEffects.getLoadedConfiguredEffects()) {
-            effect.applyIfPossible(instance);
-        }
-
         profiler.pop();
     }
 

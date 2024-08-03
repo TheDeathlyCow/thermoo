@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.registry.entry.RegistryEntryList;
 import net.minecraft.server.world.ServerWorld;
 
 import java.util.List;
@@ -29,8 +30,8 @@ public class SequenceTemperatureEffect extends TemperatureEffect<SequenceTempera
     @Override
     public void apply(LivingEntity victim, ServerWorld serverWorld, Config config) {
         for (ConfiguredTemperatureEffect<?> child : config.children()) {
-            EntityType<?> childType = child.entityType().orElse(null);
-            if (childType == null || victim.getType() == childType) {
+            RegistryEntryList<EntityType<?>> allowedTypes = child.entityTypes();
+            if (victim.getType().isIn(allowedTypes)) {
                 child.applyIfPossible(victim);
             }
         }

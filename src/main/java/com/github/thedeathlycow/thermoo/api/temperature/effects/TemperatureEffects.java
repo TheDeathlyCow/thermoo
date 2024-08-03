@@ -79,7 +79,7 @@ public final class TemperatureEffects {
      * @return Returns all currently loaded {@link ConfiguredTemperatureEffect}s
      */
     public static Collection<ConfiguredTemperatureEffect<?>> getLoadedConfiguredEffects() {
-        return TemperatureEffectLoader.INSTANCE.getGlobalEffects();
+        return TemperatureEffectLoader.INSTANCE.getLoadedConfiguredEffects();
     }
 
     private TemperatureEffects() {
