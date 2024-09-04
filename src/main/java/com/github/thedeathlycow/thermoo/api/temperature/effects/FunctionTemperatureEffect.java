@@ -21,6 +21,8 @@ import java.util.Optional;
 
 public final class FunctionTemperatureEffect extends TemperatureEffect<FunctionTemperatureEffect.Config> {
 
+    static final int DEFAULT_PERMISSION_LEVEL = 2;
+
     public static final Codec<Config> CODEC = RecordCodecBuilder.create(
             instance -> instance.group(
                     LazyContainer.CODEC
@@ -35,7 +37,7 @@ public final class FunctionTemperatureEffect extends TemperatureEffect<FunctionT
                             .forGetter(Config::interval),
                     Codec.intRange(0, 4)
                             .fieldOf("permission_level")
-                            .orElse(2)
+                            .orElse(DEFAULT_PERMISSION_LEVEL)
                             .forGetter(Config::permissionLevel)
             ).apply(instance, Config::new)
     );
