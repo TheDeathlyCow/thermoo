@@ -2,6 +2,7 @@ package com.github.thedeathlycow.thermoo.api.predicate;
 
 import com.github.thedeathlycow.thermoo.ThermooTest;
 import net.minecraft.entity.passive.VillagerEntity;
+import net.minecraft.entity.vehicle.BoatEntity;
 import net.minecraft.loot.context.LootContext;
 import net.minecraft.loot.context.LootContextParameters;
 import net.minecraft.predicate.NumberRange;
@@ -130,6 +131,17 @@ class TemperatureLootConditionTest {
                 .thenReturn(temperature);
 
         var condition = new TemperatureLootCondition(VALUE_RANGE, SCALE_RANGE);
+
+        Assertions.assertFalse(condition.test(mockContext));
+    }
+
+    @Test
+    void entityNotTemperatureAware_anyValueOrScale_false() {
+        BoatEntity mockBoat = Mockito.mock(BoatEntity.class);
+        Mockito.when(mockContext.get(LootContextParameters.THIS_ENTITY))
+                .thenReturn(mockBoat);
+
+        var condition = new TemperatureLootCondition(NumberRange.IntRange.ANY, NumberRange.DoubleRange.ANY);
 
         Assertions.assertFalse(condition.test(mockContext));
     }
