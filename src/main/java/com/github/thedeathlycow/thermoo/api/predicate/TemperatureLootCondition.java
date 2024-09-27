@@ -51,4 +51,12 @@ public record TemperatureLootCondition(
 
         return false;
     }
+
+    public static LootCondition.Builder builder(NumberRange.IntRange value) {
+        return () -> new TemperatureLootCondition(value, NumberRange.DoubleRange.ANY);
+    }
+
+    public static LootCondition.Builder builder(NumberRange.DoubleRange scale) {
+        return () -> new TemperatureLootCondition(NumberRange.IntRange.ANY, scale);
+    }
 }

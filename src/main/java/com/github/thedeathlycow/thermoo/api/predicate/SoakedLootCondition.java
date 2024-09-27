@@ -52,4 +52,11 @@ public record SoakedLootCondition(
         return false;
     }
 
+    public static LootCondition.Builder builder(NumberRange.IntRange value) {
+        return () -> new SoakedLootCondition(value, NumberRange.DoubleRange.ANY);
+    }
+
+    public static LootCondition.Builder builder(NumberRange.DoubleRange scale) {
+        return () -> new SoakedLootCondition(NumberRange.IntRange.ANY, scale);
+    }
 }
