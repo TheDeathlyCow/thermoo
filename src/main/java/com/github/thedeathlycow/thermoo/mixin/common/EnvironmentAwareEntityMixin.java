@@ -119,9 +119,8 @@ public abstract class EnvironmentAwareEntityMixin extends Entity implements Temp
             return true;
         } else if (type.isIn(ThermooTags.COLD_IMMUNE_ENTITY_TYPE)) {
             return false;
-        } else if (this.isPlayer()) {
-            final LivingEntity instance = (LivingEntity) (Object) this;
-            return !((PlayerEntity) instance).isCreative();
+        } else if ((Entity) this instanceof PlayerEntity player) {
+            return !player.isCreative();
         } else {
             return true;
         }
@@ -138,9 +137,8 @@ public abstract class EnvironmentAwareEntityMixin extends Entity implements Temp
             return true;
         } else if (type.isIn(ThermooTags.HEAT_IMMUNE_ENTITY_TYPE)) {
             return false;
-        } else if (this.isPlayer()) {
-            final LivingEntity instance = (LivingEntity) (Object) this;
-            return !((PlayerEntity) instance).isCreative();
+        } else if ((Entity) this instanceof PlayerEntity player) {
+            return !player.isCreative();
         } else {
             return true;
         }
