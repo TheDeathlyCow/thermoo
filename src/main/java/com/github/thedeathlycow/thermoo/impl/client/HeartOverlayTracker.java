@@ -5,9 +5,7 @@ import org.joml.Vector2i;
 
 import java.util.Arrays;
 
-public class HeartOverlayImpl {
-
-    public static final HeartOverlayImpl INSTANCE = new HeartOverlayImpl();
+public class HeartOverlayTracker {
 
     private static final int MAX_OVERLAY_HEARTS = 20;
 
@@ -26,9 +24,4 @@ public class HeartOverlayImpl {
     public Vector2i[] getHeartPositions() {
         return heartPositions;
     }
-
-    private HeartOverlayImpl() {
-
-    }
-
 }
