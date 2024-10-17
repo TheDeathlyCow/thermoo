@@ -1,9 +1,12 @@
 package com.github.thedeathlycow.thermoo.api;
 
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
+import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.ArmorMaterial;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroups;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.tag.TagKey;
 
@@ -32,6 +35,15 @@ public class ThermooTags {
      */
     public static final TagKey<EntityType<?>> HEAT_IMMUNE_ENTITY_TYPE = createEntityTypeTag("heat_immune");
 
+    /**
+     * Conventional tag for consumables that are warming (has no effects with Thermoo alone)
+     */
+    public static final TagKey<Item> CONSUMABLE_WARMING = createItemTag("consumable/warming");
+
+    /**
+     * Conventional tag for consumables that are cooling (has no effects with Thermoo alone)
+     */
+    public static final TagKey<Item> CONSUMABLE_COOLING = createItemTag("consumable/cooling");
 
 
     private static TagKey<EntityType<?>> createEntityTypeTag(String path) {
@@ -40,6 +52,10 @@ public class ThermooTags {
 
     private static TagKey<Block> createBlockTag(String path) {
         return TagKey.of(RegistryKeys.BLOCK, Thermoo.id(path));
+    }
+
+    private static TagKey<Item> createItemTag(String path) {
+        return TagKey.of(RegistryKeys.ITEM, Thermoo.id(path));
     }
 
     private ThermooTags() {
