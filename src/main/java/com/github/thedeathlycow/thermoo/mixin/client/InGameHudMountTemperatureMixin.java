@@ -2,8 +2,6 @@ package com.github.thedeathlycow.thermoo.mixin.client;
 
 import com.github.thedeathlycow.thermoo.api.client.StatusBarOverlayRenderEvents;
 import com.github.thedeathlycow.thermoo.impl.client.HeartOverlayTracker;
-import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.Share;
 import com.llamalad7.mixinextras.sugar.ref.LocalRef;
@@ -11,13 +9,11 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import org.joml.Vector2i;
 import org.spongepowered.asm.mixin.Debug;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -53,7 +49,7 @@ public abstract class InGameHudMountTemperatureMixin {
         if (tracker.get() == null) {
             tracker.set(new HeartOverlayTracker());
         }
-        tracker.get().setHeartPosition(index, heartX, heartY);
+        tracker.get().addHeartPosition(index, heartX, heartY);
     }
 
     @Inject(
@@ -72,17 +68,14 @@ public abstract class InGameHudMountTemperatureMixin {
         float health = mount.getHealth();
         float maxHealth = mount.getMaxHealth();
 
-        int displayHealth = Math.min(MathHelper.ceil(health), heartPositions.length);
-        int maxDisplayHealth = Math.min(MathHelper.ceil(maxHealth), heartPositions.length);
-
         StatusBarOverlayRenderEvents.AFTER_MOUNT_HEALTH_BAR.invoker()
                 .render(
                         context,
                         player,
                         mount,
                         heartPositions,
-                        displayHealth,
-                        maxDisplayHealth
+                        MathHelper.ceil(health),
+                        MathHelper.ceil(maxHealth)
                 );
     }
 }

@@ -11,13 +11,9 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.MathHelper;
 import org.joml.Vector2i;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
-
-import java.util.Arrays;
 
 @Mixin(InGameHud.class)
 public abstract class InGameHudPlayerTemperatureMixin {
@@ -51,7 +47,7 @@ public abstract class InGameHudPlayerTemperatureMixin {
             tracker.set(new HeartOverlayTracker());
         }
 
-        tracker.get().setHeartPosition(index, heartX, heartY);
+        tracker.get().addHeartPosition(index, heartX, heartY);
     }
 
     @Inject(
@@ -75,15 +71,14 @@ public abstract class InGameHudPlayerTemperatureMixin {
             @Share("thermoo_tracker") LocalRef<HeartOverlayTracker> tracker
     ) {
         Vector2i[] heartPositions = tracker.get().getHeartPositions();
-        int displayHealth = Math.min(health, heartPositions.length);
-        int maxDisplayHealth = Math.min(MathHelper.ceil(maxHealth), heartPositions.length);
+        int maxDisplayHealth = MathHelper.ceil(maxHealth);
 
         StatusBarOverlayRenderEvents.AFTER_HEALTH_BAR.invoker()
                 .render(
                         context,
                         player,
                         heartPositions,
-                        displayHealth,
+                        health,
                         maxDisplayHealth
                 );
     }

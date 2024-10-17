@@ -7,18 +7,19 @@ import java.util.Arrays;
 
 public class HeartOverlayTracker {
 
-    private static final int MAX_OVERLAY_HEARTS = 20;
+    private static final int DEFAULT_SIZE = 10;
 
-    private final Vector2i[] heartPositions = Util.make(() -> {
-        var positions = new Vector2i[MAX_OVERLAY_HEARTS];
+    private Vector2i[] heartPositions = Util.make(() -> {
+        var positions = new Vector2i[DEFAULT_SIZE];
         Arrays.fill(positions, null);
         return positions;
     });
 
-    public void setHeartPosition(int index, int heartX, int heartY) {
-        if (index < heartPositions.length) {
-            heartPositions[index] = new Vector2i(heartX, heartY);
+    public void addHeartPosition(int index, int heartX, int heartY) {
+        if (index >= heartPositions.length) {
+            heartPositions = Arrays.copyOf(heartPositions, index * 2 + 1);
         }
+        heartPositions[index] = new Vector2i(heartX, heartY);
     }
 
     public Vector2i[] getHeartPositions() {
