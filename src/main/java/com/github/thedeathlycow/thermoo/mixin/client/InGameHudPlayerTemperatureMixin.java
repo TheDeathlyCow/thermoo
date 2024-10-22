@@ -1,7 +1,10 @@
 package com.github.thedeathlycow.thermoo.mixin.client;
 
 import com.github.thedeathlycow.thermoo.api.client.StatusBarOverlayRenderEvents;
-import com.github.thedeathlycow.thermoo.impl.client.HeartOverlayImpl;
+import com.github.thedeathlycow.thermoo.impl.client.HeartOverlayTracker;
+import com.llamalad7.mixinextras.sugar.Local;
+import com.llamalad7.mixinextras.sugar.Share;
+import com.llamalad7.mixinextras.sugar.ref.LocalRef;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.entity.player.PlayerEntity;
@@ -11,9 +14,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
-
-import java.util.Arrays;
 
 @Mixin(InGameHud.class)
 public abstract class InGameHudPlayerTemperatureMixin {
@@ -23,10 +23,8 @@ public abstract class InGameHudPlayerTemperatureMixin {
             at = @At(
                     value = "INVOKE",
                     target = "Lnet/minecraft/client/gui/hud/InGameHud;drawHeart(Lnet/minecraft/client/gui/DrawContext;Lnet/minecraft/client/gui/hud/InGameHud$HeartType;IIZZZ)V",
-                    ordinal = 0,
-                    shift = At.Shift.AFTER
-            ),
-            locals = LocalCapture.CAPTURE_FAILEXCEPTION
+                    ordinal = 0
+            )
     )
     private void captureHeartPositions(
             DrawContext context,
@@ -40,16 +38,16 @@ public abstract class InGameHudPlayerTemperatureMixin {
             int absorption,
             boolean blinking,
             CallbackInfo ci,
-            InGameHud.HeartType heartType,
-            boolean bl,
-            int displayHearts,
-            int displayAbsorption,
-            int displayHalfHearts,
-            int index,
-            int lineY, int lineX,
-            int heartX, int heartY
+            @Local(ordinal = 10) int index,
+            @Local(ordinal = 13) int heartX,
+            @Local(ordinal = 14) int heartY,
+            @Share("thermoo_tracker") LocalRef<HeartOverlayTracker> tracker
     ) {
-        HeartOverlayImpl.INSTANCE.setHeartPosition(index, heartX, heartY);
+        if (tracker.get() == null) {
+            tracker.set(new HeartOverlayTracker());
+        }
+
+        tracker.get().addHeartPosition(index, heartX, heartY);
     }
 
     @Inject(
@@ -69,22 +67,20 @@ public abstract class InGameHudPlayerTemperatureMixin {
             int health,
             int absorption,
             boolean blinking,
-            CallbackInfo ci
+            CallbackInfo ci,
+            @Share("thermoo_tracker") LocalRef<HeartOverlayTracker> tracker
     ) {
-
-        Vector2i[] heartPositions = HeartOverlayImpl.INSTANCE.getHeartPositions();
-        int displayHealth = Math.min(health, heartPositions.length);
-        int maxDisplayHealth = Math.min(MathHelper.ceil(maxHealth), heartPositions.length);
+        Vector2i[] heartPositions = tracker.get().getHeartPositions();
+        int maxDisplayHealth = MathHelper.ceil(maxHealth);
 
         StatusBarOverlayRenderEvents.AFTER_HEALTH_BAR.invoker()
                 .render(
                         context,
                         player,
                         heartPositions,
-                        displayHealth,
+                        health,
                         maxDisplayHealth
                 );
-        Arrays.fill(HeartOverlayImpl.INSTANCE.getHeartPositions(), null);
     }
 
 }
