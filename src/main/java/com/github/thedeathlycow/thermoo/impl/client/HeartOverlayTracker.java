@@ -17,12 +17,16 @@ public class HeartOverlayTracker {
 
     public void addHeartPosition(int index, int heartX, int heartY) {
         if (index >= heartPositions.length) {
-            heartPositions = Arrays.copyOf(heartPositions, index * 2 + 1);
+            heartPositions = Arrays.copyOf(heartPositions, getNextSize(index));
         }
         heartPositions[index] = new Vector2i(heartX, heartY);
     }
 
     public Vector2i[] getHeartPositions() {
         return heartPositions;
+    }
+
+    static int getNextSize(int index) {
+        return (index - 1) + 10 - ((index - 1) % 10);
     }
 }
