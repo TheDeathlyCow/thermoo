@@ -68,9 +68,14 @@ public abstract class InGameHudPlayerTemperatureMixin {
             int absorption,
             boolean blinking,
             CallbackInfo ci,
-            @Share("thermoo_tracker") LocalRef<HeartOverlayTracker> tracker
+            @Share("thermoo_tracker") LocalRef<HeartOverlayTracker> trackerRef
     ) {
-        Vector2i[] heartPositions = tracker.get().getHeartPositions();
+        HeartOverlayTracker tracker = trackerRef.get();
+        if (tracker == null) {
+            return;
+        }
+
+        Vector2i[] heartPositions = tracker.getHeartPositions();
         int maxDisplayHealth = MathHelper.ceil(maxHealth);
 
         StatusBarOverlayRenderEvents.AFTER_HEALTH_BAR.invoker()
@@ -82,5 +87,4 @@ public abstract class InGameHudPlayerTemperatureMixin {
                         maxDisplayHealth
                 );
     }
-
 }
