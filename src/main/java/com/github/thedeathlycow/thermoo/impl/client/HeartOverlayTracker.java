@@ -4,13 +4,14 @@ import net.minecraft.util.Util;
 import org.joml.Vector2i;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 public class HeartOverlayTracker {
 
-    private static final int DEFAULT_SIZE = 10;
+    private static final int HEARTS_PER_ROW = 10;
 
     private Vector2i[] heartPositions = Util.make(() -> {
-        var positions = new Vector2i[DEFAULT_SIZE];
+        var positions = new Vector2i[HEARTS_PER_ROW];
         Arrays.fill(positions, null);
         return positions;
     });
@@ -27,6 +28,9 @@ public class HeartOverlayTracker {
     }
 
     static int getNextSize(int index) {
-        return (index - 1) + 10 - ((index - 1) % 10);
+        if (index < 0) {
+            throw new IllegalArgumentException("Cannot have index less than 0");
+        }
+        return index + HEARTS_PER_ROW - (index % HEARTS_PER_ROW);
     }
 }
