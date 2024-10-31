@@ -62,12 +62,12 @@ public class DamageTemperatureEffect extends TemperatureEffect<DamageTemperature
 
         if (registry == null) {
             DynamicRegistryManager registryManager = serverWorld.getServer().getRegistryManager();
-            this.registry = registryManager.get(RegistryKeys.DAMAGE_TYPE);
+            this.registry = registryManager.getOrThrow(RegistryKeys.DAMAGE_TYPE);
         }
 
         DamageSource source = this.getDamageSourceFromType(config.damageType, this.registry);
         if (source != null) {
-            victim.damage(source, config.amount);
+            victim.damage(serverWorld, source, config.amount);
         }
     }
 
@@ -85,7 +85,7 @@ public class DamageTemperatureEffect extends TemperatureEffect<DamageTemperature
                         Thermoo.LOGGER.error("Temperature effect trying to use unknown damage type {}", key);
                         return null;
                     }
-                    return new DamageSource(registry.entryOf(key));
+                    return new DamageSource(registry.getOrThrow(key));
                 }
         );
     }

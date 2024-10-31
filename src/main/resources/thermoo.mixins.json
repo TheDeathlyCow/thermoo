@@ -4,7 +4,6 @@
     "package": "com.github.thedeathlycow.thermoo.mixin.common",
     "compatibilityLevel": "JAVA_21",
     "mixins": [
-        "ArmorItemMixin",
         "EnvironmentAwareEntityMixin",
         "HotFloorMixin",
         "LivingEntityAttributeMixin",

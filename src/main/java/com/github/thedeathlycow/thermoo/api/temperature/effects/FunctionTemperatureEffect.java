@@ -15,6 +15,7 @@ import net.minecraft.server.function.*;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.dynamic.Codecs;
 import net.minecraft.util.profiler.Profiler;
+import net.minecraft.util.profiler.Profilers;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
@@ -56,7 +57,7 @@ public final class FunctionTemperatureEffect extends TemperatureEffect<FunctionT
 
         config.function.get(functionManager).ifPresent(
                 func -> {
-                    ServerCommandSource commandSource = victim.getCommandSource()
+                    ServerCommandSource commandSource = victim.getCommandSource(serverWorld)
                             .withSilent()
                             .withLevel(config.permissionLevel);
 
@@ -82,7 +83,7 @@ public final class FunctionTemperatureEffect extends TemperatureEffect<FunctionT
             MinecraftServer server,
             @Nullable NbtCompound arguments
     ) {
-        Profiler profiler = server.getProfiler();
+        Profiler profiler = Profilers.get();
         profiler.push(() -> "function " + function.id());
 
         try {

@@ -6,9 +6,9 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.loot.condition.LootCondition;
 import net.minecraft.loot.context.LootContext;
-import net.minecraft.loot.context.LootContextParameterSet;
 import net.minecraft.loot.context.LootContextParameters;
 import net.minecraft.loot.context.LootContextTypes;
+import net.minecraft.loot.context.LootWorldContext;
 import net.minecraft.predicate.NumberRange;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.world.World;
@@ -131,7 +131,7 @@ public final class ConfiguredTemperatureEffect<C> {
         return this.predicate.isEmpty()
                 || this.predicate.get().test(
                 new LootContext.Builder(
-                        new LootContextParameterSet.Builder(world)
+                        new LootWorldContext.Builder(world)
                                 .add(LootContextParameters.THIS_ENTITY, victim)
                                 .add(LootContextParameters.ORIGIN, victim.getPos())
                                 .build(LootContextTypes.COMMAND)
