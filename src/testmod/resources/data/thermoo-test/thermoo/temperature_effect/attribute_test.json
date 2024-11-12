@@ -8,7 +8,7 @@
     "config": {
         "value": 2,
         "id": "thermoo-test:fixed_max_hp",
-        "attribute_type": "minecraft:generic.max_health",
+        "attribute_type": "minecraft:max_health",
         "operation": "add_value"
     }
 }

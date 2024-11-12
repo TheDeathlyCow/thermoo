@@ -4,13 +4,13 @@
     "package": "com.github.thedeathlycow.thermoo.mixin.common",
     "compatibilityLevel": "JAVA_21",
     "mixins": [
-        "ArmorItemMixin",
         "EnvironmentAwareEntityMixin",
         "HotFloorMixin",
         "LivingEntityAttributeMixin",
         "LivingEntityEnvironmentTickMixin",
         "PlayerTemperatureTickMixin",
-        "TemperatureEffectTickerMixin"
+        "TemperatureEffectTickerMixin",
+        "datafix.AttributeIdPrefixFixMixin"
     ],
     "injectors": {
         "defaultRequire": 1

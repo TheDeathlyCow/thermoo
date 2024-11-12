@@ -1,8 +1,8 @@
 {
-    "attribute.thermoo.generic.min_temperature": "Minimilämpö",
-    "attribute.thermoo.generic.max_temperature": "Maksimilämpö",
-    "attribute.thermoo.generic.frost_resistance": "Kylmänkestävyys",
-    "attribute.thermoo.generic.heat_resistance": "Kuumankestävyys",
+    "attribute.thermoo.min_temperature": "Minimilämpö",
+    "attribute.thermoo.max_temperature": "Maksimilämpö",
+    "attribute.thermoo.frost_resistance": "Kylmänkestävyys",
+    "attribute.thermoo.heat_resistance": "Kuumankestävyys",
     
 
     "commands.thermoo.temperature.exception.not_living_entity": "Kohde ei ole elävä olio!",

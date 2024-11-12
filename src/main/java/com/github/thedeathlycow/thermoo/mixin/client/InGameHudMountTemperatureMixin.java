@@ -34,7 +34,7 @@ public abstract class InGameHudMountTemperatureMixin {
             method = "renderMountHealth",
             at = @At(
                     value = "INVOKE",
-                    target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Lnet/minecraft/util/Identifier;IIII)V",
+                    target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Ljava/util/function/Function;Lnet/minecraft/util/Identifier;IIII)V",
                     ordinal = 0
             )
     )
@@ -59,10 +59,14 @@ public abstract class InGameHudMountTemperatureMixin {
     private void renderMountHealth(
             DrawContext context,
             CallbackInfo ci,
-            @Share("thermoo_tracker") LocalRef<HeartOverlayTracker> tracker
+            @Share("thermoo_tracker") LocalRef<HeartOverlayTracker> trackerRef
     ) {
-        Vector2i[] heartPositions = tracker.get().getHeartPositions();
+        HeartOverlayTracker tracker = trackerRef.get();
+        if (tracker == null) {
+            return;
+        }
 
+        Vector2i[] heartPositions = tracker.getHeartPositions();
         PlayerEntity player = this.getCameraPlayer();
         LivingEntity mount = this.getRiddenEntity();
         float health = mount.getHealth();

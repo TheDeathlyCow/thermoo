@@ -4,6 +4,8 @@ import com.github.thedeathlycow.thermoo.api.temperature.effects.TemperatureEffec
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.profiler.Profilers;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -33,7 +35,8 @@ public abstract class TemperatureEffectTickerMixin extends Entity {
             return;
         }
 
-        var profiler = world.getProfiler();
+
+        var profiler = Profilers.get();
         profiler.push("thermoo.temperature_effects");
 
         final LivingEntity instance = (LivingEntity) (Object) this;

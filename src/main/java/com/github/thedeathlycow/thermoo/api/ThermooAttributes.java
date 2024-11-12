@@ -26,9 +26,9 @@ public final class ThermooAttributes {
      * @see #MAX_TEMPERATURE
      */
     public static final RegistryEntry<EntityAttribute> MIN_TEMPERATURE = register(
-            "generic.min_temperature",
+            "min_temperature",
             new ClampedEntityAttribute(
-                    "attribute.thermoo.generic.min_temperature", 0.0, 0.0, 8192
+                    "attribute.thermoo.min_temperature", 0.0, 0.0, 8192
             ).setTracked(true)
     );
 
@@ -45,9 +45,9 @@ public final class ThermooAttributes {
      * @see #MIN_TEMPERATURE
      */
     public static final RegistryEntry<EntityAttribute> MAX_TEMPERATURE = register(
-            "generic.max_temperature",
+            "max_temperature",
             new ClampedEntityAttribute(
-                    "attribute.thermoo.generic.max_temperature", 0.0, 0.0, 8192
+                    "attribute.thermoo.max_temperature", 0.0, 0.0, 8192
             ).setTracked(true)
     );
 
@@ -60,9 +60,9 @@ public final class ThermooAttributes {
      * @see #HEAT_RESISTANCE
      */
     public static final RegistryEntry<EntityAttribute> FROST_RESISTANCE = register(
-            "generic.frost_resistance",
+            "frost_resistance",
             new ClampedEntityAttribute(
-                    "attribute.thermoo.generic.frost_resistance", 0.0, -10.0, 10.0
+                    "attribute.thermoo.frost_resistance", 0.0, -10.0, 10.0
             ).setTracked(true)
     );
 
@@ -75,9 +75,9 @@ public final class ThermooAttributes {
      * @see #FROST_RESISTANCE
      */
     public static final RegistryEntry<EntityAttribute> HEAT_RESISTANCE = register(
-            "generic.heat_resistance",
+            "heat_resistance",
             new ClampedEntityAttribute(
-                    "attribute.thermoo.generic.heat_resistance", 0.0, -10.0, 10.0
+                    "attribute.thermoo.heat_resistance", 0.0, -10.0, 10.0
             ).setTracked(true)
     );
 

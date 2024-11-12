@@ -14,7 +14,7 @@
                 "config": {
                     "scale": -0.5,
                     "id": "thermoo-test:freezing_small",
-                    "attribute_type": "minecraft:generic.scale",
+                    "attribute_type": "minecraft:scale",
                     "operation": "add_value"
                 }
             },
@@ -29,7 +29,7 @@
                         {
                             "amplifier": 0,
                             "duration": 200,
-                            "effect": "minecraft:regeneration"
+                            "effect": "minecraft:absorption"
                         }
                     ]
                 }

@@ -1,8 +1,8 @@
 {
-    "attribute.thermoo.generic.min_temperature": "最低温度",
-    "attribute.thermoo.generic.max_temperature": "最高温度",
-    "attribute.thermoo.generic.frost_resistance": "低温抗性",
-    "attribute.thermoo.generic.heat_resistance": "高温抗性",
+    "attribute.thermoo.min_temperature": "最低温度",
+    "attribute.thermoo.max_temperature": "最高温度",
+    "attribute.thermoo.frost_resistance": "低温抗性",
+    "attribute.thermoo.heat_resistance": "高温抗性",
     
 
     "commands.thermoo.temperature.exception.not_living_entity": "目标不是生物实体",
