@@ -9,6 +9,11 @@ Add the repository to your `build.gradle`
 ```gradle
 repositories {
     maven { url "https://jitpack.io/" }
+    // Needed as Thermoo uses Cardinal Components 
+    maven {
+		name = "Ladysnake Mods"
+		url = 'https://maven.ladysnake.org/releases'
+    }
 }
 ```
 
@@ -22,6 +27,11 @@ dependencies {
 
 Replace 'VERSION' with the version you want to use. See the available versions
 on [Jitpack](https://jitpack.io/#TheDeathlyCow/thermoo)
+
+## Using Thermoo
+
+Usage of Thermoo, for both mods and datapacks, is documented on
+the [wiki](https://github.com/TheDeathlyCow/thermoo/wiki/)
 
 ## LTS Policy
 
@@ -43,8 +53,3 @@ Status Definitions:
 * ✅ Supported: This version is fully supported and will receive all new features, fixes, and updates (where possible)
 * ⚠️ Critical fixes only: This version will receive only critical crash and security fixes, as well as minor features where they can be easily cherry-picked
 * ❌ Unsupported: This version will receive no future updates, except for critical security fixes
-
-## Using Thermoo
-
-Usage of Thermoo, for both mods and datapacks, is documented on
-the [wiki](https://github.com/TheDeathlyCow/thermoo/wiki/)
