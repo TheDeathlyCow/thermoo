@@ -29,7 +29,7 @@ public class ThermooSeasonEvents {
             callbacks -> world -> {
                 for (CurrentSeasonCallback callback : callbacks) {
                     Optional<ThermooSeason> season = callback.getCurrentSeason(world);
-                    if (season.isPresent()) {
+                    if (season.isPresent() && !season.get().isTropical()) {
                         return season;
                     }
                 }
@@ -53,7 +53,7 @@ public class ThermooSeasonEvents {
             callbacks -> (world, pos) -> {
                 for (CurrentTropicalSeasonCallback callback : callbacks) {
                     Optional<ThermooSeason> season = callback.getCurrentTropicalSeason(world, pos);
-                    if (season.isPresent()) {
+                    if (season.isPresent() && season.get().isTropical()) {
                         return season;
                     }
                 }
