@@ -1,8 +1,8 @@
 {
-    "attribute.thermoo.generic.min_temperature": "Nhiệt độ tối thiểu",
-    "attribute.thermoo.generic.max_temperature": "Nhiệt độ tối đa",
-    "attribute.thermoo.generic.frost_resistance": "Khả năng chịu lạnh",
-    "attribute.thermoo.generic.heat_resistance": "Khả năng chịu nhiệt",
+    "attribute.thermoo.min_temperature": "Nhiệt độ tối thiểu",
+    "attribute.thermoo.max_temperature": "Nhiệt độ tối đa",
+    "attribute.thermoo.frost_resistance": "Khả năng chịu lạnh",
+    "attribute.thermoo.heat_resistance": "Khả năng chịu nhiệt",
     
     "commands.thermoo.temperature.exception.not_living_entity": "Mục tiêu không phải là một thực thể sống!",
     "commands.thermoo.temperature.get.scale.success": "Thang nhiệt độ của %s là %d",
