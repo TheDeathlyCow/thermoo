@@ -4,6 +4,7 @@ import com.github.thedeathlycow.thermoo.api.client.StatusBarOverlayRenderEvents;
 import com.github.thedeathlycow.thermoo.impl.client.HeartOverlayTracker;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.Share;
+import com.llamalad7.mixinextras.sugar.ref.LocalIntRef;
 import com.llamalad7.mixinextras.sugar.ref.LocalRef;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
@@ -41,15 +42,17 @@ public abstract class InGameHudMountTemperatureMixin {
     private void captureMountHealth(
             DrawContext context,
             CallbackInfo ci,
-            @Local(ordinal = 7) int index,
             @Local(ordinal = 8) int heartX,
             @Local(ordinal = 4) int heartY,
+            @Share("thermoo_index") LocalIntRef index,
             @Share("thermoo_tracker") LocalRef<HeartOverlayTracker> tracker
     ) {
         if (tracker.get() == null) {
             tracker.set(new HeartOverlayTracker());
         }
-        tracker.get().addHeartPosition(index, heartX, heartY);
+        int indexValue = index.get();
+        tracker.get().addHeartPosition(indexValue, heartX, heartY);
+        index.set(indexValue + 1);
     }
 
     @Inject(
