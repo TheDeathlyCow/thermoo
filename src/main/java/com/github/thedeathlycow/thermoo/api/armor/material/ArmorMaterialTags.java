@@ -5,7 +5,12 @@ import net.minecraft.item.ArmorMaterial;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.tag.TagKey;
 
+/**
+ * @deprecated Removed in 1.21.2+, please use the <a href="https://modrinth.com/mod/item-components>Item Components</a>
+ * mod instead.
+ */
 @SuppressWarnings("unused")
+@Deprecated
 public class ArmorMaterialTags {
 
     public static final TagKey<ArmorMaterial> VERY_RESISTANT_TO_HEAT = createArmorMaterialTag("very_resistant_to_heat");
@@ -22,6 +27,7 @@ public class ArmorMaterialTags {
         return TagKey.of(RegistryKeys.ARMOR_MATERIAL, Thermoo.id(path));
     }
 
-    private ArmorMaterialTags() {}
+    private ArmorMaterialTags() {
+    }
 
 }
