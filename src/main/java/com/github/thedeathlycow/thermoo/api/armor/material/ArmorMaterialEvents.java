@@ -9,7 +9,7 @@ import net.minecraft.registry.entry.RegistryEntry;
 /**
  * Events for getting the thermal resistances of various {@linkplain ArmorMaterial armor materials}
  *
- * @deprecated Removed in 1.21.2+, please use the <a href="https://modrinth.com/mod/item-components>Item Components</a>
+ * @deprecated Removed in 1.21.2+, please use the <a href="https://modrinth.com/mod/item-components">Item Components</a>
  * mod instead.
  */
 @Deprecated
