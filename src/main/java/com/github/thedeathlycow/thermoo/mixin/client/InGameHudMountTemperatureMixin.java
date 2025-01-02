@@ -69,7 +69,7 @@ public abstract class InGameHudMountTemperatureMixin {
         PlayerEntity player = this.getCameraPlayer();
         LivingEntity mount = this.getRiddenEntity();
         float health = mount.getHealth();
-        float maxHealth = mount.getMaxHealth();
+        float maxHealth = Math.min(60, mount.getMaxHealth()); // mount health bar will only render 3 rows for some reason
 
         StatusBarOverlayRenderEvents.AFTER_MOUNT_HEALTH_BAR.invoker()
                 .render(
