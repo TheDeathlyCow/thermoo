@@ -1,6 +1,9 @@
 package com.github.thedeathlycow.thermoo.api.temperature;
 
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import org.apache.commons.lang3.NotImplementedException;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * TemperatureAware entities are things that are sensitive to temperature. In Thermoo, the Temperature of a Thermally-aware
@@ -129,4 +132,32 @@ public interface TemperatureAware {
         return ((float) temperature) / bound;
     }
 
+    /**
+     * Returns the temperature aware component of an {@link Entity}, or {@code null} if the entity does not have such
+     * a component.
+     * <p>
+     * Primarily intended for platforms where interface injection does not work as cleanly.
+     *
+     * @param entity The entity
+     * @return Returns an upcast reference to the same entity given, or {@code null} if the entity has no such component.
+     */
+    @Nullable
+    static TemperatureAware getNullable(Entity entity) {
+        if (entity instanceof TemperatureAware temperatureAware) {
+            return temperatureAware;
+        }
+        return null;
+    }
+
+    /**
+     * Returns the temperature aware component of a {@link LivingEntity}.
+     * <p>
+     * Primarily intended for platforms where interface injection does not work as cleanly.
+     *
+     * @param livingEntity The temperature-aware living entity
+     * @return Returns an upcast reference to the same entity given
+     */
+    static TemperatureAware get(LivingEntity livingEntity) {
+        return livingEntity;
+    }
 }
