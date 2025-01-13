@@ -1,6 +1,7 @@
 package com.github.thedeathlycow.thermoo.api;
 
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
+import net.fabricmc.fabric.api.event.Event;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.ClampedEntityAttribute;
 import net.minecraft.entity.attribute.EntityAttribute;
@@ -81,6 +82,13 @@ public final class ThermooAttributes {
             ).setTracked(true)
     );
 
+    public static Event<SetBaseAttributeValue> setBaseValue(RegistryEntry<EntityAttribute> attribute) {
+
+    }
+
+    public interface SetBaseAttributeValue {
+        double getBaseValue(LivingEntity entity, double baseValue);
+    }
 
     private static RegistryEntry<EntityAttribute> register(String name, EntityAttribute attribute) {
         return Registry.registerReference(Registries.ATTRIBUTE, Thermoo.id(name), attribute);
