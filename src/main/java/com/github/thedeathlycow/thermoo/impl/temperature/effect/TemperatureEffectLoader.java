@@ -12,9 +12,9 @@ import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener;
 import net.fabricmc.fabric.api.resource.conditions.v1.ResourceCondition;
 import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditions;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.RegistryOps;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.resource.Resource;
 import net.minecraft.resource.ResourceManager;
@@ -31,10 +31,10 @@ public class TemperatureEffectLoader implements SimpleSynchronousResourceReloadL
 
     private final Map<RegistryKey<EntityType<?>>, Set<ConfiguredTemperatureEffect<?>>> entityTypeToEffect = new IdentityHashMap<>();
 
-    private final RegistryWrapper.WrapperLookup lookup;
+    private final RegistryOps<JsonElement> ops;
 
     public TemperatureEffectLoader(RegistryWrapper.WrapperLookup lookup) {
-        this.lookup = lookup;
+        this.ops = RegistryOps.of(JsonOps.INSTANCE, lookup);
     }
 
     @Override
@@ -45,7 +45,7 @@ public class TemperatureEffectLoader implements SimpleSynchronousResourceReloadL
     @Override
     public void reload(ResourceManager manager) {
 
-        Map<Identifier, ConfiguredTemperatureEffect<?>> registry = new HashMap<>();
+        Map<Identifier, ConfiguredTemperatureEffect<?>> updatedRegistry = new HashMap<>();
 
         Map<Identifier, List<Resource>> entries = manager.findAllResources(
                 "thermoo/temperature_effect",
@@ -56,55 +56,41 @@ public class TemperatureEffectLoader implements SimpleSynchronousResourceReloadL
             Identifier key = entry.getKey();
             for (var resource : entry.getValue()) {
                 try (BufferedReader reader = resource.getReader()) {
-                    this.loadEffect(registry, key, reader);
+                    this.loadEffect(updatedRegistry, key, reader);
                 } catch (Exception e) {
                     Thermoo.LOGGER.error("An error occurred while loading temperature effect {}: {}", entry.getKey(), e);
                 }
             }
         }
-
-        Map<Identifier, ConfiguredTemperatureEffect<?>> newEffects = new HashMap<>();
-        Map<RegistryKey<EntityType<?>>, Set<ConfiguredTemperatureEffect<?>>> newTypeEffects = new IdentityHashMap<>();
-        this.partitionRegistry(registry, newEffects, newTypeEffects);
-
-        TemperatureEffectManager.INSTANCE.populateRegistry(newEffects, newTypeEffects);
-
-        int numEffects = this.globalEffects.size();
-        int numTypeEffects = this.entityTypeToEffect.values()
-                .stream()
-                .map(Set::size)
-                .reduce(0, Integer::sum);
-        Thermoo.LOGGER.info("Loaded {} global temperature effect{}", numEffects, numEffects == 1 ? "" : "s");
-        Thermoo.LOGGER.info("Loaded {} type specific temperature effect{}", numTypeEffects, numTypeEffects == 1 ? "" : "s");
+        TemperatureEffectManager.INSTANCE.updateRegistry(updatedRegistry);
     }
 
     private void loadEffect(
-            Map<Identifier, ConfiguredTemperatureEffect<?>> registry,
+            Map<Identifier, ConfiguredTemperatureEffect<?>> updatedRegistry,
             Identifier id,
             BufferedReader reader
     ) {
         JsonElement json = JsonParser.parseReader(reader);
         if (json.isJsonObject() && this.objectMatchesConditions(id, json.getAsJsonObject())) {
-            ConfiguredTemperatureEffect<?> effect = ConfiguredTemperatureEffect.CODEC.decode(
-                    JsonOps.INSTANCE,
-                    json
-            ).getOrThrow().getFirst();
+            ConfiguredTemperatureEffect<?> effect = ConfiguredTemperatureEffect.CODEC.decode(this.ops, json)
+                    .getOrThrow()
+                    .getFirst();
 
             boolean overridden = false;
-            if (registry.containsKey(id)) {
-                ConfiguredTemperatureEffect<?> existingEffect = registry.get(id);
+            if (updatedRegistry.containsKey(id)) {
+                ConfiguredTemperatureEffect<?> existingEffect = updatedRegistry.get(id);
                 if (existingEffect.loadingPriority() > effect.loadingPriority()) {
                     overridden = true;
                 }
             }
 
             if (!overridden) {
-                registry.put(id, effect);
+                updatedRegistry.put(id, effect);
             } else {
-                Thermoo.LOGGER.info("Temperature Effect {} tried to load, but was overridden by a higher priority effect with the same ID.", id);
+                Thermoo.LOGGER.debug("Temperature Effect {} tried to load, but was overridden by a higher priority effect with the same ID.", id);
             }
         } else {
-            Thermoo.LOGGER.info("Temperature Effect {} not loaded, as its resource conditions were not met.", id);
+            Thermoo.LOGGER.debug("Temperature Effect {} not loaded, as its resource conditions were not met.", id);
         }
     }
 
