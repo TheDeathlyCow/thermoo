@@ -1,6 +1,6 @@
 package com.github.thedeathlycow.thermoo.api.temperature.effects;
 
-import com.github.thedeathlycow.thermoo.impl.temperature.effect.TemperatureEffectLoader;
+import com.github.thedeathlycow.thermoo.impl.temperature.effect.TemperatureEffectManager;
 import net.minecraft.entity.LivingEntity;
 
 import java.util.Collection;
@@ -71,7 +71,7 @@ public final class TemperatureEffects {
      * @return Returns the effects loaded for the entity type
      */
     public static Collection<ConfiguredTemperatureEffect<?>> getEffectsForEntity(LivingEntity entity) {
-        return TemperatureEffectLoader.INSTANCE.getEffectsForEntity(entity);
+        return TemperatureEffectManager.INSTANCE.getEffectsForEntity(entity);
     }
 
 
@@ -79,7 +79,7 @@ public final class TemperatureEffects {
      * @return Returns all currently loaded {@link ConfiguredTemperatureEffect}s
      */
     public static Collection<ConfiguredTemperatureEffect<?>> getLoadedConfiguredEffects() {
-        return TemperatureEffectLoader.INSTANCE.getGlobalEffects();
+        return TemperatureEffectManager.INSTANCE.getGlobalEffects();
     }
 
     private TemperatureEffects() {

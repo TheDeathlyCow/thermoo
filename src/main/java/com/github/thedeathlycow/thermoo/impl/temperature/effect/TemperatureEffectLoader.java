@@ -37,23 +37,6 @@ public class TemperatureEffectLoader implements SimpleSynchronousResourceReloadL
         this.lookup = lookup;
     }
 
-    public Collection<ConfiguredTemperatureEffect<?>> getEffectsForEntity(LivingEntity entity) {
-        EntityType<?> type = entity.getType();
-
-        RegistryKey<EntityType<?>> key = type.getRegistryEntry().registryKey();
-        Set<ConfiguredTemperatureEffect<?>> effects = entityTypeToEffect.get(key);
-
-        if (effects == null) {
-            return Collections.emptySet();
-        }
-
-        return effects;
-    }
-
-    public Collection<ConfiguredTemperatureEffect<?>> getGlobalEffects() {
-        return globalEffects.values();
-    }
-
     @Override
     public Identifier getFabricId() {
         return ID;
@@ -84,10 +67,7 @@ public class TemperatureEffectLoader implements SimpleSynchronousResourceReloadL
         Map<RegistryKey<EntityType<?>>, Set<ConfiguredTemperatureEffect<?>>> newTypeEffects = new IdentityHashMap<>();
         this.partitionRegistry(registry, newEffects, newTypeEffects);
 
-        this.globalEffects.clear();
-        this.globalEffects.putAll(newEffects);
-        this.entityTypeToEffect.clear();
-        this.entityTypeToEffect.putAll(newTypeEffects);
+        TemperatureEffectManager.INSTANCE.populateRegistry(newEffects, newTypeEffects);
 
         int numEffects = this.globalEffects.size();
         int numTypeEffects = this.entityTypeToEffect.values()
