@@ -20,7 +20,6 @@ public class TemperatureEffectManager {
             Map<Identifier, ConfiguredTemperatureEffect<?>> globalEffects,
             Map<RegistryKey<EntityType<?>>, Set<ConfiguredTemperatureEffect<?>>> entityTypeToEffect
     ) {
-
         this.globalEffects.clear();
         this.globalEffects.putAll(globalEffects);
         this.entityTypeToEffect.clear();

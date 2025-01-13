@@ -10,6 +10,7 @@ import net.minecraft.loot.context.LootContextParameters;
 import net.minecraft.loot.context.LootContextTypes;
 import net.minecraft.loot.context.LootWorldContext;
 import net.minecraft.predicate.NumberRange;
+import net.minecraft.registry.entry.RegistryEntryList;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.world.World;
 
@@ -47,7 +48,7 @@ public final class ConfiguredTemperatureEffect<C> {
      * If not null, then only applies this effect to entities of the specific type. This is more
      * performant than using predicates if you want to apply an effect only to one specific type.
      */
-    private final Optional<EntityType<?>> entityType;
+    private final RegistryEntryList<EntityType<?>> entityTypes;
 
     /**
      * The temperature scale at which this should be applied to an entity. This is more
@@ -76,14 +77,14 @@ public final class ConfiguredTemperatureEffect<C> {
             TemperatureEffect<C> type,
             C config,
             Optional<LootCondition> predicate,
-            Optional<EntityType<?>> entityType,
+            RegistryEntryList<EntityType<?>> entityTypes,
             NumberRange.DoubleRange temperatureScaleRange,
             int loadingPriority
     ) {
         this.type = type;
         this.config = config;
         this.predicate = predicate;
-        this.entityType = entityType;
+        this.entityTypes = entityTypes;
         this.temperatureScaleRange = temperatureScaleRange;
         this.loadingPriority = loadingPriority;
     }
@@ -151,8 +152,21 @@ public final class ConfiguredTemperatureEffect<C> {
         return predicate;
     }
 
+    public RegistryEntryList<EntityType<?>> entityTypes() {
+        return entityTypes;
+    }
+
+    /**
+     *
+     * @return Returns the first entity type in {@link #entityTypes}, if present
+     * @deprecated Use {@link #entityTypes()}
+     */
+    @Deprecated(since = "4.2")
     public Optional<EntityType<?>> entityType() {
-        return entityType;
+        if (this.entityTypes.size() > 0) {
+            return Optional.of(this.entityTypes.get(0).value());
+        }
+        return Optional.empty();
     }
 
     public NumberRange.DoubleRange temperatureScaleRange() {
