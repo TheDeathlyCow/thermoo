@@ -12,19 +12,19 @@ import net.minecraft.util.math.BlockPos;
 public class AttributeTests {
 
     @GameTest(templateName = FabricGameTest.EMPTY_STRUCTURE)
-    public void villager_min_temperature_is_40(TestContext context) {
-        VillagerEntity villager = context.spawnEntity(EntityType.VILLAGER, BlockPos.ORIGIN);
+    public void villager_min_temperature_is_set_by_event(TestContext context) {
+        VillagerEntity villager = context.spawnEntity(EntityType.VILLAGER, BlockPos.ORIGIN.up());
 
-        context.assertEquals(villager.getAttributeValue(ThermooAttributes.MIN_TEMPERATURE), 40, "Min Temperature Attribute");
+        context.assertEquals(villager.getAttributeValue(ThermooAttributes.MIN_TEMPERATURE), 40.0, "Min Temperature Attribute");
         context.assertEquals(villager.thermoo$getMinTemperature(), -40 * 140, "Min Temperature Value");
         context.complete();
     }
 
     @GameTest(templateName = FabricGameTest.EMPTY_STRUCTURE)
-    public void villager_max_temperature_is_40(TestContext context) {
-        VillagerEntity villager = context.spawnEntity(EntityType.VILLAGER, BlockPos.ORIGIN);
+    public void villager_max_temperature_is_set_by_event(TestContext context) {
+        VillagerEntity villager = context.spawnEntity(EntityType.VILLAGER, BlockPos.ORIGIN.up());
 
-        context.assertEquals(villager.getAttributeValue(ThermooAttributes.MAX_TEMPERATURE), 40, "Max Temperature Attribute");
+        context.assertEquals(villager.getAttributeValue(ThermooAttributes.MAX_TEMPERATURE), 40.0, "Max Temperature Attribute");
         context.assertEquals(villager.thermoo$getMaxTemperature(), 40 * 140, "Max Temperature Value");
         context.complete();
     }
