@@ -2,6 +2,8 @@ package com.github.thedeathlycow.thermoo.api.temperature.effects;
 
 import com.github.thedeathlycow.thermoo.impl.temperature.effect.TemperatureEffectManager;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.util.Identifier;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 
@@ -74,12 +76,22 @@ public final class TemperatureEffects {
         return TemperatureEffectManager.INSTANCE.getEffectsForEntity(entity);
     }
 
+    /**
+     * Gets the effect from an ID.
+     *
+     * @return Returns the effect with the given id, or null if not present.
+     */
+    @Nullable
+    public static ConfiguredTemperatureEffect<?> getEffect(Identifier id) {
+        return TemperatureEffectManager.INSTANCE.getEffect(id);
+    }
+
 
     /**
      * @return Returns all currently loaded {@link ConfiguredTemperatureEffect}s
      */
     public static Collection<ConfiguredTemperatureEffect<?>> getLoadedConfiguredEffects() {
-        return TemperatureEffectManager.INSTANCE.getGlobalEffects();
+        return TemperatureEffectManager.INSTANCE.getAllEffects();
     }
 
     private TemperatureEffects() {

@@ -42,13 +42,17 @@ public class TemperatureEffectManager {
         );
     }
 
-    public Collection<ConfiguredTemperatureEffect<?>> getGlobalEffects() {
+    public ConfiguredTemperatureEffect<?> getEffect(Identifier id) {
+        return this.registry.getOrDefault(id, null);
+    }
+
+    public Collection<ConfiguredTemperatureEffect<?>> getAllEffects() {
         return this.registry.values();
     }
 
     void updateRegistry(Map<Identifier, ConfiguredTemperatureEffect<?>> effectsRegistry) {
         this.clearCache();
-        
+
         this.registry.clear();
         this.registry.putAll(effectsRegistry);
 
