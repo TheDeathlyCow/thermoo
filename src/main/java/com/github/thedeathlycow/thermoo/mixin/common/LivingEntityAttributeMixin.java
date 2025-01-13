@@ -2,7 +2,8 @@ package com.github.thedeathlycow.thermoo.mixin.common;
 
 import com.github.thedeathlycow.thermoo.api.temperature.EnvironmentController;
 import com.github.thedeathlycow.thermoo.api.temperature.EnvironmentManager;
-import com.github.thedeathlycow.thermoo.impl.AttributeHelper;
+import com.github.thedeathlycow.thermoo.impl.attribute.AttributeData;
+import com.github.thedeathlycow.thermoo.impl.attribute.AttributeHelper;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.world.World;
@@ -19,11 +20,10 @@ public abstract class LivingEntityAttributeMixin {
             at = @At("TAIL")
     )
     private void addDefaultBoundsModifiers(EntityType<? extends LivingEntity> type, World world, CallbackInfo ci) {
-        EnvironmentController controller = EnvironmentManager.INSTANCE.getController();
         LivingEntity instance = (LivingEntity) (Object) this;
 
-        for (var attribute : AttributeHelper.THERMOO_ATTRIBUTES) {
-            double value = controller.getBaseValueForAttribute(attribute.attribute(), instance);
+        for (var attribute : AttributeData.values()) {
+            double value = attribute.baseValueEvent().invoker().getBaseValue(instance);
             if (value != 0) {
                 AttributeHelper.applyValueAsModifier(instance, attribute, value);
             }

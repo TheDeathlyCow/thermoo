@@ -27,21 +27,6 @@ public class TestmodController extends EnvironmentControllerDecorator {
     }
 
     @Override
-    public double getBaseValueForAttribute(RegistryEntry<EntityAttribute> attribute, LivingEntity entity) {
-        double base = controller.getBaseValueForAttribute(attribute, entity);
-
-        if (base != 0) {
-            return base;
-        }
-
-        if (ThermooAttributes.MIN_TEMPERATURE.matches(attribute) || ThermooAttributes.MAX_TEMPERATURE.matches(attribute)) {
-            return 40.0;
-        }
-
-        return base;
-    }
-
-    @Override
     public int getLocalTemperatureChange(World world, BlockPos pos) {
         if (world.getDimension().natural()) {
             Biome biome = world.getBiome(pos).value();

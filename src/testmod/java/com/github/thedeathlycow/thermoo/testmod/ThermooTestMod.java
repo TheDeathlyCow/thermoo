@@ -1,5 +1,6 @@
 package com.github.thedeathlycow.thermoo.testmod;
 
+import com.github.thedeathlycow.thermoo.api.ThermooAttributes;
 import com.github.thedeathlycow.thermoo.api.temperature.event.EnvironmentControllerInitializeEvent;
 import com.github.thedeathlycow.thermoo.api.temperature.event.PlayerEnvironmentEvents;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
@@ -39,6 +40,9 @@ public class ThermooTestMod implements ModInitializer {
                         }
                 );
         EnvironmentControllerInitializeEvent.EVENT.register(TestmodController::new);
+
+        ThermooAttributes.baseValueEvent(ThermooAttributes.MIN_TEMPERATURE).register((entity, baseValue) -> 40);
+        ThermooAttributes.baseValueEvent(ThermooAttributes.MAX_TEMPERATURE).register((entity, baseValue) -> 40);
     }
 
     public static ThermooConfig getConfig() {
