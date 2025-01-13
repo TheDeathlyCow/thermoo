@@ -1,7 +1,8 @@
-package com.github.thedeathlycow.thermoo.impl;
+package com.github.thedeathlycow.thermoo.impl.temperature.effect;
 
 import com.github.thedeathlycow.thermoo.api.ThermooRegistryKeys;
 import com.github.thedeathlycow.thermoo.api.temperature.effects.ConfiguredTemperatureEffect;
+import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -14,6 +15,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.resource.Resource;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.Identifier;
@@ -23,16 +25,16 @@ import java.util.*;
 
 public class TemperatureEffectLoader implements SimpleSynchronousResourceReloadListener {
 
-    public static final TemperatureEffectLoader INSTANCE = new TemperatureEffectLoader(Thermoo.id("temperature_effects"));
+    public static final Identifier ID = Thermoo.id("temperature_effects");
 
     private final Map<Identifier, ConfiguredTemperatureEffect<?>> globalEffects = new HashMap<>();
 
     private final Map<RegistryKey<EntityType<?>>, Set<ConfiguredTemperatureEffect<?>>> entityTypeToEffect = new IdentityHashMap<>();
 
-    private final Identifier id;
+    private final RegistryWrapper.WrapperLookup lookup;
 
-    public TemperatureEffectLoader(Identifier id) {
-        this.id = id;
+    public TemperatureEffectLoader(RegistryWrapper.WrapperLookup lookup) {
+        this.lookup = lookup;
     }
 
     public Collection<ConfiguredTemperatureEffect<?>> getEffectsForEntity(LivingEntity entity) {
@@ -54,7 +56,7 @@ public class TemperatureEffectLoader implements SimpleSynchronousResourceReloadL
 
     @Override
     public Identifier getFabricId() {
-        return this.id;
+        return ID;
     }
 
     @Override

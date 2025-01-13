@@ -1,6 +1,6 @@
 package com.github.thedeathlycow.thermoo.api.temperature.effects;
 
-import com.github.thedeathlycow.thermoo.impl.TemperatureEffectLoader;
+import com.github.thedeathlycow.thermoo.impl.temperature.effect.TemperatureEffectLoader;
 import net.minecraft.entity.LivingEntity;
 
 import java.util.Collection;
