@@ -74,7 +74,7 @@ public final class TemperatureEffects {
      * @return Returns the effects loaded for the entity type
      * @deprecated This method is primarily an implementation detail and should not have been exposed in the API
      */
-    @Deprecated
+    @Deprecated(since = "4.3", forRemoval = true)
     public static Collection<ConfiguredTemperatureEffect<?>> getEffectsForEntity(LivingEntity entity) {
         return TemperatureEffectManager.INSTANCE.getEffectsForEntity(entity);
     }

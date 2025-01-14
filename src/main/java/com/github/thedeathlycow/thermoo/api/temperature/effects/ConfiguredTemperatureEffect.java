@@ -156,6 +156,11 @@ public final class ConfiguredTemperatureEffect<C> {
         return false;
     }
 
+    /**
+     * Called the first tick that a configured temperature effect could not be applied
+     *
+     * @param victim The entity the effect was applied to
+     */
     public void remove(LivingEntity victim) {
         World world = victim.getWorld();
 
@@ -199,7 +204,7 @@ public final class ConfiguredTemperatureEffect<C> {
      * @return Returns the first entity type in {@link #entityTypes}, if present
      * @deprecated Use {@link #entityTypes()}
      */
-    @Deprecated(since = "4.2")
+    @Deprecated(since = "4.3", forRemoval = true)
     public Optional<EntityType<?>> entityType() {
         if (this.entityTypes.size() > 0) {
             return Optional.of(this.entityTypes.get(0).value());
