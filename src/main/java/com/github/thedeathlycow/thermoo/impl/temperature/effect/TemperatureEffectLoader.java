@@ -17,6 +17,7 @@ import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryOps;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.resource.Resource;
+import net.minecraft.resource.ResourceFinder;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.Identifier;
 
@@ -25,6 +26,7 @@ import java.util.*;
 
 public class TemperatureEffectLoader implements SimpleSynchronousResourceReloadListener {
 
+    public static final String DIRECTORY = "thermoo/temperature_effect";
     public static final Identifier ID = Thermoo.id("temperature_effects");
 
     private final Map<Identifier, ConfiguredTemperatureEffect<?>> globalEffects = new HashMap<>();
@@ -44,24 +46,21 @@ public class TemperatureEffectLoader implements SimpleSynchronousResourceReloadL
 
     @Override
     public void reload(ResourceManager manager) {
-
         Map<Identifier, ConfiguredTemperatureEffect<?>> updatedRegistry = new HashMap<>();
+        ResourceFinder resourceFinder = ResourceFinder.json(DIRECTORY);
+        Map<Identifier, List<Resource>> foundResources = resourceFinder.findAllResources(manager);
 
-        Map<Identifier, List<Resource>> entries = manager.findAllResources(
-                "thermoo/temperature_effect",
-                eid -> eid.getPath().endsWith(".json")
-        );
-
-        for (var entry : entries.entrySet()) {
-            Identifier key = entry.getKey();
-            for (var resource : entry.getValue()) {
+        for (Map.Entry<Identifier, List<Resource>> allResources : foundResources.entrySet()) {
+            Identifier effectID = resourceFinder.toResourceId(allResources.getKey());
+            for (Resource resource : allResources.getValue()) {
                 try (BufferedReader reader = resource.getReader()) {
-                    this.loadEffect(updatedRegistry, key, reader);
+                    this.loadEffect(updatedRegistry, effectID, reader);
                 } catch (Exception e) {
-                    Thermoo.LOGGER.error("An error occurred while loading temperature effect {}: {}", entry.getKey(), e);
+                    Thermoo.LOGGER.error("An error occurred while loading temperature effect {}: {}", allResources.getKey(), e);
                 }
             }
         }
+
         TemperatureEffectManager.INSTANCE.updateRegistry(updatedRegistry);
     }
 

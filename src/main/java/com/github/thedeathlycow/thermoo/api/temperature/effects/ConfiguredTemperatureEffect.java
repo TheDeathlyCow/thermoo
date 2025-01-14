@@ -66,13 +66,6 @@ public final class ConfiguredTemperatureEffect<C> {
      */
     private final int loadingPriority;
 
-    /**
-     * Was the effect applied in the last tick?
-     * <p>
-     * Transient value, used to determine when to call {@link TemperatureEffect#remove(LivingEntity, ServerWorld, Object)}
-     */
-    private boolean wasApplied = false;
-
     public ConfiguredTemperatureEffect(
             TemperatureEffect<C> type,
             C config,
@@ -105,13 +98,26 @@ public final class ConfiguredTemperatureEffect<C> {
      * Tests and applies this effect to a living entity if possible
      *
      * @param victim The living entity to possibly apply the effect to
+     * @deprecated Use {@link #apply(LivingEntity)}
      */
+    @Deprecated
     public void applyIfPossible(LivingEntity victim) {
+        this.apply(victim);
+    }
 
+    /**
+     * Tests and applies this effect to a living entity, and returns success if it was applied.
+     * <p>
+     * Returns false on client.
+     *
+     * @param victim The living entity to possibly apply the effect to
+     * @return Returns {@code true} if the effect was applied.
+     */
+    public boolean apply(LivingEntity victim) {
         World world = victim.getWorld();
 
         if (world.isClient) {
-            return;
+            return false;
         }
 
         ServerWorld serverWorld = (ServerWorld) world;
@@ -121,11 +127,21 @@ public final class ConfiguredTemperatureEffect<C> {
 
         if (shouldApply) {
             this.type.apply(victim, serverWorld, this.config);
-            wasApplied = true;
-        } else if (wasApplied) {
-            this.type.remove(victim, serverWorld, this.config);
-            wasApplied = false;
+            return true;
         }
+
+        return false;
+    }
+
+    public void remove(LivingEntity victim) {
+        World world = victim.getWorld();
+
+        if (world.isClient) {
+            return;
+        }
+
+        ServerWorld serverWorld = (ServerWorld) world;
+        this.type.remove(victim, serverWorld, this.config);
     }
 
     private boolean testPredicate(LivingEntity victim, ServerWorld world) {
@@ -157,7 +173,6 @@ public final class ConfiguredTemperatureEffect<C> {
     }
 
     /**
-     *
      * @return Returns the first entity type in {@link #entityTypes}, if present
      * @deprecated Use {@link #entityTypes()}
      */

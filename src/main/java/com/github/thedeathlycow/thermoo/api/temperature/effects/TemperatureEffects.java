@@ -67,11 +67,14 @@ public final class TemperatureEffects {
     public static final TemperatureEffect<DamageTemperatureEffect.Config> DAMAGE = new DamageTemperatureEffect(DamageTemperatureEffect.CODEC);
 
     /**
-     * Returns all currently loaded {@link ConfiguredTemperatureEffect}s that are mapped to the {@code entity}'s type.
+     * Returns all currently loaded {@link ConfiguredTemperatureEffect}s that are available to be applied to the
+     * {@code entity}'s type.
      *
      * @param entity The entity to fetch the effects for
      * @return Returns the effects loaded for the entity type
+     * @deprecated This method is primarily an implementation detail and should not have been exposed in the API
      */
+    @Deprecated
     public static Collection<ConfiguredTemperatureEffect<?>> getEffectsForEntity(LivingEntity entity) {
         return TemperatureEffectManager.INSTANCE.getEffectsForEntity(entity);
     }
