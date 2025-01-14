@@ -37,7 +37,7 @@ public class TemperatureEffectManager {
         RegistryEntry.Reference<EntityType<?>> entityTypeEntry = type.getRegistryEntry();
         RegistryKey<EntityType<?>> entityTypeKey = entityTypeEntry.registryKey();
 
-        return this.entityTypeCache.computeIfAbsent(
+        Set<EntityTypeCacheEntry> effects = this.entityTypeCache.computeIfAbsent(
                 entityTypeKey,
                 ignored -> {
                     if (Thermoo.LOGGER.isDebugEnabled()) {
@@ -53,6 +53,15 @@ public class TemperatureEffectManager {
                             .collect(Collectors.toUnmodifiableSet());
                 }
         );
+
+        if (Thermoo.LOGGER.isDebugEnabled()) {
+            Identifier[] effectIds = effects.stream()
+                    .map(entry -> entry.id)
+                    .toArray(Identifier[]::new);
+            Thermoo.LOGGER.debug("Available Temperature Effects for {}: {}", entityTypeKey, Arrays.toString(effectIds));
+        }
+
+        return effects;
     }
 
     public ConfiguredTemperatureEffect<?> getEffect(Identifier id) {
