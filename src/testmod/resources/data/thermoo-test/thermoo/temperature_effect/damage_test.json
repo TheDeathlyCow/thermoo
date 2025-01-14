@@ -1,6 +1,8 @@
 {
     "type": "thermoo:damage",
-    "entity_type": "minecraft:player",
+    "entity_type": [
+        "minecraft:player"
+    ],
     "entity": {
         "condition": "minecraft:reference",
         "name": "thermoo-test:is_hot"
