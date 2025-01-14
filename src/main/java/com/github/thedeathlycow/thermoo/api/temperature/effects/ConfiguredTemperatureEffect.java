@@ -13,6 +13,7 @@ import net.minecraft.predicate.NumberRange;
 import net.minecraft.registry.entry.RegistryEntryList;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.ApiStatus;
 
 import java.util.Optional;
 
@@ -66,6 +67,7 @@ public final class ConfiguredTemperatureEffect<C> {
      */
     private final int loadingPriority;
 
+    @ApiStatus.Internal
     public ConfiguredTemperatureEffect(
             TemperatureEffect<C> type,
             C config,
@@ -80,6 +82,27 @@ public final class ConfiguredTemperatureEffect<C> {
         this.entityTypes = entityTypes;
         this.temperatureScaleRange = temperatureScaleRange;
         this.loadingPriority = loadingPriority;
+    }
+
+    @ApiStatus.Internal
+    public ConfiguredTemperatureEffect(
+            TemperatureEffect<C> type,
+            C config,
+            Optional<LootCondition> predicate,
+            Optional<EntityType<?>> entityType,
+            NumberRange.DoubleRange temperatureScaleRange,
+            int loadingPriority
+    ) {
+        this(
+                type,
+                config,
+                predicate,
+                entityType.isPresent()
+                        ? RegistryEntryList.of(entityType.get().getRegistryEntry())
+                        : RegistryEntryList.empty(),
+                temperatureScaleRange,
+                loadingPriority
+        );
     }
 
     /**
