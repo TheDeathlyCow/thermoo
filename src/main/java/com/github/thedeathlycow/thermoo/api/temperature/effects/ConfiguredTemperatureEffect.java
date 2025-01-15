@@ -67,24 +67,14 @@ public final class ConfiguredTemperatureEffect<C> {
      */
     private final int loadingPriority;
 
+    /**
+     * Constructs a new configured temperature effect.
+     *
+     * @deprecated This constructor was previously exposed in the API, but should have been kept internal. Please only
+     * construct new instances of this class through a datapack.
+     */
     @ApiStatus.Internal
-    public ConfiguredTemperatureEffect(
-            TemperatureEffect<C> type,
-            C config,
-            Optional<LootCondition> predicate,
-            RegistryEntryList<EntityType<?>> entityTypes,
-            NumberRange.DoubleRange temperatureScaleRange,
-            int loadingPriority
-    ) {
-        this.type = type;
-        this.config = config;
-        this.predicate = predicate;
-        this.entityTypes = entityTypes;
-        this.temperatureScaleRange = temperatureScaleRange;
-        this.loadingPriority = loadingPriority;
-    }
-
-    @ApiStatus.Internal
+    @Deprecated(since = "4.3", forRemoval = true)
     public ConfiguredTemperatureEffect(
             TemperatureEffect<C> type,
             C config,
@@ -103,6 +93,23 @@ public final class ConfiguredTemperatureEffect<C> {
                 temperatureScaleRange,
                 loadingPriority
         );
+    }
+
+    @ApiStatus.Internal
+    public ConfiguredTemperatureEffect(
+            TemperatureEffect<C> type,
+            C config,
+            Optional<LootCondition> predicate,
+            RegistryEntryList<EntityType<?>> entityTypes,
+            NumberRange.DoubleRange temperatureScaleRange,
+            int loadingPriority
+    ) {
+        this.type = type;
+        this.config = config;
+        this.predicate = predicate;
+        this.entityTypes = entityTypes;
+        this.temperatureScaleRange = temperatureScaleRange;
+        this.loadingPriority = loadingPriority;
     }
 
     /**
