@@ -9,6 +9,9 @@ import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Identifier;
 
+/**
+ * Metadata for Thermoo attributes
+ */
 public enum AttributeData {
 
     MIN_TEMPERATURE(

@@ -5,6 +5,9 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttributeInstance;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 
+/**
+ * Helper methods for attribute related functions
+ */
 public class AttributeHelper {
 
     private static final String PREFIX = "thermoo:generic.";
