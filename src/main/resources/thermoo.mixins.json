@@ -9,9 +9,7 @@
         "HotFloorMixin",
         "LivingEntityAttributeMixin",
         "LivingEntityEnvironmentTickMixin",
-        "PlayerTemperatureTickMixin",
-        "TemperatureEffectTickerMixin",
-        "datafix.AttributeIdPrefixFixMixin"
+        "PlayerTemperatureTickMixin"
     ],
     "injectors": {
         "defaultRequire": 1
