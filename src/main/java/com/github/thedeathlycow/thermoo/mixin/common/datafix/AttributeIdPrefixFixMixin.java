@@ -1,6 +1,6 @@
 package com.github.thedeathlycow.thermoo.mixin.common.datafix;
 
-import com.github.thedeathlycow.thermoo.impl.AttributeHelper;
+import com.github.thedeathlycow.thermoo.impl.attribute.AttributeHelper;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import net.minecraft.datafixer.fix.AttributeIdPrefixFix;
 import org.spongepowered.asm.mixin.Mixin;

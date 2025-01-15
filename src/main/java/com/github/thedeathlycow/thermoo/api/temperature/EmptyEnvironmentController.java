@@ -26,6 +26,7 @@ public final class EmptyEnvironmentController implements EnvironmentController {
     }
 
     @Override
+    @Deprecated
     public double getBaseValueForAttribute(RegistryEntry<EntityAttribute> attribute, LivingEntity entity) {
         return 0;
     }

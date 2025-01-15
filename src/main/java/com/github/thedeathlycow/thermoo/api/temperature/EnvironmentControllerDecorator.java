@@ -49,6 +49,7 @@ public abstract non-sealed class EnvironmentControllerDecorator implements Envir
     }
 
     @Override
+    @Deprecated
     public double getBaseValueForAttribute(RegistryEntry<EntityAttribute> attribute, LivingEntity entity) {
         return controller.getBaseValueForAttribute(attribute, entity);
     }

@@ -4,7 +4,7 @@
 	"name": "Thermoo Test Mod",
 	"version": "1.0.0",
 	"environment": "*",
-	"license": "Apache-2.0",
+	"license": "LGPL-3.0",
 	"entrypoints": {
 		"main": [
 			"com.github.thedeathlycow.thermoo.testmod.ThermooTestMod"
@@ -13,6 +13,7 @@
 			"com.github.thedeathlycow.thermoo.testmod.ThermooTestModClient"
 		],
 		"fabric-gametest": [
+			"com.github.thedeathlycow.thermoo.testmod.tests.AttributeTests"
 		]
 	}
 }

@@ -45,7 +45,9 @@ public sealed interface EnvironmentController permits EnvironmentControllerDecor
      * @param attribute The attribute to get the base value for. Strictly the attributes in {@link com.github.thedeathlycow.thermoo.api.ThermooAttributes}.
      * @param entity    The entity to apply the attribute to.
      * @return Returns the base value for the attribute to apply to the entity.
+     * @deprecated Use {@link com.github.thedeathlycow.thermoo.api.ThermooAttributes#baseValueEvent(RegistryEntry)}
      */
+    @Deprecated(since = "4.3", forRemoval = true)
     double getBaseValueForAttribute(RegistryEntry<EntityAttribute> attribute, LivingEntity entity);
 
     /**
