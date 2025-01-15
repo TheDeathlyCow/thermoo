@@ -32,7 +32,7 @@ public class SequenceTemperatureEffect extends TemperatureEffect<SequenceTempera
         for (ConfiguredTemperatureEffect<?> child : config.children()) {
             RegistryEntryList<EntityType<?>> allowedTypes = child.entityTypes();
             if (allowedTypes.size() == 0 || victim.getType().isIn(allowedTypes)) {
-                child.applyIfPossible(victim);
+                child.apply(victim);
             }
         }
     }
