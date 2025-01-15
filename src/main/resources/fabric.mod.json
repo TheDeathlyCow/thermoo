@@ -62,7 +62,8 @@
 		},
 		"cardinal-components": [
 			"thermoo:temperature",
-			"thermoo:wetness"
+			"thermoo:wetness",
+			"thermoo:temperature_effects"
 		]
 	}
 }
