@@ -1,6 +1,6 @@
 {
     "type": "thermoo:attribute_modifier",
-    "entity_type": "minecraft:player",
+    "entity_type": "#thermoo-test:player_affected",
     "temperature_scale_range": {
         "min": 0.1,
         "max": 0.2

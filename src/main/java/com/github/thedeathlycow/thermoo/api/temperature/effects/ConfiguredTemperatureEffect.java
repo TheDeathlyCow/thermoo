@@ -10,8 +10,10 @@ import net.minecraft.loot.context.LootContextParameterSet;
 import net.minecraft.loot.context.LootContextParameters;
 import net.minecraft.loot.context.LootContextTypes;
 import net.minecraft.predicate.NumberRange;
+import net.minecraft.registry.entry.RegistryEntryList;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.ApiStatus;
 
 import java.util.Optional;
 
@@ -47,7 +49,7 @@ public final class ConfiguredTemperatureEffect<C> {
      * If not null, then only applies this effect to entities of the specific type. This is more
      * performant than using predicates if you want to apply an effect only to one specific type.
      */
-    private final Optional<EntityType<?>> entityType;
+    private final RegistryEntryList<EntityType<?>> entityTypes;
 
     /**
      * The temperature scale at which this should be applied to an entity. This is more
@@ -66,12 +68,13 @@ public final class ConfiguredTemperatureEffect<C> {
     private final int loadingPriority;
 
     /**
-     * Was the effect applied in the last tick?
-     * <p>
-     * Transient value, used to determine when to call {@link TemperatureEffect#remove(LivingEntity, ServerWorld, Object)}
+     * Constructs a new configured temperature effect.
+     *
+     * @deprecated This constructor was previously exposed in the API, but should have been kept internal. Please only
+     * construct new instances of this class through a datapack.
      */
-    private boolean wasApplied = false;
-
+    @ApiStatus.Internal
+    @Deprecated(since = "4.3", forRemoval = true)
     public ConfiguredTemperatureEffect(
             TemperatureEffect<C> type,
             C config,
@@ -80,10 +83,31 @@ public final class ConfiguredTemperatureEffect<C> {
             NumberRange.DoubleRange temperatureScaleRange,
             int loadingPriority
     ) {
+        this(
+                type,
+                config,
+                predicate,
+                entityType.isPresent()
+                        ? RegistryEntryList.of(entityType.get().getRegistryEntry())
+                        : RegistryEntryList.empty(),
+                temperatureScaleRange,
+                loadingPriority
+        );
+    }
+
+    @ApiStatus.Internal
+    public ConfiguredTemperatureEffect(
+            TemperatureEffect<C> type,
+            C config,
+            Optional<LootCondition> predicate,
+            RegistryEntryList<EntityType<?>> entityTypes,
+            NumberRange.DoubleRange temperatureScaleRange,
+            int loadingPriority
+    ) {
         this.type = type;
         this.config = config;
         this.predicate = predicate;
-        this.entityType = entityType;
+        this.entityTypes = entityTypes;
         this.temperatureScaleRange = temperatureScaleRange;
         this.loadingPriority = loadingPriority;
     }
@@ -104,13 +128,26 @@ public final class ConfiguredTemperatureEffect<C> {
      * Tests and applies this effect to a living entity if possible
      *
      * @param victim The living entity to possibly apply the effect to
+     * @deprecated Use {@link #apply(LivingEntity)}
      */
+    @Deprecated
     public void applyIfPossible(LivingEntity victim) {
+        this.apply(victim);
+    }
 
+    /**
+     * Tests and applies this effect to a living entity, and returns success if it was applied.
+     * <p>
+     * Returns false on client.
+     *
+     * @param victim The living entity to possibly apply the effect to
+     * @return Returns {@code true} if the effect was applied.
+     */
+    public boolean apply(LivingEntity victim) {
         World world = victim.getWorld();
 
         if (world.isClient) {
-            return;
+            return false;
         }
 
         ServerWorld serverWorld = (ServerWorld) world;
@@ -120,11 +157,26 @@ public final class ConfiguredTemperatureEffect<C> {
 
         if (shouldApply) {
             this.type.apply(victim, serverWorld, this.config);
-            wasApplied = true;
-        } else if (wasApplied) {
-            this.type.remove(victim, serverWorld, this.config);
-            wasApplied = false;
+            return true;
         }
+
+        return false;
+    }
+
+    /**
+     * Called the first tick that a configured temperature effect could not be applied
+     *
+     * @param victim The entity the effect was applied to
+     */
+    public void remove(LivingEntity victim) {
+        World world = victim.getWorld();
+
+        if (world.isClient) {
+            return;
+        }
+
+        ServerWorld serverWorld = (ServerWorld) world;
+        this.type.remove(victim, serverWorld, this.config);
     }
 
     private boolean testPredicate(LivingEntity victim, ServerWorld world) {
@@ -151,8 +203,20 @@ public final class ConfiguredTemperatureEffect<C> {
         return predicate;
     }
 
+    public RegistryEntryList<EntityType<?>> entityTypes() {
+        return entityTypes;
+    }
+
+    /**
+     * @return Returns the first entity type in {@link #entityTypes}, if present
+     * @deprecated Use {@link #entityTypes()}
+     */
+    @Deprecated(since = "4.3", forRemoval = true)
     public Optional<EntityType<?>> entityType() {
-        return entityType;
+        if (this.entityTypes.size() > 0) {
+            return Optional.of(this.entityTypes.get(0).value());
+        }
+        return Optional.empty();
     }
 
     public NumberRange.DoubleRange temperatureScaleRange() {

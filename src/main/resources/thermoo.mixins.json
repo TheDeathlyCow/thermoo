@@ -10,7 +10,8 @@
         "LivingEntityAttributeMixin",
         "LivingEntityEnvironmentTickMixin",
         "PlayerTemperatureTickMixin",
-        "TemperatureEffectTickerMixin"
+        "TemperatureEffectTickerMixin",
+        "datafix.AttributeIdPrefixFixMixin"
     ],
     "injectors": {
         "defaultRequire": 1

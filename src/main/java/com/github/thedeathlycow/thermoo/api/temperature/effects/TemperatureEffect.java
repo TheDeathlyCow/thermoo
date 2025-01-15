@@ -7,6 +7,9 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.loot.condition.LootCondition;
 import net.minecraft.predicate.NumberRange;
 import net.minecraft.registry.Registries;
+import net.minecraft.registry.RegistryCodecs;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.entry.RegistryEntryList;
 import net.minecraft.server.world.ServerWorld;
 
 /**
@@ -42,9 +45,9 @@ public abstract class TemperatureEffect<C> {
                         LootCondition.CODEC
                                 .optionalFieldOf("entity")
                                 .forGetter(ConfiguredTemperatureEffect::predicate),
-                        Registries.ENTITY_TYPE.getCodec()
-                                .optionalFieldOf("entity_type")
-                                .forGetter(ConfiguredTemperatureEffect::entityType),
+                        RegistryCodecs.entryList(RegistryKeys.ENTITY_TYPE)
+                                .optionalFieldOf("entity_type", RegistryEntryList.of())
+                                .forGetter(ConfiguredTemperatureEffect::entityTypes),
                         NumberRange.DoubleRange.CODEC
                                 .fieldOf("temperature_scale_range")
                                 .orElse(NumberRange.DoubleRange.ANY)
@@ -55,12 +58,12 @@ public abstract class TemperatureEffect<C> {
                                 .forGetter(ConfiguredTemperatureEffect::loadingPriority)
                 ).apply(
                         instance,
-                        (config, lootCondition, entityType, doubleRange, loadingPriority) -> {
+                        (config, lootCondition, entityTypes, doubleRange, loadingPriority) -> {
                             return new ConfiguredTemperatureEffect<>(
                                     this,
                                     config,
                                     lootCondition,
-                                    entityType,
+                                    entityTypes,
                                     doubleRange,
                                     loadingPriority
                             );

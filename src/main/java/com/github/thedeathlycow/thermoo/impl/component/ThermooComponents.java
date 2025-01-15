@@ -19,6 +19,11 @@ public final class ThermooComponents implements EntityComponentInitializer {
             EnvironmentComponent.class
     );
 
+    public static final ComponentKey<TemperatureEffectsComponent> TEMPERATURE_EFFECTS = ComponentRegistry.getOrCreate(
+            Thermoo.id("temperature_effects"),
+            TemperatureEffectsComponent.class
+    );
+
 
     @Override
     public void registerEntityComponentFactories(EntityComponentFactoryRegistry registry) {
@@ -31,6 +36,11 @@ public final class ThermooComponents implements EntityComponentInitializer {
                 LivingEntity.class,
                 WETNESS,
                 EnvironmentComponent::new
+        );
+        registry.registerFor(
+                LivingEntity.class,
+                TEMPERATURE_EFFECTS,
+                TemperatureEffectsComponent::new
         );
     }
 }

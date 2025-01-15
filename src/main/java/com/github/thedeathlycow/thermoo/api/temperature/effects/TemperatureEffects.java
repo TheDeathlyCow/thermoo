@@ -1,7 +1,9 @@
 package com.github.thedeathlycow.thermoo.api.temperature.effects;
 
-import com.github.thedeathlycow.thermoo.impl.TemperatureEffectLoader;
+import com.github.thedeathlycow.thermoo.impl.temperature.effect.TemperatureEffectManager;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.util.Identifier;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 
@@ -65,13 +67,26 @@ public final class TemperatureEffects {
     public static final TemperatureEffect<DamageTemperatureEffect.Config> DAMAGE = new DamageTemperatureEffect(DamageTemperatureEffect.CODEC);
 
     /**
-     * Returns all currently loaded {@link ConfiguredTemperatureEffect}s that are mapped to the {@code entity}'s type.
+     * Returns all currently loaded {@link ConfiguredTemperatureEffect}s that are available to be applied to the
+     * {@code entity}'s type.
      *
      * @param entity The entity to fetch the effects for
      * @return Returns the effects loaded for the entity type
+     * @deprecated This method is primarily an implementation detail and should not have been exposed in the API
      */
+    @Deprecated(since = "4.3", forRemoval = true)
     public static Collection<ConfiguredTemperatureEffect<?>> getEffectsForEntity(LivingEntity entity) {
-        return TemperatureEffectLoader.INSTANCE.getEffectsForEntity(entity);
+        return TemperatureEffectManager.INSTANCE.getEffectsForEntity(entity);
+    }
+
+    /**
+     * Gets the effect from an ID.
+     *
+     * @return Returns the effect with the given id, or null if not present.
+     */
+    @Nullable
+    public static ConfiguredTemperatureEffect<?> getEffect(Identifier id) {
+        return TemperatureEffectManager.INSTANCE.getEffect(id);
     }
 
 
@@ -79,7 +94,7 @@ public final class TemperatureEffects {
      * @return Returns all currently loaded {@link ConfiguredTemperatureEffect}s
      */
     public static Collection<ConfiguredTemperatureEffect<?>> getLoadedConfiguredEffects() {
-        return TemperatureEffectLoader.INSTANCE.getGlobalEffects();
+        return TemperatureEffectManager.INSTANCE.getAllEffects();
     }
 
     private TemperatureEffects() {
