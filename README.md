@@ -70,7 +70,7 @@ and install the regular into your Minecraft `/mods` folder.
 
 To run Thermoo's unit tests, run the following command:
 ```bash
-gradlew test
+gradlew check
 ```
 
 Thermoo also includes some game tests, to automatically run them use the following command:
