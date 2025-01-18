@@ -84,7 +84,7 @@ gradlew runTestmodClient
 ```
 This will launch a Minecraft instance with a test mod that includes implements Thermoo's API features for testing. 
 
-If you instead want a clean test Minecraft instance with no gameplay modifications can be run with the following:
+If you instead want a clean test Minecraft instance with no gameplay modifications, run with the following:
 ```bash
 gradlew runClient
 ```
