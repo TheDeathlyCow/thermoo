@@ -1,5 +1,6 @@
 package com.github.thedeathlycow.thermoo.api.util;
 
+import com.mojang.serialization.Codec;
 import net.minecraft.util.StringIdentifiable;
 
 import java.util.function.DoubleUnaryOperator;
@@ -29,6 +30,8 @@ public enum TemperatureUnit implements StringIdentifiable {
             rankineValue -> FAHRENHEIT.toCelsius(rankineValue - 459.67),
             celsiusValue -> FAHRENHEIT.fromCelsius(celsiusValue) + 459.67
     );
+
+    public static final Codec<TemperatureUnit> CODEC = StringIdentifiable.createCodec(TemperatureUnit::values);
 
     private final String unitSymbol;
 
