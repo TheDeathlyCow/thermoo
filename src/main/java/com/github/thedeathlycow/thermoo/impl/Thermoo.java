@@ -1,11 +1,14 @@
 package com.github.thedeathlycow.thermoo.impl;
 
+import com.github.thedeathlycow.thermoo.api.ThermooRegistryKeys;
 import com.github.thedeathlycow.thermoo.api.command.*;
+import com.github.thedeathlycow.thermoo.api.environment.Environment;
 import com.github.thedeathlycow.thermoo.api.temperature.EnvironmentManager;
 import com.github.thedeathlycow.thermoo.impl.temperature.effect.TemperatureEffectLoader;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.ArgumentTypeRegistry;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
+import net.fabricmc.fabric.api.event.registry.DynamicRegistries;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.command.argument.serialize.ConstantArgumentSerializer;
 import net.minecraft.resource.ResourceType;
@@ -41,7 +44,12 @@ public class Thermoo implements ModInitializer {
                 }
         );
 
+        DynamicRegistries.register(
+                ThermooRegistryKeys.ENVIRONMENT,
+                Environment.CODEC
+        );
         ThermooCommonRegisters.registerTemperatureEffects();
+        ThermooCommonRegisters.registerEnvironmentProviderTypes();
         ThermooCommonRegisters.registerLootConditionTypes();
 
         ResourceManagerHelper serverManager = ResourceManagerHelper.get(ResourceType.SERVER_DATA);

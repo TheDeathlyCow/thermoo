@@ -1,6 +1,8 @@
 package com.github.thedeathlycow.thermoo.impl;
 
 import com.github.thedeathlycow.thermoo.api.ThermooRegistries;
+import com.github.thedeathlycow.thermoo.api.environment.EnvironmentProviderType;
+import com.github.thedeathlycow.thermoo.api.environment.EnvironmentProviderTypes;
 import com.github.thedeathlycow.thermoo.api.predicate.ThermooLootConditionTypes;
 import com.github.thedeathlycow.thermoo.api.temperature.effects.TemperatureEffect;
 import com.github.thedeathlycow.thermoo.api.temperature.effects.TemperatureEffects;
@@ -9,8 +11,6 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 
 public class ThermooCommonRegisters {
-
-    @SuppressWarnings("deprecation")
     public static void registerTemperatureEffects() {
         registerTemperatureEffect("empty", TemperatureEffects.EMPTY);
         registerTemperatureEffect("sequence", TemperatureEffects.SEQUENCE);
@@ -21,6 +21,12 @@ public class ThermooCommonRegisters {
         registerTemperatureEffect("damage", TemperatureEffects.DAMAGE);
     }
 
+    public static void registerEnvironmentProviderTypes() {
+        registerEnvironmentProviderType("constant", EnvironmentProviderTypes.CONSTANT);
+        registerEnvironmentProviderType("seasonal/temperate", EnvironmentProviderTypes.TEMPERATE_SEASONAL);
+        registerEnvironmentProviderType("seasonal/tropical", EnvironmentProviderTypes.TROPICAL_SEASONAL);
+    }
+
     public static void registerLootConditionTypes() {
         registerLootConditionType("temperature", ThermooLootConditionTypes.TEMPERATURE);
         registerLootConditionType("soaked", ThermooLootConditionTypes.SOAKED);
@@ -28,6 +34,10 @@ public class ThermooCommonRegisters {
 
     private static void registerTemperatureEffect(String name, TemperatureEffect<?> temperatureEffect) {
         Registry.register(ThermooRegistries.TEMPERATURE_EFFECTS, Thermoo.id(name), temperatureEffect);
+    }
+
+    private static void registerEnvironmentProviderType(String name, EnvironmentProviderType<?> providerType) {
+        Registry.register(ThermooRegistries.ENVIRONMENT_PROVIDER_TYPE, Thermoo.id(name), providerType);
     }
 
     private static void registerLootConditionType(String name, LootConditionType lootConditionType) {
