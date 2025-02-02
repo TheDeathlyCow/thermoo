@@ -1,6 +1,7 @@
 package com.github.thedeathlycow.thermoo.api.environment;
 
 import com.github.thedeathlycow.thermoo.api.util.TemperatureRecord;
+import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
