@@ -84,6 +84,10 @@ public enum TemperatureUnit implements StringIdentifiable {
         return this.fromCelsius(inputCelsius);
     }
 
+    public double convertTemperature(TemperatureRecord record) {
+        return convertTemperature(record.value(), record.unit());
+    }
+
     @Override
     public String asString() {
         return this.toString().toLowerCase();
