@@ -16,6 +16,6 @@
                 "relative_humidity": 0.99
             }
         },
-        "fallback_season": ""
+        "fallback_season": "summer"
     }
 }

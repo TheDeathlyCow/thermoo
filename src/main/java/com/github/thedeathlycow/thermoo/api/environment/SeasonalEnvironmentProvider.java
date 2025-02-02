@@ -17,11 +17,11 @@ import java.util.OptionalDouble;
 
 public abstract class SeasonalEnvironmentProvider extends EnvironmentProvider {
 
-    private final ThermooSeason fallbackSeason;
+    private final Optional<ThermooSeason> fallbackSeason;
     private final Map<ThermooSeason, EnvironmentProvider> seasons;
 
     protected SeasonalEnvironmentProvider(
-            ThermooSeason fallbackSeason,
+            Optional<ThermooSeason> fallbackSeason,
             Map<ThermooSeason, EnvironmentProvider> seasons
     ) {
         this.fallbackSeason = fallbackSeason;
@@ -30,17 +30,23 @@ public abstract class SeasonalEnvironmentProvider extends EnvironmentProvider {
 
     @Override
     public final Optional<TemperatureRecord> getTemperature(World world, BlockPos pos, RegistryEntry<Biome> biome) {
-        ThermooSeason season = ThermooSeason.getCurrentSeason(world).orElse(this.fallbackSeason);
+        Optional<ThermooSeason> season = ThermooSeason.getCurrentSeason(world).or(this::fallbackSeason);
+        if (season.isEmpty()) {
+            return Optional.empty();
+        }
 
-        Optional<EnvironmentProvider> provider = this.getForSeason(season);
+        Optional<EnvironmentProvider> provider = this.getForSeason(season.get());
         return provider.isPresent() ? provider.get().getTemperature(world, pos, biome) : Optional.empty();
     }
 
     @Override
     public final OptionalDouble getRelativeHumidity(World world, BlockPos pos, RegistryEntry<Biome> biome) {
-        ThermooSeason season = ThermooSeason.getCurrentSeason(world).orElse(this.fallbackSeason);
+        Optional<ThermooSeason> season = ThermooSeason.getCurrentSeason(world).or(this::fallbackSeason);
+        if (season.isEmpty()) {
+            return OptionalDouble.empty();
+        }
 
-        Optional<EnvironmentProvider> provider = this.getForSeason(season);
+        Optional<EnvironmentProvider> provider = this.getForSeason(season.get());
         return provider.isPresent() ? provider.get().getRelativeHumidity(world, pos, biome) : OptionalDouble.empty();
     }
 
@@ -48,7 +54,7 @@ public abstract class SeasonalEnvironmentProvider extends EnvironmentProvider {
         return Optional.ofNullable(this.seasons.get(season));
     }
 
-    public final ThermooSeason fallbackSeason() {
+    public final Optional<ThermooSeason> fallbackSeason() {
         return this.fallbackSeason;
     }
 

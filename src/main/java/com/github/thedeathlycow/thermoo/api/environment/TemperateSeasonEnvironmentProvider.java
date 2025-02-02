@@ -12,7 +12,7 @@ public final class TemperateSeasonEnvironmentProvider extends SeasonalEnvironmen
     public static final MapCodec<TemperateSeasonEnvironmentProvider> CODEC = RecordCodecBuilder.mapCodec(
             instance -> instance.group(
                     ThermooSeason.CODEC
-                            .fieldOf("fallback_season")
+                            .optionalFieldOf("fallback_season")
                             .forGetter(TemperateSeasonEnvironmentProvider::fallbackSeason),
                     SeasonalEnvironmentProvider.createSeasonMapCodec()
                             .validate(TemperateSeasonEnvironmentProvider::allKeysAreTemperate)
@@ -21,7 +21,7 @@ public final class TemperateSeasonEnvironmentProvider extends SeasonalEnvironmen
             ).apply(instance, TemperateSeasonEnvironmentProvider::new)
     );
 
-    public TemperateSeasonEnvironmentProvider(ThermooSeason fallbackSeason, Map<ThermooSeason, EnvironmentProvider> seasons) {
+    public TemperateSeasonEnvironmentProvider(Optional<ThermooSeason> fallbackSeason, Map<ThermooSeason, EnvironmentProvider> seasons) {
         super(fallbackSeason, seasons);
     }
 
