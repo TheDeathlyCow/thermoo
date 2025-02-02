@@ -9,8 +9,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 
 public abstract class EnvironmentProvider {
-
-    public static final Codec<EnvironmentProvider> CODEC = ThermooRegistries.ENVIRONMENT_PROVIDER_TYPE.getCodec()
+    public static final Codec<EnvironmentProvider> PROVIDER_CODEC = ThermooRegistries.ENVIRONMENT_PROVIDER_TYPE.getCodec()
             .dispatch("type", EnvironmentProvider::getType, EnvironmentProviderType::codec);
 
     public abstract TemperatureRecord getTemperature(World world, BlockPos pos, RegistryEntry<Biome> biome);

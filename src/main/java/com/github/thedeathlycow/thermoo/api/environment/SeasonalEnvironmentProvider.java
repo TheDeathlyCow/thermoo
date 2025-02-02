@@ -52,4 +52,12 @@ public abstract class SeasonalEnvironmentProvider extends EnvironmentProvider {
     protected Optional<EnvironmentProvider> getForSeason(ThermooSeason season) {
         return Optional.ofNullable(this.seasons.get(season));
     }
+
+    public EnvironmentProvider fallback() {
+        return fallback;
+    }
+
+    public Map<ThermooSeason, EnvironmentProvider> seasons() {
+        return seasons;
+    }
 }

@@ -41,7 +41,7 @@ public class ConstantEnvironmentProvider extends EnvironmentProvider {
 
     @Override
     public EnvironmentProviderType<?> getType() {
-        return null;
+        return EnvironmentProviderTypes.CONSTANT;
     }
 
     public TemperatureRecord temperature() {
