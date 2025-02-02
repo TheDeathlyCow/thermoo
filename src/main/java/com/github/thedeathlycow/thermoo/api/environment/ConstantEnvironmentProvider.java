@@ -10,6 +10,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 
+import java.util.Optional;
+import java.util.OptionalDouble;
+
 public class ConstantEnvironmentProvider extends EnvironmentProvider {
     public static final MapCodec<ConstantEnvironmentProvider> CODEC = RecordCodecBuilder.mapCodec(
             instance -> instance.group(
@@ -31,13 +34,13 @@ public class ConstantEnvironmentProvider extends EnvironmentProvider {
     }
 
     @Override
-    public TemperatureRecord getTemperature(World world, BlockPos pos, RegistryEntry<Biome> biome) {
-        return this.temperature;
+    public Optional<TemperatureRecord> getTemperature(World world, BlockPos pos, RegistryEntry<Biome> biome) {
+        return Optional.ofNullable(this.temperature);
     }
 
     @Override
-    public double getRelativeHumidity(World world, BlockPos pos, RegistryEntry<Biome> biome) {
-        return this.relativeHumidity;
+    public OptionalDouble getRelativeHumidity(World world, BlockPos pos, RegistryEntry<Biome> biome) {
+        return OptionalDouble.of(this.relativeHumidity);
     }
 
     @Override

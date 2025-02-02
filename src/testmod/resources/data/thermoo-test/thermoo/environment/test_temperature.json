@@ -16,13 +16,6 @@
                 "relative_humidity": 0.99
             }
         },
-        "fallback": {
-            "type": "thermoo:constant",
-            "temperature": {
-                "value": 68.0,
-                "unit": "fahrenheit"
-            },
-            "relative_humidity": 0.75
-        }
+        "fallback_season": ""
     }
 }

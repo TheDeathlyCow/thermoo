@@ -1,11 +1,9 @@
 package com.github.thedeathlycow.thermoo.api.environment;
 
 import com.github.thedeathlycow.thermoo.api.season.ThermooSeason;
-import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.util.StringIdentifiable;
 
 import java.util.Map;
 import java.util.Optional;
@@ -13,18 +11,18 @@ import java.util.Optional;
 public class TropicalSeasonEnvironmentProvider extends SeasonalEnvironmentProvider {
     public static final MapCodec<TropicalSeasonEnvironmentProvider> CODEC = RecordCodecBuilder.mapCodec(
             instance -> instance.group(
-                    EnvironmentProvider.PROVIDER_CODEC
-                            .fieldOf("fallback")
-                            .forGetter(TropicalSeasonEnvironmentProvider::fallback),
-                    Codec.simpleMap(ThermooSeason.CODEC, EnvironmentProvider.PROVIDER_CODEC, StringIdentifiable.toKeyable(ThermooSeason.values()))
+                    ThermooSeason.CODEC
+                            .fieldOf("fallback_season")
+                            .forGetter(TropicalSeasonEnvironmentProvider::fallbackSeason),
+                    SeasonalEnvironmentProvider.createSeasonMapCodec()
                             .validate(TropicalSeasonEnvironmentProvider::allKeysAreTropical)
                             .fieldOf("seasons")
                             .forGetter(TropicalSeasonEnvironmentProvider::seasons)
             ).apply(instance, TropicalSeasonEnvironmentProvider::new)
     );
 
-    public TropicalSeasonEnvironmentProvider(EnvironmentProvider fallback, Map<ThermooSeason, EnvironmentProvider> seasons) {
-        super(fallback, seasons);
+    public TropicalSeasonEnvironmentProvider(ThermooSeason fallbackSeason, Map<ThermooSeason, EnvironmentProvider> seasons) {
+        super(fallbackSeason, seasons);
     }
 
     @Override

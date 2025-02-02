@@ -2,62 +2,68 @@ package com.github.thedeathlycow.thermoo.api.environment;
 
 import com.github.thedeathlycow.thermoo.api.season.ThermooSeason;
 import com.github.thedeathlycow.thermoo.api.util.TemperatureRecord;
-import com.github.thedeathlycow.thermoo.api.util.TemperatureUnit;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.DataResult;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.registry.entry.RegistryEntryList;
+import net.minecraft.util.StringIdentifiable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 
 import java.util.Map;
 import java.util.Optional;
+import java.util.OptionalDouble;
 
 public abstract class SeasonalEnvironmentProvider extends EnvironmentProvider {
 
-    private final EnvironmentProvider fallback;
+    private final ThermooSeason fallbackSeason;
     private final Map<ThermooSeason, EnvironmentProvider> seasons;
 
     protected SeasonalEnvironmentProvider(
-            EnvironmentProvider fallback,
+            ThermooSeason fallbackSeason,
             Map<ThermooSeason, EnvironmentProvider> seasons
     ) {
-        this.fallback = fallback;
+        this.fallbackSeason = fallbackSeason;
         this.seasons = seasons;
     }
 
     @Override
-    public final TemperatureRecord getTemperature(World world, BlockPos pos, RegistryEntry<Biome> biome) {
-        Optional<ThermooSeason> season = ThermooSeason.getCurrentSeason(world);
-        if (season.isEmpty()) {
-            return this.fallback.getTemperature(world, pos, biome);
-        }
+    public final Optional<TemperatureRecord> getTemperature(World world, BlockPos pos, RegistryEntry<Biome> biome) {
+        ThermooSeason season = ThermooSeason.getCurrentSeason(world).orElse(this.fallbackSeason);
 
-        Optional<EnvironmentProvider> provider = this.getForSeason(season.get());
-        return provider.map(environmentProvider -> environmentProvider.getTemperature(world, pos, biome))
-                .orElseGet(() -> this.fallback.getTemperature(world, pos, biome));
+        Optional<EnvironmentProvider> provider = this.getForSeason(season);
+        return provider.isPresent() ? provider.get().getTemperature(world, pos, biome) : Optional.empty();
     }
 
     @Override
-    public final double getRelativeHumidity(World world, BlockPos pos, RegistryEntry<Biome> biome) {
-        Optional<ThermooSeason> season = ThermooSeason.getCurrentSeason(world);
-        if (season.isEmpty()) {
-            return this.fallback.getRelativeHumidity(world, pos, biome);
-        }
+    public final OptionalDouble getRelativeHumidity(World world, BlockPos pos, RegistryEntry<Biome> biome) {
+        ThermooSeason season = ThermooSeason.getCurrentSeason(world).orElse(this.fallbackSeason);
 
-        Optional<EnvironmentProvider> provider = this.getForSeason(season.get());
-        return provider.map(environmentProvider -> environmentProvider.getRelativeHumidity(world, pos, biome))
-                .orElse(this.fallback.getRelativeHumidity(world, pos, biome));
+        Optional<EnvironmentProvider> provider = this.getForSeason(season);
+        return provider.isPresent() ? provider.get().getRelativeHumidity(world, pos, biome) : OptionalDouble.empty();
     }
 
     protected Optional<EnvironmentProvider> getForSeason(ThermooSeason season) {
         return Optional.ofNullable(this.seasons.get(season));
     }
 
-    public EnvironmentProvider fallback() {
-        return fallback;
+    public final ThermooSeason fallbackSeason() {
+        return this.fallbackSeason;
     }
 
-    public Map<ThermooSeason, EnvironmentProvider> seasons() {
-        return seasons;
+    public final Map<ThermooSeason, EnvironmentProvider> seasons() {
+        return this.seasons;
+    }
+
+    protected static MapCodec<Map<ThermooSeason, EnvironmentProvider>> createSeasonMapCodec() {
+        return Codec.simpleMap(ThermooSeason.CODEC, EnvironmentProvider.PROVIDER_CODEC, StringIdentifiable.toKeyable(ThermooSeason.values()))
+                .validate(seasonMap -> {
+                    if (!seasonMap.keySet().isEmpty()) {
+                        return DataResult.success(seasonMap);
+                    } else {
+                        return DataResult.error(() -> "No key season in " + seasonMap);
+                    }
+                });
     }
 }
