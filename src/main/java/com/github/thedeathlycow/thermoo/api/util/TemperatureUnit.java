@@ -84,6 +84,12 @@ public enum TemperatureUnit implements StringIdentifiable {
         return this.fromCelsius(inputCelsius);
     }
 
+    /**
+     * Converts a temperature record in some other unit to this unit.
+     *
+     * @param record The record of the temperature to convert
+     * @return Returns the equivalent temperature value in this unit.
+     */
     public double convertTemperature(TemperatureRecord record) {
         return convertTemperature(record.value(), record.unit());
     }

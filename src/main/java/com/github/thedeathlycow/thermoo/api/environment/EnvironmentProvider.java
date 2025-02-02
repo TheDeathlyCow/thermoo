@@ -1,30 +1,21 @@
 package com.github.thedeathlycow.thermoo.api.environment;
 
-import com.github.thedeathlycow.thermoo.api.util.TemperatureUnit;
+import com.github.thedeathlycow.thermoo.api.ThermooRegistries;
+import com.github.thedeathlycow.thermoo.api.util.TemperatureRecord;
+import com.mojang.serialization.Codec;
 import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.registry.entry.RegistryEntryList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
-import org.jetbrains.annotations.ApiStatus;
 
 public abstract class EnvironmentProvider {
 
-    private final RegistryEntryList<Biome> biomes;
+    public static final Codec<EnvironmentProvider> CODEC = ThermooRegistries.ENVIRONMENT_PROVIDER_TYPE.getCodec()
+            .dispatch("type", EnvironmentProvider::getType, EnvironmentProviderType::codec);
 
-    public EnvironmentProvider(RegistryEntryList<Biome> biomes) {
-        this.biomes = biomes;
-    }
+    public abstract TemperatureRecord getTemperature(World world, BlockPos pos, RegistryEntry<Biome> biome);
 
-    public final double getTemperature(World world, BlockPos pos, RegistryEntry<Biome> biome) {
-        return getTemperature(world, pos, biome, TemperatureUnit.CELSIUS);
-    }
+    public abstract double getRelativeHumidity(World world, BlockPos pos, RegistryEntry<Biome> biome);
 
-    public abstract double getTemperature(World world, BlockPos pos, RegistryEntry<Biome> biome, TemperatureUnit unit);
-
-    public abstract double getHumidity(World world, BlockPos pos, RegistryEntry<Biome> biome);
-
-    public final RegistryEntryList<Biome> biomes() {
-
-    }
+    public abstract EnvironmentProviderType<?> getType();
 }

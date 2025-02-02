@@ -1,6 +1,7 @@
 package com.github.thedeathlycow.thermoo.api.environment;
 
 import com.github.thedeathlycow.thermoo.api.season.ThermooSeason;
+import com.github.thedeathlycow.thermoo.api.util.TemperatureRecord;
 import com.github.thedeathlycow.thermoo.api.util.TemperatureUnit;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.entry.RegistryEntryList;
@@ -17,37 +18,35 @@ public abstract class SeasonalEnvironmentProvider extends EnvironmentProvider {
     private final Map<ThermooSeason, EnvironmentProvider> seasons;
 
     protected SeasonalEnvironmentProvider(
-            RegistryEntryList<Biome> biomes,
             EnvironmentProvider fallback,
             Map<ThermooSeason, EnvironmentProvider> seasons
     ) {
-        super(biomes);
         this.fallback = fallback;
         this.seasons = seasons;
     }
 
     @Override
-    public final double getTemperature(World world, BlockPos pos, RegistryEntry<Biome> biome, TemperatureUnit unit) {
+    public final TemperatureRecord getTemperature(World world, BlockPos pos, RegistryEntry<Biome> biome) {
         Optional<ThermooSeason> season = ThermooSeason.getCurrentSeason(world);
         if (season.isEmpty()) {
-            return this.fallback.getTemperature(world, pos, biome, unit);
+            return this.fallback.getTemperature(world, pos, biome);
         }
 
         Optional<EnvironmentProvider> provider = this.getForSeason(season.get());
-        return provider.map(environmentProvider -> environmentProvider.getHumidity(world, pos, biome))
-                .orElseGet(() -> this.fallback.getTemperature(world, pos, biome, unit));
+        return provider.map(environmentProvider -> environmentProvider.getTemperature(world, pos, biome))
+                .orElseGet(() -> this.fallback.getTemperature(world, pos, biome));
     }
 
     @Override
-    public final double getHumidity(World world, BlockPos pos, RegistryEntry<Biome> biome) {
+    public final double getRelativeHumidity(World world, BlockPos pos, RegistryEntry<Biome> biome) {
         Optional<ThermooSeason> season = ThermooSeason.getCurrentSeason(world);
         if (season.isEmpty()) {
-            return this.fallback.getHumidity(world, pos, biome);
+            return this.fallback.getRelativeHumidity(world, pos, biome);
         }
 
         Optional<EnvironmentProvider> provider = this.getForSeason(season.get());
-        return provider.map(environmentProvider -> environmentProvider.getHumidity(world, pos, biome))
-                .orElse(this.fallback.getHumidity(world, pos, biome));
+        return provider.map(environmentProvider -> environmentProvider.getRelativeHumidity(world, pos, biome))
+                .orElse(this.fallback.getRelativeHumidity(world, pos, biome));
     }
 
     protected Optional<EnvironmentProvider> getForSeason(ThermooSeason season) {

@@ -8,8 +8,8 @@ import java.util.Map;
 import java.util.Optional;
 
 public final class TemperateSeasonEnvironmentProvider extends SeasonalEnvironmentProvider {
-    public TemperateSeasonEnvironmentProvider(RegistryEntryList<Biome> biomes, EnvironmentProvider fallback, Map<ThermooSeason, EnvironmentProvider> seasons) {
-        super(biomes, fallback, seasons);
+    public TemperateSeasonEnvironmentProvider(EnvironmentProvider fallback, Map<ThermooSeason, EnvironmentProvider> seasons) {
+        super(fallback, seasons);
     }
 
     @Override
