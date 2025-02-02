@@ -9,16 +9,18 @@ import java.util.Map;
 import java.util.Optional;
 
 public final class TemperateSeasonEnvironmentProvider extends SeasonalEnvironmentProvider {
-    public static final MapCodec<TemperateSeasonEnvironmentProvider> CODEC = RecordCodecBuilder.mapCodec(
-            instance -> instance.group(
-                    ThermooSeason.CODEC
-                            .optionalFieldOf("fallback_season")
-                            .forGetter(TemperateSeasonEnvironmentProvider::fallbackSeason),
-                    SeasonalEnvironmentProvider.createSeasonMapCodec()
-                            .validate(TemperateSeasonEnvironmentProvider::allKeysAreTemperate)
-                            .fieldOf("seasons")
-                            .forGetter(TemperateSeasonEnvironmentProvider::seasons)
-            ).apply(instance, TemperateSeasonEnvironmentProvider::new)
+    public static final MapCodec<TemperateSeasonEnvironmentProvider> CODEC = validate(
+            RecordCodecBuilder.mapCodec(
+                    instance -> instance.group(
+                            ThermooSeason.CODEC
+                                    .optionalFieldOf("fallback_season")
+                                    .forGetter(TemperateSeasonEnvironmentProvider::fallbackSeason),
+                            SeasonalEnvironmentProvider.createSeasonMapCodec()
+                                    .validate(TemperateSeasonEnvironmentProvider::allKeysAreTemperate)
+                                    .fieldOf("seasons")
+                                    .forGetter(TemperateSeasonEnvironmentProvider::seasons)
+                    ).apply(instance, TemperateSeasonEnvironmentProvider::new)
+            )
     );
 
     public TemperateSeasonEnvironmentProvider(Optional<ThermooSeason> fallbackSeason, Map<ThermooSeason, EnvironmentProvider> seasons) {

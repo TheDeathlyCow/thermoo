@@ -68,8 +68,24 @@ public abstract class SeasonalEnvironmentProvider extends EnvironmentProvider {
                     if (!seasonMap.keySet().isEmpty()) {
                         return DataResult.success(seasonMap);
                     } else {
-                        return DataResult.error(() -> "No key season in " + seasonMap);
+                        return DataResult.error(() -> "No season key in: " + seasonMap);
                     }
                 });
+    }
+
+    protected static <T extends SeasonalEnvironmentProvider> MapCodec<T> validate(MapCodec<T> codec) {
+        return codec
+                .validate(
+                        provider -> {
+                            Optional<ThermooSeason> season = provider.fallbackSeason();
+                            if (season.isEmpty()) {
+                                return DataResult.success(provider);
+                            } else if (!provider.seasons().containsKey(season.get())) {
+                                return DataResult.error(() -> "Fallback season '" + season.get().asString() + "' is not a key in: " + provider.seasons());
+                            } else {
+                                return DataResult.success(provider);
+                            }
+                        }
+                );
     }
 }
