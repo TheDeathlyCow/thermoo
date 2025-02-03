@@ -10,6 +10,9 @@ import net.minecraft.world.World;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * A seasonal environment provider for the tropical seasons (wet and dry).
+ */
 public final class TropicalSeasonEnvironmentProvider extends SeasonalEnvironmentProvider {
     public static final MapCodec<TropicalSeasonEnvironmentProvider> CODEC = validate(
             RecordCodecBuilder.mapCodec(
@@ -25,18 +28,18 @@ public final class TropicalSeasonEnvironmentProvider extends SeasonalEnvironment
             )
     );
 
-    public TropicalSeasonEnvironmentProvider(Optional<ThermooSeason> fallbackSeason, Map<ThermooSeason, EnvironmentProvider> seasons) {
+    private TropicalSeasonEnvironmentProvider(Optional<ThermooSeason> fallbackSeason, Map<ThermooSeason, EnvironmentProvider> seasons) {
         super(fallbackSeason, seasons);
-    }
-
-    @Override
-    protected Optional<ThermooSeason> getCurrentSeason(World world, BlockPos pos) {
-        return ThermooSeason.getCurrentTropicalSeason(world, pos);
     }
 
     @Override
     public EnvironmentProviderType<?> getType() {
         return EnvironmentProviderTypes.TROPICAL_SEASONAL;
+    }
+
+    @Override
+    protected Optional<ThermooSeason> getCurrentSeason(World world, BlockPos pos) {
+        return ThermooSeason.getCurrentTropicalSeason(world, pos);
     }
 
     private static DataResult<Map<ThermooSeason, EnvironmentProvider>> allKeysAreTropical(Map<ThermooSeason, EnvironmentProvider> seasonMap) {

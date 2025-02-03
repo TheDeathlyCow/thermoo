@@ -10,6 +10,9 @@ import net.minecraft.world.World;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * A seasonal environment provider for the temperate seasons (spring, summer, autumn, and winter).
+ */
 public final class TemperateSeasonEnvironmentProvider extends SeasonalEnvironmentProvider {
     public static final MapCodec<TemperateSeasonEnvironmentProvider> CODEC = validate(
             RecordCodecBuilder.mapCodec(
@@ -25,18 +28,18 @@ public final class TemperateSeasonEnvironmentProvider extends SeasonalEnvironmen
             )
     );
 
-    public TemperateSeasonEnvironmentProvider(Optional<ThermooSeason> fallbackSeason, Map<ThermooSeason, EnvironmentProvider> seasons) {
+    private TemperateSeasonEnvironmentProvider(Optional<ThermooSeason> fallbackSeason, Map<ThermooSeason, EnvironmentProvider> seasons) {
         super(fallbackSeason, seasons);
-    }
-
-    @Override
-    protected Optional<ThermooSeason> getCurrentSeason(World world, BlockPos pos) {
-        return ThermooSeason.getCurrentSeason(world);
     }
 
     @Override
     public EnvironmentProviderType<?> getType() {
         return EnvironmentProviderTypes.TEMPERATE_SEASONAL;
+    }
+
+    @Override
+    protected Optional<ThermooSeason> getCurrentSeason(World world, BlockPos pos) {
+        return ThermooSeason.getCurrentSeason(world);
     }
 
     private static DataResult<Map<ThermooSeason, EnvironmentProvider>> allKeysAreTemperate(Map<ThermooSeason, EnvironmentProvider> seasonMap) {
