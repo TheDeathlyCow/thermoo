@@ -43,7 +43,7 @@ public interface EnvironmentProvider {
      * <p>
      * Relative humidity is "the ratio of how much water vapour is in the air to how much water vapour the air could
      * potentially contain" <a href="https://en.m.wikipedia.org/wiki/Humidity#Relative_humidity">[1]</a> and is
-     * expressed here in on a 0-1 scale.
+     * expressed here on a 0-1 scale.
      * <p>
      * If multiple providers return a relative humidity value at the same time and position, the mean value will be used.
      * <p>
