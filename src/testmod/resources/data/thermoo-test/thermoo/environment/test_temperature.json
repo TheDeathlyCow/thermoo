@@ -14,7 +14,7 @@
             "summer": {
                 "type": "thermoo:constant",
                 "temperature": 30.0,
-                "relative_humidity": 0.99
+                "relative_humidity": 0.25
             }
         },
         "fallback_season": "summer"

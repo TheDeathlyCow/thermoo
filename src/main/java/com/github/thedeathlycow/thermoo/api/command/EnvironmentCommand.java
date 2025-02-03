@@ -128,6 +128,8 @@ public class EnvironmentCommand {
         final String location = "location";
         final String unit = "unit";
         final String scale = "scale";
+        final TemperatureUnit fallbackUnit = TemperatureUnit.CELSIUS;
+        final double fallbackTempScale = 1.0;
 
         var temperature = literal("temperature").then(
                 argument(location, BlockPosArgumentType.blockPos())
@@ -136,7 +138,7 @@ public class EnvironmentCommand {
                                         context.getSource(),
                                         BlockPosArgumentType.getLoadedBlockPos(context, location),
                                         TemperatureUnit.CELSIUS,
-                                        1.0
+                                        fallbackTempScale
                                 )
                         )
                         .then(
@@ -146,7 +148,7 @@ public class EnvironmentCommand {
                                                         context.getSource(),
                                                         BlockPosArgumentType.getLoadedBlockPos(context, location),
                                                         TemperatureUnitArgumentType.getTemperatureUnit(context, unit),
-                                                        1.0
+                                                        fallbackTempScale
                                                 )
                                         )
                                         .then(
@@ -163,11 +165,35 @@ public class EnvironmentCommand {
                         )
         );
 
+        final double fallbackHumidityScale = 100.0;
+
+        var relativeHumidity = literal("relativehumidity").then(
+                argument(location, BlockPosArgumentType.blockPos())
+                        .executes(
+                                context -> executeRelativeHumidity(
+                                        context.getSource(),
+                                        BlockPosArgumentType.getLoadedBlockPos(context, location),
+                                        fallbackHumidityScale
+                                )
+                        )
+                        .then(
+                                argument(scale, DoubleArgumentType.doubleArg(0))
+                                        .executes(
+                                                context -> executeRelativeHumidity(
+                                                        context.getSource(),
+                                                        BlockPosArgumentType.getLoadedBlockPos(context, location),
+                                                        DoubleArgumentType.getDouble(context, scale)
+                                                )
+                                        )
+                        )
+        );
+
         return literal("thermoo").then(
                 (literal("environment").requires((src) -> src.hasPermissionLevel(2)))
                         .then(checkTemperature)
                         .then(printController)
                         .then(temperature)
+                        .then(relativeHumidity)
         );
     }
 
@@ -202,6 +228,28 @@ public class EnvironmentCommand {
         );
 
         return (int) (temperature * scale);
+    }
+
+    private static int executeRelativeHumidity(ServerCommandSource source, BlockPos location, double scale) {
+        double relativeHumidity = EnvironmentLookup.getInstance().findRelativeHumidity(source.getWorld(), location);
+        double scaledHumidity = relativeHumidity * scale;
+        source.sendFeedback(
+                () -> {
+                    RegistryKey<Biome> biome = source.getWorld().getBiome(location).getKey().orElse(null);
+                    return Text.translatableWithFallback(
+                            "commands.thermoo.environment.humidity.success",
+                            "The environmental relative humidity at %s, %s, %s (%s) is %s%",
+                            location.getX(),
+                            location.getY(),
+                            location.getZ(),
+                            biome == null ? "unknown" : biome.getValue().toString(),
+                            String.format("%.2f", scaledHumidity)
+                    );
+                },
+                false
+        );
+
+        return (int) (scaledHumidity);
     }
 
     private static int executeCheckTemperature(ServerCommandSource source, BlockPos location) {
