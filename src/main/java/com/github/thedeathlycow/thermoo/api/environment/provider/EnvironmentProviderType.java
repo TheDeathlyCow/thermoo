@@ -1,4 +1,4 @@
-package com.github.thedeathlycow.thermoo.api.environment;
+package com.github.thedeathlycow.thermoo.api.environment.provider;
 
 import com.mojang.serialization.MapCodec;
 

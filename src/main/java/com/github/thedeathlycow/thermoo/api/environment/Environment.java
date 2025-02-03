@@ -1,5 +1,6 @@
 package com.github.thedeathlycow.thermoo.api.environment;
 
+import com.github.thedeathlycow.thermoo.api.environment.provider.EnvironmentProvider;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.registry.RegistryCodecs;

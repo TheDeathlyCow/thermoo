@@ -1,11 +1,9 @@
 package com.github.thedeathlycow.thermoo.api;
 
 import com.github.thedeathlycow.thermoo.api.environment.Environment;
-import com.github.thedeathlycow.thermoo.api.environment.EnvironmentProvider;
-import com.github.thedeathlycow.thermoo.api.environment.EnvironmentProviderType;
+import com.github.thedeathlycow.thermoo.api.environment.provider.EnvironmentProviderType;
 import com.github.thedeathlycow.thermoo.api.temperature.effects.TemperatureEffect;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
-import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 

@@ -1,4 +1,4 @@
-package com.github.thedeathlycow.thermoo.api.environment;
+package com.github.thedeathlycow.thermoo.api.environment.provider;
 
 public final class EnvironmentProviderTypes {
     public static final EnvironmentProviderType<ConstantEnvironmentProvider> CONSTANT = new EnvironmentProviderType<>(

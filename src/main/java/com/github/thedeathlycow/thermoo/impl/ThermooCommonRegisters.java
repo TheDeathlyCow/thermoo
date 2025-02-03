@@ -1,8 +1,8 @@
 package com.github.thedeathlycow.thermoo.impl;
 
 import com.github.thedeathlycow.thermoo.api.ThermooRegistries;
-import com.github.thedeathlycow.thermoo.api.environment.EnvironmentProviderType;
-import com.github.thedeathlycow.thermoo.api.environment.EnvironmentProviderTypes;
+import com.github.thedeathlycow.thermoo.api.environment.provider.EnvironmentProviderType;
+import com.github.thedeathlycow.thermoo.api.environment.provider.EnvironmentProviderTypes;
 import com.github.thedeathlycow.thermoo.api.predicate.ThermooLootConditionTypes;
 import com.github.thedeathlycow.thermoo.api.temperature.effects.TemperatureEffect;
 import com.github.thedeathlycow.thermoo.api.temperature.effects.TemperatureEffects;
