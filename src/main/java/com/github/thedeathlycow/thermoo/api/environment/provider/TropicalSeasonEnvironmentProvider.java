@@ -4,6 +4,8 @@ import com.github.thedeathlycow.thermoo.api.season.ThermooSeason;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 import java.util.Map;
 import java.util.Optional;
@@ -28,11 +30,8 @@ public final class TropicalSeasonEnvironmentProvider extends SeasonalEnvironment
     }
 
     @Override
-    protected Optional<EnvironmentProvider> getForSeason(ThermooSeason season) {
-        if (season.isTropical()) {
-            return super.getForSeason(season);
-        }
-        return Optional.empty();
+    protected Optional<ThermooSeason> getCurrentSeason(World world, BlockPos pos) {
+        return ThermooSeason.getCurrentTropicalSeason(world, pos);
     }
 
     @Override

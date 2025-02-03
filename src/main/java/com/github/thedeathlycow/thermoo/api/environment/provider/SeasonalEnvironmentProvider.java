@@ -20,7 +20,6 @@ import java.util.OptionalDouble;
  */
 public abstract sealed class SeasonalEnvironmentProvider implements EnvironmentProvider
         permits TemperateSeasonEnvironmentProvider, TropicalSeasonEnvironmentProvider {
-
     private final Optional<ThermooSeason> fallbackSeason;
     private final Map<ThermooSeason, EnvironmentProvider> seasons;
 
@@ -44,13 +43,13 @@ public abstract sealed class SeasonalEnvironmentProvider implements EnvironmentP
      */
     @Override
     public final Optional<TemperatureRecord> getTemperature(World world, BlockPos pos, RegistryEntry<Biome> biome) {
-        Optional<ThermooSeason> season = ThermooSeason.getCurrentSeason(world).or(this::fallbackSeason);
+        Optional<ThermooSeason> season = this.getCurrentSeason(world, pos).or(this::fallbackSeason);
         if (season.isEmpty()) {
             return Optional.empty();
         }
 
-        Optional<EnvironmentProvider> provider = this.getForSeason(season.get());
-        return provider.isPresent() ? provider.get().getTemperature(world, pos, biome) : Optional.empty();
+        EnvironmentProvider provider = this.seasons.get(season.get());
+        return provider != null ? provider.getTemperature(world, pos, biome) : Optional.empty();
     }
 
     /**
@@ -65,26 +64,46 @@ public abstract sealed class SeasonalEnvironmentProvider implements EnvironmentP
      */
     @Override
     public final OptionalDouble getRelativeHumidity(World world, BlockPos pos, RegistryEntry<Biome> biome) {
-        Optional<ThermooSeason> season = ThermooSeason.getCurrentSeason(world).or(this::fallbackSeason);
+        Optional<ThermooSeason> season = this.getCurrentSeason(world, pos).or(this::fallbackSeason);
         if (season.isEmpty()) {
             return OptionalDouble.empty();
         }
 
-        Optional<EnvironmentProvider> provider = this.getForSeason(season.get());
-        return provider.isPresent() ? provider.get().getRelativeHumidity(world, pos, biome) : OptionalDouble.empty();
+        EnvironmentProvider provider = this.seasons.get(season.get());
+        return provider != null ? provider.getRelativeHumidity(world, pos, biome) : OptionalDouble.empty();
     }
 
+    /**
+     * The fallback season to use if no season mod is installed. If specified, the fallback season must be a key in the
+     * {@link #seasons()} map. If no fallback season is provided, and there is no season mod installed, then this
+     * provider will return nothing.
+     *
+     * @return Returns {@link #fallbackSeason}
+     */
     public final Optional<ThermooSeason> fallbackSeason() {
         return this.fallbackSeason;
     }
 
+    /**
+     * The season-to-provider lookup back. Used to dispatch this provider to another provider based on the current season
+     * of a world.
+     *
+     * @return Returns {@link #seasons}
+     */
     public final Map<ThermooSeason, EnvironmentProvider> seasons() {
         return this.seasons;
     }
 
-    protected Optional<EnvironmentProvider> getForSeason(ThermooSeason season) {
-        return Optional.ofNullable(this.seasons.get(season));
-    }
+    /**
+     * Gets the current season state of the world at a position (usually by delegating to a
+     * {@linkplain com.github.thedeathlycow.thermoo.api.season.ThermooSeasonEvents season event}.
+     *
+     * @param world The world to query the season state of
+     * @param pos  The position to query the season state at
+     * @return Returns the season state of a particular world position, or empty if no season state exists there or if a
+     * season mod is not loaded.
+     */
+    protected abstract Optional<ThermooSeason> getCurrentSeason(World world, BlockPos pos);
 
     protected static MapCodec<Map<ThermooSeason, EnvironmentProvider>> createSeasonMapCodec() {
         return Codec.simpleMap(ThermooSeason.CODEC, EnvironmentProvider.PROVIDER_CODEC, StringIdentifiable.toKeyable(ThermooSeason.values()))
