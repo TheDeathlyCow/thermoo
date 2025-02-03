@@ -1,6 +1,7 @@
 package com.github.thedeathlycow.thermoo.api.environment.provider;
 
 import com.github.thedeathlycow.thermoo.api.season.ThermooSeason;
+import com.github.thedeathlycow.thermoo.impl.environment.SeasonalProviderBuilderHelper;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -64,7 +65,7 @@ public final class TropicalSeasonEnvironmentProvider extends SeasonalEnvironment
      * Builder for tropical season providers. By default, there is no fallback season and the seasons map is empty.
      */
     public static class Builder {
-        private final BuilderHelper helper = new BuilderHelper();
+        private final SeasonalProviderBuilderHelper helper = new SeasonalProviderBuilderHelper();
 
         private Builder() {
 
@@ -109,8 +110,8 @@ public final class TropicalSeasonEnvironmentProvider extends SeasonalEnvironment
         public TropicalSeasonEnvironmentProvider build() {
             this.helper.validate();
             return new TropicalSeasonEnvironmentProvider(
-                    Optional.ofNullable(this.helper.fallbackSeason),
-                    this.helper.seasons
+                    Optional.ofNullable(this.helper.getFallbackSeason()),
+                    this.helper.getSeasons()
             );
         }
     }

@@ -131,34 +131,4 @@ public abstract sealed class SeasonalEnvironmentProvider implements EnvironmentP
                         }
                 );
     }
-
-    static final class BuilderHelper {
-        @Nullable ThermooSeason fallbackSeason = null;
-
-        final Map<ThermooSeason, EnvironmentProvider> seasons = new EnumMap<>(ThermooSeason.class);
-
-        BuilderHelper() {
-        }
-
-        void setFallbackSeason(@NotNull ThermooSeason season) {
-            Objects.requireNonNull(season);
-            this.fallbackSeason = season;
-        }
-
-        void setSeasonProvider(@NotNull ThermooSeason season, @NotNull EnvironmentProvider provider) {
-            Objects.requireNonNull(season);
-            Objects.requireNonNull(provider);
-            this.seasons.put(season, provider);
-        }
-
-        void validate() {
-            if (this.seasons.isEmpty()) {
-                throw new IllegalStateException("Cannot build a season provider with empty seasons map");
-            }
-
-            if (this.fallbackSeason != null && !this.seasons.containsKey(this.fallbackSeason)) {
-                throw new IllegalStateException("Fallback season is not a key of season provider map");
-            }
-        }
-    }
 }
