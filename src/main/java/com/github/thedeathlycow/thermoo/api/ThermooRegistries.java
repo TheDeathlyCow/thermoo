@@ -20,6 +20,11 @@ public final class ThermooRegistries {
                     ThermooRegistryKeys.TEMPERATURE_EFFECT
             ).buildAndRegister();
 
+    /**
+     * Environment provider types registry
+     *
+     * @see EnvironmentProviderType
+     */
     public static final Registry<EnvironmentProviderType<?>> ENVIRONMENT_PROVIDER_TYPE =
             FabricRegistryBuilder.createSimple(
                     ThermooRegistryKeys.ENVIRONMENT_PROVIDER_TYPE
