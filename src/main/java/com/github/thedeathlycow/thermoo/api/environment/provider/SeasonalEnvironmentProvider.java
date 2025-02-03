@@ -10,10 +10,10 @@ import net.minecraft.util.StringIdentifiable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import java.util.Map;
-import java.util.Optional;
-import java.util.OptionalDouble;
+import java.util.*;
 
 /**
  * An environment provider that dispatches to another provider based on the current season state of a world.
@@ -32,7 +32,7 @@ public abstract sealed class SeasonalEnvironmentProvider implements EnvironmentP
     }
 
     /**
-     * Gets the temperature for the position based on the world's current season state, using the
+     * Gets the temperature for the position based on the world's current season state, generally using the
      * {@linkplain ThermooSeason season API}. If no seasons mod is installed, will return the value provided by the
      * {@linkplain #fallbackSeason fallback season}. If there is no fallback season, then returns empty.
      *
@@ -53,7 +53,7 @@ public abstract sealed class SeasonalEnvironmentProvider implements EnvironmentP
     }
 
     /**
-     * Gets the relative humidity for the position based on the world's current season state, using the
+     * Gets the relative humidity for the position based on the world's current season state, generally using the
      * {@linkplain ThermooSeason season API}. If no seasons mod is installed, will return the value provided by the
      * {@linkplain #fallbackSeason fallback season}. If there is no fallback season, then returns empty.
      *
@@ -99,7 +99,7 @@ public abstract sealed class SeasonalEnvironmentProvider implements EnvironmentP
      * {@linkplain com.github.thedeathlycow.thermoo.api.season.ThermooSeasonEvents season event}.
      *
      * @param world The world to query the season state of
-     * @param pos  The position to query the season state at
+     * @param pos   The position to query the season state at
      * @return Returns the season state of a particular world position, or empty if no season state exists there or if a
      * season mod is not loaded.
      */
@@ -108,10 +108,10 @@ public abstract sealed class SeasonalEnvironmentProvider implements EnvironmentP
     protected static MapCodec<Map<ThermooSeason, EnvironmentProvider>> createSeasonMapCodec() {
         return Codec.simpleMap(ThermooSeason.CODEC, EnvironmentProvider.PROVIDER_CODEC, StringIdentifiable.toKeyable(ThermooSeason.values()))
                 .validate(seasonMap -> {
-                    if (!seasonMap.keySet().isEmpty()) {
-                        return DataResult.success(seasonMap);
-                    } else {
+                    if (seasonMap.isEmpty()) {
                         return DataResult.error(() -> "No season key in: " + seasonMap);
+                    } else {
+                        return DataResult.success(seasonMap);
                     }
                 });
     }
@@ -130,5 +130,35 @@ public abstract sealed class SeasonalEnvironmentProvider implements EnvironmentP
                             }
                         }
                 );
+    }
+
+    static final class BuilderHelper {
+        @Nullable ThermooSeason fallbackSeason = null;
+
+        final Map<ThermooSeason, EnvironmentProvider> seasons = new EnumMap<>(ThermooSeason.class);
+
+        BuilderHelper() {
+        }
+
+        void setFallbackSeason(@NotNull ThermooSeason season) {
+            Objects.requireNonNull(season);
+            this.fallbackSeason = season;
+        }
+
+        void setSeasonProvider(@NotNull ThermooSeason season, @NotNull EnvironmentProvider provider) {
+            Objects.requireNonNull(season);
+            Objects.requireNonNull(provider);
+            this.seasons.put(season, provider);
+        }
+
+        void validate() {
+            if (this.seasons.isEmpty()) {
+                throw new IllegalStateException("Cannot build a season provider with empty seasons map");
+            }
+
+            if (this.fallbackSeason != null && !this.seasons.containsKey(this.fallbackSeason)) {
+                throw new IllegalStateException("Fallback season is not a key of season provider map");
+            }
+        }
     }
 }

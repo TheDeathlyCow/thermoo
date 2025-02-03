@@ -12,6 +12,7 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Objects;
 import java.util.Optional;
 import java.util.OptionalDouble;
 
@@ -107,6 +108,7 @@ public class ConstantEnvironmentProvider implements EnvironmentProvider {
 
         @Contract("_->this")
         public Builder withTemperature(@NotNull TemperatureRecord temperatureRecord) {
+            Objects.requireNonNull(temperatureRecord);
             this.temperature = temperatureRecord;
             return this;
         }

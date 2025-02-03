@@ -6,8 +6,10 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -27,6 +29,13 @@ public final class TropicalSeasonEnvironmentProvider extends SeasonalEnvironment
                     ).apply(instance, TropicalSeasonEnvironmentProvider::new)
             )
     );
+
+    /**
+     * @return Returns a new {@link Builder}
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
 
     private TropicalSeasonEnvironmentProvider(Optional<ThermooSeason> fallbackSeason, Map<ThermooSeason, EnvironmentProvider> seasons) {
         super(fallbackSeason, seasons);
@@ -49,5 +58,60 @@ public final class TropicalSeasonEnvironmentProvider extends SeasonalEnvironment
             }
         }
         return DataResult.success(seasonMap);
+    }
+
+    /**
+     * Builder for tropical season providers. By default, there is no fallback season and the seasons map is empty.
+     */
+    public static class Builder {
+        private final BuilderHelper helper = new BuilderHelper();
+
+        private Builder() {
+
+        }
+
+        /**
+         * Adds a fallback season. If a fallback season is already provided, it will be overwritten.
+         *
+         * @param season A non-null tropical season to add as fallback.
+         * @return Returns this builder
+         */
+        public Builder withFallbackSeason(@NotNull ThermooSeason season) {
+            Objects.requireNonNull(season);
+            if (season.isTropical()) {
+                this.helper.setFallbackSeason(season);
+            }
+            return this;
+        }
+
+        /**
+         * Sets the provider for a season. If a provider is already mapped to the given season, it will be overwritten.
+         *
+         * @param season   A non-null tropical season to add a provider for
+         * @param provider A non-null provider to add
+         * @return Returns this builder
+         */
+        public Builder addSeasonProvider(@NotNull ThermooSeason season, @NotNull EnvironmentProvider provider) {
+            Objects.requireNonNull(season);
+            if (season.isTropical()) {
+                this.helper.setSeasonProvider(season, provider);
+            }
+            return this;
+        }
+
+        /**
+         * Builds a new provider from this builder. The provider must have a non-empty seasons map, and if a fallback season
+         * is provided then it must be a key of the seasons map.
+         *
+         * @return Returns a new {@link TropicalSeasonEnvironmentProvider}
+         * @throws IllegalStateException if this builder cannot build a legal provider
+         */
+        public TropicalSeasonEnvironmentProvider build() {
+            this.helper.validate();
+            return new TropicalSeasonEnvironmentProvider(
+                    Optional.ofNullable(this.helper.fallbackSeason),
+                    this.helper.seasons
+            );
+        }
     }
 }
