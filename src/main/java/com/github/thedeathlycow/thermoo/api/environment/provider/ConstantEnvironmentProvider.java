@@ -98,7 +98,7 @@ public final class ConstantEnvironmentProvider implements EnvironmentProvider {
     /**
      * Builder for a constant temperature provider. By default, all values are empty.
      */
-    public static class Builder {
+    public static final class Builder {
         @Nullable
         private TemperatureRecord temperature = null;
 

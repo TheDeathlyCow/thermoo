@@ -66,7 +66,7 @@ public final class TemperateSeasonEnvironmentProvider extends SeasonalEnvironmen
     /**
      * Builder for temperate season providers. By default, there is no fallback season and the seasons map is empty.
      */
-    public static class Builder {
+    public static final class Builder {
         private final SeasonalProviderBuilderHelper helper = new SeasonalProviderBuilderHelper();
 
         private Builder() {
