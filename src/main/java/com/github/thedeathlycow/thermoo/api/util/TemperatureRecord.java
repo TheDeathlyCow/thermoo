@@ -6,7 +6,6 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Comparator;
 import java.util.Objects;
 
 /**
@@ -16,7 +15,7 @@ public final class TemperatureRecord implements Comparable<TemperatureRecord> {
     /**
      * Codec for a record that is represented as a named tuple of the value and unit.
      * <p>
-     * <h2>Example format</h2>
+     * <strong>Usage Example</strong>
      * <p>
      * Room temperature in Celsius:
      * <pre>{@code
@@ -48,8 +47,9 @@ public final class TemperatureRecord implements Comparable<TemperatureRecord> {
     /**
      * Codec that allows for the value to be stored as a simple double (in which case the value will be in Celsius) or as
      * an explicit value, unit tuple.
-     *
-     * <h2>Example format</h2>
+     * <p>
+     * <strong>Usage Example</strong>
+     * <p>
      * Storing a Celsius value:
      * <pre>{@code
      * 20.0
