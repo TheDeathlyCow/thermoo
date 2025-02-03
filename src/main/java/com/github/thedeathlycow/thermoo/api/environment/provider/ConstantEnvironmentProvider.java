@@ -12,7 +12,7 @@ import net.minecraft.world.biome.Biome;
 import java.util.Optional;
 import java.util.OptionalDouble;
 
-public class ConstantEnvironmentProvider extends EnvironmentProvider {
+public class ConstantEnvironmentProvider implements EnvironmentProvider {
     public static final MapCodec<ConstantEnvironmentProvider> CODEC = RecordCodecBuilder.mapCodec(
             instance -> instance.group(
                     TemperatureRecord.CODEC

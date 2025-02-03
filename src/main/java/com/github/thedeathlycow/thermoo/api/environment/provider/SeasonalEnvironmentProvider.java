@@ -15,7 +15,11 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.OptionalDouble;
 
-public abstract class SeasonalEnvironmentProvider extends EnvironmentProvider {
+/**
+ * An environment provider that dispatches to another provider based on the current season state of a world.
+ */
+public abstract sealed class SeasonalEnvironmentProvider implements EnvironmentProvider
+        permits TemperateSeasonEnvironmentProvider, TropicalSeasonEnvironmentProvider {
 
     private final Optional<ThermooSeason> fallbackSeason;
     private final Map<ThermooSeason, EnvironmentProvider> seasons;
@@ -28,6 +32,16 @@ public abstract class SeasonalEnvironmentProvider extends EnvironmentProvider {
         this.seasons = seasons;
     }
 
+    /**
+     * Gets the temperature for the position based on the world's current season state, using the
+     * {@linkplain ThermooSeason season API}. If no seasons mod is installed, will return the value provided by the
+     * {@linkplain #fallbackSeason fallback season}. If there is no fallback season, then returns empty.
+     *
+     * @param world The world/level being queried
+     * @param pos   The position in the world to query
+     * @param biome The biome at the position in the world
+     * @return Returns the potential temperature record of the world and position.
+     */
     @Override
     public final Optional<TemperatureRecord> getTemperature(World world, BlockPos pos, RegistryEntry<Biome> biome) {
         Optional<ThermooSeason> season = ThermooSeason.getCurrentSeason(world).or(this::fallbackSeason);
@@ -39,6 +53,16 @@ public abstract class SeasonalEnvironmentProvider extends EnvironmentProvider {
         return provider.isPresent() ? provider.get().getTemperature(world, pos, biome) : Optional.empty();
     }
 
+    /**
+     * Gets the relative humidity for the position based on the world's current season state, using the
+     * {@linkplain ThermooSeason season API}. If no seasons mod is installed, will return the value provided by the
+     * {@linkplain #fallbackSeason fallback season}. If there is no fallback season, then returns empty.
+     *
+     * @param world The world/level being queried
+     * @param pos   The position in the world to query
+     * @param biome The biome at the position in the world
+     * @return Returns the potential relative humidity of the world and position.
+     */
     @Override
     public final OptionalDouble getRelativeHumidity(World world, BlockPos pos, RegistryEntry<Biome> biome) {
         Optional<ThermooSeason> season = ThermooSeason.getCurrentSeason(world).or(this::fallbackSeason);
@@ -50,16 +74,16 @@ public abstract class SeasonalEnvironmentProvider extends EnvironmentProvider {
         return provider.isPresent() ? provider.get().getRelativeHumidity(world, pos, biome) : OptionalDouble.empty();
     }
 
-    protected Optional<EnvironmentProvider> getForSeason(ThermooSeason season) {
-        return Optional.ofNullable(this.seasons.get(season));
-    }
-
     public final Optional<ThermooSeason> fallbackSeason() {
         return this.fallbackSeason;
     }
 
     public final Map<ThermooSeason, EnvironmentProvider> seasons() {
         return this.seasons;
+    }
+
+    protected Optional<EnvironmentProvider> getForSeason(ThermooSeason season) {
+        return Optional.ofNullable(this.seasons.get(season));
     }
 
     protected static MapCodec<Map<ThermooSeason, EnvironmentProvider>> createSeasonMapCodec() {

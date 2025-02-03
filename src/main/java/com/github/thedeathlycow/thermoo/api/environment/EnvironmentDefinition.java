@@ -8,6 +8,10 @@ import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.entry.RegistryEntryList;
 import net.minecraft.world.biome.Biome;
 
+/**
+ * Defines a biome's environmental temperature and relative humidity values. Must be defined in a datapack registry
+ * in order to work.
+ */
 public final class EnvironmentDefinition {
     public static final Codec<EnvironmentDefinition> CODEC = RecordCodecBuilder.create(
             instance -> instance.group(
@@ -24,7 +28,7 @@ public final class EnvironmentDefinition {
 
     private final EnvironmentProvider provider;
 
-    public EnvironmentDefinition(RegistryEntryList<Biome> biomes, EnvironmentProvider provider) {
+    private EnvironmentDefinition(RegistryEntryList<Biome> biomes, EnvironmentProvider provider) {
         this.biomes = biomes;
         this.provider = provider;
     }
@@ -35,5 +39,9 @@ public final class EnvironmentDefinition {
 
     public EnvironmentProvider provider() {
         return this.provider;
+    }
+
+    public static EnvironmentDefinition create(RegistryEntryList<Biome> biomes, EnvironmentProvider provider) {
+        return new EnvironmentDefinition(biomes, provider);
     }
 }

@@ -8,7 +8,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import java.util.Map;
 import java.util.Optional;
 
-public class TropicalSeasonEnvironmentProvider extends SeasonalEnvironmentProvider {
+public final class TropicalSeasonEnvironmentProvider extends SeasonalEnvironmentProvider {
     public static final MapCodec<TropicalSeasonEnvironmentProvider> CODEC = validate(
             RecordCodecBuilder.mapCodec(
                     instance -> instance.group(
