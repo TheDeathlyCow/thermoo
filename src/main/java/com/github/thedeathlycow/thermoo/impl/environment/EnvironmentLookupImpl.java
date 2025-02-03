@@ -6,6 +6,8 @@ import com.github.thedeathlycow.thermoo.api.environment.EnvironmentLookup;
 import com.github.thedeathlycow.thermoo.api.environment.provider.EnvironmentProvider;
 import com.github.thedeathlycow.thermoo.api.util.TemperatureRecord;
 import com.github.thedeathlycow.thermoo.api.util.TemperatureUnit;
+import com.github.thedeathlycow.thermoo.impl.Thermoo;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.entry.RegistryEntry;
@@ -19,6 +21,12 @@ public class EnvironmentLookupImpl implements EnvironmentLookup {
     public static final EnvironmentLookupImpl INSTANCE = new EnvironmentLookupImpl();
 
     private final Map<RegistryKey<Biome>, List<EnvironmentProvider>> biomeProviderCache = new IdentityHashMap<>();
+
+    public static void initialize() {
+        ServerLifecycleEvents.SERVER_STOPPED.register(server -> {
+            INSTANCE.clearCache();
+        });
+    }
 
     @Override
     public double findTemperature(World world, BlockPos pos, TemperatureUnit unit) {
@@ -74,11 +82,22 @@ public class EnvironmentLookupImpl implements EnvironmentLookup {
 
         return this.biomeProviderCache.computeIfAbsent(
                 key,
-                ignored -> manager.getOrThrow(ThermooRegistryKeys.ENVIRONMENT)
-                        .stream()
-                        .filter(definition -> definition.biomes().contains(biome))
-                        .map(EnvironmentDefinition::provider)
-                        .toList()
+                k -> {
+                    List<EnvironmentProvider> providers = manager.getOrThrow(ThermooRegistryKeys.ENVIRONMENT)
+                            .stream()
+                            .filter(definition -> definition.biomes().contains(biome))
+                            .map(EnvironmentDefinition::provider)
+                            .toList();
+                    if (Thermoo.LOGGER.isDebugEnabled()) {
+                        Thermoo.LOGGER.debug("Found {} providers for biome {}", providers.size(), k);
+                    }
+                    return providers;
+                }
         );
+    }
+
+    private void clearCache() {
+        this.biomeProviderCache.clear();
+        Thermoo.LOGGER.info("Environment lookup cache cleared");
     }
 }
