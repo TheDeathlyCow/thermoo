@@ -132,6 +132,14 @@ public final class TemperatureRecord implements Comparable<TemperatureRecord> {
     }
 
     /**
+     * Identical to {@link #add(TemperatureRecord)} but named for better Kotlin interop
+     */
+    @Contract("_->new")
+    public TemperatureRecord plus(TemperatureRecord other) {
+        return this.add(other);
+    }
+
+    /**
      * Converts this record's value into another unit
      *
      * @param unit The unit to convert to
