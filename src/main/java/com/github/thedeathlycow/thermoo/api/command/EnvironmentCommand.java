@@ -1,15 +1,20 @@
 package com.github.thedeathlycow.thermoo.api.command;
 
+import com.github.thedeathlycow.thermoo.api.environment.EnvironmentLookup;
 import com.github.thedeathlycow.thermoo.api.temperature.EnvironmentManager;
 import com.github.thedeathlycow.thermoo.api.util.TemperatureConverter;
 import com.github.thedeathlycow.thermoo.api.util.TemperatureUnit;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
+import com.github.thedeathlycow.thermoo.impl.environment.EnvironmentLookupImpl;
+import com.mojang.brigadier.arguments.DoubleArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import net.minecraft.command.argument.BlockPosArgumentType;
 import net.minecraft.command.argument.EntityArgumentType;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.biome.Biome;
 import org.jetbrains.annotations.Contract;
 
 import java.util.function.Supplier;
@@ -120,10 +125,49 @@ public class EnvironmentCommand {
                                 )
                 );
 
+        final String location = "location";
+        final String unit = "unit";
+        final String scale = "scale";
+
+        var temperature = literal("temperature").then(
+                argument(location, BlockPosArgumentType.blockPos())
+                        .executes(
+                                context -> executeTemperature(
+                                        context.getSource(),
+                                        BlockPosArgumentType.getLoadedBlockPos(context, location),
+                                        TemperatureUnit.CELSIUS,
+                                        1.0
+                                )
+                        )
+                        .then(
+                                argument(unit, TemperatureUnitArgumentType.temperatureUnit())
+                                        .executes(
+                                                context -> executeTemperature(
+                                                        context.getSource(),
+                                                        BlockPosArgumentType.getLoadedBlockPos(context, location),
+                                                        TemperatureUnitArgumentType.getTemperatureUnit(context, unit),
+                                                        1.0
+                                                )
+                                        )
+                                        .then(
+                                                argument(scale, DoubleArgumentType.doubleArg(0))
+                                                        .executes(
+                                                                context -> executeTemperature(
+                                                                        context.getSource(),
+                                                                        BlockPosArgumentType.getLoadedBlockPos(context, location),
+                                                                        TemperatureUnitArgumentType.getTemperatureUnit(context, unit),
+                                                                        DoubleArgumentType.getDouble(context, scale)
+                                                                )
+                                                        )
+                                        )
+                        )
+        );
+
         return literal("thermoo").then(
                 (literal("environment").requires((src) -> src.hasPermissionLevel(2)))
                         .then(checkTemperature)
                         .then(printController)
+                        .then(temperature)
         );
     }
 
@@ -136,6 +180,28 @@ public class EnvironmentCommand {
         ), false);
         Thermoo.LOGGER.info("The current controller is: {}", controller);
         return 0;
+    }
+
+    private static int executeTemperature(ServerCommandSource source, BlockPos location, TemperatureUnit unit, double scale) {
+        double temperature = EnvironmentLookup.getInstance().findTemperature(source.getWorld(), location, unit);
+        source.sendFeedback(
+                () -> {
+                    RegistryKey<Biome> biome = source.getWorld().getBiome(location).getKey().orElse(null);
+                    return Text.translatableWithFallback(
+                            "commands.thermoo.environment.temperature.success",
+                            "The environment temperature at %s, %s, %s (%s) is %s°%s",
+                            location.getX(),
+                            location.getY(),
+                            location.getZ(),
+                            biome == null ? "unknown" : biome.getValue().toString(),
+                            String.format("%.2f", temperature),
+                            unit.getUnitSymbol()
+                    );
+                },
+                false
+        );
+
+        return (int) (temperature * scale);
     }
 
     private static int executeCheckTemperature(ServerCommandSource source, BlockPos location) {
