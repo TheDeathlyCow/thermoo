@@ -3,6 +3,7 @@ package com.github.thedeathlycow.thermoo.api.util;
 import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Comparator;
@@ -116,6 +117,18 @@ public final class TemperatureRecord implements Comparable<TemperatureRecord> {
      */
     public TemperatureUnit unit() {
         return unit;
+    }
+
+    /**
+     * Adds two records together
+     *
+     * @param other the other record to add
+     * @return Returns a new record that is the sum of the two records in this record's unit
+     */
+    @Contract("_->new")
+    public TemperatureRecord add(TemperatureRecord other) {
+        double otherValue = other.valueInUnit(this.unit());
+        return new TemperatureRecord(this.value() + otherValue, this.unit());
     }
 
     /**
