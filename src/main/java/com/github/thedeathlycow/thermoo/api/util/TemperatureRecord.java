@@ -41,4 +41,8 @@ public final class TemperatureRecord {
     public TemperatureUnit unit() {
         return unit;
     }
+
+    public double valueInUnit(TemperatureUnit unit) {
+        return unit.convertTemperature(this);
+    }
 }
