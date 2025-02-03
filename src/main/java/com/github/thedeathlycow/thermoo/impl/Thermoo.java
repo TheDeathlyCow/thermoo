@@ -2,7 +2,7 @@ package com.github.thedeathlycow.thermoo.impl;
 
 import com.github.thedeathlycow.thermoo.api.ThermooRegistryKeys;
 import com.github.thedeathlycow.thermoo.api.command.*;
-import com.github.thedeathlycow.thermoo.api.environment.Environment;
+import com.github.thedeathlycow.thermoo.api.environment.EnvironmentDefinition;
 import com.github.thedeathlycow.thermoo.api.temperature.EnvironmentManager;
 import com.github.thedeathlycow.thermoo.impl.temperature.effect.TemperatureEffectLoader;
 import net.fabricmc.api.ModInitializer;
@@ -46,7 +46,7 @@ public class Thermoo implements ModInitializer {
 
         DynamicRegistries.register(
                 ThermooRegistryKeys.ENVIRONMENT,
-                Environment.CODEC
+                EnvironmentDefinition.CODEC
         );
         ThermooCommonRegisters.registerTemperatureEffects();
         ThermooCommonRegisters.registerEnvironmentProviderTypes();

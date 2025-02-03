@@ -8,23 +8,23 @@ import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.entry.RegistryEntryList;
 import net.minecraft.world.biome.Biome;
 
-public final class Environment {
-    public static final Codec<Environment> CODEC = RecordCodecBuilder.create(
+public final class EnvironmentDefinition {
+    public static final Codec<EnvironmentDefinition> CODEC = RecordCodecBuilder.create(
             instance -> instance.group(
                     RegistryCodecs.entryList(RegistryKeys.BIOME)
                             .fieldOf("biomes")
-                            .forGetter(Environment::biomes),
+                            .forGetter(EnvironmentDefinition::biomes),
                     EnvironmentProvider.PROVIDER_CODEC
                             .fieldOf("provider")
-                            .forGetter(Environment::provider)
-            ).apply(instance, Environment::new)
+                            .forGetter(EnvironmentDefinition::provider)
+            ).apply(instance, EnvironmentDefinition::new)
     );
 
     private final RegistryEntryList<Biome> biomes;
 
     private final EnvironmentProvider provider;
 
-    public Environment(RegistryEntryList<Biome> biomes, EnvironmentProvider provider) {
+    public EnvironmentDefinition(RegistryEntryList<Biome> biomes, EnvironmentProvider provider) {
         this.biomes = biomes;
         this.provider = provider;
     }
