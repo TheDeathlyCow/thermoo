@@ -34,7 +34,9 @@ public interface EnvironmentProvider {
      * @return Returns an optional temperature record. If no record is returned, it will not be counted towards the mean
      * temperature.
      */
-    Optional<TemperatureRecord> getTemperature(World world, BlockPos pos, RegistryEntry<Biome> biome);
+    default Optional<TemperatureRecord> getTemperature(World world, BlockPos pos, RegistryEntry<Biome> biome) {
+        return Optional.empty();
+    }
 
     /**
      * Gets the relative humidity of a position within a biome.
@@ -54,7 +56,9 @@ public interface EnvironmentProvider {
      * counted towards the mean relative humidity.
      * @see <a href="https://en.m.wikipedia.org/wiki/Humidity">Humidity on Wikipedia</a>
      */
-    OptionalDouble getRelativeHumidity(World world, BlockPos pos, RegistryEntry<Biome> biome);
+    default OptionalDouble getRelativeHumidity(World world, BlockPos pos, RegistryEntry<Biome> biome) {
+        return OptionalDouble.empty();
+    }
 
     /**
      * @return Returns the type of this provider for dispatch
