@@ -16,7 +16,7 @@ public final class TemperatureRecord implements Comparable<TemperatureRecord> {
     /**
      * Codec for a record that is represented as a named tuple of the value and unit.
      * <p>
-     * <h3>Example format</h3>
+     * <h2>Example format</h2>
      * <p>
      * Room temperature in Celsius:
      * <pre>{@code
@@ -49,7 +49,7 @@ public final class TemperatureRecord implements Comparable<TemperatureRecord> {
      * Codec that allows for the value to be stored as a simple double (in which case the value will be in Celsius) or as
      * an explicit value, unit tuple.
      *
-     * <h3>Example format</h3>
+     * <h2>Example format</h2>
      * Storing a Celsius value:
      * <pre>{@code
      * 20.0

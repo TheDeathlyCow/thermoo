@@ -27,7 +27,7 @@ public final class ThermooRegistryKeys {
     /**
      * Key for the environment definition registry
      * <p>
-     * This registry is a dynamic registry, with elements defined from a datapack in {@code thermoo/environment}
+     * This registry is a dynamic registry, with elements defined from a datapack in the folder {@code /thermoo/environment/}
      *
      * @see EnvironmentDefinition
      */
