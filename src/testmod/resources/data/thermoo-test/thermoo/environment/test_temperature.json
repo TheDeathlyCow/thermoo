@@ -6,7 +6,8 @@
             "winter": {
                 "type": "thermoo:constant",
                 "temperature": {
-                    "value": 0.0
+                    "value": 68.0,
+                    "unit": "fahrenheit"
                 },
                 "relative_humidity": 0.25
             },
