@@ -19,7 +19,7 @@ import java.util.OptionalDouble;
 /**
  * Provides constant environment values
  */
-public class ConstantEnvironmentProvider implements EnvironmentProvider {
+public final class ConstantEnvironmentProvider implements EnvironmentProvider {
     public static final MapCodec<ConstantEnvironmentProvider> CODEC = RecordCodecBuilder.mapCodec(
             instance -> instance.group(
                     TemperatureRecord.CODEC
