@@ -1,5 +1,7 @@
 package com.github.thedeathlycow.thermoo.api.season;
 
+import com.mojang.serialization.Codec;
+import net.minecraft.util.StringIdentifiable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
@@ -10,18 +12,22 @@ import java.util.Optional;
  * Mod-agnostic Seasons enum. Thermoo does not any provide seasons-like functionality itself, but this can be used to
  * better integrate with any mods that do provide season functionality.
  */
-public enum ThermooSeason {
-    SPRING(false),
-    SUMMER(false),
-    AUTUMN(false),
-    WINTER(false),
-    TROPICAL_DRY(true),
-    TROPICAL_WET(true);
+public enum ThermooSeason implements StringIdentifiable {
+    SPRING(false, "spring"),
+    SUMMER(false, "summer"),
+    AUTUMN(false, "autumn"),
+    WINTER(false, "winter"),
+    TROPICAL_DRY(true, "dry"),
+    TROPICAL_WET(true, "wet");
+
+    public static final Codec<ThermooSeason> CODEC = StringIdentifiable.createCodec(ThermooSeason::values);
 
     private final boolean isTropical;
+    private final String name;
 
-    ThermooSeason(boolean isTropical) {
+    ThermooSeason(boolean isTropical, String name) {
         this.isTropical = isTropical;
+        this.name = name;
     }
 
     /**
@@ -68,5 +74,10 @@ public enum ThermooSeason {
      */
     public boolean isTropical() {
         return isTropical;
+    }
+
+    @Override
+    public String asString() {
+        return this.name;
     }
 }
