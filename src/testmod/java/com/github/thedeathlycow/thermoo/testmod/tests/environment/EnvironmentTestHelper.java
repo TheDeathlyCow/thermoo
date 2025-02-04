@@ -69,7 +69,7 @@ public final class EnvironmentTestHelper {
         temperateSeasonRule.set(temperateSeasonValue, server);
 
         GameRules.IntRule tropicalSeasonRule = server.getGameRules().get(ThermooTestMod.CURRENT_TROPICAL_SEASON);
-        int tropicalSeasonValue = switch (temperateSeason) {
+        int tropicalSeasonValue = switch (tropicalSeason) {
             case TROPICAL_WET -> 1;
             case TROPICAL_DRY -> 2;
             case null, default -> 0;
