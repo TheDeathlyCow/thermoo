@@ -1,5 +1,7 @@
 {
-    "biomes": "#c:is_temperate/overworld",
+    "biomes": [
+        "minecraft:plains"
+    ],
     "provider": {
         "type": "thermoo:seasonal/temperate",
         "seasons": {

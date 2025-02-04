@@ -1,0 +1,63 @@
+{
+    "biomes": [
+        "minecraft:desert"
+    ],
+    "provider": {
+        "type": "thermoo:seasonal/tropical",
+        "seasons": {
+            "wet": {
+                "type": "thermoo:seasonal/temperate",
+                "seasons": {
+                    "spring": {
+                        "type": "thermoo:constant",
+                        "temperature": 30.0,
+                        "relative_humidity": 1.0
+                    },
+                    "summer": {
+                        "type": "thermoo:constant",
+                        "temperature": 40.0,
+                        "relative_humidity": 1.0
+                    },
+                    "autumn": {
+                        "type": "thermoo:constant",
+                        "temperature": 30.0,
+                        "relative_humidity": 0.8
+                    },
+                    "winter": {
+                        "type": "thermoo:constant",
+                        "temperature": 20.0,
+                        "relative_humidity": 0.8
+                    }
+                },
+                "fallback_season": "spring"
+            },
+            "dry": {
+                "type": "thermoo:seasonal/temperate",
+                "seasons": {
+                    "spring": {
+                        "type": "thermoo:constant",
+                        "temperature": 30.0,
+                        "relative_humidity": 0.2
+                    },
+                    "summer": {
+                        "type": "thermoo:constant",
+                        "temperature": 40.0,
+                        "relative_humidity": 0.2
+                    },
+                    "autumn": {
+                        "type": "thermoo:constant",
+                        "temperature": 30.0,
+                        "relative_humidity": 0.1
+                    },
+                    "winter": {
+                        "type": "thermoo:constant",
+                        "temperature": 20.0,
+                        "relative_humidity": 0.1
+                    }
+                },
+                "fallback_season": "spring"
+            },
+            "fallback_season": "dry"
+        }
+    }
+}
