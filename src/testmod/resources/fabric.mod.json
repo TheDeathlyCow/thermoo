@@ -17,7 +17,8 @@
 			"com.github.thedeathlycow.thermoo.testmod.tests.environment.PlainsTemperatureTests",
 			"com.github.thedeathlycow.thermoo.testmod.tests.environment.PlainsHumidityTests",
 			"com.github.thedeathlycow.thermoo.testmod.tests.environment.JungleTemperatureTests",
-			"com.github.thedeathlycow.thermoo.testmod.tests.environment.JungleHumidityTests"
+			"com.github.thedeathlycow.thermoo.testmod.tests.environment.JungleHumidityTests",
+			"com.github.thedeathlycow.thermoo.testmod.tests.environment.ForestTests"
 		]
 	}
 }
