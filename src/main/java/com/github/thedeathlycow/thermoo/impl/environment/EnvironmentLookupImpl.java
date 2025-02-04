@@ -101,7 +101,7 @@ public class EnvironmentLookupImpl implements EnvironmentLookup {
                 k -> {
                     List<EnvironmentProvider> providers = manager.getOrThrow(ThermooRegistryKeys.ENVIRONMENT)
                             .stream()
-                            .filter(definition -> definition.biomes().contains(biome))
+                            .filter(definition -> definition.providesFor(biome))
                             .map(EnvironmentDefinition::provider)
                             .toList();
                     if (Thermoo.LOGGER.isDebugEnabled()) {
