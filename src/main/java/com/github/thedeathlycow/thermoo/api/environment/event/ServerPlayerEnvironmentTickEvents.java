@@ -1,5 +1,6 @@
 package com.github.thedeathlycow.thermoo.api.environment.event;
 
+import com.github.thedeathlycow.thermoo.api.temperature.event.PlayerEnvironmentEvents;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 import net.fabricmc.fabric.api.util.TriState;
@@ -17,16 +18,24 @@ public final class ServerPlayerEnvironmentTickEvents {
             }
     );
 
-    public static final Event<AllowTemperatureChange> ALLOW_PLAYER_TEMPERATURE_CHANGE = EventFactory.createArrayBacked(
+    public static final Event<AllowTemperatureChange> ALLOW_TEMPERATURE_CHANGE = EventFactory.createArrayBacked(
             AllowTemperatureChange.class,
             listeners -> (context, temperatureChange) -> {
+                TriState oldEventResult = PlayerEnvironmentEvents.CAN_APPLY_PASSIVE_TEMPERATURE_CHANGE.invoker().canApplyChange(
+                        temperatureChange,
+                        context.affected()
+                );
+                if (oldEventResult != TriState.DEFAULT) {
+                    return oldEventResult;
+                }
+
                 for (AllowTemperatureChange listener : listeners) {
                     TriState result = listener.allowTemperatureChange(context, temperatureChange);
                     if (result != TriState.DEFAULT) {
                         return result;
                     }
                 }
-                return TriState.TRUE;
+                return TriState.DEFAULT;
             }
     );
 

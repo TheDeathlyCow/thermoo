@@ -5,7 +5,6 @@ import com.github.thedeathlycow.thermoo.api.environment.event.EnvironmentTickCon
 import com.github.thedeathlycow.thermoo.api.environment.event.ServerPlayerEnvironmentTickEvents;
 import com.github.thedeathlycow.thermoo.api.temperature.HeatingModes;
 import com.github.thedeathlycow.thermoo.api.temperature.TemperatureAware;
-import com.github.thedeathlycow.thermoo.api.temperature.event.PlayerEnvironmentEvents;
 import com.github.thedeathlycow.thermoo.api.util.TemperatureRecord;
 import com.github.thedeathlycow.thermoo.api.util.TemperatureUnit;
 import net.fabricmc.fabric.api.util.TriState;
@@ -41,7 +40,7 @@ public final class TickUtil {
     }
 
     private static boolean invokeAllowChange(EnvironmentTickContext<ServerPlayerEntity> context, int temperatureChange) {
-        TriState result = ServerPlayerEnvironmentTickEvents.ALLOW_PLAYER_TEMPERATURE_CHANGE.invoker()
+        TriState result = ServerPlayerEnvironmentTickEvents.ALLOW_TEMPERATURE_CHANGE.invoker()
                 .allowTemperatureChange(context, temperatureChange);
         return result != TriState.FALSE;
     }
