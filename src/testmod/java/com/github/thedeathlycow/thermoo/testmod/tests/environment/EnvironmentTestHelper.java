@@ -20,7 +20,7 @@ public final class EnvironmentTestHelper {
     public static void assertTemperatureEquals(TestContext context, double expected, double actual) {
         context.assertTrue(
                 Math.abs(actual - expected) <= 1e-2,
-                "Expected temperature was " + expected + "°C but was actually " + actual + "°C"
+                "Expected temperature was " + expected + "*C but was actually " + actual + "*C"
         );
     }
 

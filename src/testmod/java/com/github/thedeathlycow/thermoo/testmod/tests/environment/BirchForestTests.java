@@ -7,25 +7,25 @@ import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeKeys;
 
 @SuppressWarnings("unused")
-public class ForestTests {
+public class BirchForestTests {
     @GameTest(templateName = FabricGameTest.EMPTY_STRUCTURE)
-    public void forest_temperature_is_21c(TestContext context) {
+    public void birch_forest_temperature_is_mean_of_forest_and_birch(TestContext context) {
         World world = context.getWorld();
         EnvironmentTestHelper.setSeasons(context, null, null);
 
-        double temperature = EnvironmentTestHelper.getBiomeTemperature(context, world, BiomeKeys.FOREST);
-        EnvironmentTestHelper.assertTemperatureEquals(context, 21.0, temperature);
+        double temperature = EnvironmentTestHelper.getBiomeTemperature(context, world, BiomeKeys.BIRCH_FOREST);
+        EnvironmentTestHelper.assertTemperatureEquals(context, 25.5, temperature);
 
         context.complete();
     }
 
     @GameTest(templateName = FabricGameTest.EMPTY_STRUCTURE)
-    public void forest_humidity_is_51pc(TestContext context) {
+    public void birch_forest_humidity_is_mean_of_forest_and_birch(TestContext context) {
         World world = context.getWorld();
         EnvironmentTestHelper.setSeasons(context, null, null);
 
-        double humidity = EnvironmentTestHelper.getBiomeHumidity(context, world, BiomeKeys.FOREST);
-        EnvironmentTestHelper.assertHumidityEquals(context, 0.51, humidity);
+        double humidity = EnvironmentTestHelper.getBiomeHumidity(context, world, BiomeKeys.BIRCH_FOREST);
+        EnvironmentTestHelper.assertHumidityEquals(context, 0.755, humidity);
 
         context.complete();
     }

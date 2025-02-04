@@ -79,7 +79,7 @@ public class EnvironmentLookupImpl implements EnvironmentLookup {
         for (EnvironmentProvider provider : providers) {
             OptionalDouble result = provider.getRelativeHumidity(world, pos, biome);
             if (result.isPresent()) {
-                totalRelativeHumidity = result.getAsDouble();
+                totalRelativeHumidity += result.getAsDouble();
                 totalProviders++;
             }
         }
