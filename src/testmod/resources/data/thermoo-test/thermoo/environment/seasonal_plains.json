@@ -4,6 +4,7 @@
     ],
     "provider": {
         "type": "thermoo:seasonal/temperate",
+        "fallback_season": "spring",
         "seasons": {
             "spring": {
                 "type": "thermoo:constant",
@@ -25,7 +26,6 @@
                 "temperature": 10.0,
                 "relative_humidity": 0.25
             }
-        },
-        "fallback_season": "spring"
+        }
     }
 }

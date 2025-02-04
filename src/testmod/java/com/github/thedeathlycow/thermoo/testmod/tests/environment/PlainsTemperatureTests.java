@@ -8,14 +8,14 @@ import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeKeys;
 
 @SuppressWarnings("unused")
-public class PlainsTests {
+public class PlainsTemperatureTests {
     @GameTest(templateName = FabricGameTest.EMPTY_STRUCTURE)
     public void plains_fallback_temperature_is_spring(TestContext context) {
         World world = context.getWorld();
         EnvironmentTestHelper.setSeasons(world.getServer(), null, null);
 
-        double plainsTemperature = EnvironmentTestHelper.getBiomeTemperature(context, world, BiomeKeys.PLAINS);
-        EnvironmentTestHelper.assertTemperatureEquals(context, 20.0, plainsTemperature);
+        double temperature = EnvironmentTestHelper.getBiomeTemperature(context, world, BiomeKeys.PLAINS);
+        EnvironmentTestHelper.assertTemperatureEquals(context, 20.0, temperature);
 
         context.complete();
     }
@@ -25,8 +25,8 @@ public class PlainsTests {
         World world = context.getWorld();
         EnvironmentTestHelper.setSeasons(world.getServer(), ThermooSeason.SPRING, null);
 
-        double plainsTemperature = EnvironmentTestHelper.getBiomeTemperature(context, world, BiomeKeys.PLAINS);
-        EnvironmentTestHelper.assertTemperatureEquals(context, 20.0, plainsTemperature);
+        double temperature = EnvironmentTestHelper.getBiomeTemperature(context, world, BiomeKeys.PLAINS);
+        EnvironmentTestHelper.assertTemperatureEquals(context, 20.0, temperature);
 
         context.complete();
     }
@@ -36,8 +36,8 @@ public class PlainsTests {
         World world = context.getWorld();
         EnvironmentTestHelper.setSeasons(world.getServer(), ThermooSeason.SUMMER, null);
 
-        double plainsTemperature = EnvironmentTestHelper.getBiomeTemperature(context, world, BiomeKeys.PLAINS);
-        EnvironmentTestHelper.assertTemperatureEquals(context, 30.0, plainsTemperature);
+        double temperature = EnvironmentTestHelper.getBiomeTemperature(context, world, BiomeKeys.PLAINS);
+        EnvironmentTestHelper.assertTemperatureEquals(context, 30.0, temperature);
 
         context.complete();
     }
@@ -47,8 +47,8 @@ public class PlainsTests {
         World world = context.getWorld();
         EnvironmentTestHelper.setSeasons(world.getServer(), ThermooSeason.AUTUMN, null);
 
-        double plainsTemperature = EnvironmentTestHelper.getBiomeTemperature(context, world, BiomeKeys.PLAINS);
-        EnvironmentTestHelper.assertTemperatureEquals(context, 20.0, plainsTemperature);
+        double temperature = EnvironmentTestHelper.getBiomeTemperature(context, world, BiomeKeys.PLAINS);
+        EnvironmentTestHelper.assertTemperatureEquals(context, 20.0, temperature);
 
         context.complete();
     }
@@ -58,8 +58,8 @@ public class PlainsTests {
         World world = context.getWorld();
         EnvironmentTestHelper.setSeasons(world.getServer(), ThermooSeason.WINTER, null);
 
-        double plainsTemperature = EnvironmentTestHelper.getBiomeTemperature(context, world, BiomeKeys.PLAINS);
-        EnvironmentTestHelper.assertTemperatureEquals(context, 10.0, plainsTemperature);
+        double temperature = EnvironmentTestHelper.getBiomeTemperature(context, world, BiomeKeys.PLAINS);
+        EnvironmentTestHelper.assertTemperatureEquals(context, 10.0, temperature);
 
         context.complete();
     }

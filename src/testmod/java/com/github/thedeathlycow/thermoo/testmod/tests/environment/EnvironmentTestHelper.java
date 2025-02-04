@@ -3,6 +3,7 @@ package com.github.thedeathlycow.thermoo.testmod.tests.environment;
 import com.github.thedeathlycow.thermoo.api.season.ThermooSeason;
 import com.github.thedeathlycow.thermoo.api.util.TemperatureUnit;
 import com.github.thedeathlycow.thermoo.impl.environment.EnvironmentLookupImpl;
+import com.github.thedeathlycow.thermoo.testmod.ThermooTestMod;
 import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
@@ -23,12 +24,28 @@ public final class EnvironmentTestHelper {
         );
     }
 
+    public static void assertHumidityEquals(TestContext context, double expected, double actual) {
+        context.assertTrue(
+                Math.abs(actual - expected) <= 1e-2,
+                "Expected humidity was " + expected + "% but was actually " + actual + "%"
+        );
+    }
+
     public static double getBiomeTemperature(TestContext context, World world, RegistryKey<Biome> biomeKey) {
         RegistryEntry<Biome> plains = EnvironmentTestHelper.getBiomeEntry(world.getRegistryManager(), biomeKey);
         return EnvironmentLookupImpl.INSTANCE.findTemperatureForBiome(
                 world,
                 context.getAbsolutePos(BlockPos.ORIGIN),
                 TemperatureUnit.CELSIUS,
+                plains
+        );
+    }
+
+    public static double getBiomeHumidity(TestContext context, World world, RegistryKey<Biome> biomeKey) {
+        RegistryEntry<Biome> plains = EnvironmentTestHelper.getBiomeEntry(world.getRegistryManager(), biomeKey);
+        return EnvironmentLookupImpl.INSTANCE.findRelativeHumidityForBiome(
+                world,
+                context.getAbsolutePos(BlockPos.ORIGIN),
                 plains
         );
     }
@@ -40,7 +57,7 @@ public final class EnvironmentTestHelper {
     }
 
     public static void setSeasons(MinecraftServer server, @Nullable ThermooSeason temperateSeason, @Nullable ThermooSeason tropicalSeason) {
-        GameRules.IntRule temperateSeasonRule = server.getGameRules().get(CURRENT_SEASON);
+        GameRules.IntRule temperateSeasonRule = server.getGameRules().get(ThermooTestMod.CURRENT_SEASON);
         int temperateSeasonValue = switch (temperateSeason) {
             case SPRING -> 1;
             case SUMMER -> 2;
@@ -50,7 +67,7 @@ public final class EnvironmentTestHelper {
         };
         temperateSeasonRule.set(temperateSeasonValue, server);
 
-        GameRules.IntRule tropicalSeasonRule = server.getGameRules().get(CURRENT_TROPICAL_SEASON);
+        GameRules.IntRule tropicalSeasonRule = server.getGameRules().get(ThermooTestMod.CURRENT_TROPICAL_SEASON);
         int tropicalSeasonValue = switch (temperateSeason) {
             case TROPICAL_WET -> 1;
             case TROPICAL_DRY -> 2;

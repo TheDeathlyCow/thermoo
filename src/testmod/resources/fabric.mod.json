@@ -13,7 +13,9 @@
 			"com.github.thedeathlycow.thermoo.testmod.ThermooTestModClient"
 		],
 		"fabric-gametest": [
-			"com.github.thedeathlycow.thermoo.testmod.tests.AttributeTests"
+			"com.github.thedeathlycow.thermoo.testmod.tests.AttributeTests",
+			"com.github.thedeathlycow.thermoo.testmod.tests.environment.PlainsTemperatureTests",
+			"com.github.thedeathlycow.thermoo.testmod.tests.environment.PlainsHumidityTests"
 		]
 	}
 }

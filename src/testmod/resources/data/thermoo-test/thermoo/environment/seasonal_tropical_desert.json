@@ -4,9 +4,11 @@
     ],
     "provider": {
         "type": "thermoo:seasonal/tropical",
+        "fallback_season": "dry",
         "seasons": {
             "wet": {
                 "type": "thermoo:seasonal/temperate",
+                "fallback_season": "spring",
                 "seasons": {
                     "spring": {
                         "type": "thermoo:constant",
@@ -28,11 +30,11 @@
                         "temperature": 20.0,
                         "relative_humidity": 0.8
                     }
-                },
-                "fallback_season": "spring"
+                }
             },
             "dry": {
                 "type": "thermoo:seasonal/temperate",
+                "fallback_season": "spring",
                 "seasons": {
                     "spring": {
                         "type": "thermoo:constant",
@@ -54,10 +56,8 @@
                         "temperature": 20.0,
                         "relative_humidity": 0.1
                     }
-                },
-                "fallback_season": "spring"
-            },
-            "fallback_season": "dry"
+                }
+            }
         }
     }
 }
