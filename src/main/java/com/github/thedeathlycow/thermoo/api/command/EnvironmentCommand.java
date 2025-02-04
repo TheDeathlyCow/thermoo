@@ -30,6 +30,10 @@ import static net.minecraft.server.command.CommandManager.literal;
  * {@code thermoo environment checktemperature <args>}
  * <p>
  * {@code thermoo environment printcontroller}
+ * <p>
+ * {@code thermoo environment temperature <pos> [<unit>] [<scale>]}
+ * <p>
+ * {@code thermoo environment relativehumidity <pos> [<scale>]}
  */
 public class EnvironmentCommand {
 
