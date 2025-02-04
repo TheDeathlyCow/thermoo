@@ -46,7 +46,7 @@ public final class TemperatureRecord implements Comparable<TemperatureRecord> {
 
     /**
      * Codec that allows for the value to be stored as a simple double (in which case the value will be in Celsius) or as
-     * an explicit value, unit tuple.
+     * an explicit (value, unit) tuple.
      * <p>
      * <strong>Usage Example</strong>
      * <p>
@@ -132,6 +132,14 @@ public final class TemperatureRecord implements Comparable<TemperatureRecord> {
     }
 
     /**
+     * Identical to {@link #add(TemperatureRecord)} but named for better Kotlin interop
+     */
+    @Contract("_->new")
+    public TemperatureRecord plus(TemperatureRecord other) {
+        return this.add(other);
+    }
+
+    /**
      * Converts this record's value into another unit
      *
      * @param unit The unit to convert to
@@ -142,54 +150,67 @@ public final class TemperatureRecord implements Comparable<TemperatureRecord> {
     }
 
     /**
-     * Checks if this record stores an equivalent temperature value to the one given in the other record.
-     * <p>
-     * The comparison is performed in the unit of this record.
-     *
-     * @param other The other record to compare to.
-     * @return Returns true if the value of this record is strictly equal to the value of the other record, in the unit
-     * of this record.
-     * @see #isEquivalent(TemperatureRecord, double)
-     */
-    public boolean isEquivalent(TemperatureRecord other) {
-        return this.compareTo(other) == 0;
-    }
-
-    /**
      * Checks if this record stores a roughly equivalent temperature value to the one given in the other record.
      * <p>
-     * The comparison is performed in the unit of this record.
+     * The comparison is performed in this record's unit.
      *
-     * @param other     The other record to compare to.
+     * @param other     The other record to compare to
      * @param tolerance A positive fuzz factor for how much the units are allowed to be. It must be a temperature value
      *                  in this record's unit.
-     * @return Returns true if the value of this record is roughly equal to the value of the other record, in the unit
-     * of this record.
+     * @return Returns true if the value of this record is roughly equivalent to the value of the other record
      */
-    public boolean isEquivalent(TemperatureRecord other, double tolerance) {
-        double otherValue = other.valueInUnit(this.unit());
-        return Math.abs(this.value() - otherValue) <= tolerance;
+    public boolean equals(TemperatureRecord other, double tolerance) {
+        double otherValue = other.valueInUnit(this.unit);
+        return Math.abs(this.value - otherValue) <= tolerance;
     }
 
     /**
-     * Checks that two temperature records are the same, both in unit and value.
+     * Checks if this record stores an equivalent temperature value to the one given in the other record.
+     * <p>
+     * The comparison is performed in Celsius
      *
-     * @param o The other record to compare to
-     * @return Returns true if the other record has the same value and unit as this one.
-     * @see #isEquivalent(TemperatureRecord)
-     * @see #isEquivalent(TemperatureRecord, double)
+     * @param o The other record to compare to.
+     * @return Returns true if the value of this record is equivalent to the value of the other record, in the unit
+     * of this record.
      */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         TemperatureRecord that = (TemperatureRecord) o;
-        return Double.compare(value, that.value) == 0 && unit == that.unit;
+        double thisCelsius = this.unit.toCelsius(this.value);
+        double otherCelsius = that.unit.toCelsius(that.value);
+        return Double.compare(thisCelsius, otherCelsius) == 0;
     }
 
+    /**
+     * Computes the hash value of this record's Celsius value
+     */
     @Override
     public int hashCode() {
-        return Objects.hash(value, unit);
+        return Objects.hash(this.unit.toCelsius(this.value), TemperatureUnit.CELSIUS);
+    }
+
+    /**
+     * A stricter equality method that checks both records are roughly equal in both value and unit.
+     *
+     * @param other     the other record to compare to
+     * @param tolerance A positive fuzz factor for how much the units are allowed to be. It must be a temperature value
+     *                  in this record's unit.
+     * @return Returns true if both records have the same unit, and roughly the same value
+     */
+    public boolean strictEquals(TemperatureRecord other, double tolerance) {
+        return other.unit == this.unit && Math.abs(this.value - other.value) <= tolerance;
+    }
+
+    /**
+     * A stricter equality method that checks both records are equal in both value and unit.
+     *
+     * @param other the other record to compare to
+     * @return Returns true if both records have the same unit, and the same value
+     */
+    public boolean strictEquals(TemperatureRecord other) {
+        return other.unit == this.unit && Double.compare(other.value, this.value) == 0;
     }
 
     /**
@@ -204,6 +225,6 @@ public final class TemperatureRecord implements Comparable<TemperatureRecord> {
     @Override
     public int compareTo(@NotNull TemperatureRecord other) {
         double otherValue = other.valueInUnit(this.unit());
-        return Double.compare(this.value(), otherValue);
+        return Double.compare(this.value, otherValue);
     }
 }

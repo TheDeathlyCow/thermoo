@@ -1,0 +1,11 @@
+{
+    "biomes": [
+        "minecraft:forest",
+        "minecraft:birch_forest"
+    ],
+    "provider": {
+        "type": "thermoo:constant",
+        "temperature": 21.0,
+        "relative_humidity": 0.51
+    }
+}

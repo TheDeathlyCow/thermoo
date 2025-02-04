@@ -1,0 +1,20 @@
+{
+    "biomes": [
+        "minecraft:jungle"
+    ],
+    "provider": {
+        "type": "thermoo:seasonal/tropical",
+        "seasons": {
+            "wet": {
+                "type": "thermoo:constant",
+                "temperature": 30.0,
+                "relative_humidity": 1.0
+            },
+            "dry": {
+                "type": "thermoo:constant",
+                "temperature": 50.0,
+                "relative_humidity": 0.25
+            }
+        }
+    }
+}
