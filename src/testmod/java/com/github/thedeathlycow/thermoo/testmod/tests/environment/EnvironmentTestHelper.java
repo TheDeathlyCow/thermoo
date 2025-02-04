@@ -76,22 +76,18 @@ public final class EnvironmentTestHelper {
         };
         tropicalSeasonRule.set(tropicalSeasonValue, server);
 
-        if (temperateSeason != null) {
-            ThermooSeason actualSeason = ThermooSeason.getCurrentSeason(context.getWorld()).orElse(null);
-            context.assertTrue(
-                    actualSeason == temperateSeason,
-                    "Expected temperate season to be " + temperateSeason.asString() + " but was " + actualSeason
-            );
-        }
+        ThermooSeason newTemperateSeason = ThermooSeason.getCurrentSeason(context.getWorld()).orElse(null);
+        context.assertTrue(
+                newTemperateSeason == temperateSeason,
+                "Expected temperate season to be " + temperateSeason + " but was " + newTemperateSeason
+        );
 
-        if (tropicalSeason != null) {
-            ThermooSeason actualSeason = ThermooSeason.getCurrentTropicalSeason(context.getWorld(), BlockPos.ORIGIN)
-                    .orElse(null);
-            context.assertTrue(
-                    actualSeason == tropicalSeason,
-                    "Expected tropical season to be " + tropicalSeason.asString() + " but was " + actualSeason
-            );
-        }
+        ThermooSeason newTropicalSeason = ThermooSeason.getCurrentTropicalSeason(context.getWorld(), BlockPos.ORIGIN)
+                .orElse(null);
+        context.assertTrue(
+                newTropicalSeason == tropicalSeason,
+                "Expected tropical season to be " + tropicalSeason + " but was " + newTropicalSeason
+        );
     }
 
     private EnvironmentTestHelper() {
