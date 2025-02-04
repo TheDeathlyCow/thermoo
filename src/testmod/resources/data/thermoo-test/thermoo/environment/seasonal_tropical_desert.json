@@ -8,26 +8,26 @@
         "seasons": {
             "wet": {
                 "type": "thermoo:seasonal/temperate",
-                "fallback_season": "spring",
+                "fallback_season": "summer",
                 "seasons": {
                     "spring": {
                         "type": "thermoo:constant",
-                        "temperature": 30.0,
+                        "temperature": 31.0,
                         "relative_humidity": 1.0
                     },
                     "summer": {
                         "type": "thermoo:constant",
-                        "temperature": 40.0,
+                        "temperature": 41.0,
                         "relative_humidity": 1.0
                     },
                     "autumn": {
                         "type": "thermoo:constant",
-                        "temperature": 30.0,
+                        "temperature": 31.0,
                         "relative_humidity": 0.8
                     },
                     "winter": {
                         "type": "thermoo:constant",
-                        "temperature": 20.0,
+                        "temperature": 21.0,
                         "relative_humidity": 0.8
                     }
                 }
