@@ -11,8 +11,16 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
 import net.fabricmc.fabric.api.util.TriState;
+import net.minecraft.registry.DynamicRegistryManager;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.world.GameRules;
+import net.minecraft.world.World;
+import net.minecraft.world.biome.Biome;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
@@ -40,7 +48,7 @@ public class ThermooTestMod implements ModInitializer {
             GameRuleRegistry.register(
                     Thermoo.MODID + "setTestTropicalSeason",
                     GameRules.Category.MISC,
-                    GameRuleFactory.createIntRule(0, 0, 3)
+                    GameRuleFactory.createIntRule(0, 0, 2)
             );
 
     private static final ThermooConfig config = new ThermooConfig();
