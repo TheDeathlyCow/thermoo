@@ -56,7 +56,8 @@ public final class EnvironmentTestHelper {
                 .orElseThrow();
     }
 
-    public static void setSeasons(MinecraftServer server, @Nullable ThermooSeason temperateSeason, @Nullable ThermooSeason tropicalSeason) {
+    public static void setSeasons(TestContext context, @Nullable ThermooSeason temperateSeason, @Nullable ThermooSeason tropicalSeason) {
+        MinecraftServer server = context.getWorld().getServer();
         GameRules.IntRule temperateSeasonRule = server.getGameRules().get(ThermooTestMod.CURRENT_SEASON);
         int temperateSeasonValue = switch (temperateSeason) {
             case SPRING -> 1;
@@ -74,6 +75,23 @@ public final class EnvironmentTestHelper {
             case null, default -> 0;
         };
         tropicalSeasonRule.set(tropicalSeasonValue, server);
+
+        if (temperateSeason != null) {
+            ThermooSeason actualSeason = ThermooSeason.getCurrentSeason(context.getWorld()).orElse(null);
+            context.assertTrue(
+                    actualSeason == temperateSeason,
+                    "Expected temperate season to be " + temperateSeason.asString() + " but was " + actualSeason
+            );
+        }
+
+        if (tropicalSeason != null) {
+            ThermooSeason actualSeason = ThermooSeason.getCurrentTropicalSeason(context.getWorld(), BlockPos.ORIGIN)
+                    .orElse(null);
+            context.assertTrue(
+                    actualSeason == tropicalSeason,
+                    "Expected tropical season to be " + tropicalSeason.asString() + " but was " + actualSeason
+            );
+        }
     }
 
     private EnvironmentTestHelper() {

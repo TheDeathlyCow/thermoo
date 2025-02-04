@@ -12,7 +12,7 @@ public class PlainsTemperatureTests {
     @GameTest(templateName = FabricGameTest.EMPTY_STRUCTURE)
     public void plains_fallback_temperature_is_spring(TestContext context) {
         World world = context.getWorld();
-        EnvironmentTestHelper.setSeasons(world.getServer(), null, null);
+        EnvironmentTestHelper.setSeasons(context, null, null);
 
         double temperature = EnvironmentTestHelper.getBiomeTemperature(context, world, BiomeKeys.PLAINS);
         EnvironmentTestHelper.assertTemperatureEquals(context, 20.0, temperature);
@@ -23,7 +23,7 @@ public class PlainsTemperatureTests {
     @GameTest(templateName = FabricGameTest.EMPTY_STRUCTURE)
     public void plains_spring_temperature_is_20c(TestContext context) {
         World world = context.getWorld();
-        EnvironmentTestHelper.setSeasons(world.getServer(), ThermooSeason.SPRING, null);
+        EnvironmentTestHelper.setSeasons(context, ThermooSeason.SPRING, null);
 
         double temperature = EnvironmentTestHelper.getBiomeTemperature(context, world, BiomeKeys.PLAINS);
         EnvironmentTestHelper.assertTemperatureEquals(context, 20.0, temperature);
@@ -34,7 +34,7 @@ public class PlainsTemperatureTests {
     @GameTest(templateName = FabricGameTest.EMPTY_STRUCTURE)
     public void plains_summer_temperature_is_30c(TestContext context) {
         World world = context.getWorld();
-        EnvironmentTestHelper.setSeasons(world.getServer(), ThermooSeason.SUMMER, null);
+        EnvironmentTestHelper.setSeasons(context, ThermooSeason.SUMMER, null);
 
         double temperature = EnvironmentTestHelper.getBiomeTemperature(context, world, BiomeKeys.PLAINS);
         EnvironmentTestHelper.assertTemperatureEquals(context, 30.0, temperature);
@@ -45,7 +45,7 @@ public class PlainsTemperatureTests {
     @GameTest(templateName = FabricGameTest.EMPTY_STRUCTURE)
     public void plains_autumn_temperature_is_20c(TestContext context) {
         World world = context.getWorld();
-        EnvironmentTestHelper.setSeasons(world.getServer(), ThermooSeason.AUTUMN, null);
+        EnvironmentTestHelper.setSeasons(context, ThermooSeason.AUTUMN, null);
 
         double temperature = EnvironmentTestHelper.getBiomeTemperature(context, world, BiomeKeys.PLAINS);
         EnvironmentTestHelper.assertTemperatureEquals(context, 20.0, temperature);
@@ -56,7 +56,7 @@ public class PlainsTemperatureTests {
     @GameTest(templateName = FabricGameTest.EMPTY_STRUCTURE)
     public void plains_winter_temperature_is_10c(TestContext context) {
         World world = context.getWorld();
-        EnvironmentTestHelper.setSeasons(world.getServer(), ThermooSeason.WINTER, null);
+        EnvironmentTestHelper.setSeasons(context, ThermooSeason.WINTER, null);
 
         double temperature = EnvironmentTestHelper.getBiomeTemperature(context, world, BiomeKeys.PLAINS);
         EnvironmentTestHelper.assertTemperatureEquals(context, 10.0, temperature);
