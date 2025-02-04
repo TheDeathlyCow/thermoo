@@ -24,9 +24,8 @@ public class EnvironmentLookupImpl implements EnvironmentLookup {
     private final Map<RegistryKey<Biome>, List<EnvironmentProvider>> biomeProviderCache = new IdentityHashMap<>();
 
     public static void initialize() {
-        ServerLifecycleEvents.SERVER_STOPPED.register(server -> {
-            INSTANCE.clearCache();
-        });
+        ServerLifecycleEvents.SERVER_STOPPED.register(server -> INSTANCE.clearCache());
+        ServerLifecycleEvents.START_DATA_PACK_RELOAD.register((server, resourceManager) -> INSTANCE.clearCache());
     }
 
     @Override
@@ -115,6 +114,6 @@ public class EnvironmentLookupImpl implements EnvironmentLookup {
 
     private void clearCache() {
         this.biomeProviderCache.clear();
-        Thermoo.LOGGER.info("Environment lookup cache cleared");
+        Thermoo.LOGGER.debug("Environment lookup cache cleared");
     }
 }
