@@ -3,20 +3,27 @@
     "provider": {
         "type": "thermoo:seasonal/temperate",
         "seasons": {
-            "winter": {
+            "spring": {
                 "type": "thermoo:constant",
-                "temperature": {
-                    "value": 68.0,
-                    "unit": "fahrenheit"
-                },
-                "relative_humidity": 0.25
+                "temperature": 20.0,
+                "relative_humidity": 0.75
             },
             "summer": {
                 "type": "thermoo:constant",
                 "temperature": 30.0,
+                "relative_humidity": 0.75
+            },
+            "autumn": {
+                "type": "thermoo:constant",
+                "temperature": 20.0,
+                "relative_humidity": 0.25
+            },
+            "winter": {
+                "type": "thermoo:constant",
+                "temperature": 10.0,
                 "relative_humidity": 0.25
             }
         },
-        "fallback_season": "summer"
+        "fallback_season": "spring"
     }
 }

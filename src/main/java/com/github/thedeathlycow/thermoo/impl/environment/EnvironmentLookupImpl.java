@@ -48,6 +48,10 @@ public class EnvironmentLookupImpl implements EnvironmentLookup {
             }
         }
 
+        if (totalProviders == 0) {
+            return EnvironmentLookup.fallbackTemperature(unit);
+        }
+
         return unit.convertTemperature(totalTemperatureK.value() / totalProviders, TemperatureUnit.KELVIN);
     }
 
@@ -69,6 +73,10 @@ public class EnvironmentLookupImpl implements EnvironmentLookup {
                 totalRelativeHumidity = result.getAsDouble();
                 totalProviders++;
             }
+        }
+
+        if (totalProviders == 0) {
+            return EnvironmentLookup.fallbackRelativeHumidity();
         }
 
         return totalRelativeHumidity / totalProviders;
