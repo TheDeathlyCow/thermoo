@@ -1,6 +1,5 @@
 package com.github.thedeathlycow.thermoo.testmod;
 
-import com.github.thedeathlycow.thermoo.api.ThermooAttributes;
 import com.github.thedeathlycow.thermoo.api.temperature.EnvironmentController;
 import com.github.thedeathlycow.thermoo.api.temperature.EnvironmentControllerDecorator;
 import com.github.thedeathlycow.thermoo.api.temperature.Soakable;
@@ -8,8 +7,6 @@ import com.github.thedeathlycow.thermoo.testmod.config.ThermooConfig;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.attribute.EntityAttribute;
-import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.LightType;

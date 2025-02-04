@@ -4,6 +4,7 @@ import com.github.thedeathlycow.thermoo.api.ThermooRegistryKeys;
 import com.github.thedeathlycow.thermoo.api.command.*;
 import com.github.thedeathlycow.thermoo.api.environment.EnvironmentDefinition;
 import com.github.thedeathlycow.thermoo.api.temperature.EnvironmentManager;
+import com.github.thedeathlycow.thermoo.impl.environment.EnvironmentLookupImpl;
 import com.github.thedeathlycow.thermoo.impl.temperature.effect.TemperatureEffectLoader;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.ArgumentTypeRegistry;
@@ -54,8 +55,10 @@ public class Thermoo implements ModInitializer {
         ThermooCommonRegisters.registerLootConditionTypes();
 
         ResourceManagerHelper serverManager = ResourceManagerHelper.get(ResourceType.SERVER_DATA);
-
         serverManager.registerReloadListener(TemperatureEffectLoader.ID, TemperatureEffectLoader::new);
+
+        EnvironmentLookupImpl.initialize();
+
         LOGGER.info("Creating environment manager {}", EnvironmentManager.INSTANCE);
         LOGGER.info("Thermoo initialized");
     }
