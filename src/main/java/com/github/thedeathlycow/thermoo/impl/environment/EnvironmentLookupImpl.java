@@ -31,6 +31,16 @@ public class EnvironmentLookupImpl implements EnvironmentLookup {
     @Override
     public double findTemperature(World world, BlockPos pos, TemperatureUnit unit) {
         RegistryEntry<Biome> biome = world.getBiome(pos);
+        return this.findTemperatureForBiome(world, pos, unit, biome);
+    }
+
+    @Override
+    public double findRelativeHumidity(World world, BlockPos pos) {
+        RegistryEntry<Biome> biome = world.getBiome(pos);
+        return this.findRelativeHumidityForBiome(world, pos, biome);
+    }
+
+    public double findTemperatureForBiome(World world, BlockPos pos, TemperatureUnit unit, RegistryEntry<Biome> biome) {
         List<EnvironmentProvider> providers = this.getProviders(biome, world.getRegistryManager());
 
         if (providers.isEmpty()) {
@@ -55,9 +65,7 @@ public class EnvironmentLookupImpl implements EnvironmentLookup {
         return unit.convertTemperature(totalTemperatureK.value() / totalProviders, TemperatureUnit.KELVIN);
     }
 
-    @Override
-    public double findRelativeHumidity(World world, BlockPos pos) {
-        RegistryEntry<Biome> biome = world.getBiome(pos);
+    public double findRelativeHumidityForBiome(World world, BlockPos pos, RegistryEntry<Biome> biome) {
         List<EnvironmentProvider> providers = this.getProviders(biome, world.getRegistryManager());
 
         if (providers.isEmpty()) {
