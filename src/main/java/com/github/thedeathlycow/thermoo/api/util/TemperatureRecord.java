@@ -120,10 +120,33 @@ public final class TemperatureRecord implements Comparable<TemperatureRecord> {
     }
 
     /**
-     * Adds two records together
+     * Returns the sum of two temperature records.
+     * <p>
+     * This is different from add in that the {@code other} is treated as an actual temperature value, not a temperature
+     * difference. This operation is generally useful for data analysis, e.g., finding the mean of N temperature records.
+     * <p>
+     * For example {@code 20C + 10K = -263.15K}.
+     *
+     * @param other the other record to sum
+     * @return Returns a new record that is the sum of this record and the other
+     * @see #add(TemperatureRecord)
+     */
+    public TemperatureRecord sum(TemperatureRecord other) {
+        double shift = other.valueInUnit(this.unit());
+        return new TemperatureRecord(this.value() + shift, this.unit());
+    }
+
+    /**
+     * Adds a temperature change from another record to the temperature in this record.
+     * <p>
+     * This is different from the sum in that the {@code other} temperature is a temperature difference, not a temperature
+     * value. If you want to be 10 degrees warmer, this is what you want to use.
+     * <p>
+     * For example {@code 20C + 10K = 30C}
      *
      * @param other the other record to add
-     * @return Returns a new record that is the sum of the two records in this record's unit
+     * @return Returns a new record that is this record shifted by the temperature in the other record
+     * @see #sum(TemperatureRecord)
      */
     @Contract("_->new")
     public TemperatureRecord add(TemperatureRecord other) {
@@ -192,6 +215,14 @@ public final class TemperatureRecord implements Comparable<TemperatureRecord> {
     @Override
     public int hashCode() {
         return Objects.hash(this.unit.toCelsius(this.value), TemperatureUnit.CELSIUS);
+    }
+
+    @Override
+    public String toString() {
+        return "TemperatureRecord{" +
+                "value=" + value +
+                ", unit=" + unit +
+                '}';
     }
 
     /**

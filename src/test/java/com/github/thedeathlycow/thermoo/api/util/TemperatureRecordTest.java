@@ -5,9 +5,39 @@ import org.junit.jupiter.api.Test;
 
 class TemperatureRecordTest {
     @Test
-    void addTwoCelsius() {
+    void sumTwoCelsius() {
         var roomTemperature = new TemperatureRecord(20, TemperatureUnit.CELSIUS);
         var add = new TemperatureRecord(10, TemperatureUnit.CELSIUS);
+
+        var sum = roomTemperature.sum(add);
+        Assertions.assertEquals(30.0, sum.value(), 1e-2);
+        Assertions.assertEquals(TemperatureUnit.CELSIUS, sum.unit());
+    }
+
+    @Test
+    void sumCelsiusAndKelvin() {
+        var roomTemperature = new TemperatureRecord(20, TemperatureUnit.CELSIUS);
+        var add = new TemperatureRecord(10, TemperatureUnit.KELVIN);
+
+        var sum = roomTemperature.sum(add);
+        Assertions.assertEquals(-243.15, sum.value(), 1e-2);
+        Assertions.assertEquals(TemperatureUnit.CELSIUS, sum.unit());
+    }
+
+    @Test
+    void sumCelsiusAndFahrenheit() {
+        var roomTemperature = new TemperatureRecord(20, TemperatureUnit.CELSIUS);
+        var add = new TemperatureRecord(32, TemperatureUnit.FAHRENHEIT);
+
+        var sum = roomTemperature.sum(add);
+        Assertions.assertEquals(20, sum.value(), 1e-2);
+        Assertions.assertEquals(TemperatureUnit.CELSIUS, sum.unit());
+    }
+
+    @Test
+    void addTwoCelsius() {
+        var roomTemperature = new TemperatureRecord(20, TemperatureUnit.CELSIUS);
+        var add = new TemperatureRecord(10, TemperatureUnit.KELVIN);
 
         var sum = roomTemperature.plus(add);
         Assertions.assertEquals(30.0, sum.value(), 1e-2);
