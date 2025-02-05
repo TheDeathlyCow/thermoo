@@ -47,13 +47,13 @@ public class EnvironmentLookupImpl implements EnvironmentLookup {
             return EnvironmentLookup.fallbackTemperature(unit);
         }
 
-        TemperatureRecord totalTemperatureK = new TemperatureRecord(0, TemperatureUnit.KELVIN);
+        var totalTemperatureK = new TemperatureRecord(0.0, TemperatureUnit.KELVIN);
         int totalProviders = 0;
 
         for (EnvironmentProvider provider : providers) {
             Optional<TemperatureRecord> result = provider.getTemperature(world, pos, biome);
             if (result.isPresent()) {
-                totalTemperatureK = totalTemperatureK.add(result.get());
+                totalTemperatureK = totalTemperatureK.sum(result.get());
                 totalProviders++;
             }
         }
