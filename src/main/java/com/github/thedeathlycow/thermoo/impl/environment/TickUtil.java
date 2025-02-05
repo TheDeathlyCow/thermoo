@@ -11,26 +11,32 @@ import net.fabricmc.fabric.api.util.TriState;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
+import org.jetbrains.annotations.NotNull;
 
 public final class TickUtil {
     public static void tickPlayerTemperature(ServerPlayerEntity player) {
-        final var lookup = EnvironmentLookup.getInstance();
+        final EnvironmentTickContextImpl<ServerPlayerEntity> context = new EnvironmentTickContextImpl<>(
+                player,
+                player.getServerWorld(),
+                player.getBlockPos()
+        );
+        if (ServerPlayerEnvironmentTickEvents.ALLOW_TEMPERATURE_UPDATE.invoker().allowUpdate(context) == TriState.FALSE) {
+            return;
+        }
 
-        final ServerWorld world = player.getServerWorld();
-        final BlockPos pos = player.getBlockPos();
+
+        final var lookup = EnvironmentLookup.getInstance();
         final var unit = TemperatureUnit.CELSIUS;
+
         final var temperature = new TemperatureRecord(
-                lookup.findTemperature(world, pos, unit),
+                lookup.findTemperature(context.world, context.pos, unit),
                 unit
         );
-        final double relativeHumidity = lookup.findRelativeHumidity(world, pos);
-        final var context = new EnvironmentTickContextImpl<ServerPlayerEntity>(
-                player,
-                world,
-                pos,
-                temperature,
-                relativeHumidity
-        );
+        final double relativeHumidity = lookup.findRelativeHumidity(context.world, context.pos);
+
+        context.temperature = temperature;
+        context.relativeHumidity = relativeHumidity;
+
 
         int temperatureChange = ServerPlayerEnvironmentTickEvents.GET_TEMPERATURE_CHANGE.invoker().addPointChange(context);
 
@@ -45,14 +51,44 @@ public final class TickUtil {
         return result != TriState.FALSE;
     }
 
-    private record EnvironmentTickContextImpl<T extends TemperatureAware>(
-            T affected,
-            ServerWorld world,
-            BlockPos pos,
-            TemperatureRecord temperature,
-            double relativeHumidity
-    ) implements EnvironmentTickContext<T> {
+    private static class EnvironmentTickContextImpl<T extends TemperatureAware> implements EnvironmentTickContext<T> {
 
+        private final T affected;
+        private final ServerWorld world;
+        private final BlockPos pos;
+        private TemperatureRecord temperature = null;
+        private double relativeHumidity = Double.NaN;
+
+        public EnvironmentTickContextImpl(T affected, ServerWorld world, BlockPos pos) {
+            this.affected = affected;
+            this.world = world;
+            this.pos = pos;
+        }
+
+        @Override
+        public @NotNull T affected() {
+            return this.affected;
+        }
+
+        @Override
+        public @NotNull ServerWorld world() {
+            return this.world;
+        }
+
+        @Override
+        public @NotNull BlockPos pos() {
+            return this.pos;
+        }
+
+        @Override
+        public TemperatureRecord temperature() {
+            return this.temperature;
+        }
+
+        @Override
+        public double relativeHumidity() {
+            return this.relativeHumidity;
+        }
     }
 
     private TickUtil() {
