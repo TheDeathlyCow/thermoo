@@ -24,9 +24,8 @@ public class EnvironmentLookupImpl implements EnvironmentLookup {
     private final Map<RegistryKey<Biome>, List<EnvironmentProvider>> biomeProviderCache = new IdentityHashMap<>();
 
     public static void initialize() {
-        ServerLifecycleEvents.SERVER_STOPPED.register(server -> {
-            INSTANCE.clearCache();
-        });
+        ServerLifecycleEvents.SERVER_STOPPED.register(server -> INSTANCE.clearCache());
+        ServerLifecycleEvents.START_DATA_PACK_RELOAD.register((server, resourceManager) -> INSTANCE.clearCache());
     }
 
     @Override
@@ -48,13 +47,13 @@ public class EnvironmentLookupImpl implements EnvironmentLookup {
             return EnvironmentLookup.fallbackTemperature(unit);
         }
 
-        TemperatureRecord totalTemperatureK = new TemperatureRecord(0, TemperatureUnit.KELVIN);
+        var totalTemperatureK = new TemperatureRecord(0.0, TemperatureUnit.KELVIN);
         int totalProviders = 0;
 
         for (EnvironmentProvider provider : providers) {
             Optional<TemperatureRecord> result = provider.getTemperature(world, pos, biome);
             if (result.isPresent()) {
-                totalTemperatureK = totalTemperatureK.add(result.get());
+                totalTemperatureK = totalTemperatureK.sum(result.get());
                 totalProviders++;
             }
         }
@@ -102,7 +101,7 @@ public class EnvironmentLookupImpl implements EnvironmentLookup {
                 k -> {
                     List<EnvironmentProvider> providers = manager.getOrThrow(ThermooRegistryKeys.ENVIRONMENT)
                             .stream()
-                            .filter(definition -> definition.biomes().contains(biome))
+                            .filter(definition -> definition.providesFor(biome))
                             .map(EnvironmentDefinition::provider)
                             .toList();
                     if (Thermoo.LOGGER.isDebugEnabled()) {
@@ -115,6 +114,6 @@ public class EnvironmentLookupImpl implements EnvironmentLookup {
 
     private void clearCache() {
         this.biomeProviderCache.clear();
-        Thermoo.LOGGER.info("Environment lookup cache cleared");
+        Thermoo.LOGGER.debug("Environment lookup cache cleared");
     }
 }
