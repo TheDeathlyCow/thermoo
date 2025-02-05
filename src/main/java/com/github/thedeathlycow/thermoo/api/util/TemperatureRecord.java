@@ -127,8 +127,11 @@ public final class TemperatureRecord implements Comparable<TemperatureRecord> {
      */
     @Contract("_->new")
     public TemperatureRecord add(TemperatureRecord other) {
-        double otherValue = other.valueInUnit(this.unit());
-        return new TemperatureRecord(this.value() + otherValue, this.unit());
+        double shift = this.unit().getAbsoluteUnit().convertTemperature(
+                other.value(),
+                other.unit().getAbsoluteUnit()
+        );
+        return new TemperatureRecord(this.value() + shift, this.unit());
     }
 
     /**
