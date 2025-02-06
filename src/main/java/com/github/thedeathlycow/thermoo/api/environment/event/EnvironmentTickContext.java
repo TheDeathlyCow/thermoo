@@ -2,6 +2,7 @@ package com.github.thedeathlycow.thermoo.api.environment.event;
 
 import com.github.thedeathlycow.thermoo.api.temperature.TemperatureAware;
 import com.github.thedeathlycow.thermoo.api.util.TemperatureRecord;
+import net.minecraft.component.ComponentMap;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import org.jetbrains.annotations.ApiStatus;
@@ -34,17 +35,9 @@ public interface EnvironmentTickContext<T extends TemperatureAware> {
     BlockPos pos();
 
     /**
-     * This is only non-null for {@link ServerPlayerEnvironmentTickEvents#GET_TEMPERATURE_CHANGE} and later events
+     * The current environment components at the world and position.
      *
-     * @return Returns the environment temperature at the temperature aware's position in the world
+     * @return Returns an {@link com.github.thedeathlycow.thermoo.api.environment.EnvironmentComponentTypes environment component map}
      */
-    @Nullable
-    TemperatureRecord temperature();
-
-    /**
-     * This is only non-NaN for {@link ServerPlayerEnvironmentTickEvents#GET_TEMPERATURE_CHANGE} and later events
-     *
-     * @return Returns the environment relative humidity at the temperature aware's position in the world
-     */
-    double relativeHumidity();
+    ComponentMap components();
 }

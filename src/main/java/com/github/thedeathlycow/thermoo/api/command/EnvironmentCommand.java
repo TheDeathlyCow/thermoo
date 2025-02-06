@@ -213,7 +213,8 @@ public class EnvironmentCommand {
     }
 
     private static int executeTemperature(ServerCommandSource source, BlockPos location, TemperatureUnit unit, double scale) {
-        double temperature = EnvironmentLookup.getInstance().findTemperature(source.getWorld(), location, unit);
+        double temperature = EnvironmentLookupImpl.INSTANCE.findTemperature(source.getWorld(), location, unit);
+
         source.sendFeedback(
                 () -> {
                     RegistryKey<Biome> biome = source.getWorld().getBiome(location).getKey().orElse(null);
@@ -235,7 +236,7 @@ public class EnvironmentCommand {
     }
 
     private static int executeRelativeHumidity(ServerCommandSource source, BlockPos location, double scale) {
-        double relativeHumidity = EnvironmentLookup.getInstance().findRelativeHumidity(source.getWorld(), location);
+        double relativeHumidity = EnvironmentLookupImpl.INSTANCE.findRelativeHumidity(source.getWorld(), location);
         double scaledHumidity = relativeHumidity * scale;
         source.sendFeedback(
                 () -> {

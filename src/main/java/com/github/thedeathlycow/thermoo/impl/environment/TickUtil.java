@@ -8,6 +8,7 @@ import com.github.thedeathlycow.thermoo.api.temperature.TemperatureAware;
 import com.github.thedeathlycow.thermoo.api.util.TemperatureRecord;
 import com.github.thedeathlycow.thermoo.api.util.TemperatureUnit;
 import net.fabricmc.fabric.api.util.TriState;
+import net.minecraft.component.ComponentMap;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
@@ -24,19 +25,9 @@ public final class TickUtil {
             return;
         }
 
-
         final var lookup = EnvironmentLookup.getInstance();
-        final var unit = TemperatureUnit.CELSIUS;
-
-        final var temperature = new TemperatureRecord(
-                lookup.findTemperature(context.world, context.pos, unit),
-                unit
-        );
-        final double relativeHumidity = lookup.findRelativeHumidity(context.world, context.pos);
-
-        context.temperature = temperature;
-        context.relativeHumidity = relativeHumidity;
-
+        ComponentMap components = lookup.lookupCurrentEnvironmentParameters(context.world, context.pos);
+        context.components = components;
 
         int temperatureChange = ServerPlayerEnvironmentTickEvents.GET_TEMPERATURE_CHANGE.invoker().addPointChange(context);
 
@@ -52,12 +43,10 @@ public final class TickUtil {
     }
 
     private static class EnvironmentTickContextImpl<T extends TemperatureAware> implements EnvironmentTickContext<T> {
-
         private final T affected;
         private final ServerWorld world;
         private final BlockPos pos;
-        private TemperatureRecord temperature = null;
-        private double relativeHumidity = Double.NaN;
+        private ComponentMap components = ComponentMap.EMPTY;
 
         public EnvironmentTickContextImpl(T affected, ServerWorld world, BlockPos pos) {
             this.affected = affected;
@@ -81,13 +70,8 @@ public final class TickUtil {
         }
 
         @Override
-        public TemperatureRecord temperature() {
-            return this.temperature;
-        }
-
-        @Override
-        public double relativeHumidity() {
-            return this.relativeHumidity;
+        public ComponentMap components() {
+            return this.components;
         }
     }
 
