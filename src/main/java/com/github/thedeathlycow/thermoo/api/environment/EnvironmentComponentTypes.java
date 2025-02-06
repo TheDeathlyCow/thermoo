@@ -40,7 +40,7 @@ public final class EnvironmentComponentTypes {
      * is expressed here on a 0-1 scale.
      */
     public static final ComponentType<Double> RELATIVE_HUMIDITY = register(
-            "temperature",
+            "relative_humidity",
             builder -> builder.codec(Codec.doubleRange(0, 1.0))
     );
 

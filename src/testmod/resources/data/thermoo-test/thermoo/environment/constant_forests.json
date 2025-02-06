@@ -5,7 +5,9 @@
     ],
     "provider": {
         "type": "thermoo:constant",
-        "temperature": 21.0,
-        "relative_humidity": 0.51
+        "components": {
+            "thermoo:temperature": 21.0,
+            "thermoo:relative_humidity": 0.51
+        }
     }
 }
