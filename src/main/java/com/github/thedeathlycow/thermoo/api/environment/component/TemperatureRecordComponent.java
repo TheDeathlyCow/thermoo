@@ -6,7 +6,7 @@ import com.mojang.serialization.Codec;
 
 public final class TemperatureRecordComponent implements ReducibleComponent<TemperatureRecordComponent> {
     public static final Codec<TemperatureRecordComponent> CODEC = TemperatureRecord.CODEC
-            .xmap(TemperatureRecordComponent::new, TemperatureRecordComponent::value);
+            .xmap(TemperatureRecordComponent::new, TemperatureRecordComponent::temperature);
     public static final TemperatureRecord ROOM_TEMPERATURE = new TemperatureRecord(20, TemperatureUnit.CELSIUS);
     public static final TemperatureRecordComponent DEFAULT = new TemperatureRecordComponent(ROOM_TEMPERATURE);
 
@@ -16,7 +16,7 @@ public final class TemperatureRecordComponent implements ReducibleComponent<Temp
         this.value = value;
     }
 
-    public TemperatureRecord value() {
+    public TemperatureRecord temperature() {
         return this.value;
     }
 

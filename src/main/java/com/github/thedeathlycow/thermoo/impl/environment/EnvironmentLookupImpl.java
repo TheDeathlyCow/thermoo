@@ -65,7 +65,7 @@ public class EnvironmentLookupImpl implements EnvironmentLookup {
                 TemperatureRecordComponent.DEFAULT
         );
 
-        return unit.convertTemperature(temperature.value());
+        return unit.convertTemperature(temperature.temperature());
     }
 
     public double findRelativeHumidityForBiome(World world, BlockPos pos, RegistryEntry<Biome> biome) {
