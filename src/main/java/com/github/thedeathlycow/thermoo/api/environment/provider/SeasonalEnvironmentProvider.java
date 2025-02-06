@@ -5,6 +5,7 @@ import com.github.thedeathlycow.thermoo.api.util.TemperatureRecord;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.MapCodec;
+import net.minecraft.component.ComponentMap;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.StringIdentifiable;
 import net.minecraft.util.math.BlockPos;
@@ -29,6 +30,27 @@ public abstract sealed class SeasonalEnvironmentProvider implements EnvironmentP
     ) {
         this.fallbackSeason = fallbackSeason;
         this.seasons = seasons;
+    }
+
+    /**
+     * Gets the environment components based on the world's current season state, generally using the
+     * {@link ThermooSeason season API}. If no seasons mod is installed, will return the components provided by the
+     * {@link #fallbackSeason fallback season}. If there is no fallback season, then returns empty.
+     *
+     * @param world The world/level being queried
+     * @param pos   The position in the world to query
+     * @param biome The biome at the position in the world
+     * @return Returns the environment parameters of the world and position.
+     */
+    @Override
+    public final ComponentMap findCurrentComponents(World world, BlockPos pos, RegistryEntry<Biome> biome) {
+        Optional<ThermooSeason> season = this.getCurrentSeason(world, pos).or(this::fallbackSeason);
+        if (season.isEmpty()) {
+            return ComponentMap.EMPTY;
+        }
+
+        EnvironmentProvider provider = this.seasons.get(season.get());
+        return provider != null ? provider.findCurrentComponents(world, pos, biome) : ComponentMap.EMPTY;
     }
 
     /**
