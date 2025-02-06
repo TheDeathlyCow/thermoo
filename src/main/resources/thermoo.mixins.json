@@ -5,6 +5,7 @@
     "compatibilityLevel": "JAVA_21",
     "mixins": [
         "ComponentMapBuilderAccessor",
+        "ComponentMapBuilderMixin",
         "EnvironmentAwareEntityMixin",
         "HotFloorMixin",
         "LivingEntityAttributeMixin",
