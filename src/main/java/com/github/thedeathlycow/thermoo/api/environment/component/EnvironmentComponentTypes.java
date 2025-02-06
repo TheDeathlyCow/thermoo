@@ -26,9 +26,9 @@ public final class EnvironmentComponentTypes {
      * Stores a temperature reading in {@link com.github.thedeathlycow.thermoo.api.util.TemperatureUnit a unit} such as
      * Celsius, Fahrenheit, Kelvin, or Rankine.
      */
-    public static final ComponentType<TemperatureRecord> TEMPERATURE = register(
+    public static final ComponentType<TemperatureRecordComponent> TEMPERATURE = register(
             "temperature",
-            builder -> builder.codec(TemperatureReadingComponent.CODEC)
+            builder -> builder.codec(TemperatureRecordComponent.CODEC)
     );
 
     /**

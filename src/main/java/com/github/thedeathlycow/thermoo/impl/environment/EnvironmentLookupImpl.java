@@ -5,9 +5,8 @@ import com.github.thedeathlycow.thermoo.api.environment.EnvironmentDefinition;
 import com.github.thedeathlycow.thermoo.api.environment.EnvironmentLookup;
 import com.github.thedeathlycow.thermoo.api.environment.component.EnvironmentComponentTypes;
 import com.github.thedeathlycow.thermoo.api.environment.component.RelativeHumidityComponent;
-import com.github.thedeathlycow.thermoo.api.environment.component.TemperatureReadingComponent;
+import com.github.thedeathlycow.thermoo.api.environment.component.TemperatureRecordComponent;
 import com.github.thedeathlycow.thermoo.api.environment.provider.EnvironmentProvider;
-import com.github.thedeathlycow.thermoo.api.util.TemperatureRecord;
 import com.github.thedeathlycow.thermoo.api.util.TemperatureUnit;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
@@ -61,12 +60,12 @@ public class EnvironmentLookupImpl implements EnvironmentLookup {
     public double findTemperatureForBiome(World world, BlockPos pos, TemperatureUnit unit, RegistryEntry<Biome> biome) {
         ComponentMap components = this.findCurrentComponentsForBiome(world, pos, biome);
 
-        TemperatureRecord temperature = components.getOrDefault(
+        TemperatureRecordComponent temperature = components.getOrDefault(
                 EnvironmentComponentTypes.TEMPERATURE,
-                TemperatureReadingComponent.DEFAULT
+                TemperatureRecordComponent.DEFAULT
         );
 
-        return unit.convertTemperature(temperature);
+        return unit.convertTemperature(temperature.temperatureRecord());
     }
 
     public double findRelativeHumidityForBiome(World world, BlockPos pos, RegistryEntry<Biome> biome) {
