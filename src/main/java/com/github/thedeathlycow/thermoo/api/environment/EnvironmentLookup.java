@@ -21,6 +21,7 @@ public interface EnvironmentLookup {
         return EnvironmentLookupImpl.INSTANCE;
     }
 
+    
     /**
      * Finds the current environmental temperature at a world position in a given unit. If no {@link EnvironmentDefinition}
      * exists for the biome at this position, or does not provide a temperature, will return the

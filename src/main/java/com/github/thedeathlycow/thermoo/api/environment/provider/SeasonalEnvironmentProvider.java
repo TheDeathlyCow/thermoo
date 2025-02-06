@@ -54,48 +54,6 @@ public abstract sealed class SeasonalEnvironmentProvider implements EnvironmentP
     }
 
     /**
-     * Gets the temperature for the position based on the world's current season state, generally using the
-     * {@linkplain ThermooSeason season API}. If no seasons mod is installed, will return the value provided by the
-     * {@linkplain #fallbackSeason fallback season}. If there is no fallback season, then returns empty.
-     *
-     * @param world The world/level being queried
-     * @param pos   The position in the world to query
-     * @param biome The biome at the position in the world
-     * @return Returns the potential temperature record of the world and position.
-     */
-    @Override
-    public final Optional<TemperatureRecord> getTemperature(World world, BlockPos pos, RegistryEntry<Biome> biome) {
-        Optional<ThermooSeason> season = this.getCurrentSeason(world, pos).or(this::fallbackSeason);
-        if (season.isEmpty()) {
-            return Optional.empty();
-        }
-
-        EnvironmentProvider provider = this.seasons.get(season.get());
-        return provider != null ? provider.getTemperature(world, pos, biome) : Optional.empty();
-    }
-
-    /**
-     * Gets the relative humidity for the position based on the world's current season state, generally using the
-     * {@linkplain ThermooSeason season API}. If no seasons mod is installed, will return the value provided by the
-     * {@linkplain #fallbackSeason fallback season}. If there is no fallback season, then returns empty.
-     *
-     * @param world The world/level being queried
-     * @param pos   The position in the world to query
-     * @param biome The biome at the position in the world
-     * @return Returns the potential relative humidity of the world and position.
-     */
-    @Override
-    public final OptionalDouble getRelativeHumidity(World world, BlockPos pos, RegistryEntry<Biome> biome) {
-        Optional<ThermooSeason> season = this.getCurrentSeason(world, pos).or(this::fallbackSeason);
-        if (season.isEmpty()) {
-            return OptionalDouble.empty();
-        }
-
-        EnvironmentProvider provider = this.seasons.get(season.get());
-        return provider != null ? provider.getRelativeHumidity(world, pos, biome) : OptionalDouble.empty();
-    }
-
-    /**
      * The fallback season to use if no season mod is installed. If specified, the fallback season must be a key in the
      * {@link #seasons()} map. If no fallback season is provided, and there is no season mod installed, then this
      * provider will return nothing.
