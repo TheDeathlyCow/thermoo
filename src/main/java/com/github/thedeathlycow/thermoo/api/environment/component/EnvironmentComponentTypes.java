@@ -2,14 +2,12 @@ package com.github.thedeathlycow.thermoo.api.environment.component;
 
 import com.github.thedeathlycow.thermoo.api.ThermooRegistries;
 import com.github.thedeathlycow.thermoo.api.util.TemperatureRecord;
-import com.github.thedeathlycow.thermoo.api.util.TemperatureUnit;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import com.mojang.serialization.Codec;
 import net.minecraft.component.ComponentMap;
 import net.minecraft.component.ComponentType;
 import net.minecraft.registry.Registry;
 
-import java.util.List;
 import java.util.function.UnaryOperator;
 
 /**

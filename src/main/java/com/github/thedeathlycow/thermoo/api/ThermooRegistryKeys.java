@@ -18,6 +18,11 @@ public final class ThermooRegistryKeys {
      */
     public static final RegistryKey<Registry<TemperatureEffect<?>>> TEMPERATURE_EFFECT = createRegistryKey("temperature_effects");
 
+    /**
+     * The key for the environment component type registry
+     *
+     * @see com.github.thedeathlycow.thermoo.api.environment.component.EnvironmentComponentTypes
+     */
     public static final RegistryKey<Registry<ComponentType<?>>> ENVIRONMENT_COMPONENT_TYPE = createRegistryKey("environment_component_type");
 
     /**

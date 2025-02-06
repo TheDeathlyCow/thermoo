@@ -21,6 +21,11 @@ public final class ThermooRegistries {
                     ThermooRegistryKeys.TEMPERATURE_EFFECT
             ).buildAndRegister();
 
+    /**
+     * Environment component type registry
+     *
+     * @see com.github.thedeathlycow.thermoo.api.environment.component.EnvironmentComponentTypes
+     */
     public static final Registry<ComponentType<?>> ENVIRONMENT_COMPONENT_TYPE = FabricRegistryBuilder.createSimple(
             ThermooRegistryKeys.ENVIRONMENT_COMPONENT_TYPE
     ).buildAndRegister();
