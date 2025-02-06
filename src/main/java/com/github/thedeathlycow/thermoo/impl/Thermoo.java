@@ -3,6 +3,7 @@ package com.github.thedeathlycow.thermoo.impl;
 import com.github.thedeathlycow.thermoo.api.ThermooRegistryKeys;
 import com.github.thedeathlycow.thermoo.api.command.*;
 import com.github.thedeathlycow.thermoo.api.environment.EnvironmentDefinition;
+import com.github.thedeathlycow.thermoo.api.environment.provider.EnvironmentProvider;
 import com.github.thedeathlycow.thermoo.api.temperature.EnvironmentManager;
 import com.github.thedeathlycow.thermoo.impl.environment.EnvironmentLookupImpl;
 import com.github.thedeathlycow.thermoo.impl.temperature.effect.TemperatureEffectLoader;
@@ -48,6 +49,10 @@ public class Thermoo implements ModInitializer {
         DynamicRegistries.register(
                 ThermooRegistryKeys.ENVIRONMENT,
                 EnvironmentDefinition.CODEC
+        );
+        DynamicRegistries.register(
+                ThermooRegistryKeys.ENVIRONMENT_PROVIDER,
+                EnvironmentProvider.PROVIDER_CODEC
         );
         ThermooCommonRegisters.registerTemperatureEffects();
         ThermooCommonRegisters.registerEnvironmentProviderTypes();

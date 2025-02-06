@@ -1,6 +1,7 @@
 package com.github.thedeathlycow.thermoo.api;
 
 import com.github.thedeathlycow.thermoo.api.environment.EnvironmentDefinition;
+import com.github.thedeathlycow.thermoo.api.environment.provider.EnvironmentProvider;
 import com.github.thedeathlycow.thermoo.api.environment.provider.EnvironmentProviderType;
 import com.github.thedeathlycow.thermoo.api.temperature.effects.TemperatureEffect;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
@@ -31,6 +32,8 @@ public final class ThermooRegistryKeys {
      * @see EnvironmentProviderType
      */
     public static final RegistryKey<Registry<EnvironmentProviderType<?>>> ENVIRONMENT_PROVIDER_TYPE = createRegistryKey("environment_provider_type");
+
+    public static final RegistryKey<Registry<EnvironmentProvider>> ENVIRONMENT_PROVIDER = createRegistryKey("environment_provider");
 
     /**
      * Key for the environment definition registry
