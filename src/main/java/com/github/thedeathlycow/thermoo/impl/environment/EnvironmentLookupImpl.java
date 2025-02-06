@@ -1,9 +1,11 @@
 package com.github.thedeathlycow.thermoo.impl.environment;
 
 import com.github.thedeathlycow.thermoo.api.ThermooRegistryKeys;
-import com.github.thedeathlycow.thermoo.api.environment.component.EnvironmentComponentTypes;
 import com.github.thedeathlycow.thermoo.api.environment.EnvironmentDefinition;
 import com.github.thedeathlycow.thermoo.api.environment.EnvironmentLookup;
+import com.github.thedeathlycow.thermoo.api.environment.component.EnvironmentComponentTypes;
+import com.github.thedeathlycow.thermoo.api.environment.component.RelativeHumidityComponentType;
+import com.github.thedeathlycow.thermoo.api.environment.component.TemperatureReadingComponentType;
 import com.github.thedeathlycow.thermoo.api.environment.provider.EnvironmentProvider;
 import com.github.thedeathlycow.thermoo.api.util.TemperatureRecord;
 import com.github.thedeathlycow.thermoo.api.util.TemperatureUnit;
@@ -17,7 +19,10 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.IdentityHashMap;
+import java.util.List;
+import java.util.Map;
 
 public class EnvironmentLookupImpl implements EnvironmentLookup {
     public static final EnvironmentLookupImpl INSTANCE = new EnvironmentLookupImpl();
@@ -58,7 +63,7 @@ public class EnvironmentLookupImpl implements EnvironmentLookup {
 
         TemperatureRecord temperature = components.getOrDefault(
                 EnvironmentComponentTypes.TEMPERATURE,
-                EnvironmentComponentTypes.DEFAULT_TEMPERATURE
+                TemperatureReadingComponentType.DEFAULT
         );
 
         return unit.convertTemperature(temperature);
@@ -68,7 +73,7 @@ public class EnvironmentLookupImpl implements EnvironmentLookup {
         ComponentMap components = this.findCurrentComponentsForBiome(world, pos, biome);
         return components.getOrDefault(
                 EnvironmentComponentTypes.RELATIVE_HUMIDITY,
-                EnvironmentComponentTypes.DEFAULT_RELATIVE_HUMIDITY
+                RelativeHumidityComponentType.DEFAULT
         );
     }
 
