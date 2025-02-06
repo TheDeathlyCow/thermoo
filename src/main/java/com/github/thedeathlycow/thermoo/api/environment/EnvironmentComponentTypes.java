@@ -16,11 +16,23 @@ public final class EnvironmentComponentTypes {
     );
     public static final Codec<ComponentMap> COMPONENT_MAP_CODEC = ComponentMap.createCodec(COMPONENT_TYPE_CODEC);
 
+    /**
+     * Stores a temperature record in {@link com.github.thedeathlycow.thermoo.api.util.TemperatureUnit a unit} such as
+     * Celsius, Fahrenheit, Kelvin, or Rankine.
+     */
     public static final ComponentType<TemperatureRecord> TEMPERATURE = register(
             "temperature",
             builder -> builder.codec(TemperatureRecord.CODEC)
     );
 
+
+    /**
+     * Stores relative humidity on a 0-1 percentage scale.
+     * <p>
+     * Relative humidity is defined as "the ratio of how much water vapour is in the air to how much water vapour the
+     * air could potentially contain" <a href="https://en.m.wikipedia.org/wiki/Humidity#Relative_humidity">[1]</a> and
+     * is expressed here on a 0-1 scale.
+     */
     public static final ComponentType<Double> RELATIVE_HUMIDITY = register(
             "temperature",
             builder -> builder.codec(Codec.doubleRange(0, 1.0))
