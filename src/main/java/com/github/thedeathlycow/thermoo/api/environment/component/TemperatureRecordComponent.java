@@ -3,41 +3,25 @@ package com.github.thedeathlycow.thermoo.api.environment.component;
 import com.github.thedeathlycow.thermoo.api.util.TemperatureRecord;
 import com.github.thedeathlycow.thermoo.api.util.TemperatureUnit;
 import com.mojang.serialization.Codec;
-import net.minecraft.component.ComponentMap;
 
-import java.util.Collection;
-
-public final class TemperatureRecordComponent implements MergeableComponent<TemperatureRecordComponent> {
+public final class TemperatureRecordComponent implements ReducableComponent<TemperatureRecordComponent> {
     public static final Codec<TemperatureRecordComponent> CODEC = TemperatureRecord.CODEC
-            .xmap(TemperatureRecordComponent::new, TemperatureRecordComponent::temperatureRecord);
+            .xmap(TemperatureRecordComponent::new, TemperatureRecordComponent::value);
     public static final TemperatureRecord ROOM_TEMPERATURE = new TemperatureRecord(20, TemperatureUnit.CELSIUS);
     public static final TemperatureRecordComponent DEFAULT = new TemperatureRecordComponent(ROOM_TEMPERATURE);
 
-    private final TemperatureRecord temperatureRecord;
+    private final TemperatureRecord value;
 
-    public TemperatureRecordComponent(TemperatureRecord temperatureRecord) {
-        this.temperatureRecord = temperatureRecord;
+    public TemperatureRecordComponent(TemperatureRecord value) {
+        this.value = value;
     }
 
-    public TemperatureRecord temperatureRecord() {
-        return this.temperatureRecord;
+    public TemperatureRecord value() {
+        return this.value;
     }
 
     @Override
-    public TemperatureRecordComponent mergeWith(Collection<ComponentMap> modifiers) {
-        TemperatureRecord total = this.temperatureRecord;
-        int count = 0;
-
-        for (ComponentMap modifier : modifiers) {
-            TemperatureRecordComponent component = modifier.get(EnvironmentComponentTypes.TEMPERATURE);
-            if (component != null) {
-                total = total.sum(component.temperatureRecord());
-                count++;
-            }
-        }
-
-        return count > 0
-                ? new TemperatureRecordComponent(new TemperatureRecord(total.value() / count, total.unit()))
-                : DEFAULT;
+    public TemperatureRecordComponent mergeWith(TemperatureRecordComponent other) {
+        return new TemperatureRecordComponent(this.value.plus(other.value));
     }
 }

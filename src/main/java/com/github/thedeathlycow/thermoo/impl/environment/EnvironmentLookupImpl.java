@@ -65,7 +65,7 @@ public class EnvironmentLookupImpl implements EnvironmentLookup {
                 TemperatureRecordComponent.DEFAULT
         );
 
-        return unit.convertTemperature(temperature.temperatureRecord());
+        return unit.convertTemperature(temperature.value());
     }
 
     public double findRelativeHumidityForBiome(World world, BlockPos pos, RegistryEntry<Biome> biome) {
@@ -73,7 +73,7 @@ public class EnvironmentLookupImpl implements EnvironmentLookup {
         return components.getOrDefault(
                 EnvironmentComponentTypes.RELATIVE_HUMIDITY,
                 RelativeHumidityComponent.DEFAULT
-        ).value();
+        );
     }
 
     private List<EnvironmentProvider> getProviders(RegistryEntry<Biome> biome, DynamicRegistryManager manager) {
