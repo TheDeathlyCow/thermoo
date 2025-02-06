@@ -28,7 +28,7 @@ public final class EnvironmentComponentTypes {
      */
     public static final ComponentType<TemperatureRecord> TEMPERATURE = register(
             "temperature",
-            builder -> builder.codec(TemperatureReadingComponentType.CODEC)
+            builder -> builder.codec(TemperatureReadingComponent.CODEC)
     );
 
     /**
@@ -40,7 +40,7 @@ public final class EnvironmentComponentTypes {
      */
     public static final ComponentType<Double> RELATIVE_HUMIDITY = register(
             "relative_humidity",
-            builder -> builder.codec(RelativeHumidityComponentType.CODEC)
+            builder -> builder.codec(RelativeHumidityComponent.CODEC)
     );
 
     private static <T> ComponentType<T> register(
