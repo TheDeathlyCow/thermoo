@@ -4,7 +4,7 @@ import com.github.thedeathlycow.thermoo.api.util.TemperatureRecord;
 import com.github.thedeathlycow.thermoo.api.util.TemperatureUnit;
 import com.mojang.serialization.Codec;
 
-public final class TemperatureRecordComponent implements ReducableComponent<TemperatureRecordComponent> {
+public final class TemperatureRecordComponent implements ReducibleComponent<TemperatureRecordComponent> {
     public static final Codec<TemperatureRecordComponent> CODEC = TemperatureRecord.CODEC
             .xmap(TemperatureRecordComponent::new, TemperatureRecordComponent::value);
     public static final TemperatureRecord ROOM_TEMPERATURE = new TemperatureRecord(20, TemperatureUnit.CELSIUS);
