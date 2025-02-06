@@ -26,7 +26,7 @@ import java.util.Map;
 public class EnvironmentLookupImpl implements EnvironmentLookup {
     public static final EnvironmentLookupImpl INSTANCE = new EnvironmentLookupImpl();
 
-    private final Map<RegistryKey<Biome>, List<EnvironmentProvider>> biomeProviderCache = new IdentityHashMap<>();
+    private final Map<RegistryKey<Biome>, List<RegistryEntry<EnvironmentProvider>>> biomeProviderCache = new IdentityHashMap<>();
 
     public static void initialize() {
         ServerLifecycleEvents.SERVER_STOPPED.register(server -> INSTANCE.clearCache());
@@ -51,8 +51,8 @@ public class EnvironmentLookupImpl implements EnvironmentLookup {
 
     public ComponentMap findCurrentComponentsForBiome(World world, BlockPos pos, RegistryEntry<Biome> biome) {
         ComponentMap.Builder builder = ComponentMap.builder();
-        for (EnvironmentProvider provider : this.getProviders(biome, world.getRegistryManager())) {
-            builder.addAll(provider.findCurrentComponents(world, pos, biome));
+        for (RegistryEntry<EnvironmentProvider> provider : this.getProviders(biome, world.getRegistryManager())) {
+            builder.addAll(provider.value().findCurrentComponents(world, pos, biome));
         }
         return builder.build();
     }
@@ -76,7 +76,7 @@ public class EnvironmentLookupImpl implements EnvironmentLookup {
         );
     }
 
-    private List<EnvironmentProvider> getProviders(RegistryEntry<Biome> biome, DynamicRegistryManager manager) {
+    private List<RegistryEntry<EnvironmentProvider>> getProviders(RegistryEntry<Biome> biome, DynamicRegistryManager manager) {
         RegistryKey<Biome> key = biome.getKey().orElse(null);
         if (key == null) {
             return Collections.emptyList();
@@ -85,7 +85,7 @@ public class EnvironmentLookupImpl implements EnvironmentLookup {
         return this.biomeProviderCache.computeIfAbsent(
                 key,
                 k -> {
-                    List<EnvironmentProvider> providers = manager.getOrThrow(ThermooRegistryKeys.ENVIRONMENT)
+                    List<RegistryEntry<EnvironmentProvider>> providers = manager.getOrThrow(ThermooRegistryKeys.ENVIRONMENT)
                             .stream()
                             .filter(definition -> definition.providesFor(biome))
                             .map(EnvironmentDefinition::provider)

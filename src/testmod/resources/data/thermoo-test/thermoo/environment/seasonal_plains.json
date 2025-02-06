@@ -13,13 +13,7 @@
                     "thermoo:relative_humidity": 0.75
                 }
             },
-            "summer": {
-                "type": "thermoo:constant",
-                "components": {
-                    "thermoo:temperature": 30.0,
-                    "thermoo:relative_humidity": 0.75
-                }
-            },
+            "summer": "thermoo-test:plains_summer",
             "autumn": {
                 "type": "thermoo:constant",
                 "components": {
