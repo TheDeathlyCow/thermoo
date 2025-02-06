@@ -1,4 +1,4 @@
-package com.github.thedeathlycow.thermoo.api.environment;
+package com.github.thedeathlycow.thermoo.api.environment.component;
 
 import com.github.thedeathlycow.thermoo.api.ThermooRegistries;
 import com.github.thedeathlycow.thermoo.api.util.TemperatureRecord;

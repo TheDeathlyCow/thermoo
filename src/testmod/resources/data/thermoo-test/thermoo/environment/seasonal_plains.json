@@ -31,7 +31,7 @@
                 "type": "thermoo:constant",
                 "components": {
                     "thermoo:temperature": 10.0,
-                    "thermoo:relative_humidity": 0.75
+                    "thermoo:relative_humidity": 0.25
                 }
             }
         }
