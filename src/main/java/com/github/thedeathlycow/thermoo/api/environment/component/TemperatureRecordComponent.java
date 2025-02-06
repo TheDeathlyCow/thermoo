@@ -7,7 +7,7 @@ import net.minecraft.component.ComponentMap;
 
 import java.util.Collection;
 
-public final class TemperatureRecordComponent implements MergableComponent<TemperatureRecordComponent> {
+public final class TemperatureRecordComponent implements MergeableComponent<TemperatureRecordComponent> {
     public static final Codec<TemperatureRecordComponent> CODEC = TemperatureRecord.CODEC
             .xmap(TemperatureRecordComponent::new, TemperatureRecordComponent::temperatureRecord);
     public static final TemperatureRecord ROOM_TEMPERATURE = new TemperatureRecord(20, TemperatureUnit.CELSIUS);

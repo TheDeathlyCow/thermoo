@@ -5,7 +5,7 @@ import net.minecraft.component.ComponentMap;
 
 import java.util.Collection;
 
-public final class RelativeHumidityComponent implements MergableComponent<RelativeHumidityComponent> {
+public final class RelativeHumidityComponent implements MergeableComponent<RelativeHumidityComponent> {
     public static final Codec<RelativeHumidityComponent> CODEC = Codec.doubleRange(0, 1)
             .xmap(RelativeHumidityComponent::new, RelativeHumidityComponent::value);
     public static final double COMFORTABLE_HUMIDITY = 0.5;

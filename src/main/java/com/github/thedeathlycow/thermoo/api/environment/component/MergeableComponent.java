@@ -5,7 +5,7 @@ import org.jetbrains.annotations.Contract;
 
 import java.util.Collection;
 
-public interface MergableComponent<T> {
+public interface MergeableComponent<T> {
     @Contract("_->new")
     T mergeWith(Collection<ComponentMap> modifiers);
 }
