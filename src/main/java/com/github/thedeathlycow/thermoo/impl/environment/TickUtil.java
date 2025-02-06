@@ -26,8 +26,7 @@ public final class TickUtil {
         }
 
         final var lookup = EnvironmentLookup.getInstance();
-        ComponentMap components = lookup.lookupCurrentEnvironmentParameters(context.world, context.pos);
-        context.components = components;
+        context.components = lookup.lookupCurrentEnvironmentParameters(context.world, context.pos);
 
         int temperatureChange = ServerPlayerEnvironmentTickEvents.GET_TEMPERATURE_CHANGE.invoker().addPointChange(context);
 

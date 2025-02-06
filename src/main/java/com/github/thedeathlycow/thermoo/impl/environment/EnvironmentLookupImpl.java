@@ -46,13 +46,11 @@ public class EnvironmentLookupImpl implements EnvironmentLookup {
     }
 
     public ComponentMap findCurrentComponentsForBiome(World world, BlockPos pos, RegistryEntry<Biome> biome) {
-        List<EnvironmentProvider> providers = this.getProviders(biome, world.getRegistryManager());
-
-        if (providers.isEmpty()) {
-            return ComponentMap.EMPTY;
+        ComponentMap.Builder builder = ComponentMap.builder();
+        for (EnvironmentProvider provider : this.getProviders(biome, world.getRegistryManager())) {
+            builder.addAll(provider.findCurrentComponents(world, pos, biome));
         }
-
-        return providers.getFirst().findCurrentComponents(world, pos, biome);
+        return builder.build();
     }
 
     public double findTemperatureForBiome(World world, BlockPos pos, TemperatureUnit unit, RegistryEntry<Biome> biome) {
@@ -60,7 +58,7 @@ public class EnvironmentLookupImpl implements EnvironmentLookup {
 
         TemperatureRecord temperature = components.getOrDefault(
                 EnvironmentComponentTypes.TEMPERATURE,
-                new TemperatureRecord(20, TemperatureUnit.CELSIUS)
+                EnvironmentComponentTypes.DEFAULT_TEMPERATURE
         );
 
         return unit.convertTemperature(temperature);
@@ -70,7 +68,7 @@ public class EnvironmentLookupImpl implements EnvironmentLookup {
         ComponentMap components = this.findCurrentComponentsForBiome(world, pos, biome);
         return components.getOrDefault(
                 EnvironmentComponentTypes.RELATIVE_HUMIDITY,
-                0.5
+                EnvironmentComponentTypes.DEFAULT_RELATIVE_HUMIDITY
         );
     }
 

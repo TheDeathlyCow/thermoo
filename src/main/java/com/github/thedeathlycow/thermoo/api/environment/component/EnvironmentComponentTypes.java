@@ -2,12 +2,14 @@ package com.github.thedeathlycow.thermoo.api.environment.component;
 
 import com.github.thedeathlycow.thermoo.api.ThermooRegistries;
 import com.github.thedeathlycow.thermoo.api.util.TemperatureRecord;
+import com.github.thedeathlycow.thermoo.api.util.TemperatureUnit;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import com.mojang.serialization.Codec;
 import net.minecraft.component.ComponentMap;
 import net.minecraft.component.ComponentType;
 import net.minecraft.registry.Registry;
 
+import java.util.List;
 import java.util.function.UnaryOperator;
 
 /**
@@ -22,6 +24,9 @@ public final class EnvironmentComponentTypes {
     );
     public static final Codec<ComponentMap> COMPONENT_MAP_CODEC = ComponentMap.createCodec(COMPONENT_TYPE_CODEC);
 
+    public static final TemperatureRecord DEFAULT_TEMPERATURE = new TemperatureRecord(20, TemperatureUnit.CELSIUS);
+    public static final double DEFAULT_RELATIVE_HUMIDITY = 0.5;
+
     /**
      * Stores a temperature record in {@link com.github.thedeathlycow.thermoo.api.util.TemperatureUnit a unit} such as
      * Celsius, Fahrenheit, Kelvin, or Rankine.
@@ -29,6 +34,11 @@ public final class EnvironmentComponentTypes {
     public static final ComponentType<TemperatureRecord> TEMPERATURE = register(
             "temperature",
             builder -> builder.codec(TemperatureRecord.CODEC)
+    );
+
+    public static final ComponentType<List<TemperatureShiftComponentType>> TEMPERATURE_SHIFT = register(
+            "temperature_shift",
+            builder -> builder.codec(TemperatureShiftComponentType.CODEC)
     );
 
 
@@ -41,10 +51,13 @@ public final class EnvironmentComponentTypes {
      */
     public static final ComponentType<Double> RELATIVE_HUMIDITY = register(
             "relative_humidity",
-            builder -> builder.codec(Codec.doubleRange(0, 1.0))
+            builder -> builder.codec(Codec.doubleRange(0, 1))
     );
 
-    private static <T> ComponentType<T> register(String name, UnaryOperator<ComponentType.Builder<T>> builderOperator) {
+    private static <T> ComponentType<T> register(
+            String name,
+            UnaryOperator<ComponentType.Builder<T>> builderOperator
+    ) {
         return Registry.register(
                 ThermooRegistries.ENVIRONMENT_COMPONENT_TYPE,
                 Thermoo.id(name),
