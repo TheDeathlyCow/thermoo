@@ -73,7 +73,7 @@ public class EnvironmentLookupImpl implements EnvironmentLookup {
         return components.getOrDefault(
                 EnvironmentComponentTypes.RELATIVE_HUMIDITY,
                 RelativeHumidityComponent.DEFAULT
-        );
+        ).value();
     }
 
     private List<EnvironmentProvider> getProviders(RegistryEntry<Biome> biome, DynamicRegistryManager manager) {
