@@ -4,6 +4,7 @@ import com.github.thedeathlycow.thermoo.api.ThermooRegistries;
 import com.github.thedeathlycow.thermoo.api.util.TemperatureRecord;
 import com.github.thedeathlycow.thermoo.api.util.TemperatureUnit;
 import com.mojang.serialization.Codec;
+import net.minecraft.component.ComponentMap;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -18,6 +19,8 @@ import java.util.OptionalDouble;
 public interface EnvironmentProvider {
     Codec<EnvironmentProvider> PROVIDER_CODEC = ThermooRegistries.ENVIRONMENT_PROVIDER_TYPE.getCodec()
             .dispatch("type", EnvironmentProvider::getType, EnvironmentProviderType::codec);
+
+    ComponentMap lookup(World world, BlockPos pos, RegistryEntry<Biome> biome);
 
     /**
      * Gets the temperature of a position within a biome. The returned record may be in any unit.

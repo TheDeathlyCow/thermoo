@@ -4,6 +4,7 @@ import com.github.thedeathlycow.thermoo.api.environment.EnvironmentDefinition;
 import com.github.thedeathlycow.thermoo.api.environment.provider.EnvironmentProviderType;
 import com.github.thedeathlycow.thermoo.api.temperature.effects.TemperatureEffect;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
+import net.minecraft.component.ComponentType;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 
@@ -16,6 +17,8 @@ public final class ThermooRegistryKeys {
      * @see TemperatureEffect
      */
     public static final RegistryKey<Registry<TemperatureEffect<?>>> TEMPERATURE_EFFECT = createRegistryKey("temperature_effects");
+
+    public static final RegistryKey<Registry<ComponentType<?>>> ENVIRONMENT_COMPONENT_TYPE = createRegistryKey("environment_component_type");
 
     /**
      * Key for the environment provider type registry
