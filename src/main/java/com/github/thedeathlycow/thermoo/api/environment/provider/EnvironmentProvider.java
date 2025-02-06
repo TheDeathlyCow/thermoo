@@ -20,7 +20,20 @@ public interface EnvironmentProvider {
     Codec<EnvironmentProvider> PROVIDER_CODEC = ThermooRegistries.ENVIRONMENT_PROVIDER_TYPE.getCodec()
             .dispatch("type", EnvironmentProvider::getType, EnvironmentProviderType::codec);
 
-    ComponentMap lookup(World world, BlockPos pos, RegistryEntry<Biome> biome);
+    /**
+     * Queries the current environment parameter components at a point and biome in a world.
+     * <p>
+     * The allowed component type keys must be registered in the
+     * {@link ThermooRegistries#ENVIRONMENT_COMPONENT_TYPE environment component type registry}. A set of default
+     * components for temperature and relative humidity are defined in
+     * {@link com.github.thedeathlycow.thermoo.api.environment.EnvironmentComponentTypes}.
+     *
+     * @param world The world/level being queried
+     * @param pos   The position in the world to query
+     * @param biome The biome at the position in the world
+     * @return Returns a component map of the current world position.
+     */
+    ComponentMap findCurrentComponents(World world, BlockPos pos, RegistryEntry<Biome> biome);
 
     /**
      * Gets the temperature of a position within a biome. The returned record may be in any unit.
