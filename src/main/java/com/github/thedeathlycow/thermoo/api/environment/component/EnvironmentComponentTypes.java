@@ -10,7 +10,7 @@ import net.minecraft.registry.Registry;
 import java.util.function.UnaryOperator;
 
 /**
- * Stores the codec and default component type keys for Thermoo's environment component map.
+ * Stores the codec and component type keys for Thermoo's environment component map.
  * <p>
  * Mods may define their own component types in their own classes, they only need be registered to
  * {@link ThermooRegistries#ENVIRONMENT_COMPONENT_TYPE}.
