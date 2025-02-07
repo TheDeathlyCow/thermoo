@@ -1,8 +1,10 @@
-package com.github.thedeathlycow.thermoo.api.util;
+package com.github.thedeathlycow.thermoo.api.util.component;
 
 import com.github.thedeathlycow.thermoo.ThermooTest;
 import com.github.thedeathlycow.thermoo.api.environment.component.EnvironmentComponentTypes;
 import com.github.thedeathlycow.thermoo.api.environment.component.TemperatureRecordComponent;
+import com.github.thedeathlycow.thermoo.api.util.TemperatureRecord;
+import com.github.thedeathlycow.thermoo.api.util.TemperatureUnit;
 import com.github.thedeathlycow.thermoo.api.util.component.ReducibleComponentMapBuilder;
 import net.minecraft.component.ComponentMap;
 import org.junit.jupiter.api.Assertions;
