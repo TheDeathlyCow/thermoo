@@ -88,7 +88,7 @@ public abstract sealed class SeasonalEnvironmentProvider implements EnvironmentP
     protected static MapCodec<Map<ThermooSeason, RegistryEntry<EnvironmentProvider>>> createSeasonMapCodec() {
         return Codec.simpleMap(
                 ThermooSeason.CODEC,
-                RegistryElementCodec.of(ThermooRegistryKeys.ENVIRONMENT_PROVIDER, EnvironmentProvider.PROVIDER_CODEC),
+                EnvironmentProvider.ENTRY_CODEC,
                 StringIdentifiable.toKeyable(ThermooSeason.values())
         ).validate(seasonMap -> {
             if (seasonMap.isEmpty()) {

@@ -35,6 +35,8 @@ public interface EnvironmentTickContext<T extends TemperatureAware> {
 
     /**
      * The current environment components at the world and position.
+     * <p>
+     * This map is only non-empty for {@link ServerPlayerEnvironmentTickEvents#GET_TEMPERATURE_CHANGE} and later events.
      *
      * @return Returns an {@link EnvironmentComponentTypes environment component map}
      */

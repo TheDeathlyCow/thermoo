@@ -63,6 +63,8 @@ public class ReducibleComponentMapBuilder {
      * the {@link ReducibleComponent} interface, then applies and inserts the result of {@link ReducibleComponent#reduceWith(ReducibleComponent)}
      * on the existing value with the new value. Otherwise, if the type is not mapped to a value, or if the existing
      * value is not reducible, then the new value is inserted as-is, replacing whatever else may be there.
+     * <p>
+     * If the new value is {@code null}, then any existing value for this type will be removed.
      *
      * @param type  The name/type of the component
      * @param value The value of the component to either reduce with the existing value, or to insert

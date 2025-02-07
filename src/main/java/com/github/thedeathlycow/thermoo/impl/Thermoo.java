@@ -52,7 +52,7 @@ public class Thermoo implements ModInitializer {
         );
         DynamicRegistries.register(
                 ThermooRegistryKeys.ENVIRONMENT_PROVIDER,
-                EnvironmentProvider.PROVIDER_CODEC
+                EnvironmentProvider.ELEMENT_CODEC
         );
         ThermooCommonRegisters.registerTemperatureEffects();
         ThermooCommonRegisters.registerEnvironmentProviderTypes();

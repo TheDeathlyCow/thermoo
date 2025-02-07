@@ -1,9 +1,11 @@
 package com.github.thedeathlycow.thermoo.api.environment.provider;
 
 import com.github.thedeathlycow.thermoo.api.ThermooRegistries;
+import com.github.thedeathlycow.thermoo.api.ThermooRegistryKeys;
 import com.github.thedeathlycow.thermoo.api.environment.component.EnvironmentComponentTypes;
 import com.mojang.serialization.Codec;
 import net.minecraft.component.ComponentMap;
+import net.minecraft.registry.entry.RegistryElementCodec;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -13,8 +15,13 @@ import net.minecraft.world.biome.Biome;
  * Provides the temperature and relative humidity of a position in a biome.
  */
 public interface EnvironmentProvider {
-    Codec<EnvironmentProvider> PROVIDER_CODEC = ThermooRegistries.ENVIRONMENT_PROVIDER_TYPE.getCodec()
+    Codec<EnvironmentProvider> ELEMENT_CODEC = ThermooRegistries.ENVIRONMENT_PROVIDER_TYPE.getCodec()
             .dispatch("type", EnvironmentProvider::getType, EnvironmentProviderType::codec);
+
+    Codec<RegistryEntry<EnvironmentProvider>> ENTRY_CODEC = RegistryElementCodec.of(
+            ThermooRegistryKeys.ENVIRONMENT_PROVIDER,
+            ELEMENT_CODEC
+    );
 
     /**
      * Queries the current environment parameter components at a point and biome in a world.

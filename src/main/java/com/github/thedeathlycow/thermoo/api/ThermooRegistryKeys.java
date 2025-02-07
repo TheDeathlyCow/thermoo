@@ -33,6 +33,13 @@ public final class ThermooRegistryKeys {
      */
     public static final RegistryKey<Registry<EnvironmentProviderType<?>>> ENVIRONMENT_PROVIDER_TYPE = createRegistryKey("environment_provider_type");
 
+    /**
+     * Key for the environment provider registry.
+     * <p>
+     * This registry is a dynamic registry, with elements defined from a datapack in the folder {@code /thermoo/environment_provider/}
+     *
+     * @see EnvironmentProvider
+     */
     public static final RegistryKey<Registry<EnvironmentProvider>> ENVIRONMENT_PROVIDER = createRegistryKey("environment_provider");
 
     /**

@@ -12,8 +12,6 @@ import net.minecraft.registry.entry.RegistryEntryList;
 import net.minecraft.world.biome.Biome;
 import org.jetbrains.annotations.Contract;
 
-import java.util.Optional;
-
 /**
  * Defines a biome's environmental temperature and relative humidity values. Must be defined in a datapack registry
  * in order to work.
@@ -27,7 +25,7 @@ public final class EnvironmentDefinition {
                     RegistryCodecs.entryList(RegistryKeys.BIOME)
                             .optionalFieldOf("exclude_biomes", RegistryEntryList.empty())
                             .forGetter(EnvironmentDefinition::excludeBiomes),
-                    RegistryElementCodec.of(ThermooRegistryKeys.ENVIRONMENT_PROVIDER, EnvironmentProvider.PROVIDER_CODEC)
+                    EnvironmentProvider.ENTRY_CODEC
                             .fieldOf("provider")
                             .forGetter(EnvironmentDefinition::provider)
             ).apply(instance, EnvironmentDefinition::new)
