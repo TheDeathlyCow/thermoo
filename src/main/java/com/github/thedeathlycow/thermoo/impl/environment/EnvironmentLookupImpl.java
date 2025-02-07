@@ -4,24 +4,25 @@ import com.github.thedeathlycow.thermoo.api.ThermooRegistryKeys;
 import com.github.thedeathlycow.thermoo.api.environment.EnvironmentDefinition;
 import com.github.thedeathlycow.thermoo.api.environment.EnvironmentLookup;
 import com.github.thedeathlycow.thermoo.api.environment.provider.EnvironmentProvider;
-import com.github.thedeathlycow.thermoo.api.util.TemperatureRecord;
-import com.github.thedeathlycow.thermoo.api.util.TemperatureUnit;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
+import net.minecraft.component.ComponentMap;
 import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
-import org.jetbrains.annotations.VisibleForTesting;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.IdentityHashMap;
+import java.util.List;
+import java.util.Map;
 
 public class EnvironmentLookupImpl implements EnvironmentLookup {
     public static final EnvironmentLookupImpl INSTANCE = new EnvironmentLookupImpl();
 
-    private final Map<RegistryKey<Biome>, List<EnvironmentProvider>> biomeProviderCache = new IdentityHashMap<>();
+    private final Map<RegistryKey<Biome>, List<RegistryEntry<EnvironmentProvider>>> biomeProviderCache = new IdentityHashMap<>();
 
     public static void initialize() {
         ServerLifecycleEvents.SERVER_STOPPED.register(server -> INSTANCE.clearCache());
@@ -29,68 +30,20 @@ public class EnvironmentLookupImpl implements EnvironmentLookup {
     }
 
     @Override
-    public double findTemperature(World world, BlockPos pos, TemperatureUnit unit) {
+    public ComponentMap findEnvironmentComponents(World world, BlockPos pos) {
         RegistryEntry<Biome> biome = world.getBiome(pos);
-        return this.findTemperatureForBiome(world, pos, unit, biome);
+        return this.findEnvironmentComponentsForBiome(world, pos, biome);
     }
 
-    @Override
-    public double findRelativeHumidity(World world, BlockPos pos) {
-        RegistryEntry<Biome> biome = world.getBiome(pos);
-        return this.findRelativeHumidityForBiome(world, pos, biome);
+    public ComponentMap findEnvironmentComponentsForBiome(World world, BlockPos pos, RegistryEntry<Biome> biome) {
+        ComponentMap.Builder builder = ComponentMap.builder();
+        for (RegistryEntry<EnvironmentProvider> provider : this.getProviders(biome, world.getRegistryManager())) {
+            builder.addAll(provider.value().findCurrentComponents(world, pos, biome));
+        }
+        return builder.build();
     }
 
-    public double findTemperatureForBiome(World world, BlockPos pos, TemperatureUnit unit, RegistryEntry<Biome> biome) {
-        List<EnvironmentProvider> providers = this.getProviders(biome, world.getRegistryManager());
-
-        if (providers.isEmpty()) {
-            return EnvironmentLookup.fallbackTemperature(unit);
-        }
-
-        var totalTemperatureK = new TemperatureRecord(0.0, TemperatureUnit.KELVIN);
-        int totalProviders = 0;
-
-        for (EnvironmentProvider provider : providers) {
-            Optional<TemperatureRecord> result = provider.getTemperature(world, pos, biome);
-            if (result.isPresent()) {
-                totalTemperatureK = totalTemperatureK.sum(result.get());
-                totalProviders++;
-            }
-        }
-
-        if (totalProviders == 0) {
-            return EnvironmentLookup.fallbackTemperature(unit);
-        }
-
-        return unit.convertTemperature(totalTemperatureK.value() / totalProviders, TemperatureUnit.KELVIN);
-    }
-
-    public double findRelativeHumidityForBiome(World world, BlockPos pos, RegistryEntry<Biome> biome) {
-        List<EnvironmentProvider> providers = this.getProviders(biome, world.getRegistryManager());
-
-        if (providers.isEmpty()) {
-            return EnvironmentLookup.fallbackRelativeHumidity();
-        }
-
-        double totalRelativeHumidity = 0.0;
-        int totalProviders = 0;
-
-        for (EnvironmentProvider provider : providers) {
-            OptionalDouble result = provider.getRelativeHumidity(world, pos, biome);
-            if (result.isPresent()) {
-                totalRelativeHumidity += result.getAsDouble();
-                totalProviders++;
-            }
-        }
-
-        if (totalProviders == 0) {
-            return EnvironmentLookup.fallbackRelativeHumidity();
-        }
-
-        return totalRelativeHumidity / totalProviders;
-    }
-
-    private List<EnvironmentProvider> getProviders(RegistryEntry<Biome> biome, DynamicRegistryManager manager) {
+    private List<RegistryEntry<EnvironmentProvider>> getProviders(RegistryEntry<Biome> biome, DynamicRegistryManager manager) {
         RegistryKey<Biome> key = biome.getKey().orElse(null);
         if (key == null) {
             return Collections.emptyList();
@@ -99,7 +52,7 @@ public class EnvironmentLookupImpl implements EnvironmentLookup {
         return this.biomeProviderCache.computeIfAbsent(
                 key,
                 k -> {
-                    List<EnvironmentProvider> providers = manager.getOrThrow(ThermooRegistryKeys.ENVIRONMENT)
+                    List<RegistryEntry<EnvironmentProvider>> providers = manager.getOrThrow(ThermooRegistryKeys.ENVIRONMENT)
                             .stream()
                             .filter(definition -> definition.providesFor(biome))
                             .map(EnvironmentDefinition::provider)

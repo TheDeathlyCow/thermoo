@@ -1,6 +1,9 @@
 package com.github.thedeathlycow.thermoo.api.command;
 
 import com.github.thedeathlycow.thermoo.api.environment.EnvironmentLookup;
+import com.github.thedeathlycow.thermoo.api.environment.component.EnvironmentComponentTypes;
+import com.github.thedeathlycow.thermoo.api.environment.component.RelativeHumidityComponent;
+import com.github.thedeathlycow.thermoo.api.environment.component.TemperatureRecordComponent;
 import com.github.thedeathlycow.thermoo.api.temperature.EnvironmentManager;
 import com.github.thedeathlycow.thermoo.api.util.TemperatureConverter;
 import com.github.thedeathlycow.thermoo.api.util.TemperatureUnit;
@@ -213,7 +216,12 @@ public class EnvironmentCommand {
     }
 
     private static int executeTemperature(ServerCommandSource source, BlockPos location, TemperatureUnit unit, double scale) {
-        double temperature = EnvironmentLookup.getInstance().findTemperature(source.getWorld(), location, unit);
+        double temperature = EnvironmentLookup.getInstance().findEnvironmentComponents(
+                        source.getWorld(), location
+                ).getOrDefault(EnvironmentComponentTypes.TEMPERATURE, TemperatureRecordComponent.DEFAULT)
+                .temperature()
+                .valueInUnit(unit);
+
         source.sendFeedback(
                 () -> {
                     RegistryKey<Biome> biome = source.getWorld().getBiome(location).getKey().orElse(null);
@@ -235,8 +243,11 @@ public class EnvironmentCommand {
     }
 
     private static int executeRelativeHumidity(ServerCommandSource source, BlockPos location, double scale) {
-        double relativeHumidity = EnvironmentLookup.getInstance().findRelativeHumidity(source.getWorld(), location);
+        double relativeHumidity = EnvironmentLookup.getInstance().findEnvironmentComponents(
+                source.getWorld(), location
+        ).getOrDefault(EnvironmentComponentTypes.RELATIVE_HUMIDITY, RelativeHumidityComponent.DEFAULT);
         double scaledHumidity = relativeHumidity * scale;
+
         source.sendFeedback(
                 () -> {
                     RegistryKey<Biome> biome = source.getWorld().getBiome(location).getKey().orElse(null);

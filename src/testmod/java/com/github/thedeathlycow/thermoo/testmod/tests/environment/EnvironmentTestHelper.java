@@ -1,5 +1,8 @@
 package com.github.thedeathlycow.thermoo.testmod.tests.environment;
 
+import com.github.thedeathlycow.thermoo.api.environment.component.EnvironmentComponentTypes;
+import com.github.thedeathlycow.thermoo.api.environment.component.RelativeHumidityComponent;
+import com.github.thedeathlycow.thermoo.api.environment.component.TemperatureRecordComponent;
 import com.github.thedeathlycow.thermoo.api.season.ThermooSeason;
 import com.github.thedeathlycow.thermoo.api.util.TemperatureUnit;
 import com.github.thedeathlycow.thermoo.impl.environment.EnvironmentLookupImpl;
@@ -33,21 +36,22 @@ public final class EnvironmentTestHelper {
 
     public static double getBiomeTemperature(TestContext context, World world, RegistryKey<Biome> biomeKey) {
         RegistryEntry<Biome> plains = EnvironmentTestHelper.getBiomeEntry(world.getRegistryManager(), biomeKey);
-        return EnvironmentLookupImpl.INSTANCE.findTemperatureForBiome(
-                world,
-                context.getAbsolutePos(BlockPos.ORIGIN),
-                TemperatureUnit.CELSIUS,
-                plains
-        );
+        return EnvironmentLookupImpl.INSTANCE.findEnvironmentComponentsForBiome(
+                        world,
+                        context.getAbsolutePos(BlockPos.ORIGIN),
+                        plains
+                ).getOrDefault(EnvironmentComponentTypes.TEMPERATURE, TemperatureRecordComponent.DEFAULT)
+                .temperature()
+                .valueInUnit(TemperatureUnit.CELSIUS);
     }
 
     public static double getBiomeHumidity(TestContext context, World world, RegistryKey<Biome> biomeKey) {
         RegistryEntry<Biome> plains = EnvironmentTestHelper.getBiomeEntry(world.getRegistryManager(), biomeKey);
-        return EnvironmentLookupImpl.INSTANCE.findRelativeHumidityForBiome(
+        return EnvironmentLookupImpl.INSTANCE.findEnvironmentComponentsForBiome(
                 world,
                 context.getAbsolutePos(BlockPos.ORIGIN),
                 plains
-        );
+        ).getOrDefault(EnvironmentComponentTypes.RELATIVE_HUMIDITY, RelativeHumidityComponent.DEFAULT);
     }
 
     public static RegistryEntry<Biome> getBiomeEntry(DynamicRegistryManager manager, RegistryKey<Biome> biomeKey) {

@@ -12,23 +12,31 @@
                 "seasons": {
                     "spring": {
                         "type": "thermoo:constant",
-                        "temperature": 31.0,
-                        "relative_humidity": 1.0
+                        "components": {
+                            "thermoo:temperature": 31.0,
+                            "thermoo:relative_humidity": 1.0
+                        }
                     },
                     "summer": {
                         "type": "thermoo:constant",
-                        "temperature": 41.0,
-                        "relative_humidity": 1.0
+                        "components": {
+                            "thermoo:temperature": 41.0,
+                            "thermoo:relative_humidity": 1.0
+                        }
                     },
                     "autumn": {
                         "type": "thermoo:constant",
-                        "temperature": 31.0,
-                        "relative_humidity": 0.8
+                        "components": {
+                            "thermoo:temperature": 31.0,
+                            "thermoo:relative_humidity": 0.8
+                        }
                     },
                     "winter": {
                         "type": "thermoo:constant",
-                        "temperature": 21.0,
-                        "relative_humidity": 0.8
+                        "components": {
+                            "thermoo:temperature": 21.0,
+                            "thermoo:relative_humidity": 0.8
+                        }
                     }
                 }
             },
@@ -38,23 +46,31 @@
                 "seasons": {
                     "spring": {
                         "type": "thermoo:constant",
-                        "temperature": 30.0,
-                        "relative_humidity": 0.2
+                        "components": {
+                            "thermoo:temperature": 30.0,
+                            "thermoo:relative_humidity": 0.2
+                        }
                     },
                     "summer": {
                         "type": "thermoo:constant",
-                        "temperature": 40.0,
-                        "relative_humidity": 0.2
+                        "components": {
+                            "thermoo:temperature": 40.0,
+                            "thermoo:relative_humidity": 0.2
+                        }
                     },
                     "autumn": {
                         "type": "thermoo:constant",
-                        "temperature": 30.0,
-                        "relative_humidity": 0.1
+                        "components": {
+                            "thermoo:temperature": 30.0,
+                            "thermoo:relative_humidity": 0.1
+                        }
                     },
                     "winter": {
                         "type": "thermoo:constant",
-                        "temperature": 20.0,
-                        "relative_humidity": 0.1
+                        "components": {
+                            "thermoo:temperature": 20.0,
+                            "thermoo:relative_humidity": 0.1
+                        }
                     }
                 }
             }

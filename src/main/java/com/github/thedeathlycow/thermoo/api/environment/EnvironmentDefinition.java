@@ -1,16 +1,16 @@
 package com.github.thedeathlycow.thermoo.api.environment;
 
+import com.github.thedeathlycow.thermoo.api.ThermooRegistryKeys;
 import com.github.thedeathlycow.thermoo.api.environment.provider.EnvironmentProvider;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.registry.RegistryCodecs;
 import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.entry.RegistryElementCodec;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.entry.RegistryEntryList;
 import net.minecraft.world.biome.Biome;
 import org.jetbrains.annotations.Contract;
-
-import java.util.Optional;
 
 /**
  * Defines a biome's environmental temperature and relative humidity values. Must be defined in a datapack registry
@@ -25,7 +25,7 @@ public final class EnvironmentDefinition {
                     RegistryCodecs.entryList(RegistryKeys.BIOME)
                             .optionalFieldOf("exclude_biomes", RegistryEntryList.empty())
                             .forGetter(EnvironmentDefinition::excludeBiomes),
-                    EnvironmentProvider.PROVIDER_CODEC
+                    EnvironmentProvider.ENTRY_CODEC
                             .fieldOf("provider")
                             .forGetter(EnvironmentDefinition::provider)
             ).apply(instance, EnvironmentDefinition::new)
@@ -35,12 +35,12 @@ public final class EnvironmentDefinition {
 
     private final RegistryEntryList<Biome> excludeBiomes;
 
-    private final EnvironmentProvider provider;
+    private final RegistryEntry<EnvironmentProvider> provider;
 
     private EnvironmentDefinition(
             RegistryEntryList<Biome> biomes,
             RegistryEntryList<Biome> excludeBiomes,
-            EnvironmentProvider provider
+            RegistryEntry<EnvironmentProvider> provider
     ) {
         this.biomes = biomes;
         this.excludeBiomes = excludeBiomes;
@@ -57,7 +57,7 @@ public final class EnvironmentDefinition {
      * @return Returns a new definition
      */
     @Contract("_,_->new")
-    public static EnvironmentDefinition create(RegistryEntryList<Biome> biomes, EnvironmentProvider provider) {
+    public static EnvironmentDefinition create(RegistryEntryList<Biome> biomes, RegistryEntry<EnvironmentProvider> provider) {
         return new EnvironmentDefinition(biomes, RegistryEntryList.empty(), provider);
     }
 
@@ -73,7 +73,7 @@ public final class EnvironmentDefinition {
     public static EnvironmentDefinition create(
             RegistryEntryList<Biome> biomes,
             RegistryEntryList<Biome> excludeBiomes,
-            EnvironmentProvider provider
+            RegistryEntry<EnvironmentProvider> provider
     ) {
         return new EnvironmentDefinition(biomes, excludeBiomes, provider);
     }
@@ -110,7 +110,7 @@ public final class EnvironmentDefinition {
     /**
      * @return The environment provider for this definition
      */
-    public EnvironmentProvider provider() {
+    public RegistryEntry<EnvironmentProvider> provider() {
         return this.provider;
     }
 }
