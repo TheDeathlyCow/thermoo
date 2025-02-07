@@ -30,21 +30,4 @@ public interface EnvironmentLookup {
      * @return Returns an environment component map whose keys are defined by {@link EnvironmentComponentTypes}
      */
     ComponentMap findEnvironmentComponents(World world, BlockPos pos);
-
-    /**
-     * Gets the fallback temperature of 20C in a given unit
-     *
-     * @param unit the unit to get the fallback temperature for
-     * @return returns a temperature value in the given unit
-     */
-    static double fallbackTemperature(TemperatureUnit unit) {
-        return unit.fromCelsius(20.0);
-    }
-
-    /**
-     * @return Returns the fallback relative humidity of 50%
-     */
-    static double fallbackRelativeHumidity() {
-        return 0.5;
-    }
 }
