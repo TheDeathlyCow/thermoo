@@ -1,64 +1,42 @@
 package com.github.thedeathlycow.thermoo.api.environment.provider;
 
 import com.github.thedeathlycow.thermoo.api.ThermooRegistries;
-import com.github.thedeathlycow.thermoo.api.util.TemperatureRecord;
-import com.github.thedeathlycow.thermoo.api.util.TemperatureUnit;
+import com.github.thedeathlycow.thermoo.api.ThermooRegistryKeys;
+import com.github.thedeathlycow.thermoo.api.environment.component.EnvironmentComponentTypes;
 import com.mojang.serialization.Codec;
+import net.minecraft.component.ComponentMap;
+import net.minecraft.registry.entry.RegistryElementCodec;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 
-import java.util.Optional;
-import java.util.OptionalDouble;
-
 /**
  * Provides the temperature and relative humidity of a position in a biome.
  */
 public interface EnvironmentProvider {
-    Codec<EnvironmentProvider> PROVIDER_CODEC = ThermooRegistries.ENVIRONMENT_PROVIDER_TYPE.getCodec()
+    Codec<EnvironmentProvider> ELEMENT_CODEC = ThermooRegistries.ENVIRONMENT_PROVIDER_TYPE.getCodec()
             .dispatch("type", EnvironmentProvider::getType, EnvironmentProviderType::codec);
 
-    /**
-     * Gets the temperature of a position within a biome. The returned record may be in any unit.
-     * <p>
-     * If multiple providers return a temperature record at the same time and position, the mean temperature will be used.
-     * <p>
-     * If no providers return a value, a fallback room temperature will be used.
-     * <p>
-     * The temperature may change over time.
-     *
-     * @param world The world/level being queried
-     * @param pos   The position in the world to query
-     * @param biome The biome at the position in the world
-     * @return Returns an optional temperature record. If no record is returned, it will not be counted towards the mean
-     * temperature.
-     */
-    default Optional<TemperatureRecord> getTemperature(World world, BlockPos pos, RegistryEntry<Biome> biome) {
-        return Optional.empty();
-    }
+    Codec<RegistryEntry<EnvironmentProvider>> ENTRY_CODEC = RegistryElementCodec.of(
+            ThermooRegistryKeys.ENVIRONMENT_PROVIDER,
+            ELEMENT_CODEC
+    );
 
     /**
-     * Gets the relative humidity of a position within a biome.
+     * Queries the current environment parameter components at a point and biome in a world.
      * <p>
-     * Relative humidity is "the ratio of how much water vapour is in the air to how much water vapour the air could
-     * potentially contain" <a href="https://en.m.wikipedia.org/wiki/Humidity#Relative_humidity">[1]</a> and is
-     * expressed here on a 0-1 scale.
-     * <p>
-     * If multiple providers return a relative humidity value at the same time and position, the mean value will be used.
-     * <p>
-     * The relative humidity may change over time.
+     * The allowed component type keys must be registered in the
+     * {@link ThermooRegistries#ENVIRONMENT_COMPONENT_TYPE environment component type registry}. A set of default
+     * components for temperature and relative humidity are defined in
+     * {@link EnvironmentComponentTypes}.
      *
      * @param world The world/level being queried
      * @param pos   The position in the world to query
      * @param biome The biome at the position in the world
-     * @return Returns an optional relative humidity value as a 0-1 double. If no humidity is returned, it will not be
-     * counted towards the mean relative humidity.
-     * @see <a href="https://en.m.wikipedia.org/wiki/Humidity">Humidity on Wikipedia</a>
+     * @return Returns a component map of the current world position.
      */
-    default OptionalDouble getRelativeHumidity(World world, BlockPos pos, RegistryEntry<Biome> biome) {
-        return OptionalDouble.empty();
-    }
+    ComponentMap findCurrentComponents(World world, BlockPos pos, RegistryEntry<Biome> biome);
 
     /**
      * @return Returns the type of this provider for dispatch

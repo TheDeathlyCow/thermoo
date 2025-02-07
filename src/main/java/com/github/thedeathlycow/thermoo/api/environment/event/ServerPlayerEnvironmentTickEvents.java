@@ -20,7 +20,7 @@ public final class ServerPlayerEnvironmentTickEvents {
      * Checks if the temperature update should be allowed to proceed at all. Returning any non-default value will force
      * the update to proceed right away. By default, the update will be allowed to proceed.
      * <p>
-     * At this stage, the context temperature will be {@code null} and the relativity humidity will be {@link Double#NaN}.
+     * At this stage, the context's environment components will be empty.
      */
     public static final Event<AllowTemperatureChangeUpdate> ALLOW_TEMPERATURE_UPDATE = EventFactory.createArrayBacked(
             AllowTemperatureChangeUpdate.class,
@@ -39,7 +39,7 @@ public final class ServerPlayerEnvironmentTickEvents {
      * Computes the temperature point change for a temperature aware given their environment conditions. All returned
      * values will be added to together and, if allowed, will be applied in one temperature change.
      * <p>
-     * At this point onwards, the context temperature will be non-null and the relativity humidity will be defined.
+     * From this point onwards, the context environment components will be defined, but some values may still be empty.
      */
     public static final Event<GetTemperatureChange> GET_TEMPERATURE_CHANGE = EventFactory.createArrayBacked(
             GetTemperatureChange.class,

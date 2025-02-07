@@ -125,7 +125,7 @@ public final class TemperatureRecord implements Comparable<TemperatureRecord> {
      * This is different from add in that the {@code other} is treated as an actual temperature value, not a temperature
      * difference. This operation is generally useful for data analysis, e.g., finding the mean of N temperature records.
      * <p>
-     * For example {@code 20C + 10K = -263.15K}.
+     * For example {@code 20C + 10K = -263.15C}.
      *
      * @param other the other record to sum
      * @return Returns a new record that is the sum of this record and the other

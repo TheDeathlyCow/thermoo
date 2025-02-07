@@ -5,6 +5,7 @@ import com.github.thedeathlycow.thermoo.impl.environment.SeasonalProviderBuilder
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Contract;
@@ -40,7 +41,10 @@ public final class TemperateSeasonEnvironmentProvider extends SeasonalEnvironmen
         return new Builder();
     }
 
-    private TemperateSeasonEnvironmentProvider(Optional<ThermooSeason> fallbackSeason, Map<ThermooSeason, EnvironmentProvider> seasons) {
+    private TemperateSeasonEnvironmentProvider(
+            Optional<ThermooSeason> fallbackSeason,
+            Map<ThermooSeason, RegistryEntry<EnvironmentProvider>> seasons
+    ) {
         super(fallbackSeason, seasons);
     }
 
@@ -54,7 +58,9 @@ public final class TemperateSeasonEnvironmentProvider extends SeasonalEnvironmen
         return ThermooSeason.getCurrentSeason(world);
     }
 
-    private static DataResult<Map<ThermooSeason, EnvironmentProvider>> allKeysAreTemperate(Map<ThermooSeason, EnvironmentProvider> seasonMap) {
+    private static DataResult<Map<ThermooSeason, RegistryEntry<EnvironmentProvider>>> allKeysAreTemperate(
+            Map<ThermooSeason, RegistryEntry<EnvironmentProvider>> seasonMap
+    ) {
         for (ThermooSeason season : seasonMap.keySet()) {
             if (season.isTropical()) {
                 return DataResult.error(() -> "Found tropical season '" + season.name() + "' in a temperate season map!");
@@ -96,7 +102,7 @@ public final class TemperateSeasonEnvironmentProvider extends SeasonalEnvironmen
          * @return Returns this builder
          */
         @Contract("_,_->this")
-        public Builder addSeasonProvider(@NotNull ThermooSeason season, @NotNull EnvironmentProvider provider) {
+        public Builder addSeasonProvider(@NotNull ThermooSeason season, @NotNull RegistryEntry<EnvironmentProvider> provider) {
             Objects.requireNonNull(season);
             if (!season.isTropical()) {
                 this.helper.setSeasonProvider(season, provider);

@@ -5,6 +5,7 @@
     "compatibilityLevel": "JAVA_21",
     "mixins": [
         "ArmorItemMixin",
+        "ComponentMapBuilderAccessor",
         "EnvironmentAwareEntityMixin",
         "HotFloorMixin",
         "LivingEntityAttributeMixin",

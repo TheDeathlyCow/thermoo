@@ -2,26 +2,22 @@ package com.github.thedeathlycow.thermoo.testmod;
 
 import com.github.thedeathlycow.thermoo.api.armor.material.ArmorMaterialEvents;
 import com.github.thedeathlycow.thermoo.api.ThermooAttributes;
+import com.github.thedeathlycow.thermoo.api.ThermooRegistries;
 import com.github.thedeathlycow.thermoo.api.season.ThermooSeason;
 import com.github.thedeathlycow.thermoo.api.season.ThermooSeasonEvents;
 import com.github.thedeathlycow.thermoo.api.temperature.event.EnvironmentControllerInitializeEvent;
 import com.github.thedeathlycow.thermoo.api.temperature.event.PlayerEnvironmentEvents;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import com.github.thedeathlycow.thermoo.testmod.config.ThermooConfig;
+import com.github.thedeathlycow.thermoo.testmod.tests.util.component.TestReducibleDoubleComponent;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
 import net.fabricmc.fabric.api.util.TriState;
-import net.minecraft.registry.DynamicRegistryManager;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.server.MinecraftServer;
+import net.minecraft.registry.Registry;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.Identifier;
 import net.minecraft.world.GameRules;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
@@ -86,6 +82,12 @@ public class ThermooTestMod implements ModInitializer {
                     case 2 -> ThermooSeason.TROPICAL_DRY;
                     default -> null;
                 })
+        );
+
+        Registry.register(
+                ThermooRegistries.ENVIRONMENT_COMPONENT_TYPE,
+                Identifier.of("thermoo-test", "test_reducible_double"),
+                TestReducibleDoubleComponent.KEY
         );
     }
 
