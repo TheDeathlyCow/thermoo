@@ -31,6 +31,12 @@ public final class EnvironmentProviderTypes {
             TropicalSeasonEnvironmentProvider.CODEC
     );
 
+    /**
+     * A provider that can modify a child provider with other providers through {@link com.github.thedeathlycow.thermoo.api.util.component.ReducibleComponentMapBuilder}
+     *
+     * @see ModifyEnvironmentProvider
+     * @see com.github.thedeathlycow.thermoo.api.util.component.ReducibleComponentMapBuilder
+     */
     public static final EnvironmentProviderType<ModifyEnvironmentProvider> MODIFY = new EnvironmentProviderType<>(
             ModifyEnvironmentProvider.CODEC
     );

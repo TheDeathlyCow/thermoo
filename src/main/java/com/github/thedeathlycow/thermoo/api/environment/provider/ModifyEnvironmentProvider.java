@@ -13,6 +13,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 
+/**
+ * Applies modifiers to a base environment provider from a tag or list of environment providers
+ */
 public final class ModifyEnvironmentProvider implements EnvironmentProvider {
     public static final MapCodec<ModifyEnvironmentProvider> CODEC = RecordCodecBuilder.mapCodec(
             instance -> instance.group(
@@ -43,14 +46,23 @@ public final class ModifyEnvironmentProvider implements EnvironmentProvider {
         return new ModifyEnvironmentProvider(modifiers, base);
     }
 
+    /**
+     * Takes the current components from the {@link #base()} and {@linkplain  ReducibleComponentMapBuilder reduces} the
+     * modifiers into it, in the order that the modifiers are specified.
+     *
+     * @param world The world/level being queried
+     * @param pos   The position in the world to query
+     * @param biome The biome at the position in the world
+     * @return Returns a modified component map
+     */
     @Override
     public ComponentMap findCurrentComponents(World world, BlockPos pos, RegistryEntry<Biome> biome) {
         ComponentMap.Builder baseBuilder = ComponentMap.builder()
                 .addAll(base.value().findCurrentComponents(world, pos, biome));
 
         ReducibleComponentMapBuilder modifiedBuilder = ReducibleComponentMapBuilder.create(baseBuilder);
-        for (RegistryEntry<EnvironmentProvider> modifer : this.modifiers) {
-            modifiedBuilder.addAll(modifer.value().findCurrentComponents(world, pos, biome));
+        for (RegistryEntry<EnvironmentProvider> modifier : this.modifiers) {
+            modifiedBuilder.addAll(modifier.value().findCurrentComponents(world, pos, biome));
         }
 
         return modifiedBuilder.build();
@@ -61,10 +73,21 @@ public final class ModifyEnvironmentProvider implements EnvironmentProvider {
         return EnvironmentProviderTypes.MODIFY;
     }
 
+    /**
+     * A list of modifiers that are {@linkplain  ReducibleComponentMapBuilder reduced} into the base. Modifiers are
+     * applied in iteration order.
+     *
+     * @return Returns a registry entry list of providers
+     */
     public RegistryEntryList<EnvironmentProvider> modifiers() {
         return modifiers;
     }
 
+    /**
+     * The base provider to be modified.
+     *
+     * @return Returns the provider registry entry
+     */
     public RegistryEntry<EnvironmentProvider> base() {
         return base;
     }
