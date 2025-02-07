@@ -3,13 +3,14 @@ package com.github.thedeathlycow.thermoo.api.util;
 import com.github.thedeathlycow.thermoo.ThermooTest;
 import com.github.thedeathlycow.thermoo.api.environment.component.EnvironmentComponentTypes;
 import com.github.thedeathlycow.thermoo.api.environment.component.TemperatureRecordComponent;
+import com.github.thedeathlycow.thermoo.api.util.component.ReducibleComponentMapBuilder;
 import net.minecraft.component.ComponentMap;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 
-class MergedComponentMapBuilderTest {
+class ReducibleComponentMapBuilderTest {
     @BeforeAll
     static void setup() {
         ThermooTest.bootstrapRegistries();
@@ -28,7 +29,7 @@ class MergedComponentMapBuilderTest {
                 .add(EnvironmentComponentTypes.TEMPERATURE, t2)
                 .build();
 
-        ComponentMap merged = new MergedComponentMapBuilder()
+        ComponentMap merged = ReducibleComponentMapBuilder.create()
                 .addAll(m1)
                 .addAll(m2)
                 .build();
@@ -50,7 +51,7 @@ class MergedComponentMapBuilderTest {
                 .add(EnvironmentComponentTypes.RELATIVE_HUMIDITY, 0.2)
                 .build();
 
-        ComponentMap merged = new MergedComponentMapBuilder()
+        ComponentMap merged = ReducibleComponentMapBuilder.create()
                 .addAll(m1)
                 .addAll(m2)
                 .build();
@@ -75,7 +76,7 @@ class MergedComponentMapBuilderTest {
                 .add(EnvironmentComponentTypes.TEMPERATURE, t2)
                 .build();
 
-        ComponentMap merged = new MergedComponentMapBuilder()
+        ComponentMap merged = ReducibleComponentMapBuilder.create()
                 .addAll(m1)
                 .addAll(m2)
                 .build();
@@ -106,7 +107,7 @@ class MergedComponentMapBuilderTest {
                 .add(EnvironmentComponentTypes.RELATIVE_HUMIDITY, 0.2)
                 .build();
 
-        ComponentMap merged = new MergedComponentMapBuilder()
+        ComponentMap merged = ReducibleComponentMapBuilder.create()
                 .addAll(m1)
                 .addAll(m2)
                 .build();

@@ -1,5 +1,6 @@
 package com.github.thedeathlycow.thermoo.api.environment.component;
 
+import com.github.thedeathlycow.thermoo.api.util.component.ReducibleComponent;
 import com.github.thedeathlycow.thermoo.api.util.TemperatureRecord;
 import com.github.thedeathlycow.thermoo.api.util.TemperatureUnit;
 import com.mojang.serialization.Codec;
@@ -21,7 +22,7 @@ public final class TemperatureRecordComponent implements ReducibleComponent<Temp
     }
 
     @Override
-    public TemperatureRecordComponent mergeWith(TemperatureRecordComponent other) {
+    public TemperatureRecordComponent reduceWith(TemperatureRecordComponent other) {
         return new TemperatureRecordComponent(this.value.plus(other.value));
     }
 }
