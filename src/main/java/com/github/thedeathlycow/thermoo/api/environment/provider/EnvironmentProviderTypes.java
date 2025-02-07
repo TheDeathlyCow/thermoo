@@ -31,6 +31,10 @@ public final class EnvironmentProviderTypes {
             TropicalSeasonEnvironmentProvider.CODEC
     );
 
+    public static final EnvironmentProviderType<ModifyEnvironmentProvider> MODIFY = new EnvironmentProviderType<>(
+            ModifyEnvironmentProvider.CODEC
+    );
+
     private EnvironmentProviderTypes() {
 
     }
