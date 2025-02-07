@@ -5,8 +5,6 @@ import com.github.thedeathlycow.thermoo.api.environment.event.EnvironmentTickCon
 import com.github.thedeathlycow.thermoo.api.environment.event.ServerPlayerEnvironmentTickEvents;
 import com.github.thedeathlycow.thermoo.api.temperature.HeatingModes;
 import com.github.thedeathlycow.thermoo.api.temperature.TemperatureAware;
-import com.github.thedeathlycow.thermoo.api.util.TemperatureRecord;
-import com.github.thedeathlycow.thermoo.api.util.TemperatureUnit;
 import net.fabricmc.fabric.api.util.TriState;
 import net.minecraft.component.ComponentMap;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -26,7 +24,7 @@ public final class TickUtil {
         }
 
         final var lookup = EnvironmentLookup.getInstance();
-        context.components = lookup.lookupCurrentEnvironmentParameters(context.world, context.pos);
+        context.components = lookup.findEnvironmentComponents(context.world, context.pos);
 
         int temperatureChange = ServerPlayerEnvironmentTickEvents.GET_TEMPERATURE_CHANGE.invoker().addPointChange(context);
 

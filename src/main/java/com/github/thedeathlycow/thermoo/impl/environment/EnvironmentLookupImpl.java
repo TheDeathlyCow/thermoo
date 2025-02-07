@@ -3,11 +3,7 @@ package com.github.thedeathlycow.thermoo.impl.environment;
 import com.github.thedeathlycow.thermoo.api.ThermooRegistryKeys;
 import com.github.thedeathlycow.thermoo.api.environment.EnvironmentDefinition;
 import com.github.thedeathlycow.thermoo.api.environment.EnvironmentLookup;
-import com.github.thedeathlycow.thermoo.api.environment.component.EnvironmentComponentTypes;
-import com.github.thedeathlycow.thermoo.api.environment.component.RelativeHumidityComponent;
-import com.github.thedeathlycow.thermoo.api.environment.component.TemperatureRecordComponent;
 import com.github.thedeathlycow.thermoo.api.environment.provider.EnvironmentProvider;
-import com.github.thedeathlycow.thermoo.api.util.TemperatureUnit;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.minecraft.component.ComponentMap;
@@ -34,46 +30,17 @@ public class EnvironmentLookupImpl implements EnvironmentLookup {
     }
 
     @Override
-    public ComponentMap lookupCurrentEnvironmentParameters(World world, BlockPos pos) {
+    public ComponentMap findEnvironmentComponents(World world, BlockPos pos) {
         RegistryEntry<Biome> biome = world.getBiome(pos);
-        return this.findCurrentComponentsForBiome(world, pos, biome);
+        return this.findEnvironmentComponentsForBiome(world, pos, biome);
     }
 
-    public double findTemperature(World world, BlockPos pos, TemperatureUnit unit) {
-        RegistryEntry<Biome> biome = world.getBiome(pos);
-        return this.findTemperatureForBiome(world, pos, unit, biome);
-    }
-
-    public double findRelativeHumidity(World world, BlockPos pos) {
-        RegistryEntry<Biome> biome = world.getBiome(pos);
-        return this.findRelativeHumidityForBiome(world, pos, biome);
-    }
-
-    public ComponentMap findCurrentComponentsForBiome(World world, BlockPos pos, RegistryEntry<Biome> biome) {
+    public ComponentMap findEnvironmentComponentsForBiome(World world, BlockPos pos, RegistryEntry<Biome> biome) {
         ComponentMap.Builder builder = ComponentMap.builder();
         for (RegistryEntry<EnvironmentProvider> provider : this.getProviders(biome, world.getRegistryManager())) {
             builder.addAll(provider.value().findCurrentComponents(world, pos, biome));
         }
         return builder.build();
-    }
-
-    public double findTemperatureForBiome(World world, BlockPos pos, TemperatureUnit unit, RegistryEntry<Biome> biome) {
-        ComponentMap components = this.findCurrentComponentsForBiome(world, pos, biome);
-
-        TemperatureRecordComponent temperature = components.getOrDefault(
-                EnvironmentComponentTypes.TEMPERATURE,
-                TemperatureRecordComponent.DEFAULT
-        );
-
-        return unit.convertTemperature(temperature.temperature());
-    }
-
-    public double findRelativeHumidityForBiome(World world, BlockPos pos, RegistryEntry<Biome> biome) {
-        ComponentMap components = this.findCurrentComponentsForBiome(world, pos, biome);
-        return components.getOrDefault(
-                EnvironmentComponentTypes.RELATIVE_HUMIDITY,
-                RelativeHumidityComponent.DEFAULT
-        );
     }
 
     private List<RegistryEntry<EnvironmentProvider>> getProviders(RegistryEntry<Biome> biome, DynamicRegistryManager manager) {

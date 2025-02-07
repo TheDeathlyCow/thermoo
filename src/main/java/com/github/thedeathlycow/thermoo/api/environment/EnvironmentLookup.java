@@ -29,7 +29,7 @@ public interface EnvironmentLookup {
      * @param pos   The position to lookup at
      * @return Returns an environment component map whose keys are defined by {@link EnvironmentComponentTypes}
      */
-    ComponentMap lookupCurrentEnvironmentParameters(World world, BlockPos pos);
+    ComponentMap findEnvironmentComponents(World world, BlockPos pos);
 
     /**
      * Gets the fallback temperature of 20C in a given unit
