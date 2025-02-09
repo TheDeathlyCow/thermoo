@@ -1,4 +1,4 @@
-package com.github.thedeathlycow.thermoo.mixin.common;
+package com.github.thedeathlycow.thermoo.mixin.common.accessor;
 
 import it.unimi.dsi.fastutil.objects.Reference2ObjectMap;
 import net.minecraft.component.ComponentMap;
