@@ -4,7 +4,7 @@ public final class LivingEntitySoakableTickEvents {
 
     @FunctionalInterface
     public interface GetSoakingChange {
-        int addSoakedTicks(LivingEntityTickContext context);
+        int addSoakedTicks(LivingEntityTickContext context, int baseSoakChange);
     }
 
     private LivingEntitySoakableTickEvents() {
