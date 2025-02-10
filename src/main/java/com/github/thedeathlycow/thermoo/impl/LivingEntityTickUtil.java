@@ -44,7 +44,7 @@ public final class LivingEntityTickUtil {
     /**
      * used to offset effects like being stuck in mud
      *
-     * @return returns a blockpos shifted up 0.1 blocks from the entity's current position
+     * @return returns a blockpos shifted up 0.21 blocks from the entity's current position
      */
     public static BlockPos getTemperatureTickPos(LivingEntity entity) {
         Vec3d pos = entity.getPos();
@@ -52,7 +52,7 @@ public final class LivingEntityTickUtil {
             BlockPos blockPos = entity.supportingBlockPos.get();
             BlockState blockState = entity.getWorld().getBlockState(blockPos);
             return !blockState.isIn(BlockTags.FENCES) && !blockState.isIn(BlockTags.WALLS) && !(blockState.getBlock() instanceof FenceGateBlock)
-                    ? blockPos.withY(MathHelper.floor(pos.y + 0.1f))
+                    ? blockPos.withY(MathHelper.floor(pos.y + 0.21f))
                     : blockPos;
         } else {
             return new BlockPos(
