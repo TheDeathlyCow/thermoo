@@ -22,28 +22,16 @@ import net.minecraft.world.GameRules;
 import java.util.Optional;
 
 public class ThermooTestMod implements ModInitializer {
-
-
-    /**
-     * Gamerule to enable/disable passive changes for testing purposes
-     */
-    public static final GameRules.Key<GameRules.BooleanRule> APPLY_PASSIVE_CHANGES =
-            GameRuleRegistry.register(
-                    Thermoo.MODID + ".applyPassiveChanges",
-                    GameRules.Category.MISC,
-                    GameRuleFactory.createBooleanRule(true)
-            );
-
     public static final GameRules.Key<GameRules.IntRule> CURRENT_SEASON =
             GameRuleRegistry.register(
-                    Thermoo.MODID + "setTestSeason",
+                    Thermoo.MODID + ".setTestSeason",
                     GameRules.Category.MISC,
                     GameRuleFactory.createIntRule(0, 0, 4)
             );
 
     public static final GameRules.Key<GameRules.IntRule> CURRENT_TROPICAL_SEASON =
             GameRuleRegistry.register(
-                    Thermoo.MODID + "setTestTropicalSeason",
+                    Thermoo.MODID + ".setTestTropicalSeason",
                     GameRules.Category.MISC,
                     GameRuleFactory.createIntRule(0, 0, 2)
             );
@@ -52,13 +40,6 @@ public class ThermooTestMod implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        PlayerEnvironmentEvents.CAN_APPLY_PASSIVE_TEMPERATURE_CHANGE
-                .register(
-                        (change, player) -> {
-                            boolean applyPassiveChanges = player.getWorld().getGameRules().getBoolean(APPLY_PASSIVE_CHANGES);
-                            return TriState.of(applyPassiveChanges);
-                        }
-                );
         EnvironmentControllerInitializeEvent.EVENT.register(TestmodController::new);
 
         ArmorMaterialEvents.GET_FROST_RESISTANCE.register(ArmorMaterialListener.COLD);

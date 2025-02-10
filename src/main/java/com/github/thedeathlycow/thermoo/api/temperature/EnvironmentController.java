@@ -79,7 +79,9 @@ public sealed interface EnvironmentController permits EnvironmentControllerDecor
      *
      * @param entity The entity to tick warmth effects for
      * @return Returns the temperature change that should be applied
+     * @deprecated Use {@link com.github.thedeathlycow.thermoo.api.temperature.event.LivingEntityTemperatureTickEvents}
      */
+    @Deprecated(since = "5.2")
     int getTemperatureEffectsChange(LivingEntity entity);
 
     /**
@@ -96,7 +98,9 @@ public sealed interface EnvironmentController permits EnvironmentControllerDecor
      * @param state  The state of the floor. This is exactly the state at the {@code pos} in the {@code world}
      * @param pos    The position of the world in the world
      * @return Returns the heat to apply each tick to entities standing on the block state
+     * @deprecated Use {@link com.github.thedeathlycow.thermoo.api.temperature.event.LivingEntityTemperatureTickEvents}
      */
+    @Deprecated(since = "5.2")
     int getFloorTemperature(LivingEntity entity, World world, BlockState state, BlockPos pos);
 
     /**
@@ -130,7 +134,9 @@ public sealed interface EnvironmentController permits EnvironmentControllerDecor
      * @param world The world the temperature aware is in
      * @param pos   The position to check
      * @return Returns the temperature change that should be applied from nearby temperature sources.
+     * @deprecated Use {@link com.github.thedeathlycow.thermoo.api.temperature.event.LivingEntityTemperatureTickEvents}
      */
+    @Deprecated(since = "5.2")
     int getHeatAtLocation(World world, BlockPos pos);
 
     /**
@@ -143,7 +149,9 @@ public sealed interface EnvironmentController permits EnvironmentControllerDecor
      * @param locationHeat     The heat at the temperature aware's location, as computed by
      *                         {@link #getHeatAtLocation(World, BlockPos)}
      * @return Returns {@code locationHeat} by default.
+     * @deprecated Use {@link com.github.thedeathlycow.thermoo.api.temperature.event.LivingEntityTemperatureTickEvents}
      */
+    @Deprecated(since = "5.2")
     default int applyAwareHeat(TemperatureAware temperatureAware, int locationHeat) {
         return locationHeat;
     }
@@ -153,7 +161,9 @@ public sealed interface EnvironmentController permits EnvironmentControllerDecor
      *
      * @param state The block state heat source
      * @return The warmth that the state produces around it
+     * @deprecated Use {@link com.github.thedeathlycow.thermoo.api.temperature.event.LivingEntityTemperatureTickEvents}
      */
+    @Deprecated(since = "5.2")
     int getHeatFromBlockState(BlockState state);
 
     /**
@@ -162,7 +172,9 @@ public sealed interface EnvironmentController permits EnvironmentControllerDecor
      * @param state The block state to check
      * @return Returns if a block state is a heat source
      * @see EnvironmentController#getHeatFromBlockState(BlockState)
+     * @deprecated Use {@link com.github.thedeathlycow.thermoo.api.temperature.event.LivingEntityTemperatureTickEvents}
      */
+    @Deprecated(since = "5.2")
     boolean isHeatSource(BlockState state);
 
     /**
@@ -171,7 +183,9 @@ public sealed interface EnvironmentController permits EnvironmentControllerDecor
      * @param state The block state to check
      * @return Returns true if a block state is a cold source
      * @see EnvironmentController#getHeatFromBlockState(BlockState)
+     * @deprecated Use {@link com.github.thedeathlycow.thermoo.api.temperature.event.LivingEntityTemperatureTickEvents}
      */
+    @Deprecated(since = "5.2")
     boolean isColdSource(BlockState state);
 
     /**
@@ -181,7 +195,9 @@ public sealed interface EnvironmentController permits EnvironmentControllerDecor
      * @param pos   The position to check
      * @return Returns if the location in the world is heated
      * @see EnvironmentController#getHeatAtLocation(World, BlockPos)
+     * @deprecated Use {@link com.github.thedeathlycow.thermoo.api.temperature.event.LivingEntityTemperatureTickEvents}
      */
+    @Deprecated(since = "5.2")
     boolean isAreaHeated(World world, BlockPos pos);
 
 
