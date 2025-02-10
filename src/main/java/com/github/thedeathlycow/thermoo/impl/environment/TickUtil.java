@@ -5,6 +5,7 @@ import com.github.thedeathlycow.thermoo.api.environment.event.EnvironmentTickCon
 import com.github.thedeathlycow.thermoo.api.environment.event.ServerPlayerEnvironmentTickEvents;
 import com.github.thedeathlycow.thermoo.api.temperature.HeatingModes;
 import com.github.thedeathlycow.thermoo.api.temperature.TemperatureAware;
+import com.github.thedeathlycow.thermoo.impl.LivingEntityTickUtil;
 import net.fabricmc.fabric.api.util.TriState;
 import net.minecraft.component.ComponentMap;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -14,10 +15,14 @@ import org.jetbrains.annotations.NotNull;
 
 public final class TickUtil {
     public static void tickPlayerTemperature(ServerPlayerEntity player) {
+        if (player.isDead() || player.isRemoved()) {
+            return;
+        }
+
         final EnvironmentTickContextImpl<ServerPlayerEntity> context = new EnvironmentTickContextImpl<>(
                 player,
                 player.getServerWorld(),
-                player.getBlockPos()
+                LivingEntityTickUtil.getTemperatureTickPos(player)
         );
         if (ServerPlayerEnvironmentTickEvents.ALLOW_TEMPERATURE_UPDATE.invoker().allowUpdate(context) == TriState.FALSE) {
             return;

@@ -4,13 +4,13 @@
     "package": "com.github.thedeathlycow.thermoo.mixin.common",
     "compatibilityLevel": "JAVA_21",
     "mixins": [
-        "ComponentMapBuilderAccessor",
         "EnvironmentAwareEntityMixin",
         "HotFloorMixin",
         "LivingEntityAttributeMixin",
         "LivingEntityEnvironmentTickMixin",
         "PlayerTemperatureTickMixin",
         "ServerPlayerMixin",
+        "accessor.ComponentMapBuilderAccessor",
         "datafix.AttributeIdPrefixFixMixin"
     ],
     "injectors": {
