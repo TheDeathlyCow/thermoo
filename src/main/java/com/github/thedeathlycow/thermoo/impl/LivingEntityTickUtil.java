@@ -3,8 +3,7 @@ package com.github.thedeathlycow.thermoo.impl;
 import com.github.thedeathlycow.thermoo.api.temperature.HeatingMode;
 import com.github.thedeathlycow.thermoo.api.temperature.HeatingModes;
 import com.github.thedeathlycow.thermoo.api.temperature.event.LivingEntityTemperatureTickEvents;
-import com.github.thedeathlycow.thermoo.api.temperature.event.LivingEntityTickContext;
-import com.github.thedeathlycow.thermoo.mixin.common.accessor.EntityAccessor;
+import com.github.thedeathlycow.thermoo.api.temperature.event.TemperatureTickContext;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.util.TriState;
 import net.minecraft.block.BlockState;
@@ -19,7 +18,7 @@ import net.minecraft.util.math.Vec3d;
 public final class LivingEntityTickUtil {
     public static void tick(LivingEntity entity) {
         if (entity.getWorld() instanceof ServerWorld serverWorld) {
-            var context = new LivingEntityTickContextImpl(entity, serverWorld, getTemperatureTickPos(entity));
+            var context = new TemperatureTickContextImpl(entity, serverWorld, getTemperatureTickPos(entity));
             tickChange(
                     context,
                     HeatingModes.PASSIVE,
@@ -54,14 +53,14 @@ public final class LivingEntityTickUtil {
         } else {
             return new BlockPos(
                     MathHelper.floor(pos.x),
-                    MathHelper.floor(pos.y + 0.1f),
+                    MathHelper.floor(pos.y + 0.21f),
                     MathHelper.floor(pos.z)
             );
         }
     }
 
     private static void tickChange(
-            LivingEntityTickContext context,
+            TemperatureTickContext<LivingEntity> context,
             HeatingMode heatingMode,
             Event<LivingEntityTemperatureTickEvents.AllowTemperatureUpdate> allowUpdate,
             Event<LivingEntityTemperatureTickEvents.GetTemperatureChange> getTempChange,
@@ -77,11 +76,11 @@ public final class LivingEntityTickUtil {
         }
     }
 
-    private record LivingEntityTickContextImpl(
+    private record TemperatureTickContextImpl(
             LivingEntity affected,
             ServerWorld world,
             BlockPos pos
-    ) implements LivingEntityTickContext {
+    ) implements TemperatureTickContext<LivingEntity> {
 
     }
 
