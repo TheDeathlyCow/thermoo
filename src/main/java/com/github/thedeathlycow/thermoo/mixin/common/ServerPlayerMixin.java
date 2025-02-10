@@ -1,6 +1,6 @@
 package com.github.thedeathlycow.thermoo.mixin.common;
 
-import com.github.thedeathlycow.thermoo.impl.environment.TickUtil;
+import com.github.thedeathlycow.thermoo.impl.environment.ServerPlayerTickUtil;
 import net.minecraft.server.network.ServerPlayerEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -14,6 +14,6 @@ public class ServerPlayerMixin {
             at = @At("TAIL")
     )
     private void afterTick(CallbackInfo ci) {
-        TickUtil.tickPlayerTemperature((ServerPlayerEntity) (Object) this);
+        ServerPlayerTickUtil.tickPlayerTemperature((ServerPlayerEntity) (Object) this);
     }
 }
