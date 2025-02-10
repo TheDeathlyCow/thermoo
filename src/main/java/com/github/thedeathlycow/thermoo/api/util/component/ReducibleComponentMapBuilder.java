@@ -1,6 +1,6 @@
 package com.github.thedeathlycow.thermoo.api.util.component;
 
-import com.github.thedeathlycow.thermoo.mixin.common.ComponentMapBuilderAccessor;
+import com.github.thedeathlycow.thermoo.mixin.common.accessor.ComponentMapBuilderAccessor;
 import net.minecraft.component.Component;
 import net.minecraft.component.ComponentMap;
 import net.minecraft.component.ComponentType;

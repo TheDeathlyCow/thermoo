@@ -5,6 +5,7 @@ import com.github.thedeathlycow.thermoo.api.environment.event.EnvironmentTickCon
 import com.github.thedeathlycow.thermoo.api.environment.event.ServerPlayerEnvironmentTickEvents;
 import com.github.thedeathlycow.thermoo.api.temperature.HeatingModes;
 import com.github.thedeathlycow.thermoo.api.temperature.TemperatureAware;
+import com.github.thedeathlycow.thermoo.impl.LivingEntityTickUtil;
 import net.fabricmc.fabric.api.util.TriState;
 import net.minecraft.component.ComponentMap;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -12,12 +13,16 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import org.jetbrains.annotations.NotNull;
 
-public final class TickUtil {
+public final class ServerPlayerTickUtil {
     public static void tickPlayerTemperature(ServerPlayerEntity player) {
-        final EnvironmentTickContextImpl<ServerPlayerEntity> context = new EnvironmentTickContextImpl<>(
+        if (player.isDead() || player.isRemoved()) {
+            return;
+        }
+
+        final EnvironmentTickContextImpl context = new EnvironmentTickContextImpl(
                 player,
                 player.getServerWorld(),
-                player.getBlockPos()
+                LivingEntityTickUtil.getTemperatureTickPos(player)
         );
         if (ServerPlayerEnvironmentTickEvents.ALLOW_TEMPERATURE_UPDATE.invoker().allowUpdate(context) == TriState.FALSE) {
             return;
@@ -39,20 +44,20 @@ public final class TickUtil {
         return result != TriState.FALSE;
     }
 
-    private static class EnvironmentTickContextImpl<T extends TemperatureAware> implements EnvironmentTickContext<T> {
-        private final T affected;
+    private static class EnvironmentTickContextImpl implements EnvironmentTickContext<ServerPlayerEntity> {
+        private final ServerPlayerEntity affected;
         private final ServerWorld world;
         private final BlockPos pos;
         private ComponentMap components = ComponentMap.EMPTY;
 
-        public EnvironmentTickContextImpl(T affected, ServerWorld world, BlockPos pos) {
+        public EnvironmentTickContextImpl(ServerPlayerEntity affected, ServerWorld world, BlockPos pos) {
             this.affected = affected;
             this.world = world;
             this.pos = pos;
         }
 
         @Override
-        public @NotNull T affected() {
+        public @NotNull ServerPlayerEntity affected() {
             return this.affected;
         }
 
@@ -72,6 +77,6 @@ public final class TickUtil {
         }
     }
 
-    private TickUtil() {
+    private ServerPlayerTickUtil() {
     }
 }

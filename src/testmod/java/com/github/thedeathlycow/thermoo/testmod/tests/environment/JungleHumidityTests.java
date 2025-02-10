@@ -1,6 +1,7 @@
 package com.github.thedeathlycow.thermoo.testmod.tests.environment;
 
 import com.github.thedeathlycow.thermoo.api.environment.EnvironmentLookup;
+import com.github.thedeathlycow.thermoo.api.environment.component.RelativeHumidityComponent;
 import com.github.thedeathlycow.thermoo.api.season.ThermooSeason;
 import net.fabricmc.fabric.api.gametest.v1.FabricGameTest;
 import net.minecraft.test.GameTest;
@@ -16,7 +17,7 @@ public class JungleHumidityTests {
         EnvironmentTestHelper.setSeasons(context, null, null);
 
         double humidity = EnvironmentTestHelper.getBiomeHumidity(context, world, BiomeKeys.JUNGLE);
-        EnvironmentTestHelper.assertHumidityEquals(context, EnvironmentLookup.fallbackRelativeHumidity(), humidity);
+        EnvironmentTestHelper.assertHumidityEquals(context, RelativeHumidityComponent.DEFAULT, humidity);
 
         context.complete();
     }

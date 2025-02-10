@@ -40,34 +40,6 @@ public class TestmodController extends EnvironmentControllerDecorator {
     }
 
     @Override
-    public int getFloorTemperature(LivingEntity entity, World world, BlockState state, BlockPos pos) {
-        if (state.isOf(Blocks.MAGMA_BLOCK)) {
-            ThermooConfig config = ThermooTestMod.getConfig();
-            return config.environmentConfig.getHotFloorWarmth();
-        } else {
-            return controller.getFloorTemperature(entity, world, state, pos);
-        }
-    }
-
-    @Override
-    public int getTemperatureEffectsChange(LivingEntity entity) {
-
-        int warmth = 0;
-        ThermooConfig config = ThermooTestMod.getConfig();
-
-        if (entity.isOnFire()) {
-            warmth += config.environmentConfig.getOnFireWarmRate();
-        }
-
-        if (entity.wasInPowderSnow) {
-            warmth -= config.environmentConfig.getPowderSnowFreezeRate();
-        }
-
-        return warmth;
-    }
-
-
-    @Override
     public int getSoakChange(Soakable soakable) {
 
         if (!(soakable instanceof LivingEntity entity)) {
@@ -114,38 +86,6 @@ public class TestmodController extends EnvironmentControllerDecorator {
         }
 
         return soakChange;
-    }
-
-    @Override
-    public int getHeatAtLocation(World world, BlockPos pos) {
-        ThermooConfig config = ThermooTestMod.getConfig();
-
-        int lightLevel = world.getLightLevel(LightType.BLOCK, pos);
-        int minLightLevel = config.environmentConfig.getMinLightForWarmth();
-
-        int warmth = 0;
-        if (lightLevel >= minLightLevel) {
-            warmth += config.environmentConfig.getWarmthPerLightLevel() * (lightLevel - minLightLevel);
-        }
-
-        return warmth;
-    }
-
-    @Override
-    public int getHeatFromBlockState(BlockState state) {
-        return state.getLuminance();
-    }
-
-    @Override
-    public boolean isHeatSource(BlockState state) {
-        int minLightForWarmth = ThermooTestMod.getConfig().environmentConfig.getMinLightForWarmth();
-        return state.getLuminance() >= minLightForWarmth;
-    }
-
-    @Override
-    public boolean isAreaHeated(World world, BlockPos pos) {
-        int minLightForWarmth = ThermooTestMod.getConfig().environmentConfig.getMinLightForWarmth();
-        return world.getLightLevel(LightType.BLOCK, pos) > minLightForWarmth;
     }
 
     private int getTempChangeFromBiomeTemperature(World world, float temperature, boolean isDryBiome) {
