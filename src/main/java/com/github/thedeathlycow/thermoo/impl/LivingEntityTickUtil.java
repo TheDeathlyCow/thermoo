@@ -17,6 +17,10 @@ import net.minecraft.util.math.Vec3d;
 
 public final class LivingEntityTickUtil {
     public static void tick(LivingEntity entity) {
+        if (entity.isDead() || entity.isRemoved()) {
+            return;
+        }
+
         if (entity.getWorld() instanceof ServerWorld serverWorld) {
             var context = new TemperatureTickContextImpl(entity, serverWorld, getTemperatureTickPos(entity));
             tickChange(

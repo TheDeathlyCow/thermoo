@@ -6,7 +6,8 @@ import net.fabricmc.fabric.api.util.TriState;
 import net.minecraft.entity.LivingEntity;
 
 /**
- * Events for ticking passive and active temperature changes on entities on the logical server.
+ * Events for ticking passive and active temperature changes on entities on the logical server. These events will apply
+ * to spectator entities, but will not apply to dead or removed entities.
  * <p>
  * There are two categories of temperature change update ticks: passive and active. Passive changes should be used for
  * temperature changes from nearby blocks, such as heat from light sources or cooling from an air conditioner. Active
