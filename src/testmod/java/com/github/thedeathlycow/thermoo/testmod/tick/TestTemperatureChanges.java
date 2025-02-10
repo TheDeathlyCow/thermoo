@@ -60,7 +60,7 @@ public class TestTemperatureChanges implements ModInitializer {
         BlockPos pos = context.pos();
         int total = 0;
 
-        BlockState state = context.affected().getBlockStateAtPos();
+        BlockState state = context.affected().getSteppingBlockState();
         if (state.isOf(Blocks.MAGMA_BLOCK)) {
             total += 12;
 
