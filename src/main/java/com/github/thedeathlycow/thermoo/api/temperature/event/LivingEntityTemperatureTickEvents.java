@@ -64,7 +64,8 @@ public final class LivingEntityTemperatureTickEvents {
     /**
      * Checks if the final passive temperature change update calculated by {@link #GET_PASSIVE_TEMPERATURE_CHANGE} should be
      * allowed to be applied to a living entity this tick. Returning any non-default value will force the update to be
-     * applied right away. By default, the update will be allowed to be applied.
+     * applied right away. By default, the update will be allowed to be applied. A temperature change of 0 will not
+     * invoke this event, and temperature changes of 0 will never apply.
      * <p>
      * Passive changes should be used for temperature changes from nearby blocks, such as heat from light sources or
      * cooling from an air conditioner.
@@ -123,7 +124,8 @@ public final class LivingEntityTemperatureTickEvents {
     /**
      * Checks if the final active temperature change update calculated by {@link #GET_ACTIVE_TEMPERATURE_CHANGE} should be
      * allowed to be applied to a living entity this tick. Returning any non-default value will force the update to be
-     * applied right away. By default, the update will be allowed to be applied.
+     * applied right away. By default, the update will be allowed to be applied. A temperature change of 0 will not
+     * invoke this event, and temperature changes of 0 will never apply.
      * <p>
      * Active changes should be used for temperature changes from entity effects such as heat from being on fire, or
      * cold from being submerged in powder snow.
@@ -170,7 +172,7 @@ public final class LivingEntityTemperatureTickEvents {
          * Whether this listener should allow a temperature change update to apply.
          *
          * @param context           Context of the living entity for the tick.
-         * @param temperatureChange The actual change in temperature calculated from the {@link GetTemperatureChange} listener.
+         * @param temperatureChange The actual change in temperature calculated from the {@link GetTemperatureChange} listener. This value is non-zero.
          * @return Return true or false to make the update apply right away, or default to fall back to other listeners.
          * The default behaviour will be to allow the update.
          */

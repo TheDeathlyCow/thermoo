@@ -55,7 +55,8 @@ public final class ServerPlayerEnvironmentTickEvents {
     /**
      * Checks if the final temperature change update calculated by {@link #GET_TEMPERATURE_CHANGE} should be allowed to
      * be applied to the player. Returning any non-default value will force the update to be applied right away. By
-     * default, the update will be allowed to be applied.
+     * default, the update will be allowed to be applied. A temperature change of 0 will not invoke this event, and
+     * temperature changes of 0 will never apply.
      */
     public static final Event<AllowTemperatureChangeApply> ALLOW_TEMPERATURE_CHANGE = EventFactory.createArrayBacked(
             AllowTemperatureChangeApply.class,

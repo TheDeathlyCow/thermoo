@@ -71,7 +71,7 @@ public final class LivingEntityTickUtil {
         }
 
         int tempChange = getTempChange.invoker().addTemperature(context);
-        if (allowChange.invoker().allowChange(context, tempChange) != TriState.FALSE) {
+        if (tempChange != 0 && allowChange.invoker().allowChange(context, tempChange) != TriState.FALSE) {
             context.affected().thermoo$addTemperature(tempChange, heatingMode);
         }
     }
