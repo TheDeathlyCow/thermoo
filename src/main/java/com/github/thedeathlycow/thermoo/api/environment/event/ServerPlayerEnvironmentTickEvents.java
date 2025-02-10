@@ -10,7 +10,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
  * Events that are called for a server player each tick to update and apply passive temperature changes based on their
  * {@link com.github.thedeathlycow.thermoo.api.environment.EnvironmentDefinition environment} (as defined in datapacks).
  * <p>
- * These events will apply to players in spectator mode, but will not apply to dead or removed entities.
+ * These events will apply to players in spectator mode, but will not apply to dead or removed players.
  * <p>
  * The order that the events are executed for each player each tick is as follows:
  * <ul><li>ALLOW_TEMPERATURE_UPDATE

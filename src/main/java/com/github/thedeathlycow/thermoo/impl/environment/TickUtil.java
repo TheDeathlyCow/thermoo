@@ -15,6 +15,10 @@ import org.jetbrains.annotations.NotNull;
 
 public final class TickUtil {
     public static void tickPlayerTemperature(ServerPlayerEntity player) {
+        if (player.isDead() || player.isRemoved()) {
+            return;
+        }
+
         final EnvironmentTickContextImpl<ServerPlayerEntity> context = new EnvironmentTickContextImpl<>(
                 player,
                 player.getServerWorld(),
