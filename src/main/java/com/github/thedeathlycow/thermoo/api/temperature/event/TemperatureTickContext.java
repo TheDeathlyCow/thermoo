@@ -4,6 +4,7 @@ import com.github.thedeathlycow.thermoo.api.temperature.TemperatureAware;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -11,6 +12,7 @@ import org.jetbrains.annotations.NotNull;
  *
  * @param <T> The temperature aware type
  */
+@ApiStatus.NonExtendable
 public interface TemperatureTickContext<T extends TemperatureAware> {
     /**
      * The temperature aware being ticked
