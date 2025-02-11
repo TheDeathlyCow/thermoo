@@ -42,6 +42,8 @@ public final class EnvironmentProviderTypes {
             ReduceEnvironmentProvider.CODEC
     );
 
+    public static final EnvironmentProviderType<LightThresholdLightProvider> LIGHT_THRESHOLD = new EnvironmentProviderType<>(LightThresholdLightProvider.CODEC);
+
     private EnvironmentProviderTypes() {
 
     }
