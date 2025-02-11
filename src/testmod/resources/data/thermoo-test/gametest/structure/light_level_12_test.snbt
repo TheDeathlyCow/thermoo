@@ -39,7 +39,7 @@
         {pos: [1, 1, 4], state: "minecraft:air"},
         {pos: [2, 1, 0], state: "minecraft:air"},
         {pos: [2, 1, 1], state: "minecraft:air"},
-        {pos: [2, 1, 2], state: "minecraft:air"},
+        {pos: [2, 1, 2], state: "minecraft:candle{candles:4,lit:true,waterlogged:false}"},
         {pos: [2, 1, 3], state: "minecraft:air"},
         {pos: [2, 1, 4], state: "minecraft:air"},
         {pos: [3, 1, 0], state: "minecraft:air"},
@@ -132,6 +132,7 @@
     palette: [
         "minecraft:bedrock",
         "minecraft:tinted_glass",
-        "minecraft:air"
+        "minecraft:air",
+        "minecraft:candle{candles:4,lit:true,waterlogged:false}"
     ]
 }
