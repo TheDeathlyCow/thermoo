@@ -21,6 +21,7 @@
 			"com.github.thedeathlycow.thermoo.testmod.tests.environment.JungleHumidityTests",
 			"com.github.thedeathlycow.thermoo.testmod.tests.environment.ForestTests",
 			"com.github.thedeathlycow.thermoo.testmod.tests.environment.BirchForestTests",
+			"com.github.thedeathlycow.thermoo.testmod.tests.environment.DarkForestTests",
 			"com.github.thedeathlycow.thermoo.testmod.tests.environment.DesertDryTemperatureTests",
 			"com.github.thedeathlycow.thermoo.testmod.tests.environment.DesertDryHumidityTests",
 			"com.github.thedeathlycow.thermoo.testmod.tests.environment.DesertWetTemperatureTests",
