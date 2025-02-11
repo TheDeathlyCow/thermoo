@@ -10,6 +10,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.LightType;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
@@ -39,6 +41,15 @@ public class LightThresholdLightProvider implements EnvironmentProvider {
     private final int threshold;
     private final RegistryEntry<EnvironmentProvider> above;
     private final RegistryEntry<EnvironmentProvider> below;
+
+    @Contract("_,_,_->new")
+    public static Builder builder(
+            int threshold,
+            RegistryEntry<EnvironmentProvider> above,
+            RegistryEntry<EnvironmentProvider> below
+    ) {
+        return new Builder(threshold, above, below);
+    }
 
     private LightThresholdLightProvider(
             Optional<LightTypeWrapper> lightTypeWrapper,
@@ -71,7 +82,7 @@ public class LightThresholdLightProvider implements EnvironmentProvider {
 
     @Override
     public EnvironmentProviderType<?> getType() {
-        return null;
+        return EnvironmentProviderTypes.LIGHT_THRESHOLD;
     }
 
     public Optional<LightType> lightType() {
@@ -98,6 +109,44 @@ public class LightThresholdLightProvider implements EnvironmentProvider {
         return this.below;
     }
 
+    public static class Builder {
+        @Nullable
+        private LightType lightType = null;
+        private boolean applyAmbientDarkness = true;
+        private final int threshold;
+        private final RegistryEntry<EnvironmentProvider> above;
+        private final RegistryEntry<EnvironmentProvider> below;
+
+        private Builder(int threshold, RegistryEntry<EnvironmentProvider> above, RegistryEntry<EnvironmentProvider> below) {
+            this.threshold = threshold;
+            this.above = above;
+            this.below = below;
+        }
+
+        @Contract("->this")
+        public Builder ignoreAmbientDarkness() {
+            this.applyAmbientDarkness = false;
+            return this;
+        }
+
+        @Contract("_->this")
+        public Builder withLightType(LightType lightType) {
+            this.lightType = lightType;
+            return this;
+        }
+
+        @Contract("->new")
+        public LightThresholdLightProvider build() {
+            return new LightThresholdLightProvider(
+                    LightTypeWrapper.of(this.lightType),
+                    this.applyAmbientDarkness,
+                    this.threshold,
+                    this.above,
+                    this.below
+            );
+        }
+    }
+
     private enum LightTypeWrapper implements StringIdentifiable {
         BLOCK("block", LightType.BLOCK),
         SKY("sky", LightType.SKY);
@@ -110,6 +159,14 @@ public class LightThresholdLightProvider implements EnvironmentProvider {
         LightTypeWrapper(String name, LightType lightType) {
             this.name = name;
             this.lightType = lightType;
+        }
+
+        private static Optional<LightTypeWrapper> of(@Nullable LightType base) {
+            return switch (base) {
+                case BLOCK -> Optional.of(LightTypeWrapper.BLOCK);
+                case SKY -> Optional.of(LightTypeWrapper.SKY);
+                case null -> Optional.empty();
+            };
         }
 
         @Override
