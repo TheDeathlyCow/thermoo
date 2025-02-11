@@ -1,10 +1,8 @@
 package com.github.thedeathlycow.thermoo.testmod.tests.environment;
 
-import com.github.thedeathlycow.thermoo.api.ThermooRegistryKeys;
 import com.github.thedeathlycow.thermoo.api.environment.component.EnvironmentComponentTypes;
 import com.github.thedeathlycow.thermoo.api.environment.component.RelativeHumidityComponent;
 import com.github.thedeathlycow.thermoo.api.environment.component.TemperatureRecordComponent;
-import com.github.thedeathlycow.thermoo.api.environment.provider.EnvironmentProvider;
 import com.github.thedeathlycow.thermoo.api.season.ThermooSeason;
 import com.github.thedeathlycow.thermoo.api.util.TemperatureUnit;
 import com.github.thedeathlycow.thermoo.impl.environment.EnvironmentLookupImpl;
@@ -15,7 +13,6 @@ import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.test.TestContext;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
@@ -23,16 +20,6 @@ import net.minecraft.world.biome.Biome;
 import org.jetbrains.annotations.Nullable;
 
 public final class EnvironmentTestHelper {
-    public static RegistryEntry<EnvironmentProvider> getEnvironmentProvider(TestContext context, String id) {
-        return context.getWorld()
-                .getRegistryManager()
-                .getOrThrow(ThermooRegistryKeys.ENVIRONMENT_PROVIDER)
-                .getOrThrow(RegistryKey.of(
-                        ThermooRegistryKeys.ENVIRONMENT_PROVIDER,
-                        Identifier.of("thermoo-test", id)
-                ));
-    }
-
     public static void assertTemperatureEquals(TestContext context, double expected, double actual) {
         context.assertTrue(
                 Math.abs(actual - expected) <= 1e-2,
