@@ -27,6 +27,7 @@
 			"com.github.thedeathlycow.thermoo.testmod.tests.environment.DesertWetTemperatureTests",
 			"com.github.thedeathlycow.thermoo.testmod.tests.environment.DesertWetHumidityTests",
 			"com.github.thedeathlycow.thermoo.testmod.tests.environment.light.BasicLightTests",
+			"com.github.thedeathlycow.thermoo.testmod.tests.environment.light.BlockLightTests",
 			"com.github.thedeathlycow.thermoo.testmod.tests.util.component.ReducibleMapComponentBuilderTest"
 		]
 	}
