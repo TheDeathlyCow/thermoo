@@ -10,8 +10,10 @@ import net.minecraft.world.LightType;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -51,17 +53,23 @@ public class LightThresholdLightProvider implements EnvironmentProvider {
     /**
      * Creates a new builder with the mandatory threshold, above, and below fields
      *
-     * @param threshold The light level threshold
-     * @param above     The provider to use when a positions light level is at or above the {@code threshold}
-     * @param below     The provider to use when a positions light level is below the {@code threshold}
+     * @param threshold The light level threshold - must be between 0 and 15 (inclusive)
+     * @param above     The provider to use when a positions light level is at or above the {@code threshold}. Must not be null.
+     * @param below     The provider to use when a positions light level is below the {@code threshold}. Must not be null.
      * @return Returns a new builder instance
      */
     @Contract("_,_,_->new")
     public static Builder builder(
             int threshold,
-            RegistryEntry<EnvironmentProvider> above,
-            RegistryEntry<EnvironmentProvider> below
+            @NotNull RegistryEntry<EnvironmentProvider> above,
+            @NotNull RegistryEntry<EnvironmentProvider> below
     ) {
+        if (threshold < 0 || threshold > 15) {
+            throw new IllegalArgumentException("Threshold must be between 0 and 15 but is " + threshold);
+        }
+        Objects.requireNonNull(above);
+        Objects.requireNonNull(below);
+
         return new Builder(threshold, above, below);
     }
 
@@ -129,7 +137,7 @@ public class LightThresholdLightProvider implements EnvironmentProvider {
 
     /**
      * Light level threshold that determines whether to use {@link #above()} or {@link #below()} when finding the
-     * environment components
+     * environment components. Must be between 0 and 15 (inclusive).
      */
     public int threshold() {
         return this.threshold;
