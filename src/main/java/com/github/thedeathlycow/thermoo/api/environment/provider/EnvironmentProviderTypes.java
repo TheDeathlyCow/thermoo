@@ -32,13 +32,14 @@ public final class EnvironmentProviderTypes {
     );
 
     /**
-     * A provider that can modify a child provider with other providers through {@link com.github.thedeathlycow.thermoo.api.util.component.ReducibleComponentMapBuilder}
+     * A provider that can reduce a list of modifiers into a base provider through
+     * {@link com.github.thedeathlycow.thermoo.api.util.component.ReducibleComponentMapBuilder}
      *
-     * @see ModifyEnvironmentProvider
+     * @see ReduceEnvironmentProvider
      * @see com.github.thedeathlycow.thermoo.api.util.component.ReducibleComponentMapBuilder
      */
-    public static final EnvironmentProviderType<ModifyEnvironmentProvider> MODIFY = new EnvironmentProviderType<>(
-            ModifyEnvironmentProvider.CODEC
+    public static final EnvironmentProviderType<ReduceEnvironmentProvider> REDUCE = new EnvironmentProviderType<>(
+            ReduceEnvironmentProvider.CODEC
     );
 
     private EnvironmentProviderTypes() {

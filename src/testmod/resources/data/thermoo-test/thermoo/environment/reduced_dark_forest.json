@@ -3,7 +3,7 @@
         "minecraft:dark_forest"
     ],
     "provider": {
-        "type": "thermoo:modify",
+        "type": "thermoo:reduce",
         "modifiers": "#thermoo-test:modifiers/dark_forest",
         "base": {
             "type": "thermoo:constant",
