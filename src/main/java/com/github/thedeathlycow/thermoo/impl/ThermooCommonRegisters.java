@@ -26,6 +26,7 @@ public class ThermooCommonRegisters {
         registerEnvironmentProviderType("seasonal/temperate", EnvironmentProviderTypes.TEMPERATE_SEASONAL);
         registerEnvironmentProviderType("seasonal/tropical", EnvironmentProviderTypes.TROPICAL_SEASONAL);
         registerEnvironmentProviderType("reduce", EnvironmentProviderTypes.REDUCE);
+        registerEnvironmentProviderType("light_threshold", EnvironmentProviderTypes.LIGHT_THRESHOLD);
     }
 
     public static void registerLootConditionTypes() {
