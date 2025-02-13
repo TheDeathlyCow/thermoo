@@ -5,6 +5,7 @@ import com.github.thedeathlycow.thermoo.api.ThermooRegistryKeys;
 import com.github.thedeathlycow.thermoo.api.environment.component.EnvironmentComponentTypes;
 import com.mojang.serialization.Codec;
 import net.minecraft.component.ComponentMap;
+import net.minecraft.component.MergedComponentMap;
 import net.minecraft.registry.entry.RegistryElementCodec;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.math.BlockPos;
@@ -36,7 +37,7 @@ public interface EnvironmentProvider {
      * @param biome The biome at the position in the world
      * @return Returns a component map of the current world position.
      */
-    ComponentMap findCurrentComponents(World world, BlockPos pos, RegistryEntry<Biome> biome);
+    MergedComponentMap findCurrentComponents(World world, BlockPos pos, RegistryEntry<Biome> biome);
 
     /**
      * @return Returns the type of this provider for dispatch

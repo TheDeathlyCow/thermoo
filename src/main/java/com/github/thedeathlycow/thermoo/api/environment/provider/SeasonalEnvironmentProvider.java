@@ -5,7 +5,9 @@ import com.github.thedeathlycow.thermoo.api.season.ThermooSeason;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.MapCodec;
+import net.minecraft.component.ComponentChanges;
 import net.minecraft.component.ComponentMap;
+import net.minecraft.component.MergedComponentMap;
 import net.minecraft.registry.entry.RegistryElementCodec;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.StringIdentifiable;
@@ -43,14 +45,16 @@ public abstract sealed class SeasonalEnvironmentProvider implements EnvironmentP
      * @return Returns the environment parameters of the world and position.
      */
     @Override
-    public final ComponentMap findCurrentComponents(World world, BlockPos pos, RegistryEntry<Biome> biome) {
+    public final MergedComponentMap findCurrentComponents(World world, BlockPos pos, RegistryEntry<Biome> biome) {
         Optional<ThermooSeason> season = this.getCurrentSeason(world, pos).or(this::fallbackSeason);
         if (season.isEmpty()) {
-            return ComponentMap.EMPTY;
+            return MergedComponentMap.create(ComponentMap.EMPTY, ComponentChanges.EMPTY);
         }
 
         EnvironmentProvider provider = this.seasons.get(season.get()).value();
-        return provider != null ? provider.findCurrentComponents(world, pos, biome) : ComponentMap.EMPTY;
+        return provider != null
+                ? provider.findCurrentComponents(world, pos, biome)
+                : MergedComponentMap.create(ComponentMap.EMPTY, ComponentChanges.EMPTY);
     }
 
     /**

@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.component.ComponentMap;
+import net.minecraft.component.MergedComponentMap;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.LightType;
@@ -99,7 +100,7 @@ public class LightThresholdLightProvider implements EnvironmentProvider {
      * @return Returns one of the child providers based on light conditions
      */
     @Override
-    public ComponentMap findCurrentComponents(World world, BlockPos pos, RegistryEntry<Biome> biome) {
+    public MergedComponentMap findCurrentComponents(World world, BlockPos pos, RegistryEntry<Biome> biome) {
         int lightLevel = this.lightType
                 .map(type -> world.getLightLevel(type, pos))
                 .orElseGet(() -> world.getLightLevel(pos));
