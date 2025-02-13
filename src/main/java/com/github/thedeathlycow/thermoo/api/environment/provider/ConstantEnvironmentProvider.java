@@ -3,7 +3,9 @@ package com.github.thedeathlycow.thermoo.api.environment.provider;
 import com.github.thedeathlycow.thermoo.api.environment.component.EnvironmentComponentTypes;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.component.ComponentChanges;
 import net.minecraft.component.ComponentMap;
+import net.minecraft.component.MergedComponentMap;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -51,8 +53,8 @@ public final class ConstantEnvironmentProvider implements EnvironmentProvider {
      * @return Returns a constant component map.
      */
     @Override
-    public ComponentMap findCurrentComponents(World world, BlockPos pos, RegistryEntry<Biome> biome) {
-        return this.components;
+    public MergedComponentMap findCurrentComponents(World world, BlockPos pos, RegistryEntry<Biome> biome) {
+        return MergedComponentMap.create(this.components, ComponentChanges.EMPTY);
     }
 
     @Override

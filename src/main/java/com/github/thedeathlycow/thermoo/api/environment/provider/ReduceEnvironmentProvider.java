@@ -5,6 +5,7 @@ import com.github.thedeathlycow.thermoo.api.util.component.ReducibleComponentMap
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.component.ComponentMap;
+import net.minecraft.component.MergedComponentMap;
 import net.minecraft.registry.RegistryCodecs;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.entry.RegistryEntryList;
@@ -55,7 +56,7 @@ public final class ReduceEnvironmentProvider implements EnvironmentProvider {
      * @return Returns a modified component map
      */
     @Override
-    public ComponentMap findCurrentComponents(World world, BlockPos pos, RegistryEntry<Biome> biome) {
+    public MergedComponentMap findCurrentComponents(World world, BlockPos pos, RegistryEntry<Biome> biome) {
         ComponentMap.Builder baseBuilder = ComponentMap.builder()
                 .addAll(base.value().findCurrentComponents(world, pos, biome));
 
@@ -64,7 +65,7 @@ public final class ReduceEnvironmentProvider implements EnvironmentProvider {
             modifiedBuilder.addAll(modifier.value().findCurrentComponents(world, pos, biome));
         }
 
-        return modifiedBuilder.build();
+        return new MergedComponentMap(modifiedBuilder.build());
     }
 
     @Override
