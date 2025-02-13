@@ -42,6 +42,11 @@ public final class EnvironmentProviderTypes {
             ReduceEnvironmentProvider.CODEC
     );
 
+    /**
+     * A provider that picks between two child providers based on light level
+     *
+     * @see LightThresholdLightProvider
+     */
     public static final EnvironmentProviderType<LightThresholdLightProvider> LIGHT_THRESHOLD = new EnvironmentProviderType<>(LightThresholdLightProvider.CODEC);
 
     private EnvironmentProviderTypes() {
