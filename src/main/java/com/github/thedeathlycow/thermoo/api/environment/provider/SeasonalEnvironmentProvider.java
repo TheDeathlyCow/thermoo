@@ -14,6 +14,7 @@ import net.minecraft.util.StringIdentifiable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
+import org.jetbrains.annotations.Contract;
 
 import java.util.Map;
 import java.util.Optional;
@@ -42,9 +43,10 @@ public abstract sealed class SeasonalEnvironmentProvider implements EnvironmentP
      * @param world The world/level being queried
      * @param pos   The position in the world to query
      * @param biome The biome at the position in the world
-     * @return Returns the environment parameters of the world and position.
+     * @return Returns a new merged component map from one of the child providers, may be empty
      */
     @Override
+    @Contract("_,_,_->new")
     public final MergedComponentMap findCurrentComponents(World world, BlockPos pos, RegistryEntry<Biome> biome) {
         Optional<ThermooSeason> season = this.getCurrentSeason(world, pos).or(this::fallbackSeason);
         if (season.isEmpty()) {

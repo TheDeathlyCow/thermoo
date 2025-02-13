@@ -12,6 +12,7 @@ import net.minecraft.registry.entry.RegistryEntryList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
+import org.jetbrains.annotations.Contract;
 
 /**
  * Applies modifiers to a base environment provider from a tag or list of environment providers
@@ -53,9 +54,10 @@ public final class ReduceEnvironmentProvider implements EnvironmentProvider {
      * @param world The world/level being queried
      * @param pos   The position in the world to query
      * @param biome The biome at the position in the world
-     * @return Returns a modified component map
+     * @return Returns a new merged component map with the modifiers applied by reduction
      */
     @Override
+    @Contract("_,_,_->new")
     public MergedComponentMap findCurrentComponents(World world, BlockPos pos, RegistryEntry<Biome> biome) {
         ComponentMap.Builder baseBuilder = ComponentMap.builder()
                 .addAll(base.value().findCurrentComponents(world, pos, biome));
