@@ -13,7 +13,7 @@ public final class LightTestHelper {
 
         if (expected != lightLevel) {
             throw new PositionedException(
-                    "Expected " + expected + " light level",
+                    "Expected " + expected + " light level, got " + lightLevel,
                     absolutePos, pos,
                     context.getTick()
             );
@@ -27,7 +27,7 @@ public final class LightTestHelper {
 
         if (expected != lightLevel) {
             throw new PositionedException(
-                    "Expected " + expected + " " + type.name().toLowerCase() + " light level",
+                    "Expected " + expected + " " + type.name().toLowerCase() + " light level, got " + lightLevel,
                     absolutePos, pos,
                     context.getTick()
             );
