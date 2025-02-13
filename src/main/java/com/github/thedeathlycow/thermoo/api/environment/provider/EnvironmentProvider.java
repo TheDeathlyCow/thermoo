@@ -11,6 +11,7 @@ import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
+import org.jetbrains.annotations.Contract;
 
 /**
  * Provides the temperature and relative humidity of a position in a biome.
@@ -35,8 +36,9 @@ public interface EnvironmentProvider {
      * @param world The world/level being queried
      * @param pos   The position in the world to query
      * @param biome The biome at the position in the world
-     * @return Returns a component map of the current world position.
+     * @return Returns a new merged component map of the current world position.
      */
+    @Contract("_,_,_->new")
     MergedComponentMap findCurrentComponents(World world, BlockPos pos, RegistryEntry<Biome> biome);
 
     /**

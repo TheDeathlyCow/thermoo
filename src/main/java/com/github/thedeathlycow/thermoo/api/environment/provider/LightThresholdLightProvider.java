@@ -97,9 +97,10 @@ public class LightThresholdLightProvider implements EnvironmentProvider {
      * @param world The world/level being queried
      * @param pos   The position in the world to query
      * @param biome The biome at the position in the world
-     * @return Returns one of the child providers based on light conditions
+     * @return Returns a new merged component map from one of the child providers based on light conditions
      */
     @Override
+    @Contract("_,_,_->new")
     public MergedComponentMap findCurrentComponents(World world, BlockPos pos, RegistryEntry<Biome> biome) {
         int lightLevel = this.lightType
                 .map(type -> world.getLightLevel(type, pos))

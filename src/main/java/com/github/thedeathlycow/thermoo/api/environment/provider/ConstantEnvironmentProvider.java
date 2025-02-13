@@ -50,9 +50,10 @@ public final class ConstantEnvironmentProvider implements EnvironmentProvider {
      * @param world The world/level being queried
      * @param pos   The position in the world to query
      * @param biome The biome at the position in the world
-     * @return Returns a constant component map.
+     * @return Returns a new merged component map.
      */
     @Override
+    @Contract("_,_,_->new")
     public MergedComponentMap findCurrentComponents(World world, BlockPos pos, RegistryEntry<Biome> biome) {
         return MergedComponentMap.create(this.components, ComponentChanges.EMPTY);
     }
