@@ -3,8 +3,12 @@
         "minecraft:dark_forest"
     ],
     "provider": {
-        "type": "thermoo:reduce",
-        "modifiers": "#thermoo-test:modifiers/dark_forest",
+        "type": "thermoo:reduce_sequence",
+        "modifiers": [
+            "thermoo-test:modifiers/dark_forest_shift",
+            "thermoo-test:modifiers/dark_forest_winter",
+            "thermoo-test:modifiers/dark_forest_summer_replace"
+        ],
         "base": {
             "type": "thermoo:constant",
             "components": {
