@@ -1,5 +1,6 @@
 package com.github.thedeathlycow.thermoo.api.environment.provider;
 
+import com.github.thedeathlycow.thermoo.api.util.component.ReducibleComponentMapBuilder;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -89,19 +90,18 @@ public class LightThresholdLightProvider implements EnvironmentProvider {
     }
 
     /**
-     * Finds the current components of the world position based on light level. If the light level of the position is at
-     * or above the threshold then returns the {@link #above()} provider. Otherwise, returns the {@link #below()} provider.
+     * Builds the current components of the world position based on light level. If the light level of the position is at
+     * or above the threshold then uses the {@link #above()} provider. Otherwise, uses the {@link #below()} provider.
      * <p>
      * Filters for sky/block light and ambient darkness if requested.
      *
-     * @param world The world/level being queried
-     * @param pos   The position in the world to query
-     * @param biome The biome at the position in the world
-     * @return Returns a new merged component map from one of the child providers based on light conditions
+     * @param world   The world/level being queried
+     * @param pos     The position in the world to query
+     * @param biome   The biome at the position in the world
+     * @param builder Component map builder to append to
      */
     @Override
-    @Contract("_,_,_->new")
-    public MergedComponentMap findCurrentComponents(World world, BlockPos pos, RegistryEntry<Biome> biome) {
+    public void buildCurrentComponents(World world, BlockPos pos, RegistryEntry<Biome> biome, ReducibleComponentMapBuilder builder) {
         int lightLevel = this.lightType
                 .map(type -> world.getLightLevel(type, pos))
                 .orElseGet(() -> world.getLightLevel(pos));
@@ -110,9 +110,11 @@ public class LightThresholdLightProvider implements EnvironmentProvider {
             lightLevel -= world.getAmbientDarkness();
         }
 
-        return lightLevel >= this.threshold
-                ? this.above.value().findCurrentComponents(world, pos, biome)
-                : this.below.value().findCurrentComponents(world, pos, biome);
+        if (lightLevel >= this.threshold) {
+            this.above.value().buildCurrentComponents(world, pos, biome, builder);
+        } else {
+            this.below.value().buildCurrentComponents(world, pos, biome, builder);
+        }
     }
 
     @Override

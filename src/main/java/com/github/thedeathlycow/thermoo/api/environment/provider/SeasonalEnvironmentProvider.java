@@ -2,6 +2,7 @@ package com.github.thedeathlycow.thermoo.api.environment.provider;
 
 import com.github.thedeathlycow.thermoo.api.ThermooRegistryKeys;
 import com.github.thedeathlycow.thermoo.api.season.ThermooSeason;
+import com.github.thedeathlycow.thermoo.api.util.component.ReducibleComponentMapBuilder;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.MapCodec;
@@ -36,27 +37,25 @@ public abstract sealed class SeasonalEnvironmentProvider implements EnvironmentP
     }
 
     /**
-     * Gets the environment components based on the world's current season state, generally using the
-     * {@link ThermooSeason season API}. If no seasons mod is installed, will return the components provided by the
-     * {@link #fallbackSeason fallback season}. If there is no fallback season, then returns empty.
+     * Builds the environment components based on the world's current season state, generally using the
+     * {@link ThermooSeason season API}. If no seasons mod is installed, or if the tropical/temperate season state does
+     * not exist at this world position, then this will use the components provided by the
+     * {@link #fallbackSeason fallback season}. If there is no fallback season, then this does nothing.
      *
-     * @param world The world/level being queried
-     * @param pos   The position in the world to query
-     * @param biome The biome at the position in the world
-     * @return Returns a new merged component map from one of the child providers, may be empty
+     * @param world   The world/level being queried
+     * @param pos     The position in the world to query
+     * @param biome   The biome at the position in the world
+     * @param builder Component map builder to append to
      */
     @Override
-    @Contract("_,_,_->new")
-    public final MergedComponentMap findCurrentComponents(World world, BlockPos pos, RegistryEntry<Biome> biome) {
+    public final void buildCurrentComponents(World world, BlockPos pos, RegistryEntry<Biome> biome, ReducibleComponentMapBuilder builder) {
         Optional<ThermooSeason> season = this.getCurrentSeason(world, pos).or(this::fallbackSeason);
-        if (season.isEmpty()) {
-            return MergedComponentMap.create(ComponentMap.EMPTY, ComponentChanges.EMPTY);
+        if (season.isPresent()) {
+            RegistryEntry<EnvironmentProvider> provider = this.seasons.get(season.get());
+            if (provider != null) {
+                provider.value().buildCurrentComponents(world, pos, biome, builder);
+            }
         }
-
-        EnvironmentProvider provider = this.seasons.get(season.get()).value();
-        return provider != null
-                ? provider.findCurrentComponents(world, pos, biome)
-                : MergedComponentMap.create(ComponentMap.EMPTY, ComponentChanges.EMPTY);
     }
 
     /**

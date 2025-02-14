@@ -1,11 +1,17 @@
 package com.github.thedeathlycow.thermoo.api.util.component;
 
 import com.github.thedeathlycow.thermoo.mixin.common.accessor.ComponentMapBuilderAccessor;
+import net.fabricmc.fabric.api.item.v1.FabricComponentMapBuilder;
 import net.minecraft.component.Component;
 import net.minecraft.component.ComponentMap;
 import net.minecraft.component.ComponentType;
 import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
+import java.util.Objects;
+import java.util.function.Supplier;
 
 /**
  * A wrapper for {@link ComponentMap.Builder} that can reduce existing components that implement the
@@ -73,7 +79,7 @@ public class ReducibleComponentMapBuilder {
      */
     @Contract("_,_->this")
     public <T> ReducibleComponentMapBuilder add(ComponentType<T> type, @Nullable T value) {
-        this.put(type, value);
+        this.reduce(type, value);
         return this;
     }
 
@@ -89,18 +95,77 @@ public class ReducibleComponentMapBuilder {
     @Contract("_->this")
     public ReducibleComponentMapBuilder addAll(ComponentMap componentSet) {
         for (Component<?> component : componentSet) {
-            this.put(component.type(), component.value());
+            this.reduce(component.type(), component.value());
         }
 
         return this;
     }
 
-    private <T> void put(ComponentType<T> type, @Nullable Object value) {
-        ComponentMapBuilderAccessor accesor = (ComponentMapBuilderAccessor) builder;
-        if (value != null && accesor.thermoo$getComponents().get(type) instanceof ReducibleComponent<?> rBase) {
-            value = forceReduce(rBase, (ReducibleComponent<?>) value);
-        }
-        accesor.thermoo$invokePut(type, value);
+    /**
+     * Maps a value to the type in this builder, replacing any existing values without reduction.
+     * <p>
+     * If the new value is {@code null}, then any existing value for this type will be removed.
+     *
+     * @param type  The name/type of the component
+     * @param value The value of the component to either reduce with the existing value, or to insert
+     * @param <T>   The type of the value
+     * @return Returns this builder
+     */
+    public <T> ReducibleComponentMapBuilder replace(ComponentType<T> type, @Nullable T value) {
+        this.builder.add(type, value);
+        return this;
+    }
+
+    /**
+     * Adds a set of values to this builder, replacing any existing values without reduction.
+     *
+     * @param componentSet The set of components to insert
+     * @return Returns this builder
+     */
+    public ReducibleComponentMapBuilder replaceAll(ComponentMap componentSet) {
+        this.builder.addAll(componentSet);
+        return this;
+    }
+
+    // fabric extension methods
+
+    /**
+     * Gets the current value for the component type in the builder, or creates and adds a new value if it is not present.
+     *
+     * @param type     The component type
+     * @param fallback The supplier for the default data value if the type is not in this map yet. The value given by this supplier
+     *                 may not be null.
+     * @param <T>      The type of the component data
+     * @return Returns the current value in the map builder, or the default value provided by the fallback if not present
+     * @see #getOrEmpty(ComponentType)
+     */
+    public <T> T getOrCreate(ComponentType<T> type, Supplier<@NotNull T> fallback) {
+        return this.builder.getOrCreate(type, fallback);
+    }
+
+    /**
+     * Gets the current value for the component type in the builder, or creates and adds a new value if it is not present.
+     *
+     * @param type         The component type
+     * @param defaultValue The default data value if the type is not in this map yet
+     * @param <T>          The type of the component data
+     * @return Returns the current value in the map builder, or the default value if not present
+     */
+    public <T> T getOrDefault(ComponentType<T> type, @NotNull T defaultValue) {
+        return this.builder.getOrDefault(type, defaultValue);
+    }
+
+    /**
+     * For list component types specifically, returns a mutable list of values currently held in the builder for the given
+     * component type. If the type is not registered to this builder yet, this will create and add a new empty list to the builder
+     * for the type, and return that.
+     *
+     * @param type The component type. The component must be a list-type.
+     * @param <T>  The type of the component entry data
+     * @return Returns a mutable list of values for the type.
+     */
+    public <T> List<T> getOrEmpty(ComponentType<List<T>> type) {
+        return this.builder.getOrEmpty(type);
     }
 
     /**
@@ -110,6 +175,14 @@ public class ReducibleComponentMapBuilder {
      */
     public ComponentMap build() {
         return this.builder.build();
+    }
+
+    private <T> void reduce(ComponentType<T> type, @Nullable Object value) {
+        ComponentMapBuilderAccessor accessor = (ComponentMapBuilderAccessor) builder;
+        if (value != null && accessor.thermoo$getComponents().get(type) instanceof ReducibleComponent<?> rBase) {
+            value = forceReduce(rBase, (ReducibleComponent<?>) value);
+        }
+        accessor.thermoo$invokePut(type, value);
     }
 
     /**
