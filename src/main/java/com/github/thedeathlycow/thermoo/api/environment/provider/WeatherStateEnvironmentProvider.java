@@ -7,7 +7,10 @@ import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.Nullable;
 
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -42,6 +45,16 @@ public final class WeatherStateEnvironmentProvider implements EnvironmentProvide
         this.clear = clear;
         this.rain = rain;
         this.thunder = thunder;
+    }
+
+    /**
+     * Creates a new builder
+     *
+     * @return Returns a new builder instance
+     */
+    @Contract("->new")
+    public static Builder builder() {
+        return new Builder();
     }
 
     /**
@@ -88,5 +101,72 @@ public final class WeatherStateEnvironmentProvider implements EnvironmentProvide
      */
     public Optional<RegistryEntry<EnvironmentProvider>> thunder() {
         return thunder;
+    }
+
+    /**
+     * Builder for weather state providers. All fields are empty by default.
+     */
+    public static class Builder {
+        @Nullable
+        private RegistryEntry<EnvironmentProvider> clear = null;
+        @Nullable
+        private RegistryEntry<EnvironmentProvider> rain = null;
+        @Nullable
+        private RegistryEntry<EnvironmentProvider> thunder = null;
+
+        private Builder() {
+
+        }
+
+        /**
+         * Provider to use when the world is not raining or thundering
+         *
+         * @param clear A non-null registry entry
+         * @return Returns this builder
+         */
+        @Contract("_->this")
+        public Builder withClear(RegistryEntry<EnvironmentProvider> clear) {
+            Objects.requireNonNull(clear);
+            this.clear = clear;
+            return this;
+        }
+
+        /**
+         * Provider to use when the world is raining but not thundering
+         *
+         * @param rain A non-null registry entry
+         * @return Returns this builder
+         */
+        @Contract("_->this")
+        public Builder withRain(RegistryEntry<EnvironmentProvider> rain) {
+            Objects.requireNonNull(rain);
+            this.rain = rain;
+            return this;
+        }
+
+        /**
+         * Provider to use when the world is raining thundering
+         *
+         * @param thunder A non-null registry entry
+         * @return Returns this builder
+         */
+        @Contract("_->this")
+        public Builder withThunder(RegistryEntry<EnvironmentProvider> thunder) {
+            Objects.requireNonNull(thunder);
+            this.thunder = thunder;
+            return this;
+        }
+
+        /**
+         * @return Returns a new weather state provider from this current's current state
+         */
+        @Contract("->new")
+        public WeatherStateEnvironmentProvider build() {
+            return new WeatherStateEnvironmentProvider(
+                    Optional.ofNullable(this.clear),
+                    Optional.ofNullable(this.rain),
+                    Optional.ofNullable(this.thunder)
+            );
+        }
     }
 }
