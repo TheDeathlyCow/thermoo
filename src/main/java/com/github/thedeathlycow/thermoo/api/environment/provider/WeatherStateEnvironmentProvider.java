@@ -106,7 +106,7 @@ public final class WeatherStateEnvironmentProvider implements EnvironmentProvide
     /**
      * Builder for weather state providers. All fields are empty by default.
      */
-    public static class Builder {
+    public static final class Builder {
         @Nullable
         private RegistryEntry<EnvironmentProvider> clear = null;
         @Nullable
