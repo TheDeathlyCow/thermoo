@@ -11,6 +11,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 
+import java.util.Collections;
+import java.util.EnumMap;
 import java.util.Map;
 import java.util.Optional;
 
@@ -27,7 +29,8 @@ public abstract sealed class SeasonalEnvironmentProvider implements EnvironmentP
             Map<ThermooSeason, RegistryEntry<EnvironmentProvider>> seasons
     ) {
         this.fallbackSeason = fallbackSeason;
-        this.seasons = seasons;
+        this.seasons = new EnumMap<>(ThermooSeason.class);
+        this.seasons.putAll(seasons);
     }
 
     /**
@@ -67,10 +70,10 @@ public abstract sealed class SeasonalEnvironmentProvider implements EnvironmentP
      * The season-to-provider lookup back. Used to dispatch this provider to another provider based on the current season
      * of a world.
      *
-     * @return Returns {@link #seasons}
+     * @return Returns an unmodifiable map of {@link #seasons}
      */
     public final Map<ThermooSeason, RegistryEntry<EnvironmentProvider>> seasons() {
-        return this.seasons;
+        return Collections.unmodifiableMap(this.seasons);
     }
 
     /**
