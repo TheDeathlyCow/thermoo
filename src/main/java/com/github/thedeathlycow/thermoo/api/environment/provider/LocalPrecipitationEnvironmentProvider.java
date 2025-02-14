@@ -10,10 +10,12 @@ import net.minecraft.util.StringIdentifiable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
+import org.jetbrains.annotations.Contract;
 
 import java.util.Collections;
 import java.util.EnumMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * A provider that delegates to a child provider based on the local precipitation state of a world position. At least
@@ -82,5 +84,47 @@ public final class LocalPrecipitationEnvironmentProvider implements EnvironmentP
                 return DataResult.success(seasonMap);
             }
         });
+    }
+
+    /**
+     * A builder for local precipitation environment providers.
+     */
+    public static final class Builder {
+        private final Map<Biome.Precipitation, RegistryEntry<EnvironmentProvider>> precipitationMap = new EnumMap<>(Biome.Precipitation.class);
+
+        private Builder() {
+
+        }
+
+        /**
+         * Registers a child provider to a precipitation type.
+         *
+         * @param precipitation Precipitation type to add
+         * @param child         The child for the precipitation type
+         * @return Returns this builder
+         */
+        @Contract("_,_->this")
+        public Builder addChild(Biome.Precipitation precipitation, RegistryEntry<EnvironmentProvider> child) {
+            Objects.requireNonNull(precipitation);
+            Objects.requireNonNull(child);
+
+            this.precipitationMap.put(precipitation, child);
+
+            return this;
+        }
+
+        /**
+         * Builds into a new provider. At least one precipitation-child relationship must have been defined.
+         *
+         * @return Returns a new provider from this builder's state
+         */
+        @Contract("->new")
+        public LocalPrecipitationEnvironmentProvider build() {
+            if (this.precipitationMap.keySet().isEmpty()) {
+                throw new IllegalArgumentException("Precipitation map requires at least one key!");
+            }
+
+            return new LocalPrecipitationEnvironmentProvider(this.precipitationMap);
+        }
     }
 }
