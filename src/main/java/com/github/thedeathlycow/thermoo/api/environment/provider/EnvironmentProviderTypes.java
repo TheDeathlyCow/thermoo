@@ -10,14 +10,14 @@ public final class EnvironmentProviderTypes {
      *
      * @see ReduceConstantEnvironmentProvider
      */
-    public static final EnvironmentProviderType<ReduceConstantEnvironmentProvider> CONSTANT = new EnvironmentProviderType<>(ReduceConstantEnvironmentProvider.CODEC);
+    public static final EnvironmentProviderType<ReduceConstantEnvironmentProvider> REDUCE_CONSTANT = new EnvironmentProviderType<>(ReduceConstantEnvironmentProvider.CODEC);
 
     /**
      * A constant value environment provider that adds values by replacement
      *
-     * @see ReplaceEnvironmentProvider
+     * @see ReplaceConstantEnvironmentProvider
      */
-    public static final EnvironmentProviderType<ReplaceEnvironmentProvider> REPLACE = new EnvironmentProviderType<>(ReplaceEnvironmentProvider.CODEC);
+    public static final EnvironmentProviderType<ReplaceConstantEnvironmentProvider> REPLACE_CONSTANT = new EnvironmentProviderType<>(ReplaceConstantEnvironmentProvider.CODEC);
 
     /**
      * A temperature season environment provider

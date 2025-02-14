@@ -16,18 +16,18 @@ import org.jetbrains.annotations.Contract;
  *
  * @see ReduceConstantEnvironmentProvider
  */
-public final class ReplaceEnvironmentProvider implements EnvironmentProvider {
-    public static final MapCodec<ReplaceEnvironmentProvider> CODEC = RecordCodecBuilder.mapCodec(
+public final class ReplaceConstantEnvironmentProvider implements EnvironmentProvider {
+    public static final MapCodec<ReplaceConstantEnvironmentProvider> CODEC = RecordCodecBuilder.mapCodec(
             instance -> instance.group(
                     EnvironmentComponentTypes.COMPONENT_MAP_CODEC
                             .fieldOf("components")
-                            .forGetter(ReplaceEnvironmentProvider::components)
-            ).apply(instance, ReplaceEnvironmentProvider::new)
+                            .forGetter(ReplaceConstantEnvironmentProvider::components)
+            ).apply(instance, ReplaceConstantEnvironmentProvider::new)
     );
 
     private final ComponentMap components;
 
-    private ReplaceEnvironmentProvider(ComponentMap components) {
+    private ReplaceConstantEnvironmentProvider(ComponentMap components) {
         this.components = components;
     }
 
@@ -39,8 +39,8 @@ public final class ReplaceEnvironmentProvider implements EnvironmentProvider {
      * @return Returns a new replacement environment provider
      */
     @Contract("_->new")
-    public static ReplaceEnvironmentProvider create(ComponentMap.Builder builder) {
-        return new ReplaceEnvironmentProvider(builder.build());
+    public static ReplaceConstantEnvironmentProvider create(ComponentMap.Builder builder) {
+        return new ReplaceConstantEnvironmentProvider(builder.build());
     }
 
     /**
@@ -60,7 +60,7 @@ public final class ReplaceEnvironmentProvider implements EnvironmentProvider {
 
     @Override
     public EnvironmentProviderType<?> getType() {
-        return EnvironmentProviderTypes.REPLACE;
+        return EnvironmentProviderTypes.REPLACE_CONSTANT;
     }
 
     /**
