@@ -61,7 +61,7 @@ public final class ReduceConstantEnvironmentProvider implements EnvironmentProvi
     }
 
     @Override
-    public EnvironmentProviderType<?> getType() {
+    public EnvironmentProviderType<ReduceConstantEnvironmentProvider> getType() {
         return EnvironmentProviderTypes.REDUCE_CONSTANT;
     }
 

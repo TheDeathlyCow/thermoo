@@ -118,7 +118,7 @@ public class LightThresholdLightProvider implements EnvironmentProvider {
     }
 
     @Override
-    public EnvironmentProviderType<?> getType() {
+    public EnvironmentProviderType<LightThresholdLightProvider> getType() {
         return EnvironmentProviderTypes.LIGHT_THRESHOLD;
     }
 
