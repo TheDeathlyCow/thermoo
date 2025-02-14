@@ -36,27 +36,24 @@ public abstract sealed class SeasonalEnvironmentProvider implements EnvironmentP
     }
 
     /**
-     * Gets the environment components based on the world's current season state, generally using the
+     * Builds the environment components based on the world's current season state, generally using the
      * {@link ThermooSeason season API}. If no seasons mod is installed, will return the components provided by the
      * {@link #fallbackSeason fallback season}. If there is no fallback season, then returns empty.
      *
-     * @param world The world/level being queried
-     * @param pos   The position in the world to query
-     * @param biome The biome at the position in the world
-     * @return Returns a new merged component map from one of the child providers, may be empty
+     * @param world   The world/level being queried
+     * @param pos     The position in the world to query
+     * @param biome   The biome at the position in the world
+     * @param builder Component map builder to append to
      */
     @Override
-    @Contract("_,_,_->new")
-    public final MergedComponentMap findCurrentComponents(World world, BlockPos pos, RegistryEntry<Biome> biome) {
+    public final void buildCurrentComponents(World world, BlockPos pos, RegistryEntry<Biome> biome, ComponentMap.Builder builder) {
         Optional<ThermooSeason> season = this.getCurrentSeason(world, pos).or(this::fallbackSeason);
-        if (season.isEmpty()) {
-            return MergedComponentMap.create(ComponentMap.EMPTY, ComponentChanges.EMPTY);
+        if (season.isPresent()) {
+            EnvironmentProvider provider = this.seasons.get(season.get()).value();
+            if (provider != null) {
+                provider.buildCurrentComponents(world, pos, biome, builder);
+            }
         }
-
-        EnvironmentProvider provider = this.seasons.get(season.get()).value();
-        return provider != null
-                ? provider.findCurrentComponents(world, pos, biome)
-                : MergedComponentMap.create(ComponentMap.EMPTY, ComponentChanges.EMPTY);
     }
 
     /**

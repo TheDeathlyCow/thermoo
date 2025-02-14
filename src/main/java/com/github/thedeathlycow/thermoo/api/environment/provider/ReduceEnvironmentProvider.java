@@ -48,26 +48,28 @@ public final class ReduceEnvironmentProvider implements EnvironmentProvider {
     }
 
     /**
-     * Takes the current components from the {@link #base()} and {@linkplain  ReducibleComponentMapBuilder reduces} the
+     * Builds the current components from the {@link #base()} and {@linkplain  ReducibleComponentMapBuilder reduces} the
      * modifiers into it, in the order that the modifiers are specified.
      *
-     * @param world The world/level being queried
-     * @param pos   The position in the world to query
-     * @param biome The biome at the position in the world
-     * @return Returns a new merged component map with the modifiers applied by reduction
+     * @param world   The world/level being queried
+     * @param pos     The position in the world to query
+     * @param biome   The biome at the position in the world
+     * @param builder Component map builder to append to
      */
     @Override
-    @Contract("_,_,_->new")
-    public MergedComponentMap findCurrentComponents(World world, BlockPos pos, RegistryEntry<Biome> biome) {
-        ComponentMap.Builder baseBuilder = ComponentMap.builder()
-                .addAll(base.value().findCurrentComponents(world, pos, biome));
+    public void buildCurrentComponents(World world, BlockPos pos, RegistryEntry<Biome> biome, ComponentMap.Builder builder) {
+        ComponentMap.Builder baseBuilder = ComponentMap.builder();
+        base.value().buildCurrentComponents(world, pos, biome, baseBuilder);
 
-        ReducibleComponentMapBuilder modifiedBuilder = ReducibleComponentMapBuilder.create(baseBuilder);
+        // this is bad
+        ReducibleComponentMapBuilder reducibleBuilder = ReducibleComponentMapBuilder.create(baseBuilder);
         for (RegistryEntry<EnvironmentProvider> modifier : this.modifiers) {
-            modifiedBuilder.addAll(modifier.value().findCurrentComponents(world, pos, biome));
+            ComponentMap.Builder modifierBuilder = ComponentMap.builder();
+            modifier.value().buildCurrentComponents(world, pos, biome, modifierBuilder);
+            reducibleBuilder.addAll(modifierBuilder.build());
         }
 
-        return new MergedComponentMap(modifiedBuilder.build());
+        builder.addAll(baseBuilder.build());
     }
 
     @Override

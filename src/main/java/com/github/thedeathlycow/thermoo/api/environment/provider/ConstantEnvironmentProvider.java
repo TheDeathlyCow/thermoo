@@ -3,6 +3,7 @@ package com.github.thedeathlycow.thermoo.api.environment.provider;
 import com.github.thedeathlycow.thermoo.api.environment.component.EnvironmentComponentTypes;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.component.Component;
 import net.minecraft.component.ComponentChanges;
 import net.minecraft.component.ComponentMap;
 import net.minecraft.component.MergedComponentMap;
@@ -47,15 +48,14 @@ public final class ConstantEnvironmentProvider implements EnvironmentProvider {
      * Returns the component map stored in this provider. The components supplied by this provider are immutable and
      * never change.
      *
-     * @param world The world/level being queried
-     * @param pos   The position in the world to query
-     * @param biome The biome at the position in the world
-     * @return Returns a new merged component map.
+     * @param world   The world/level being queried
+     * @param pos     The position in the world to query
+     * @param biome   The biome at the position in the world
+     * @param builder Component map builder to append to
      */
     @Override
-    @Contract("_,_,_->new")
-    public MergedComponentMap findCurrentComponents(World world, BlockPos pos, RegistryEntry<Biome> biome) {
-        return MergedComponentMap.create(this.components, ComponentChanges.EMPTY);
+    public void buildCurrentComponents(World world, BlockPos pos, RegistryEntry<Biome> biome, ComponentMap.Builder builder) {
+        builder.addAll(this.components);
     }
 
     @Override
