@@ -43,12 +43,10 @@ public final class EnvironmentProviderTypes {
      * A provider that can reduce a list of modifiers into a base provider through
      * {@link com.github.thedeathlycow.thermoo.api.util.component.ReducibleComponentMapBuilder}
      *
-     * @see ReduceEnvironmentProvider
+     * @see ReduceSequenceEnvironmentProvider
      * @see com.github.thedeathlycow.thermoo.api.util.component.ReducibleComponentMapBuilder
      */
-    public static final EnvironmentProviderType<ReduceEnvironmentProvider> REDUCE = new EnvironmentProviderType<>(
-            ReduceEnvironmentProvider.CODEC
-    );
+    public static final EnvironmentProviderType<ReduceSequenceEnvironmentProvider> REDUCE_SEQUENCE = new EnvironmentProviderType<>(ReduceSequenceEnvironmentProvider.CODEC);
 
     /**
      * A provider that picks between two child providers based on light level

@@ -4,7 +4,6 @@ import com.github.thedeathlycow.thermoo.api.ThermooRegistryKeys;
 import com.github.thedeathlycow.thermoo.api.util.component.ReducibleComponentMapBuilder;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.component.ComponentMap;
 import net.minecraft.registry.RegistryCodecs;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.entry.RegistryEntryList;
@@ -15,22 +14,22 @@ import net.minecraft.world.biome.Biome;
 /**
  * Applies modifiers to a base environment provider from a tag or list of environment providers
  */
-public final class ReduceEnvironmentProvider implements EnvironmentProvider {
-    public static final MapCodec<ReduceEnvironmentProvider> CODEC = RecordCodecBuilder.mapCodec(
+public final class ReduceSequenceEnvironmentProvider implements EnvironmentProvider {
+    public static final MapCodec<ReduceSequenceEnvironmentProvider> CODEC = RecordCodecBuilder.mapCodec(
             instance -> instance.group(
                     RegistryCodecs.entryList(ThermooRegistryKeys.ENVIRONMENT_PROVIDER)
                             .fieldOf("modifiers")
-                            .forGetter(ReduceEnvironmentProvider::modifiers),
+                            .forGetter(ReduceSequenceEnvironmentProvider::modifiers),
                     EnvironmentProvider.ENTRY_CODEC
                             .fieldOf("base")
-                            .forGetter(ReduceEnvironmentProvider::base)
-            ).apply(instance, ReduceEnvironmentProvider::new)
+                            .forGetter(ReduceSequenceEnvironmentProvider::base)
+            ).apply(instance, ReduceSequenceEnvironmentProvider::new)
     );
 
     private final RegistryEntryList<EnvironmentProvider> modifiers;
     private final RegistryEntry<EnvironmentProvider> base;
 
-    private ReduceEnvironmentProvider(
+    private ReduceSequenceEnvironmentProvider(
             RegistryEntryList<EnvironmentProvider> modifiers,
             RegistryEntry<EnvironmentProvider> base
     ) {
@@ -38,11 +37,11 @@ public final class ReduceEnvironmentProvider implements EnvironmentProvider {
         this.base = base;
     }
 
-    public ReduceEnvironmentProvider create(
+    public ReduceSequenceEnvironmentProvider create(
             RegistryEntryList<EnvironmentProvider> modifiers,
             RegistryEntry<EnvironmentProvider> base
     ) {
-        return new ReduceEnvironmentProvider(modifiers, base);
+        return new ReduceSequenceEnvironmentProvider(modifiers, base);
     }
 
     /**
@@ -64,7 +63,7 @@ public final class ReduceEnvironmentProvider implements EnvironmentProvider {
 
     @Override
     public EnvironmentProviderType<?> getType() {
-        return EnvironmentProviderTypes.REDUCE;
+        return EnvironmentProviderTypes.REDUCE_SEQUENCE;
     }
 
     /**

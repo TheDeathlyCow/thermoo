@@ -59,6 +59,31 @@ class ReducibleComponentMapBuilderTest {
     }
 
     @Test
+    void twoTemperatureComponentMaps_onReplace_firstIsReplaced() {
+        var t1 = new TemperatureRecordComponent(new TemperatureRecord(20, TemperatureUnit.CELSIUS));
+        var t2 = new TemperatureRecordComponent(new TemperatureRecord(10, TemperatureUnit.CELSIUS));
+
+        ComponentMap m1 = ComponentMap.builder()
+                .add(EnvironmentComponentTypes.TEMPERATURE, t1)
+                .build();
+
+        ComponentMap m2 = ComponentMap.builder()
+                .add(EnvironmentComponentTypes.TEMPERATURE, t2)
+                .build();
+
+        ComponentMap merged = ReducibleComponentMapBuilder.create()
+                .replaceAll(m1)
+                .replaceAll(m2)
+                .build();
+
+        TemperatureRecordComponent mergedTemperature = merged.get(EnvironmentComponentTypes.TEMPERATURE);
+
+        Assertions.assertNotNull(mergedTemperature);
+        Assertions.assertEquals(10, mergedTemperature.temperature().value(), 1e-3);
+        Assertions.assertEquals(TemperatureUnit.CELSIUS, mergedTemperature.temperature().unit());
+    }
+
+    @Test
     void twoTemperatureComponentMaps_onMerge_mergeSucessfully() {
         var t1 = new TemperatureRecordComponent(new TemperatureRecord(20, TemperatureUnit.CELSIUS));
         var t2 = new TemperatureRecordComponent(new TemperatureRecord(10, TemperatureUnit.CELSIUS));
