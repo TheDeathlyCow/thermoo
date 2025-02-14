@@ -47,7 +47,7 @@ public final class TropicalSeasonEnvironmentProvider extends SeasonalEnvironment
     }
 
     @Override
-    public EnvironmentProviderType<?> getType() {
+    public EnvironmentProviderType<TropicalSeasonEnvironmentProvider> getType() {
         return EnvironmentProviderTypes.TROPICAL_SEASONAL;
     }
 

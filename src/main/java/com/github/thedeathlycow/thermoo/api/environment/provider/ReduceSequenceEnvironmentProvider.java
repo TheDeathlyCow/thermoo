@@ -62,7 +62,7 @@ public final class ReduceSequenceEnvironmentProvider implements EnvironmentProvi
     }
 
     @Override
-    public EnvironmentProviderType<?> getType() {
+    public EnvironmentProviderType<ReduceSequenceEnvironmentProvider> getType() {
         return EnvironmentProviderTypes.REDUCE_SEQUENCE;
     }
 

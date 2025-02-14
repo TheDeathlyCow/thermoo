@@ -44,5 +44,5 @@ public interface EnvironmentProvider {
     /**
      * @return Returns the type of this provider for dispatch
      */
-    EnvironmentProviderType<?> getType();
+    EnvironmentProviderType<? extends EnvironmentProvider> getType();
 }
