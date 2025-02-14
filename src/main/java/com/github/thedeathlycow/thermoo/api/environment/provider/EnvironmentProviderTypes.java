@@ -24,18 +24,14 @@ public final class EnvironmentProviderTypes {
      *
      * @see TemperateSeasonEnvironmentProvider
      */
-    public static final EnvironmentProviderType<TemperateSeasonEnvironmentProvider> TEMPERATE_SEASONAL = new EnvironmentProviderType<>(
-            TemperateSeasonEnvironmentProvider.CODEC
-    );
+    public static final EnvironmentProviderType<TemperateSeasonEnvironmentProvider> TEMPERATE_SEASONAL = new EnvironmentProviderType<>(TemperateSeasonEnvironmentProvider.CODEC);
 
     /**
      * A tropical season environment provider
      *
      * @see TropicalSeasonEnvironmentProvider
      */
-    public static final EnvironmentProviderType<TropicalSeasonEnvironmentProvider> TROPICAL_SEASONAL = new EnvironmentProviderType<>(
-            TropicalSeasonEnvironmentProvider.CODEC
-    );
+    public static final EnvironmentProviderType<TropicalSeasonEnvironmentProvider> TROPICAL_SEASONAL = new EnvironmentProviderType<>(TropicalSeasonEnvironmentProvider.CODEC);
 
     /**
      * A provider that can reduce a list of modifiers into a base provider through
@@ -52,6 +48,8 @@ public final class EnvironmentProviderTypes {
      * @see LightThresholdLightProvider
      */
     public static final EnvironmentProviderType<LightThresholdLightProvider> LIGHT_THRESHOLD = new EnvironmentProviderType<>(LightThresholdLightProvider.CODEC);
+
+    public static final EnvironmentProviderType<WeatherStateEnvironmentProvider> WEATHER_STATE = new EnvironmentProviderType<>();
 
     private EnvironmentProviderTypes() {
 
