@@ -25,23 +25,23 @@ public final class BiomePrecipitationTypeEnvironmentProvider implements Environm
     public static final MapCodec<BiomePrecipitationTypeEnvironmentProvider> CODEC = RecordCodecBuilder.mapCodec(
             instance -> instance.group(
                     createPrecipitationMapCodec()
-                            .fieldOf("local_precipitation")
-                            .forGetter(BiomePrecipitationTypeEnvironmentProvider::localPrecipitation)
+                            .fieldOf("precipitation_type")
+                            .forGetter(BiomePrecipitationTypeEnvironmentProvider::precipitationType)
             ).apply(instance, BiomePrecipitationTypeEnvironmentProvider::new)
     );
 
-    private final Map<Biome.Precipitation, RegistryEntry<EnvironmentProvider>> localPrecipitationMap;
+    private final Map<Biome.Precipitation, RegistryEntry<EnvironmentProvider>> precipitationTypeMap;
 
-    private BiomePrecipitationTypeEnvironmentProvider(Map<Biome.Precipitation, RegistryEntry<EnvironmentProvider>> localPrecipitationMap) {
-        this.localPrecipitationMap = new EnumMap<>(Biome.Precipitation.class);
-        this.localPrecipitationMap.putAll(localPrecipitationMap);
+    private BiomePrecipitationTypeEnvironmentProvider(Map<Biome.Precipitation, RegistryEntry<EnvironmentProvider>> precipitationTypeMap) {
+        this.precipitationTypeMap = new EnumMap<>(Biome.Precipitation.class);
+        this.precipitationTypeMap.putAll(precipitationTypeMap);
     }
 
     /**
      * Delegates to a child provider based on the local precipitation type.
      * <p>
      * <strong>IMPORTANT:</strong> This is not based on current weather state. For example, snowy biomes will ALWAYS
-     * return the provider mapped to {@link Biome.Precipitation#SNOW}.
+     * return the provider mapped to {@link Biome.Precipitation#SNOW}, even when it is not snowing.
      * <p>
      * If no provider is mapped to the local precipitation type, then nothing is built.
      *
@@ -52,8 +52,8 @@ public final class BiomePrecipitationTypeEnvironmentProvider implements Environm
      */
     @Override
     public void buildCurrentComponents(World world, BlockPos pos, RegistryEntry<Biome> biome, ReducibleComponentMapBuilder builder) {
-        Biome.Precipitation localPrecipitation = biome.value().getPrecipitation(pos, world.getSeaLevel());
-        RegistryEntry<EnvironmentProvider> provider = this.localPrecipitationMap.get(localPrecipitation);
+        Biome.Precipitation biomePrecipitationType = biome.value().getPrecipitation(pos, world.getSeaLevel());
+        RegistryEntry<EnvironmentProvider> provider = this.precipitationTypeMap.get(biomePrecipitationType);
         if (provider != null) {
             provider.value().buildCurrentComponents(world, pos, biome, builder);
         }
@@ -69,8 +69,8 @@ public final class BiomePrecipitationTypeEnvironmentProvider implements Environm
      *
      * @return Returns an unmodifiable enum map
      */
-    public Map<Biome.Precipitation, RegistryEntry<EnvironmentProvider>> localPrecipitation() {
-        return Collections.unmodifiableMap(localPrecipitationMap);
+    public Map<Biome.Precipitation, RegistryEntry<EnvironmentProvider>> precipitationType() {
+        return Collections.unmodifiableMap(precipitationTypeMap);
     }
 
     private static MapCodec<Map<Biome.Precipitation, RegistryEntry<EnvironmentProvider>>> createPrecipitationMapCodec() {
@@ -78,11 +78,11 @@ public final class BiomePrecipitationTypeEnvironmentProvider implements Environm
                 Biome.Precipitation.CODEC,
                 EnvironmentProvider.ENTRY_CODEC,
                 StringIdentifiable.toKeyable(Biome.Precipitation.values())
-        ).validate(seasonMap -> {
-            if (seasonMap.isEmpty()) {
-                return DataResult.error(() -> "No season key in: " + seasonMap);
+        ).validate(map -> {
+            if (map.isEmpty()) {
+                return DataResult.error(() -> "No precipitation key in: " + map);
             } else {
-                return DataResult.success(seasonMap);
+                return DataResult.success(map);
             }
         });
     }
