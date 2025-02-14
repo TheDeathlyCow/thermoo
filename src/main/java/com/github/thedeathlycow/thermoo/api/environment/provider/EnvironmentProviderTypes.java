@@ -53,6 +53,8 @@ public final class EnvironmentProviderTypes {
      */
     public static final EnvironmentProviderType<LightThresholdLightProvider> LIGHT_THRESHOLD = new EnvironmentProviderType<>(LightThresholdLightProvider.CODEC);
 
+    public static final EnvironmentProviderType<LocalPrecipitationEnvironmentProvider> LOCAL_PRECIPITATION = new EnvironmentProviderType<>(LocalPrecipitationEnvironmentProvider.CODEC);
+
     private EnvironmentProviderTypes() {
 
     }
