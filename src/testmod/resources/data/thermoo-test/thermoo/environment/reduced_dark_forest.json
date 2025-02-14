@@ -10,7 +10,7 @@
             "thermoo-test:modifiers/dark_forest_summer_replace"
         ],
         "base": {
-            "type": "thermoo:constant",
+            "type": "thermoo:reduce_constant",
             "components": {
                 "thermoo:temperature": 15.0,
                 "thermoo:relative_humidity": 0.51

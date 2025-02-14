@@ -3,7 +3,7 @@
         "minecraft:forest"
     ],
     "provider": {
-        "type": "thermoo:constant",
+        "type": "thermoo:reduce_constant",
         "components": {
             "thermoo:temperature": 21.0,
             "thermoo:relative_humidity": 0.51

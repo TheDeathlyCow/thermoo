@@ -4,10 +4,7 @@ import com.github.thedeathlycow.thermoo.api.environment.component.EnvironmentCom
 import com.github.thedeathlycow.thermoo.api.util.component.ReducibleComponentMapBuilder;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.component.Component;
-import net.minecraft.component.ComponentChanges;
 import net.minecraft.component.ComponentMap;
-import net.minecraft.component.MergedComponentMap;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -19,18 +16,18 @@ import org.jetbrains.annotations.Contract;
  *
  * @see ReplaceEnvironmentProvider
  */
-public final class ConstantEnvironmentProvider implements EnvironmentProvider {
-    public static final MapCodec<ConstantEnvironmentProvider> CODEC = RecordCodecBuilder.mapCodec(
+public final class ReduceConstantEnvironmentProvider implements EnvironmentProvider {
+    public static final MapCodec<ReduceConstantEnvironmentProvider> CODEC = RecordCodecBuilder.mapCodec(
             instance -> instance.group(
                     EnvironmentComponentTypes.COMPONENT_MAP_CODEC
                             .fieldOf("components")
-                            .forGetter(ConstantEnvironmentProvider::components)
-            ).apply(instance, ConstantEnvironmentProvider::new)
+                            .forGetter(ReduceConstantEnvironmentProvider::components)
+            ).apply(instance, ReduceConstantEnvironmentProvider::new)
     );
 
     private final ComponentMap components;
 
-    private ConstantEnvironmentProvider(ComponentMap components) {
+    private ReduceConstantEnvironmentProvider(ComponentMap components) {
         this.components = components;
     }
 
@@ -42,8 +39,8 @@ public final class ConstantEnvironmentProvider implements EnvironmentProvider {
      * @return Returns a new constant environment provider
      */
     @Contract("_->new")
-    public static ConstantEnvironmentProvider create(ComponentMap.Builder builder) {
-        return new ConstantEnvironmentProvider(builder.build());
+    public static ReduceConstantEnvironmentProvider create(ComponentMap.Builder builder) {
+        return new ReduceConstantEnvironmentProvider(builder.build());
     }
 
     /**

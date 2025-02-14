@@ -7,7 +7,7 @@
         "fallback_season": "spring",
         "seasons": {
             "spring": {
-                "type": "thermoo:constant",
+                "type": "thermoo:reduce_constant",
                 "components": {
                     "thermoo:temperature": 20,
                     "thermoo:relative_humidity": 0.75
@@ -15,14 +15,14 @@
             },
             "summer": "thermoo-test:plains_summer",
             "autumn": {
-                "type": "thermoo:constant",
+                "type": "thermoo:reduce_constant",
                 "components": {
                     "thermoo:temperature": 20.0,
                     "thermoo:relative_humidity": 0.25
                 }
             },
             "winter": {
-                "type": "thermoo:constant",
+                "type": "thermoo:reduce_constant",
                 "components": {
                     "thermoo:temperature": 10.0,
                     "thermoo:relative_humidity": 0.25
