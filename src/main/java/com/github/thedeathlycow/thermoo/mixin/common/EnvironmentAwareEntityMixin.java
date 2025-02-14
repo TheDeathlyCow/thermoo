@@ -30,9 +30,11 @@ public abstract class EnvironmentAwareEntityMixin extends Entity implements Temp
     @Shadow
     public abstract boolean canBreatheInWater();
 
-    @Shadow public abstract double getAttributeValue(RegistryEntry<EntityAttribute> attribute);
+    @Shadow
+    public abstract double getAttributeValue(RegistryEntry<EntityAttribute> attribute);
 
-    @Shadow public abstract boolean hasStatusEffect(RegistryEntry<StatusEffect> effect);
+    @Shadow
+    public abstract boolean hasStatusEffect(RegistryEntry<StatusEffect> effect);
 
     public EnvironmentAwareEntityMixin(EntityType<?> type, World world) {
         super(type, world);
@@ -97,6 +99,16 @@ public abstract class EnvironmentAwareEntityMixin extends Entity implements Temp
     @Override
     public double thermoo$getHeatResistance() {
         return this.getAttributeValue(ThermooAttributes.HEAT_RESISTANCE);
+    }
+
+    @Override
+    public double thermoo$getEnvironmentColdResistance() {
+        return this.getAttributeValue(ThermooAttributes.ENVIRONMENT_FROST_RESISTANCE);
+    }
+
+    @Override
+    public double thermoo$getEnvironmentHeatResistance() {
+        return this.getAttributeValue(ThermooAttributes.ENVIRONMENT_HEAT_RESISTANCE);
     }
 
     @Override

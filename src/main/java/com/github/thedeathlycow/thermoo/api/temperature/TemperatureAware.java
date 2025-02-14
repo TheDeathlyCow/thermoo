@@ -67,6 +67,28 @@ public interface TemperatureAware {
     }
 
     /**
+     * Supplies the environmental cold resistance of a temperature aware object. Environmental cold resistance is a chance
+     * to dodge a strictly negative {@link EnvironmentHeatingMode environment temperature change}.
+     *
+     * @return Returns a double in the range [0, 1] that is the chance that a negative environment temperature change
+     * will be dodged
+     */
+    default double thermoo$getEnvironmentColdResistance() {
+        throw new NotImplementedException();
+    }
+
+    /**
+     * Supplies the environmental heat resistance of a temperature aware object. Environmental heat resistance is a chance
+     * to dodge a strictly positive {@link EnvironmentHeatingMode environment temperature change}.
+     *
+     * @return Returns a double in the range [0, 1] that is the chance that a positive environment temperature change
+     * will be dodged
+     */
+    default double thermoo$getEnvironmentHeatResistance() {
+        throw new NotImplementedException();
+    }
+
+    /**
      * @return Returns if the thermally aware object can be affected by cold
      */
     default boolean thermoo$canFreeze() {
