@@ -46,8 +46,8 @@ public final class ConstantEnvironmentProvider implements EnvironmentProvider {
     }
 
     /**
-     * Returns the component map stored in this provider. The components supplied by this provider are immutable and
-     * never change.
+     * Builds the component map stored in this provider into the provided builder. The components supplied by this
+     * provider are immutable and never change.
      *
      * @param world   The world/level being queried
      * @param pos     The position in the world to query

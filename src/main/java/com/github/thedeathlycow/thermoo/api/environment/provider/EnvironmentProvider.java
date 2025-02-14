@@ -27,7 +27,7 @@ public interface EnvironmentProvider {
     );
 
     /**
-     * Builds the current environment parameter components at a point and biome in a world.
+     * Builds the current environment parameter components at a point and biome in a world into a reducible builder.
      * <p>
      * The allowed component type keys must be registered in the
      * {@link ThermooRegistries#ENVIRONMENT_COMPONENT_TYPE environment component type registry}. A set of default

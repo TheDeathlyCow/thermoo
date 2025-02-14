@@ -91,7 +91,7 @@ public class LightThresholdLightProvider implements EnvironmentProvider {
 
     /**
      * Builds the current components of the world position based on light level. If the light level of the position is at
-     * or above the threshold then returns the {@link #above()} provider. Otherwise, returns the {@link #below()} provider.
+     * or above the threshold then uses the {@link #above()} provider. Otherwise, uses the {@link #below()} provider.
      * <p>
      * Filters for sky/block light and ambient darkness if requested.
      *

@@ -38,8 +38,9 @@ public abstract sealed class SeasonalEnvironmentProvider implements EnvironmentP
 
     /**
      * Builds the environment components based on the world's current season state, generally using the
-     * {@link ThermooSeason season API}. If no seasons mod is installed, will return the components provided by the
-     * {@link #fallbackSeason fallback season}. If there is no fallback season, then returns empty.
+     * {@link ThermooSeason season API}. If no seasons mod is installed, or if the tropical/temperate season state does
+     * not exist at this world position, then this will use the components provided by the
+     * {@link #fallbackSeason fallback season}. If there is no fallback season, then this does nothing.
      *
      * @param world   The world/level being queried
      * @param pos     The position in the world to query
@@ -50,9 +51,9 @@ public abstract sealed class SeasonalEnvironmentProvider implements EnvironmentP
     public final void buildCurrentComponents(World world, BlockPos pos, RegistryEntry<Biome> biome, ReducibleComponentMapBuilder builder) {
         Optional<ThermooSeason> season = this.getCurrentSeason(world, pos).or(this::fallbackSeason);
         if (season.isPresent()) {
-            EnvironmentProvider provider = this.seasons.get(season.get()).value();
+            RegistryEntry<EnvironmentProvider> provider = this.seasons.get(season.get());
             if (provider != null) {
-                provider.buildCurrentComponents(world, pos, biome, builder);
+                provider.value().buildCurrentComponents(world, pos, biome, builder);
             }
         }
     }
