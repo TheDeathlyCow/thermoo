@@ -2,7 +2,7 @@
     "type": "thermoo:seasonal/temperate",
     "seasons": {
         "summer": {
-            "type": "thermoo:replace",
+            "type": "thermoo:replace_constant",
             "components": {
                 "thermoo:temperature": 35.0,
                 "thermoo:relative_humidity": 0.75
