@@ -18,29 +18,30 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * A provider that delegates to a child provider based on the local precipitation state of a world position. At least
- * one precipitation type provider must be given.
+ * A provider that delegates to a child provider based on the precipitation-type of a biome. At least one precipitation
+ * type provider must be given.
  */
-public final class LocalPrecipitationEnvironmentProvider implements EnvironmentProvider {
-    public static final MapCodec<LocalPrecipitationEnvironmentProvider> CODEC = RecordCodecBuilder.mapCodec(
+public final class BiomePrecipitationTypeEnvironmentProvider implements EnvironmentProvider {
+    public static final MapCodec<BiomePrecipitationTypeEnvironmentProvider> CODEC = RecordCodecBuilder.mapCodec(
             instance -> instance.group(
                     createPrecipitationMapCodec()
                             .fieldOf("local_precipitation")
-                            .forGetter(LocalPrecipitationEnvironmentProvider::localPrecipitation)
-            ).apply(instance, LocalPrecipitationEnvironmentProvider::new)
+                            .forGetter(BiomePrecipitationTypeEnvironmentProvider::localPrecipitation)
+            ).apply(instance, BiomePrecipitationTypeEnvironmentProvider::new)
     );
 
     private final Map<Biome.Precipitation, RegistryEntry<EnvironmentProvider>> localPrecipitationMap;
 
-    private LocalPrecipitationEnvironmentProvider(Map<Biome.Precipitation, RegistryEntry<EnvironmentProvider>> localPrecipitationMap) {
+    private BiomePrecipitationTypeEnvironmentProvider(Map<Biome.Precipitation, RegistryEntry<EnvironmentProvider>> localPrecipitationMap) {
         this.localPrecipitationMap = new EnumMap<>(Biome.Precipitation.class);
         this.localPrecipitationMap.putAll(localPrecipitationMap);
     }
 
     /**
-     * Delegates to a child provider based on the local precipitation type. This is local, so if for example the
-     * position is under a roof then the precipitation will be {@link Biome.Precipitation#NONE}, regardless of global
-     * weather state.
+     * Delegates to a child provider based on the local precipitation type.
+     * <p>
+     * <strong>IMPORTANT:</strong> This is not based on current weather state. For example, snowy biomes will ALWAYS
+     * return the provider mapped to {@link Biome.Precipitation#SNOW}.
      * <p>
      * If no provider is mapped to the local precipitation type, then nothing is built.
      *
@@ -59,8 +60,8 @@ public final class LocalPrecipitationEnvironmentProvider implements EnvironmentP
     }
 
     @Override
-    public EnvironmentProviderType<LocalPrecipitationEnvironmentProvider> getType() {
-        return EnvironmentProviderTypes.LOCAL_PRECIPITATION;
+    public EnvironmentProviderType<BiomePrecipitationTypeEnvironmentProvider> getType() {
+        return EnvironmentProviderTypes.PRECIPITATION_TYPE;
     }
 
     /**
@@ -119,12 +120,12 @@ public final class LocalPrecipitationEnvironmentProvider implements EnvironmentP
          * @return Returns a new provider from this builder's state
          */
         @Contract("->new")
-        public LocalPrecipitationEnvironmentProvider build() {
+        public BiomePrecipitationTypeEnvironmentProvider build() {
             if (this.precipitationMap.keySet().isEmpty()) {
                 throw new IllegalArgumentException("Precipitation map requires at least one key!");
             }
 
-            return new LocalPrecipitationEnvironmentProvider(this.precipitationMap);
+            return new BiomePrecipitationTypeEnvironmentProvider(this.precipitationMap);
         }
     }
 }
