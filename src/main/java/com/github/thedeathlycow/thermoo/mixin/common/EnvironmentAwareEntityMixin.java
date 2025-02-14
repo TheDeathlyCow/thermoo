@@ -179,5 +179,7 @@ public abstract class EnvironmentAwareEntityMixin extends Entity implements Temp
         builder.add(ThermooAttributes.MAX_TEMPERATURE);
         builder.add(ThermooAttributes.FROST_RESISTANCE);
         builder.add(ThermooAttributes.HEAT_RESISTANCE);
+        builder.add(ThermooAttributes.ENVIRONMENT_HEAT_RESISTANCE);
+        builder.add(ThermooAttributes.ENVIRONMENT_FROST_RESISTANCE);
     }
 }
