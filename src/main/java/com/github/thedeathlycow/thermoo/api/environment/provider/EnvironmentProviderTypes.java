@@ -49,7 +49,12 @@ public final class EnvironmentProviderTypes {
      */
     public static final EnvironmentProviderType<LightThresholdLightProvider> LIGHT_THRESHOLD = new EnvironmentProviderType<>(LightThresholdLightProvider.CODEC);
 
-    public static final EnvironmentProviderType<WeatherStateEnvironmentProvider> WEATHER_STATE = new EnvironmentProviderType<>();
+    /**
+     * A provider that picks a child provider based on the global weather state (clear, rain, thunder)
+     *
+     * @see WeatherStateEnvironmentProvider
+     */
+    public static final EnvironmentProviderType<WeatherStateEnvironmentProvider> WEATHER_STATE = new EnvironmentProviderType<>(WeatherStateEnvironmentProvider.CODEC);
 
     private EnvironmentProviderTypes() {
 

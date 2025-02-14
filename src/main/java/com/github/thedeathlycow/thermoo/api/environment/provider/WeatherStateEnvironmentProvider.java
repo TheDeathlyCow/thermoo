@@ -1,7 +1,6 @@
 package com.github.thedeathlycow.thermoo.api.environment.provider;
 
 import com.github.thedeathlycow.thermoo.api.util.component.ReducibleComponentMapBuilder;
-import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.registry.entry.RegistryEntry;
@@ -11,6 +10,10 @@ import net.minecraft.world.biome.Biome;
 
 import java.util.Optional;
 
+/**
+ * An environment provider that delegates to a child provider based on the global weather state of a world (clear, rain,
+ * or thunder).
+ */
 @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
 public final class WeatherStateEnvironmentProvider implements EnvironmentProvider {
     public static final MapCodec<WeatherStateEnvironmentProvider> CODEC = RecordCodecBuilder.mapCodec(
@@ -41,6 +44,15 @@ public final class WeatherStateEnvironmentProvider implements EnvironmentProvide
         this.thunder = thunder;
     }
 
+    /**
+     * Delegates to a child provider based on the global weather state. If a provider is not defined for the current
+     * weather state, then does nothing.
+     *
+     * @param world   The world/level being queried
+     * @param pos     The position in the world to query
+     * @param biome   The biome at the position in the world
+     * @param builder A reducible component map builder to append to
+     */
     @Override
     public void buildCurrentComponents(World world, BlockPos pos, RegistryEntry<Biome> biome, ReducibleComponentMapBuilder builder) {
         if (world.isThundering()) {
@@ -57,14 +69,23 @@ public final class WeatherStateEnvironmentProvider implements EnvironmentProvide
         return EnvironmentProviderTypes.WEATHER_STATE;
     }
 
+    /**
+     * Provider to use when the world is neither raining nor thundering
+     */
     public Optional<RegistryEntry<EnvironmentProvider>> clear() {
         return clear;
     }
 
+    /**
+     * Provider to use when the world is raining but not thundering
+     */
     public Optional<RegistryEntry<EnvironmentProvider>> rain() {
         return rain;
     }
 
+    /**
+     * Provider to use when the world is thundering
+     */
     public Optional<RegistryEntry<EnvironmentProvider>> thunder() {
         return thunder;
     }
