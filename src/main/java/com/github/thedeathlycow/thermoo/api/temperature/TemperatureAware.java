@@ -2,8 +2,10 @@ package com.github.thedeathlycow.thermoo.api.temperature;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.util.math.random.Random;
 import org.apache.commons.lang3.NotImplementedException;
 import org.jetbrains.annotations.Nullable;
+
 
 /**
  * TemperatureAware entities are things that are sensitive to temperature. In Thermoo, the Temperature of a Thermally-aware
@@ -12,8 +14,11 @@ import org.jetbrains.annotations.Nullable;
  * negative values are treated as 'cold'.
  * <p>
  * This class is interface injected into {@link net.minecraft.entity.LivingEntity}. Therefore, ALL methods must have a
- * default implementation. Methods that should normally be abstract should throw a {@link NotImplementedException} instead
- * of being declared abstract.
+ * default implementation. Therefore, all methods that would normally be declared abstract are instead made to throw a
+ * {@link NotImplementedException}.
+ * <p>
+ * Implementing this interface onto your own objects is permitted - but many other APIs that work with living entities
+ * will not work automatically.
  */
 public interface TemperatureAware {
 
@@ -74,7 +79,7 @@ public interface TemperatureAware {
      * will be dodged
      */
     default double thermoo$getEnvironmentColdResistance() {
-        throw new NotImplementedException();
+        return 0.0;
     }
 
     /**
@@ -85,7 +90,7 @@ public interface TemperatureAware {
      * will be dodged
      */
     default double thermoo$getEnvironmentHeatResistance() {
-        throw new NotImplementedException();
+        return 0.0;
     }
 
     /**
@@ -152,6 +157,13 @@ public interface TemperatureAware {
         }
 
         return ((float) temperature) / bound;
+    }
+
+    /**
+     * @return Returns a random number generator object associated with this temperature aware
+     */
+    default Random thermoo$getRandom() {
+        return Random.create();
     }
 
     /**

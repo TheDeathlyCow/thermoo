@@ -17,6 +17,7 @@ import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -165,6 +166,11 @@ public abstract class EnvironmentAwareEntityMixin extends Entity implements Temp
         int currentTemperature = this.thermoo$getTemperature();
         int modifiedChange = mode.applyResistance(this, temperatureChange);
         this.thermoo$setTemperature(currentTemperature + modifiedChange);
+    }
+
+    @Override
+    public Random thermoo$getRandom() {
+        return this.random;
     }
 
     @Inject(
