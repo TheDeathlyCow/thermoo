@@ -8,11 +8,9 @@ public final class EnvironmentProviderTypes {
      * A constant value environment provider that adds values by
      * {@linkplain com.github.thedeathlycow.thermoo.api.util.component.ReducibleComponentMapBuilder reduction}
      *
-     * @see ConstantEnvironmentProvider
+     * @see ReduceConstantEnvironmentProvider
      */
-    public static final EnvironmentProviderType<ConstantEnvironmentProvider> CONSTANT = new EnvironmentProviderType<>(
-            ConstantEnvironmentProvider.CODEC
-    );
+    public static final EnvironmentProviderType<ReduceConstantEnvironmentProvider> CONSTANT = new EnvironmentProviderType<>(ReduceConstantEnvironmentProvider.CODEC);
 
     /**
      * A constant value environment provider that adds values by replacement

@@ -1,5 +1,5 @@
 {
-    "type": "thermoo:constant",
+    "type": "thermoo:reduce_constant",
     "components": {
         "thermoo:temperature": 50.0,
         "thermoo:relative_humidity": 0.25

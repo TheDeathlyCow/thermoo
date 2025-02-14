@@ -14,7 +14,7 @@ import org.jetbrains.annotations.Contract;
 /**
  * Provides constant values by replacement
  *
- * @see ConstantEnvironmentProvider
+ * @see ReduceConstantEnvironmentProvider
  */
 public final class ReplaceEnvironmentProvider implements EnvironmentProvider {
     public static final MapCodec<ReplaceEnvironmentProvider> CODEC = RecordCodecBuilder.mapCodec(
