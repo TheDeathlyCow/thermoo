@@ -37,9 +37,12 @@ public class EnvironmentLookupImpl implements EnvironmentLookup {
     }
 
     public ComponentMap findEnvironmentComponentsForBiome(World world, BlockPos pos, RegistryEntry<Biome> biome) {
-        ReducibleComponentMapBuilder builder = ReducibleComponentMapBuilder.create();
+        ComponentMap.Builder builder = ComponentMap.builder();
         for (RegistryEntry<EnvironmentProvider> provider : this.getProviders(biome, world.getRegistryManager())) {
-            provider.value().buildCurrentComponents(world, pos, biome, builder);
+            // create a new reduction builder for each biome's provider
+            ReducibleComponentMapBuilder reduceBuilder = ReducibleComponentMapBuilder.create();
+            provider.value().buildCurrentComponents(world, pos, biome, reduceBuilder);
+            builder.addAll(reduceBuilder.build());
         }
         return builder.build();
     }

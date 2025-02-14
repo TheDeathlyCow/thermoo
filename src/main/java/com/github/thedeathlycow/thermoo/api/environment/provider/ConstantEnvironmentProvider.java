@@ -56,7 +56,7 @@ public final class ConstantEnvironmentProvider implements EnvironmentProvider {
      */
     @Override
     public void buildCurrentComponents(World world, BlockPos pos, RegistryEntry<Biome> biome, ReducibleComponentMapBuilder builder) {
-        builder.replaceAll(this.components);
+        builder.addAll(this.components);
     }
 
     @Override
