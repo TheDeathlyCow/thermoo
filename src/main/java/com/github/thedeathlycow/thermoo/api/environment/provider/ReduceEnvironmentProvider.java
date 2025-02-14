@@ -5,14 +5,12 @@ import com.github.thedeathlycow.thermoo.api.util.component.ReducibleComponentMap
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.component.ComponentMap;
-import net.minecraft.component.MergedComponentMap;
 import net.minecraft.registry.RegistryCodecs;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.entry.RegistryEntryList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
-import org.jetbrains.annotations.Contract;
 
 /**
  * Applies modifiers to a base environment provider from a tag or list of environment providers
@@ -48,26 +46,20 @@ public final class ReduceEnvironmentProvider implements EnvironmentProvider {
     }
 
     /**
-     * Takes the current components from the {@link #base()} and {@linkplain  ReducibleComponentMapBuilder reduces} the
+     * Builds the current components from the {@link #base()} and {@linkplain  ReducibleComponentMapBuilder reduces} the
      * modifiers into it, in the order that the modifiers are specified.
      *
-     * @param world The world/level being queried
-     * @param pos   The position in the world to query
-     * @param biome The biome at the position in the world
-     * @return Returns a new merged component map with the modifiers applied by reduction
+     * @param world   The world/level being queried
+     * @param pos     The position in the world to query
+     * @param biome   The biome at the position in the world
+     * @param builder Component map builder to append to
      */
     @Override
-    @Contract("_,_,_->new")
-    public MergedComponentMap findCurrentComponents(World world, BlockPos pos, RegistryEntry<Biome> biome) {
-        ComponentMap.Builder baseBuilder = ComponentMap.builder()
-                .addAll(base.value().findCurrentComponents(world, pos, biome));
-
-        ReducibleComponentMapBuilder modifiedBuilder = ReducibleComponentMapBuilder.create(baseBuilder);
+    public void buildCurrentComponents(World world, BlockPos pos, RegistryEntry<Biome> biome, ReducibleComponentMapBuilder builder) {
+        base.value().buildCurrentComponents(world, pos, biome, builder);
         for (RegistryEntry<EnvironmentProvider> modifier : this.modifiers) {
-            modifiedBuilder.addAll(modifier.value().findCurrentComponents(world, pos, biome));
+            modifier.value().buildCurrentComponents(world, pos, biome, builder);
         }
-
-        return new MergedComponentMap(modifiedBuilder.build());
     }
 
     @Override

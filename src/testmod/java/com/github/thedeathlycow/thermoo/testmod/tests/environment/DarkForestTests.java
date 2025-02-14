@@ -52,4 +52,26 @@ public class DarkForestTests {
 
         context.complete();
     }
+
+    @GameTest(templateName = FabricGameTest.EMPTY_STRUCTURE)
+    public void dark_forest_winter_temperature_is_replaced_with_35c(TestContext context) {
+        World world = context.getWorld();
+        EnvironmentTestHelper.setSeasons(context, ThermooSeason.SUMMER, null);
+
+        double temperature = EnvironmentTestHelper.getBiomeTemperature(context, world, BiomeKeys.DARK_FOREST);
+        EnvironmentTestHelper.assertTemperatureEquals(context, 35.0, temperature);
+
+        context.complete();
+    }
+
+    @GameTest(templateName = FabricGameTest.EMPTY_STRUCTURE)
+    public void dark_forest_winter_humidity_is_replaced_with_75pc(TestContext context) {
+        World world = context.getWorld();
+        EnvironmentTestHelper.setSeasons(context, ThermooSeason.SUMMER, null);
+
+        double humidity = EnvironmentTestHelper.getBiomeHumidity(context, world, BiomeKeys.DARK_FOREST);
+        EnvironmentTestHelper.assertHumidityEquals(context, 0.75, humidity);
+
+        context.complete();
+    }
 }

@@ -5,7 +5,6 @@ import com.github.thedeathlycow.thermoo.api.environment.component.EnvironmentCom
 import com.github.thedeathlycow.thermoo.api.environment.component.TemperatureRecordComponent;
 import com.github.thedeathlycow.thermoo.api.util.TemperatureRecord;
 import com.github.thedeathlycow.thermoo.api.util.TemperatureUnit;
-import net.minecraft.component.ComponentChanges;
 import net.minecraft.component.ComponentMap;
 import net.minecraft.component.MergedComponentMap;
 import org.junit.jupiter.api.Assertions;

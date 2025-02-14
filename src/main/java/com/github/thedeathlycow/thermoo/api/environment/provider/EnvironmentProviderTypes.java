@@ -5,13 +5,21 @@ package com.github.thedeathlycow.thermoo.api.environment.provider;
  */
 public final class EnvironmentProviderTypes {
     /**
-     * A constant value environment provider
+     * A constant value environment provider that adds values by
+     * {@linkplain com.github.thedeathlycow.thermoo.api.util.component.ReducibleComponentMapBuilder reduction}
      *
      * @see ConstantEnvironmentProvider
      */
     public static final EnvironmentProviderType<ConstantEnvironmentProvider> CONSTANT = new EnvironmentProviderType<>(
             ConstantEnvironmentProvider.CODEC
     );
+
+    /**
+     * A constant value environment provider that adds values by replacement
+     *
+     * @see ReplaceEnvironmentProvider
+     */
+    public static final EnvironmentProviderType<ReplaceEnvironmentProvider> REPLACE = new EnvironmentProviderType<>(ReplaceEnvironmentProvider.CODEC);
 
     /**
      * A temperature season environment provider
