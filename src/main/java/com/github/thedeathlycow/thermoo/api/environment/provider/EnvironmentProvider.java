@@ -3,6 +3,7 @@ package com.github.thedeathlycow.thermoo.api.environment.provider;
 import com.github.thedeathlycow.thermoo.api.ThermooRegistries;
 import com.github.thedeathlycow.thermoo.api.ThermooRegistryKeys;
 import com.github.thedeathlycow.thermoo.api.environment.component.EnvironmentComponentTypes;
+import com.github.thedeathlycow.thermoo.api.util.component.ReducibleComponentMapBuilder;
 import com.mojang.serialization.Codec;
 import net.minecraft.component.ComponentMap;
 import net.minecraft.registry.entry.RegistryElementCodec;
@@ -36,9 +37,9 @@ public interface EnvironmentProvider {
      * @param world   The world/level being queried
      * @param pos     The position in the world to query
      * @param biome   The biome at the position in the world
-     * @param builder Component map builder to append to
+     * @param builder A reducible component map builder to append to
      */
-    void buildCurrentComponents(World world, BlockPos pos, RegistryEntry<Biome> biome, ComponentMap.Builder builder);
+    void buildCurrentComponents(World world, BlockPos pos, RegistryEntry<Biome> biome, ReducibleComponentMapBuilder builder);
 
     /**
      * @return Returns the type of this provider for dispatch

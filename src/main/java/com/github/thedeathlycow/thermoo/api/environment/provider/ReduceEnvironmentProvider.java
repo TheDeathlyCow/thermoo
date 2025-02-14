@@ -5,14 +5,12 @@ import com.github.thedeathlycow.thermoo.api.util.component.ReducibleComponentMap
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.component.ComponentMap;
-import net.minecraft.component.MergedComponentMap;
 import net.minecraft.registry.RegistryCodecs;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.entry.RegistryEntryList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
-import org.jetbrains.annotations.Contract;
 
 /**
  * Applies modifiers to a base environment provider from a tag or list of environment providers
@@ -57,19 +55,11 @@ public final class ReduceEnvironmentProvider implements EnvironmentProvider {
      * @param builder Component map builder to append to
      */
     @Override
-    public void buildCurrentComponents(World world, BlockPos pos, RegistryEntry<Biome> biome, ComponentMap.Builder builder) {
-        ComponentMap.Builder baseBuilder = ComponentMap.builder();
-        base.value().buildCurrentComponents(world, pos, biome, baseBuilder);
-
-        // this is bad
-        ReducibleComponentMapBuilder reducibleBuilder = ReducibleComponentMapBuilder.create(baseBuilder);
+    public void buildCurrentComponents(World world, BlockPos pos, RegistryEntry<Biome> biome, ReducibleComponentMapBuilder builder) {
+        base.value().buildCurrentComponents(world, pos, biome, builder);
         for (RegistryEntry<EnvironmentProvider> modifier : this.modifiers) {
-            ComponentMap.Builder modifierBuilder = ComponentMap.builder();
-            modifier.value().buildCurrentComponents(world, pos, biome, modifierBuilder);
-            reducibleBuilder.addAll(modifierBuilder.build());
+            modifier.value().buildCurrentComponents(world, pos, biome, builder);
         }
-
-        builder.addAll(baseBuilder.build());
     }
 
     @Override

@@ -6,6 +6,7 @@ import com.github.thedeathlycow.thermoo.api.environment.provider.ConstantEnviron
 import com.github.thedeathlycow.thermoo.api.environment.provider.EnvironmentProvider;
 import com.github.thedeathlycow.thermoo.api.environment.provider.LightThresholdLightProvider;
 import com.github.thedeathlycow.thermoo.api.util.TemperatureUnit;
+import com.github.thedeathlycow.thermoo.api.util.component.ReducibleComponentMapBuilder;
 import com.github.thedeathlycow.thermoo.testmod.tests.environment.EnvironmentTestHelper;
 import net.minecraft.component.ComponentMap;
 import net.minecraft.registry.entry.RegistryEntry;
@@ -45,11 +46,7 @@ public class BlockLightTests {
 
             LightTestHelper.expectLightLevel(context, center, LightType.BLOCK, 9);
 
-            TemperatureRecordComponent temperature = PROVIDER.get().findCurrentComponents(
-                    context.getWorld(),
-                    centerAbsolute,
-                    context.getWorld().getBiome(centerAbsolute)
-            ).get(EnvironmentComponentTypes.TEMPERATURE);
+            TemperatureRecordComponent temperature = EnvironmentTestHelper.getTemperature(context, center, PROVIDER.get());
 
             context.assertFalse(temperature == null, "Temperature missing from provider");
             EnvironmentTestHelper.assertTemperatureEquals(context, 30.0, temperature.temperature().valueInUnit(TemperatureUnit.CELSIUS));
@@ -69,11 +66,7 @@ public class BlockLightTests {
 
             LightTestHelper.expectLightLevel(context, corner, LightType.BLOCK, 7);
 
-            TemperatureRecordComponent temperature = PROVIDER.get().findCurrentComponents(
-                    context.getWorld(),
-                    cornerAbsolute,
-                    context.getWorld().getBiome(cornerAbsolute)
-            ).get(EnvironmentComponentTypes.TEMPERATURE);
+            TemperatureRecordComponent temperature = EnvironmentTestHelper.getTemperature(context, corner, PROVIDER.get());
 
             context.assertFalse(temperature == null, "Temperature missing from provider");
             EnvironmentTestHelper.assertTemperatureEquals(context, 10.0, temperature.temperature().valueInUnit(TemperatureUnit.CELSIUS));
@@ -93,11 +86,7 @@ public class BlockLightTests {
 
             LightTestHelper.expectLightLevel(context, centerOffset, LightType.BLOCK, 8);
 
-            TemperatureRecordComponent temperature = PROVIDER.get().findCurrentComponents(
-                    context.getWorld(),
-                    centerOffsetAbsolute,
-                    context.getWorld().getBiome(centerOffsetAbsolute)
-            ).get(EnvironmentComponentTypes.TEMPERATURE);
+            TemperatureRecordComponent temperature = EnvironmentTestHelper.getTemperature(context, centerOffset, PROVIDER.get());
 
             context.assertFalse(temperature == null, "Temperature missing from provider");
             EnvironmentTestHelper.assertTemperatureEquals(context, 30.0, temperature.temperature().valueInUnit(TemperatureUnit.CELSIUS));
