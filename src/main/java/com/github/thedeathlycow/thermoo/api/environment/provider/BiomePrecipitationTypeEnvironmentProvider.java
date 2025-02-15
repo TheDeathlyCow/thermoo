@@ -52,7 +52,7 @@ public final class BiomePrecipitationTypeEnvironmentProvider implements Environm
      */
     @Override
     public void buildCurrentComponents(World world, BlockPos pos, RegistryEntry<Biome> biome, ReducibleComponentMapBuilder builder) {
-        Biome.Precipitation biomePrecipitationType = biome.value().getPrecipitation(pos, world.getSeaLevel());
+        Biome.Precipitation biomePrecipitationType = biome.value().getPrecipitation(pos);
         RegistryEntry<EnvironmentProvider> provider = this.precipitationTypeMap.get(biomePrecipitationType);
         if (provider != null) {
             provider.value().buildCurrentComponents(world, pos, biome, builder);

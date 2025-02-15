@@ -5,15 +5,14 @@
     "compatibilityLevel": "JAVA_21",
     "mixins": [
         "ArmorItemMixin",
-        "ComponentMapBuilderAccessor",
+        "accessor.ComponentMapBuilderAccessor",
         "EnvironmentAwareEntityMixin",
         "HotFloorMixin",
         "LivingEntityAttributeMixin",
         "LivingEntityEnvironmentTickMixin",
         "PlayerTemperatureTickMixin",
         "ServerPlayerMixin",
-        "accessor.ComponentMapBuilderAccessor",
-        "datafix.AttributeIdPrefixFixMixin"
+        "accessor.ComponentMapBuilderAccessor"
     ],
     "injectors": {
         "defaultRequire": 1

@@ -6,7 +6,7 @@ import com.github.thedeathlycow.thermoo.api.environment.component.TemperatureRec
 import com.github.thedeathlycow.thermoo.api.util.TemperatureRecord;
 import com.github.thedeathlycow.thermoo.api.util.TemperatureUnit;
 import net.minecraft.component.ComponentMap;
-import net.minecraft.component.MergedComponentMap;
+import net.minecraft.component.ComponentMapImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -24,7 +24,7 @@ class ReducibleComponentMapBuilderTest {
         var t2 = new TemperatureRecordComponent(new TemperatureRecord(10, TemperatureUnit.CELSIUS));
         var t3 = new TemperatureRecordComponent(new TemperatureRecord(-5, TemperatureUnit.CELSIUS));
 
-        MergedComponentMap m1 = new MergedComponentMap(
+        ComponentMapImpl m1 = new ComponentMapImpl(
                 ComponentMap.builder()
                         .add(EnvironmentComponentTypes.TEMPERATURE, t1)
                         .build()

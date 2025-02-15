@@ -82,7 +82,7 @@ public final class EnvironmentTestHelper {
     }
 
     public static RegistryEntry<Biome> getBiomeEntry(DynamicRegistryManager manager, RegistryKey<Biome> biomeKey) {
-        return manager.getOrThrow(RegistryKeys.BIOME)
+        return manager.get(RegistryKeys.BIOME)
                 .getEntry(biomeKey.getValue())
                 .orElseThrow();
     }

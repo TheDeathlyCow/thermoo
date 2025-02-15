@@ -56,7 +56,7 @@ public class EnvironmentLookupImpl implements EnvironmentLookup {
         return this.biomeProviderCache.computeIfAbsent(
                 key,
                 k -> {
-                    List<RegistryEntry<EnvironmentProvider>> providers = manager.getOrThrow(ThermooRegistryKeys.ENVIRONMENT)
+                    List<RegistryEntry<EnvironmentProvider>> providers = manager.get(ThermooRegistryKeys.ENVIRONMENT)
                             .stream()
                             .filter(definition -> definition.providesFor(biome))
                             .map(EnvironmentDefinition::provider)
