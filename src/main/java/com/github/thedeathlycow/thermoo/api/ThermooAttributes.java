@@ -81,7 +81,7 @@ public final class ThermooAttributes {
      * @see #ENVIRONMENT_FROST_RESISTANCE
      */
     public static final RegistryEntry<EntityAttribute> ENVIRONMENT_HEAT_RESISTANCE = register(
-            "environment_heat_resistance",
+            "generic.environment_heat_resistance",
             new ClampedEntityAttribute(
                     "attribute.thermoo.environment_heat_resistance", 0.0, 0.0, 1.0
             ).setTracked(true)
@@ -95,7 +95,7 @@ public final class ThermooAttributes {
      * @see #ENVIRONMENT_HEAT_RESISTANCE
      */
     public static final RegistryEntry<EntityAttribute> ENVIRONMENT_FROST_RESISTANCE = register(
-            "environment_frost_resistance",
+            "generic.environment_frost_resistance",
             new ClampedEntityAttribute(
                     "attribute.thermoo.environment_frost_resistance", 0.0, 0.0, 1.0
             ).setTracked(true)
