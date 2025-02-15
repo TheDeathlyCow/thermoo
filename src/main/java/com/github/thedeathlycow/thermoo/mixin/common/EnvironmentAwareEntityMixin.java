@@ -17,6 +17,7 @@ import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -30,9 +31,11 @@ public abstract class EnvironmentAwareEntityMixin extends Entity implements Temp
     @Shadow
     public abstract boolean canBreatheInWater();
 
-    @Shadow public abstract double getAttributeValue(RegistryEntry<EntityAttribute> attribute);
+    @Shadow
+    public abstract double getAttributeValue(RegistryEntry<EntityAttribute> attribute);
 
-    @Shadow public abstract boolean hasStatusEffect(RegistryEntry<StatusEffect> effect);
+    @Shadow
+    public abstract boolean hasStatusEffect(RegistryEntry<StatusEffect> effect);
 
     public EnvironmentAwareEntityMixin(EntityType<?> type, World world) {
         super(type, world);
@@ -100,6 +103,16 @@ public abstract class EnvironmentAwareEntityMixin extends Entity implements Temp
     }
 
     @Override
+    public double thermoo$getEnvironmentColdResistance() {
+        return this.getAttributeValue(ThermooAttributes.ENVIRONMENT_FROST_RESISTANCE);
+    }
+
+    @Override
+    public double thermoo$getEnvironmentHeatResistance() {
+        return this.getAttributeValue(ThermooAttributes.ENVIRONMENT_HEAT_RESISTANCE);
+    }
+
+    @Override
     public boolean thermoo$canFreeze() {
 
         EntityType<?> type = this.getType();
@@ -155,6 +168,11 @@ public abstract class EnvironmentAwareEntityMixin extends Entity implements Temp
         this.thermoo$setTemperature(currentTemperature + modifiedChange);
     }
 
+    @Override
+    public Random thermoo$getRandom() {
+        return this.random;
+    }
+
     @Inject(
             method = "createLivingAttributes",
             at = @At("TAIL")
@@ -167,5 +185,7 @@ public abstract class EnvironmentAwareEntityMixin extends Entity implements Temp
         builder.add(ThermooAttributes.MAX_TEMPERATURE);
         builder.add(ThermooAttributes.FROST_RESISTANCE);
         builder.add(ThermooAttributes.HEAT_RESISTANCE);
+        builder.add(ThermooAttributes.ENVIRONMENT_HEAT_RESISTANCE);
+        builder.add(ThermooAttributes.ENVIRONMENT_FROST_RESISTANCE);
     }
 }

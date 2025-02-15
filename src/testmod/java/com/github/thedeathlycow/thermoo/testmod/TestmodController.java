@@ -24,22 +24,6 @@ public class TestmodController extends EnvironmentControllerDecorator {
     }
 
     @Override
-    public int getLocalTemperatureChange(World world, BlockPos pos) {
-        if (world.getDimension().natural()) {
-            Biome biome = world.getBiome(pos).value();
-            float temperature = biome.getTemperature();
-            return this.getTempChangeFromBiomeTemperature(
-                    world,
-                    temperature,
-                    !biome.hasPrecipitation()
-            );
-        } else if (world.getDimension().ultrawarm()) {
-            return ThermooTestMod.getConfig().environmentConfig.getUltrawarmWarmRate();
-        }
-        return 0;
-    }
-
-    @Override
     public int getSoakChange(Soakable soakable) {
 
         if (!(soakable instanceof LivingEntity entity)) {

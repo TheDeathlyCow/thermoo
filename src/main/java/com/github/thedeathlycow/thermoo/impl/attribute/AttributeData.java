@@ -29,6 +29,14 @@ public enum AttributeData {
     HEAT_RESISTANCE(
             Thermoo.id("base_heat_resistance"),
             ThermooAttributes.HEAT_RESISTANCE
+    ),
+    ENVIRONMENT_HEAT_RESISTANCE(
+            Thermoo.id("base_environment_heat_resistance"),
+            ThermooAttributes.ENVIRONMENT_HEAT_RESISTANCE
+    ),
+    ENVIRONMENT_FROST_RESISTANCE(
+            Thermoo.id("base_environment_frost_resistance"),
+            ThermooAttributes.ENVIRONMENT_FROST_RESISTANCE
     );
 
     private final Identifier id;
