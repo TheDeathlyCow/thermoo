@@ -9,7 +9,7 @@ import net.minecraft.util.math.MathHelper;
  * @deprecated Temperature unit to temperature point change conversion is no longer bijective. Use {@link com.github.thedeathlycow.thermoo.api.environment.event.ServerPlayerEnvironmentTickEvents}
  * for one-way conversions of temperature units to temperature points.
  */
-@Deprecated(since = "5.2")
+@Deprecated(since = "4.4")
 public class TemperatureConverter {
     /**
      * Converts an ambient Celsius temperature value to a per tick Thermoo passive temperature point change.

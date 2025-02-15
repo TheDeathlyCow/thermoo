@@ -13,7 +13,7 @@ import java.util.function.Function;
  *
  * @deprecated Replaced with {@link com.github.thedeathlycow.thermoo.api.environment.EnvironmentLookup}
  */
-@Deprecated(since = "5.2")
+@Deprecated(since = "4.4")
 public final class EnvironmentManager {
 
     /**

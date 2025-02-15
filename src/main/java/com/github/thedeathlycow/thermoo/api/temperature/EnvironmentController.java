@@ -60,7 +60,7 @@ public sealed interface EnvironmentController permits EnvironmentControllerDecor
      * @return The passive temperature change at {@code pos} in {@code world}.
      * @deprecated Replaced with {@link com.github.thedeathlycow.thermoo.api.environment.event.ServerPlayerEnvironmentTickEvents}
      */
-    @Deprecated(since = "5.2")
+    @Deprecated(since = "4.4")
     int getLocalTemperatureChange(World world, BlockPos pos);
 
     /**
@@ -74,7 +74,7 @@ public sealed interface EnvironmentController permits EnvironmentControllerDecor
      * @return Returns the passive environmental temperature change for the player this tick
      * @deprecated Replaced with {@link com.github.thedeathlycow.thermoo.api.environment.event.ServerPlayerEnvironmentTickEvents}
      */
-    @Deprecated(since = "5.2")
+    @Deprecated(since = "4.4")
     default int getEnvironmentTemperatureForPlayer(PlayerEntity player, int localTemperature) {
         return localTemperature;
     }
@@ -87,7 +87,7 @@ public sealed interface EnvironmentController permits EnvironmentControllerDecor
      * @return Returns the temperature change that should be applied
      * @deprecated Use the active effects in {@link com.github.thedeathlycow.thermoo.api.temperature.event.LivingEntityTemperatureTickEvents}
      */
-    @Deprecated(since = "5.2")
+    @Deprecated(since = "4.4")
     int getTemperatureEffectsChange(LivingEntity entity);
 
     /**
@@ -106,7 +106,7 @@ public sealed interface EnvironmentController permits EnvironmentControllerDecor
      * @return Returns the heat to apply each tick to entities standing on the block state
      * @deprecated Use the passive effects in {@link com.github.thedeathlycow.thermoo.api.temperature.event.LivingEntityTemperatureTickEvents}
      */
-    @Deprecated(since = "5.2")
+    @Deprecated(since = "4.4")
     int getFloorTemperature(LivingEntity entity, World world, BlockState state, BlockPos pos);
 
     /**
@@ -142,7 +142,7 @@ public sealed interface EnvironmentController permits EnvironmentControllerDecor
      * @return Returns the temperature change that should be applied from nearby temperature sources.
      * @deprecated Use the passive effects in  {@link com.github.thedeathlycow.thermoo.api.temperature.event.LivingEntityTemperatureTickEvents}
      */
-    @Deprecated(since = "5.2")
+    @Deprecated(since = "4.4")
     int getHeatAtLocation(World world, BlockPos pos);
 
     /**
@@ -157,7 +157,7 @@ public sealed interface EnvironmentController permits EnvironmentControllerDecor
      * @return Returns {@code locationHeat} by default.
      * @deprecated Use the passive effects in {@link com.github.thedeathlycow.thermoo.api.temperature.event.LivingEntityTemperatureTickEvents}
      */
-    @Deprecated(since = "5.2")
+    @Deprecated(since = "4.4")
     default int applyAwareHeat(TemperatureAware temperatureAware, int locationHeat) {
         return locationHeat;
     }
@@ -169,7 +169,7 @@ public sealed interface EnvironmentController permits EnvironmentControllerDecor
      * @return The warmth that the state produces around it
      * @deprecated Use the passive effects in {@link com.github.thedeathlycow.thermoo.api.temperature.event.LivingEntityTemperatureTickEvents}
      */
-    @Deprecated(since = "5.2")
+    @Deprecated(since = "4.4")
     int getHeatFromBlockState(BlockState state);
 
     /**
@@ -180,7 +180,7 @@ public sealed interface EnvironmentController permits EnvironmentControllerDecor
      * @see EnvironmentController#getHeatFromBlockState(BlockState)
      * @deprecated Use the passive effects in {@link com.github.thedeathlycow.thermoo.api.temperature.event.LivingEntityTemperatureTickEvents}
      */
-    @Deprecated(since = "5.2")
+    @Deprecated(since = "4.4")
     boolean isHeatSource(BlockState state);
 
     /**
@@ -191,7 +191,7 @@ public sealed interface EnvironmentController permits EnvironmentControllerDecor
      * @see EnvironmentController#getHeatFromBlockState(BlockState)
      * @deprecated Use the passive effects in {@link com.github.thedeathlycow.thermoo.api.temperature.event.LivingEntityTemperatureTickEvents}
      */
-    @Deprecated(since = "5.2")
+    @Deprecated(since = "4.4")
     boolean isColdSource(BlockState state);
 
     /**
@@ -203,6 +203,6 @@ public sealed interface EnvironmentController permits EnvironmentControllerDecor
      * @see EnvironmentController#getHeatAtLocation(World, BlockPos)
      * @deprecated Use the passive effects in {@link com.github.thedeathlycow.thermoo.api.temperature.event.LivingEntityTemperatureTickEvents}
      */
-    @Deprecated(since = "5.2")
+    @Deprecated(since = "4.4")
     boolean isAreaHeated(World world, BlockPos pos);
 }

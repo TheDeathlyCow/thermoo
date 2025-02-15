@@ -63,7 +63,7 @@ public abstract non-sealed class EnvironmentControllerDecorator implements Envir
      * @deprecated Replaced with {@link com.github.thedeathlycow.thermoo.api.environment.event.ServerPlayerEnvironmentTickEvents}
      */
     @Override
-    @Deprecated(since = "5.2")
+    @Deprecated(since = "4.4")
     public int getLocalTemperatureChange(World world, BlockPos pos) {
         return controller.getLocalTemperatureChange(world, pos);
     }
@@ -72,7 +72,7 @@ public abstract non-sealed class EnvironmentControllerDecorator implements Envir
      * @deprecated Replaced with {@link com.github.thedeathlycow.thermoo.api.environment.event.ServerPlayerEnvironmentTickEvents}
      */
     @Override
-    @Deprecated(since = "5.2")
+    @Deprecated(since = "4.4")
     public int getEnvironmentTemperatureForPlayer(PlayerEntity player, int localTemperature) {
         return controller.getEnvironmentTemperatureForPlayer(player, localTemperature);
     }
@@ -81,7 +81,7 @@ public abstract non-sealed class EnvironmentControllerDecorator implements Envir
      * @deprecated Replaced with active effects in {@link com.github.thedeathlycow.thermoo.api.temperature.event.LivingEntityTemperatureTickEvents}
      */
     @Override
-    @Deprecated(since = "5.2")
+    @Deprecated(since = "4.4")
     public int getTemperatureEffectsChange(LivingEntity entity) {
         return controller.getTemperatureEffectsChange(entity);
     }
@@ -90,7 +90,7 @@ public abstract non-sealed class EnvironmentControllerDecorator implements Envir
      * @deprecated Replaced with passive effects in {@link com.github.thedeathlycow.thermoo.api.temperature.event.LivingEntityTemperatureTickEvents}
      */
     @Override
-    @Deprecated(since = "5.2")
+    @Deprecated(since = "4.4")
     public int getFloorTemperature(LivingEntity entity, World world, BlockState state, BlockPos pos) {
         return controller.getFloorTemperature(entity, world, state, pos);
     }
@@ -109,7 +109,7 @@ public abstract non-sealed class EnvironmentControllerDecorator implements Envir
      * @deprecated Replaced with passive effects in {@link com.github.thedeathlycow.thermoo.api.temperature.event.LivingEntityTemperatureTickEvents}
      */
     @Override
-    @Deprecated(since = "5.2")
+    @Deprecated(since = "4.4")
     public int getHeatAtLocation(World world, BlockPos pos) {
         return controller.getHeatAtLocation(world, pos);
     }
@@ -118,7 +118,7 @@ public abstract non-sealed class EnvironmentControllerDecorator implements Envir
      * @deprecated Replaced with passive effects in {@link com.github.thedeathlycow.thermoo.api.temperature.event.LivingEntityTemperatureTickEvents}
      */
     @Override
-    @Deprecated(since = "5.2")
+    @Deprecated(since = "4.4")
     public int applyAwareHeat(TemperatureAware temperatureAware, int locationHeat) {
         return controller.applyAwareHeat(temperatureAware, locationHeat);
     }
@@ -127,7 +127,7 @@ public abstract non-sealed class EnvironmentControllerDecorator implements Envir
      * @deprecated Replaced with passive effects in {@link com.github.thedeathlycow.thermoo.api.temperature.event.LivingEntityTemperatureTickEvents}
      */
     @Override
-    @Deprecated(since = "5.2")
+    @Deprecated(since = "4.4")
     public int getHeatFromBlockState(BlockState state) {
         return controller.getHeatFromBlockState(state);
     }
@@ -136,7 +136,7 @@ public abstract non-sealed class EnvironmentControllerDecorator implements Envir
      * @deprecated Replaced with passive effects in {@link com.github.thedeathlycow.thermoo.api.temperature.event.LivingEntityTemperatureTickEvents}
      */
     @Override
-    @Deprecated(since = "5.2")
+    @Deprecated(since = "4.4")
     public boolean isHeatSource(BlockState state) {
         return controller.isHeatSource(state);
     }
@@ -145,7 +145,7 @@ public abstract non-sealed class EnvironmentControllerDecorator implements Envir
      * @deprecated Replaced with passive effects in {@link com.github.thedeathlycow.thermoo.api.temperature.event.LivingEntityTemperatureTickEvents}
      */
     @Override
-    @Deprecated(since = "5.2")
+    @Deprecated(since = "4.4")
     public boolean isColdSource(BlockState state) {
         return controller.isColdSource(state);
     }
@@ -154,7 +154,7 @@ public abstract non-sealed class EnvironmentControllerDecorator implements Envir
      * @deprecated Replaced with passive effects in {@link com.github.thedeathlycow.thermoo.api.temperature.event.LivingEntityTemperatureTickEvents}
      */
     @Override
-    @Deprecated(since = "5.2")
+    @Deprecated(since = "4.4")
     public boolean isAreaHeated(World world, BlockPos pos) {
         return controller.isAreaHeated(world, pos);
     }
