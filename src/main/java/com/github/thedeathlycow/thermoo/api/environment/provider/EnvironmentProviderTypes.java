@@ -56,6 +56,13 @@ public final class EnvironmentProviderTypes {
      */
     public static final EnvironmentProviderType<WeatherStateEnvironmentProvider> WEATHER_STATE = new EnvironmentProviderType<>(WeatherStateEnvironmentProvider.CODEC);
 
+    /**
+     * A provider that picks a child provider based on what kind of precipitation a biome receives
+     *
+     * @see BiomePrecipitationTypeEnvironmentProvider
+     */
+    public static final EnvironmentProviderType<BiomePrecipitationTypeEnvironmentProvider> PRECIPITATION_TYPE = new EnvironmentProviderType<>(BiomePrecipitationTypeEnvironmentProvider.CODEC);
+
     private EnvironmentProviderTypes() {
 
     }
