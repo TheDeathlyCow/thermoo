@@ -164,7 +164,7 @@ public class LightThresholdLightProvider implements EnvironmentProvider {
     /**
      * Builder class for light threshold providers
      */
-    public static class Builder {
+    public static final class Builder {
         @Nullable
         private LightType lightType = null;
         private boolean applyAmbientDarkness = true;
