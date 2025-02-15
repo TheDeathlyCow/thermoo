@@ -10,7 +10,10 @@ import java.util.function.Function;
 
 /**
  * Controls what instance of the {@link EnvironmentManager} is to be used by Thermoo events
+ *
+ * @deprecated Replaced with {@link com.github.thedeathlycow.thermoo.api.environment.EnvironmentLookup}
  */
+@Deprecated(since = "5.2")
 public final class EnvironmentManager {
 
     /**

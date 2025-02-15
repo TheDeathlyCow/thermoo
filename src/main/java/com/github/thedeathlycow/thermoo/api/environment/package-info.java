@@ -1,4 +1,4 @@
 /**
- * Datapack capabilities for environment temperature and humidity
+ * Datapack capabilities for environment effects
  */
 package com.github.thedeathlycow.thermoo.api.environment;

@@ -15,11 +15,14 @@ import net.minecraft.command.argument.BlockPosArgumentType;
 import net.minecraft.command.argument.EntityArgumentType;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.server.command.ServerCommandSource;
+import net.minecraft.text.Style;
 import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.biome.Biome;
 import org.jetbrains.annotations.Contract;
 
+import java.awt.*;
 import java.util.function.Supplier;
 
 import static net.minecraft.server.command.CommandManager.argument;
@@ -204,6 +207,7 @@ public class EnvironmentCommand {
         );
     }
 
+    @Deprecated
     private static int printController(ServerCommandSource source) {
         String controller = EnvironmentManager.INSTANCE.getController().toString();
 
@@ -211,6 +215,14 @@ public class EnvironmentCommand {
                 "commands.thermoo.environment.printcontroller.success",
                 "Controller logged to console"
         ), false);
+        source.sendFeedback(
+                () -> Text.translatableWithFallback(
+                        "commands.thermoo.environment.printcontroller.deprecation",
+                        "This command is deprecated, the Environment Controller has been replaced with the Environment Datapack Registry."
+                ).formatted(Formatting.RED),
+                false
+        );
+
         Thermoo.LOGGER.info("The current controller is: {}", controller);
         return 0;
     }
@@ -267,6 +279,7 @@ public class EnvironmentCommand {
         return (int) (scaledHumidity);
     }
 
+    @Deprecated
     private static int executeCheckTemperature(ServerCommandSource source, BlockPos location) {
 
         int temperatureChange = EnvironmentManager.INSTANCE.getController().getLocalTemperatureChange(
@@ -289,10 +302,18 @@ public class EnvironmentCommand {
                 ),
                 false
         );
+        source.sendFeedback(
+                () -> Text.translatableWithFallback(
+                        "commands.thermoo.environment.checktemperature.deprecation",
+                        "This command is deprecated, use /thermoo environment temperature <pos>"
+                ).formatted(Formatting.RED),
+                false
+        );
 
         return temperatureChange;
     }
 
+    @Deprecated
     private static int executeCheckTemperature(ServerCommandSource source, BlockPos location, TemperatureUnit unit) {
 
         int temperatureTick = EnvironmentManager.INSTANCE.getController().getLocalTemperatureChange(
@@ -319,6 +340,13 @@ public class EnvironmentCommand {
                         String.format("%.2f", temperature),
                         unit.getUnitSymbol()
                 ),
+                false
+        );
+        source.sendFeedback(
+                () -> Text.translatableWithFallback(
+                        "commands.thermoo.environment.checktemperature.deprecation",
+                        "This command is deprecated, use /thermoo environment temperature <pos>"
+                ).formatted(Formatting.RED),
                 false
         );
 
