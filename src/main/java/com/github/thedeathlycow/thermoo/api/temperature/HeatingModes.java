@@ -36,7 +36,8 @@ public enum HeatingModes implements HeatingMode, StringIdentifiable {
      * Only applies thermal resistance when the target is currently in the relevant temperature range. For example, cold
      * resistance is only applied to targets that are cold; and heat resistance only to targets that are warm.
      * <p>
-     * Used for passive environmental effects, such as the temperature change of a biome or of a torch.
+     * Used for passive effects, such as the temperature change of standing on ice or being near to a torch. This is not used for the
+     * environment temperature in {@link com.github.thedeathlycow.thermoo.api.environment.event.ServerPlayerEnvironmentTickEvents}.
      */
     PASSIVE("passive") {
         @Override

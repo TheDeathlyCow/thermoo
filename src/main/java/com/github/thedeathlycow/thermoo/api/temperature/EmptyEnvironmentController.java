@@ -10,7 +10,10 @@ import net.minecraft.world.World;
 /**
  * The most basic concrete implementation of the environment controller. All methods return either {@code 0},
  * {@code false}, or {@code null}.
+ *
+ * @deprecated Replaced with {@linkplain com.github.thedeathlycow.thermoo.api.environment.EnvironmentDefinition the environment datapack registry}
  */
+@Deprecated
 public final class EmptyEnvironmentController implements EnvironmentController {
 
     /**
