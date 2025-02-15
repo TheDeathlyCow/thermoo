@@ -53,6 +53,13 @@ public final class EnvironmentProviderTypes {
      */
     public static final EnvironmentProviderType<LightThresholdLightProvider> LIGHT_THRESHOLD = new EnvironmentProviderType<>(LightThresholdLightProvider.CODEC);
 
+    /**
+     * A provider that picks a child provider based on what kind of precipitation a biome receives
+     *
+     * @see BiomePrecipitationTypeEnvironmentProvider
+     */
+    public static final EnvironmentProviderType<BiomePrecipitationTypeEnvironmentProvider> PRECIPITATION_TYPE = new EnvironmentProviderType<>(BiomePrecipitationTypeEnvironmentProvider.CODEC);
+
     private EnvironmentProviderTypes() {
 
     }
