@@ -28,6 +28,8 @@ public class ThermooCommonRegisters {
         registerEnvironmentProviderType("seasonal/tropical", EnvironmentProviderTypes.TROPICAL_SEASONAL);
         registerEnvironmentProviderType("reduce_sequence", EnvironmentProviderTypes.REDUCE_SEQUENCE);
         registerEnvironmentProviderType("light_threshold", EnvironmentProviderTypes.LIGHT_THRESHOLD);
+        registerEnvironmentProviderType("weather_state", EnvironmentProviderTypes.WEATHER_STATE);
+        registerEnvironmentProviderType("precipitation_type", EnvironmentProviderTypes.PRECIPITATION_TYPE);
     }
 
     public static void registerLootConditionTypes() {
