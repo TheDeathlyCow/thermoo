@@ -34,7 +34,7 @@ public final class ServerPlayerTickUtil {
         int temperatureChange = ServerPlayerEnvironmentTickEvents.GET_TEMPERATURE_CHANGE.invoker().addPointChange(context);
 
         if (temperatureChange != 0 && invokeAllowChange(context, temperatureChange)) {
-            player.thermoo$addTemperature(temperatureChange, HeatingModes.PASSIVE);
+            player.thermoo$addTemperature(temperatureChange, EnvironmentHeatingMode.INSTANCE);
         }
     }
 

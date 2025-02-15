@@ -2,6 +2,7 @@ package com.github.thedeathlycow.thermoo.api;
 
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import com.github.thedeathlycow.thermoo.impl.attribute.AttributeData;
+import com.github.thedeathlycow.thermoo.impl.environment.EnvironmentHeatingMode;
 import net.fabricmc.fabric.api.event.Event;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.ClampedEntityAttribute;
@@ -22,9 +23,6 @@ public final class ThermooAttributes {
      * Note that this is separate from {@link #MAX_TEMPERATURE}. Each point of this attribute is decreases the minimum
      * temperature of an entity by 140 points (140 points is the maximum number of freezing ticks that entities may have
      * for powder snow freezing in vanilla).
-     * <p>
-     * To set its base value, use {@link com.github.thedeathlycow.thermoo.api.temperature.EnvironmentController#getBaseValueForAttribute(RegistryEntry, LivingEntity)}
-     * and check that this attribute is the provided attribute argument.
      *
      * @see #MAX_TEMPERATURE
      */
@@ -41,9 +39,6 @@ public final class ThermooAttributes {
      * Note that this is separate from {@link #MIN_TEMPERATURE}. Each point of this attribute is increases the maximum
      * temperature of an entity by 140 points (140 points is the maximum number of freezing ticks that entities may have
      * for powder snow freezing in vanilla).
-     * <p>
-     * To set its base value, use {@link com.github.thedeathlycow.thermoo.api.temperature.EnvironmentController#getBaseValueForAttribute(RegistryEntry, LivingEntity)}
-     * and check that this attribute is the provided attribute argument.
      *
      * @see #MIN_TEMPERATURE
      */
@@ -56,9 +51,6 @@ public final class ThermooAttributes {
 
     /**
      * The cold resistance of an entity. 1 point of frost resistance corresponds to a 10% cold reduction
-     * <p>
-     * To set its base value, use {@link com.github.thedeathlycow.thermoo.api.temperature.EnvironmentController#getBaseValueForAttribute(RegistryEntry, LivingEntity)}
-     * and check that this attribute is the provided attribute argument.
      *
      * @see #HEAT_RESISTANCE
      */
@@ -71,9 +63,6 @@ public final class ThermooAttributes {
 
     /**
      * The heat resistance of an entity. 1 point of heat resistance corresponds to a 10% heat reduction
-     * <p>
-     * To set its base value, use {@link com.github.thedeathlycow.thermoo.api.temperature.EnvironmentController#getBaseValueForAttribute(RegistryEntry, LivingEntity)}
-     * and check that this attribute is the provided attribute argument.
      *
      * @see #FROST_RESISTANCE
      */
@@ -81,6 +70,34 @@ public final class ThermooAttributes {
             "generic.heat_resistance",
             new ClampedEntityAttribute(
                     "attribute.thermoo.generic.heat_resistance", 0.0, -10.0, 10.0
+            ).setTracked(true)
+    );
+
+    /**
+     * The environment heat resistance of an entity. Environment heat resistance does not reduce the amount of heat
+     * during a temperature change, but instead provides a chance to "dodge" the change all together. It is used ONLY
+     * for {@link com.github.thedeathlycow.thermoo.api.environment.event.ServerPlayerEnvironmentTickEvents environment temperature changes}.
+     *
+     * @see #ENVIRONMENT_FROST_RESISTANCE
+     */
+    public static final RegistryEntry<EntityAttribute> ENVIRONMENT_HEAT_RESISTANCE = register(
+            "environment_heat_resistance",
+            new ClampedEntityAttribute(
+                    "attribute.thermoo.environment_heat_resistance", 0.0, 0.0, 1.0
+            ).setTracked(true)
+    );
+
+    /**
+     * The environment frost resistance of an entity. Environment frost resistance does not reduce the amount of cold
+     * during a temperature change, but instead provides a chance to "dodge" the change all together. It is used ONLY
+     * for {@link com.github.thedeathlycow.thermoo.api.environment.event.ServerPlayerEnvironmentTickEvents environment temperature changes}.
+     *
+     * @see #ENVIRONMENT_HEAT_RESISTANCE
+     */
+    public static final RegistryEntry<EntityAttribute> ENVIRONMENT_FROST_RESISTANCE = register(
+            "environment_frost_resistance",
+            new ClampedEntityAttribute(
+                    "attribute.thermoo.environment_frost_resistance", 0.0, 0.0, 1.0
             ).setTracked(true)
     );
 
