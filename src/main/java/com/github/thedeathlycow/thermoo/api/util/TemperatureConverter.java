@@ -6,8 +6,8 @@ import net.minecraft.util.math.MathHelper;
  * Helper API for conversions between normal temperature units (like Celsius and Fahrenheit) to per-tick temperature
  * point changes.
  *
- * @deprecated Temperature unit <-> temperature point change conversion is no longer bijective. Use {@link com.github.thedeathlycow.thermoo.api.environment.event.ServerPlayerEnvironmentTickEvents}
- * to convert temperature units to temperature points.
+ * @deprecated Temperature unit to temperature point change conversion is no longer bijective. Use {@link com.github.thedeathlycow.thermoo.api.environment.event.ServerPlayerEnvironmentTickEvents}
+ * for one-way conversions of temperature units to temperature points.
  */
 @Deprecated
 public class TemperatureConverter {
