@@ -10,24 +10,27 @@ import net.minecraft.world.biome.BiomeKeys;
 
 @SuppressWarnings("unused")
 public class PrecipitationTypeTests {
-    @BeforeBatch(batchId = "rainy")
+    @BeforeBatch(batchId = "snowyPlains_rainy")
     public void setRainyForRainy(ServerWorld world) {
-        world.setWeather(0, 100000, true, false);
+        world.setWeather(0, 20000000, false, false);
+        world.setRainGradient(1f);
     }
 
-    @AfterBatch(batchId = "rainy")
+    @AfterBatch(batchId = "snowyPlains_rainy")
     public void setClearForRainy(ServerWorld world) {
-        world.setWeather(100000, 0, false, false);
+        world.setWeather(20000000, 0, false, false);
+        world.setRainGradient(0f);
     }
 
-    @BeforeBatch(batchId = "sunny")
+    @BeforeBatch(batchId = "snowyPlains_sunny")
     public void setClearForSunny(ServerWorld world) {
-        world.setWeather(100000, 0, false, false);
+        world.setWeather(20000000, 0, false, false);
+        world.setRainGradient(0f);
     }
 
     @GameTest(
             templateName = FabricGameTest.EMPTY_STRUCTURE,
-            batchId = "rainy"
+            batchId = "snowyPlains_rainy"
     )
     public void snowy_plains_has_snowy_temperature_when_not_raining(TestContext context) {
         ServerWorld world = context.getWorld();
@@ -41,7 +44,7 @@ public class PrecipitationTypeTests {
 
     @GameTest(
             templateName = FabricGameTest.EMPTY_STRUCTURE,
-            batchId = "sunny"
+            batchId = "snowyPlains_sunny"
     )
     public void snowy_plains_has_snowy_temperature_when_raining(TestContext context) {
         ServerWorld world = context.getWorld();
