@@ -1,5 +1,11 @@
-package com.github.thedeathlycow.thermoo.api.temperature;
+package com.github.thedeathlycow.thermoo.impl.environment;
 
+import com.github.thedeathlycow.thermoo.api.temperature.HeatingMode;
+import com.github.thedeathlycow.thermoo.api.temperature.TemperatureAware;
+
+/**
+ * A heating mode to apply the environment heat resistances. This is currently only used internally by {@link com.github.thedeathlycow.thermoo.api.environment.event.ServerPlayerEnvironmentTickEvents}
+ */
 public final class EnvironmentHeatingMode implements HeatingMode {
     public static final EnvironmentHeatingMode INSTANCE = new EnvironmentHeatingMode();
 

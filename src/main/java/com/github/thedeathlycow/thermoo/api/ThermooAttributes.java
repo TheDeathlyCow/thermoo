@@ -2,6 +2,7 @@ package com.github.thedeathlycow.thermoo.api;
 
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import com.github.thedeathlycow.thermoo.impl.attribute.AttributeData;
+import com.github.thedeathlycow.thermoo.impl.environment.EnvironmentHeatingMode;
 import net.fabricmc.fabric.api.event.Event;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.ClampedEntityAttribute;
@@ -75,7 +76,7 @@ public final class ThermooAttributes {
     /**
      * The environment heat resistance of an entity. Environment heat resistance does not reduce the amount of heat
      * during a temperature change, but instead provides a chance to "dodge" the change all together. It is used ONLY
-     * for {@link com.github.thedeathlycow.thermoo.api.temperature.EnvironmentHeatingMode environment temperature changes}.
+     * for {@link com.github.thedeathlycow.thermoo.api.environment.event.ServerPlayerEnvironmentTickEvents environment temperature changes}.
      *
      * @see #ENVIRONMENT_FROST_RESISTANCE
      */
@@ -89,7 +90,7 @@ public final class ThermooAttributes {
     /**
      * The environment frost resistance of an entity. Environment frost resistance does not reduce the amount of cold
      * during a temperature change, but instead provides a chance to "dodge" the change all together. It is used ONLY
-     * for {@link com.github.thedeathlycow.thermoo.api.temperature.EnvironmentHeatingMode environment temperature changes}.
+     * for {@link com.github.thedeathlycow.thermoo.api.environment.event.ServerPlayerEnvironmentTickEvents environment temperature changes}.
      *
      * @see #ENVIRONMENT_HEAT_RESISTANCE
      */
