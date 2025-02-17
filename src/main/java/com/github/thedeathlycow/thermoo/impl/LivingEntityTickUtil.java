@@ -27,7 +27,7 @@ public final class LivingEntityTickUtil {
             tickSoakingChange(
                     context,
                     LivingEntitySoakingTickEvents.ALLOW_SOAKING_UPDATE,
-                    LivingEntitySoakingTickEvents.GET_SOAKING_CHANGE,
+                    LivingEntitySoakingTickEvents.ADD_SOAKING_CHANGE,
                     LivingEntitySoakingTickEvents.ALLOW_SOAKING_CHANGE
             );
             tickTemperatureChange(
@@ -91,14 +91,15 @@ public final class LivingEntityTickUtil {
     private static void tickSoakingChange(
             TickContext<LivingEntity> context,
             Event<LivingEntitySoakingTickEvents.AllowSoakingUpdate> allowUpdate,
-            Event<LivingEntitySoakingTickEvents.GetSoakingChange> getTempChange,
+            Event<LivingEntitySoakingTickEvents.GetSoakingChange> addSoakChange,
             Event<LivingEntitySoakingTickEvents.AllowSoakingChange> allowChange
     ) {
         if (allowUpdate.invoker().allowUpdate(context) == TriState.FALSE) {
             return;
         }
 
-        int soakingChange = getTempChange.invoker().addSoaking(context);
+        int soakingChange = addSoakChange.invoker().addChange(context);
+
         if (soakingChange != 0 && allowChange.invoker().allowChange(context, soakingChange) != TriState.FALSE) {
             context.affected().thermoo$addWetTicks(soakingChange);
         }

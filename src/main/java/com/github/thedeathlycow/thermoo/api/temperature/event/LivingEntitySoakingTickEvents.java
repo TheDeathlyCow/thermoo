@@ -11,7 +11,7 @@ import net.minecraft.entity.LivingEntity;
  * <p>
  * These events are invoked in the following order:
  * <ul><li>ALLOW_SOAKING_UPDATE</li>
- * <li>GET_SOAKING_CHANGE</li>
+ * <li>ADD_SOAKING_CHANGE</li>
  * <li>ALLOW_SOAKING_CHANGE</li></ul>
  */
 public final class LivingEntitySoakingTickEvents {
@@ -33,25 +33,27 @@ public final class LivingEntitySoakingTickEvents {
     );
 
     /**
-     * Gets the soaking change update that should be applied to a living entity this update by summing all values
-     * supplied by listeners. May be positive or negative.
+     * Gets the soaking change increase that should be applied to a living entity this update by summing all values
+     * supplied by listeners.
+     * <p>
+     * If the listeners return a sum total of 0, then this event will return -1 (to dry out entities).
      */
-    public static final Event<GetSoakingChange> GET_SOAKING_CHANGE = EventFactory.createArrayBacked(
+    public static final Event<GetSoakingChange> ADD_SOAKING_CHANGE = EventFactory.createArrayBacked(
             GetSoakingChange.class,
             listeners -> context -> {
                 int total = 0;
                 for (GetSoakingChange listener : listeners) {
-                    total += listener.addSoaking(context);
+                    int change = listener.addChange(context);
+                    total += change;
                 }
-                return total;
+                return total == 0 ? -1 : total;
             }
     );
 
     /**
-     * Checks if the final soaking change update calculated by {@link #GET_SOAKING_CHANGE} should be allowed to be applied
-     * to a living entity this tick. Returning any non-default value will force the update to be applied right away.
-     * By default, the update will be allowed to be applied. A soaking change of 0 will not invoke this event, and soaking
-     * changes of 0 will never apply.
+     * Checks if the final soaking change update calculated by {@link #ADD_SOAKING_CHANGE}
+     * should be allowed to be applied to a living entity this tick. Returning any non-default value will force the
+     * update to be applied right away. By default, the update will be allowed to be applied.
      */
     public static final Event<AllowSoakingChange> ALLOW_SOAKING_CHANGE = EventFactory.createArrayBacked(
             AllowSoakingChange.class,
@@ -81,13 +83,13 @@ public final class LivingEntitySoakingTickEvents {
     @FunctionalInterface
     public interface GetSoakingChange {
         /**
-         * Calculates the soaking change that this listener wants to add to a living entity this tick.
+         * Calculates the soaking tick change that this listener wants to add to a living entity this tick.
          *
          * @param context Context of the living entity for the tick.
-         * @return Return the soaking tick change that this listener wants to apply to the entity in the context.
-         * This value is added to the values supplied by the other listeners.
+         * @return Return the soaking tick change that this listener wants to apply to the entity in
+         * the context. This value is added to the values supplied by the other listeners.
          */
-        int addSoaking(TickContext<LivingEntity> context);
+        int addChange(TickContext<LivingEntity> context);
     }
 
     @FunctionalInterface
@@ -96,7 +98,7 @@ public final class LivingEntitySoakingTickEvents {
          * Whether this listener should allow a soaking change update to apply.
          *
          * @param context       Context of the living entity for the tick.
-         * @param soakingChange The actual change in soaking ticks calculated from the {@link GetSoakingChange} listener. This value is non-zero.
+         * @param soakingChange The actual change in soaking ticks calculated from the {@link GetSoakingChange} events. This value is non-zero.
          * @return Return true or false to make the update apply right away, or default to fall back to other listeners.
          * The default behaviour will be to allow the update.
          */
