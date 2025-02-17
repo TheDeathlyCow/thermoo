@@ -11,7 +11,7 @@ import net.minecraft.entity.LivingEntity;
  * <p>
  * These events are invoked in the following order:
  * <ul><li>ALLOW_SOAKING_UPDATE</li>
- * <li>ADD_SOAKING_CHANGE</li>
+ * <li>GET_SOAKING_CHANGE</li>
  * <li>ALLOW_SOAKING_CHANGE</li></ul>
  */
 public final class LivingEntitySoakingTickEvents {
@@ -38,7 +38,7 @@ public final class LivingEntitySoakingTickEvents {
      * <p>
      * If the listeners return a sum total of 0, then this event will return -1 (to dry out entities).
      */
-    public static final Event<GetSoakingChange> ADD_SOAKING_CHANGE = EventFactory.createArrayBacked(
+    public static final Event<GetSoakingChange> GET_SOAKING_CHANGE = EventFactory.createArrayBacked(
             GetSoakingChange.class,
             listeners -> context -> {
                 int total = 0;
@@ -51,7 +51,7 @@ public final class LivingEntitySoakingTickEvents {
     );
 
     /**
-     * Checks if the final soaking change update calculated by {@link #ADD_SOAKING_CHANGE}
+     * Checks if the final soaking change update calculated by {@link #GET_SOAKING_CHANGE}
      * should be allowed to be applied to a living entity this tick. Returning any non-default value will force the
      * update to be applied right away. By default, the update will be allowed to be applied.
      */

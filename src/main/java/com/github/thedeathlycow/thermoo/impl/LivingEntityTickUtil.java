@@ -27,7 +27,7 @@ public final class LivingEntityTickUtil {
             tickSoakingChange(
                     context,
                     LivingEntitySoakingTickEvents.ALLOW_SOAKING_UPDATE,
-                    LivingEntitySoakingTickEvents.ADD_SOAKING_CHANGE,
+                    LivingEntitySoakingTickEvents.GET_SOAKING_CHANGE,
                     LivingEntitySoakingTickEvents.ALLOW_SOAKING_CHANGE
             );
             tickTemperatureChange(

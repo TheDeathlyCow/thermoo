@@ -1,14 +1,11 @@
 package com.github.thedeathlycow.thermoo.testmod;
 
-import com.github.thedeathlycow.thermoo.api.armor.material.ArmorMaterialEvents;
 import com.github.thedeathlycow.thermoo.api.ThermooAttributes;
 import com.github.thedeathlycow.thermoo.api.ThermooRegistries;
+import com.github.thedeathlycow.thermoo.api.armor.material.ArmorMaterialEvents;
 import com.github.thedeathlycow.thermoo.api.season.ThermooSeason;
 import com.github.thedeathlycow.thermoo.api.season.ThermooSeasonEvents;
-import com.github.thedeathlycow.thermoo.api.temperature.event.EnvironmentControllerInitializeEvent;
-import com.github.thedeathlycow.thermoo.api.temperature.event.PlayerEnvironmentEvents;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
-import com.github.thedeathlycow.thermoo.testmod.config.ThermooConfig;
 import com.github.thedeathlycow.thermoo.testmod.tests.util.component.TestReducibleDoubleComponent;
 import com.github.thedeathlycow.thermoo.testmod.tick.TestEnvironmentChanges;
 import com.github.thedeathlycow.thermoo.testmod.tick.TestSoakableChanges;
@@ -16,9 +13,7 @@ import com.github.thedeathlycow.thermoo.testmod.tick.TestTemperatureChanges;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
-import net.fabricmc.fabric.api.util.TriState;
 import net.minecraft.registry.Registry;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.GameRules;
 
@@ -38,8 +33,6 @@ public class ThermooTestMod implements ModInitializer {
                     GameRules.Category.MISC,
                     GameRuleFactory.createIntRule(0, 0, 2)
             );
-
-    private static final ThermooConfig config = new ThermooConfig();
 
     @Override
     public void onInitialize() {
@@ -76,9 +69,4 @@ public class ThermooTestMod implements ModInitializer {
                 TestReducibleDoubleComponent.KEY
         );
     }
-
-    public static ThermooConfig getConfig() {
-        return config;
-    }
-
 }

@@ -1,11 +1,8 @@
 package com.github.thedeathlycow.thermoo.testmod.tick;
 
 import com.github.thedeathlycow.thermoo.api.temperature.event.LivingEntitySoakingTickEvents;
-import com.github.thedeathlycow.thermoo.api.temperature.event.LivingEntityTemperatureTickEvents;
 import com.github.thedeathlycow.thermoo.api.temperature.event.TickContext;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
-import com.github.thedeathlycow.thermoo.testmod.ThermooTestMod;
-import com.github.thedeathlycow.thermoo.testmod.config.ThermooConfig;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
 import net.fabricmc.fabric.api.util.TriState;
@@ -28,35 +25,18 @@ public class TestSoakableChanges {
 
     public static int addSoakingChange(TickContext<LivingEntity> context) {
         LivingEntity entity = context.affected();
-
         int total = 0;
 
-        // add wetness when touching, but not submerged in, water
         if (entity.isTouchingWater() || entity.getBlockStateAtPos().isOf(Blocks.WATER_CAULDRON)) {
-            total += 1;
+            total += 5;
         }
 
-        // immediately soak players in water
         if (entity.isSubmergedInWater()) {
             total = entity.thermoo$getMaxWetTicks();
         }
 
-        return total;
-    }
-
-    public static int addDryingChange(TickContext<LivingEntity> context) {
-        LivingEntity entity = context.affected();
-
-        int total = 0;
-
-        // add wetness when touching, but not submerged in, water
-        if (entity.isTouchingWater() || entity.getBlockStateAtPos().isOf(Blocks.WATER_CAULDRON)) {
-            total += 1;
-        }
-
-        // immediately soak players in water
-        if (entity.isSubmergedInWater()) {
-            total = entity.thermoo$getMaxWetTicks();
+        if (entity.isOnFire()) {
+            total -= 50;
         }
 
         return total;
@@ -67,7 +47,7 @@ public class TestSoakableChanges {
             boolean applyPassiveChanges = context.world().getGameRules().getBoolean(ALLOW_SOAKING_UPDATES);
             return TriState.of(applyPassiveChanges);
         });
-        LivingEntitySoakingTickEvents.ADD_SOAKING_CHANGE.register(TestSoakableChanges::addSoakingChange);
+        LivingEntitySoakingTickEvents.GET_SOAKING_CHANGE.register(TestSoakableChanges::addSoakingChange);
         LivingEntitySoakingTickEvents.ALLOW_SOAKING_CHANGE.register((context, soakingChange) -> {
             if (context.affected().getType() == EntityType.PLAYER && context.affected().age % 20 == 0) {
                 Thermoo.LOGGER.info("Applying soaking change of {} to player", soakingChange);
