@@ -71,22 +71,4 @@ public class TestmodController extends EnvironmentControllerDecorator {
 
         return soakChange;
     }
-
-    private int getTempChangeFromBiomeTemperature(World world, float temperature, boolean isDryBiome) {
-        ThermooConfig config = ThermooTestMod.getConfig();
-        double mul = config.environmentConfig.getBiomeTemperatureMultiplier();
-        double cutoff = config.environmentConfig.getPassiveFreezingCutoffTemp();
-
-        double tempShift = 0.0;
-        if (world.isNight() && config.environmentConfig.doDryBiomeNightFreezing()) {
-            if (isDryBiome) {
-                temperature = Math.min(temperature, config.environmentConfig.getDryBiomeNightTemperature());
-            } else {
-                tempShift = config.environmentConfig.getNightTimeTemperatureDecrease();
-            }
-        }
-
-        return MathHelper.floor(mul * (temperature - cutoff - tempShift) - 1);
-    }
-
 }

@@ -16,7 +16,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.LightType;
 
-public class TestTemperatureChanges implements ModInitializer {
+public class TestTemperatureChanges {
     /**
      * Gamerule to enable/disable passive changes for testing purposes
      */
@@ -75,8 +75,7 @@ public class TestTemperatureChanges implements ModInitializer {
         return total;
     }
 
-    @Override
-    public void onInitialize() {
+    public static void initialize() {
         LivingEntityTemperatureTickEvents.ALLOW_PASSIVE_TEMPERATURE_UPDATE.register(context -> {
             boolean applyPassiveChanges = context.world().getGameRules().getBoolean(APPLY_PASSIVE_CHANGES);
             return TriState.of(applyPassiveChanges);

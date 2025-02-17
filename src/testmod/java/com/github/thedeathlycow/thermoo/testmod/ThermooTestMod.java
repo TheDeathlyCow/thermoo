@@ -11,6 +11,8 @@ import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import com.github.thedeathlycow.thermoo.testmod.config.ThermooConfig;
 import com.github.thedeathlycow.thermoo.testmod.tests.util.component.TestReducibleDoubleComponent;
 import com.github.thedeathlycow.thermoo.testmod.tick.TestEnvironmentChanges;
+import com.github.thedeathlycow.thermoo.testmod.tick.TestSoakableChanges;
+import com.github.thedeathlycow.thermoo.testmod.tick.TestTemperatureChanges;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
@@ -41,13 +43,13 @@ public class ThermooTestMod implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        EnvironmentControllerInitializeEvent.EVENT.register(TestmodController::new);
-
         ArmorMaterialEvents.GET_FROST_RESISTANCE.register(ArmorMaterialListener.COLD);
         ArmorMaterialEvents.GET_HEAT_RESISTANCE.register(ArmorMaterialListener.HEAT);
         ThermooAttributes.baseValueEvent(ThermooAttributes.MIN_TEMPERATURE).register((entity, baseValue) -> 40);
         ThermooAttributes.baseValueEvent(ThermooAttributes.MAX_TEMPERATURE).register((entity, baseValue) -> 40);
 
+        TestTemperatureChanges.initialize();
+        TestSoakableChanges.initialize();
         TestEnvironmentChanges.initialize();
 
         ThermooSeasonEvents.GET_CURRENT_SEASON.register(
