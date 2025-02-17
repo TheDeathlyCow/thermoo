@@ -3,7 +3,7 @@ package com.github.thedeathlycow.thermoo.impl;
 import com.github.thedeathlycow.thermoo.api.temperature.HeatingMode;
 import com.github.thedeathlycow.thermoo.api.temperature.HeatingModes;
 import com.github.thedeathlycow.thermoo.api.temperature.event.LivingEntityTemperatureTickEvents;
-import com.github.thedeathlycow.thermoo.api.temperature.event.TemperatureTickContext;
+import com.github.thedeathlycow.thermoo.api.temperature.event.TickContext;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.util.TriState;
 import net.minecraft.block.BlockState;
@@ -22,7 +22,7 @@ public final class LivingEntityTickUtil {
         }
 
         if (entity.getWorld() instanceof ServerWorld serverWorld) {
-            var context = new TemperatureTickContextImpl(entity, serverWorld, getTemperatureTickPos(entity));
+            var context = new TickContextImpl(entity, serverWorld, getTemperatureTickPos(entity));
             tickChange(
                     context,
                     HeatingModes.PASSIVE,
@@ -64,7 +64,7 @@ public final class LivingEntityTickUtil {
     }
 
     private static void tickChange(
-            TemperatureTickContext<LivingEntity> context,
+            TickContext<LivingEntity> context,
             HeatingMode heatingMode,
             Event<LivingEntityTemperatureTickEvents.AllowTemperatureUpdate> allowUpdate,
             Event<LivingEntityTemperatureTickEvents.GetTemperatureChange> getTempChange,
@@ -80,11 +80,11 @@ public final class LivingEntityTickUtil {
         }
     }
 
-    private record TemperatureTickContextImpl(
+    private record TickContextImpl(
             LivingEntity affected,
             ServerWorld world,
             BlockPos pos
-    ) implements TemperatureTickContext<LivingEntity> {
+    ) implements TickContext<LivingEntity> {
 
     }
 

@@ -1,10 +1,8 @@
 package com.github.thedeathlycow.thermoo.testmod.tick;
 
 import com.github.thedeathlycow.thermoo.api.temperature.event.LivingEntityTemperatureTickEvents;
-import com.github.thedeathlycow.thermoo.api.temperature.event.TemperatureTickContext;
+import com.github.thedeathlycow.thermoo.api.temperature.event.TickContext;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
-import com.github.thedeathlycow.thermoo.testmod.ThermooTestMod;
-import com.github.thedeathlycow.thermoo.testmod.config.ThermooConfig;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
@@ -39,7 +37,7 @@ public class TestTemperatureChanges implements ModInitializer {
                     GameRuleFactory.createBooleanRule(true)
             );
 
-    public static int getActiveChange(TemperatureTickContext<LivingEntity> context) {
+    public static int getActiveChange(TickContext<LivingEntity> context) {
         LivingEntity affected = context.affected();
         int total = 0;
 
@@ -54,7 +52,7 @@ public class TestTemperatureChanges implements ModInitializer {
         return total;
     }
 
-    public static int getPassiveChange(TemperatureTickContext<LivingEntity> context) {
+    public static int getPassiveChange(TickContext<LivingEntity> context) {
         LivingEntity affected = context.affected();
         ServerWorld world = context.world();
         BlockPos pos = context.pos();

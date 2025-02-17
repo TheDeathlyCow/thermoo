@@ -153,7 +153,7 @@ public final class LivingEntityTemperatureTickEvents {
          * @return Return true or false to make the update happen right away, or default to fall back to other listeners.
          * The default behaviour will be to allow the update.
          */
-        TriState allowUpdate(TemperatureTickContext<LivingEntity> context);
+        TriState allowUpdate(TickContext<LivingEntity> context);
     }
 
     @FunctionalInterface
@@ -164,7 +164,7 @@ public final class LivingEntityTemperatureTickEvents {
          * @param context Context of the living entity for the tick.
          * @return Return the temperature point change that this listener wants to apply to the entity in the context.
          */
-        int addTemperature(TemperatureTickContext<LivingEntity> context);
+        int addTemperature(TickContext<LivingEntity> context);
     }
 
     @FunctionalInterface
@@ -177,7 +177,7 @@ public final class LivingEntityTemperatureTickEvents {
          * @return Return true or false to make the update apply right away, or default to fall back to other listeners.
          * The default behaviour will be to allow the update.
          */
-        TriState allowChange(TemperatureTickContext<LivingEntity> context, int temperatureChange);
+        TriState allowChange(TickContext<LivingEntity> context, int temperatureChange);
     }
 
     private LivingEntityTemperatureTickEvents() {

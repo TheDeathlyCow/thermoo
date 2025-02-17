@@ -1,14 +1,12 @@
 package com.github.thedeathlycow.thermoo.api.environment.event;
 
 import com.github.thedeathlycow.thermoo.api.environment.component.EnvironmentComponentTypes;
+import com.github.thedeathlycow.thermoo.api.temperature.Soakable;
 import com.github.thedeathlycow.thermoo.api.temperature.TemperatureAware;
-import com.github.thedeathlycow.thermoo.api.temperature.event.TemperatureTickContext;
+import com.github.thedeathlycow.thermoo.api.temperature.event.TickContext;
 import net.minecraft.component.ComponentMap;
 import net.minecraft.component.ComponentType;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.BlockPos;
 import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * Context objects for environmental temperature ticking events on temperature awares
@@ -16,7 +14,7 @@ import org.jetbrains.annotations.NotNull;
  * @param <T> The temperature aware type
  */
 @ApiStatus.NonExtendable
-public interface EnvironmentTickContext<T extends TemperatureAware> extends TemperatureTickContext<T> {
+public interface EnvironmentTickContext<T extends TemperatureAware & Soakable> extends TickContext<T> {
     /**
      * The current environment components at the world and position.
      * <p>
