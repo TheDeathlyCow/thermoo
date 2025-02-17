@@ -2,6 +2,7 @@ package com.github.thedeathlycow.thermoo.impl;
 
 import com.github.thedeathlycow.thermoo.api.temperature.HeatingMode;
 import com.github.thedeathlycow.thermoo.api.temperature.HeatingModes;
+import com.github.thedeathlycow.thermoo.api.temperature.event.LivingEntitySoakingTickEvents;
 import com.github.thedeathlycow.thermoo.api.temperature.event.LivingEntityTemperatureTickEvents;
 import com.github.thedeathlycow.thermoo.api.temperature.event.TickContext;
 import net.fabricmc.fabric.api.event.Event;
@@ -23,7 +24,13 @@ public final class LivingEntityTickUtil {
 
         if (entity.getWorld() instanceof ServerWorld serverWorld) {
             var context = new TickContextImpl(entity, serverWorld, getTemperatureTickPos(entity));
-            tickChange(
+            tickSoakingChange(
+                    context,
+                    LivingEntitySoakingTickEvents.ALLOW_SOAKING_UPDATE,
+                    LivingEntitySoakingTickEvents.GET_SOAKING_CHANGE,
+                    LivingEntitySoakingTickEvents.ALLOW_SOAKING_CHANGE
+            );
+            tickTemperatureChange(
                     context,
                     HeatingModes.PASSIVE,
                     LivingEntityTemperatureTickEvents.ALLOW_PASSIVE_TEMPERATURE_UPDATE,
@@ -31,7 +38,7 @@ public final class LivingEntityTickUtil {
                     LivingEntityTemperatureTickEvents.ALLOW_PASSIVE_TEMPERATURE_CHANGE
             );
 
-            tickChange(
+            tickTemperatureChange(
                     context,
                     HeatingModes.ACTIVE,
                     LivingEntityTemperatureTickEvents.ALLOW_ACTIVE_TEMPERATURE_UPDATE,
@@ -48,22 +55,23 @@ public final class LivingEntityTickUtil {
      */
     public static BlockPos getTemperatureTickPos(LivingEntity entity) {
         Vec3d pos = entity.getPos();
+        final float offset = 0.21f;
         if (entity.supportingBlockPos.isPresent()) {
             BlockPos blockPos = entity.supportingBlockPos.get();
             BlockState blockState = entity.getWorld().getBlockState(blockPos);
             return !blockState.isIn(BlockTags.FENCES) && !blockState.isIn(BlockTags.WALLS) && !(blockState.getBlock() instanceof FenceGateBlock)
-                    ? blockPos.withY(MathHelper.floor(pos.y + 0.21f))
+                    ? blockPos.withY(MathHelper.floor(pos.y + offset))
                     : blockPos;
         } else {
             return new BlockPos(
                     MathHelper.floor(pos.x),
-                    MathHelper.floor(pos.y + 0.21f),
+                    MathHelper.floor(pos.y + offset),
                     MathHelper.floor(pos.z)
             );
         }
     }
 
-    private static void tickChange(
+    private static void tickTemperatureChange(
             TickContext<LivingEntity> context,
             HeatingMode heatingMode,
             Event<LivingEntityTemperatureTickEvents.AllowTemperatureUpdate> allowUpdate,
@@ -77,6 +85,22 @@ public final class LivingEntityTickUtil {
         int tempChange = getTempChange.invoker().addTemperature(context);
         if (tempChange != 0 && allowChange.invoker().allowChange(context, tempChange) != TriState.FALSE) {
             context.affected().thermoo$addTemperature(tempChange, heatingMode);
+        }
+    }
+
+    private static void tickSoakingChange(
+            TickContext<LivingEntity> context,
+            Event<LivingEntitySoakingTickEvents.AllowSoakingUpdate> allowUpdate,
+            Event<LivingEntitySoakingTickEvents.GetSoakingChange> getTempChange,
+            Event<LivingEntitySoakingTickEvents.AllowSoakingChange> allowChange
+    ) {
+        if (allowUpdate.invoker().allowUpdate(context) == TriState.FALSE) {
+            return;
+        }
+
+        int soakingChange = getTempChange.invoker().addSoaking(context);
+        if (soakingChange != 0 && allowChange.invoker().allowChange(context, soakingChange) != TriState.FALSE) {
+            context.affected().thermoo$addWetTicks(soakingChange);
         }
     }
 
