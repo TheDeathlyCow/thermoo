@@ -2,7 +2,6 @@ package com.github.thedeathlycow.thermoo.testmod;
 
 import com.github.thedeathlycow.thermoo.api.ThermooAttributes;
 import com.github.thedeathlycow.thermoo.api.ThermooRegistries;
-import com.github.thedeathlycow.thermoo.api.armor.material.ArmorMaterialEvents;
 import com.github.thedeathlycow.thermoo.api.season.ThermooSeason;
 import com.github.thedeathlycow.thermoo.api.season.ThermooSeasonEvents;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;

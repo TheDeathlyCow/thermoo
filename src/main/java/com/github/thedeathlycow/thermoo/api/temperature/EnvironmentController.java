@@ -24,7 +24,7 @@ import oshi.annotation.concurrent.Immutable;
  * @deprecated Replaced with {@linkplain com.github.thedeathlycow.thermoo.api.environment.EnvironmentDefinition the environment datapack registry}
  */
 @Immutable
-@Deprecated(forRemoval = true, since = "4.4")
+@Deprecated(forRemoval = true, since = "5.2")
 public sealed interface EnvironmentController permits EnvironmentControllerDecorator, EmptyEnvironmentController {
 
     /**
@@ -119,7 +119,7 @@ public sealed interface EnvironmentController permits EnvironmentControllerDecor
      * @return Returns the default maximum wet ticks for the {@code soakable}
      * @deprecated Replaced with an attribute: {@link com.github.thedeathlycow.thermoo.api.ThermooAttributes#MAX_SOAKING_TICK_MULTIPLIER}
      */
-    @Deprecated(since = "4.4")
+    @Deprecated(since = "5.2")
     default int getMaxWetTicks(Soakable soakable) {
         return 600;
     }
@@ -131,7 +131,7 @@ public sealed interface EnvironmentController permits EnvironmentControllerDecor
      * @return Returns the soaking change for the player.
      * @deprecated Replaced with {@link com.github.thedeathlycow.thermoo.api.temperature.event.LivingEntitySoakingTickEvents}
      */
-    @Deprecated(since = "4.4")
+    @Deprecated(since = "5.2")
     int getSoakChange(Soakable soakable);
 
     /**
