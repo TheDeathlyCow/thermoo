@@ -106,7 +106,8 @@ public final class LivingEntityTemperatureTickEvents {
     );
 
     /**
-     * Gets the active change update that should be applied to a living entity this tick.
+     * Gets the active change update that should be applied to a living entity this tick by summing all values supplied
+     * by listeners. May be positive or negative.
      * <p>
      * Active changes should be used for temperature changes from entity effects such as heat from being on fire, or
      * cold from being submerged in powder snow.
@@ -153,18 +154,19 @@ public final class LivingEntityTemperatureTickEvents {
          * @return Return true or false to make the update happen right away, or default to fall back to other listeners.
          * The default behaviour will be to allow the update.
          */
-        TriState allowUpdate(TemperatureTickContext<LivingEntity> context);
+        TriState allowUpdate(TickContext<LivingEntity> context);
     }
 
     @FunctionalInterface
     public interface GetTemperatureChange {
         /**
-         * Calculates the temperature change that this listener wants to apply to a living entity this tick.
+         * Calculates the temperature change that this listener wants to add to a living entity this tick.
          *
          * @param context Context of the living entity for the tick.
          * @return Return the temperature point change that this listener wants to apply to the entity in the context.
+         * This value is added to the values supplied by the other listeners.
          */
-        int addTemperature(TemperatureTickContext<LivingEntity> context);
+        int addTemperature(TickContext<LivingEntity> context);
     }
 
     @FunctionalInterface
@@ -177,7 +179,7 @@ public final class LivingEntityTemperatureTickEvents {
          * @return Return true or false to make the update apply right away, or default to fall back to other listeners.
          * The default behaviour will be to allow the update.
          */
-        TriState allowChange(TemperatureTickContext<LivingEntity> context, int temperatureChange);
+        TriState allowChange(TickContext<LivingEntity> context, int temperatureChange);
     }
 
     private LivingEntityTemperatureTickEvents() {

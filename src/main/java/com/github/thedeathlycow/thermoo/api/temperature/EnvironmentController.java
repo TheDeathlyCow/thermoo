@@ -127,7 +127,9 @@ public sealed interface EnvironmentController permits EnvironmentControllerDecor
      *
      * @param soakable The soakable to compute increase for
      * @return Returns the soaking change for the player.
+     * @deprecated Replaced with {@link com.github.thedeathlycow.thermoo.api.temperature.event.LivingEntitySoakingTickEvents}
      */
+    @Deprecated(since = "4.4")
     int getSoakChange(Soakable soakable);
 
     /**

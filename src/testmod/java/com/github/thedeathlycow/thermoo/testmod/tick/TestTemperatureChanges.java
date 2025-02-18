@@ -1,10 +1,8 @@
 package com.github.thedeathlycow.thermoo.testmod.tick;
 
 import com.github.thedeathlycow.thermoo.api.temperature.event.LivingEntityTemperatureTickEvents;
-import com.github.thedeathlycow.thermoo.api.temperature.event.TemperatureTickContext;
+import com.github.thedeathlycow.thermoo.api.temperature.event.TickContext;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
-import com.github.thedeathlycow.thermoo.testmod.ThermooTestMod;
-import com.github.thedeathlycow.thermoo.testmod.config.ThermooConfig;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
@@ -18,7 +16,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.LightType;
 
-public class TestTemperatureChanges implements ModInitializer {
+public class TestTemperatureChanges {
     /**
      * Gamerule to enable/disable passive changes for testing purposes
      */
@@ -39,7 +37,7 @@ public class TestTemperatureChanges implements ModInitializer {
                     GameRuleFactory.createBooleanRule(true)
             );
 
-    public static int getActiveChange(TemperatureTickContext<LivingEntity> context) {
+    public static int getActiveChange(TickContext<LivingEntity> context) {
         LivingEntity affected = context.affected();
         int total = 0;
 
@@ -54,7 +52,7 @@ public class TestTemperatureChanges implements ModInitializer {
         return total;
     }
 
-    public static int getPassiveChange(TemperatureTickContext<LivingEntity> context) {
+    public static int getPassiveChange(TickContext<LivingEntity> context) {
         LivingEntity affected = context.affected();
         ServerWorld world = context.world();
         BlockPos pos = context.pos();
@@ -77,8 +75,7 @@ public class TestTemperatureChanges implements ModInitializer {
         return total;
     }
 
-    @Override
-    public void onInitialize() {
+    public static void initialize() {
         LivingEntityTemperatureTickEvents.ALLOW_PASSIVE_TEMPERATURE_UPDATE.register(context -> {
             boolean applyPassiveChanges = context.world().getGameRules().getBoolean(APPLY_PASSIVE_CHANGES);
             return TriState.of(applyPassiveChanges);
