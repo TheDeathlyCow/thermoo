@@ -55,9 +55,9 @@ public final class ThermooAttributes {
      * The final max soaking tick value for living entities is floor(600 * multiplier).
      */
     public static final RegistryEntry<EntityAttribute> MAX_SOAKING_TICK_MULTIPLIER = register(
-            "generic.max_soaking_tick_multiplier",
+            "max_soaking_tick_multiplier",
             new ClampedEntityAttribute(
-                    "attribute.thermoo.generic.max_soaking_tick_multiplier", 1.0, 0.0, 8192
+                    "attribute.thermoo.max_soaking_tick_multiplier", 1.0, 0.0, 8192
             ).setTracked(true)
     );
 
