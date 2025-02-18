@@ -50,6 +50,18 @@ public final class ThermooAttributes {
     );
 
     /**
+     * A multiplier of the base max soaking ticks value of 600. By default, this is 1.
+     * <p>
+     * The final max soaking tick value for living entities is floor(600 * multiplier).
+     */
+    public static final RegistryEntry<EntityAttribute> MAX_SOAKING_TICK_MULTIPLIER = register(
+            "generic.max_soaking_tick_multiplier",
+            new ClampedEntityAttribute(
+                    "attribute.thermoo.generic.max_soaking_tick_multiplier", 1.0, 0.0, 8192
+            ).setTracked(true)
+    );
+
+    /**
      * The cold resistance of an entity. 1 point of frost resistance corresponds to a 10% cold reduction
      *
      * @see #HEAT_RESISTANCE
