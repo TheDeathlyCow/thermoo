@@ -54,7 +54,10 @@ public abstract class EnvironmentAwareEntityMixin extends Entity implements Temp
 
     @Override
     public int thermoo$getMaxWetTicks() {
-        return EnvironmentManager.INSTANCE.getController().getMaxWetTicks(this);
+        // base of 600
+        int base = EnvironmentManager.INSTANCE.getController().getMaxWetTicks(this);
+        double multiplier = this.getAttributeValue(ThermooAttributes.MAX_SOAKING_TICK_MULTIPLIER);
+        return MathHelper.floor(base * multiplier);
     }
 
 
@@ -183,6 +186,7 @@ public abstract class EnvironmentAwareEntityMixin extends Entity implements Temp
         // register attributes to living entities
         builder.add(ThermooAttributes.MIN_TEMPERATURE);
         builder.add(ThermooAttributes.MAX_TEMPERATURE);
+        builder.add(ThermooAttributes.MAX_SOAKING_TICK_MULTIPLIER);
         builder.add(ThermooAttributes.FROST_RESISTANCE);
         builder.add(ThermooAttributes.HEAT_RESISTANCE);
         builder.add(ThermooAttributes.ENVIRONMENT_HEAT_RESISTANCE);

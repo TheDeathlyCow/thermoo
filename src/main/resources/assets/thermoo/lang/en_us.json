@@ -1,6 +1,7 @@
 {
     "attribute.thermoo.min_temperature": "Minimum Temperature",
     "attribute.thermoo.max_temperature": "Maximum Temperature",
+    "attribute.thermoo.max_soaking_tick_multiplier": "Maximum Soaking Ticks Multiplier",
     "attribute.thermoo.frost_resistance": "Frost Resistance",
     "attribute.thermoo.heat_resistance": "Heat Resistance",
     "attribute.thermoo.environment_heat_resistance": "Environmental Heat Resistance",
