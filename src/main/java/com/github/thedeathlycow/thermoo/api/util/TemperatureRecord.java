@@ -78,7 +78,7 @@ public final class TemperatureRecord implements Comparable<TemperatureRecord> {
      */
     public static final Codec<TemperatureRecord> CODEC = Codec.either(Codec.DOUBLE, UNIT_CODEC)
             .xmap(
-                    either -> either.map(TemperatureRecord::new, temperatureRecord -> temperatureRecord),
+                    either -> either.map(TemperatureRecord::new, temperatureRecord -> temperatureRecord.convertToUnit(TemperatureUnit.CELSIUS)),
                     Either::right
             );
 
@@ -173,6 +173,21 @@ public final class TemperatureRecord implements Comparable<TemperatureRecord> {
      */
     public double valueInUnit(TemperatureUnit unit) {
         return unit.convertTemperature(this);
+    }
+
+    /**
+     * Converts this temperature record to another unit
+     *
+     * @param unit The unit to convert to
+     * @return Returns a new temperature record if the unit is different from this record's unit, returns this record
+     * if the unit is the same as this record's unit
+     */
+    public TemperatureRecord convertToUnit(TemperatureUnit unit) {
+        if (this.unit == unit) {
+            return this;
+        }
+
+        return new TemperatureRecord(this.valueInUnit(unit), unit);
     }
 
     /**
