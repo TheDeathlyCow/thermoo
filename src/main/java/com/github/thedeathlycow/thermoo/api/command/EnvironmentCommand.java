@@ -4,32 +4,26 @@ import com.github.thedeathlycow.thermoo.api.environment.EnvironmentLookup;
 import com.github.thedeathlycow.thermoo.api.environment.component.EnvironmentComponentTypes;
 import com.github.thedeathlycow.thermoo.api.environment.component.RelativeHumidityComponent;
 import com.github.thedeathlycow.thermoo.api.environment.component.TemperatureRecordComponent;
-import com.github.thedeathlycow.thermoo.api.environment.event.EnvironmentTickContext;
 import com.github.thedeathlycow.thermoo.api.environment.event.ServerPlayerEnvironmentTickEvents;
 import com.github.thedeathlycow.thermoo.api.temperature.EnvironmentManager;
 import com.github.thedeathlycow.thermoo.api.util.TemperatureConverter;
 import com.github.thedeathlycow.thermoo.api.util.TemperatureUnit;
 import com.github.thedeathlycow.thermoo.impl.LivingEntityTickUtil;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
-import com.github.thedeathlycow.thermoo.impl.environment.EnvironmentLookupImpl;
-import com.github.thedeathlycow.thermoo.impl.environment.ServerPlayerTickUtil;
+import com.github.thedeathlycow.thermoo.impl.environment.EnvironmentTickContextImpl;
 import com.mojang.brigadier.arguments.DoubleArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import net.minecraft.command.argument.BlockPosArgumentType;
 import net.minecraft.command.argument.EntityArgumentType;
-import net.minecraft.component.ComponentMap;
-import net.minecraft.entity.Entity;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.biome.Biome;
 import org.jetbrains.annotations.Contract;
 
-import java.awt.*;
 import java.util.function.Supplier;
 
 import static net.minecraft.server.command.CommandManager.argument;
@@ -244,9 +238,13 @@ public class EnvironmentCommand {
     }
 
     private static int executeEntityTemperature(ServerCommandSource source, ServerPlayerEntity target) {
-        final ServerPlayerTickUtil.EnvironmentTickContextImpl context = ServerPlayerTickUtil.createContext(target);
-        final var lookup = EnvironmentLookup.getInstance();
-        context.components = lookup.findEnvironmentComponents(context.world(), context.pos());
+        BlockPos pos = LivingEntityTickUtil.getTemperatureTickPos(target);
+        final EnvironmentTickContextImpl<ServerPlayerEntity> context = new EnvironmentTickContextImpl<>(
+                target,
+                target.getServerWorld(),
+                pos,
+                EnvironmentLookup.getInstance().findEnvironmentComponents(target.getServerWorld(), pos)
+        );
 
         int tempChange = ServerPlayerEnvironmentTickEvents.GET_TEMPERATURE_CHANGE.invoker().addPointChange(context);
         double resistance = tempChange != 0

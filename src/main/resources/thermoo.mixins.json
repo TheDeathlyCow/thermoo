@@ -11,7 +11,6 @@
         "LivingEntityAttributeMixin",
         "LivingEntityEnvironmentTickMixin",
         "PlayerTemperatureTickMixin",
-        "ServerPlayerMixin",
         "accessor.ComponentMapBuilderAccessor"
     ],
     "injectors": {
