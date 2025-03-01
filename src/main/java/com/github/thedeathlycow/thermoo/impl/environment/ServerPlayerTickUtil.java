@@ -14,16 +14,20 @@ import net.minecraft.util.math.BlockPos;
 import org.jetbrains.annotations.NotNull;
 
 public final class ServerPlayerTickUtil {
+    public static EnvironmentTickContextImpl createContext(ServerPlayerEntity player) {
+        return new EnvironmentTickContextImpl(
+                player,
+                player.getServerWorld(),
+                LivingEntityTickUtil.getTemperatureTickPos(player)
+        );
+    }
+
     public static void tickPlayerTemperature(ServerPlayerEntity player) {
         if (player.isDead() || player.isRemoved()) {
             return;
         }
 
-        final EnvironmentTickContextImpl context = new EnvironmentTickContextImpl(
-                player,
-                player.getServerWorld(),
-                LivingEntityTickUtil.getTemperatureTickPos(player)
-        );
+        final EnvironmentTickContextImpl context = createContext(player);
         if (ServerPlayerEnvironmentTickEvents.ALLOW_TEMPERATURE_UPDATE.invoker().allowUpdate(context) == TriState.FALSE) {
             return;
         }
@@ -44,11 +48,11 @@ public final class ServerPlayerTickUtil {
         return result != TriState.FALSE;
     }
 
-    private static class EnvironmentTickContextImpl implements EnvironmentTickContext<ServerPlayerEntity> {
+    public static class EnvironmentTickContextImpl implements EnvironmentTickContext<ServerPlayerEntity> {
         private final ServerPlayerEntity affected;
         private final ServerWorld world;
         private final BlockPos pos;
-        private ComponentMap components = ComponentMap.EMPTY;
+        public ComponentMap components = ComponentMap.EMPTY;
 
         public EnvironmentTickContextImpl(ServerPlayerEntity affected, ServerWorld world, BlockPos pos) {
             this.affected = affected;
