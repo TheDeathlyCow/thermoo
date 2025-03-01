@@ -39,7 +39,7 @@ class TemperatureRecordTest {
         var roomTemperature = new TemperatureRecord(20, TemperatureUnit.CELSIUS);
         var add = new TemperatureRecord(10, TemperatureUnit.KELVIN);
 
-        var sum = roomTemperature.plus(add);
+        var sum = roomTemperature.add(add);
         Assertions.assertEquals(30.0, sum.value(), 1e-2);
         Assertions.assertEquals(TemperatureUnit.CELSIUS, sum.unit());
     }
@@ -49,7 +49,7 @@ class TemperatureRecordTest {
         var roomTemperature = new TemperatureRecord(20, TemperatureUnit.CELSIUS);
         var add = new TemperatureRecord(10, TemperatureUnit.KELVIN);
 
-        var sum = roomTemperature.plus(add);
+        var sum = roomTemperature.add(add);
         Assertions.assertEquals(30.0, sum.value(), 1e-2);
         Assertions.assertEquals(TemperatureUnit.CELSIUS, sum.unit());
     }
@@ -59,7 +59,7 @@ class TemperatureRecordTest {
         var roomTemperature = new TemperatureRecord(70, TemperatureUnit.FAHRENHEIT);
         var add = new TemperatureRecord(30, TemperatureUnit.FAHRENHEIT);
 
-        var sum = roomTemperature.plus(add);
+        var sum = roomTemperature.add(add);
         Assertions.assertEquals(100.0, sum.value(), 1e-2);
         Assertions.assertEquals(TemperatureUnit.FAHRENHEIT, sum.unit());
     }
@@ -69,7 +69,7 @@ class TemperatureRecordTest {
         var roomTemperature = new TemperatureRecord(70, TemperatureUnit.FAHRENHEIT);
         var add = new TemperatureRecord(30, TemperatureUnit.RANKINE);
 
-        var sum = roomTemperature.plus(add);
+        var sum = roomTemperature.add(add);
         Assertions.assertEquals(100.0, sum.value(), 1e-2);
         Assertions.assertEquals(TemperatureUnit.FAHRENHEIT, sum.unit());
     }
@@ -79,7 +79,7 @@ class TemperatureRecordTest {
         var roomTemperature = new TemperatureRecord(70, TemperatureUnit.FAHRENHEIT);
         var add = new TemperatureRecord(10, TemperatureUnit.CELSIUS);
 
-        var sum = roomTemperature.plus(add);
+        var sum = roomTemperature.add(add);
         Assertions.assertEquals(88.0, sum.value(), 1e-2);
         Assertions.assertEquals(TemperatureUnit.FAHRENHEIT, sum.unit());
     }
@@ -89,7 +89,7 @@ class TemperatureRecordTest {
         var roomTemperature = new TemperatureRecord(20, TemperatureUnit.CELSIUS);
         var add = new TemperatureRecord(10, TemperatureUnit.FAHRENHEIT);
 
-        var sum = roomTemperature.plus(add);
+        var sum = roomTemperature.add(add);
         Assertions.assertEquals(25.555, sum.value(), 1e-2);
         Assertions.assertEquals(TemperatureUnit.CELSIUS, sum.unit());
     }

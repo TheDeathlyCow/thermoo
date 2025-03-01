@@ -69,6 +69,6 @@ public final class TemperatureRecordComponent implements ReducibleComponent<Temp
      */
     @Override
     public TemperatureRecordComponent reduceWith(TemperatureRecordComponent other) {
-        return new TemperatureRecordComponent(this.value.plus(other.value));
+        return new TemperatureRecordComponent(this.value.add(other.value));
     }
 }
