@@ -78,7 +78,7 @@ public final class TemperatureRecord implements Comparable<TemperatureRecord> {
      */
     public static final Codec<TemperatureRecord> CODEC = Codec.either(Codec.DOUBLE, UNIT_CODEC)
             .xmap(
-                    either -> either.map(TemperatureRecord::new, temperatureRecord -> temperatureRecord.convertToUnit(TemperatureUnit.CELSIUS)),
+                    either -> either.map(TemperatureRecord::new, temperatureRecord -> temperatureRecord),
                     Either::right
             );
 
