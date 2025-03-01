@@ -249,13 +249,17 @@ public class EnvironmentCommand {
         context.components = lookup.findEnvironmentComponents(context.world(), context.pos());
 
         int tempChange = ServerPlayerEnvironmentTickEvents.GET_TEMPERATURE_CHANGE.invoker().addPointChange(context);
+        double resistance = tempChange != 0
+                ? tempChange > 0 ? target.thermoo$getEnvironmentHeatResistance() : target.thermoo$getEnvironmentColdResistance()
+                : 0.0;
 
         source.sendFeedback(
                 () -> Text.translatableWithFallback(
                         "commands.thermoo.environment.temperature.player.success",
-                        "The environment temperature change of %s is %s",
+                        "The environment temperature change of %s is %s (with a %s chance to dodge)",
                         target.getDisplayName(),
-                        tempChange
+                        tempChange,
+                        "%.2f%%".formatted(resistance * 100)
                 ),
                 false
         );
