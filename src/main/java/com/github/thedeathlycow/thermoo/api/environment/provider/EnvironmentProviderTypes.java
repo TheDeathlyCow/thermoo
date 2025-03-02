@@ -63,6 +63,13 @@ public final class EnvironmentProviderTypes {
      */
     public static final EnvironmentProviderType<BiomePrecipitationTypeEnvironmentProvider> PRECIPITATION_TYPE = new EnvironmentProviderType<>(BiomePrecipitationTypeEnvironmentProvider.CODEC);
 
+    /**
+     * A leaf-modifier provider that shifts the existing temperature value in a map by some amount
+     *
+     * @see TemperatureShiftEnvironmentProvider
+     */
+    public static final EnvironmentProviderType<TemperatureShiftEnvironmentProvider> TEMPERATURE_SHIFT = new EnvironmentProviderType<>(TemperatureShiftEnvironmentProvider.CODEC);
+
     private EnvironmentProviderTypes() {
 
     }
