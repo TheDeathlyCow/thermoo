@@ -4,7 +4,6 @@ import com.github.thedeathlycow.thermoo.api.ThermooRegistryKeys;
 import com.github.thedeathlycow.thermoo.api.environment.EnvironmentDefinition;
 import com.github.thedeathlycow.thermoo.api.environment.EnvironmentLookup;
 import com.github.thedeathlycow.thermoo.api.environment.provider.EnvironmentProvider;
-import com.github.thedeathlycow.thermoo.api.util.component.ReducibleComponentMapBuilder;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.minecraft.component.ComponentMap;
@@ -39,10 +38,7 @@ public class EnvironmentLookupImpl implements EnvironmentLookup {
     public ComponentMap findEnvironmentComponentsForBiome(World world, BlockPos pos, RegistryEntry<Biome> biome) {
         ComponentMap.Builder builder = ComponentMap.builder();
         for (RegistryEntry<EnvironmentProvider> provider : this.getProviders(biome, world.getRegistryManager())) {
-            // create a new reduction builder for each biome's provider
-            ReducibleComponentMapBuilder reduceBuilder = ReducibleComponentMapBuilder.create();
-            provider.value().buildCurrentComponents(world, pos, biome, reduceBuilder);
-            builder.addAll(reduceBuilder.build());
+            provider.value().buildCurrentComponents(world, pos, biome, builder);
         }
         return builder.build();
     }

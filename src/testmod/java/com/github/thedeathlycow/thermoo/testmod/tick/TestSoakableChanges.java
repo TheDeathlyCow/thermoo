@@ -1,7 +1,7 @@
 package com.github.thedeathlycow.thermoo.testmod.tick;
 
 import com.github.thedeathlycow.thermoo.api.temperature.event.LivingEntitySoakingTickEvents;
-import com.github.thedeathlycow.thermoo.api.temperature.event.TickContext;
+import com.github.thedeathlycow.thermoo.api.temperature.event.EnvironmentTickContext;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
@@ -10,7 +10,6 @@ import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.world.GameRules;
-import net.minecraft.world.LightType;
 
 public class TestSoakableChanges {
     /**
@@ -23,7 +22,7 @@ public class TestSoakableChanges {
                     GameRuleFactory.createBooleanRule(true)
             );
 
-    public static int addSoakingChange(TickContext<LivingEntity> context) {
+    public static int addSoakingChange(EnvironmentTickContext<LivingEntity> context) {
         LivingEntity entity = context.affected();
         int total = 0;
 

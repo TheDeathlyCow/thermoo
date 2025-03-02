@@ -1,16 +1,22 @@
 package com.github.thedeathlycow.thermoo.impl;
 
+import com.github.thedeathlycow.thermoo.api.environment.EnvironmentLookup;
 import com.github.thedeathlycow.thermoo.api.temperature.HeatingMode;
 import com.github.thedeathlycow.thermoo.api.temperature.HeatingModes;
+import com.github.thedeathlycow.thermoo.api.temperature.Soakable;
+import com.github.thedeathlycow.thermoo.api.temperature.TemperatureAware;
 import com.github.thedeathlycow.thermoo.api.temperature.event.LivingEntitySoakingTickEvents;
 import com.github.thedeathlycow.thermoo.api.temperature.event.LivingEntityTemperatureTickEvents;
-import com.github.thedeathlycow.thermoo.api.temperature.event.TickContext;
+import com.github.thedeathlycow.thermoo.api.temperature.event.EnvironmentTickContext;
+import com.github.thedeathlycow.thermoo.impl.environment.EnvironmentTickContextImpl;
+import com.github.thedeathlycow.thermoo.impl.environment.ServerPlayerTickUtil;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.util.TriState;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.FenceGateBlock;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.registry.tag.BlockTags;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -23,7 +29,14 @@ public final class LivingEntityTickUtil {
         }
 
         if (entity.getWorld() instanceof ServerWorld serverWorld) {
-            var context = new TickContextImpl(entity, serverWorld, getTemperatureTickPos(entity));
+            BlockPos pos = getTemperatureTickPos(entity);
+            var context = new EnvironmentTickContextImpl<>(
+                    entity,
+                    serverWorld,
+                    pos,
+                    EnvironmentLookup.getInstance().findEnvironmentComponents(serverWorld, pos)
+            );
+
             tickSoakingChange(
                     context,
                     LivingEntitySoakingTickEvents.ALLOW_SOAKING_UPDATE,
@@ -45,6 +58,11 @@ public final class LivingEntityTickUtil {
                     LivingEntityTemperatureTickEvents.GET_ACTIVE_TEMPERATURE_CHANGE,
                     LivingEntityTemperatureTickEvents.ALLOW_ACTIVE_TEMPERATURE_CHANGE
             );
+
+            if (context.affected() instanceof ServerPlayerEntity player) {
+                var playerCtx = new EnvironmentTickContextImpl<>(player, serverWorld, context.pos(), context.components());
+                ServerPlayerTickUtil.tickPlayerTemperature(playerCtx);
+            }
         }
     }
 
@@ -72,7 +90,7 @@ public final class LivingEntityTickUtil {
     }
 
     private static void tickTemperatureChange(
-            TickContext<LivingEntity> context,
+            EnvironmentTickContext<LivingEntity> context,
             HeatingMode heatingMode,
             Event<LivingEntityTemperatureTickEvents.AllowTemperatureUpdate> allowUpdate,
             Event<LivingEntityTemperatureTickEvents.GetTemperatureChange> getTempChange,
@@ -89,7 +107,7 @@ public final class LivingEntityTickUtil {
     }
 
     private static void tickSoakingChange(
-            TickContext<LivingEntity> context,
+            EnvironmentTickContext<LivingEntity> context,
             Event<LivingEntitySoakingTickEvents.AllowSoakingUpdate> allowUpdate,
             Event<LivingEntitySoakingTickEvents.GetSoakingChange> addSoakChange,
             Event<LivingEntitySoakingTickEvents.AllowSoakingChange> allowChange
@@ -103,14 +121,6 @@ public final class LivingEntityTickUtil {
         if (soakingChange != 0 && allowChange.invoker().allowChange(context, soakingChange) != TriState.FALSE) {
             context.affected().thermoo$addWetTicks(soakingChange);
         }
-    }
-
-    private record TickContextImpl(
-            LivingEntity affected,
-            ServerWorld world,
-            BlockPos pos
-    ) implements TickContext<LivingEntity> {
-
     }
 
     private LivingEntityTickUtil() {

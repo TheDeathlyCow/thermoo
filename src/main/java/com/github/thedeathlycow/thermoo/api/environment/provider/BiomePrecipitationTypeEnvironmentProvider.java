@@ -1,10 +1,10 @@
 package com.github.thedeathlycow.thermoo.api.environment.provider;
 
-import com.github.thedeathlycow.thermoo.api.util.component.ReducibleComponentMapBuilder;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.component.ComponentMap;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.StringIdentifiable;
 import net.minecraft.util.math.BlockPos;
@@ -48,10 +48,10 @@ public final class BiomePrecipitationTypeEnvironmentProvider implements Environm
      * @param world   The world/level being queried
      * @param pos     The position in the world to query
      * @param biome   The biome at the position in the world
-     * @param builder A reducible component map builder to append to
+     * @param builder A component map builder to append to
      */
     @Override
-    public void buildCurrentComponents(World world, BlockPos pos, RegistryEntry<Biome> biome, ReducibleComponentMapBuilder builder) {
+    public void buildCurrentComponents(World world, BlockPos pos, RegistryEntry<Biome> biome, ComponentMap.Builder builder) {
         Biome.Precipitation biomePrecipitationType = biome.value().getPrecipitation(pos);
         RegistryEntry<EnvironmentProvider> provider = this.precipitationTypeMap.get(biomePrecipitationType);
         if (provider != null) {

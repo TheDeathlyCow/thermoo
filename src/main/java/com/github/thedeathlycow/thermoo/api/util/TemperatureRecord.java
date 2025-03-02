@@ -168,6 +168,21 @@ public final class TemperatureRecord implements Comparable<TemperatureRecord> {
     }
 
     /**
+     * Converts this temperature record to another unit
+     *
+     * @param unit The unit to convert to
+     * @return Returns a new temperature record if the unit is different from this record's unit, returns this record
+     * if the unit is the same as this record's unit
+     */
+    public TemperatureRecord convertToUnit(TemperatureUnit unit) {
+        if (this.unit == unit) {
+            return this;
+        }
+
+        return new TemperatureRecord(this.valueInUnit(unit), unit);
+    }
+
+    /**
      * Checks if this record stores a roughly equivalent temperature value to the one given in the other record.
      * <p>
      * The comparison is performed in this record's unit.
