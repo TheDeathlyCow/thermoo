@@ -49,11 +49,11 @@ public final class ConstantEnvironmentProvider implements EnvironmentProvider {
      * @param world   The world/level being queried
      * @param pos     The position in the world to query
      * @param biome   The biome at the position in the world
-     * @param builder Component map builder to append to
+     * @param builder A component map builder to append to
      */
     @Override
-    public void buildCurrentComponents(World world, BlockPos pos, RegistryEntry<Biome> biome, ReducibleComponentMapBuilder builder) {
-        builder.replaceAll(this.components);
+    public void buildCurrentComponents(World world, BlockPos pos, RegistryEntry<Biome> biome, ComponentMap.Builder builder) {
+        builder.addAll(this.components);
     }
 
     @Override

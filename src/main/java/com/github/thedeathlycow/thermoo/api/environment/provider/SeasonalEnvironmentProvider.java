@@ -5,6 +5,7 @@ import com.github.thedeathlycow.thermoo.api.util.component.ReducibleComponentMap
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.MapCodec;
+import net.minecraft.component.ComponentMap;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.StringIdentifiable;
 import net.minecraft.util.math.BlockPos;
@@ -45,7 +46,7 @@ public abstract sealed class SeasonalEnvironmentProvider implements EnvironmentP
      * @param builder Component map builder to append to
      */
     @Override
-    public final void buildCurrentComponents(World world, BlockPos pos, RegistryEntry<Biome> biome, ReducibleComponentMapBuilder builder) {
+    public final void buildCurrentComponents(World world, BlockPos pos, RegistryEntry<Biome> biome, ComponentMap.Builder builder) {
         Optional<ThermooSeason> season = this.getCurrentSeason(world, pos).or(this::fallbackSeason);
         if (season.isPresent()) {
             RegistryEntry<EnvironmentProvider> provider = this.seasons.get(season.get());

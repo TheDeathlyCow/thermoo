@@ -10,6 +10,7 @@ import com.github.thedeathlycow.thermoo.api.util.component.ReducibleComponentMap
 import com.github.thedeathlycow.thermoo.impl.environment.EnvironmentLookupImpl;
 import com.github.thedeathlycow.thermoo.testmod.ThermooTestMod;
 import net.minecraft.block.Block;
+import net.minecraft.component.ComponentMap;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ItemEntity;
@@ -47,7 +48,7 @@ public final class EnvironmentTestHelper {
     public static TemperatureRecordComponent getTemperature(TestContext context, BlockPos pos, EnvironmentProvider provider) {
         BlockPos absolute = context.getAbsolutePos(pos);
 
-        ReducibleComponentMapBuilder builder = ReducibleComponentMapBuilder.create();
+        ComponentMap.Builder builder = ComponentMap.builder();
         provider.buildCurrentComponents(
                 context.getWorld(),
                 absolute,

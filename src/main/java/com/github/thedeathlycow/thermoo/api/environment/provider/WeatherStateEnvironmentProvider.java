@@ -3,6 +3,7 @@ package com.github.thedeathlycow.thermoo.api.environment.provider;
 import com.github.thedeathlycow.thermoo.api.util.component.ReducibleComponentMapBuilder;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.component.ComponentMap;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -67,7 +68,7 @@ public final class WeatherStateEnvironmentProvider implements EnvironmentProvide
      * @param builder A reducible component map builder to append to
      */
     @Override
-    public void buildCurrentComponents(World world, BlockPos pos, RegistryEntry<Biome> biome, ReducibleComponentMapBuilder builder) {
+    public void buildCurrentComponents(World world, BlockPos pos, RegistryEntry<Biome> biome, ComponentMap.Builder builder) {
         if (world.isThundering()) {
             this.thunder.ifPresent(p -> p.value().buildCurrentComponents(world, pos, biome, builder));
         } else if (world.isRaining()) {
