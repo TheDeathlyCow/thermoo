@@ -22,7 +22,6 @@ public class ThermooCommonRegisters {
     }
 
     public static void registerEnvironmentProviderTypes() {
-        registerEnvironmentProviderType("reduce_constant", EnvironmentProviderTypes.REDUCE_CONSTANT);
         registerEnvironmentProviderType("constant", EnvironmentProviderTypes.CONSTANT);
         registerEnvironmentProviderType("seasonal/temperate", EnvironmentProviderTypes.TEMPERATE_SEASONAL);
         registerEnvironmentProviderType("seasonal/tropical", EnvironmentProviderTypes.TROPICAL_SEASONAL);

@@ -4,13 +4,6 @@ package com.github.thedeathlycow.thermoo.api.environment.provider;
  * The default {@link EnvironmentProviderType}s provided by Thermoo
  */
 public final class EnvironmentProviderTypes {
-    /**
-     * A constant value environment provider that adds values by
-     * {@linkplain com.github.thedeathlycow.thermoo.api.util.component.ReducibleComponentMapBuilder reduction}
-     *
-     * @see ReduceConstantEnvironmentProvider
-     */
-    public static final EnvironmentProviderType<ReduceConstantEnvironmentProvider> REDUCE_CONSTANT = new EnvironmentProviderType<>(ReduceConstantEnvironmentProvider.CODEC);
 
     /**
      * A constant value environment provider that adds values by replacement

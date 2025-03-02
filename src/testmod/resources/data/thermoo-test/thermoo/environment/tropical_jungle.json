@@ -6,7 +6,7 @@
         "type": "thermoo:seasonal/tropical",
         "seasons": {
             "wet": {
-                "type": "thermoo:reduce_constant",
+                "type": "thermoo:constant",
                 "components": {
                     "thermoo:temperature": 30.0,
                     "thermoo:relative_humidity": 1.0

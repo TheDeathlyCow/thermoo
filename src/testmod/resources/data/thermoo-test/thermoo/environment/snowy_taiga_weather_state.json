@@ -5,19 +5,19 @@
     "provider": {
         "type": "thermoo:weather_state",
         "clear": {
-            "type": "thermoo:reduce_constant",
+            "type": "thermoo:constant",
             "components": {
                 "thermoo:temperature": -5.0
             }
         },
         "rain": {
-            "type": "thermoo:reduce_constant",
+            "type": "thermoo:constant",
             "components": {
                 "thermoo:temperature": -10.0
             }
         },
         "thunder": {
-            "type": "thermoo:reduce_constant",
+            "type": "thermoo:constant",
             "components": {
                 "thermoo:temperature": -15.0
             }

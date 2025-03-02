@@ -55,7 +55,8 @@ public final class TemperatureShiftEnvironmentProvider implements EnvironmentPro
         TemperatureRecord base = builder.getOrDefault(EnvironmentComponentTypes.TEMPERATURE, TemperatureRecordComponent.DEFAULT)
                 .temperature();
 
-        builder.add(EnvironmentComponentTypes.TEMPERATURE, new TemperatureRecordComponent(base.add(this.shift)));
+        TemperatureRecord shifted = base.add(this.shift);
+        builder.add(EnvironmentComponentTypes.TEMPERATURE, new TemperatureRecordComponent(shifted));
     }
 
     @Override

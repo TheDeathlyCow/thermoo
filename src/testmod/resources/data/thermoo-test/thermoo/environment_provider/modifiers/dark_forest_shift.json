@@ -1,6 +1,4 @@
 {
-    "type": "thermoo:reduce_constant",
-    "components": {
-        "thermoo:temperature": -5.0
-    }
+    "type": "thermoo:temperature_shift",
+    "shift": -5.0
 }
