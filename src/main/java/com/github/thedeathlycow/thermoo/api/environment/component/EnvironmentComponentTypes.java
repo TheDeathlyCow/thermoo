@@ -25,6 +25,8 @@ public final class EnvironmentComponentTypes {
     /**
      * Stores a temperature reading in {@link com.github.thedeathlycow.thermoo.api.util.TemperatureUnit a unit} such as
      * Celsius, Fahrenheit, Kelvin, or Rankine.
+     *
+     * @see TemperatureRecordComponent
      */
     public static final ComponentType<TemperatureRecord> TEMPERATURE = register(
             "temperature",
@@ -37,6 +39,8 @@ public final class EnvironmentComponentTypes {
      * Relative humidity is defined as "the ratio of how much water vapour is in the air to how much water vapour the
      * air could potentially contain" <a href="https://en.m.wikipedia.org/wiki/Humidity#Relative_humidity">[1]</a> and
      * is expressed here on a 0-1 scale.
+     *
+     * @see RelativeHumidityComponent
      */
     public static final ComponentType<Double> RELATIVE_HUMIDITY = register(
             "relative_humidity",
