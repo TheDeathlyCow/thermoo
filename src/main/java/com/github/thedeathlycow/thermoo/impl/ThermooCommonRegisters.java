@@ -22,14 +22,14 @@ public class ThermooCommonRegisters {
     }
 
     public static void registerEnvironmentProviderTypes() {
-        registerEnvironmentProviderType("reduce_constant", EnvironmentProviderTypes.REDUCE_CONSTANT);
-        registerEnvironmentProviderType("replace_constant", EnvironmentProviderTypes.REPLACE_CONSTANT);
+        registerEnvironmentProviderType("constant", EnvironmentProviderTypes.CONSTANT);
         registerEnvironmentProviderType("seasonal/temperate", EnvironmentProviderTypes.TEMPERATE_SEASONAL);
         registerEnvironmentProviderType("seasonal/tropical", EnvironmentProviderTypes.TROPICAL_SEASONAL);
-        registerEnvironmentProviderType("reduce_sequence", EnvironmentProviderTypes.REDUCE_SEQUENCE);
+        registerEnvironmentProviderType("modify", EnvironmentProviderTypes.MODIFY);
         registerEnvironmentProviderType("light_threshold", EnvironmentProviderTypes.LIGHT_THRESHOLD);
         registerEnvironmentProviderType("weather_state", EnvironmentProviderTypes.WEATHER_STATE);
         registerEnvironmentProviderType("precipitation_type", EnvironmentProviderTypes.PRECIPITATION_TYPE);
+        registerEnvironmentProviderType("temperature_shift", EnvironmentProviderTypes.TEMPERATURE_SHIFT);
     }
 
     public static void registerLootConditionTypes() {

@@ -10,8 +10,7 @@
         "LivingEntityEnvironmentTickMixin",
         "PlayerTemperatureTickMixin",
         "accessor.ComponentMapBuilderAccessor",
-        "datafix.AttributeIdPrefixFixMixin",
-        "accessor.ComponentMapBuilderAccessor"
+        "datafix.AttributeIdPrefixFixMixin"
     ],
     "injectors": {
         "defaultRequire": 1

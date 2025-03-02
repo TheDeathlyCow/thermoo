@@ -1,6 +1,5 @@
 package com.github.thedeathlycow.thermoo.api.environment.provider;
 
-import com.github.thedeathlycow.thermoo.api.util.component.ReducibleComponentMapBuilder;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -101,7 +100,7 @@ public class LightThresholdLightProvider implements EnvironmentProvider {
      * @param builder Component map builder to append to
      */
     @Override
-    public void buildCurrentComponents(World world, BlockPos pos, RegistryEntry<Biome> biome, ReducibleComponentMapBuilder builder) {
+    public void buildCurrentComponents(World world, BlockPos pos, RegistryEntry<Biome> biome, ComponentMap.Builder builder) {
         int lightLevel = this.lightType
                 .map(type -> world.getLightLevel(type, pos))
                 .orElseGet(() -> world.getLightLevel(pos));

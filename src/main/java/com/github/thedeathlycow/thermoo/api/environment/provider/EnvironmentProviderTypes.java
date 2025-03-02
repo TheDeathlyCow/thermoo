@@ -4,20 +4,13 @@ package com.github.thedeathlycow.thermoo.api.environment.provider;
  * The default {@link EnvironmentProviderType}s provided by Thermoo
  */
 public final class EnvironmentProviderTypes {
-    /**
-     * A constant value environment provider that adds values by
-     * {@linkplain com.github.thedeathlycow.thermoo.api.util.component.ReducibleComponentMapBuilder reduction}
-     *
-     * @see ReduceConstantEnvironmentProvider
-     */
-    public static final EnvironmentProviderType<ReduceConstantEnvironmentProvider> REDUCE_CONSTANT = new EnvironmentProviderType<>(ReduceConstantEnvironmentProvider.CODEC);
 
     /**
      * A constant value environment provider that adds values by replacement
      *
-     * @see ReplaceConstantEnvironmentProvider
+     * @see ConstantEnvironmentProvider
      */
-    public static final EnvironmentProviderType<ReplaceConstantEnvironmentProvider> REPLACE_CONSTANT = new EnvironmentProviderType<>(ReplaceConstantEnvironmentProvider.CODEC);
+    public static final EnvironmentProviderType<ConstantEnvironmentProvider> CONSTANT = new EnvironmentProviderType<>(ConstantEnvironmentProvider.CODEC);
 
     /**
      * A temperature season environment provider
@@ -34,13 +27,11 @@ public final class EnvironmentProviderTypes {
     public static final EnvironmentProviderType<TropicalSeasonEnvironmentProvider> TROPICAL_SEASONAL = new EnvironmentProviderType<>(TropicalSeasonEnvironmentProvider.CODEC);
 
     /**
-     * A provider that can reduce a list of modifiers into a base provider through
-     * {@link com.github.thedeathlycow.thermoo.api.util.component.ReducibleComponentMapBuilder}
+     * A provider that can apply a list of modifiers to a base provider
      *
-     * @see ReduceSequenceEnvironmentProvider
-     * @see com.github.thedeathlycow.thermoo.api.util.component.ReducibleComponentMapBuilder
+     * @see ModifyEnvironmentProvider
      */
-    public static final EnvironmentProviderType<ReduceSequenceEnvironmentProvider> REDUCE_SEQUENCE = new EnvironmentProviderType<>(ReduceSequenceEnvironmentProvider.CODEC);
+    public static final EnvironmentProviderType<ModifyEnvironmentProvider> MODIFY = new EnvironmentProviderType<>(ModifyEnvironmentProvider.CODEC);
 
     /**
      * A provider that picks between two child providers based on light level
@@ -62,6 +53,13 @@ public final class EnvironmentProviderTypes {
      * @see BiomePrecipitationTypeEnvironmentProvider
      */
     public static final EnvironmentProviderType<BiomePrecipitationTypeEnvironmentProvider> PRECIPITATION_TYPE = new EnvironmentProviderType<>(BiomePrecipitationTypeEnvironmentProvider.CODEC);
+
+    /**
+     * A leaf-modifier provider that shifts the existing temperature value in a map by some amount
+     *
+     * @see TemperatureShiftEnvironmentProvider
+     */
+    public static final EnvironmentProviderType<TemperatureShiftEnvironmentProvider> TEMPERATURE_SHIFT = new EnvironmentProviderType<>(TemperatureShiftEnvironmentProvider.CODEC);
 
     private EnvironmentProviderTypes() {
 

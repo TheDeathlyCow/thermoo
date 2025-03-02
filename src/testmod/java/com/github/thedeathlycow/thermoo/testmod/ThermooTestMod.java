@@ -1,19 +1,15 @@
 package com.github.thedeathlycow.thermoo.testmod;
 
 import com.github.thedeathlycow.thermoo.api.ThermooAttributes;
-import com.github.thedeathlycow.thermoo.api.ThermooRegistries;
 import com.github.thedeathlycow.thermoo.api.season.ThermooSeason;
 import com.github.thedeathlycow.thermoo.api.season.ThermooSeasonEvents;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
-import com.github.thedeathlycow.thermoo.testmod.tests.util.component.TestReducibleDoubleComponent;
 import com.github.thedeathlycow.thermoo.testmod.tick.TestEnvironmentChanges;
 import com.github.thedeathlycow.thermoo.testmod.tick.TestSoakableChanges;
 import com.github.thedeathlycow.thermoo.testmod.tick.TestTemperatureChanges;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
-import net.minecraft.registry.Registry;
-import net.minecraft.util.Identifier;
 import net.minecraft.world.GameRules;
 
 import java.util.Optional;
@@ -58,12 +54,6 @@ public class ThermooTestMod implements ModInitializer {
                     case 2 -> ThermooSeason.TROPICAL_DRY;
                     default -> null;
                 })
-        );
-
-        Registry.register(
-                ThermooRegistries.ENVIRONMENT_COMPONENT_TYPE,
-                Identifier.of("thermoo-test", "test_reducible_double"),
-                TestReducibleDoubleComponent.KEY
         );
     }
 }
