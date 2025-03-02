@@ -12,41 +12,39 @@ import net.minecraft.world.biome.Biome;
 import org.jetbrains.annotations.Contract;
 
 /**
- * Provides constant values by replacement
- *
- * @see ReduceConstantEnvironmentProvider
+ * Provides constant component values
  */
-public final class ReplaceConstantEnvironmentProvider implements EnvironmentProvider {
-    public static final MapCodec<ReplaceConstantEnvironmentProvider> CODEC = RecordCodecBuilder.mapCodec(
+public final class ConstantEnvironmentProvider implements EnvironmentProvider {
+    public static final MapCodec<ConstantEnvironmentProvider> CODEC = RecordCodecBuilder.mapCodec(
             instance -> instance.group(
                     EnvironmentComponentTypes.COMPONENT_MAP_CODEC
                             .fieldOf("components")
-                            .forGetter(ReplaceConstantEnvironmentProvider::components)
-            ).apply(instance, ReplaceConstantEnvironmentProvider::new)
+                            .forGetter(ConstantEnvironmentProvider::components)
+            ).apply(instance, ConstantEnvironmentProvider::new)
     );
 
     private final ComponentMap components;
 
-    private ReplaceConstantEnvironmentProvider(ComponentMap components) {
+    private ConstantEnvironmentProvider(ComponentMap components) {
         this.components = components;
     }
 
     /**
-     * Creates a replacement environment provider from a component map builder. The builder is built into a new component
+     * Creates a constant environment provider from a component map builder. The builder is built into a new component
      * map with this method, so modifying the builder after creating the provider will not affect the returned provider.
      *
      * @param builder The builder to create the provider from
      * @return Returns a new replacement environment provider
      */
     @Contract("_->new")
-    public static ReplaceConstantEnvironmentProvider create(ComponentMap.Builder builder) {
-        return new ReplaceConstantEnvironmentProvider(builder.build());
+    public static ConstantEnvironmentProvider create(ComponentMap.Builder builder) {
+        return new ConstantEnvironmentProvider(builder.build());
     }
 
     /**
-     * Replaces the components in the builder with the component map stored in this provider's {@link #components}. The
-     * components supplied by this provider are immutable and never change. If a component type is mapped to a value in
-     * the builder and NOT mapped to a value in this provider, then it will be unaffected.
+     * Adds the component map stored in this provider's {@link #components} to the builder. The components supplied by
+     * this provider are immutable and never change. If a component type is mapped to a value in the builder and NOT
+     * mapped to a value in this provider, then it will be unaffected.
      *
      * @param world   The world/level being queried
      * @param pos     The position in the world to query
@@ -60,7 +58,7 @@ public final class ReplaceConstantEnvironmentProvider implements EnvironmentProv
 
     @Override
     public EnvironmentProviderType<?> getType() {
-        return EnvironmentProviderTypes.REPLACE_CONSTANT;
+        return EnvironmentProviderTypes.CONSTANT;
     }
 
     /**

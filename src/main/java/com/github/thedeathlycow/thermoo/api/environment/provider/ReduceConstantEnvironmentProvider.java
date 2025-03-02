@@ -14,7 +14,7 @@ import org.jetbrains.annotations.Contract;
 /**
  * Provides constant environment values by reduction
  *
- * @see ReplaceConstantEnvironmentProvider
+ * @see ConstantEnvironmentProvider
  */
 public final class ReduceConstantEnvironmentProvider implements EnvironmentProvider {
     public static final MapCodec<ReduceConstantEnvironmentProvider> CODEC = RecordCodecBuilder.mapCodec(
@@ -46,14 +46,14 @@ public final class ReduceConstantEnvironmentProvider implements EnvironmentProvi
     /**
      * Builds (by reduction) the component map stored in this provider into the provided builder. The components supplied
      * by this provider are immutable and never change. Note that existing values are
-     * {@linkplain ReducibleComponentMapBuilder#addAll(ComponentMap)  reduced}, not overwritten. See {@link ReplaceConstantEnvironmentProvider}
+     * {@linkplain ReducibleComponentMapBuilder#addAll(ComponentMap)  reduced}, not overwritten. See {@link ConstantEnvironmentProvider}
      * if overwritten without replacement is desired.
      *
      * @param world   The world/level being queried
      * @param pos     The position in the world to query
      * @param biome   The biome at the position in the world
      * @param builder Component map builder to append to
-     * @see ReplaceConstantEnvironmentProvider
+     * @see ConstantEnvironmentProvider
      */
     @Override
     public void buildCurrentComponents(World world, BlockPos pos, RegistryEntry<Biome> biome, ReducibleComponentMapBuilder builder) {
