@@ -3,7 +3,7 @@
         "minecraft:dark_forest"
     ],
     "provider": {
-        "type": "thermoo:reduce_sequence",
+        "type": "thermoo:modify",
         "modifiers": [
             "thermoo-test:modifiers/dark_forest_shift",
             "thermoo-test:modifiers/dark_forest_winter_temperature",

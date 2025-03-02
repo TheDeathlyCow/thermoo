@@ -14,22 +14,22 @@ import net.minecraft.world.biome.Biome;
 /**
  * Applies modifiers to a base environment provider from a tag or list of environment providers
  */
-public final class ReduceSequenceEnvironmentProvider implements EnvironmentProvider {
-    public static final MapCodec<ReduceSequenceEnvironmentProvider> CODEC = RecordCodecBuilder.mapCodec(
+public final class ModifyEnvironmentProvider implements EnvironmentProvider {
+    public static final MapCodec<ModifyEnvironmentProvider> CODEC = RecordCodecBuilder.mapCodec(
             instance -> instance.group(
                     RegistryCodecs.entryList(ThermooRegistryKeys.ENVIRONMENT_PROVIDER)
                             .fieldOf("modifiers")
-                            .forGetter(ReduceSequenceEnvironmentProvider::modifiers),
+                            .forGetter(ModifyEnvironmentProvider::modifiers),
                     EnvironmentProvider.ENTRY_CODEC
                             .fieldOf("base")
-                            .forGetter(ReduceSequenceEnvironmentProvider::base)
-            ).apply(instance, ReduceSequenceEnvironmentProvider::new)
+                            .forGetter(ModifyEnvironmentProvider::base)
+            ).apply(instance, ModifyEnvironmentProvider::new)
     );
 
     private final RegistryEntryList<EnvironmentProvider> modifiers;
     private final RegistryEntry<EnvironmentProvider> base;
 
-    private ReduceSequenceEnvironmentProvider(
+    private ModifyEnvironmentProvider(
             RegistryEntryList<EnvironmentProvider> modifiers,
             RegistryEntry<EnvironmentProvider> base
     ) {
@@ -37,16 +37,16 @@ public final class ReduceSequenceEnvironmentProvider implements EnvironmentProvi
         this.base = base;
     }
 
-    public ReduceSequenceEnvironmentProvider create(
+    public ModifyEnvironmentProvider create(
             RegistryEntryList<EnvironmentProvider> modifiers,
             RegistryEntry<EnvironmentProvider> base
     ) {
-        return new ReduceSequenceEnvironmentProvider(modifiers, base);
+        return new ModifyEnvironmentProvider(modifiers, base);
     }
 
     /**
-     * Builds the current components from the {@link #base()} and {@linkplain  ReducibleComponentMapBuilder reduces} the
-     * modifiers into it, in the order that the modifiers are specified.
+     * Builds the current components from the {@link #base()} and applies the modifiers to it, in the order that the
+     * modifiers are specified.
      *
      * @param world   The world/level being queried
      * @param pos     The position in the world to query
@@ -62,13 +62,12 @@ public final class ReduceSequenceEnvironmentProvider implements EnvironmentProvi
     }
 
     @Override
-    public EnvironmentProviderType<ReduceSequenceEnvironmentProvider> getType() {
-        return EnvironmentProviderTypes.REDUCE_SEQUENCE;
+    public EnvironmentProviderType<ModifyEnvironmentProvider> getType() {
+        return EnvironmentProviderTypes.MODIFY;
     }
 
     /**
-     * A list of modifiers that are {@linkplain  ReducibleComponentMapBuilder reduced} into the base. Modifiers are
-     * applied in iteration order.
+     * A list of modifiers that are applied to the base. Modifiers are applied in iteration order.
      *
      * @return Returns a registry entry list of providers
      */

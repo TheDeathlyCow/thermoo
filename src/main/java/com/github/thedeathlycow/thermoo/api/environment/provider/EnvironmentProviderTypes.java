@@ -27,13 +27,11 @@ public final class EnvironmentProviderTypes {
     public static final EnvironmentProviderType<TropicalSeasonEnvironmentProvider> TROPICAL_SEASONAL = new EnvironmentProviderType<>(TropicalSeasonEnvironmentProvider.CODEC);
 
     /**
-     * A provider that can reduce a list of modifiers into a base provider through
-     * {@link com.github.thedeathlycow.thermoo.api.util.component.ReducibleComponentMapBuilder}
+     * A provider that can apply a list of modifiers to a base provider
      *
-     * @see ReduceSequenceEnvironmentProvider
-     * @see com.github.thedeathlycow.thermoo.api.util.component.ReducibleComponentMapBuilder
+     * @see ModifyEnvironmentProvider
      */
-    public static final EnvironmentProviderType<ReduceSequenceEnvironmentProvider> REDUCE_SEQUENCE = new EnvironmentProviderType<>(ReduceSequenceEnvironmentProvider.CODEC);
+    public static final EnvironmentProviderType<ModifyEnvironmentProvider> MODIFY = new EnvironmentProviderType<>(ModifyEnvironmentProvider.CODEC);
 
     /**
      * A provider that picks between two child providers based on light level
