@@ -12,7 +12,4 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 public interface ComponentMapBuilderAccessor {
     @Accessor("components")
     Reference2ObjectMap<ComponentType<?>, Object> thermoo$getComponents();
-
-    @Invoker("put")
-    <T> void thermoo$invokePut(ComponentType<T> type, @Nullable Object value);
 }

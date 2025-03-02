@@ -3,6 +3,8 @@ package com.github.thedeathlycow.thermoo.api.environment.provider;
 import com.github.thedeathlycow.thermoo.api.environment.component.EnvironmentComponentTypes;
 import com.github.thedeathlycow.thermoo.api.environment.component.TemperatureRecordComponent;
 import com.github.thedeathlycow.thermoo.api.util.TemperatureRecord;
+import com.github.thedeathlycow.thermoo.impl.Thermoo;
+import com.github.thedeathlycow.thermoo.mixin.common.accessor.ComponentMapBuilderAccessor;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.component.ComponentMap;
@@ -43,7 +45,8 @@ public final class TemperatureShiftEnvironmentProvider implements EnvironmentPro
 
     /**
      * {@linkplain TemperatureRecord#add(TemperatureRecord) Adds} the shift value of this provider to the existing
-     * temperature component in the builder. If no temperature component is in the builder, then adds 20C and shifts that.
+     * temperature component in the builder. If no temperature component is in the builder, then this will skip and log
+     * a warning.
      *
      * @param world   The world/level being queried
      * @param pos     The position in the world to query
@@ -52,10 +55,14 @@ public final class TemperatureShiftEnvironmentProvider implements EnvironmentPro
      */
     @Override
     public void buildCurrentComponents(World world, BlockPos pos, RegistryEntry<Biome> biome, ComponentMap.Builder builder) {
-        TemperatureRecord base = builder.getOrDefault(EnvironmentComponentTypes.TEMPERATURE, TemperatureRecordComponent.DEFAULT);
-
-        TemperatureRecord shifted = base.add(this.shift);
-        builder.add(EnvironmentComponentTypes.TEMPERATURE, shifted);
+        ComponentMapBuilderAccessor accessor = (ComponentMapBuilderAccessor) builder;
+        if (accessor.thermoo$getComponents().containsKey(EnvironmentComponentTypes.TEMPERATURE)) {
+            TemperatureRecord base = builder.getOrDefault(EnvironmentComponentTypes.TEMPERATURE, TemperatureRecordComponent.DEFAULT);
+            TemperatureRecord shifted = base.add(this.shift);
+            builder.add(EnvironmentComponentTypes.TEMPERATURE, shifted);
+        } else {
+            Thermoo.LOGGER.warn("Unable to shift a missing temperature component in: {}", accessor.thermoo$getComponents());
+        }
     }
 
     @Override
