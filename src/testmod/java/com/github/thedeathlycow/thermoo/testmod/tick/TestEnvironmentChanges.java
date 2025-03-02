@@ -29,12 +29,12 @@ public final class TestEnvironmentChanges {
         ServerPlayerEnvironmentTickEvents.ALLOW_TEMPERATURE_UPDATE.register(context -> TriState.of(context.world().getGameRules().get(APPLY_ENVIRONMENT_CHANGES).get()));
 
         ServerPlayerEnvironmentTickEvents.GET_TEMPERATURE_CHANGE.register(context -> {
-            TemperatureRecordComponent temperature = context.components()
+            TemperatureRecord temperature = context.components()
                     .getOrDefault(EnvironmentComponentTypes.TEMPERATURE, TemperatureRecordComponent.DEFAULT);
 
-            if (temperature.temperature().compareTo(COLD_TEMPERATURE) < 0) {
+            if (temperature.compareTo(COLD_TEMPERATURE) < 0) {
                 return -2;
-            } else if (temperature.temperature().compareTo(WARM_TEMPERATURE) > 0) {
+            } else if (temperature.compareTo(WARM_TEMPERATURE) > 0) {
                 return 2;
             } else {
                 return 0;

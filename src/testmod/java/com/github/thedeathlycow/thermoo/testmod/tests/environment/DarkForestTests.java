@@ -54,7 +54,7 @@ public class DarkForestTests {
     }
 
     @GameTest(templateName = FabricGameTest.EMPTY_STRUCTURE)
-    public void dark_forest_winter_temperature_is_replaced_with_35c(TestContext context) {
+    public void dark_forest_summer_temperature_is_replaced_with_35c(TestContext context) {
         World world = context.getWorld();
         EnvironmentTestHelper.setSeasons(context, ThermooSeason.SUMMER, null);
 
@@ -65,7 +65,7 @@ public class DarkForestTests {
     }
 
     @GameTest(templateName = FabricGameTest.EMPTY_STRUCTURE)
-    public void dark_forest_winter_humidity_is_replaced_with_75pc(TestContext context) {
+    public void dark_forest_summer_humidity_is_replaced_with_75pc(TestContext context) {
         World world = context.getWorld();
         EnvironmentTestHelper.setSeasons(context, ThermooSeason.SUMMER, null);
 

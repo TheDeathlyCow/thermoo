@@ -269,7 +269,6 @@ public class EnvironmentCommand {
         double temperature = EnvironmentLookup.getInstance().findEnvironmentComponents(
                         source.getWorld(), location
                 ).getOrDefault(EnvironmentComponentTypes.TEMPERATURE, TemperatureRecordComponent.DEFAULT)
-                .temperature()
                 .valueInUnit(unit);
 
         source.sendFeedback(

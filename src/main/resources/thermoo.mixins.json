@@ -10,8 +10,7 @@
         "HotFloorMixin",
         "LivingEntityAttributeMixin",
         "LivingEntityEnvironmentTickMixin",
-        "PlayerTemperatureTickMixin",
-        "accessor.ComponentMapBuilderAccessor"
+        "PlayerTemperatureTickMixin"
     ],
     "injectors": {
         "defaultRequire": 1
