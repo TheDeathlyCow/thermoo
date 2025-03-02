@@ -3,7 +3,6 @@ package com.github.thedeathlycow.thermoo.api.environment.provider;
 import com.github.thedeathlycow.thermoo.api.environment.component.EnvironmentComponentTypes;
 import com.github.thedeathlycow.thermoo.api.environment.component.TemperatureRecordComponent;
 import com.github.thedeathlycow.thermoo.api.util.TemperatureRecord;
-import com.github.thedeathlycow.thermoo.api.util.component.ReducibleComponentMapBuilder;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.component.ComponentMap;
@@ -53,11 +52,10 @@ public final class TemperatureShiftEnvironmentProvider implements EnvironmentPro
      */
     @Override
     public void buildCurrentComponents(World world, BlockPos pos, RegistryEntry<Biome> biome, ComponentMap.Builder builder) {
-        TemperatureRecord base = builder.getOrDefault(EnvironmentComponentTypes.TEMPERATURE, TemperatureRecordComponent.DEFAULT)
-                .temperature();
+        TemperatureRecord base = builder.getOrDefault(EnvironmentComponentTypes.TEMPERATURE, TemperatureRecordComponent.DEFAULT);
 
         TemperatureRecord shifted = base.add(this.shift);
-        builder.add(EnvironmentComponentTypes.TEMPERATURE, new TemperatureRecordComponent(shifted));
+        builder.add(EnvironmentComponentTypes.TEMPERATURE, shifted);
     }
 
     @Override

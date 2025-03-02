@@ -1,6 +1,7 @@
 package com.github.thedeathlycow.thermoo.api.environment.component;
 
 import com.github.thedeathlycow.thermoo.api.ThermooRegistries;
+import com.github.thedeathlycow.thermoo.api.util.TemperatureRecord;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import com.mojang.serialization.Codec;
 import net.minecraft.component.ComponentMap;
@@ -25,7 +26,7 @@ public final class EnvironmentComponentTypes {
      * Stores a temperature reading in {@link com.github.thedeathlycow.thermoo.api.util.TemperatureUnit a unit} such as
      * Celsius, Fahrenheit, Kelvin, or Rankine.
      */
-    public static final ComponentType<TemperatureRecordComponent> TEMPERATURE = register(
+    public static final ComponentType<TemperatureRecord> TEMPERATURE = register(
             "temperature",
             builder -> builder.codec(TemperatureRecordComponent.CODEC)
     );

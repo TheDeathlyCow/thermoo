@@ -3,7 +3,6 @@ package com.github.thedeathlycow.thermoo.api.environment.provider;
 import com.github.thedeathlycow.thermoo.api.ThermooRegistries;
 import com.github.thedeathlycow.thermoo.api.ThermooRegistryKeys;
 import com.github.thedeathlycow.thermoo.api.environment.component.EnvironmentComponentTypes;
-import com.github.thedeathlycow.thermoo.api.util.component.ReducibleComponentMapBuilder;
 import com.mojang.serialization.Codec;
 import net.minecraft.component.ComponentMap;
 import net.minecraft.registry.entry.RegistryElementCodec;
@@ -11,8 +10,6 @@ import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
-import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.Contract;
 
 /**
  * Provides the environment parameters (such as temperature and relative humidity) of a position in a world and biome.

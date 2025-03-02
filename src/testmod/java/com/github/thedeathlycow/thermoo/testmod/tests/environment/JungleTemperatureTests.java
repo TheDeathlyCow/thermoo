@@ -1,9 +1,7 @@
 package com.github.thedeathlycow.thermoo.testmod.tests.environment;
 
-import com.github.thedeathlycow.thermoo.api.environment.EnvironmentLookup;
 import com.github.thedeathlycow.thermoo.api.environment.component.TemperatureRecordComponent;
 import com.github.thedeathlycow.thermoo.api.season.ThermooSeason;
-import com.github.thedeathlycow.thermoo.api.util.TemperatureUnit;
 import net.fabricmc.fabric.api.gametest.v1.FabricGameTest;
 import net.minecraft.test.GameTest;
 import net.minecraft.test.TestContext;
@@ -20,7 +18,7 @@ public class JungleTemperatureTests {
         double temperature = EnvironmentTestHelper.getBiomeTemperature(context, world, BiomeKeys.JUNGLE);
         EnvironmentTestHelper.assertTemperatureEquals(
                 context,
-                TemperatureRecordComponent.ROOM_TEMPERATURE.value(),
+                TemperatureRecordComponent.DEFAULT.value(),
                 temperature
         );
 

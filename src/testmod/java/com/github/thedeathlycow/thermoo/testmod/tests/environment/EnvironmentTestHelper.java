@@ -5,27 +5,19 @@ import com.github.thedeathlycow.thermoo.api.environment.component.RelativeHumidi
 import com.github.thedeathlycow.thermoo.api.environment.component.TemperatureRecordComponent;
 import com.github.thedeathlycow.thermoo.api.environment.provider.EnvironmentProvider;
 import com.github.thedeathlycow.thermoo.api.season.ThermooSeason;
+import com.github.thedeathlycow.thermoo.api.util.TemperatureRecord;
 import com.github.thedeathlycow.thermoo.api.util.TemperatureUnit;
-import com.github.thedeathlycow.thermoo.api.util.component.ReducibleComponentMapBuilder;
 import com.github.thedeathlycow.thermoo.impl.environment.EnvironmentLookupImpl;
 import com.github.thedeathlycow.thermoo.testmod.ThermooTestMod;
-import net.minecraft.block.Block;
 import net.minecraft.component.ComponentMap;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ItemEntity;
-import net.minecraft.item.Item;
 import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.test.PositionedException;
 import net.minecraft.test.TestContext;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
 import net.minecraft.world.GameRules;
-import net.minecraft.world.LightType;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import org.jetbrains.annotations.Nullable;
@@ -45,7 +37,7 @@ public final class EnvironmentTestHelper {
         );
     }
 
-    public static TemperatureRecordComponent getTemperature(TestContext context, BlockPos pos, EnvironmentProvider provider) {
+    public static TemperatureRecord getTemperature(TestContext context, BlockPos pos, EnvironmentProvider provider) {
         BlockPos absolute = context.getAbsolutePos(pos);
 
         ComponentMap.Builder builder = ComponentMap.builder();
@@ -55,7 +47,7 @@ public final class EnvironmentTestHelper {
                 context.getWorld().getBiome(absolute),
                 builder
         );
-        TemperatureRecordComponent component = builder.build().get(EnvironmentComponentTypes.TEMPERATURE);
+        TemperatureRecord component = builder.build().get(EnvironmentComponentTypes.TEMPERATURE);
         context.assertFalse(component == null, "Temperature is missing");
         return component;
     }
@@ -67,7 +59,6 @@ public final class EnvironmentTestHelper {
                         context.getAbsolutePos(BlockPos.ORIGIN),
                         plains
                 ).getOrDefault(EnvironmentComponentTypes.TEMPERATURE, TemperatureRecordComponent.DEFAULT)
-                .temperature()
                 .valueInUnit(TemperatureUnit.CELSIUS);
     }
 
