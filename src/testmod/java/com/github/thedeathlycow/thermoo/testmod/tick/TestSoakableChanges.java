@@ -22,7 +22,7 @@ public class TestSoakableChanges {
                     GameRuleFactory.createBooleanRule(true)
             );
 
-    public static int addSoakingChange(EnvironmentTickContext<LivingEntity> context) {
+    public static int addSoakingChange(EnvironmentTickContext<? extends LivingEntity> context) {
         LivingEntity entity = context.affected();
         int total = 0;
 
