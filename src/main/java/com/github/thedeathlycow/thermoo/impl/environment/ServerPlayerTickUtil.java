@@ -6,7 +6,7 @@ import net.fabricmc.fabric.api.util.TriState;
 import net.minecraft.server.network.ServerPlayerEntity;
 
 public final class ServerPlayerTickUtil {
-    public static void tickPlayerTemperature(EnvironmentTickContextImpl<ServerPlayerEntity> context) {
+    public static void invokePlayerTemperatureEvents(EnvironmentTickContext<ServerPlayerEntity> context) {
         if (ServerPlayerEnvironmentTickEvents.ALLOW_TEMPERATURE_UPDATE.invoker().allowUpdate(context) == TriState.FALSE) {
             return;
         }

@@ -77,7 +77,7 @@ public final class LivingEntitySoakingTickEvents {
          * @return Return true or false to make the update happen right away, or default to fall back to other listeners.
          * The default behaviour will be to allow the update.
          */
-        TriState allowUpdate(EnvironmentTickContext<LivingEntity> context);
+        TriState allowUpdate(EnvironmentTickContext<? extends LivingEntity> context);
     }
 
     @FunctionalInterface
@@ -89,7 +89,7 @@ public final class LivingEntitySoakingTickEvents {
          * @return Return the soaking tick change that this listener wants to apply to the entity in
          * the context. This value is added to the values supplied by the other listeners.
          */
-        int addChange(EnvironmentTickContext<LivingEntity> context);
+        int addChange(EnvironmentTickContext<? extends LivingEntity> context);
     }
 
     @FunctionalInterface
@@ -102,7 +102,7 @@ public final class LivingEntitySoakingTickEvents {
          * @return Return true or false to make the update apply right away, or default to fall back to other listeners.
          * The default behaviour will be to allow the update.
          */
-        TriState allowChange(EnvironmentTickContext<LivingEntity> context, int soakingChange);
+        TriState allowChange(EnvironmentTickContext<? extends LivingEntity> context, int soakingChange);
     }
 
     private LivingEntitySoakingTickEvents() {
