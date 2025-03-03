@@ -36,7 +36,7 @@ public class TestTemperatureChanges {
                     GameRuleFactory.createBooleanRule(true)
             );
 
-    public static int getActiveChange(EnvironmentTickContext<LivingEntity> context) {
+    public static int getActiveChange(EnvironmentTickContext<? extends LivingEntity> context) {
         LivingEntity affected = context.affected();
         int total = 0;
 
@@ -51,7 +51,7 @@ public class TestTemperatureChanges {
         return total;
     }
 
-    public static int getPassiveChange(EnvironmentTickContext<LivingEntity> context) {
+    public static int getPassiveChange(EnvironmentTickContext<? extends LivingEntity> context) {
         LivingEntity affected = context.affected();
         ServerWorld world = context.world();
         BlockPos pos = context.pos();
