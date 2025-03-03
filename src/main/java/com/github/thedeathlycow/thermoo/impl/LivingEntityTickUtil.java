@@ -3,8 +3,6 @@ package com.github.thedeathlycow.thermoo.impl;
 import com.github.thedeathlycow.thermoo.api.environment.EnvironmentLookup;
 import com.github.thedeathlycow.thermoo.api.temperature.HeatingMode;
 import com.github.thedeathlycow.thermoo.api.temperature.HeatingModes;
-import com.github.thedeathlycow.thermoo.api.temperature.Soakable;
-import com.github.thedeathlycow.thermoo.api.temperature.TemperatureAware;
 import com.github.thedeathlycow.thermoo.api.temperature.event.LivingEntitySoakingTickEvents;
 import com.github.thedeathlycow.thermoo.api.temperature.event.LivingEntityTemperatureTickEvents;
 import com.github.thedeathlycow.thermoo.api.temperature.event.EnvironmentTickContext;
@@ -14,6 +12,7 @@ import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.util.TriState;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.FenceGateBlock;
+import net.minecraft.component.ComponentMap;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -30,38 +29,23 @@ public final class LivingEntityTickUtil {
 
         if (entity.getWorld() instanceof ServerWorld serverWorld) {
             BlockPos pos = getTemperatureTickPos(entity);
-            var context = new EnvironmentTickContextImpl<>(
-                    entity,
-                    serverWorld,
-                    pos,
-                    EnvironmentLookup.getInstance().findEnvironmentComponents(serverWorld, pos)
-            );
-
-            tickSoakingChange(
-                    context,
-                    LivingEntitySoakingTickEvents.ALLOW_SOAKING_UPDATE,
-                    LivingEntitySoakingTickEvents.GET_SOAKING_CHANGE,
-                    LivingEntitySoakingTickEvents.ALLOW_SOAKING_CHANGE
-            );
-            tickTemperatureChange(
-                    context,
-                    HeatingModes.PASSIVE,
-                    LivingEntityTemperatureTickEvents.ALLOW_PASSIVE_TEMPERATURE_UPDATE,
-                    LivingEntityTemperatureTickEvents.GET_PASSIVE_TEMPERATURE_CHANGE,
-                    LivingEntityTemperatureTickEvents.ALLOW_PASSIVE_TEMPERATURE_CHANGE
-            );
-
-            tickTemperatureChange(
-                    context,
-                    HeatingModes.ACTIVE,
-                    LivingEntityTemperatureTickEvents.ALLOW_ACTIVE_TEMPERATURE_UPDATE,
-                    LivingEntityTemperatureTickEvents.GET_ACTIVE_TEMPERATURE_CHANGE,
-                    LivingEntityTemperatureTickEvents.ALLOW_ACTIVE_TEMPERATURE_CHANGE
-            );
-
-            if (context.affected() instanceof ServerPlayerEntity player) {
-                var playerCtx = new EnvironmentTickContextImpl<>(player, serverWorld, context.pos(), context.components());
-                ServerPlayerTickUtil.tickPlayerTemperature(playerCtx);
+            if (entity instanceof ServerPlayerEntity player) {
+                EnvironmentTickContext<ServerPlayerEntity> context = new EnvironmentTickContextImpl<>(
+                        player,
+                        serverWorld,
+                        pos,
+                        EnvironmentLookup.getInstance().findEnvironmentComponents(serverWorld, pos)
+                );
+                invokeEntityEvents(context);
+                ServerPlayerTickUtil.invokePlayerTemperatureEvents(context);
+            } else {
+                EnvironmentTickContext<LivingEntity> context = new EnvironmentTickContextImpl<>(
+                        entity,
+                        serverWorld,
+                        pos,
+                        ComponentMap.EMPTY
+                );
+                invokeEntityEvents(context);
             }
         }
     }
@@ -89,8 +73,32 @@ public final class LivingEntityTickUtil {
         }
     }
 
+    private static void invokeEntityEvents(EnvironmentTickContext<? extends LivingEntity> context) {
+        tickSoakingChange(
+                context,
+                LivingEntitySoakingTickEvents.ALLOW_SOAKING_UPDATE,
+                LivingEntitySoakingTickEvents.GET_SOAKING_CHANGE,
+                LivingEntitySoakingTickEvents.ALLOW_SOAKING_CHANGE
+        );
+        tickTemperatureChange(
+                context,
+                HeatingModes.PASSIVE,
+                LivingEntityTemperatureTickEvents.ALLOW_PASSIVE_TEMPERATURE_UPDATE,
+                LivingEntityTemperatureTickEvents.GET_PASSIVE_TEMPERATURE_CHANGE,
+                LivingEntityTemperatureTickEvents.ALLOW_PASSIVE_TEMPERATURE_CHANGE
+        );
+
+        tickTemperatureChange(
+                context,
+                HeatingModes.ACTIVE,
+                LivingEntityTemperatureTickEvents.ALLOW_ACTIVE_TEMPERATURE_UPDATE,
+                LivingEntityTemperatureTickEvents.GET_ACTIVE_TEMPERATURE_CHANGE,
+                LivingEntityTemperatureTickEvents.ALLOW_ACTIVE_TEMPERATURE_CHANGE
+        );
+    }
+
     private static void tickTemperatureChange(
-            EnvironmentTickContext<LivingEntity> context,
+            EnvironmentTickContext<? extends LivingEntity> context,
             HeatingMode heatingMode,
             Event<LivingEntityTemperatureTickEvents.AllowTemperatureUpdate> allowUpdate,
             Event<LivingEntityTemperatureTickEvents.GetTemperatureChange> getTempChange,
@@ -107,7 +115,7 @@ public final class LivingEntityTickUtil {
     }
 
     private static void tickSoakingChange(
-            EnvironmentTickContext<LivingEntity> context,
+            EnvironmentTickContext<? extends LivingEntity> context,
             Event<LivingEntitySoakingTickEvents.AllowSoakingUpdate> allowUpdate,
             Event<LivingEntitySoakingTickEvents.GetSoakingChange> addSoakChange,
             Event<LivingEntitySoakingTickEvents.AllowSoakingChange> allowChange

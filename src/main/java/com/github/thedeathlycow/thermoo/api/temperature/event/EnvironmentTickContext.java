@@ -43,6 +43,8 @@ public interface EnvironmentTickContext<T extends TemperatureAware & Soakable> {
      * The current environment components at the world and position.
      * <p>
      * No key is guaranteed to be mapped to a value, be sure to always check the result or use {@link ComponentMap#getOrDefault(ComponentType, Object)}.
+     * <p>
+     * Environment components are only looked up for players by default, for all other entity types this map is empty.
      *
      * @return Returns an {@link EnvironmentComponentTypes environment component map}
      */
