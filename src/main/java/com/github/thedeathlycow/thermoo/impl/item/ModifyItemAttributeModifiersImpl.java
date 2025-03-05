@@ -30,11 +30,6 @@ public final class ModifyItemAttributeModifiersImpl {
 
     public static void initialize() {
         ServerLifecycleEvents.START_DATA_PACK_RELOAD.register((server, resourceManager) -> CACHE.invalidateAll());
-        ServerTickEvents.END_SERVER_TICK.register(server -> {
-            if (server.getTicks() % 20 == 0) {
-                Thermoo.LOGGER.info("Modifier cache size: {}", CACHE.size());
-            }
-        });
     }
 
     public static AttributeModifiersComponent invoke(ItemStack stack, AttributeModifiersComponent base) {

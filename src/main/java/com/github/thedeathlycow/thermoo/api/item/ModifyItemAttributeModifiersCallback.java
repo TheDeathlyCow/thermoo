@@ -7,9 +7,25 @@ import net.minecraft.item.ItemStack;
 import org.jetbrains.annotations.ApiStatus;
 
 /**
- * Stack-aware event for modifying the default attribute modifier component of an item.
+ * Stack-aware event for modifying the default attribute modifier component of an item. This should only be used
+ * for items external to your mod, such as vanilla items or items from other mods.
  * <p>
- * Experimental event, it may not work fully as expected or impact performance. Proceed with caution.
+ * This does not modify the actual {@linkplain net.minecraft.component.DataComponentTypes#ATTRIBUTE_MODIFIERS attribute modifiers component},
+ * instead it adjusts the attributes that are used when applied to an entity or displaying the tooltip.
+ * <p>
+ * This is an experimental event, it may not work fully as expected or impact performance. Proceed with caution.
+ * <p>
+ * <strong>Example</strong>
+ * This listener adds max health to all helmets
+ * <pre>
+ * {@code
+ *  ModifyItemAttributeModifiersCallback.EVENT.register((stack, builder) -> {
+ *  	if (stack.isIn(ItemTags.HEAD_ARMOR)) {
+ *          builder.add(EntityAttributes.MAX_HEALTH, MODIFIER, AttributeModifierSlot.HEAD);
+ *      }
+ *  });
+ * }
+ * </pre>
  */
 @ApiStatus.Experimental
 @FunctionalInterface
