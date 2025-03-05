@@ -13,9 +13,11 @@ import org.jetbrains.annotations.ApiStatus;
  * This does not modify the actual {@linkplain net.minecraft.component.DataComponentTypes#ATTRIBUTE_MODIFIERS attribute modifiers component},
  * instead it adjusts the attributes that are used when applied to an entity or displaying the tooltip.
  * <p>
+ * Results from this event may be cached on the stack instance.
+ * <p>
  * This is an experimental event, it may not work fully as expected or impact performance. Proceed with caution.
  * <p>
- * <strong>Example</strong>
+ * <strong>Example:</strong>
  * This listener adds max health to all helmets
  * <pre>
  * {@code
