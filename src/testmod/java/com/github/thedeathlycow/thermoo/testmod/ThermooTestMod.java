@@ -1,20 +1,25 @@
 package com.github.thedeathlycow.thermoo.testmod;
 
 import com.github.thedeathlycow.thermoo.api.ThermooAttributes;
+import com.github.thedeathlycow.thermoo.api.item.ModifyItemAttributeModifiersCallback;
 import com.github.thedeathlycow.thermoo.api.season.ThermooSeason;
 import com.github.thedeathlycow.thermoo.api.season.ThermooSeasonEvents;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
+import com.github.thedeathlycow.thermoo.testmod.tests.item.ModifyItemAttributeModifiersTest;
 import com.github.thedeathlycow.thermoo.testmod.tick.TestEnvironmentChanges;
 import com.github.thedeathlycow.thermoo.testmod.tick.TestSoakableChanges;
 import com.github.thedeathlycow.thermoo.testmod.tick.TestTemperatureChanges;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
+import net.minecraft.util.Identifier;
 import net.minecraft.world.GameRules;
 
 import java.util.Optional;
 
 public class ThermooTestMod implements ModInitializer {
+    public static final String MODID = Thermoo.MODID + "-test";
+
     public static final GameRules.Key<GameRules.IntRule> CURRENT_SEASON =
             GameRuleRegistry.register(
                     Thermoo.MODID + ".setTestSeason",
@@ -37,6 +42,7 @@ public class ThermooTestMod implements ModInitializer {
         TestTemperatureChanges.initialize();
         TestSoakableChanges.initialize();
         TestEnvironmentChanges.initialize();
+        ModifyItemAttributeModifiersTest.initialize();
 
         ThermooSeasonEvents.GET_CURRENT_SEASON.register(
                 world -> Optional.ofNullable(switch (world.getServer().getGameRules().getInt(CURRENT_SEASON)) {
@@ -55,5 +61,9 @@ public class ThermooTestMod implements ModInitializer {
                     default -> null;
                 })
         );
+    }
+
+    public static Identifier id(String path) {
+        return Identifier.of(MODID, path);
     }
 }
