@@ -26,7 +26,7 @@ public class ModifyItemAttributeModifiersTest {
         ModifyItemAttributeModifiersCallback.EVENT.register((stack, builder) -> {
             if (stack.isOf(Items.DIAMOND_CHESTPLATE)) {
                 builder.add(
-                        EntityAttributes.SCALE,
+                        EntityAttributes.GENERIC_SCALE,
                         new EntityAttributeModifier(
                                 ThermooTestMod.id("diamond_chestplate_scale_test"),
                                 1.0,
@@ -38,7 +38,7 @@ public class ModifyItemAttributeModifiersTest {
 
             if (stack.isIn(ItemTags.AXES)) {
                 builder.add(
-                        EntityAttributes.ARMOR,
+                        EntityAttributes.GENERIC_ARMOR,
                         new EntityAttributeModifier(
                                 ThermooTestMod.id("diamond_axe_armor_test"),
                                 1.0,
@@ -50,7 +50,7 @@ public class ModifyItemAttributeModifiersTest {
 
             if (stack.isOf(Items.NETHERITE_AXE)) {
                 builder.add(
-                        EntityAttributes.ARMOR,
+                        EntityAttributes.GENERIC_ARMOR,
                         // duplicate
                         new EntityAttributeModifier(
                                 ThermooTestMod.id("diamond_axe_armor_test"),
