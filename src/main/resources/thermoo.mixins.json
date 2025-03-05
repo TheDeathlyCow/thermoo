@@ -8,9 +8,11 @@
         "accessor.ComponentMapBuilderAccessor",
         "EnvironmentAwareEntityMixin",
         "HotFloorMixin",
+        "ItemStackMixin",
         "LivingEntityAttributeMixin",
         "LivingEntityEnvironmentTickMixin",
-        "PlayerTemperatureTickMixin"
+        "PlayerTemperatureTickMixin",
+        "accessor.AttributeModifiersComponentBuilderAccessor"
     ],
     "injectors": {
         "defaultRequire": 1
