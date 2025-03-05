@@ -1,0 +1,33 @@
+{
+    "attribute.thermoo.min_temperature": "Temperatura Mínima",
+    "attribute.thermoo.max_temperature": "Temperatura Máxima",
+    "attribute.thermoo.frost_resistance": "Resistencia al Congelamiento",
+    "attribute.thermoo.heat_resistance": "Resistencia al Calor",
+    
+    "tag.item.thermoo.consumable.cooling": "Consumibles de Enfriamiento",
+    "tag.item.thermoo.consumable.warming": "Consumibles de Calentamiento",
+    
+    "commands.thermoo.temperature.exception.not_living_entity": "¡El objetivo no es una entidad viva!",
+    "commands.thermoo.temperature.get.scale.success": "La escala de temperatura de %s es %d",
+    "commands.thermoo.temperature.get.max.success": "%s puede tener una temperatura máxima de %d",
+    "commands.thermoo.temperature.get.min.success": "%s puede tener una temperatura mínima de %d",
+    "commands.thermoo.temperature.get.current.success": "La temperatura actual de %s es %d",
+    "commands.thermoo.temperature.add.success.single": "Se añadió %d de temperatura a %s (ahora %d)",
+    "commands.thermoo.temperature.add.success.multiple": "Se añadió %d de temperatura a %d entidades",
+    "commands.thermoo.temperature.remove.success.single": "Se removió %d de temperatura de %s (ahora %d)",
+    "commands.thermoo.temperature.remove.success.multiple": "Se removió %d de temperatura de %d entidades",
+    "commands.thermoo.temperature.set.success.single": "Se estableció la temperatura de %s a %d",
+    "commands.thermoo.temperature.set.success.multiple": "Se estableció la temperatura de %s entidades a %d",
+    "commands.thermoo.environment.printcontroller.success": "Controlador registrado en la consola",
+
+    "commands.thermoo.environment.checktemperature.success": "El cambio de temperatura pasiva en %s, %s, %s (%s) es %s",
+    "commands.thermoo.environment.checktemperature.unit.success": "La temperatura en %s, %s, %s (%s) es %s°%s",
+    
+    "commands.thermoo.soaking.get.current.success": "El valor de remojo actual de %s es %d",
+    "commands.thermoo.soaking.get.scale.success": "La escala de remojo actual de %s es %d",
+    "commands.thermoo.soaking.get.min.success": "El valor mínimo de remojo de %s es %d",
+    "commands.thermoo.soaking.get.max.success": "El valor máximo de remojo de %s es %d",
+    "commands.thermoo.soaking.set.success": "Se estableció el valor de remojo de %s a %d (ahora %d)",
+    "commands.thermoo.soaking.add.success": "Se añadieron %d puntos al valor de remojo de %s (ahora %d)",
+    "commands.thermoo.soaking.remove.success": "Se removieron %d puntos del valor de remojo de %s (ahora %d)"
+}
