@@ -14,10 +14,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 
-import java.util.Collections;
-import java.util.IdentityHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class EnvironmentLookupImpl implements EnvironmentLookup {
     public static final EnvironmentLookupImpl INSTANCE = new EnvironmentLookupImpl();
@@ -58,7 +55,15 @@ public class EnvironmentLookupImpl implements EnvironmentLookup {
                             .map(EnvironmentDefinition::provider)
                             .toList();
                     if (Thermoo.LOGGER.isDebugEnabled()) {
-                        Thermoo.LOGGER.debug("Found {} providers for biome {}", providers.size(), k);
+                        Thermoo.LOGGER.debug(
+                                "Environment providers found for {}: {}",
+                                k,
+                                providers.stream()
+                                        .map(RegistryEntry::getKey)
+                                        .filter(Optional::isPresent)
+                                        .map(ek -> ek.orElseThrow().getValue())
+                                        .toList()
+                        );
                     }
                     return providers;
                 }
