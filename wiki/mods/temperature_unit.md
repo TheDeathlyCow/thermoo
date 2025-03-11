@@ -42,7 +42,7 @@ Check if a temperature record is at or below the freezing point of water (0°C/3
     import com.github.thedeathlycow.thermoo.api.kt.TemperatureRecordExtensions
     
     fun isFreezing(temperature: TemperatureRecord): Boolean {
-        return base <= 0.C
+        return temperature <= 0.C
     }
     ```
 
@@ -63,7 +63,7 @@ Recording a temperature of 30°C in the [Environment Provider Components](../dat
 
 ```json
 {
-    "thermoo:temperature": 30
+    "thermoo:temperature": 30.0
 }
 ```
 
@@ -72,7 +72,7 @@ Recording a temperature of 68°F in the [Environment Provider Components](../dat
 ```json
 {
     "thermoo:temperature": {
-        "value": 68,
+        "value": 68.0,
         "unit": "fahrenheit"
     }
 }
@@ -83,7 +83,7 @@ Recording a temperature of 0°K in the [Environment Provider Components](../data
 ```json
 {
     "thermoo:temperature": {
-        "value": 0,
+        "value": 0.0,
         "unit": "kelvin"
     }
 }
