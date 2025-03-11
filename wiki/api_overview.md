@@ -3,13 +3,9 @@ title: API Overview
 ---
 # API Overview
 
-Thermoo is a temperature and environment library for the Fabric and Quilt modding platforms. This page will provide a
-basic overview of how to set up and interact with the library in your mod or datapack. As of 1.21, Thermoo is required
-to be installed on both the client and server in order to function properly.
+Thermoo is a temperature and environment library for the Fabric and Quilt modding platforms. This page will provide a basic overview of how to set up and interact with the library in your mod or datapack. As of 1.21, Thermoo is required to be installed on both the client and server in order to function properly.
 
-This is a rather long page, so it may be best to follow along in your own mod/datapack while reading, or to skim the
-page first. There is also a sidebar to help with navigation! Remember that I also have
-a [Discord](https://discord.gg/aqASuWebRU) where I am happy to help and answer questions related to Thermoo.
+This is a rather long page, so it may be best to follow along in your own mod/datapack while reading, or to skim the page first. There is also a sidebar to help with navigation! Remember that I also have a [Discord](https://discord.gg/aqASuWebRU) where I am happy to help and answer questions related to Thermoo.
 
 ## Setup
 
@@ -158,7 +154,7 @@ value of `45` will have a minimum temperature of `-6300`.
 A temperature scale is also available to be queried, based on the entity's current temperature and max/min temperature
 values. The temperature scale is a percentage value in the range `[-1, 1]` that represents the entity's current
 temperature value divided by their maximum temperature (if warm), or by their minimum temperature (if cold). This scale
-is frequently used in [temperature effects](./datapacks/temperature_effect_definition) and is often used when
+is frequently used in [temperature effects](../datapacks/temperature_effect_definition) and is often used when
 determining exactly how "cold" an entity is.
 
 #### Usage Example
@@ -367,7 +363,7 @@ For datapack authors, wetness can be interacted with through the command `/therm
 Temperature Effects are a Datapack registry that can be used to apply various kinds of effects to entities based on
 their current temperature and other conditions each tick. They are used for both mods and datapacks, and can be used in
 place of hard-coded tick methods and listeners. The full format is documented on
-the [Temperature Effect page](./datapacks/temperature_effect_definition).
+the [Temperature Effect page](../datapacks/temperature_effect_definition).
 
 ### Usage example
 
@@ -413,7 +409,7 @@ in [Frostiful](https://github.com/TheDeathlyCow/frostiful/tree/1.21.1/src/main/r
 and [Scorchful](https://github.com/TheDeathlyCow/scorchful/tree/1.21.1/src/main/resources/data/scorchful/thermoo).
 
 Thermoo currently provides two environment component types: `thermoo:temperature` and `thermoo:relative_humidity`. The
-Temperature component is stored in a special [Temperature Record](./mods/temperature_unit) object that contains a
+Temperature component is stored in a special [Temperature Record](../mods/temperature_unit) object that contains a
 temperature value and a unit (such as Celsius or Fahrenheit), which records the current temperature of the block
 position. The relative humidity is a 0-1 percentage of the area's
 current [relative humidity](https://en.m.wikipedia.org/wiki/Humidity#Relative_humidity). Custom component types may be
@@ -442,12 +438,12 @@ The `thermoo:constant` provider just returns a constant set of parameters, and i
 Much like custom components, mods can also define custom provider types to the
 registry `ThermooRegistries.ENVIRONMENT_PROVIDER_TYPE`.
 
-The full format for these registries can be found on the [Environment Definition](./datapacks/environment_definition)
-and [Environment Provider](./datapacks/environment_provider_definition) pages.
+The full format for these registries can be found on the [Environment Definition](../datapacks/environment_definition)
+and [Environment Provider](../datapacks/environment_provider_definition) pages.
 
 #### Usage Examples
 
-Defining the temperature for snowy biomes based on the [season](./mods/seasons) (datapack-only).
+Defining the temperature for snowy biomes based on the [season](../mods/seasons) (datapack-only).
 
 ```json5 title="data/example/thermoo/environment/snowy_temperature.json"
 // Note: comments are not allowed in the actual JSON files
