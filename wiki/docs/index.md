@@ -25,6 +25,7 @@ For Modders, there is also extensive Javadoc provided for all of Thermoo's publi
 - [Season API](./mods/seasons)
 - [Status Bar Overlay API (client only)](./mods/status_bar_overlay)
 - [Temperature Unit](./mods/temperature_unit)
+- [Tick Events](./mods/tick_events)
 
 ### 📦 Datapack Utilities
 - [Custom Loot Conditions](./datapacks/loot_condition)

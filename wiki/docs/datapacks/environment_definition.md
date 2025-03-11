@@ -3,7 +3,7 @@ title: 🌎 Environment Definition
 ---
 # Environment Definition
 
-The Environment Definition is a datapack registry that defines the environment parameters for a set of biomes. When you define an entry in this registry, Thermoo will automatically pick it up and apply its environment parameters to the biomes that you define for it and pass them to mods. Entries in this registry is not reloadable, you must restart the world to get update, add, or remove entries. It has a registry path of `thermoo/environment`.
+The Environment Definition is a datapack registry that defines the environment parameters for a set of biomes. When you define an entry in this registry, Thermoo will automatically pick it up and apply its environment parameters to players in the biomes that you define for it and pass them to mods via the [Tick Events](../../mods/tick_events). Entries in this registry is not reloadable, you must restart the world to get update, add, or remove entries. It has a registry path of `thermoo/environment`.
 
 For mods, you should place your files in `src/main/resources/data/[modid]/thermoo/environment/` and for datapacks, they should instead be placed in `[world]/datapacks/your_datapack/data/[namespace]/thermoo/environment/`.
 
