@@ -1,5 +1,5 @@
 ---
-title: Seasons API
+title: 🍂 Seasons API
 ---
 
 Thermoo provides the ability for mods to integrate with Seasons mods. Thermoo does not actually add any functionality around seasons - it just provides mods the ability to handle them if they want. In 1.20.1, [Fabric Seasons](https://modrinth.com/mod/fabric-seasons) is supported out of the box with just Thermoo installed. However, for newer versions, you must use [Thermoo Patches](https://github.com/TheDeathlyCow/thermoo-patches/) instead.

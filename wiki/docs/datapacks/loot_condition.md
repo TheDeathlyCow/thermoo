@@ -1,5 +1,5 @@
 ---
-title: Loot Conditions
+title: ❔ Loot Conditions
 ---
 # Loot Conditions
 

@@ -1,5 +1,5 @@
 ---
-title: Thermoo Commands
+title: ✨ Thermoo Commands
 ---
 # Thermoo Commands
 

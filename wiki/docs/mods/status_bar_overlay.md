@@ -1,5 +1,5 @@
 ---
-title: Status Bar Overlay API
+title: 💖 Status Bar Overlay API
 ---
 
 While Thermoo is primarily a server-side-only API, the Status Bar Overlay API is a purely client-side API provided by Thermoo. It is intended to help unify the heart overlay used to display temperature in both [Frostiful](https://github.com/TheDeathlyCow/frostiful) and [Scorchful](https://github.com/TheDeathlyCow/scorchful).

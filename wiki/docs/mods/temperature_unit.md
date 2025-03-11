@@ -1,5 +1,5 @@
 ---
-title: Temperature Unit API
+title: 🌡️ Temperature Unit API
 ---
 
 Thermoo provides four units for storing temperature records: Celsius, Fahrenheit, Kelvin, and Rankine. These units are stored in the `TemperatureUnit` enum class, which provides the facilities for converting values between these units.

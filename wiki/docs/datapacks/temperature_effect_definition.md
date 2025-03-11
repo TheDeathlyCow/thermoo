@@ -1,5 +1,5 @@
 ---
-title: Temperature Effect Definition
+title: 🥶 Temperature Effect Definition
 ---
 # Temperature Effect Definition
 

@@ -1,5 +1,5 @@
 ---
-title: Entity Attributes
+title: 🛡️ Entity Attributes
 ---
 # Attributes
 
