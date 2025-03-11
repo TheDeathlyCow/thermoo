@@ -23,6 +23,7 @@ Environment Provider Types:
 - [`thermoo:light_threshold`](#light-threshold)
 - [`thermoo:weather_state`](#weather-state)
 - [`thermoo:precipitation_type`](#precipitation-type)
+- [`thermoo:temperature_shift`](#temperature-shift)
 - [`thermoo:modify`](#modify)
 
 Just to be clear on how **type** delegation works, here is a complete example of an environment provider using the `thermoo:constant` type.
