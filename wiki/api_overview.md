@@ -1,6 +1,7 @@
 ---
 title: API Overview
 ---
+# API Overview
 
 Thermoo is a temperature and environment library for the Fabric and Quilt modding platforms. This page will provide a
 basic overview of how to set up and interact with the library in your mod or datapack. As of 1.21, Thermoo is required
@@ -10,7 +11,7 @@ This is a rather long page, so it may be best to follow along in your own mod/da
 page first. There is also a sidebar to help with navigation! Remember that I also have
 a [Discord](https://discord.gg/aqASuWebRU) where I am happy to help and answer questions related to Thermoo.
 
-# Setup
+## Setup
 
 Ensure you have the correct version of Thermoo installed for your Minecraft version. Usually, each major version of
 Thermoo corresponds to a Minecraft version with breaking changes.
@@ -28,7 +29,7 @@ Thermoo corresponds to a Minecraft version with breaking changes.
 
 [![](https://jitpack.io/v/TheDeathlyCow/thermoo.svg)](https://jitpack.io/#TheDeathlyCow/thermoo)
 
-## Mods
+### Mods
 
 Add the following to your gradle build script:
 
@@ -72,7 +73,7 @@ Add the following to your gradle build script:
     }
     ```
 
-## Datapacks
+### Datapacks
 
 You must first install either the [Fabric](https://fabricmc.net/) or [Quilt](https://quiltmc.org/) mod loaders to use
 Thermoo. Thermoo may run on the NeoForge platform when using Sinytra Connector, however this usage is not supported.
@@ -83,7 +84,7 @@ dependencies [Fabric API](https://github.com/FabricMC/fabric) (
 or [QSL](https://github.com/QuiltMC/quilt-standard-libraries/) if using Quilt)
 and [Cardinal Components API](https://github.com/Ladysnake/Cardinal-Components-API).
 
-# Entity Temperature
+## Entity Temperature
 
 Thermoo tracks entity temperature as an integer value that is stored on all living entities (that is, entities with
 health, attributes, etc). This value is the number of ticks that the entity has been exposed to temperature. Positive
@@ -91,7 +92,7 @@ values indicate that the entity is warm, and negative values indicate that the e
 temperature of `0` is both warm and cold. You can think of this as being similar to the vanilla `TicksFrozen` value, but
 inverted to allow for high temperatures.
 
-## Getting and Setting Temperature
+### Getting and Setting Temperature
 
 In mods, temperature is accessed through the `TemperatureAware` interface, which is implemented on `LivingEntity`
 through interface injection.
@@ -139,7 +140,7 @@ For datapacks, temperature can be accessed through a command.
     $thermoo temperature set @s $(temperature_in)
     ```
 
-## Minimum and Maximum Temperature and Scale
+### Minimum and Maximum Temperature and Scale
 
 The entity temperature value has a minimum and maximum value that controls how cold/hot they can get. Whenever an
 entity's temperature is updated, the new temperature value will be clamped to its minimum and maximum temperature range.
@@ -160,7 +161,7 @@ temperature value divided by their maximum temperature (if warm), or by their mi
 is frequently used in [temperature effects](./datapacks/temperature_effect_definition) and is often used when
 determining exactly how "cold" an entity is.
 
-### Usage Example
+#### Usage Example
 
 === "Mods (Java)"
     ```java
@@ -207,7 +208,7 @@ determining exactly how "cold" an entity is.
 <sup>1</sup> The value `140` was chosen as the multiplier for min/max temperature as it is the vanilla maximum value for
 the `TicksFrozen` attribute, so think of the attributes as multipliers of that vanilla maximum.
 
-## Temperature Changes and Resistances
+### Temperature Changes and Resistances
 
 Usually, when an entity's temperature is increased or decreased, it is done through an `add` procedure, rather than by
 directly setting a new value. This `add` procedure is what applies temperature _resistances_ so that mobs and players
@@ -235,7 +236,7 @@ these heating modes: `absolute`, `active`, `passive`, and `environment`.
   attributes, `thermoo:environment_frost_resistance` and `thermoo:environment_heat_resistance`, to temperature changes
   from the Environment API (see below). This mode is only used internally and cannot be accessed in the public API.
 
-### Usage Examples
+#### Usage Examples
 
 Adding 10 temperature per tick when on fire, always applying heat resistance.
 
@@ -300,7 +301,7 @@ Remove 10 temperature per tick when in powder snow, passively applying Frost Res
 
 <br/>
 
-# Soaking and Wetness
+## Soaking and Wetness
 
 Similar to temperature, wetness is also a tracked value for living entities in Thermoo. Wetness is an integer value that
 has a minimum value of `0` and a default maximum value of `600`. This is just a simple tracker for how many ticks an
@@ -361,7 +362,7 @@ For datapack authors, wetness can be interacted with through the command `/therm
 
 <br/>
 
-# Temperature Effects
+## Temperature Effects
 
 Temperature Effects are a Datapack registry that can be used to apply various kinds of effects to entities based on
 their current temperature and other conditions each tick. They are used for both mods and datapacks, and can be used in
@@ -393,14 +394,14 @@ Applies Mining Fatigue to cold players
 
 <br/>
 
-# Environment API
+## Environment API
 
 The Environment API sets and defines the parameters of a player's current environment and converts these to changes in
 temperature exposure. This is a large API that interfaces between both mods and datapacks and with many of the other
 APIs provided by Thermoo, so don't worry if you get a little overwhelmed. I also have
 a [Discord](https://discord.gg/aqASuWebRU) where I am happy to answer questions or provide assistance as needed.
 
-## Environment Components
+### Environment Components
 
 Environment parameters are provided as a set of components (just like items!) that are set by an _environment provider_
 for a world position. Thermoo will update and provide these values to a mod-only set of events for every player each
@@ -418,7 +419,7 @@ position. The relative humidity is a 0-1 percentage of the area's
 current [relative humidity](https://en.m.wikipedia.org/wiki/Humidity#Relative_humidity). Custom component types may be
 added by mods to the registry `ThermooRegistries.ENVIRONMENT_COMPONENT_TYPE`.
 
-## Environment Definition and Environment Providers
+### Environment Definition and Environment Providers
 
 The environment has two main datapack registries for environment parameters: the Environment registry, and the
 Environment Provider registry. The Environment registry is what makes the parameters visible to Thermoo, and entries in
@@ -444,7 +445,7 @@ registry `ThermooRegistries.ENVIRONMENT_PROVIDER_TYPE`.
 The full format for these registries can be found on the [Environment Definition](./datapacks/environment_definition)
 and [Environment Provider](./datapacks/environment_provider_definition) pages.
 
-### Usage Examples
+#### Usage Examples
 
 Defining the temperature for snowy biomes based on the [season](./mods/seasons) (datapack-only).
 
@@ -493,7 +494,7 @@ This is an environment provider defined in its own file.
 }
 ```
 
-## Environment Lookup
+### Environment Lookup
 
 Once you define your environment, you can see what the current parameters are through the lookup API. Interfaces are
 provided for both mods and datapack commands. However, datapack commands are hard-coded to only work for the basic
@@ -537,7 +538,7 @@ for them.
     thermoo environment relativehumidity ~ ~ ~ [<scale>]
     ```
 
-## Tick Events
+### Tick Events
 
 Once the environment parameters are set, they are passed to Thermoo's various tick events. Listeners can then convert
 these parameters to temperature point changes for the tick, or perform other effects. Currently, environment parameters
@@ -548,7 +549,7 @@ The tick event are currently given in the classes `LivingEntityTemperatureTickEv
 and `ServerPlayerEnvironmentTickEvents` (for players only). See the javadoc of these classes for more specific
 information on each event and its parameters.
 
-### Usage Examples
+#### Usage Examples
 
 Freezing players when the temperature is low (mod-only)
 
