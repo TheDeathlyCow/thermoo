@@ -3,8 +3,7 @@ title: 🛡️ Entity Attributes
 ---
 # Attributes
 
-Thermoo defines several custom attribute types. For a full explanation of how attributes work in general
-see: https://minecraft.wiki/w/Attribute. This page will just document the attributes provided by Thermoo.
+Thermoo defines several custom attribute types. For a full explanation of how attributes work in general see the [Minecraft Wiki page on Attributes](https://minecraft.wiki/w/Attribute). This page will just document the attributes provided by Thermoo.
 
 ## Attributes List
 

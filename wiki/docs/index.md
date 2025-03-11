@@ -35,6 +35,7 @@ For Modders, there is also extensive Javadoc provided for all of Thermoo's publi
 
 ### 🪦 Deprecated APIs
 - [Armor Materials API](./mods/armor_materials)
+- [Environment Controller API](./mods/environment_controller)
 - [Item Attribute Modifier Definition](./datapacks/item_attribute_modifier_definition)
 
 !!! warning
