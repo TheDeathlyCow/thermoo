@@ -1,0 +1,17 @@
+site_name: Thermoo Wiki
+
+theme:
+  name: material
+  palette:
+    scheme: slate
+
+markdown_extensions:
+  - attr_list
+  - meta
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+
+docs_dir: wiki
