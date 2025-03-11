@@ -450,19 +450,15 @@ Defining the temperature for snowy biomes based on the [season](../mods/seasons)
 // Note: comments are not allowed in the actual JSON files
 {
     // This is the environment definition
-    "biomes": "#c:is_snowy",
-    // apply to snowy biomes...
-    "exclude_biomes": "#c:is_icy",
-    // ...but not icy biomes
+    "biomes": "#c:is_snowy", // apply to snowy biomes...
+    "exclude_biomes": "#c:is_icy", // ...but not icy biomes
     "provider": {
         // everything here is now an in-line defined environment provider
         "type": "thermoo:seasonal/temperate",
         "fallback_season": "spring",
         "seasons": {
-            "spring": "example:freezing",
-            // reference another provider
-            "summer": {
-                // or inline the provider
+            "spring": "example:freezing", // reference another provider
+            "summer": { // or inline the provider
                 "type": "thermoo:constant",
                 "components": {
                     "thermoo:temperature": 10
