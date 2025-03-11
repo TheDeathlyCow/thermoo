@@ -18,6 +18,7 @@ Thermoo corresponds to a Minecraft version with breaking changes.
 | 1.21.4                  | 6.x (planned)                  |
 | 1.21.2-1.21.3           | 5.x                            |
 | 1.21-1.21.1             | 4.x                            |
+| 1.20.5-1.20.6           | Skipped                        |
 | 1.20.2-1.20.4           | 3.x                            |
 | 1.20-1.20.1             | 1.6-2.x                        |
 | 1.19.4                  | 1.5.x                          |
