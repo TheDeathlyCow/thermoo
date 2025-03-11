@@ -130,10 +130,12 @@ A branch provider that sets a base provider, then applies a list of providers as
 
 ## Examples
 
+The [Thermoo Test Mod](https://github.com/TheDeathlyCow/thermoo/tree/1.21.3-dev/src/testmod/resources/data/thermoo-test/thermoo) provides examples for all environment provider types, but here are a few other ones.
+
 ---
 Provide a low temperature in places it is currently snowing.
 
-```json 
+```json
 {
     "type": "thermoo:weather_state",
     "rain": {
@@ -201,3 +203,91 @@ Make an area warmer when exposed to sun light
     "components": {}
 }
 ```
+
+## Custom Environment Provider Types
+
+Mods may define their own environment provider types. To do this, create a class which implements `EnvironmentProvider` and write your logic for it. This class should be immutable, so it is highly recommended to use `record` classes (in Java) or `data` classes (in Kotlin) for this purpose.
+
+You will then need to create a `MapCodec` to be assigned to an `EnvironmentProviderType` which is then registered to `ThermooRegistries.ENVIRONMENT_PROVIDER_TYPE`.
+
+### Example
+
+A leaf provider type that provides a constant temperature value.
+
+=== "Java"
+    ```java
+    public record ConstantTemperatureEnvironmentProvider(
+            TemperatureRecord temperature
+    ) implements EnvironmentProvider {
+        public static final MapCodec<ConstantTemperatureEnvironmentProvider> CODEC = RecordCodecBuilder.mapCodec(
+                instance -> instance.group(
+                        TemperatureRecord.CODEC
+                                .fieldOf("temperature")
+                                .forGetter(ConstantTemperatureEnvironmentProvider::temperature)
+                ).apply(instance, ConstantTemperatureEnvironmentProvider::new)
+        );
+        
+        // usually would go in its own EnvironmentProviderTypes-like class, but kept here for simplicity. 
+        public static final EnvironmentProviderType<ConstantTemperatureEnvironmentProvider> TYPE = new EnvironmentProviderType(CODEC);
+        
+        @Override
+        public void buildCurrentComponents(World world, BlockPos pos, RegistryEntry<Biome> biome, ComponentMap.Builder builder) {
+            builder.add(EnvironmentComponentTypes.TEMPERATURE, this.temperature);
+        }
+    
+        @Override
+        public EnvironmentProviderType<ConstantTemperatureEnvironmentProvider> getType() {
+            return TYPE;
+        }
+        
+        public static void initialize() {
+            Registry.register(
+                    ThermooRegistries.ENVIRONMENT_PROVIDER_TYPE,
+                    Identifier.of("example", "constant_temperature"),
+                    TYPE
+            );
+        }
+    }
+    ```
+
+=== "Kotlin"
+    ```kotlin
+    data class ConstantTemperatureEnvironmentProvider(
+            val temperature: TemperatureRecord
+    ): EnvironmentProvider {
+        
+        companion object {
+            val CODEC: MapCodec<ConstantTemperatureEnvironmentProvider> = RecordCodecBuilder.mapCodec { instance ->
+                instance.group(
+                    TemperatureRecord.CODEC
+                        .fieldOf("temperature")
+                        .forGetter(ConstantTemperatureEnvironmentProvider::temperature)
+                ).apply(instance, ::ConstantTemperatureEnvironmentProvider)
+            }
+    
+            // usually would go in its own EnvironmentProviderTypes-like class, but kept here for simplicity. 
+            val TYPE: EnvironmentProviderType<ConstantTemperatureEnvironmentProvider> = EnvironmentProviderType(CODEC)
+    
+            fun initialize() {
+                Registry.register(
+                    ThermooRegistries.ENVIRONMENT_PROVIDER_TYPE,
+                    Identifier.of("example", "constant_temperature"),
+                    TYPE
+                )
+            }
+        }
+    
+        override fun buildCurrentComponents(
+            world: World,
+            pos: BlockPos,
+            biome: RegistryEntry<Biome>,
+            builder: ComponentMap.Builder
+        ) {
+            builder.add(EnvironmentComponentTypes.TEMPERATURE, this.temperature)
+        }
+    
+        override fun getType(): EnvironmentProviderType<ConstantTemperatureEnvironmentProvider> {
+            return TYPE
+        }
+    }
+    ```
