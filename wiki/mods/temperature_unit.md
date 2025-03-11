@@ -12,45 +12,39 @@ In Kotlin, you can create `TemperatureRecord` instances using field extensions o
 
 Apply a 10°C/18°F temperature increase to a temperature record.
 
-<CodeTabs>
-
-```java !!tabs Java
-TemperatureRecord shiftTemperature(TemperatureRecord base) {
-    TemperatureRecord shift = new TemperatureRecord(18, TemperatureUnit.FAHRENHEIT);
-    return base.add(shift);
-}
-```
-
-```kotlin !!tabs Kotlin
-import com.github.thedeathlycow.thermoo.api.kt.TemperatureRecordExtensions
-
-fun shiftTemperature(base: TemperatureRecord): TemperatureRecord {
-    return base + 18.F
-}
-```
-
-</CodeTabs>
+=== "Java"
+    ```java
+    TemperatureRecord shiftTemperature(TemperatureRecord base) {
+        TemperatureRecord shift = new TemperatureRecord(18, TemperatureUnit.FAHRENHEIT);
+        return base.add(shift);
+    }
+    ```
+=== "Kotlin"
+    ```kotlin
+    import com.github.thedeathlycow.thermoo.api.kt.TemperatureRecordExtensions
+    
+    fun shiftTemperature(base: TemperatureRecord): TemperatureRecord {
+        return base + 18.F
+    }
+    ```
 
 Check if a temperature record is at or below the freezing point of water (0°C/32°F).
 
-<CodeTabs>
-
-```java !!tabs Java
-boolean isFreezing(TemperatureRecord temperature) {
-    TemperatureRecord freezing = new TemperatureRecord(0, TemperatureUnit.CELSIUS);
-    return temperature.compareTo(freezing) <= 0;
-}
-```
-
-```kotlin !!tabs Kotlin
-import com.github.thedeathlycow.thermoo.api.kt.TemperatureRecordExtensions
-
-fun isFreezing(temperature: TemperatureRecord): Boolean {
-    return base <= 0.C
-}
-```
-
-</CodeTabs>
+=== "Java"
+    ```java
+    boolean isFreezing(TemperatureRecord temperature) {
+        TemperatureRecord freezing = new TemperatureRecord(0, TemperatureUnit.CELSIUS);
+        return temperature.compareTo(freezing) <= 0;
+    }
+    ```
+=== "Kotlin"
+    ```kotlin
+    import com.github.thedeathlycow.thermoo.api.kt.TemperatureRecordExtensions
+    
+    fun isFreezing(temperature: TemperatureRecord): Boolean {
+        return base <= 0.C
+    }
+    ```
 
 <br/>
 
