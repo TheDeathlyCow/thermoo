@@ -2,6 +2,12 @@
 
 [![](https://jitpack.io/v/TheDeathlyCow/thermoo.svg)](https://jitpack.io/#TheDeathlyCow/thermoo)
 
+Welcome to the Thermoo Developer wiki! Thermoo is a temperature and environment library mod for Minecraft, targeting the Fabric and Quilt ecosystems. It is meant to help provide compatibility between mods and datapacks that use temperature as a core mechanic, such as Frostiful or Scorchful. Using this mod on its own will have no gameplay or visual effects. It is designed to be used by Mods written in both Java and Kotlin, as well as Datapacks through Commands and other registries.
+
+## License
+
+Thermoo is free software licensed under [LGPLv3](./LICENSE). You may freely link Thermoo into your own mods, however redistribution of this library requires that you follow the terms of the LGPLv3 license.
+
 ## Adding Thermoo to Your Mod
 
 Add the repository to your `build.gradle`
@@ -88,3 +94,26 @@ If you instead want a clean test Minecraft instance with no gameplay modificatio
 ```bash
 gradlew runClient
 ```
+
+## Wiki Build Instructions
+
+The Thermoo Developer wiki is built with [MkDocs](https://www.mkdocs.org/) using the [Material Theme](https://squidfunk.github.io/mkdocs-material/). To install mkdocs, Python 3 is required: https://www.python.org/.
+
+The following commands will install the requirements for mkdocs:
+```bash
+pip install mkdocs
+pip install mkdocs-material
+```
+
+You can then run a local version of the Wiki:
+```bash
+cd wiki/
+mkdocs serve
+```
+
+In order to deploy the wiki using GitHub pages, run:
+```bash
+mkdocs gh-deploy --force
+```
+
+This will deploy the site to https://your-username.github.io/thermoo, where it will be available on the public internet.
