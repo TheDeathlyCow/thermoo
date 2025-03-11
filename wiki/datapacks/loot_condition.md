@@ -1,9 +1,9 @@
 ---
-title: Custom Loot Conditions
+title: Loot Conditions
 ---
-# Custom Loot Conditions
+# Loot Conditions
 
-Thermoo defines some custom types of loot conditions. There is one for temperature, and one for wet ticks.
+Thermoo defines some custom types of [loot conditions](https://minecraft.wiki/w/Predicate). There is one for temperature, and one for wet ticks.
 
 ## Temperature Loot Condition
 
