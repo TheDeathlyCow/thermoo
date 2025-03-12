@@ -4,6 +4,7 @@
 build/
 out/
 classes/
+.kotlin/
 
 # eclipse
 
@@ -31,6 +32,7 @@ bin/
 # fabric
 
 run/
+logs/
 
 # java
 

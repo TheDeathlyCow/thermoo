@@ -3,12 +3,12 @@
 	"id": "thermoo",
 	"version": "${version}",
 	"name": "Thermoo",
-	"description": "A temperature library for Fabric mods",
+	"description": "A temperature and environment library for Fabric mods",
 	"authors": [
 		"TheDeathlyCow"
 	],
 	"contact": {
-		"homepage": "https://modrinth.com/mod/thermoo",
+		"homepage": "https://thermoo.thedeathlycow.com/",
 		"sources": "https://github.com/TheDeathlyCow/thermoo"
 	},
 	"license": "LGPL-3",
@@ -54,7 +54,8 @@
 		},
 		"modmenu": {
 			"links": {
-				"modmenu.discord": "https://discord.gg/aqASuWebRU"
+				"modmenu.discord": "https://discord.gg/aqASuWebRU",
+				"modmenu.wiki": "https://thermoo.thedeathlycow.com/"
 			},
 			"badges": [
 				"library"

@@ -1,0 +1,61 @@
+site_name: Thermoo Wiki
+
+repo_url: https://github.com/TheDeathlyCow/thermoo
+repo_name: TheDeathlyCow/thermoo
+
+theme:
+  name: material
+  logo: assets/logo.png
+  favicon: assets/favicon.svg
+
+  palette:
+    - scheme: slate
+      primary: custom
+      features:
+        - navigation.expand
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+    - scheme: default
+      primary: custom
+      features:
+        - navigation.expand
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+
+extra_css:
+  - assets/styles.css
+
+markdown_extensions:
+  - attr_list
+  - meta
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+
+nav:
+  - index.md
+  - api_overview.md
+  - "Core":
+      - command.md
+      - entity_attributes.md
+  - "Datapack Utilities":
+      - datapacks/environment_component_type.md
+      - datapacks/environment_definition.md
+      - datapacks/environment_provider_definition.md
+      - datapacks/loot_condition.md
+      - datapacks/tags.md
+      - datapacks/temperature_effect_definition.md
+  - "Mod Utility APIs":
+      - mods/item_attribute.md
+      - mods/seasons.md
+      - mods/status_bar_overlay.md
+      - mods/temperature_unit.md
+      - mods/tick_events.md
+  - "Deprecated APIs":
+      - mods/armor_materials.md
+      - mods/environment_controller.md
+      - datapacks/item_attribute_modifier_definition.md

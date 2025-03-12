@@ -1,11 +1,12 @@
 package com.github.thedeathlycow.thermoo.api.util;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.EnumSource;
 
 class TemperatureUnitTest {
-
     @ParameterizedTest
     @CsvSource(
             value = {
@@ -124,5 +125,39 @@ class TemperatureUnitTest {
     void fahrenheit_to_rankine(double fahrenheit, double expectedRankine) {
         double rankine = TemperatureUnit.RANKINE.convertTemperature(fahrenheit, TemperatureUnit.FAHRENHEIT);
         Assertions.assertEquals(expectedRankine, rankine, 1e-2);
+    }
+
+    @ParameterizedTest
+    @EnumSource(value = TemperatureUnit.class, names = {"CELSIUS", "KELVIN"})
+    void metricAbsoluteUnitIsKelvin(TemperatureUnit unit) {
+        TemperatureUnit absoluteUnit = unit.getAbsoluteUnit();
+        Assertions.assertEquals(TemperatureUnit.KELVIN, absoluteUnit);
+    }
+
+    @ParameterizedTest
+    @EnumSource(value = TemperatureUnit.class, names = {"FAHRENHEIT", "RANKINE"})
+    void imperialAbsoluteUnitIsRankine(TemperatureUnit unit) {
+        TemperatureUnit absoluteUnit = unit.getAbsoluteUnit();
+        Assertions.assertEquals(TemperatureUnit.RANKINE, absoluteUnit);
+    }
+
+    @Test
+    void kelvinAbsoluteZeroIsZero() {
+        Assertions.assertEquals(0.0, TemperatureUnit.KELVIN.getAbsoluteZero(), 1e-3);
+    }
+
+    @Test
+    void rankineAbsoluteZeroIsZero() {
+        Assertions.assertEquals(0.0, TemperatureUnit.RANKINE.getAbsoluteZero(), 1e-3);
+    }
+
+    @Test
+    void celsiusAbsoluteZeroIsCorrect() {
+        Assertions.assertEquals(-273.15, TemperatureUnit.CELSIUS.getAbsoluteZero(), 1e-3);
+    }
+
+    @Test
+    void fahrenheitAbsoluteZeroIsCorrect() {
+        Assertions.assertEquals(-459.67, TemperatureUnit.FAHRENHEIT.getAbsoluteZero(), 1e-3);
     }
 }

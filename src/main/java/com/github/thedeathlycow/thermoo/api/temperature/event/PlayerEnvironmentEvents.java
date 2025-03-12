@@ -7,7 +7,10 @@ import net.minecraft.entity.player.PlayerEntity;
 
 /**
  * Events relevant to player ticking and passive temperature changes
+ *
+ * @deprecated Use {@link com.github.thedeathlycow.thermoo.api.environment.event.ServerPlayerEnvironmentTickEvents}
  */
+@Deprecated
 public final class PlayerEnvironmentEvents {
 
     /**
@@ -17,7 +20,9 @@ public final class PlayerEnvironmentEvents {
      * and the event will return that value.
      * <p>
      * By default, this event returns {@link TriState#TRUE}
+     * @deprecated Use {@link com.github.thedeathlycow.thermoo.api.environment.event.ServerPlayerEnvironmentTickEvents#ALLOW_TEMPERATURE_CHANGE}
      */
+    @Deprecated
     public static final Event<TemperatureChangeEventCallback> CAN_APPLY_PASSIVE_TEMPERATURE_CHANGE = EventFactory.createArrayBacked(
             TemperatureChangeEventCallback.class,
             callbacks -> (change, player) -> {
@@ -28,7 +33,7 @@ public final class PlayerEnvironmentEvents {
                     }
                 }
 
-                return TriState.TRUE;
+                return TriState.DEFAULT;
             }
     );
 

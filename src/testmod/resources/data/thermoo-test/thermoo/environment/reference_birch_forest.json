@@ -1,0 +1,6 @@
+{
+    "biomes": [
+        "minecraft:birch_forest"
+    ],
+    "provider": "thermoo-test:birch_forest_provider"
+}

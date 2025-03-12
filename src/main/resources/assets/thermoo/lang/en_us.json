@@ -1,8 +1,11 @@
 {
     "attribute.thermoo.min_temperature": "Minimum Temperature",
     "attribute.thermoo.max_temperature": "Maximum Temperature",
+    "attribute.thermoo.max_soaking_tick_multiplier": "Maximum Soaking Ticks Multiplier",
     "attribute.thermoo.frost_resistance": "Frost Resistance",
     "attribute.thermoo.heat_resistance": "Heat Resistance",
+    "attribute.thermoo.environment_heat_resistance": "Environmental Heat Resistance",
+    "attribute.thermoo.environment_frost_resistance": "Environmental Frost Resistance",
     
     "tag.item.thermoo.consumable.cooling": "Cooling consumables",
     "tag.item.thermoo.consumable.warming": "Warming consumables",
@@ -19,9 +22,16 @@
     "commands.thermoo.temperature.set.success.single": "Set the temperature of %s to %d",
     "commands.thermoo.temperature.set.success.multiple": "Set the temperature of %s entities to %d",
     "commands.thermoo.environment.printcontroller.success": "Controller logged to console",
-
+    "commands.thermoo.environment.printcontroller.deprecation": "This command is deprecated, the Environment Controller has been replaced with the Environment Datapack Registry",
+    
     "commands.thermoo.environment.checktemperature.success": "The passive temperature change at %s, %s, %s (%s) is %s",
     "commands.thermoo.environment.checktemperature.unit.success": "The temperature at %s, %s, %s (%s) is %s°%s",
+    "commands.thermoo.environment.checktemperature.deprecation": "This command is deprecated, use /thermoo environment temperature <pos>",
+    
+    "commands.thermoo.environment.temperature.success": "The environmental temperature at %s, %s, %s (%s) is %s°%s",
+    "commands.thermoo.environment.humidity.success": "The environmental relative humidity at %s, %s, %s (%s) is %s%%",
+    "commands.thermoo.environment.temperature.player.success": "The environment temperature change of %s is %s (with a %s chance to dodge)",
+    
     
     "commands.thermoo.soaking.get.current.success": "The current soaking value of %s is %d",
     "commands.thermoo.soaking.get.scale.success": "The current soaking scale of %s is %d",

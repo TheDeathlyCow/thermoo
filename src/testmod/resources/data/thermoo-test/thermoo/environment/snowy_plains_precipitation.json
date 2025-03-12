@@ -1,0 +1,16 @@
+{
+    "biomes": [
+        "minecraft:snowy_plains"
+    ],
+    "provider": {
+        "type": "thermoo:precipitation_type",
+        "precipitation_type": {
+            "snow": {
+                "type": "thermoo:constant",
+                "components": {
+                    "thermoo:temperature": -5.0
+                }
+            }
+        }
+    }
+}

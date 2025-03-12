@@ -14,7 +14,10 @@ import org.jetbrains.annotations.NotNull;
  * functionality from the default environment controller.
  * <p>
  * Every method by default delegates to the base {@link #controller}
+ *
+ * @deprecated Replaced with {@linkplain com.github.thedeathlycow.thermoo.api.environment.EnvironmentDefinition the environment datapack registry}
  */
+@Deprecated
 public abstract non-sealed class EnvironmentControllerDecorator implements EnvironmentController {
 
     /**
@@ -29,7 +32,6 @@ public abstract non-sealed class EnvironmentControllerDecorator implements Envir
      * @param controller The base {@link #controller}
      */
     protected EnvironmentControllerDecorator(EnvironmentController controller) {
-
         if (controller == null) {
             throw new IllegalArgumentException("The base controller for the decorator may not be null!");
         }
@@ -48,28 +50,47 @@ public abstract non-sealed class EnvironmentControllerDecorator implements Envir
         return this.controller;
     }
 
+    /**
+     * @deprecated Replaced with {@link com.github.thedeathlycow.thermoo.api.ThermooAttributes#baseValueEvent(RegistryEntry)}
+     */
     @Override
-    @Deprecated
+    @Deprecated(since = "5.1")
     public double getBaseValueForAttribute(RegistryEntry<EntityAttribute> attribute, LivingEntity entity) {
         return controller.getBaseValueForAttribute(attribute, entity);
     }
 
+    /**
+     * @deprecated Replaced with {@link com.github.thedeathlycow.thermoo.api.environment.event.ServerPlayerEnvironmentTickEvents}
+     */
     @Override
+    @Deprecated(since = "5.2")
     public int getLocalTemperatureChange(World world, BlockPos pos) {
         return controller.getLocalTemperatureChange(world, pos);
     }
 
+    /**
+     * @deprecated Replaced with {@link com.github.thedeathlycow.thermoo.api.environment.event.ServerPlayerEnvironmentTickEvents}
+     */
     @Override
+    @Deprecated(since = "5.2")
     public int getEnvironmentTemperatureForPlayer(PlayerEntity player, int localTemperature) {
         return controller.getEnvironmentTemperatureForPlayer(player, localTemperature);
     }
 
+    /**
+     * @deprecated Replaced with active effects in {@link com.github.thedeathlycow.thermoo.api.temperature.event.LivingEntityTemperatureTickEvents}
+     */
     @Override
+    @Deprecated(since = "5.2")
     public int getTemperatureEffectsChange(LivingEntity entity) {
         return controller.getTemperatureEffectsChange(entity);
     }
 
+    /**
+     * @deprecated Replaced with passive effects in {@link com.github.thedeathlycow.thermoo.api.temperature.event.LivingEntityTemperatureTickEvents}
+     */
     @Override
+    @Deprecated(since = "5.2")
     public int getFloorTemperature(LivingEntity entity, World world, BlockState state, BlockPos pos) {
         return controller.getFloorTemperature(entity, world, state, pos);
     }
@@ -84,32 +105,56 @@ public abstract non-sealed class EnvironmentControllerDecorator implements Envir
         return controller.getSoakChange(soakable);
     }
 
+    /**
+     * @deprecated Replaced with passive effects in {@link com.github.thedeathlycow.thermoo.api.temperature.event.LivingEntityTemperatureTickEvents}
+     */
     @Override
+    @Deprecated(since = "5.2")
     public int getHeatAtLocation(World world, BlockPos pos) {
         return controller.getHeatAtLocation(world, pos);
     }
 
+    /**
+     * @deprecated Replaced with passive effects in {@link com.github.thedeathlycow.thermoo.api.temperature.event.LivingEntityTemperatureTickEvents}
+     */
     @Override
+    @Deprecated(since = "5.2")
     public int applyAwareHeat(TemperatureAware temperatureAware, int locationHeat) {
         return controller.applyAwareHeat(temperatureAware, locationHeat);
     }
 
+    /**
+     * @deprecated Replaced with passive effects in {@link com.github.thedeathlycow.thermoo.api.temperature.event.LivingEntityTemperatureTickEvents}
+     */
     @Override
+    @Deprecated(since = "5.2")
     public int getHeatFromBlockState(BlockState state) {
         return controller.getHeatFromBlockState(state);
     }
 
+    /**
+     * @deprecated Replaced with passive effects in {@link com.github.thedeathlycow.thermoo.api.temperature.event.LivingEntityTemperatureTickEvents}
+     */
     @Override
+    @Deprecated(since = "5.2")
     public boolean isHeatSource(BlockState state) {
         return controller.isHeatSource(state);
     }
 
+    /**
+     * @deprecated Replaced with passive effects in {@link com.github.thedeathlycow.thermoo.api.temperature.event.LivingEntityTemperatureTickEvents}
+     */
     @Override
+    @Deprecated(since = "5.2")
     public boolean isColdSource(BlockState state) {
         return controller.isColdSource(state);
     }
 
+    /**
+     * @deprecated Replaced with passive effects in {@link com.github.thedeathlycow.thermoo.api.temperature.event.LivingEntityTemperatureTickEvents}
+     */
     @Override
+    @Deprecated(since = "5.2")
     public boolean isAreaHeated(World world, BlockPos pos) {
         return controller.isAreaHeated(world, pos);
     }

@@ -1,0 +1,66 @@
+package com.github.thedeathlycow.thermoo.api.kt
+
+import com.github.thedeathlycow.thermoo.api.temperature.HeatingMode
+import com.github.thedeathlycow.thermoo.api.temperature.HeatingModes
+import com.github.thedeathlycow.thermoo.api.temperature.TemperatureAware
+import net.minecraft.entity.Entity
+import net.minecraft.entity.LivingEntity
+import net.minecraft.util.math.random.Random
+
+/**
+ * The current temperature of this temperature aware object
+ */
+var TemperatureAware.temperature: Int
+    get() = this.`thermoo$getTemperature`()
+    set(value) = this.`thermoo$setTemperature`(value)
+
+/**
+ * The minimum allowed temperature of the temperature aware object
+ */
+val TemperatureAware.minTemperature: Int
+    get() = this.`thermoo$getMinTemperature`()
+
+/**
+ * The maximum allowed temperature of the temperature aware object
+ */
+val TemperatureAware.maxTemperature: Int
+    get() = this.`thermoo$getMaxTemperature`()
+
+
+val TemperatureAware.coldResistance: Double
+    get() = this.`thermoo$getColdResistance`()
+
+val TemperatureAware.heatResistance: Double
+    get() = this.`thermoo$getHeatResistance`()
+
+val TemperatureAware.environmentColdResistance: Double
+    get() = this.`thermoo$getEnvironmentColdResistance`()
+
+val TemperatureAware.environmentHeatResistance: Double
+    get() = this.`thermoo$getEnvironmentHeatResistance`()
+
+fun TemperatureAware.canFreeze(): Boolean = this.`thermoo$canFreeze`()
+
+fun TemperatureAware.canOverheat(): Boolean = this.`thermoo$canOverheat`()
+
+val TemperatureAware.isCold: Boolean
+    get() = this.`thermoo$isCold`()
+
+val TemperatureAware.isWarm: Boolean
+    get() = this.`thermoo$isWarm`()
+
+fun TemperatureAware.addTemperature(temperatureChange: Int, mode: HeatingMode = HeatingModes.ABSOLUTE) {
+    this.`thermoo$addTemperature`(temperatureChange, mode)
+}
+
+val TemperatureAware.temperatureScale: Float
+    get() = this.`thermoo$getTemperatureScale`()
+
+val TemperatureAware.random: Random
+    get() = this.`thermoo$getRandom`()
+
+val LivingEntity.temperatureAware: TemperatureAware
+    get() = TemperatureAware.get(this)
+
+val Entity.temperatureAware: TemperatureAware?
+    get() = TemperatureAware.getNullable(this)
