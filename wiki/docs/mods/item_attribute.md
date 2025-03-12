@@ -1,5 +1,6 @@
 ---
 title: ⛏️ Item Attribute API
+status: new
 ---
 
 Thermoo provides an event, `ModifyItemAttributeModifiersCallback.EVENT`, that can modify the attribute modifiers on an `ItemStack` when they are applied to an entity. This works very similarly to the event of the same name that was previously in Fabric API, but was removed in 1.20.5 due to difficulty with porting.

@@ -1,5 +1,6 @@
 ---
 title: 📦 Environment Component Types
+status: new
 ---
 # Environment Component Types
 
