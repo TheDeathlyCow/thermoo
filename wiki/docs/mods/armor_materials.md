@@ -4,10 +4,10 @@ status: deprecated
 ---
 # Armor Materials API
 
-The primary use of this API is to provide ways to add [Frost and Heat Resistance](./Temperature-Attributes-(Mods)) to armors as easily as possible.
+The primary use of this API is to provide ways to add [Frost and Heat Resistance](../entity_attributes.md) to armors as easily as possible.
 
 !!! warning
-    This feature is exclusive to Thermoo 4.x for Minecraft versions 1.21-1.21.1, and is deprecated for that version. In 1.21.2, Minecraft removed the Armor Material registry making this API impossible to update. Instead of using this API, I would recommend checking out [the Item Components mod on Modrinth](https://modrinth.com/mod/item-components) (also available on [CurseForge](https://www.curseforge.com/minecraft/mc-mods/item-components)).
+    This feature is exclusive to Thermoo 4.x for Minecraft versions 1.21-1.21.1, and is deprecated for that version. In 1.21.2, Minecraft removed the Armor Material registry making this API impossible to update. Instead of using this API, mods can use the [item attribute modifier event](../mods/item_attribute.md). For datapacks and modpacks, I would recommend checking out the [Default Components mod](https://modrinth.com/mod/default-components).
 
 ## Events
 

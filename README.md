@@ -111,6 +111,8 @@ cd wiki/
 mkdocs serve
 ```
 
+The wiki should then be available on http://localhost:8000/.
+
 In order to deploy the wiki using GitHub pages, run:
 ```bash
 mkdocs gh-deploy --force

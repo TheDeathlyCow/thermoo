@@ -16,28 +16,28 @@ For both datapack and mod authors, it is recommended to read the [API Overview](
 For Modders, there is also extensive Javadoc provided for all of Thermoo's public APIs. That should be the primary reference for using any event/method in the mod side of the API as it will likely be the most up-to-date and precise.
 
 ### 🌡️ Thermoo Core
-- [API Overview](./api_overview)
-- [Thermoo Command](./command)
-- [Entity Attributes](./entity_attributes)
+- [API Overview](./api_overview.md)
+- [Thermoo Command](./command.md)
+- [Entity Attributes](./entity_attributes.md)
 
 ### 🔧 Mod Utility APIs
-- [Item Attribute API](./mods/item_attribute)
-- [Season API](./mods/seasons)
-- [Status Bar Overlay API (client only)](./mods/status_bar_overlay)
-- [Temperature Unit](./mods/temperature_unit)
-- [Tick Events](./mods/tick_events)
+- [Item Attribute API](./mods/item_attribute.md)
+- [Season API](./mods/seasons.md)
+- [Status Bar Overlay API (client only)](./mods/status_bar_overlay.md)
+- [Temperature Unit](./mods/temperature_unit.md)
+- [Tick Events](./mods/tick_events.md)
 
 ### 📦 Datapack Utilities
-- [Custom Loot Conditions](./datapacks/loot_condition)
-- [Environment Definition](./datapacks/environment_definition)
-- [Environment Provider Definition](./datapacks/environment_provider_definition)
-- [Tags](./datapacks/tags)
-- [Temperature Effect Definition](./datapacks/temperature_effect_definition)
+- [Custom Loot Conditions](./datapacks/loot_condition.md)
+- [Environment Definition](./datapacks/environment_definition.md)
+- [Environment Provider Definition](./datapacks/environment_provider_definition.md)
+- [Tags](./datapacks/tags.md)
+- [Temperature Effect Definition](./datapacks/temperature_effect_definition.md)
 
 ### 🪦 Deprecated APIs
-- [Armor Materials API](./mods/armor_materials)
-- [Environment Controller API](./mods/environment_controller)
-- [Item Attribute Modifier Definition](./datapacks/item_attribute_modifier_definition)
+- [Armor Materials API](./mods/armor_materials.md)
+- [Environment Controller API](./mods/environment_controller.md)
+- [Item Attribute Modifier Definition](./datapacks/item_attribute_modifier_definition.md)
 
 !!! warning
 

@@ -5,7 +5,7 @@ status: deprecated
 # Environment Controller and Events
 
 !!! warning
-    This feature is deprecated in Minecraft 1.21.1+ and has been replaced with the new [Environment API](../../api_overview#environment-api). Please use that instead. This feature will be removed by Thermoo's Minecraft 1.21.5 update, possibly in 1.21.4.
+    This feature is deprecated in Minecraft 1.21.1+ and has been replaced with the new [Environment API](../api_overview.md#environment-api). Please use that instead. This feature will be removed by Thermoo's Minecraft 1.21.5 update, possibly in 1.21.4.
 
 The `EnvironmentController` is an interface that provides configuration and values for wetness change per tick, passive temperature change per tick, block heating, and more. The implementation of this interface can be accessed through the `EnvironmentManager`. By default, all methods in the controller return `0`, `false`, or `null` (depending on the return type of course), unless specified otherwise. In order to get them to do anything, you will need to write your own *decorator* of the controller by extending the `EnvironmentControllerDecorator` class. Your implementation will then need to be registered through the `EnvironmentManager` in order to take effect.
 

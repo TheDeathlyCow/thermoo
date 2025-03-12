@@ -21,4 +21,4 @@ These events are applied in order, but each set can be invoked in any order.
 | Soaking Changes                        | `LivingEntitySoakingTickEvents`     | Changes to an entity's wet ticks.                                                                              |
 | Player Environment Temperature Changes | `ServerPlayerEnvironmentTickEvents` | Temperature changes applied to players from their local [Environment](../../datapacks/environment_definition). |
 
-All event listeners will receive an `EnvironmentTickContext<T>` object that contains the information about the entity, their world, and their block position in that world. For players, and players only, updated [Environment Components](../../datapacks/environment_component_type) will also be available.
+All event listeners will receive an `EnvironmentTickContext<T>` object that contains the information about the entity, their world, and their block position in that world. For players, and players only, updated [Environment Components](../datapacks/environment_component_type.md) will also be available.

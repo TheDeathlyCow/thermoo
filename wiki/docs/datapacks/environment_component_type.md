@@ -12,7 +12,7 @@ Environment Component Types are a special set of [Components](https://minecraft.
 
 ### Temperature
 - `{}` **components**: Parent tag.
-    - `{}` **thermoo:temperature**: A [Temperature Record](../../mods/temperature_unit#temperature-record-data-format).
+    - `{}` **thermoo:temperature**: A [Temperature Record](../mods/temperature_unit.md#temperature-record-data-format).
 
 ### Relative Humidity
 - `{}` **components**: Parent tag.

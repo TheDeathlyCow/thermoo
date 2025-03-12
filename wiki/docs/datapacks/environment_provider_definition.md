@@ -3,7 +3,7 @@ title: 🌎 Environment Provider Definition
 ---
 # Environment Provider Definition
 
-The Environment Provider is a datapack registry that is used by the [Environment Registry](../environment_definition) to actually do the job of providing the environment parameters for a world position. It has a registry path of `thermoo/environment_provider`.
+The Environment Provider is a datapack registry that is used by the [Environment Registry](./environment_definition.md) to actually do the job of providing the environment parameters for a world position. It has a registry path of `thermoo/environment_provider`.
 
 For mods, you should place your files in `src/main/resources/data/[modid]/thermoo/environment_provider/` and for datapacks, they should instead be placed in `[world]/datapacks/your_datapack/data/[namespace]/thermoo/environment_provider/`.
 
@@ -43,14 +43,14 @@ The primary leaf provider type that provides a constant set of the components.
 
 - `{}`: The root tag.
     - `"` **type**: Must be `thermoo:constant`.
-    - `{}` **components**: A component map containing pairs of environment component ID keys to the component value. The entries in this map must be [Environment Components](../environment_component_type).
+    - `{}` **components**: A component map containing pairs of environment component ID keys to the component value. The entries in this map must be [Environment Components](./environment_component_type.md).
 
 !!! info
     If a component ID specified by an instance of this provider type is already defined in the current evaluation tree during lookup, then this will overwrite it. If a component ID is already defined in the evaluation tree, but not specified by an instance of this provider, then it will be left alone. So you can have multiple `thermoo:constant` providers in the same provider tree - see [`thermoo:modify`](#modify) for one way of doing this.
 
 ### Temperate Seasonal
 
-A branch provider that chooses a child provider based on the current [Temperate Season](../../mods/seasons) (Spring, Summer, Autumn, or Winter). This also works in biomes with Tropical Seasons.
+A branch provider that chooses a child provider based on the current [Temperate Season](../mods/seasons.md) (Spring, Summer, Autumn, or Winter). This also works in biomes with Tropical Seasons.
 
 - `{}`: The root tag.
     - `"` **type**: Must be `thermoo:seasonal/temperate`.
@@ -66,7 +66,7 @@ A branch provider that chooses a child provider based on the current [Temperate 
 
 ### Tropical Seasonal
 
-A branch provider that chooses a child provider based on the current [Tropical Season](../../mods/seasons) (Wet or Dry).
+A branch provider that chooses a child provider based on the current [Tropical Season](../mods/seasons.md) (Wet or Dry).
 
 - `{}`: The root tag.
     - `"` **type**: Must be `thermoo:seasonal/tropical`.
@@ -113,12 +113,12 @@ A branch provider that chooses a child provider based on a biome's [precipitatio
 
 ### Temperature Shift
 
-A leaf provider that adds a temperature shift to the current value of the [`thermoo:temperature` component](../environment_component_type#temperature) in the evaluation tree. This is only recommended to be used as an entry in the `modifiers` list of the [`thermoo:modify`](#modify) environment provider type.
+A leaf provider that adds a temperature shift to the current value of the [`thermoo:temperature` component](./environment_component_type.md#temperature) in the evaluation tree. This is only recommended to be used as an entry in the `modifiers` list of the [`thermoo:modify`](#modify) environment provider type.
 
 If there is not an instance of the `thermoo:temperature` component in the current evaluation tree, then this provider will not do anything and log a warning.
 
 - `{}`: The root tag.
-    - `D` `{}` **shift**: A [temperature record](../../mods/temperature_unit#temperature-record-data-format) that is added to the current instance of the `thermoo:temperature` component in the evaluation tree. It is recommended to use the absolute units (Kelvin or Rankine) for this record, but not mandatory.
+    - `D` `{}` **shift**: A [temperature record](../mods/temperature_unit.md#temperature-record-data-format) that is added to the current instance of the `thermoo:temperature` component in the evaluation tree. It is recommended to use the absolute units (Kelvin or Rankine) for this record, but not mandatory.
 
 ### Modify
 
@@ -165,7 +165,7 @@ Provide a low temperature in places it is currently snowing.
 ```
 
 ---
-Make an area warmer when exposed to sun light
+Make an area warmer when exposed to sunlight.
 
 ```json title="example:area_temperature"
 {

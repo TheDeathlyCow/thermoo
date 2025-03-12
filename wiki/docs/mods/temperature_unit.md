@@ -59,7 +59,7 @@ Temperature records can be stored as a number (where the number will be interpre
 
 ## Examples
 
-Recording a temperature of 30°C in the [Environment Provider Components](../datapacks/environment_provider_definition)
+Recording a temperature of 30°C in an [Environment Component](../datapacks/environment_component_type.md) map.
 
 ```json
 {
@@ -67,7 +67,7 @@ Recording a temperature of 30°C in the [Environment Provider Components](../dat
 }
 ```
 
-Recording a temperature of 68°F in the [Environment Provider Components](../datapacks/environment_provider_definition)
+Recording a temperature of 68°F in an [Environment Component](../datapacks/environment_component_type.md) map.
 
 ```json
 {
@@ -78,7 +78,7 @@ Recording a temperature of 68°F in the [Environment Provider Components](../dat
 }
 ```
 
-Recording a temperature of 0°K in the [Environment Provider Components](../datapacks/environment_provider_definition)
+Recording a temperature of 0°K in an [Environment Component](../datapacks/environment_component_type.md) map.
 
 ```json
 {

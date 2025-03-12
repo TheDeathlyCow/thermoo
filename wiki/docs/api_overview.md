@@ -9,77 +9,7 @@ This is a rather long page, so it may be best to follow along in your own mod/da
 
 ## Setup
 
-Ensure you have the correct version of Thermoo installed for your Minecraft version. Usually, each major version of
-Thermoo corresponds to a Minecraft version with breaking changes.
-
-| Minecraft Version Range | Corresponding Thermoo versions |
-|-------------------------|--------------------------------|
-| 1.21.5                  | 7.x (planned)                  |
-| 1.21.4                  | 6.x (planned)                  |
-| 1.21.2-1.21.3           | 5.x                            |
-| 1.21-1.21.1             | 4.x                            |
-| 1.20.5-1.20.6           | Skipped                        |
-| 1.20.2-1.20.4           | 3.x                            |
-| 1.20-1.20.1             | 1.6-2.x                        |
-| 1.19.4                  | 1.5.x                          |
-| 1.19.2                  | 1.3.1-1.4                      |
-
-[![](https://jitpack.io/v/TheDeathlyCow/thermoo.svg)](https://jitpack.io/#TheDeathlyCow/thermoo)
-
-### Mods
-
-Add the following to your gradle build script:
-
-=== "`build.gradle`"
-    ```groovy
-    repositories {
-        maven {
-            url "https://jitpack.io/"
-        }
-        // Needed as Thermoo uses Cardinal Components
-        maven {
-            name = "Ladysnake Mods"
-            url = "https://maven.ladysnake.org/releases"
-        }
-    }
-  
-    dependencies {
-        // Your other dependencies
-        // get version from Jitpack: https://jitpack.io/#TheDeathlyCow/thermoo
-        modImplementation "com.github.thedeathlycow:thermoo:<VERSION>"
-    }
-    ```
-
-=== "`build.gradle.kts`"
-    ```kotlin
-    repositories {
-        maven {
-            url = uri("https://jitpack.io/")
-        }
-        // Needed as Thermoo uses Cardinal Components
-        maven {
-            name = "Ladysnake Mods"
-            url = "https://maven.ladysnake.org/releases"
-        }
-    }
-  
-    dependencies {
-        // Your other dependencies
-        // get version from Jitpack: https://jitpack.io/#TheDeathlyCow/thermoo
-        modImplementation("com.github.thedeathlycow:thermoo:<VERSION>")
-    }
-    ```
-
-### Datapacks
-
-You must first install either the [Fabric](https://fabricmc.net/) or [Quilt](https://quiltmc.org/) mod loaders to use
-Thermoo. Thermoo may run on the NeoForge platform when using Sinytra Connector, however this usage is not supported.
-Support queries and issues from users not using Fabric or Quilt will be closed/ignored.
-
-Ensure Thermoo is installed in your `mods` directory, along with its
-dependencies [Fabric API](https://github.com/FabricMC/fabric) (
-or [QSL](https://github.com/QuiltMC/quilt-standard-libraries/) if using Quilt)
-and [Cardinal Components API](https://github.com/Ladysnake/Cardinal-Components-API).
+See the [Setup](./setup.md) page if this is your first time using Thermoo.
 
 ## Entity Temperature
 
@@ -155,7 +85,7 @@ value of `45` will have a minimum temperature of `-6300`.
 A temperature scale is also available to be queried, based on the entity's current temperature and max/min temperature
 values. The temperature scale is a percentage value in the range `[-1, 1]` that represents the entity's current
 temperature value divided by their maximum temperature (if warm), or by their minimum temperature (if cold). This scale
-is frequently used in [temperature effects](../datapacks/temperature_effect_definition) and is often used when
+is frequently used in [temperature effects](./datapacks/temperature_effect_definition.md) and is often used when
 determining exactly how "cold" an entity is.
 
 #### Usage Example
@@ -410,7 +340,7 @@ in [Frostiful](https://github.com/TheDeathlyCow/frostiful/tree/1.21.1/src/main/r
 and [Scorchful](https://github.com/TheDeathlyCow/scorchful/tree/1.21.1/src/main/resources/data/scorchful/thermoo).
 
 Thermoo currently provides two environment component types: `thermoo:temperature` and `thermoo:relative_humidity`. The
-Temperature component is stored in a special [Temperature Record](../mods/temperature_unit) object that contains a
+Temperature component is stored in a special [Temperature Record](./mods/temperature_unit.md) object that contains a
 temperature value and a unit (such as Celsius or Fahrenheit), which records the current temperature of the block
 position. The relative humidity is a 0-1 percentage of the area's
 current [relative humidity](https://en.m.wikipedia.org/wiki/Humidity#Relative_humidity). Custom component types may be
@@ -439,12 +369,12 @@ The `thermoo:constant` provider just returns a constant set of parameters, and i
 Much like custom components, mods can also define custom provider types to the
 registry `ThermooRegistries.ENVIRONMENT_PROVIDER_TYPE`.
 
-The full format for these registries can be found on the [Environment Definition](../datapacks/environment_definition)
-and [Environment Provider](../datapacks/environment_provider_definition) pages.
+The full format for these registries can be found on the [Environment Definition](./datapacks/environment_definition.md)
+and [Environment Provider](./datapacks/environment_provider_definition.md) pages.
 
 #### Usage Examples
 
-Defining the temperature for snowy biomes based on the [season](../mods/seasons) (datapack-only).
+Defining the temperature for snowy biomes based on the [season](./mods/seasons.md) (datapack-only).
 
 ```json5 title="data/example/thermoo/environment/snowy_temperature.json"
 // Note: comments are not allowed in the actual JSON files

@@ -4,10 +4,10 @@ status: deprecated
 ---
 # Item Attribute Modifiers (Removed in 1.21+)
 
-Item attribute modifiers allow datapacks to modify the default attributes of items easily. This is particularly useful for mod pack developers who want to add [attributes](https://github.com/TheDeathlyCow/thermoo/wiki/Temperature-Basics-(Datapacks)#resistances) to non-Thermoo based modded armors. It allows for attributes to be applied to items based on both tags and item IDs.
+Item attribute modifiers allow datapacks to modify the default attributes of items easily. This is particularly useful for mod pack developers who want to add [attributes](../entity_attributes.md) to non-Thermoo based modded armors. It allows for attributes to be applied to items based on both tags and item IDs.
 
 !!! warning
-    This feature was *removed* in Thermoo 4.0 (for 1.21) due to the massive changes to items. In Thermoo 4.x for Minecraft 1.21.1, you can use the [Item Attribute API](../../mods/item_attribute) in mods, or the [Default Components mod](https://modrinth.com/mod/default-components) in datapacks.
+    This feature was *removed* in Thermoo 4.0 (for 1.21) due to the massive changes to items.  In Thermoo 4.x for Minecraft 1.21.1, mods can use the [item attribute modifier event](../mods/item_attribute.md). For datapacks and modpacks, I would recommend checking out the [Default Components mod](https://modrinth.com/mod/default-components).
 
 ## Example JSON file
 

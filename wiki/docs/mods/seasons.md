@@ -14,4 +14,4 @@ Thermoo provides the ability for mods to integrate with Seasons mods. Thermoo do
 * `ThermooSeasonEvents.GET_CURRENT_TROPICAL_SEASON` - gets the current *tropical* season (wet or dry) at the position in the world, or empty if either the queried position is not tropical, or if no tropical season mod is available. Mods can use `ThermooSeason.getCurrentTropicalSeason(World, BlockPos)` as a shorthand to invoke this event to query the current season.
 
 !!! info
-    Most of the time, seasons do not need to be queried directly. Instead, use the relevant [Environment Provider type](../../datapacks/environment_provider_definition).
+    Most of the time, seasons do not need to be queried directly. Instead, use the relevant [Environment Provider type](../datapacks/environment_provider_definition.md).

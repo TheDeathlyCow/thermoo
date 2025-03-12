@@ -12,7 +12,7 @@ For mods, you should place your files in `src/main/resources/data/[modid]/thermo
 - `{}`: The root tag.
     - `"` `[]` **biomes**: Identifier of a biome, a list of biome IDs, or a `#`-prefixed biome tag ID, for example `minecraft:plains` or `#c:is_hot/overworld`. Biomes that this environment provides for.
     - `"` `[]` **exclude_biomes**: Optional, Identifier of a biome, a list of biome IDs, or a `#`-prefixed biome tag ID, for example `minecraft:plains` or `#c:is_hot/overworld`. Biomes that this environment does _not_ provide for. Defaults to an empty list if not specified.
-    - `"` `{}` **provider**: An [Environment Provider](../environment_provider_definition) ID, or in-line defined Environment Provider.
+    - `"` `{}` **provider**: An [Environment Provider](./environment_provider_definition.md) ID, or in-line defined Environment Provider.
 
 The environment will provide for all biomes that are included in `biomes` _and not included in_ `exclude_biomes`.
 
