@@ -22,6 +22,10 @@ public enum AttributeData {
             Thermoo.id("base_max_temperature"),
             ThermooAttributes.MAX_TEMPERATURE
     ),
+    MAX_SOAKING_TICK_MULTIPLIER(
+            Thermoo.id("base_max_soaking_tick_multiplier"),
+            ThermooAttributes.MAX_SOAKING_TICK_MULTIPLIER
+    ),
     FROST_RESISTANCE(
             Thermoo.id("base_frost_resistance"),
             ThermooAttributes.FROST_RESISTANCE
@@ -29,6 +33,14 @@ public enum AttributeData {
     HEAT_RESISTANCE(
             Thermoo.id("base_heat_resistance"),
             ThermooAttributes.HEAT_RESISTANCE
+    ),
+    ENVIRONMENT_HEAT_RESISTANCE(
+            Thermoo.id("base_environment_heat_resistance"),
+            ThermooAttributes.ENVIRONMENT_HEAT_RESISTANCE
+    ),
+    ENVIRONMENT_FROST_RESISTANCE(
+            Thermoo.id("base_environment_frost_resistance"),
+            ThermooAttributes.ENVIRONMENT_FROST_RESISTANCE
     );
 
     private final Identifier id;

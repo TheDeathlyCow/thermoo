@@ -1,0 +1,11 @@
+{
+    "type": "thermoo:seasonal/temperate",
+    "seasons": {
+        "winter": {
+            "type": "thermoo:constant",
+            "components": {
+                "thermoo:relative_humidity": 0.25
+            }
+        }
+    }
+}

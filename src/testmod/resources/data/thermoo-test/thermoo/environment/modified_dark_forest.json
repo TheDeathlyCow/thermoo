@@ -1,0 +1,21 @@
+{
+    "biomes": [
+        "minecraft:dark_forest"
+    ],
+    "provider": {
+        "type": "thermoo:modify",
+        "modifiers": [
+            "thermoo-test:modifiers/dark_forest_shift",
+            "thermoo-test:modifiers/dark_forest_winter_temperature",
+            "thermoo-test:modifiers/dark_forest_winter_humidity",
+            "thermoo-test:modifiers/dark_forest_summer_replace"
+        ],
+        "base": {
+            "type": "thermoo:constant",
+            "components": {
+                "thermoo:temperature": 15.0,
+                "thermoo:relative_humidity": 0.51
+            }
+        }
+    }
+}

@@ -70,7 +70,7 @@ public class LivingEntityEnvironmentTickImpl {
                     .invoker()
                     .canApplyChange(temperatureChange, player);
 
-            if (canApplyChange == TriState.TRUE) {
+            if (canApplyChange != TriState.FALSE) {
                 temperatureChange = controller.getEnvironmentTemperatureForPlayer(player, temperatureChange);
                 player.thermoo$addTemperature(temperatureChange, HeatingModes.PASSIVE);
             }

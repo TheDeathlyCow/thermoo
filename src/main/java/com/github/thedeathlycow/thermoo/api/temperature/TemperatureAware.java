@@ -1,9 +1,12 @@
 package com.github.thedeathlycow.thermoo.api.temperature;
 
+import com.github.thedeathlycow.thermoo.impl.environment.EnvironmentHeatingMode;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.util.math.random.Random;
 import org.apache.commons.lang3.NotImplementedException;
 import org.jetbrains.annotations.Nullable;
+
 
 /**
  * TemperatureAware entities are things that are sensitive to temperature. In Thermoo, the Temperature of a Thermally-aware
@@ -12,8 +15,11 @@ import org.jetbrains.annotations.Nullable;
  * negative values are treated as 'cold'.
  * <p>
  * This class is interface injected into {@link net.minecraft.entity.LivingEntity}. Therefore, ALL methods must have a
- * default implementation. Methods that should normally be abstract should throw a {@link NotImplementedException} instead
- * of being declared abstract.
+ * default implementation. Therefore, all methods that would normally be declared abstract are instead made to throw a
+ * {@link NotImplementedException}.
+ * <p>
+ * Implementing this interface onto your own objects is permitted - but many other APIs that work with living entities
+ * will not work automatically.
  */
 public interface TemperatureAware {
 
@@ -64,6 +70,28 @@ public interface TemperatureAware {
      */
     default double thermoo$getHeatResistance() {
         throw new NotImplementedException();
+    }
+
+    /**
+     * Supplies the environmental cold resistance of a temperature aware object. Environmental cold resistance is a chance
+     * to dodge a strictly negative {@link com.github.thedeathlycow.thermoo.api.environment.event.ServerPlayerEnvironmentTickEvents environment temperature change}.
+     *
+     * @return Returns a double in the range [0, 1] that is the chance that a negative environment temperature change
+     * will be dodged
+     */
+    default double thermoo$getEnvironmentColdResistance() {
+        return 0.0;
+    }
+
+    /**
+     * Supplies the environmental heat resistance of a temperature aware object. Environmental heat resistance is a chance
+     * to dodge a strictly positive {@link com.github.thedeathlycow.thermoo.api.environment.event.ServerPlayerEnvironmentTickEvents environment temperature change}.
+     *
+     * @return Returns a double in the range [0, 1] that is the chance that a positive environment temperature change
+     * will be dodged
+     */
+    default double thermoo$getEnvironmentHeatResistance() {
+        return 0.0;
     }
 
     /**
@@ -130,6 +158,13 @@ public interface TemperatureAware {
         }
 
         return ((float) temperature) / bound;
+    }
+
+    /**
+     * @return Returns a random number generator object associated with this temperature aware
+     */
+    default Random thermoo$getRandom() {
+        return Random.create();
     }
 
     /**

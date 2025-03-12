@@ -1,0 +1,4 @@
+{
+    "type": "thermoo:temperature_shift",
+    "shift": -5.0
+}

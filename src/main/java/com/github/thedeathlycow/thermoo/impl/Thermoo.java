@@ -1,11 +1,17 @@
 package com.github.thedeathlycow.thermoo.impl;
 
+import com.github.thedeathlycow.thermoo.api.ThermooRegistryKeys;
 import com.github.thedeathlycow.thermoo.api.command.*;
+import com.github.thedeathlycow.thermoo.api.environment.EnvironmentDefinition;
+import com.github.thedeathlycow.thermoo.api.environment.provider.EnvironmentProvider;
 import com.github.thedeathlycow.thermoo.api.temperature.EnvironmentManager;
+import com.github.thedeathlycow.thermoo.impl.environment.EnvironmentLookupImpl;
+import com.github.thedeathlycow.thermoo.impl.item.ModifyItemAttributeModifiersImpl;
 import com.github.thedeathlycow.thermoo.impl.temperature.effect.TemperatureEffectLoader;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.ArgumentTypeRegistry;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
+import net.fabricmc.fabric.api.event.registry.DynamicRegistries;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.command.argument.serialize.ConstantArgumentSerializer;
 import net.minecraft.resource.ResourceType;
@@ -42,12 +48,23 @@ public class Thermoo implements ModInitializer {
                 }
         );
 
+        DynamicRegistries.register(
+                ThermooRegistryKeys.ENVIRONMENT,
+                EnvironmentDefinition.CODEC
+        );
+        DynamicRegistries.register(
+                ThermooRegistryKeys.ENVIRONMENT_PROVIDER,
+                EnvironmentProvider.ELEMENT_CODEC
+        );
         ThermooCommonRegisters.registerTemperatureEffects();
+        ThermooCommonRegisters.registerEnvironmentProviderTypes();
         ThermooCommonRegisters.registerLootConditionTypes();
 
         ResourceManagerHelper serverManager = ResourceManagerHelper.get(ResourceType.SERVER_DATA);
-
         serverManager.registerReloadListener(TemperatureEffectLoader.ID, TemperatureEffectLoader::new);
+
+        EnvironmentLookupImpl.initialize();
+
         LOGGER.info("Creating environment manager {}", EnvironmentManager.INSTANCE);
         LOGGER.info("Thermoo initialized");
     }

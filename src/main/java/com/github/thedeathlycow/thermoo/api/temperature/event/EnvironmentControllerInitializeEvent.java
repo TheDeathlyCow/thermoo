@@ -9,7 +9,10 @@ import net.minecraft.util.Identifier;
 
 /**
  * Phased event for applying environment controllers in an ordered manner.
+ *
+ * @deprecated Replaced with {@linkplain com.github.thedeathlycow.thermoo.api.environment.EnvironmentDefinition the environment datapack registry}
  */
+@Deprecated
 public class EnvironmentControllerInitializeEvent {
 
     /**

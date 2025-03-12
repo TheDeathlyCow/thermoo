@@ -1,0 +1,26 @@
+{
+    "biomes": [
+        "minecraft:snowy_taiga"
+    ],
+    "provider": {
+        "type": "thermoo:weather_state",
+        "clear": {
+            "type": "thermoo:constant",
+            "components": {
+                "thermoo:temperature": -5.0
+            }
+        },
+        "rain": {
+            "type": "thermoo:constant",
+            "components": {
+                "thermoo:temperature": -10.0
+            }
+        },
+        "thunder": {
+            "type": "thermoo:constant",
+            "components": {
+                "thermoo:temperature": -15.0
+            }
+        }
+    }
+}

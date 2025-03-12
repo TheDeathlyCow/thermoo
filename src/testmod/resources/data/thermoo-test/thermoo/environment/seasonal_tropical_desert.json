@@ -1,0 +1,79 @@
+{
+    "biomes": [
+        "minecraft:desert"
+    ],
+    "provider": {
+        "type": "thermoo:seasonal/tropical",
+        "fallback_season": "dry",
+        "seasons": {
+            "wet": {
+                "type": "thermoo:seasonal/temperate",
+                "fallback_season": "summer",
+                "seasons": {
+                    "spring": {
+                        "type": "thermoo:constant",
+                        "components": {
+                            "thermoo:temperature": 31.0,
+                            "thermoo:relative_humidity": 1.0
+                        }
+                    },
+                    "summer": {
+                        "type": "thermoo:constant",
+                        "components": {
+                            "thermoo:temperature": 41.0,
+                            "thermoo:relative_humidity": 1.0
+                        }
+                    },
+                    "autumn": {
+                        "type": "thermoo:constant",
+                        "components": {
+                            "thermoo:temperature": 31.0,
+                            "thermoo:relative_humidity": 0.8
+                        }
+                    },
+                    "winter": {
+                        "type": "thermoo:constant",
+                        "components": {
+                            "thermoo:temperature": 21.0,
+                            "thermoo:relative_humidity": 0.8
+                        }
+                    }
+                }
+            },
+            "dry": {
+                "type": "thermoo:seasonal/temperate",
+                "fallback_season": "spring",
+                "seasons": {
+                    "spring": {
+                        "type": "thermoo:constant",
+                        "components": {
+                            "thermoo:temperature": 30.0,
+                            "thermoo:relative_humidity": 0.2
+                        }
+                    },
+                    "summer": {
+                        "type": "thermoo:constant",
+                        "components": {
+                            "thermoo:temperature": 40.0,
+                            "thermoo:relative_humidity": 0.2
+                        }
+                    },
+                    "autumn": {
+                        "type": "thermoo:constant",
+                        "components": {
+                            "thermoo:temperature": 30.0,
+                            "thermoo:relative_humidity": 0.1
+                        }
+                    },
+                    "winter": {
+                        "type": "thermoo:constant",
+                        "components": {
+                            "thermoo:temperature": 20.0,
+                            "thermoo:relative_humidity": 0.1
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
