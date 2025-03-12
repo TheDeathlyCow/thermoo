@@ -13,3 +13,27 @@ markdown_extensions:
   - pymdownx.superfences
   - pymdownx.tabbed:
       alternate_style: true
+
+nav:
+  - index.md
+  - api_overview.md
+  - "Core":
+      - command.md
+      - entity_attributes.md
+  - "Datapack Utilities":
+      - datapacks/environment_component_type.md
+      - datapacks/environment_definition.md
+      - datapacks/environment_provider_definition.md
+      - datapacks/loot_condition.md
+      - datapacks/tags.md
+      - datapacks/temperature_effect_definition.md
+  - "Mod Utility APIs":
+      - mods/item_attribute.md
+      - mods/seasons.md
+      - mods/status_bar_overlay.md
+      - mods/temperature_unit.md
+      - mods/tick_events.md
+  - "Deprecated APIs":
+      - mods/armor_materials.md
+      - mods/environment_controller.md
+      - datapacks/item_attribute_modifier_definition.md
