@@ -1,9 +1,31 @@
 site_name: Thermoo Wiki
 
+repo_url: https://github.com/TheDeathlyCow/thermoo
+repo_name: TheDeathlyCow/thermoo
+
 theme:
   name: material
+  logo: assets/logo.png
+  favicon: assets/favicon.svg
+
   palette:
-    scheme: slate
+    - scheme: slate
+      primary: custom
+      features:
+        - navigation.expand
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+    - scheme: default
+      primary: custom
+      features:
+        - navigation.expand
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+
+extra_css:
+  - assets/styles.css
 
 markdown_extensions:
   - attr_list
