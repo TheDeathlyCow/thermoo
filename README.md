@@ -34,10 +34,10 @@ dependencies {
 Replace 'VERSION' with the version you want to use. See the available versions
 on [Jitpack](https://jitpack.io/#TheDeathlyCow/thermoo)
 
-## Using Thermoo
+## Thermoo Developer Wiki
 
 Usage of Thermoo, for both mods and datapacks, is documented on
-the [wiki](https://github.com/TheDeathlyCow/thermoo/wiki/)
+the [developer wiki](https://thermoo.thedeathlycow.com/).
 
 ## LTS Policy
 
