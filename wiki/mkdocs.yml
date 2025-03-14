@@ -38,6 +38,7 @@ markdown_extensions:
 
 nav:
   - index.md
+  - setup.md
   - api_overview.md
   - "Core":
       - command.md
