@@ -61,6 +61,17 @@ Status Definitions:
 * ⚠️ Critical fixes only: This version will receive only critical crash and security fixes, as well as minor features where they can be easily cherry-picked
 * ❌ Unsupported: This version will receive no future updates, except for critical security fixes
 
+## Repository Structure
+
+* [changelogs](./changelogs) - A record of all production changelogs
+* [docs](./docs) - Public assets used for mod pages/wikis
+* [modpages](./modpages) - Markdown files for the CurseForge and Modrinth mod pages
+* [src](./src) - The source code of Thermoo
+* [src/main](./src/main) - The Java and Kotlin APIs for Thermoo
+* [src/test](./src/test) - The unit tests for Thermoo
+* [src/testmod](./src/testmod) - The game tests for Thermoo
+* [src/wiki](./wiki) - The MkDocs wiki source for the Developer Wiki
+
 ## Build and Test Instructions
 
 Thermoo is built using [Gradle](https://gradle.org/) with the [Fabric Loom Gradle plugin](https://github.com/FabricMC/fabric-loom). Information about how to create tests for Thermoo can be found in the [Test Policy](./TESTING.md).
