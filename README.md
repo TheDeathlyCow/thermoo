@@ -63,7 +63,7 @@ Status Definitions:
 
 ## Build and Test Instructions
 
-Thermoo is built using [Gradle](https://gradle.org/) with the [Fabric Loom Gradle plugin](https://github.com/FabricMC/fabric-loom).
+Thermoo is built using [Gradle](https://gradle.org/) with the [Fabric Loom Gradle plugin](https://github.com/FabricMC/fabric-loom). Information about how to create tests for Thermoo can be found in the [Test Policy](./TESTING.md).
 
 To make a production build of Thermoo, run the following command:
 ```bash
