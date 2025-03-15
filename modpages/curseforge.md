@@ -11,15 +11,15 @@ Thermoo is a temperature and environment library mod for Minecraft, targeting th
 Thermoo provides a number of useful features for developers of temperature mods and datapacks, including:
 * A unified framework for dealing with Temperature and Wetness/Soaking
 * Cross-compatibility with other Thermoo mods, without needing to specify direct compatibility patches
+* Powerful datapack-based Environment API
 * Data-driven temperature effects
-* Data-driven configuration of default item attributes
-* Conversion between temperature points and temperature units (like Celsius and Fahrenheit)
+* Event-driven configuration of default item attributes
+* Robust API for working with unit-agnostic temperature records (like Celsius and Fahrenheit)
 * Integration with Seasons mods
 * Powerful commands
 * Extensive customizability for your own mods
-* Mocking for end to end testing of temperature-related features
 
-Thermoo has an extensive developer wiki on GitHub, available [here](https://github.com/TheDeathlyCow/thermoo/wiki/). If you have trouble with something, feel free to ask in my [Discord](https://discord.gg/aqASuWebRU).
+Thermoo has an extensive developer wiki on GitHub, available [here](https://thermoo.thedeathlycow.com/). If you have trouble with something, feel free to ask in my [Discord](https://discord.gg/aqASuWebRU).
 
 # Configs for Modpack Authors
 
