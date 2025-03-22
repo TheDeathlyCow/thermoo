@@ -7,7 +7,7 @@ import net.minecraft.command.argument.EnumArgumentType;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.util.StringIdentifiable;
 
-public class TemperatureUnitArgumentType extends EnumArgumentType<TemperatureUnit> {
+public final class TemperatureUnitArgumentType extends EnumArgumentType<TemperatureUnit> {
     public static final Codec<TemperatureUnit> CODEC = StringIdentifiable.createCodec(TemperatureUnit::values);
 
     private TemperatureUnitArgumentType() {

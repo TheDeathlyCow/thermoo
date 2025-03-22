@@ -27,7 +27,10 @@ import static net.minecraft.server.command.CommandManager.literal;
  * <p>
  * {@code thermoo temperature <subcommand> <args>}
  */
-public class TemperatureCommand {
+public final class TemperatureCommand {
+    private TemperatureCommand() {
+
+    }
 
     static final SimpleCommandExceptionType NOT_LIVING_ENTITY = new SimpleCommandExceptionType(
             Text.translatableWithFallback(

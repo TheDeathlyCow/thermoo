@@ -10,7 +10,7 @@ import net.minecraft.util.StringIdentifiable;
 /**
  * Enum argument type for {@link TemperatureCommand}
  */
-public class HeatingModeArgumentType extends EnumArgumentType<HeatingModes> {
+public final class HeatingModeArgumentType extends EnumArgumentType<HeatingModes> {
 
     public static final Codec<HeatingModes> CODEC = StringIdentifiable.createCodec(HeatingModes::values);
 

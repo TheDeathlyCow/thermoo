@@ -38,7 +38,10 @@ import static net.minecraft.server.command.CommandManager.literal;
  * <p>
  * {@code thermoo environment relativehumidity <pos> [<scale>]}
  */
-public class EnvironmentCommand {
+public final class EnvironmentCommand {
+    private EnvironmentCommand() {
+
+    }
 
     /**
      * Supplier for creating a new environment command builder to be registered to the Minecraft server
