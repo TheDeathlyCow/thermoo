@@ -145,16 +145,30 @@ public final class EnvironmentCommand {
                 ? tempChange > 0 ? target.thermoo$getEnvironmentHeatResistance() : target.thermoo$getEnvironmentColdResistance()
                 : 0.0;
 
-        source.sendFeedback(
-                () -> Text.translatableWithFallback(
-                        "commands.thermoo.environment.temperature.player.success",
-                        "The environment temperature change of %s is %s (with a %s chance to dodge)",
-                        target.getDisplayName(),
-                        tempChange,
-                        "%.2f%%".formatted(resistance * 100)
-                ),
-                false
-        );
+        if (resistance >= 0) {
+            source.sendFeedback(
+                    () -> Text.translatableWithFallback(
+                            "commands.thermoo.environment.temperature.player.success",
+                            "The environment temperature change of %s is %s (with a %s chance to dodge)",
+                            target.getDisplayName(),
+                            tempChange,
+                            "%.2f%%".formatted(resistance * 100)
+                    ),
+                    false
+            );
+        } else {
+            source.sendFeedback(
+                    () -> Text.translatableWithFallback(
+                            "commands.thermoo.environment.temperature.player.negative.success",
+                            "The environment temperature change of %s is %s (with a %s chance of doubling)",
+                            target.getDisplayName(),
+                            tempChange,
+                            "%.2f%%".formatted(resistance * -100)
+                    ),
+                    false
+            );
+
+        }
 
         return tempChange;
     }
