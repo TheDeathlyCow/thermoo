@@ -1,13 +1,12 @@
 package com.github.thedeathlycow.thermoo.impl.environment;
 
-import com.github.thedeathlycow.thermoo.api.environment.EnvironmentDefinition;
+import com.github.thedeathlycow.thermoo.api.environment.provider.EnvironmentProvider;
 
+import java.util.Collection;
 import java.util.List;
 
 public interface ThermooBiome {
-    List<EnvironmentDefinition> thermoo$getEnvironments();
+    List<EnvironmentProvider> thermoo$getEnvironmentProviders();
 
-    void thermoo$addEnvironment(EnvironmentDefinition environment);
-
-    void thermoo$clearEnvironments();
+    void thermoo$replaceProviders(Collection<EnvironmentProvider> providers);
 }
