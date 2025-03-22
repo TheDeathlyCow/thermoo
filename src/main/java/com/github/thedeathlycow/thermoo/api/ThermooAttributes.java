@@ -2,7 +2,6 @@ package com.github.thedeathlycow.thermoo.api;
 
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import com.github.thedeathlycow.thermoo.impl.attribute.AttributeData;
-import com.github.thedeathlycow.thermoo.impl.environment.EnvironmentHeatingMode;
 import net.fabricmc.fabric.api.event.Event;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.ClampedEntityAttribute;

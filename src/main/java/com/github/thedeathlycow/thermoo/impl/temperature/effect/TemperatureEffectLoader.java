@@ -126,22 +126,4 @@ public class TemperatureEffectLoader implements SimpleSynchronousResourceReloadL
 
         return true;
     }
-
-    private void partitionRegistry(
-            Map<Identifier, ConfiguredTemperatureEffect<?>> registry,
-            Map<Identifier, ConfiguredTemperatureEffect<?>> globalEffects,
-            Map<RegistryKey<EntityType<?>>, Set<ConfiguredTemperatureEffect<?>>> typeEffects
-    ) {
-        registry.forEach((key, value) -> {
-            value.entityType().ifPresentOrElse(
-                    entityType -> {
-                        typeEffects.computeIfAbsent(
-                                entityType.getRegistryEntry().registryKey(),
-                                eid -> new HashSet<>()
-                        ).add(value);
-                    },
-                    () -> globalEffects.put(key, value)
-            );
-        });
-    }
 }

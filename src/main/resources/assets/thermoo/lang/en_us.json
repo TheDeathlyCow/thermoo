@@ -21,12 +21,7 @@
     "commands.thermoo.temperature.remove.success.multiple": "Removed %d temperature from %d entities",
     "commands.thermoo.temperature.set.success.single": "Set the temperature of %s to %d",
     "commands.thermoo.temperature.set.success.multiple": "Set the temperature of %s entities to %d",
-    "commands.thermoo.environment.printcontroller.success": "Controller logged to console",
-    "commands.thermoo.environment.printcontroller.deprecation": "This command is deprecated, the Environment Controller has been replaced with the Environment Datapack Registry",
-    
-    "commands.thermoo.environment.checktemperature.success": "The passive temperature change at %s, %s, %s (%s) is %s",
-    "commands.thermoo.environment.checktemperature.unit.success": "The temperature at %s, %s, %s (%s) is %s°%s",
-    "commands.thermoo.environment.checktemperature.deprecation": "This command is deprecated, use /thermoo environment temperature <pos>",
+
     
     "commands.thermoo.environment.temperature.success": "The environmental temperature at %s, %s, %s (%s) is %s°%s",
     "commands.thermoo.environment.humidity.success": "The environmental relative humidity at %s, %s, %s (%s) is %s%%",

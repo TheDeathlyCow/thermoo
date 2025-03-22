@@ -1,7 +1,6 @@
 package com.github.thedeathlycow.thermoo.impl.attribute;
 
 import com.github.thedeathlycow.thermoo.api.ThermooAttributes;
-import com.github.thedeathlycow.thermoo.api.temperature.EnvironmentManager;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
@@ -72,7 +71,7 @@ public enum AttributeData {
         return EventFactory.createArrayBacked(
                 ThermooAttributes.SetBaseAttributeValue.class,
                 listeners -> (entity, baseValue) -> {
-                    double value = EnvironmentManager.INSTANCE.getController().getBaseValueForAttribute(attribute, entity);
+                    double value = 0.0;
 
                     for (ThermooAttributes.SetBaseAttributeValue listener : listeners) {
                         value = listener.getBaseValue(entity, value);

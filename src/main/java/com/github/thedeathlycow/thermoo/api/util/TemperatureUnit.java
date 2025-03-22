@@ -4,7 +4,6 @@ import com.mojang.serialization.Codec;
 import net.minecraft.util.StringIdentifiable;
 
 import java.util.function.DoubleUnaryOperator;
-import java.util.function.Supplier;
 
 /**
  * Defines the basic units of temperature and allows for conversions between them.

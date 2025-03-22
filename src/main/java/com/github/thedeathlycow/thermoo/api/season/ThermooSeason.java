@@ -4,7 +4,6 @@ import com.mojang.serialization.Codec;
 import net.minecraft.util.StringIdentifiable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 

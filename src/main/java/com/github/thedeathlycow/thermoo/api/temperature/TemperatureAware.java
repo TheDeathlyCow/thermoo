@@ -1,6 +1,5 @@
 package com.github.thedeathlycow.thermoo.api.temperature;
 
-import com.github.thedeathlycow.thermoo.impl.environment.EnvironmentHeatingMode;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.random.Random;

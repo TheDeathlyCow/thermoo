@@ -1,6 +1,5 @@
 package com.github.thedeathlycow.thermoo.mixin.common;
 
-import com.github.thedeathlycow.thermoo.impl.LivingEntityEnvironmentTickImpl;
 import com.github.thedeathlycow.thermoo.impl.LivingEntityTickUtil;
 import net.minecraft.entity.LivingEntity;
 import org.spongepowered.asm.mixin.Mixin;
@@ -16,7 +15,6 @@ public abstract class LivingEntityEnvironmentTickMixin {
     )
     private void temperatureTick(CallbackInfo ci) {
         LivingEntity entity = (LivingEntity) (Object) this;
-        LivingEntityEnvironmentTickImpl.tick(entity);
         LivingEntityTickUtil.tick(entity);
     }
 }

@@ -1,6 +1,5 @@
 package com.github.thedeathlycow.thermoo.api.util;
 
-import com.github.thedeathlycow.thermoo.api.util.TemperatureUnit;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;

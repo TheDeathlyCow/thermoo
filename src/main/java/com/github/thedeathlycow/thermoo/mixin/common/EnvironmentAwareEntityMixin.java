@@ -2,7 +2,6 @@ package com.github.thedeathlycow.thermoo.mixin.common;
 
 import com.github.thedeathlycow.thermoo.api.ThermooAttributes;
 import com.github.thedeathlycow.thermoo.api.ThermooTags;
-import com.github.thedeathlycow.thermoo.api.temperature.EnvironmentManager;
 import com.github.thedeathlycow.thermoo.api.temperature.HeatingMode;
 import com.github.thedeathlycow.thermoo.api.temperature.Soakable;
 import com.github.thedeathlycow.thermoo.api.temperature.TemperatureAware;
@@ -27,6 +26,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LivingEntity.class)
 public abstract class EnvironmentAwareEntityMixin extends Entity implements TemperatureAware, Soakable {
+
+    private static final int BASE_MAX_SOAK_TICKS = 600;
 
     @Shadow
     public abstract boolean canBreatheInWater();
@@ -54,10 +55,8 @@ public abstract class EnvironmentAwareEntityMixin extends Entity implements Temp
 
     @Override
     public int thermoo$getMaxWetTicks() {
-        // base of 600
-        int base = EnvironmentManager.INSTANCE.getController().getMaxWetTicks(this);
         double multiplier = this.getAttributeValue(ThermooAttributes.MAX_SOAKING_TICK_MULTIPLIER);
-        return MathHelper.floor(base * multiplier);
+        return MathHelper.floor(BASE_MAX_SOAK_TICKS * multiplier);
     }
 
 

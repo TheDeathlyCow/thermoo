@@ -3,9 +3,10 @@ package com.github.thedeathlycow.thermoo.impl;
 import com.github.thedeathlycow.thermoo.api.environment.EnvironmentLookup;
 import com.github.thedeathlycow.thermoo.api.temperature.HeatingMode;
 import com.github.thedeathlycow.thermoo.api.temperature.HeatingModes;
+import com.github.thedeathlycow.thermoo.api.temperature.event.EnvironmentTickContext;
 import com.github.thedeathlycow.thermoo.api.temperature.event.LivingEntitySoakingTickEvents;
 import com.github.thedeathlycow.thermoo.api.temperature.event.LivingEntityTemperatureTickEvents;
-import com.github.thedeathlycow.thermoo.api.temperature.event.EnvironmentTickContext;
+import com.github.thedeathlycow.thermoo.impl.component.ThermooComponents;
 import com.github.thedeathlycow.thermoo.impl.environment.EnvironmentTickContextImpl;
 import com.github.thedeathlycow.thermoo.impl.environment.ServerPlayerTickUtil;
 import net.fabricmc.fabric.api.event.Event;
@@ -46,6 +47,16 @@ public final class LivingEntityTickUtil {
                         ComponentMap.EMPTY
                 );
                 invokeEntityEvents(context);
+            }
+
+            boolean isSyncTick = entity.age % 20 == 0;
+
+            if (isSyncTick || ThermooComponents.TEMPERATURE.get(entity).isDirty()) {
+                ThermooComponents.TEMPERATURE.sync(entity);
+            }
+
+            if (isSyncTick || ThermooComponents.WETNESS.get(entity).isDirty()) {
+                ThermooComponents.WETNESS.sync(entity);
             }
         }
     }

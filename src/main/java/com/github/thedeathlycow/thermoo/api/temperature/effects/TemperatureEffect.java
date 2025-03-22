@@ -6,7 +6,6 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.loot.condition.LootCondition;
 import net.minecraft.predicate.NumberRange;
-import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryCodecs;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.entry.RegistryEntryList;

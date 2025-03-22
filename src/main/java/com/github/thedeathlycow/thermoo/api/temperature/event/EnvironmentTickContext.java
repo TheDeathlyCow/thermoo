@@ -1,7 +1,6 @@
 package com.github.thedeathlycow.thermoo.api.temperature.event;
 
 import com.github.thedeathlycow.thermoo.api.environment.component.EnvironmentComponentTypes;
-import com.github.thedeathlycow.thermoo.api.environment.event.ServerPlayerEnvironmentTickEvents;
 import com.github.thedeathlycow.thermoo.api.temperature.Soakable;
 import com.github.thedeathlycow.thermoo.api.temperature.TemperatureAware;
 import net.minecraft.component.ComponentMap;

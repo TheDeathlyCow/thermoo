@@ -67,34 +67,6 @@ public final class ConfiguredTemperatureEffect<C> {
      */
     private final int loadingPriority;
 
-    /**
-     * Constructs a new configured temperature effect.
-     *
-     * @deprecated This constructor was previously exposed in the API, but should have been kept internal. Please only
-     * construct new instances of this class through a datapack.
-     */
-    @ApiStatus.Internal
-    @Deprecated(since = "4.3", forRemoval = true)
-    public ConfiguredTemperatureEffect(
-            TemperatureEffect<C> type,
-            C config,
-            Optional<LootCondition> predicate,
-            Optional<EntityType<?>> entityType,
-            NumberRange.DoubleRange temperatureScaleRange,
-            int loadingPriority
-    ) {
-        this(
-                type,
-                config,
-                predicate,
-                entityType.isPresent()
-                        ? RegistryEntryList.of(entityType.get().getRegistryEntry())
-                        : RegistryEntryList.empty(),
-                temperatureScaleRange,
-                loadingPriority
-        );
-    }
-
     @ApiStatus.Internal
     public ConfiguredTemperatureEffect(
             TemperatureEffect<C> type,
@@ -205,18 +177,6 @@ public final class ConfiguredTemperatureEffect<C> {
 
     public RegistryEntryList<EntityType<?>> entityTypes() {
         return entityTypes;
-    }
-
-    /**
-     * @return Returns the first entity type in {@link #entityTypes}, if present
-     * @deprecated Use {@link #entityTypes()}
-     */
-    @Deprecated(since = "4.3", forRemoval = true)
-    public Optional<EntityType<?>> entityType() {
-        if (this.entityTypes.size() > 0) {
-            return Optional.of(this.entityTypes.get(0).value());
-        }
-        return Optional.empty();
     }
 
     public NumberRange.DoubleRange temperatureScaleRange() {

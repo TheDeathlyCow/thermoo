@@ -7,7 +7,6 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Identifier;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -19,17 +18,6 @@ public class TemperatureEffectManager {
     private final Map<RegistryKey<EntityType<?>>, Set<EntityTypeCacheEntry>> entityTypeCache = new IdentityHashMap<>();
 
     private final Map<Identifier, ConfiguredTemperatureEffect<?>> registry = new HashMap<>();
-
-    /**
-     * @deprecated use {@link #getEffectsEntriesForEntity(LivingEntity)}
-     */
-    @Deprecated
-    public Collection<ConfiguredTemperatureEffect<?>> getEffectsForEntity(LivingEntity entity) {
-        return getEffectsEntriesForEntity(entity)
-                .stream()
-                .map(EntityTypeCacheEntry::effect)
-                .collect(Collectors.toUnmodifiableSet());
-    }
 
     public Set<EntityTypeCacheEntry> getEffectsEntriesForEntity(LivingEntity entity) {
         EntityType<?> type = entity.getType();

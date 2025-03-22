@@ -1,12 +1,10 @@
 package com.github.thedeathlycow.thermoo.api.environment;
 
-import com.github.thedeathlycow.thermoo.api.ThermooRegistryKeys;
 import com.github.thedeathlycow.thermoo.api.environment.provider.EnvironmentProvider;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.registry.RegistryCodecs;
 import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.entry.RegistryElementCodec;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.entry.RegistryEntryList;
 import net.minecraft.world.biome.Biome;
