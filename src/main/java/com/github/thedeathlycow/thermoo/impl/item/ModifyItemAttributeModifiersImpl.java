@@ -2,10 +2,7 @@ package com.github.thedeathlycow.thermoo.impl.item;
 
 import com.github.thedeathlycow.thermoo.api.item.ModifyItemAttributeModifiersCallback;
 import com.github.thedeathlycow.thermoo.mixin.common.accessor.AttributeModifiersComponentBuilderAccessor;
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
 import it.unimi.dsi.fastutil.Pair;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.minecraft.component.type.AttributeModifiersComponent;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.item.ItemStack;
@@ -25,7 +22,7 @@ public final class ModifyItemAttributeModifiersImpl {
 
         ModifyItemAttributeModifiersCallback.EVENT.invoker().modifyAttributeModifiers(stack, builder);
 
-        return new AttributeModifiersComponent(removeDuplicates(builder.build().modifiers()), base.showInTooltip());
+        return new AttributeModifiersComponent(removeDuplicates(builder.build().modifiers()));
     }
 
     private static List<AttributeModifiersComponent.Entry> removeDuplicates(Collection<AttributeModifiersComponent.Entry> modifiers) {

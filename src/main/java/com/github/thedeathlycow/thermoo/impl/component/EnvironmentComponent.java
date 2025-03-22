@@ -46,7 +46,7 @@ public class EnvironmentComponent implements Component, AutoSyncedComponent {
 
     @Override
     public void readFromNbt(NbtCompound tag, RegistryWrapper.WrapperLookup registryLookup) {
-        this.value = tag.getInt(NBT_KEY);
+        this.value = tag.getInt(NBT_KEY, 0);
     }
 
     @Override

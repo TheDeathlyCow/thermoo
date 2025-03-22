@@ -56,7 +56,7 @@ public final class TemperatureShiftEnvironmentProvider implements EnvironmentPro
     @Override
     public void buildCurrentComponents(World world, BlockPos pos, RegistryEntry<Biome> biome, ComponentMap.Builder builder) {
         ComponentMapBuilderAccessor accessor = (ComponentMapBuilderAccessor) builder;
-        if (accessor.thermoo$getComponents().containsKey(EnvironmentComponentTypes.TEMPERATURE)) {
+        if (builder.contains(EnvironmentComponentTypes.TEMPERATURE)) {
             TemperatureRecord base = builder.getOrDefault(EnvironmentComponentTypes.TEMPERATURE, TemperatureRecordComponent.DEFAULT);
             TemperatureRecord shifted = base.add(this.shift);
             builder.add(EnvironmentComponentTypes.TEMPERATURE, shifted);
