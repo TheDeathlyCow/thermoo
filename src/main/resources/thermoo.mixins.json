@@ -5,14 +5,15 @@
     "compatibilityLevel": "JAVA_21",
     "mixins": [
         "ArmorItemMixin",
-        "accessor.ComponentMapBuilderAccessor",
+        "BiomeMixin",
         "EnvironmentAwareEntityMixin",
         "HotFloorMixin",
         "ItemStackMixin",
         "LivingEntityAttributeMixin",
         "LivingEntityEnvironmentTickMixin",
         "PlayerTemperatureTickMixin",
-        "accessor.AttributeModifiersComponentBuilderAccessor"
+        "accessor.AttributeModifiersComponentBuilderAccessor",
+        "accessor.ComponentMapBuilderAccessor"
     ],
     "injectors": {
         "defaultRequire": 1
