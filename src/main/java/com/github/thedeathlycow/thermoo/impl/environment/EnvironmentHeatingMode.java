@@ -15,9 +15,13 @@ public final class EnvironmentHeatingMode implements HeatingMode {
                 ? target.thermoo$getEnvironmentColdResistance()
                 : target.thermoo$getEnvironmentHeatResistance();
 
-        return target.thermoo$getRandom().nextDouble() < resistance
-                ? 0
-                : temperatureChange;
+        if (resistance > 0) {
+            return target.thermoo$getRandom().nextDouble() < resistance ? 0 : temperatureChange;
+        } else if (resistance < 0) {
+            return target.thermoo$getRandom().nextDouble() < -resistance ? 2 * temperatureChange : temperatureChange;
+        } else {
+            return temperatureChange;
+        }
     }
 
     private EnvironmentHeatingMode() {
