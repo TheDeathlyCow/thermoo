@@ -69,8 +69,8 @@ Status Definitions:
 * [src](./src) - The source code of Thermoo
 * [src/main](./src/main) - The Java and Kotlin APIs for Thermoo
 * [src/test](./src/test) - The unit tests for Thermoo
-* [src/testmod](./src/testmod) - The game tests for Thermoo
-* [src/wiki](./wiki) - The MkDocs wiki source for the Developer Wiki
+* [src/gametest](./src/gametest) - The game tests for Thermoo
+* [wiki](./wiki) - The MkDocs wiki source for the Developer Wiki
 
 ## Build and Test Instructions
 
@@ -93,7 +93,7 @@ gradlew check
 
 Thermoo also includes some game tests, to automatically run them use the following command:
 ```bash
-gradlew runGametest
+gradlew runGameTest
 ```
 
 Finally, you can manually test Thermoo in a Minecraft environment using the test mod:
