@@ -39,9 +39,21 @@ val TemperatureAware.environmentColdResistance: Double
 val TemperatureAware.environmentHeatResistance: Double
     get() = this.`thermoo$getEnvironmentHeatResistance`()
 
-fun TemperatureAware.canFreeze(): Boolean = this.`thermoo$canFreeze`()
+/**
+ * Checks if an entity can overheat
+ */
+fun TemperatureAware.canBeWarm(): Boolean = this.`thermoo$canOverheat`()
 
-fun TemperatureAware.canOverheat(): Boolean = this.`thermoo$canOverheat`()
+/**
+ * Checks if an entity can freeze
+ */
+fun TemperatureAware.canBeCold(): Boolean = this.`thermoo$canFreeze`()
+
+@Deprecated(message = "Clashes with entity method of same name", replaceWith = ReplaceWith("this.canBeCold()"))
+fun TemperatureAware.canFreeze(): Boolean = this.canBeCold()
+
+@Deprecated(message = "Does not follow name convention of canBeCold", replaceWith = ReplaceWith("this.canBeWarm()"))
+fun TemperatureAware.canOverheat(): Boolean = this.canBeWarm()
 
 val TemperatureAware.isCold: Boolean
     get() = this.`thermoo$isCold`()
