@@ -18,14 +18,16 @@ public class PrecipitationTypeTests {
         context.complete();
     }
 
-    @GameTest(environment = EnvironmentTestHelper.RAINY_WEATHER)
+    @GameTest(environment = EnvironmentTestHelper.RAINY_WEATHER, maxTicks = 102)
     public void snowy_plains_has_snowy_temperature_when_raining(TestContext context) {
-        ServerWorld world = context.getWorld();
+        context.waitAndRun(100L, () -> {
+            ServerWorld world = context.getWorld();
 
-        double temperature = EnvironmentTestHelper.getBiomeTemperature(context, world, BiomeKeys.SNOWY_PLAINS);
-        EnvironmentTestHelper.assertTemperatureEquals(context, -5.0, temperature);
+            double temperature = EnvironmentTestHelper.getBiomeTemperature(context, world, BiomeKeys.SNOWY_PLAINS);
+            EnvironmentTestHelper.assertTemperatureEquals(context, -5.0, temperature);
 
-        context.complete();
+            context.complete();
+        });
     }
 
     @GameTest(environment = EnvironmentTestHelper.CLEAR_WEATHER)
@@ -38,7 +40,7 @@ public class PrecipitationTypeTests {
         context.complete();
     }
 
-    @GameTest(environment = EnvironmentTestHelper.RAINY_WEATHER)
+    @GameTest(environment = EnvironmentTestHelper.CLEAR_WEATHER)
     public void end_barrens_has_none_temperature(TestContext context) {
         ServerWorld world = context.getWorld();
 

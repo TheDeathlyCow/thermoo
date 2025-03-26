@@ -21,14 +21,16 @@ public class WeatherStateTests {
         context.complete();
     }
 
-    @GameTest(environment = EnvironmentTestHelper.RAINY_WEATHER)
+    @GameTest(environment = EnvironmentTestHelper.RAINY_WEATHER, maxTicks = 102)
     public void snowy_taiga_during_rainy_is_neg10c(TestContext context) {
-        ServerWorld world = context.getWorld();
+        context.waitAndRun(100L, () -> {
+            ServerWorld world = context.getWorld();
 
-        double temperature = EnvironmentTestHelper.getBiomeTemperature(context, world, BiomeKeys.SNOWY_TAIGA);
-        EnvironmentTestHelper.assertTemperatureEquals(context, -10.0, temperature);
+            double temperature = EnvironmentTestHelper.getBiomeTemperature(context, world, BiomeKeys.SNOWY_TAIGA);
+            EnvironmentTestHelper.assertTemperatureEquals(context, -10.0, temperature);
 
-        context.complete();
+            context.complete();
+        });
     }
 
     @GameTest(environment = EnvironmentTestHelper.THUNDER_WEATHER, maxTicks = 102)
