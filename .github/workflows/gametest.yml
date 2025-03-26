@@ -15,7 +15,7 @@ jobs:
         with:
           java-version: 21
           distribution: 'microsoft'
-#      - name: make gradle wrapper executable
-#        run: chmod +x ./gradlew
-#      - name: Build and run game tests
-#        run: ./gradlew runGameTest
+      - name: make gradle wrapper executable
+        run: chmod +x ./gradlew
+      - name: Build and run game tests
+        run: ./gradlew runGameTest

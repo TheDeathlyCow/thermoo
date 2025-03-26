@@ -1,0 +1,19 @@
+{
+    "type": "minecraft:all_of",
+    "definitions": [
+        {
+            "type": "minecraft:game_rules",
+            "bool_rules": [],
+            "int_rules": [
+                {
+                    "rule": "thermoo.setTestSeason",
+                    "value": 4
+                },
+                {
+                    "rule": "thermoo.setTestTropicalSeason",
+                    "value": 2
+                }
+            ]
+        }
+    ]
+}
