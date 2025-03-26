@@ -14,11 +14,9 @@ import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.test.TestContext;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import org.jetbrains.annotations.Nullable;
@@ -43,6 +41,7 @@ public final class EnvironmentTestHelper {
 
     public static final String CLEAR_WEATHER = ThermooTestMod.MODID + ":weather/clear";
     public static final String RAINY_WEATHER = ThermooTestMod.MODID + ":weather/rainy";
+    public static final String THUNDER_WEATHER = ThermooTestMod.MODID + ":weather/thunder";
 
     public static void assertTemperatureEquals(TestContext context, double expected, double actual) {
         context.assertTrue(
@@ -114,30 +113,6 @@ public final class EnvironmentTestHelper {
                 newTropicalSeason == season,
                 Text.literal("Expected tropical season at " + pos + " to be " + season + " but was " + newTropicalSeason)
         );
-    }
-
-    public static void setSeasons(TestContext context, @Nullable ThermooSeason temperateSeason, @Nullable ThermooSeason tropicalSeason) {
-        MinecraftServer server = context.getWorld().getServer();
-        GameRules.IntRule temperateSeasonRule = server.getGameRules().get(ThermooTestMod.CURRENT_SEASON);
-        int temperateSeasonValue = switch (temperateSeason) {
-            case SPRING -> 1;
-            case SUMMER -> 2;
-            case AUTUMN -> 3;
-            case WINTER -> 4;
-            case null, default -> 0;
-        };
-        temperateSeasonRule.set(temperateSeasonValue, server);
-
-        GameRules.IntRule tropicalSeasonRule = server.getGameRules().get(ThermooTestMod.CURRENT_TROPICAL_SEASON);
-        int tropicalSeasonValue = switch (tropicalSeason) {
-            case TROPICAL_WET -> 1;
-            case TROPICAL_DRY -> 2;
-            case null, default -> 0;
-        };
-        tropicalSeasonRule.set(tropicalSeasonValue, server);
-
-        expectTemperateSeason(context, temperateSeason);
-        expectTropicalSeason(context, tropicalSeason);
     }
 
     private EnvironmentTestHelper() {
