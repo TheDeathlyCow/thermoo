@@ -13,7 +13,7 @@ import java.util.List;
  * Applies multiple child temperature effects at once. Useful for when you want to apply several different temperature
  * effects under the same base set of conditions, without the overhead of checking those conditions multiple times.
  */
-public class SequenceTemperatureEffect extends TemperatureEffect<SequenceTemperatureEffect.Config> {
+public final class SequenceTemperatureEffect extends TemperatureEffect<SequenceTemperatureEffect.Config> {
 
     public static final Codec<Config> CODEC = RecordCodecBuilder.create(
             instance -> instance.group(

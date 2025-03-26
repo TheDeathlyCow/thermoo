@@ -19,7 +19,7 @@ import java.util.List;
  * The type, duration, and intensity can all be configured of each status effect can be configured. May specify 1 or more
  * effects to all be applied at once.
  */
-public class StatusEffectTemperatureEffect extends TemperatureEffect<StatusEffectTemperatureEffect.Config> {
+public final class StatusEffectTemperatureEffect extends TemperatureEffect<StatusEffectTemperatureEffect.Config> {
 
     public static final Codec<Config> CODEC = RecordCodecBuilder.create(
             instance -> instance.group(

@@ -4,6 +4,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.random.Random;
 import org.apache.commons.lang3.NotImplementedException;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
 
@@ -16,10 +17,8 @@ import org.jetbrains.annotations.Nullable;
  * This class is interface injected into {@link net.minecraft.entity.LivingEntity}. Therefore, ALL methods must have a
  * default implementation. Therefore, all methods that would normally be declared abstract are instead made to throw a
  * {@link NotImplementedException}.
- * <p>
- * Implementing this interface onto your own objects is permitted - but many other APIs that work with living entities
- * will not work automatically.
  */
+@ApiStatus.NonExtendable
 public interface TemperatureAware {
 
 

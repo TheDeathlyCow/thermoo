@@ -13,7 +13,10 @@ import org.joml.Vector2i;
  * Event for rendering temperature overlays on status bar.
  */
 @Environment(EnvType.CLIENT)
-public class StatusBarOverlayRenderEvents {
+public final class StatusBarOverlayRenderEvents {
+    private StatusBarOverlayRenderEvents() {
+
+    }
 
     /**
      * Invoked after the player health bar is drawn. Does not include information on the Absorption bar.

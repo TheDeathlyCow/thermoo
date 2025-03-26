@@ -12,7 +12,10 @@ import java.util.Optional;
  * must be implemented by another mod like Fabric Seasons or Serene Seasons. This only provides the ability to query
  * seasons if you want to use them.
  */
-public class ThermooSeasonEvents {
+public final class ThermooSeasonEvents {
+    private ThermooSeasonEvents() {
+
+    }
 
     /**
      * Retrieves the current season. This event just places season integration into

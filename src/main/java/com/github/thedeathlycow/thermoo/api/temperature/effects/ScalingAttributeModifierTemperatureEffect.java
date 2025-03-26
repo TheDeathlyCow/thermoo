@@ -16,7 +16,7 @@ import net.minecraft.util.Identifier;
  * A temperature effect that applies an attribute modifier to a victim that increases in strength with respect to the
  * current temperature scale, as computed by {@link TemperatureAware#thermoo$getTemperatureScale()}
  */
-public class ScalingAttributeModifierTemperatureEffect extends TemperatureEffect<ScalingAttributeModifierTemperatureEffect.Config> {
+public final class ScalingAttributeModifierTemperatureEffect extends TemperatureEffect<ScalingAttributeModifierTemperatureEffect.Config> {
 
     public static final Codec<Config> CODEC = RecordCodecBuilder.create(
             instance -> instance.group(

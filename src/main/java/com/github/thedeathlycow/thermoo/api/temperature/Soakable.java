@@ -2,6 +2,7 @@ package com.github.thedeathlycow.thermoo.api.temperature;
 
 import net.minecraft.util.math.MathHelper;
 import org.apache.commons.lang3.NotImplementedException;
+import org.jetbrains.annotations.ApiStatus;
 
 /**
  * Soakable entities are things that can get wet. Wetness can increase when in the rain, swimming, or splashed with a water bottle.
@@ -11,6 +12,7 @@ import org.apache.commons.lang3.NotImplementedException;
  * default implementation. Methods that should normally be abstract should throw a {@link NotImplementedException} instead
  * of being declared abstract.
  */
+@ApiStatus.NonExtendable
 public interface Soakable {
 
     /**

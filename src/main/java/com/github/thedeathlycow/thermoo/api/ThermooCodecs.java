@@ -10,7 +10,7 @@ import org.jetbrains.annotations.ApiStatus;
  * Exposed in API for the convenience of API users.
  */
 @ApiStatus.Experimental
-public class ThermooCodecs {
+public final class ThermooCodecs {
 
     /**
      * Creates a codec for an Enum. Either uses the enum ordinal or the name, but prefers the ordinal for more efficient

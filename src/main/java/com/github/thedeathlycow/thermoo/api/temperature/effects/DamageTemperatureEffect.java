@@ -23,7 +23,7 @@ import java.util.Map;
  * The amount and interval of the damage pulses can be configured, as well as the damage type. However, the {@link DamageSource}
  * applied only stores the type - the direct source entity, attacker, and position are all {@code null}.
  */
-public class DamageTemperatureEffect extends TemperatureEffect<DamageTemperatureEffect.Config> {
+public final class DamageTemperatureEffect extends TemperatureEffect<DamageTemperatureEffect.Config> {
 
     public static final Codec<Config> CODEC = RecordCodecBuilder.create(
             instance -> instance.group(

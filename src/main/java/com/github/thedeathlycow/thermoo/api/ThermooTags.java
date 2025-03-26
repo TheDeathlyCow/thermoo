@@ -10,7 +10,7 @@ import net.minecraft.registry.tag.TagKey;
 /**
  * All tags used by Thermoo. Thermoo by default leaves these tags as empty - even for vanilla entries
  */
-public class ThermooTags {
+public final class ThermooTags {
 
     /**
      * Entity types that benefit from being cold
