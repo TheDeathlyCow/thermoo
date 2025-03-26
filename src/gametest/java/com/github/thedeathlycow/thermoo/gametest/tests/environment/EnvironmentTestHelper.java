@@ -33,6 +33,12 @@ public final class EnvironmentTestHelper {
     public static final String DRY_AUTUMN = ThermooTestMod.MODID + ":dry_autumn";
     public static final String DRY_WINTER = ThermooTestMod.MODID + ":dry_winter";
 
+    public static final String WET = ThermooTestMod.MODID + ":tropical_wet";
+    public static final String WET_SPRING = ThermooTestMod.MODID + ":wet_spring";
+    public static final String WET_SUMMER = ThermooTestMod.MODID + ":wet_summer";
+    public static final String WET_AUTUMN = ThermooTestMod.MODID + ":wet_autumn";
+    public static final String WET_WINTER = ThermooTestMod.MODID + ":wet_winter";
+
     public static void assertTemperatureEquals(TestContext context, double expected, double actual) {
         context.assertTrue(
                 Math.abs(actual - expected) <= 1e-2,
