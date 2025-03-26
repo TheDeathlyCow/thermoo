@@ -153,7 +153,7 @@ publishMods {
     file = remapJar.archiveFile
     additionalFiles.from(remapSourcesJar.archiveFile)
     additionalFiles.from(javadocJar.archiveFile)
-    displayName = "[1.21.5-rc1] Thermoo ${mod_version}"
+    displayName = "Thermoo ${mod_version}"
 
     modLoaders.add("fabric")
     modLoaders.add("quilt")
@@ -161,7 +161,7 @@ publishMods {
     curseforge {
         accessToken = providers.environmentVariable("CURSEFORGE_API_KEY")
         projectId = "846544"
-        minecraftVersions.addAll("1.21.5-snapshot")
+        minecraftVersions.addAll("1.21.5")
 
         javaVersions.add(JavaVersion.VERSION_21)
 
@@ -174,7 +174,7 @@ publishMods {
     modrinth {
         accessToken = providers.environmentVariable("MODRINTH_TOKEN")
         projectId = "9TbXlAut"
-        minecraftVersions.addAll("1.21.5-rc1")
+        minecraftVersions.addAll("1.21.5")
 
         requires("fabric-api", "cardinal-components-api")
     }
@@ -184,5 +184,7 @@ publishMods {
         accessToken = providers.environmentVariable("RELEASE_GITHUB_TOKEN")
         commitish = "1.21.5"
         tagName = "v${mod_version}"
+
+        displayName = "[1.21.5] Thermoo ${mod_version}"
     }
 }
