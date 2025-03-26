@@ -25,6 +25,8 @@ import org.jetbrains.annotations.Nullable;
 
 public final class EnvironmentTestHelper {
     public static final String NO_SEASONS = ThermooTestMod.MODID + ":no_seasons";
+    public static final String SPRING = ThermooTestMod.MODID + ":temperate_spring";
+    public static final String AUTUMN = ThermooTestMod.MODID + ":temperate_autumn";
     public static final String WINTER = ThermooTestMod.MODID + ":temperate_winter";
     public static final String SUMMER = ThermooTestMod.MODID + ":temperate_summer";
     public static final String DRY = ThermooTestMod.MODID + ":tropical_dry";

@@ -12,7 +12,8 @@ public class TropicalJungleTemperatureTests {
     @GameTest(environment = EnvironmentTestHelper.NO_SEASONS)
     public void jungle_fallback_temperature_is_normal_fallback(TestContext context) {
         World world = context.getWorld();
-        EnvironmentTestHelper.setSeasons(context, null, null);
+        EnvironmentTestHelper.expectTemperateSeason(context, null);
+        EnvironmentTestHelper.expectTropicalSeason(context, null);
 
         double temperature = EnvironmentTestHelper.getBiomeTemperature(context, world, BiomeKeys.JUNGLE);
         EnvironmentTestHelper.assertTemperatureEquals(
@@ -27,7 +28,8 @@ public class TropicalJungleTemperatureTests {
     @GameTest(environment = EnvironmentTestHelper.WET)
     public void jungle_wet_temperature_is_30c(TestContext context) {
         World world = context.getWorld();
-        EnvironmentTestHelper.setSeasons(context, null, ThermooSeason.TROPICAL_WET);
+        EnvironmentTestHelper.expectTemperateSeason(context, null);
+        EnvironmentTestHelper.expectTropicalSeason(context, ThermooSeason.TROPICAL_WET);
 
         double temperature = EnvironmentTestHelper.getBiomeTemperature(context, world, BiomeKeys.JUNGLE);
         EnvironmentTestHelper.assertTemperatureEquals(context, 30.0, temperature);
@@ -38,7 +40,8 @@ public class TropicalJungleTemperatureTests {
     @GameTest(environment = EnvironmentTestHelper.DRY)
     public void jungle_dry_temperature_is_50c(TestContext context) {
         World world = context.getWorld();
-        EnvironmentTestHelper.setSeasons(context, null, ThermooSeason.TROPICAL_DRY);
+        EnvironmentTestHelper.expectTemperateSeason(context, null);
+        EnvironmentTestHelper.expectTropicalSeason(context, ThermooSeason.TROPICAL_DRY);
 
         double temperature = EnvironmentTestHelper.getBiomeTemperature(context, world, BiomeKeys.JUNGLE);
         EnvironmentTestHelper.assertTemperatureEquals(context, 50.0, temperature);
