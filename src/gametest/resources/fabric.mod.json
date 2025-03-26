@@ -15,7 +15,7 @@
 		"fabric-gametest": [
 			"com.github.thedeathlycow.thermoo.gametest.tests.AttributeTests",
 			"com.github.thedeathlycow.thermoo.gametest.tests.item.ModifyItemAttributeModifiersTest",
-			"com.github.thedeathlycow.thermoo.gametest.tests.environment.PlainsTemperatureTests",
+			"com.github.thedeathlycow.thermoo.gametest.tests.environment.SeasonalPlainsTemperatureTests",
 			"com.github.thedeathlycow.thermoo.gametest.tests.environment.SeasonalPlainsHumidityTests",
 			"com.github.thedeathlycow.thermoo.gametest.tests.environment.TropicalJungleTemperatureTests",
 			"com.github.thedeathlycow.thermoo.gametest.tests.environment.TropicalJungleHumidityTests",
