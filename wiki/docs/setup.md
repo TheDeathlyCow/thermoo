@@ -8,7 +8,7 @@ Thermoo corresponds to a Minecraft version with breaking changes.
 
 | Minecraft Version Range | Corresponding Thermoo versions |
 |-------------------------|--------------------------------|
-| 1.21.5                  | 6.x (planned)                  |
+| 1.21.5                  | 6.x                            |
 | 1.21.2-1.21.4           | 5.x                            |
 | 1.21-1.21.1             | 4.x                            |
 | 1.20.5-1.20.6           | Skipped                        |
