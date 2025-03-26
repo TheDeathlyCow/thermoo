@@ -1,6 +1,5 @@
 package com.github.thedeathlycow.thermoo.gametest.tests.environment;
 
-import com.github.thedeathlycow.thermoo.gametest.ThermooTestMod;
 import net.fabricmc.fabric.api.gametest.v1.CustomTestMethodInvoker;
 import net.fabricmc.fabric.api.gametest.v1.GameTest;
 import net.minecraft.test.TestContext;
@@ -11,9 +10,8 @@ import java.lang.reflect.Method;
 
 @SuppressWarnings("unused")
 public class ReferenceConstantBirchForestTests implements CustomTestMethodInvoker {
-    private static final String ENVIRONMENT = ThermooTestMod.MODID + ":no_seasons";
 
-    @GameTest(environment = ENVIRONMENT)
+    @GameTest(environment = EnvironmentTestHelper.NO_SEASONS)
     public void birch_forest_temperature_is_22c(TestContext context) {
         World world = context.getWorld();
 
@@ -23,7 +21,7 @@ public class ReferenceConstantBirchForestTests implements CustomTestMethodInvoke
         context.complete();
     }
 
-    @GameTest(environment = ENVIRONMENT)
+    @GameTest(environment = EnvironmentTestHelper.NO_SEASONS)
     public void birch_forest_humidity_is_52pc(TestContext context) {
         World world = context.getWorld();
 
@@ -35,7 +33,7 @@ public class ReferenceConstantBirchForestTests implements CustomTestMethodInvoke
 
     @Override
     public void invokeTestMethod(TestContext context, Method method) throws ReflectiveOperationException {
-        EnvironmentTestHelper.expectTemperatureSeason(context, null);
+        EnvironmentTestHelper.expectTemperateSeason(context, null);
         EnvironmentTestHelper.expectTropicalSeason(context, null);
         method.invoke(this, context);
     }

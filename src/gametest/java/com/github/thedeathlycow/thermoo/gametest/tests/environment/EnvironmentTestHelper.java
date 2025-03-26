@@ -23,9 +23,11 @@ import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Optional;
-
 public final class EnvironmentTestHelper {
+    public static final String NO_SEASONS = ThermooTestMod.MODID + ":no_seasons";
+    public static final String WINTER = ThermooTestMod.MODID + ":temperate_winter";
+    public static final String SUMMER = ThermooTestMod.MODID + ":temperate_summer";
+
     public static void assertTemperatureEquals(TestContext context, double expected, double actual) {
         context.assertTrue(
                 Math.abs(actual - expected) <= 1e-2,
@@ -80,7 +82,7 @@ public final class EnvironmentTestHelper {
                 .orElseThrow();
     }
 
-    public static void expectTemperatureSeason(TestContext context, @Nullable ThermooSeason season) {
+    public static void expectTemperateSeason(TestContext context, @Nullable ThermooSeason season) {
         ThermooSeason newTemperateSeason = ThermooSeason.getCurrentSeason(context.getWorld()).orElse(null);
         context.assertTrue(
                 newTemperateSeason == season,
@@ -118,7 +120,7 @@ public final class EnvironmentTestHelper {
         };
         tropicalSeasonRule.set(tropicalSeasonValue, server);
 
-        expectTemperatureSeason(context, temperateSeason);
+        expectTemperateSeason(context, temperateSeason);
         expectTropicalSeason(context, tropicalSeason);
     }
 

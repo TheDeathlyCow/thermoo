@@ -21,7 +21,7 @@
 			"com.github.thedeathlycow.thermoo.gametest.tests.environment.JungleHumidityTests",
 			"com.github.thedeathlycow.thermoo.gametest.tests.environment.ForestTests",
 			"com.github.thedeathlycow.thermoo.gametest.tests.environment.ReferenceConstantBirchForestTests",
-			"com.github.thedeathlycow.thermoo.gametest.tests.environment.DarkForestTests",
+			"com.github.thedeathlycow.thermoo.gametest.tests.environment.ModifiedDarkForestTests",
 			"com.github.thedeathlycow.thermoo.gametest.tests.environment.DesertDryTemperatureTests",
 			"com.github.thedeathlycow.thermoo.gametest.tests.environment.DesertDryHumidityTests",
 			"com.github.thedeathlycow.thermoo.gametest.tests.environment.DesertWetTemperatureTests",
