@@ -24,22 +24,25 @@ import net.minecraft.world.biome.Biome;
 import org.jetbrains.annotations.Nullable;
 
 public final class EnvironmentTestHelper {
-    public static final String NO_SEASONS = ThermooTestMod.MODID + ":no_seasons";
-    public static final String SPRING = ThermooTestMod.MODID + ":temperate_spring";
-    public static final String AUTUMN = ThermooTestMod.MODID + ":temperate_autumn";
-    public static final String WINTER = ThermooTestMod.MODID + ":temperate_winter";
-    public static final String SUMMER = ThermooTestMod.MODID + ":temperate_summer";
-    public static final String DRY = ThermooTestMod.MODID + ":tropical_dry";
-    public static final String DRY_SPRING = ThermooTestMod.MODID + ":dry_spring";
-    public static final String DRY_SUMMER = ThermooTestMod.MODID + ":dry_summer";
-    public static final String DRY_AUTUMN = ThermooTestMod.MODID + ":dry_autumn";
-    public static final String DRY_WINTER = ThermooTestMod.MODID + ":dry_winter";
+    public static final String NO_SEASONS = ThermooTestMod.MODID + ":seasonal/no_seasons";
+    public static final String SPRING = ThermooTestMod.MODID + ":seasonal/temperate_spring";
+    public static final String AUTUMN = ThermooTestMod.MODID + ":seasonal/temperate_autumn";
+    public static final String WINTER = ThermooTestMod.MODID + ":seasonal/temperate_winter";
+    public static final String SUMMER = ThermooTestMod.MODID + ":seasonal/temperate_summer";
+    public static final String DRY = ThermooTestMod.MODID + ":seasonal/tropical_dry";
+    public static final String DRY_SPRING = ThermooTestMod.MODID + ":seasonal/dry_spring";
+    public static final String DRY_SUMMER = ThermooTestMod.MODID + ":seasonal/dry_summer";
+    public static final String DRY_AUTUMN = ThermooTestMod.MODID + ":seasonal/dry_autumn";
+    public static final String DRY_WINTER = ThermooTestMod.MODID + ":seasonal/dry_winter";
 
-    public static final String WET = ThermooTestMod.MODID + ":tropical_wet";
-    public static final String WET_SPRING = ThermooTestMod.MODID + ":wet_spring";
-    public static final String WET_SUMMER = ThermooTestMod.MODID + ":wet_summer";
-    public static final String WET_AUTUMN = ThermooTestMod.MODID + ":wet_autumn";
-    public static final String WET_WINTER = ThermooTestMod.MODID + ":wet_winter";
+    public static final String WET = ThermooTestMod.MODID + ":seasonal/tropical_wet";
+    public static final String WET_SPRING = ThermooTestMod.MODID + ":seasonal/wet_spring";
+    public static final String WET_SUMMER = ThermooTestMod.MODID + ":seasonal/wet_summer";
+    public static final String WET_AUTUMN = ThermooTestMod.MODID + ":seasonal/wet_autumn";
+    public static final String WET_WINTER = ThermooTestMod.MODID + ":seasonal/wet_winter";
+
+    public static final String CLEAR_WEATHER = ThermooTestMod.MODID + ":weather/clear";
+    public static final String RAINY_WEATHER = ThermooTestMod.MODID + ":weather/rainy";
 
     public static void assertTemperatureEquals(TestContext context, double expected, double actual) {
         context.assertTrue(

@@ -1,0 +1,30 @@
+{
+    "biomes": [
+        "minecraft:snowy_plains",
+        "minecraft:taiga",
+        "minecraft:end_barrens"
+    ],
+    "provider": {
+        "type": "thermoo:precipitation_type",
+        "precipitation_type": {
+            "snow": {
+                "type": "thermoo:constant",
+                "components": {
+                    "thermoo:temperature": -5.0
+                }
+            },
+            "rain": {
+                "type": "thermoo:constant",
+                "components": {
+                    "thermoo:temperature": 15.0
+                }
+            },
+            "none": {
+                "type": "thermoo:constant",
+                "components": {
+                    "thermoo:temperature": 25.0
+                }
+            }
+        }
+    }
+}
