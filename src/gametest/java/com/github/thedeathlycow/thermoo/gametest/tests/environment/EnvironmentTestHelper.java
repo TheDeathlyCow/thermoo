@@ -27,6 +27,11 @@ public final class EnvironmentTestHelper {
     public static final String NO_SEASONS = ThermooTestMod.MODID + ":no_seasons";
     public static final String WINTER = ThermooTestMod.MODID + ":temperate_winter";
     public static final String SUMMER = ThermooTestMod.MODID + ":temperate_summer";
+    public static final String DRY = ThermooTestMod.MODID + ":tropical_dry";
+    public static final String DRY_SPRING = ThermooTestMod.MODID + ":dry_spring";
+    public static final String DRY_SUMMER = ThermooTestMod.MODID + ":dry_summer";
+    public static final String DRY_AUTUMN = ThermooTestMod.MODID + ":dry_autumn";
+    public static final String DRY_WINTER = ThermooTestMod.MODID + ":dry_winter";
 
     public static void assertTemperatureEquals(TestContext context, double expected, double actual) {
         context.assertTrue(
