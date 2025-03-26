@@ -58,20 +58,6 @@ dependencies {
     // These are included in the Fabric API production distribution and allow you to update your mod to the latest modules at a later more convenient time.
 
     // modImplementation "net.fabricmc.fabric-api:fabric-api-deprecated:${project.fabric_version}"
-
-    //// Bring depends into testmod ////
-
-    afterEvaluate {
-        subprojects.each {
-            api project(path: ":${it.name}", configuration: "namedElements")
-
-            if (!(it.name in devOnlyModules)) {
-                include project("${it.name}:")
-            }
-
-            testmodImplementation project("${it.name}:").sourceSets.testmod.output
-        }
-    }
 }
 
 processResources {
@@ -84,23 +70,6 @@ processResources {
 
 sourceSets {
     main.java.srcDirs += 'src/main/kotlin'
-    test {
-        compileClasspath += main.compileClasspath
-        runtimeClasspath += main.runtimeClasspath
-    }
-    testmod {
-        compileClasspath += main.compileClasspath
-        runtimeClasspath += main.runtimeClasspath
-        compileClasspath += main.output
-        runtimeClasspath += main.output
-    }
-}
-
-subprojects {
-    dependencies {
-        testmodImplementation sourceSets.main.output
-        testmodImplementation project(path: ':', configuration: 'namedElements')
-    }
 }
 
 loom {
@@ -112,28 +81,28 @@ loom {
     }
 
     runs {
-        testmodClient {
-            client()
-            ideConfigGenerated project.rootProject == project
-            name = "Testmod Client"
-            source sourceSets.testmod
-        }
-        testmodServer {
-            server()
-            ideConfigGenerated project.rootProject == project
-            name = "Testmod Server"
-            source sourceSets.testmod
-        }
-        gametest {
-            inherit testmodServer
-
-            name "Game Test"
-
-            // Enable the gametest runner
-            vmArg "-Dfabric-api.gametest"
-            vmArg "-Dfabric-api.gametest.report-file=${project.buildDir}/junit.xml"
-            runDir "build/gametest"
-        }
+//        testmodClient {
+//            client()
+//            ideConfigGenerated project.rootProject == project
+//            name = "Testmod Client"
+//            source sourceSets.gametest
+//        }
+//        testmodServer {
+//            server()
+//            ideConfigGenerated project.rootProject == project
+//            name = "Testmod Server"
+//            source sourceSets.gametest
+//        }
+//        gametest {
+//            inherit testmodServer
+//
+//            name "Game Test"
+//
+//            // Enable the gametest runner
+//            vmArg "-Dfabric-api.gametest"
+//            vmArg "-Dfabric-api.gametest.report-file=${project.buildDir}/junit.xml"
+//            runDir "build/gametest"
+//        }
     }
 }
 
@@ -215,5 +184,15 @@ publishMods {
         accessToken = providers.environmentVariable("RELEASE_GITHUB_TOKEN")
         commitish = "1.21.5"
         tagName = "v${mod_version}"
+    }
+}
+
+fabricApi {
+    configureTests {
+        createSourceSet = true
+        modId = "thermoo-test"
+        enableGameTests = true
+        eula = true
+        enableClientGameTests = false
     }
 }
