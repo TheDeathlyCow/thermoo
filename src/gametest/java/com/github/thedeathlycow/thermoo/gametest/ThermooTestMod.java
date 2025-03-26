@@ -41,7 +41,7 @@ public class ThermooTestMod implements ModInitializer {
         TestTemperatureChanges.initialize();
         TestSoakableChanges.initialize();
         TestEnvironmentChanges.initialize();
-//        ModifyItemAttributeModifiersTest.initialize();
+        ModifyItemAttributeModifiersTest.initialize();
 
         ThermooSeasonEvents.GET_CURRENT_SEASON.register(
                 world -> Optional.ofNullable(switch (world.getServer().getGameRules().getInt(CURRENT_SEASON)) {

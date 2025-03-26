@@ -72,6 +72,16 @@ sourceSets {
     main.java.srcDirs += 'src/main/kotlin'
 }
 
+fabricApi {
+    configureTests {
+        createSourceSet = true
+        modId = "thermoo-test"
+        enableGameTests = true
+        eula = true
+        enableClientGameTests = false
+    }
+}
+
 loom {
 
     accessWidenerPath = file("src/main/resources/thermoo.accesswidener")
@@ -81,18 +91,18 @@ loom {
     }
 
     runs {
-//        testmodClient {
-//            client()
-//            ideConfigGenerated project.rootProject == project
-//            name = "Testmod Client"
-//            source sourceSets.gametest
-//        }
-//        testmodServer {
-//            server()
-//            ideConfigGenerated project.rootProject == project
-//            name = "Testmod Server"
-//            source sourceSets.gametest
-//        }
+        testmodClient {
+            client()
+            ideConfigGenerated project.rootProject == project
+            name = "Testmod Client"
+            source sourceSets.gametest
+        }
+        testmodServer {
+            server()
+            ideConfigGenerated project.rootProject == project
+            name = "Testmod Server"
+            source sourceSets.gametest
+        }
 //        gametest {
 //            inherit testmodServer
 //
@@ -184,15 +194,5 @@ publishMods {
         accessToken = providers.environmentVariable("RELEASE_GITHUB_TOKEN")
         commitish = "1.21.5"
         tagName = "v${mod_version}"
-    }
-}
-
-fabricApi {
-    configureTests {
-        createSourceSet = true
-        modId = "thermoo-test"
-        enableGameTests = true
-        eula = true
-        enableClientGameTests = false
     }
 }
