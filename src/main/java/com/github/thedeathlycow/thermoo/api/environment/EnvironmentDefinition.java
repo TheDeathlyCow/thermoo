@@ -15,6 +15,8 @@ import org.jetbrains.annotations.Contract;
  * in order to work.
  */
 public final class EnvironmentDefinition {
+    private static final int DEFAULT_PRIORITY = 1000;
+
     public static final Codec<EnvironmentDefinition> CODEC = RecordCodecBuilder.create(
             instance -> instance.group(
                     RegistryCodecs.entryList(RegistryKeys.BIOME)
@@ -25,7 +27,10 @@ public final class EnvironmentDefinition {
                             .forGetter(EnvironmentDefinition::excludeBiomes),
                     EnvironmentProvider.ENTRY_CODEC
                             .fieldOf("provider")
-                            .forGetter(EnvironmentDefinition::provider)
+                            .forGetter(EnvironmentDefinition::provider),
+                    Codec.INT
+                            .optionalFieldOf("priority", DEFAULT_PRIORITY)
+                            .forGetter(EnvironmentDefinition::priority)
             ).apply(instance, EnvironmentDefinition::new)
     );
 
@@ -35,17 +40,26 @@ public final class EnvironmentDefinition {
 
     private final RegistryEntry<EnvironmentProvider> provider;
 
+    private final int priority;
+
     private EnvironmentDefinition(
             RegistryEntryList<Biome> biomes,
             RegistryEntryList<Biome> excludeBiomes,
-            RegistryEntry<EnvironmentProvider> provider
+            RegistryEntry<EnvironmentProvider> provider,
+            int priority
     ) {
         this.biomes = biomes;
         this.excludeBiomes = excludeBiomes;
         this.provider = provider;
+        this.priority = priority;
     }
 
-    // TODO: replace create methods with a builder (especially when modifiers are added!)
+    public static EnvironmentDefinition.Builder builder(
+            RegistryEntryList<Biome> biomes,
+            RegistryEntry<EnvironmentProvider> provider
+    ) {
+        return new Builder(biomes, provider);
+    }
 
     /**
      * Creates an environment definition
@@ -53,10 +67,12 @@ public final class EnvironmentDefinition {
      * @param biomes   The biomes this definition provides for
      * @param provider The base value provider of this definition
      * @return Returns a new definition
+     * @deprecated Use {@link #builder(RegistryEntryList, RegistryEntry)}
      */
     @Contract("_,_->new")
+    @Deprecated(since = "4.5")
     public static EnvironmentDefinition create(RegistryEntryList<Biome> biomes, RegistryEntry<EnvironmentProvider> provider) {
-        return new EnvironmentDefinition(biomes, RegistryEntryList.empty(), provider);
+        return builder(biomes, provider).build();
     }
 
     /**
@@ -66,14 +82,16 @@ public final class EnvironmentDefinition {
      * @param excludeBiomes The biomes this definition has been blocked from providing for
      * @param provider      The base value provider of this definition
      * @return Returns a new definition
+     * @deprecated Use {@link #builder(RegistryEntryList, RegistryEntry)}
      */
     @Contract("_,_,_->new")
+    @Deprecated(since = "4.5")
     public static EnvironmentDefinition create(
             RegistryEntryList<Biome> biomes,
             RegistryEntryList<Biome> excludeBiomes,
             RegistryEntry<EnvironmentProvider> provider
     ) {
-        return new EnvironmentDefinition(biomes, excludeBiomes, provider);
+        return builder(biomes, provider).excludeBiomes(excludeBiomes).build();
     }
 
     /**
@@ -110,5 +128,49 @@ public final class EnvironmentDefinition {
      */
     public RegistryEntry<EnvironmentProvider> provider() {
         return this.provider;
+    }
+
+    /**
+     * Determines the priority for which this environment should be applied to a biome. Environments wither a HIGHER
+     * priority will be applied FIRST, and environments with a LOWER priority will be applied LAST. Environments with the
+     * same priority may be applied in any order.
+     * <p>
+     * The default priority is {@value DEFAULT_PRIORITY}.
+     *
+     * @return Returns this environment's priority.
+     */
+    public int priority() {
+        return this.priority;
+    }
+
+    public static class Builder {
+        private final RegistryEntryList<Biome> biomes;
+        private final RegistryEntry<EnvironmentProvider> provider;
+        private RegistryEntryList<Biome> excludeBiomes = RegistryEntryList.empty();
+        private int priority = DEFAULT_PRIORITY;
+
+        private Builder(RegistryEntryList<Biome> biomes, RegistryEntry<EnvironmentProvider> provider) {
+            this.biomes = biomes;
+            this.provider = provider;
+        }
+
+        public Builder excludeBiomes(RegistryEntryList<Biome> biomes) {
+            this.excludeBiomes = biomes;
+            return this;
+        }
+
+        public Builder withPriority(int priority) {
+            this.priority = priority;
+            return this;
+        }
+
+        public EnvironmentDefinition build() {
+            return new EnvironmentDefinition(
+                    this.biomes,
+                    this.excludeBiomes,
+                    this.provider,
+                    this.priority
+            );
+        }
     }
 }
