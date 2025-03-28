@@ -37,8 +37,8 @@
 		"fabric-api": ">=0.119.2",
 		"minecraft": ">=1.21.5",
 		"java": ">=21",
-		"cardinal-components-base": ">=6.3.0-alpha.1+25w09b",
-		"cardinal-components-entity": ">=6.3.0-alpha.1+25w09b"
+		"cardinal-components-base": ">=6.3.0",
+		"cardinal-components-entity": ">=6.3.0"
 	},
 	"suggests": {
 		"frostiful": "*",
