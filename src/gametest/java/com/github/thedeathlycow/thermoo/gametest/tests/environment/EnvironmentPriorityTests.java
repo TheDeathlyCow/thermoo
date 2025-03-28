@@ -1,16 +1,16 @@
-package com.github.thedeathlycow.thermoo.testmod.tests.environment;
+package com.github.thedeathlycow.thermoo.gametest.tests.environment;
 
 import com.github.thedeathlycow.thermoo.api.ThermooRegistryKeys;
 import com.github.thedeathlycow.thermoo.api.environment.EnvironmentDefinition;
+import com.github.thedeathlycow.thermoo.gametest.ThermooTestMod;
 import com.github.thedeathlycow.thermoo.impl.environment.EnvironmentLookupImpl;
-import com.github.thedeathlycow.thermoo.testmod.ThermooTestMod;
-import net.fabricmc.fabric.api.gametest.v1.FabricGameTest;
+import net.fabricmc.fabric.api.gametest.v1.GameTest;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.test.GameTest;
 import net.minecraft.test.TestContext;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeKeys;
@@ -19,7 +19,7 @@ import java.util.List;
 
 @SuppressWarnings("unused")
 public class EnvironmentPriorityTests {
-    @GameTest(templateName = FabricGameTest.EMPTY_STRUCTURE)
+    @GameTest
     public void environments_loaded_in_priority_order(TestContext context) {
         ServerWorld world = context.getWorld();
         Registry<EnvironmentDefinition> registry = world.getRegistryManager().getOrThrow(ThermooRegistryKeys.ENVIRONMENT);
@@ -37,7 +37,7 @@ public class EnvironmentPriorityTests {
                 ThermooTestMod.id("priority/low_priority")
         );
 
-        context.assertEquals(loadedEnvironments, expectedEnvironments, "Nether Wastes Environment Providers");
+        context.assertEquals(loadedEnvironments, expectedEnvironments, Text.literal("Nether Wastes Environment Providers"));
         context.complete();
     }
 }
