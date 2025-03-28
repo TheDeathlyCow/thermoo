@@ -148,7 +148,7 @@ test {
 
 publishMods {
     changelog = file("changelogs/${mod_version}.md").text
-    type = BETA
+    type = STABLE
 
     file = remapJar.archiveFile
     additionalFiles.from(remapSourcesJar.archiveFile)
