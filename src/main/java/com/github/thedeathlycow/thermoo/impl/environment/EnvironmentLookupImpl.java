@@ -14,8 +14,12 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
+import org.jetbrains.annotations.VisibleForTesting;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Stream;
 
 public class EnvironmentLookupImpl implements EnvironmentLookup {
     public static final EnvironmentLookupImpl INSTANCE = new EnvironmentLookupImpl();
@@ -32,13 +36,13 @@ public class EnvironmentLookupImpl implements EnvironmentLookup {
 
     public ComponentMap findEnvironmentComponentsForBiome(World world, BlockPos pos, RegistryEntry<Biome> biome) {
         ComponentMap.Builder builder = ComponentMap.builder();
-        for (EnvironmentProvider provider : this.getProviders(biome)) {
-            provider.buildCurrentComponents(world, pos, biome, builder);
+        for (RegistryEntry<EnvironmentProvider> provider : this.getProviders(biome)) {
+            provider.value().buildCurrentComponents(world, pos, biome, builder);
         }
         return builder.build();
     }
 
-    private List<EnvironmentProvider> getProviders(RegistryEntry<Biome> biomeEntry) {
+    private List<RegistryEntry<EnvironmentProvider>> getProviders(RegistryEntry<Biome> biomeEntry) {
         Biome biome = biomeEntry.value();
         return ((ThermooBiome) (Object) biome).thermoo$getEnvironmentProviders();
     }
@@ -48,9 +52,13 @@ public class EnvironmentLookupImpl implements EnvironmentLookup {
         Registry<Biome> biomeRegistry = server.getRegistryManager().get(RegistryKeys.BIOME);
 
         biomeRegistry.streamEntries().forEach(entry -> {
-            List<EnvironmentProvider> providers = this.getAllMatchingProviders(entry, envRegistry);
+            List<RegistryEntry<EnvironmentProvider>> providers = getAllMatchingEnvironments(entry, envRegistry)
+                    .map(EnvironmentDefinition::provider)
+                    .toList();
 
-            ThermooBiome extendedBiome = ((ThermooBiome) (Object) entry.value());
+            Biome biome = entry.value();
+            Objects.requireNonNull(biome);
+            ThermooBiome extendedBiome = ((ThermooBiome) (Object) biome);
             extendedBiome.thermoo$replaceProviders(providers);
 
             if (Thermoo.LOGGER.isDebugEnabled()) {
@@ -59,10 +67,10 @@ public class EnvironmentLookupImpl implements EnvironmentLookup {
         });
     }
 
-    private List<EnvironmentProvider> getAllMatchingProviders(RegistryEntry<Biome> biome, Registry<EnvironmentDefinition> envRegistry) {
+    @VisibleForTesting
+    public static Stream<EnvironmentDefinition> getAllMatchingEnvironments(RegistryEntry<Biome> biome, Registry<EnvironmentDefinition> envRegistry) {
         return envRegistry.stream()
                 .filter(entry -> entry.providesFor(biome))
-                .map(env -> env.provider().value())
-                .toList();
+                .sorted(Comparator.comparingInt(EnvironmentDefinition::priority).reversed());
     }
 }
