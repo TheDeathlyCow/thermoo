@@ -1,6 +1,7 @@
 package com.github.thedeathlycow.thermoo.api.environment.provider;
 
 import com.github.thedeathlycow.thermoo.api.ThermooRegistryKeys;
+import com.github.thedeathlycow.thermoo.api.environment.EnvironmentDefinition;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.component.ComponentMap;
@@ -13,6 +14,9 @@ import net.minecraft.world.biome.Biome;
 
 /**
  * Applies modifiers to a base environment provider from a tag or list of environment providers
+ * <p>
+ * <strong>Note:</strong> In general, using the {@linkplain EnvironmentDefinition#priority() environment priority} is more
+ * flexible than using this provider type.
  */
 public final class ModifyEnvironmentProvider implements EnvironmentProvider {
     public static final MapCodec<ModifyEnvironmentProvider> CODEC = RecordCodecBuilder.mapCodec(

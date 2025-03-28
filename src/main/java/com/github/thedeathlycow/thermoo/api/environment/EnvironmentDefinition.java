@@ -130,6 +130,15 @@ public final class EnvironmentDefinition {
         return this.provider;
     }
 
+    /**
+     * Determines the priority for which this environment should be applied to a biome. Environments wither a HIGHER
+     * priority will be applied FIRST, and environments with a LOWER priority will be applied LAST. Environments with the
+     * same priority may be applied in any order.
+     * <p>
+     * The default priority is {@value DEFAULT_PRIORITY}.
+     *
+     * @return Returns this environment's priority.
+     */
     public int priority() {
         return this.priority;
     }
