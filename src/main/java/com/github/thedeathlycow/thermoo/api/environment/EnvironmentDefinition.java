@@ -1,14 +1,12 @@
 package com.github.thedeathlycow.thermoo.api.environment;
 
 import com.github.thedeathlycow.thermoo.api.environment.provider.EnvironmentProvider;
-import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.registry.RegistryCodecs;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.entry.RegistryEntryList;
-import net.minecraft.util.Identifier;
 import net.minecraft.world.biome.Biome;
 import org.jetbrains.annotations.Contract;
 
@@ -17,7 +15,7 @@ import org.jetbrains.annotations.Contract;
  * in order to work.
  */
 public final class EnvironmentDefinition {
-    public static final Identifier DEFAULT_PHASE = Thermoo.id("default");
+    private static final int DEFAULT_PRIORITY = 1000;
 
     public static final Codec<EnvironmentDefinition> CODEC = RecordCodecBuilder.create(
             instance -> instance.group(
@@ -30,9 +28,9 @@ public final class EnvironmentDefinition {
                     EnvironmentProvider.ENTRY_CODEC
                             .fieldOf("provider")
                             .forGetter(EnvironmentDefinition::provider),
-                    Identifier.CODEC
-                            .optionalFieldOf("phase", DEFAULT_PHASE)
-                            .forGetter(EnvironmentDefinition::phase)
+                    Codec.INT
+                            .optionalFieldOf("priority", DEFAULT_PRIORITY)
+                            .forGetter(EnvironmentDefinition::priority)
             ).apply(instance, EnvironmentDefinition::new)
     );
 
@@ -42,33 +40,25 @@ public final class EnvironmentDefinition {
 
     private final RegistryEntry<EnvironmentProvider> provider;
 
-    private final Identifier phase;
+    private final int priority;
 
     private EnvironmentDefinition(
             RegistryEntryList<Biome> biomes,
             RegistryEntryList<Biome> excludeBiomes,
             RegistryEntry<EnvironmentProvider> provider,
-            Identifier phase
+            int priority
     ) {
         this.biomes = biomes;
         this.excludeBiomes = excludeBiomes;
         this.provider = provider;
-        this.phase = phase;
+        this.priority = priority;
     }
 
     public static EnvironmentDefinition.Builder builder(
             RegistryEntryList<Biome> biomes,
             RegistryEntry<EnvironmentProvider> provider
     ) {
-        return new Builder(biomes, RegistryEntryList.empty(), provider);
-    }
-
-    public static EnvironmentDefinition.Builder builder(
-            RegistryEntryList<Biome> biomes,
-            RegistryEntryList<Biome> excludeBiomes,
-            RegistryEntry<EnvironmentProvider> provider
-    ) {
-        return new Builder(biomes, excludeBiomes, provider);
+        return new Builder(biomes, provider);
     }
 
     /**
@@ -92,7 +82,7 @@ public final class EnvironmentDefinition {
      * @param excludeBiomes The biomes this definition has been blocked from providing for
      * @param provider      The base value provider of this definition
      * @return Returns a new definition
-     * @deprecated Use {@link #builder(RegistryEntryList, RegistryEntryList, RegistryEntry)}
+     * @deprecated Use {@link #builder(RegistryEntryList, RegistryEntry)}
      */
     @Contract("_,_,_->new")
     @Deprecated(since = "4.5")
@@ -101,7 +91,7 @@ public final class EnvironmentDefinition {
             RegistryEntryList<Biome> excludeBiomes,
             RegistryEntry<EnvironmentProvider> provider
     ) {
-        return builder(biomes, excludeBiomes, provider).build();
+        return builder(biomes, provider).excludeBiomes(excludeBiomes).build();
     }
 
     /**
@@ -140,27 +130,28 @@ public final class EnvironmentDefinition {
         return this.provider;
     }
 
-    public Identifier phase() {
-        return this.phase;
+    public int priority() {
+        return this.priority;
     }
 
     public static class Builder {
         private final RegistryEntryList<Biome> biomes;
-
-        private final RegistryEntryList<Biome> excludeBiomes;
-
         private final RegistryEntry<EnvironmentProvider> provider;
+        private RegistryEntryList<Biome> excludeBiomes = RegistryEntryList.empty();
+        private int priority = DEFAULT_PRIORITY;
 
-        private Identifier phase = DEFAULT_PHASE;
-
-        private Builder(RegistryEntryList<Biome> biomes, RegistryEntryList<Biome> excludeBiomes, RegistryEntry<EnvironmentProvider> provider) {
+        private Builder(RegistryEntryList<Biome> biomes, RegistryEntry<EnvironmentProvider> provider) {
             this.biomes = biomes;
-            this.excludeBiomes = excludeBiomes;
             this.provider = provider;
         }
 
-        public Builder withPhase(Identifier phase) {
-            this.phase = phase;
+        public Builder excludeBiomes(RegistryEntryList<Biome> biomes) {
+            this.excludeBiomes = biomes;
+            return this;
+        }
+
+        public Builder withPriority(int priority) {
+            this.priority = priority;
             return this;
         }
 
@@ -169,7 +160,7 @@ public final class EnvironmentDefinition {
                     this.biomes,
                     this.excludeBiomes,
                     this.provider,
-                    this.phase
+                    this.priority
             );
         }
     }
