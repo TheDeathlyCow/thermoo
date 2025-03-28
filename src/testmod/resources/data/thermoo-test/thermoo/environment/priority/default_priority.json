@@ -1,0 +1,13 @@
+{
+    "biomes": [
+        "minecraft:nether_wastes"
+    ],
+    "priority": 1000,
+    "provider": {
+        "type": "thermoo:constant",
+        "components": {
+            "thermoo:temperature": 35.0,
+            "thermoo:relative_humidity": 0.01
+        }
+    }
+}
