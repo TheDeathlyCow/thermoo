@@ -10,7 +10,6 @@ import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.test.GameTest;
-import net.minecraft.test.GameTestException;
 import net.minecraft.test.TestContext;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.biome.Biome;
@@ -23,11 +22,10 @@ public class EnvironmentPriorityTests {
     @GameTest(templateName = FabricGameTest.EMPTY_STRUCTURE)
     public void environments_loaded_in_priority_order(TestContext context) {
         ServerWorld world = context.getWorld();
-        Registry<EnvironmentDefinition> registry = world.getRegistryManager().get(ThermooRegistryKeys.ENVIRONMENT);
+        Registry<EnvironmentDefinition> registry = world.getRegistryManager().getOrThrow(ThermooRegistryKeys.ENVIRONMENT);
         RegistryEntry<Biome> netherWastes = world.getRegistryManager()
-                .get(RegistryKeys.BIOME)
-                .getEntry(BiomeKeys.NETHER_WASTES)
-                .orElseThrow(() -> new GameTestException("Missing nether wastes biome!"));
+                .getOrThrow(RegistryKeys.BIOME)
+                .getOrThrow(BiomeKeys.NETHER_WASTES);
 
         List<Identifier> loadedEnvironments = EnvironmentLookupImpl.getAllMatchingEnvironments(netherWastes, registry)
                 .map(registry::getId)

@@ -48,8 +48,8 @@ public class EnvironmentLookupImpl implements EnvironmentLookup {
     }
 
     private void addProvidersToBiomes(MinecraftServer server) {
-        Registry<EnvironmentDefinition> envRegistry = server.getRegistryManager().get(ThermooRegistryKeys.ENVIRONMENT);
-        Registry<Biome> biomeRegistry = server.getRegistryManager().get(RegistryKeys.BIOME);
+        Registry<EnvironmentDefinition> envRegistry = server.getRegistryManager().getOrThrow(ThermooRegistryKeys.ENVIRONMENT);
+        Registry<Biome> biomeRegistry = server.getRegistryManager().getOrThrow(RegistryKeys.BIOME);
 
         biomeRegistry.streamEntries().forEach(entry -> {
             List<RegistryEntry<EnvironmentProvider>> providers = getAllMatchingEnvironments(entry, envRegistry)
