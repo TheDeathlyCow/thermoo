@@ -11,14 +11,16 @@ import net.minecraft.world.biome.BiomeKeys;
 
 @SuppressWarnings("unused")
 public class WeatherStateTests {
-    @GameTest(environment = EnvironmentTestHelper.CLEAR_WEATHER)
+    @GameTest(environment = EnvironmentTestHelper.CLEAR_WEATHER, maxTicks = 102)
     public void snowy_taiga_during_sunny_is_neg5c(TestContext context) {
-        ServerWorld world = context.getWorld();
+        context.waitAndRun(100L, () -> {
+            ServerWorld world = context.getWorld();
 
-        double temperature = EnvironmentTestHelper.getBiomeTemperature(context, world, BiomeKeys.SNOWY_TAIGA);
-        EnvironmentTestHelper.assertTemperatureEquals(context, -5.0, temperature);
+            double temperature = EnvironmentTestHelper.getBiomeTemperature(context, world, BiomeKeys.SNOWY_TAIGA);
+            EnvironmentTestHelper.assertTemperatureEquals(context, -5.0, temperature);
 
-        context.complete();
+            context.complete();
+        });
     }
 
     @GameTest(environment = EnvironmentTestHelper.RAINY_WEATHER, maxTicks = 102)
