@@ -86,9 +86,11 @@ public final class ThermooAttributes {
     );
 
     /**
-     * The environment heat resistance of an entity. Environment heat resistance does not reduce the amount of heat
-     * during a temperature change, but instead provides a chance to "dodge" the change all together. It is used ONLY
-     * for {@link com.github.thedeathlycow.thermoo.api.environment.event.ServerPlayerEnvironmentTickEvents environment temperature changes}.
+     * The environment heat resistance of an entity. It is used ONLY for
+     * {@link com.github.thedeathlycow.thermoo.api.environment.event.ServerPlayerEnvironmentTickEvents environment temperature changes}.
+     * <p>
+     * Positive values provides a random chance of "dodging" a temperature increase from an environmental source.
+     * Negative values provide a random chance of doubling a temperature increase from an environmental source.
      *
      * @see #ENVIRONMENT_FROST_RESISTANCE
      */
@@ -100,9 +102,11 @@ public final class ThermooAttributes {
     );
 
     /**
-     * The environment frost resistance of an entity. Environment frost resistance does not reduce the amount of cold
-     * during a temperature change, but instead provides a chance to "dodge" the change all together. It is used ONLY
-     * for {@link com.github.thedeathlycow.thermoo.api.environment.event.ServerPlayerEnvironmentTickEvents environment temperature changes}.
+     * The environment frost resistance of an entity. It is used ONLY for
+     * {@link com.github.thedeathlycow.thermoo.api.environment.event.ServerPlayerEnvironmentTickEvents environment temperature changes}.
+     * <p>
+     * Positive values provides a random chance of "dodging" a temperature decrease from an environmental source.
+     * Negative values provide a random chance of doubling a temperature decrease from an environmental source.
      *
      * @see #ENVIRONMENT_HEAT_RESISTANCE
      */
