@@ -14,6 +14,7 @@ For mods, you should place your files in `src/main/resources/data/[modid]/thermo
     - `"` `[]` **biomes**: Identifier of a biome, a list of biome IDs, or a `#`-prefixed biome tag ID, for example `minecraft:plains` or `#c:is_hot/overworld`. Biomes that this environment provides for.
     - `"` `[]` **exclude_biomes**: Optional, Identifier of a biome, a list of biome IDs, or a `#`-prefixed biome tag ID, for example `minecraft:plains` or `#c:is_hot/overworld`. Biomes that this environment does _not_ provide for. Defaults to an empty list if not specified.
     - `"` `{}` **provider**: An [Environment Provider](./environment_provider_definition.md) ID, or in-line defined Environment Provider.
+    - `I` **priority**: Optional integer. Determines the priority for which this environment should be applied to a biome. Environments with a HIGHER priority will be applied FIRST, and environments with a LOWER priority will be applied LAST. Environments with the same priority may be applied in any order. Defaults to `1000`.
 
 The environment will provide for all biomes that are included in `biomes` _and not included in_ `exclude_biomes`.
 

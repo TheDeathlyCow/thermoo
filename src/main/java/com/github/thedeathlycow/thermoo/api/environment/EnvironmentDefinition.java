@@ -131,7 +131,7 @@ public final class EnvironmentDefinition {
     }
 
     /**
-     * Determines the priority for which this environment should be applied to a biome. Environments wither a HIGHER
+     * Determines the priority for which this environment should be applied to a biome. Environments with a HIGHER
      * priority will be applied FIRST, and environments with a LOWER priority will be applied LAST. Environments with the
      * same priority may be applied in any order.
      * <p>

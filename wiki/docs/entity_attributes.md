@@ -7,15 +7,15 @@ Thermoo defines several custom attribute types. For a full explanation of how at
 
 ## Attributes List
 
-| Attribute Name                         | Default Base | Minimum ~ Maximum | Description                                                                                       |
-|----------------------------------------|--------------|-------------------|---------------------------------------------------------------------------------------------------|
-| `thermoo:min_temperature`              | 0            | 0 ~ 8192          | Sets the minimum allowed temperature value to `-140 * attribute_value`.                           | 
-| `thermoo:max_temperature`              | 0            | 0 ~ 8192          | Sets the maximum allowed temperature value to `140 * attribute_value`.                            | 
-| `thermoo:max_soaking_tick_multiplier`  | 1            | 0 ~ 8192          | Sets the maximum allowed wet ticks value to `600 * attribute_value`.                              |
-| `thermoo:frost_resistance`             | 0            | -10 ~ 10          | Reduces the impact of negative temperature changes from non-environmental sources.                |
-| `thermoo:heat_resistance`              | 0            | -10 ~ 10          | Reduces the impact of positive temperature changes from non-environmental sources.                |
-| `thermoo:environment_frost_resistance` | 0            | 0 ~ 1             | Provides a random chance of "dodging" a negative temperature change from an environmental source. |   
-| `thermoo:environment_heat_resistance`  | 0            | 0 ~ 1             | Provides a random chance of "dodging" a positive temperature change from an environmental source. |           
+| Attribute Name                         | Default Base | Minimum ~ Maximum | Description                                                                                                                                                               |
+|----------------------------------------|--------------|-------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `thermoo:min_temperature`              | 0            | 0 ~ 8192          | Sets the minimum allowed temperature value to `-140 * attribute_value`.                                                                                                   | 
+| `thermoo:max_temperature`              | 0            | 0 ~ 8192          | Sets the maximum allowed temperature value to `140 * attribute_value`.                                                                                                    | 
+| `thermoo:max_soaking_tick_multiplier`  | 1            | 0 ~ 8192          | Sets the maximum allowed wet ticks value to `600 * attribute_value`.                                                                                                      |
+| `thermoo:frost_resistance`             | 0            | -10 ~ 10          | Reduces the impact of negative temperature changes from non-environmental sources.                                                                                        |
+| `thermoo:heat_resistance`              | 0            | -10 ~ 10          | Reduces the impact of positive temperature changes from non-environmental sources.                                                                                        |
+| `thermoo:environment_frost_resistance` | 0            | -1 ~ 1            | Positive values provide a random chance of "dodging" a negative temperature change from an environmental source. Negative values provide a chance of doubling it instead. |   
+| `thermoo:environment_heat_resistance`  | 0            | -1 ~ 1            | Positive values provide a random chance of "dodging" a positive temperature change from an environmental source. Negative values provide a chance of doubling it instead. |           
 
 !!! info
     In Minecraft versions 1.21.1 and earlier, all attribute IDs are prefixed with `generic.` For example, `thermoo:generic.frost_resistance`.
