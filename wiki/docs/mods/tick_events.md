@@ -15,11 +15,11 @@ Each set of events has three events associated with it, following the pattern of
 These events are applied in order, but each set can be invoked in any order.
 
 ## Event Categories
-| Event Category                         | Containing Class                    | Description                                                                                                    | 
-|----------------------------------------|-------------------------------------|----------------------------------------------------------------------------------------------------------------|
-| Active Temperature Changes             | `LivingEntityTemperatureTickEvents` | Targeted temperature changing effects, such as being on fire.                                                  |
-| Passive Temperature Changes            | `LivingEntityTemperatureTickEvents` | Temperature changes sourced from nearby blocks, such as standing on Ice or being near a Campfire.              |
-| Soaking Changes                        | `LivingEntitySoakingTickEvents`     | Changes to an entity's wet ticks.                                                                              |
-| Player Environment Temperature Changes | `ServerPlayerEnvironmentTickEvents` | Temperature changes applied to players from their local [Environment](../../datapacks/environment_definition). |
+| Event Category                         | Containing Class                    | Description                                                                                       | 
+|----------------------------------------|-------------------------------------|---------------------------------------------------------------------------------------------------|
+| Active Temperature Changes             | `LivingEntityTemperatureTickEvents` | Targeted temperature changing effects, such as being on fire.                                     |
+| Passive Temperature Changes            | `LivingEntityTemperatureTickEvents` | Temperature changes sourced from nearby blocks, such as standing on Ice or being near a Campfire. |
+| Soaking Changes                        | `LivingEntitySoakingTickEvents`     | Changes to an entity's wet ticks.                                                                 |
+| Player Environment Temperature Changes | `ServerPlayerEnvironmentTickEvents` | Temperature changes applied to players from their local [Environment](../datapacks/environment_definition.md).                       |
 
 All event listeners will receive an `EnvironmentTickContext<T>` object that contains the information about the entity, their world, and their block position in that world. For players, and players only, updated [Environment Components](../datapacks/environment_component_type.md) will also be available.

@@ -294,7 +294,7 @@ For datapack authors, wetness can be interacted with through the command `/therm
 Temperature Effects are a Datapack registry that can be used to apply various kinds of effects to entities based on
 their current temperature and other conditions each tick. They are used for both mods and datapacks, and can be used in
 place of hard-coded tick methods and listeners. The full format is documented on
-the [Temperature Effect page](../datapacks/temperature_effect_definition).
+the [Temperature Effect page](./datapacks/temperature_effect_definition.md).
 
 ### Usage example
 

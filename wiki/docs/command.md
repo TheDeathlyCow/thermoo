@@ -7,7 +7,7 @@ Thermoo introduces many different commands for interacting with its systems, as 
 
 ## Environment
 
-The environment command interfaces with the [Environment API](./docs/datapacks/environment_definition) to lookup various environment parameters. This is currently only implemented for the `thermoo:temperature` and `thermoo:relative_humidity` environment component types. Mods that create their own environment component types must also create their own lookup command for them.
+The environment command interfaces with the [Environment API](./datapacks/environment_definition.md) to lookup various environment parameters. This is currently only implemented for the `thermoo:temperature` and `thermoo:relative_humidity` environment component types. Mods that create their own environment component types must also create their own lookup command for them.
 
 ### Environment Temperature
 
@@ -16,11 +16,11 @@ Temperature is used to check the temperature reading at a specific location, or 
 ```mcfunction
 thermoo environment temperature <location> [<unit>] [<scale>]
 ```
-Returns the temperature of the location in some unit, as determined by the local [environment conditions](./docs/datapacks/environment_definition).
+Returns the temperature of the location in some unit, as determined by the local [environment conditions](./datapacks/environment_definition.md).
 
 Arguments:
 - `location`: A block position.
-- `unit`: An optional string, either `celsius`, `fahrenheit`, `kelvin`, or `rankine`. Determines what [unit](./docs/mods/temperature_unit) to display the temperature in. Defaults to `celsius`.
+- `unit`: An optional string, either `celsius`, `fahrenheit`, `kelvin`, or `rankine`. Determines what [unit](./mods/temperature_unit.md) to display the temperature in. Defaults to `celsius`.
 - `scale`: An optional float. Multiplies the final temperature value so that commands can read the decimal point, if desired. Defaults to `1.0`.
     - For example: a scale of `10.0` and a temperature of `31.3` Celsius would have the command return a result of `313` that can be stored in any of the normal targets of `execute store result`.
 
@@ -38,7 +38,7 @@ Arguments:
 thermoo environment relativehumidity <location> [<scale>]
 ```
 
-Returns the relative humidity of the location in some unit, as determined by the local [environment conditions](./docs/datapacks/environment_definition).
+Returns the relative humidity of the location in some unit, as determined by the local [environment conditions](./datapacks/environment_definition.md).
 
 Arguments:
 - `location`: A block position.

@@ -11,7 +11,7 @@ Thermoo is a library mod, and as such by itself should not have any gameplay eff
 
 ## 💻 For Developers
 
-For both datapack and mod authors, it is recommended to read the [API Overview](./api_overview) page first, as it will cover the basics of Thermoo's concepts and systems, along with a few examples. This below lists serve as more in-depth references for the individual APIs that Thermoo provides to make interactions with these core systems easier.
+For both datapack and mod authors, it is recommended to read the [API Overview](./api_overview.md) page first, as it will cover the basics of Thermoo's concepts and systems, along with a few examples. This below lists serve as more in-depth references for the individual APIs that Thermoo provides to make interactions with these core systems easier.
 
 For Modders, there is also extensive Javadoc provided for all of Thermoo's public APIs. That should be the primary reference for using any event/method in the mod side of the API as it will likely be the most up-to-date and precise.
 
