@@ -64,7 +64,7 @@ Add the following to your gradle build script:
     ```
 
 !!! warning
-    You may embed Thermoo in your mod through the `include` directive or other jar-in-jar mechanisms, provided that you follow the conditions of Thermoo's [LGPL-3.0](https://github.com/TheDeathlyCow/thermoo/blob/latest/LICENSE) license. This includes, but is not limited to: making your mod open source, and providing the same license in your mod (or [GPL-3.0](https://www.gnu.org/licenses/gpl-3.0.en.html)). See the full license text for all terms.
+    You may embed Thermoo in your mod through the `include` directive or other jar-in-jar mechanisms, provided that you follow the conditions of Thermoo's [LGPL-3.0](https://github.com/TheDeathlyCow/thermoo/blob/HEAD/LICENSE) license. This includes, but is not limited to: making your mod open source, and providing the same license in your mod (or [GPL-3.0](https://www.gnu.org/licenses/gpl-3.0.en.html)). See the full license text for all terms.
 
 ## Datapacks
 
