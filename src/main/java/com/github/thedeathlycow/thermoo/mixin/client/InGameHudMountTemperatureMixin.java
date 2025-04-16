@@ -11,6 +11,7 @@ import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.MathHelper;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Vector2i;
 import org.spongepowered.asm.mixin.Debug;
 import org.spongepowered.asm.mixin.Mixin;
@@ -30,6 +31,8 @@ public abstract class InGameHudMountTemperatureMixin {
 
     @Shadow
     protected abstract PlayerEntity getCameraPlayer();
+
+    @Shadow protected abstract int getHeartCount(@Nullable LivingEntity entity);
 
     @Inject(
             method = "renderMountHealth",
@@ -72,8 +75,12 @@ public abstract class InGameHudMountTemperatureMixin {
         Vector2i[] heartPositions = tracker.getHeartPositions();
         PlayerEntity player = this.getCameraPlayer();
         LivingEntity mount = this.getRiddenEntity();
-        float health = mount.getHealth();
-        float maxHealth = Math.min(60, mount.getMaxHealth()); // mount health bar will only render 3 rows for some reason
+
+        // this weirdness accounts for two vanilla bugs:
+        // - MC-200102: last half heart is not displayed with an odd max health
+        // - a second bug that only shows up to 3 rows of mount health
+        int maxHealth = this.getHeartCount(mount) * 2;
+        int health = Math.min(MathHelper.ceil(mount.getHealth()), maxHealth);
 
         StatusBarOverlayRenderEvents.AFTER_MOUNT_HEALTH_BAR.invoker()
                 .render(
@@ -81,8 +88,8 @@ public abstract class InGameHudMountTemperatureMixin {
                         player,
                         mount,
                         heartPositions,
-                        MathHelper.ceil(health),
-                        MathHelper.ceil(maxHealth)
+                        health,
+                        maxHealth
                 );
     }
 }
