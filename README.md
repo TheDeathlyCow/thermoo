@@ -46,13 +46,10 @@ The Thermoo LTS policy can be found on the wiki: https://thermoo.thedeathlycow.c
 ## Repository Structure
 
 * [changelogs](./changelogs) - A record of all production changelogs
-* [docs](./docs) - Public assets used for mod pages/wikis
-* [modpages](./modpages) - Markdown files for the CurseForge and Modrinth mod pages
 * [src](./src) - The source code of Thermoo
 * [src/main](./src/main) - The Java and Kotlin APIs for Thermoo
 * [src/test](./src/test) - The unit tests for Thermoo
 * [src/gametest](./src/gametest) - The game tests for Thermoo
-* [wiki](./wiki) - The MkDocs wiki source for the Developer Wiki
 
 ## Build and Test Instructions
 
