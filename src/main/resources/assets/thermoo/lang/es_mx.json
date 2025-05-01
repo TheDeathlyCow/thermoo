@@ -1,8 +1,8 @@
 {
-    "attribute.thermoo.min_temperature": "Temperatura Mínima",
-    "attribute.thermoo.max_temperature": "Temperatura Máxima",
-    "attribute.thermoo.frost_resistance": "Resistencia al Congelamiento",
-    "attribute.thermoo.heat_resistance": "Resistencia al Calor",
+    "attribute.thermoo.generic.min_temperature": "Temperatura Mínima",
+    "attribute.thermoo.generic.max_temperature": "Temperatura Máxima",
+    "attribute.thermoo.generic.frost_resistance": "Resistencia al Congelamiento",
+    "attribute.thermoo.generic.heat_resistance": "Resistencia al Calor",
     
     "tag.item.thermoo.consumable.cooling": "Consumibles de Enfriamiento",
     "tag.item.thermoo.consumable.warming": "Consumibles de Calentamiento",
