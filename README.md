@@ -31,36 +31,17 @@ dependencies {
 }
 ```
 
-Replace 'VERSION' with the version you want to use. See the available versions
-on [Jitpack](https://jitpack.io/#TheDeathlyCow/thermoo)
+Replace 'VERSION' with the version you want to use. See the available versions on [Jitpack](https://jitpack.io/#TheDeathlyCow/thermoo)
 
 ## Thermoo Developer Wiki
 
-Usage of Thermoo, for both mods and datapacks, is documented on
-the [developer wiki](https://thermoo.thedeathlycow.com/).
+Usage of Thermoo, for both mods and datapacks, is documented on the [developer wiki](https://thermoo.thedeathlycow.com/).
+
+The Wiki source can be found at https://github.com/TheDeathlyCow/thermoo-docs/, contributions are welcome!
 
 ## LTS Policy
 
-These are the current versions being supported by Thermoo.
-
-| Minecraft Version | Support Status         |
-|-------------------|------------------------|
-| 1.21.5            | ✅ Supported            | 
-| 1.21.4            | ⚠️ Critical fixes only | 
-| 1.21.3            | ❌ Unsupported          | 
-| 1.21.1            | ✅ Supported            | 
-| 1.20.6            | ❌ Unsupported          | 
-| 1.20.4            | ❌ Unsupported          | 
-| 1.20.2            | ❌ Unsupported          | 
-| 1.20.1            | ❌ Unsupported          |
-| 1.19.4            | ❌ Unsupported          |
-| 1.19.2            | ❌ Unsupported          | 
-
-Status Definitions:
-
-* ✅ Supported: This version is fully supported and will receive all new features, fixes, and updates (where possible)
-* ⚠️ Critical fixes only: This version will receive only critical crash and security fixes, as well as minor features where they can be easily cherry-picked
-* ❌ Unsupported: This version will receive no future updates, except for critical security fixes
+The Thermoo LTS policy can be found on the wiki: https://thermoo.thedeathlycow.com/#lts-policy
 
 ## Repository Structure
 
@@ -83,9 +64,7 @@ gradlew build
 # On windows add a ./
 ./gradlew build
 ```
-The built jars will appear in `/build/libs/`, and will include a regular jar, a `-sources` jar, and a `-javadoc` jar. To
-play Thermoo, install [Fabric API](https://github.com/FabricMC/fabric) and[Cardinal Components API](https://github.com/Ladysnake/Cardinal-Components-API)
-and install the regular into your Minecraft `/mods` folder.
+The built jars will appear in `/build/libs/`, and will include a regular jar, a `-sources` jar, and a `-javadoc` jar. To play Thermoo, install [Fabric API](https://github.com/FabricMC/fabric) and[Cardinal Components API](https://github.com/Ladysnake/Cardinal-Components-API) and install the regular into your Minecraft `/mods` folder.
 
 To run Thermoo's unit tests, run the following command:
 ```bash
@@ -101,34 +80,9 @@ Finally, you can manually test Thermoo in a Minecraft environment using the test
 ```bash
 gradlew runTestmodClient
 ```
-This will launch a Minecraft instance with a test mod that includes implements Thermoo's API features for testing. 
+This will launch a Minecraft instance with a test mod that includes implements Thermoo's API features for testing.
 
 If you instead want a clean test Minecraft instance with no gameplay modifications, run with the following:
 ```bash
 gradlew runClient
 ```
-
-## Wiki Build Instructions
-
-The Thermoo Developer wiki is built with [MkDocs](https://www.mkdocs.org/) using the [Material Theme](https://squidfunk.github.io/mkdocs-material/). To install mkdocs, Python 3 is required: https://www.python.org/.
-
-The following commands will install the requirements for mkdocs:
-```bash
-pip install mkdocs
-pip install mkdocs-material
-```
-
-You can then run a local version of the Wiki:
-```bash
-cd wiki/
-mkdocs serve
-```
-
-The wiki should then be available on http://localhost:8000/.
-
-In order to deploy the wiki using GitHub pages, run:
-```bash
-mkdocs gh-deploy --force
-```
-
-This will deploy the site to https://your-username.github.io/thermoo, where it will be available on the public internet.
