@@ -2,7 +2,9 @@
 
 Unit tests are defined as small tests which cover single 'units' of a code, typically a single method. These tests should be used for small utilities and things that do not involve interactions with the world or entities, where dependencies can be easily mocked out. The point is to verify the logic of the unit under test - including both the blue sky AND alternate/exceptional flow scenarios.
 
-Game tests are necessary when making direct interactions with a world or an entity. Currently, Thermoo does not use automatic game tests. Instead, use `./gradlew runTestmodClient` to do manual testing with a test mod that implements Thermoo APIs for various systems.
+Game tests are necessary when making direct interactions with a world or an entity. It is preferred to use unit tests where possible, but if world or entity interactions are needed for the test the game tests may be used.
+
+To run these tests, use `./gradlew runGametest`. Thermoo's testmod also allows for manual testing with `./gradlew runTestmodClient`, which will run a client with a test mod that implements all of Thermoo APIs for various systems.
 
 # Unit tests naming convention
 
