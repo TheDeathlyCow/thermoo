@@ -35,7 +35,9 @@ the [wiki](https://github.com/TheDeathlyCow/thermoo/wiki/)
 
 ## LTS Policy
 
-This version of Thermoo will only be supported according to the LTS Policy, which can be found [here](https://github.com/TheDeathlyCow/thermoo/?tab=readme-ov-file#lts-policy).
+## LTS Policy
+
+This version of Thermoo will only be supported according to the LTS Policy, which can be found [here](https://thermoo.thedeathlycow.com/#lts-policy).
 
 ## Build and Test Instructions
 
