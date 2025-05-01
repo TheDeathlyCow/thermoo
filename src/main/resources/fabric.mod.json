@@ -8,8 +8,9 @@
 		"TheDeathlyCow"
 	],
 	"contact": {
-		"homepage": "https://modrinth.com/mod/thermoo",
-		"sources": "https://github.com/TheDeathlyCow/thermoo"
+		"homepage": "https://thermoo.thedeathlycow.com/",
+		"sources": "https://github.com/TheDeathlyCow/thermoo",
+		"issues": "https://github.com/TheDeathlyCow/thermoo/issues"
 	},
 	"license": "LGPL-3",
 	"icon": "assets/thermoo/icon.png",
@@ -54,7 +55,8 @@
 		},
 		"modmenu": {
 			"links": {
-				"modmenu.discord": "https://discord.gg/aqASuWebRU"
+				"modmenu.discord": "https://discord.thedeathlycow.com/",
+				"modmenu.wiki": "https://thermoo.thedeathlycow.com/"
 			},
 			"badges": [
 				"library"
