@@ -200,6 +200,7 @@ publishMods {
         serverRequired = true
 
         requires("fabric-api", "cardinal-components-api")
+        optional("thermoo-patches")
     }
 
     modrinth {
@@ -208,6 +209,7 @@ publishMods {
         minecraftVersions.addAll("1.21.1")
 
         requires("fabric-api", "cardinal-components-api")
+        optional("thermoo-patches")
     }
 
     github {
