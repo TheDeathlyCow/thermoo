@@ -1,11 +1,11 @@
 {
-    "attribute.thermoo.min_temperature": "Temperatura mínima",
-    "attribute.thermoo.max_temperature": "Temperatura máxima",
-    "attribute.thermoo.max_soaking_tick_multiplier": "Multiplicador máximo de empapado",
-    "attribute.thermoo.frost_resistance": "Resistencia al frío",
-    "attribute.thermoo.heat_resistance": "Resistencia al calor",
-    "attribute.thermoo.environment_heat_resistance": "Resistencia al calor ambiental",
-    "attribute.thermoo.environment_frost_resistance": "Resistencia al frío ambiental",
+    "attribute.thermoo.generic.min_temperature": "Temperatura mínima",
+    "attribute.thermoo.generic.max_temperature": "Temperatura máxima",
+    "attribute.thermoo.generic.max_soaking_tick_multiplier": "Multiplicador máximo de empapado",
+    "attribute.thermoo.generic.frost_resistance": "Resistencia al frío",
+    "attribute.thermoo.generic.heat_resistance": "Resistencia al calor",
+    "attribute.thermoo.generic.environment_heat_resistance": "Resistencia al calor ambiental",
+    "attribute.thermoo.generic.environment_frost_resistance": "Resistencia al frío ambiental",
     
     "tag.item.thermoo.consumable.cooling": "Consumibles refrescantes",
     "tag.item.thermoo.consumable.warming": "Consumibles que dan calor",
