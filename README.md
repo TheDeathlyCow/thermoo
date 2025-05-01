@@ -1,4 +1,4 @@
-# Thermoo
+# Thermoo for 1.21.1
 
 [![](https://jitpack.io/v/TheDeathlyCow/thermoo.svg)](https://jitpack.io/#TheDeathlyCow/thermoo)
 
@@ -35,24 +35,7 @@ the [wiki](https://github.com/TheDeathlyCow/thermoo/wiki/)
 
 ## LTS Policy
 
-These are the current versions being supported by Thermoo.
-
-| Minecraft Version | Support Status         |
-|-------------------|------------------------|
-| 1.21.3            | ✅ Supported            | 
-| 1.21.1            | ✅ Supported            | 
-| 1.20.6            | ❌ Unsupported          | 
-| 1.20.4            | ❌ Unsupported          | 
-| 1.20.2            | ❌ Unsupported          | 
-| 1.20.1            | ⚠️ Critical fixes only |
-| 1.19.4            | ❌ Unsupported          |
-| 1.19.2            | ❌ Unsupported          | 
-
-Status Definitions:
-
-* ✅ Supported: This version is fully supported and will receive all new features, fixes, and updates (where possible)
-* ⚠️ Critical fixes only: This version will receive only critical crash and security fixes, as well as minor features where they can be easily cherry-picked
-* ❌ Unsupported: This version will receive no future updates, except for critical security fixes
+This version of Thermoo will only be supported according to the LTS Policy, which can be found [here](https://github.com/TheDeathlyCow/thermoo/?tab=readme-ov-file#lts-policy).
 
 ## Build and Test Instructions
 
