@@ -1,37 +1,44 @@
 {
-    "attribute.thermoo.min_temperature": "Temperatura mínima",
-    "attribute.thermoo.max_temperature": "Temperatura máxima",
-    "attribute.thermoo.max_soaking_tick_multiplier": "Multiplicador máximo de empapado",
-    "attribute.thermoo.frost_resistance": "Resistencia al frío",
-    "attribute.thermoo.heat_resistance": "Resistencia al calor",
-    "attribute.thermoo.environment_heat_resistance": "Resistencia al calor ambiental",
-    "attribute.thermoo.environment_frost_resistance": "Resistencia al frío ambiental",
-    
+    "attribute.thermoo.generic.min_temperature": "Temperatura mínima",
+    "attribute.thermoo.generic.max_temperature": "Temperatura máxima",
+    "attribute.thermoo.generic.max_soaking_tick_multiplier": "Multiplicador máximo de ticks de empapado",
+    "attribute.thermoo.generic.frost_resistance": "Resistencia al frío",
+    "attribute.thermoo.generic.heat_resistance": "Resistencia al calor",
+    "attribute.thermoo.generic.environment_heat_resistance": "Resistencia al calor ambiental",
+    "attribute.thermoo.generic.environment_frost_resistance": "Resistencia al frío ambiental",
+
     "tag.item.thermoo.consumable.cooling": "Consumibles refrescantes",
-    "tag.item.thermoo.consumable.warming": "Consumibles que dan calor",
-    
+    "tag.item.thermoo.consumable.warming": "Consumibles calentitos",
+
     "commands.thermoo.temperature.exception.not_living_entity": "¡El objetivo no es una entidad viva!",
     "commands.thermoo.temperature.get.scale.success": "La escala de temperatura de %s es %d",
     "commands.thermoo.temperature.get.max.success": "%s puede tener una temperatura máxima de %d",
     "commands.thermoo.temperature.get.min.success": "%s puede tener una temperatura mínima de %d",
     "commands.thermoo.temperature.get.current.success": "La temperatura actual de %s es %d",
-    "commands.thermoo.temperature.add.success.single": "Se le agregó %d de temperatura a %s (ahora tiene %d)",
-    "commands.thermoo.temperature.add.success.multiple": "Se le agregó %d de temperatura a %d entidades",
-    "commands.thermoo.temperature.remove.success.single": "Se le quitó %d de temperatura a %s (ahora tiene %d)",
-    "commands.thermoo.temperature.remove.success.multiple": "Se le quitó %d de temperatura a %d entidades",
-    "commands.thermoo.temperature.set.success.single": "Se estableció la temperatura de %s en %d",
-    "commands.thermoo.temperature.set.success.multiple": "Se estableció la temperatura de %s entidades en %d",
+    "commands.thermoo.temperature.add.success.single": "Se le sumaron %d de temperatura a %s (ahora %d)",
+    "commands.thermoo.temperature.add.success.multiple": "Se sumaron %d de temperatura a %d entidades",
+    "commands.thermoo.temperature.remove.success.single": "Se le restaron %d de temperatura a %s (ahora %d)",
+    "commands.thermoo.temperature.remove.success.multiple": "Se restaron %d de temperatura a %d entidades",
+    "commands.thermoo.temperature.set.success.single": "Se configuró la temperatura de %s en %d",
+    "commands.thermoo.temperature.set.success.multiple": "Se configuró la temperatura de %s entidades en %d",
+    "commands.thermoo.environment.printcontroller.success": "Controlador registrado en la consola",
+    "commands.thermoo.environment.printcontroller.deprecation": "Este comando está obsoleto; el Controlador Ambiental fue reemplazado por el Registro de Paquetes de Datos Ambientales",
 
-    "commands.thermoo.environment.temperature.success": "La temperatura ambiental en %s, %s, %s (%s) es de %s°%s",
-    "commands.thermoo.environment.humidity.success": "La humedad relativa ambiental en %s, %s, %s (%s) es de %s%%",
-    "commands.thermoo.environment.temperature.player.success": "El cambio de temperatura ambiental de %s es de %s (con una probabilidad de %s de evitarlo)",
-    "commands.thermoo.environment.temperature.player.negative.success": "El cambio de temperatura ambiental de %s es de %s (con una probabilidad de %s de duplicarse)",
+    "commands.thermoo.environment.checktemperature.success": "El cambio pasivo de temperatura en %s, %s, %s (%s) es %s",
+    "commands.thermoo.environment.checktemperature.unit.success": "La temperatura en %s, %s, %s (%s) es %s°%s",
+    "commands.thermoo.environment.checktemperature.deprecation": "Este comando está obsoleto, usá /thermoo environment temperature <pos>",
 
-    "commands.thermoo.soaking.get.current.success": "El valor actual de empapado de %s es %d",
+    "commands.thermoo.environment.temperature.success": "La temperatura ambiental en %s, %s, %s (%s) es %s°%s",
+    "commands.thermoo.environment.humidity.success": "La humedad relativa ambiental en %s, %s, %s (%s) es %s%%",
+    "commands.thermoo.environment.temperature.player.success": "El cambio de temperatura ambiental de %s es %s (con un %s de probabilidad de esquivarlo)",
+    "commands.thermoo.environment.temperature.player.negative.success": "El cambio de temperatura ambiental de %s es %s (con un %s de probabilidad de duplicarse)",
+
+
+    "commands.thermoo.soaking.get.current.success": "El valor de empapado actual de %s es %d",
     "commands.thermoo.soaking.get.scale.success": "La escala de empapado actual de %s es %d",
     "commands.thermoo.soaking.get.min.success": "El valor mínimo de empapado de %s es %d",
     "commands.thermoo.soaking.get.max.success": "El valor máximo de empapado de %s es %d",
-    "commands.thermoo.soaking.set.success": "Se estableció el valor de empapado de %s en %d (ahora tiene %d)",
-    "commands.thermoo.soaking.add.success": "Se le sumaron %d puntos al valor de empapado de %s (ahora tiene %d)",
-    "commands.thermoo.soaking.remove.success": "Se le restaron %d puntos al valor de empapado de %s (ahora tiene %d)"
+    "commands.thermoo.soaking.set.success": "Se configuró el valor de empapado de %s en %d (ahora %d)",
+    "commands.thermoo.soaking.add.success": "Se sumaron %d puntos al empapado de %s (ahora %d)",
+    "commands.thermoo.soaking.remove.success": "Se restaron %d puntos al empapado de %s (ahora %d)"
 }
