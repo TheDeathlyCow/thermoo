@@ -13,24 +13,28 @@ public enum TemperatureUnit implements StringIdentifiable {
 
     CELSIUS(
             "C",
+            "celsius",
             celsiusValue -> celsiusValue,
             celsiusValue -> celsiusValue,
             1
     ),
     KELVIN(
             "K",
+            "kelvin",
             kelvinValue -> kelvinValue - 273.15,
             celsiusValue -> celsiusValue + 273.15,
             1
     ),
     FAHRENHEIT(
             "F",
+            "fahrenheit",
             fahrenheitValue -> (fahrenheitValue - 32.0) * 5.0 / 9.0,
             celsiusValue -> (9.0 / 5.0) * celsiusValue + 32.0,
             3
     ),
     RANKINE(
             "R",
+            "rankine",
             rankineValue -> FAHRENHEIT.toCelsius(rankineValue - 459.67),
             celsiusValue -> FAHRENHEIT.fromCelsius(celsiusValue) + 459.67,
             3
@@ -40,14 +44,17 @@ public enum TemperatureUnit implements StringIdentifiable {
 
     private final String unitSymbol;
 
+    private final String name;
+
     private final DoubleUnaryOperator toCelsius;
 
     private final DoubleUnaryOperator fromCelsius;
 
     private final int absoluteUnitIndex;
 
-    TemperatureUnit(String unitSymbol, DoubleUnaryOperator toCelsius, DoubleUnaryOperator fromCelsius, int absoluteUnitIndex) {
+    TemperatureUnit(String unitSymbol, String name, DoubleUnaryOperator toCelsius, DoubleUnaryOperator fromCelsius, int absoluteUnitIndex) {
         this.unitSymbol = unitSymbol;
+        this.name = name;
         this.toCelsius = toCelsius;
         this.fromCelsius = fromCelsius;
         this.absoluteUnitIndex = absoluteUnitIndex;
@@ -123,6 +130,6 @@ public enum TemperatureUnit implements StringIdentifiable {
 
     @Override
     public String asString() {
-        return this.toString().toLowerCase();
+        return this.name;
     }
 }
