@@ -20,13 +20,14 @@ public final class PatchListService {
      * (such as on a virtual thread).
      *
      * @param client An active HTTP client
+     * @param uri The URI of the location of the patch list
      * @return Returns the decoded patch list from the URI
      * @throws InterruptedException Thrown if the client is interrupted
      * @throws IOException          Thrown if I/O error occurs while sending/receiving data, or if the response is not OK.
      */
-    public static PatchList fetchPatches(HttpClient client) throws InterruptedException, IOException {
+    public static PatchList fetchPatches(HttpClient client, URI uri) throws InterruptedException, IOException {
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(GIST_URL))
+                .uri(uri)
                 .GET()
                 .build();
 
@@ -44,6 +45,6 @@ public final class PatchListService {
     }
 
     private PatchListService() {
-        
+
     }
 }

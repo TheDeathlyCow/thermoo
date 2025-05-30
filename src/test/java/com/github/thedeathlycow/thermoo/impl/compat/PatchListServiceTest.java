@@ -8,12 +8,14 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mockito;
 
 import java.io.IOException;
+import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpResponse;
 import java.util.List;
 
 class PatchListServiceTest {
     private HttpClient mockClient;
+    private URI uri = URI.create("https://www.thedeathlycow.com/thermoo-patches-patch-list.json"); // doesnt need to point at anything in particular
 
     @BeforeEach
     void setup() {
@@ -48,7 +50,7 @@ class PatchListServiceTest {
         Mockito.when(mockResponse.body()).thenReturn(responseBody);
         Mockito.when(mockClient.send(Mockito.any(), Mockito.any())).thenReturn(mockResponse);
 
-        PatchList patchList = PatchListService.fetchPatches(mockClient);
+        PatchList patchList = PatchListService.fetchPatches(mockClient, uri);
 
         PatchList expectedPatchList = new PatchList(
                 List.of(
@@ -66,7 +68,7 @@ class PatchListServiceTest {
         Mockito.when(mockResponse.statusCode()).thenReturn(statusCode);
         Mockito.when(mockClient.send(Mockito.any(), Mockito.any())).thenReturn(mockResponse);
 
-        Assertions.assertThrows(IOException.class, () -> PatchListService.fetchPatches(mockClient));
+        Assertions.assertThrows(IOException.class, () -> PatchListService.fetchPatches(mockClient, uri));
     }
 
     @ParameterizedTest
@@ -76,6 +78,6 @@ class PatchListServiceTest {
         Mockito.when(mockResponse.statusCode()).thenReturn(statusCode);
         Mockito.when(mockClient.send(Mockito.any(), Mockito.any())).thenReturn(mockResponse);
 
-        Assertions.assertThrows(IOException.class, () -> PatchListService.fetchPatches(mockClient));
+        Assertions.assertThrows(IOException.class, () -> PatchListService.fetchPatches(mockClient, uri));
     }
 }
