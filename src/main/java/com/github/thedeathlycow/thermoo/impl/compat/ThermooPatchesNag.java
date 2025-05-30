@@ -12,23 +12,33 @@ import net.fabricmc.loader.api.metadata.ModMetadata;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.text.ClickEvent;
 import net.minecraft.text.MutableText;
+import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
-import net.minecraft.util.TriState;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.net.URI;
 import java.net.http.HttpClient;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class ThermooPatchesNag implements ServerPlayConnectionEvents.Join, ServerTickEvents.EndTick {
     private static final Logger LOGGER = LoggerFactory.getLogger(Thermoo.MODID + "-patch-nag");
+
+    private static final Style HEADER_STYLE = Style.EMPTY
+            .withBold(true)
+            .withColor(Formatting.YELLOW);
+
+    private static final Style LINK_STYLE = Style.EMPTY
+            .withUnderline(true)
+            .withColor(Formatting.GREEN)
+            .withClickEvent(new ClickEvent.OpenUrl(URI.create("https://www.modrinth.com/mod/thermoo-patches")));
 
     private static final ThermooPatchesNag INSTANCE = new ThermooPatchesNag();
 
@@ -102,8 +112,13 @@ public class ThermooPatchesNag implements ServerPlayConnectionEvents.Join, Serve
     }
 
     private Text createNagMessage(List<ModContainer> patchAvailableMods) {
-        MutableText message = Text.translatable("text.thermoo.thermoo-patches-nag.header").formatted(Formatting.BLUE);
+        MutableText message = Text.literal("").formatted(Formatting.DARK_GREEN);
+
+        message.append(Text.translatable("text.thermoo.thermoo-patches-nag.header").setStyle(HEADER_STYLE));
+
         message.append("\n");
+        message.append(Text.translatable("text.thermoo.thermoo-patches-nag.body"));
+        message.append("\n\n");
 
         patchAvailableMods.forEach(mod -> {
             ModMetadata metadata = mod.getMetadata();
@@ -111,13 +126,19 @@ public class ThermooPatchesNag implements ServerPlayConnectionEvents.Join, Serve
                     "text.thermoo.thermoo-patches-nag.item",
                     metadata.getName(),
                     metadata.getId()
-            ).formatted(Formatting.GOLD);
+            ).formatted(Formatting.YELLOW);
 
             message.append(modEntry);
             message.append("\n");
         });
 
+        message.append("\n");
         message.append(Text.translatable("text.thermoo.thermoo-patches-nag.footer"));
+        message.append(
+                Text.literal("\nhttps://www.modrinth.com/mod/thermoo-patches\n")
+                        .setStyle(LINK_STYLE)
+        );
+        message.append(Text.translatable("text.thermoo.thermoo-patches-nag.disable"));
 
         return message;
     }
