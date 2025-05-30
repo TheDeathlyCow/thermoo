@@ -23,7 +23,7 @@ public final class PatchListService {
      * @throws InterruptedException Thrown if the client is interrupted
      * @throws IOException          Thrown if I/O error occurs while sending/receiving data, or if the response is not OK.
      */
-    public static PatchList fetchPatches(HttpClient client, URI uri) throws InterruptedException, IOException {
+    public static PatchList fetchPatchList(HttpClient client, URI uri) throws InterruptedException, IOException {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(uri)
                 .GET()

@@ -4,6 +4,7 @@ import com.github.thedeathlycow.thermoo.api.ThermooRegistryKeys;
 import com.github.thedeathlycow.thermoo.api.command.*;
 import com.github.thedeathlycow.thermoo.api.environment.EnvironmentDefinition;
 import com.github.thedeathlycow.thermoo.api.environment.provider.EnvironmentProvider;
+import com.github.thedeathlycow.thermoo.impl.compat.ThermooPatchesNag;
 import com.github.thedeathlycow.thermoo.impl.config.ThermooConfig;
 import com.github.thedeathlycow.thermoo.impl.environment.EnvironmentLookupImpl;
 import com.github.thedeathlycow.thermoo.impl.temperature.effect.TemperatureEffectLoader;
@@ -31,6 +32,7 @@ public class Thermoo implements ModInitializer {
     @Override
     public void onInitialize() {
         config = ThermooConfig.initialize();
+        ThermooPatchesNag.initialize(config);
 
         ArgumentTypeRegistry.registerArgumentType(
                 Thermoo.id("heating_mode"),

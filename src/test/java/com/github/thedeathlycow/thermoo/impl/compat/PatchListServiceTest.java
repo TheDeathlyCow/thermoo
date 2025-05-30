@@ -15,7 +15,7 @@ import java.util.List;
 
 class PatchListServiceTest {
     private HttpClient mockClient;
-    private URI uri = URI.create("https://www.thedeathlycow.com/thermoo-patches-patch-list.json"); // doesnt need to point at anything in particular
+    private final URI uri = URI.create("https://www.thedeathlycow.com/thermoo-patches-patch-list.json"); // doesnt need to point at anything in particular
 
     @BeforeEach
     void setup() {
@@ -23,7 +23,7 @@ class PatchListServiceTest {
     }
 
     @Test
-    void when2xx_thenParsePatchList() throws IOException, InterruptedException {
+    void when200_thenParsePatchList() throws IOException, InterruptedException {
         String responseBody = """
                 {
                     "patches": [
@@ -50,7 +50,7 @@ class PatchListServiceTest {
         Mockito.when(mockResponse.body()).thenReturn(responseBody);
         Mockito.when(mockClient.send(Mockito.any(), Mockito.any())).thenReturn(mockResponse);
 
-        PatchList patchList = PatchListService.fetchPatches(mockClient, uri);
+        PatchList patchList = PatchListService.fetchPatchList(mockClient, uri);
 
         PatchList expectedPatchList = new PatchList(
                 List.of(
@@ -62,22 +62,12 @@ class PatchListServiceTest {
     }
 
     @ParameterizedTest
-    @ValueSource(ints = {400, 401, 403, 404})
-    void when4xx_thenThrowsIOException(int statusCode) throws IOException, InterruptedException {
+    @ValueSource(ints = {400, 401, 403, 404, 500, 502})
+    void whenError_thenThrowsIOException(int statusCode) throws IOException, InterruptedException {
         HttpResponse<Object> mockResponse = (HttpResponse<Object>) Mockito.mock(HttpResponse.class);
         Mockito.when(mockResponse.statusCode()).thenReturn(statusCode);
         Mockito.when(mockClient.send(Mockito.any(), Mockito.any())).thenReturn(mockResponse);
 
-        Assertions.assertThrows(IOException.class, () -> PatchListService.fetchPatches(mockClient, uri));
-    }
-
-    @ParameterizedTest
-    @ValueSource(ints = {500, 502})
-    void when5xx_thenThrowsIOException(int statusCode) throws IOException, InterruptedException {
-        HttpResponse<Object> mockResponse = (HttpResponse<Object>) Mockito.mock(HttpResponse.class);
-        Mockito.when(mockResponse.statusCode()).thenReturn(statusCode);
-        Mockito.when(mockClient.send(Mockito.any(), Mockito.any())).thenReturn(mockResponse);
-
-        Assertions.assertThrows(IOException.class, () -> PatchListService.fetchPatches(mockClient, uri));
+        Assertions.assertThrows(IOException.class, () -> PatchListService.fetchPatchList(mockClient, uri));
     }
 }
