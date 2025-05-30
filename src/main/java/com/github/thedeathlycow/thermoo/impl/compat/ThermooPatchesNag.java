@@ -114,8 +114,6 @@ public class ThermooPatchesNag implements ServerPlayConnectionEvents.Join, Serve
     private Text createNagMessage(List<ModContainer> patchAvailableMods) {
         MutableText message = Text.literal("").formatted(Formatting.DARK_GREEN);
 
-        message.append(Text.translatable("text.thermoo.thermoo-patches-nag.header").setStyle(HEADER_STYLE));
-
         message.append("\n");
         message.append(Text.translatable("text.thermoo.thermoo-patches-nag.body"));
         message.append("\n\n");
@@ -135,7 +133,7 @@ public class ThermooPatchesNag implements ServerPlayConnectionEvents.Join, Serve
         message.append("\n");
         message.append(Text.translatable("text.thermoo.thermoo-patches-nag.footer"));
         message.append(
-                Text.literal("\nhttps://www.modrinth.com/mod/thermoo-patches\n")
+                Text.literal("\nhttps://www.modrinth.com/mod/thermoo-patches\n\n")
                         .setStyle(LINK_STYLE)
         );
         message.append(Text.translatable("text.thermoo.thermoo-patches-nag.disable"));
