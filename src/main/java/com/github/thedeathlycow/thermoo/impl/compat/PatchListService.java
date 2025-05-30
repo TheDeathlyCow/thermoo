@@ -13,8 +13,6 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 public final class PatchListService {
-    private static final String GIST_URL = "https://gist.githubusercontent.com/TheDeathlyCow/1164d3721101f0540d455cc9f63fcac8/raw/74f939ed1a89a0e603891affd3bd9e2d8dc75c8b/thermoo-patches-patch-list.json";
-
     /**
      * Fetches the Thermoo Patches patch list from the given URI. This call is blocking and should be executed asynchronously
      * (such as on a virtual thread).

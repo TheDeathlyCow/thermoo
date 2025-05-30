@@ -4,6 +4,7 @@ import com.github.thedeathlycow.thermoo.api.ThermooRegistryKeys;
 import com.github.thedeathlycow.thermoo.api.command.*;
 import com.github.thedeathlycow.thermoo.api.environment.EnvironmentDefinition;
 import com.github.thedeathlycow.thermoo.api.environment.provider.EnvironmentProvider;
+import com.github.thedeathlycow.thermoo.impl.config.ThermooConfig;
 import com.github.thedeathlycow.thermoo.impl.environment.EnvironmentLookupImpl;
 import com.github.thedeathlycow.thermoo.impl.temperature.effect.TemperatureEffectLoader;
 import net.fabricmc.api.ModInitializer;
@@ -15,17 +16,22 @@ import net.minecraft.command.argument.serialize.ConstantArgumentSerializer;
 import net.minecraft.resource.ResourceType;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class Thermoo implements ModInitializer {
-
     public static final String MODID = "thermoo";
+
     public static final Logger LOGGER = LoggerFactory.getLogger(MODID);
 
+    @Nullable
+    private static ThermooConfig config = null;
 
     @Override
     public void onInitialize() {
+        config = ThermooConfig.initialize();
+
         ArgumentTypeRegistry.registerArgumentType(
                 Thermoo.id("heating_mode"),
                 HeatingModeArgumentType.class,
@@ -74,5 +80,12 @@ public class Thermoo implements ModInitializer {
     @Contract("_->new")
     public static Identifier id(String path) {
         return Identifier.of(MODID, path);
+    }
+
+    public static ThermooConfig getConfig() {
+        if (config == null) {
+            throw new NullPointerException("Config is not initialized!");
+        }
+        return config;
     }
 }
