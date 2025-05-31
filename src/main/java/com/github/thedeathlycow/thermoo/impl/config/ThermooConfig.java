@@ -3,8 +3,12 @@ package com.github.thedeathlycow.thermoo.impl.config;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import net.fabricmc.loader.api.FabricLoader;
 
-import java.io.*;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URI;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Properties;
 
@@ -24,26 +28,26 @@ public record ThermooConfig(
 
     public static ThermooConfig create() {
         var properties = new Properties(newDefaultConfig());
-        File configFile = getConfigFile();
+        Path configFile = getConfigPath();
         readConfig(properties, configFile);
         return new ThermooConfig(properties);
     }
 
-    private static void readConfig(Properties properties, File file) {
-        try (FileReader reader = new FileReader(file)){
-            properties.load(reader);
+    private static void readConfig(Properties properties, Path path) {
+        try (InputStream input = Files.newInputStream(path)) {
+            properties.load(input);
         } catch (FileNotFoundException e) {
-            writeConfig(newDefaultConfig(), file);
+            writeConfig(newDefaultConfig(), path);
         } catch (IOException e) {
-            Thermoo.LOGGER.error("Unable to read Thermoo config file, falling back to default config", e);
+            Thermoo.LOGGER.error("Unable to read Thermoo config path, falling back to default config", e);
         }
     }
 
-    private static void writeConfig(Properties properties, File file) {
-        try (FileWriter writer = new FileWriter(file)) {
-            properties.store(writer, "Thermoo Config file, used for internal configuration only.");
+    private static void writeConfig(Properties properties, Path path) {
+        try (OutputStream output = Files.newOutputStream(path)) {
+            properties.store(output, "Thermoo Config path, used for internal configuration only.");
         } catch (IOException e) {
-            Thermoo.LOGGER.error("Unable to write Thermoo default config file", e);
+            Thermoo.LOGGER.error("Unable to write Thermoo default config path", e);
         }
     }
 
@@ -56,17 +60,9 @@ public record ThermooConfig(
         return properties;
     }
 
-    private static File getConfigFile() {
-        Path path = FabricLoader.getInstance()
+    private static Path getConfigPath() {
+        return FabricLoader.getInstance()
                 .getConfigDir()
                 .resolve("thermoo.properties");
-
-        File file = path.toFile();
-
-        if (!file.isFile() && file.exists()) {
-            throw new IllegalStateException("Thermoo config is not a file");
-        }
-
-        return file;
     }
 }
