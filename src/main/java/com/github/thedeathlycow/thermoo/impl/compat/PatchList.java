@@ -22,8 +22,8 @@ public record PatchList(
             ).apply(instance, PatchList::new)
     );
 
-    public List<ModContainer> getPatchAvailableMods() throws VersionParsingException {
-        Version gameVersion = FabricLoader.getInstance().getModContainer("minecraft")
+    public List<ModContainer> getPatchAvailableMods(FabricLoader loader) throws VersionParsingException {
+        Version gameVersion = loader.getModContainer("minecraft")
                 .orElseThrow()
                 .getMetadata()
                 .getVersion();
@@ -33,16 +33,16 @@ public record PatchList(
         for (PatchedVersion patch : this.patches) {
             VersionPredicate predicate = VersionPredicate.parse(patch.minecraftVersion());
             if (predicate.test(gameVersion)) {
-                this.extendPatchAvailableMods(patchAvailableMods, patch);
+                this.extendPatchAvailableMods(loader, patchAvailableMods, patch);
             }
         }
 
         return patchAvailableMods;
     }
 
-    private void extendPatchAvailableMods(List<ModContainer> patchAvailableMods, PatchedVersion patch) {
+    private void extendPatchAvailableMods(FabricLoader loader, List<ModContainer> patchAvailableMods, PatchedVersion patch) {
         for (String modid : patch.mods()) {
-            FabricLoader.getInstance().getModContainer(modid).ifPresent(patchAvailableMods::add);
+            loader.getModContainer(modid).ifPresent(patchAvailableMods::add);
         }
     }
 }

@@ -22,7 +22,7 @@ public record ThermooConfig(
         );
     }
 
-    public static ThermooConfig initialize() {
+    public static ThermooConfig create() {
         var properties = new Properties(newDefaultConfig());
         File configFile = getConfigFile();
         readConfig(properties, configFile);
