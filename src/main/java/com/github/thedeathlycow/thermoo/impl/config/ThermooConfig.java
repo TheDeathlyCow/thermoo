@@ -51,7 +51,7 @@ public record ThermooConfig(
         var properties = new Properties();
 
         properties.setProperty(ENABLE_THERMOO_PATCHES_NAG_KEY, "true");
-        properties.setProperty(THERMOO_PATCHES_PATCH_LIST_URL_KEY, "https://gist.githubusercontent.com/TheDeathlyCow/1164d3721101f0540d455cc9f63fcac8/raw/thermoo-patches-patch-list.json");
+        properties.setProperty(THERMOO_PATCHES_PATCH_LIST_URL_KEY, "https://thermoo.thedeathlycow.com/assets/thermoo-patches-patch-list.json");
 
         return properties;
     }
