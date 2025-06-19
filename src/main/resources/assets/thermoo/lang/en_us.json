@@ -40,5 +40,10 @@
     "commands.thermoo.soaking.get.max.success": "The maximum soaking value of %s is %d",
     "commands.thermoo.soaking.set.success": "Set the soaking value of %s to %d (now %d)",
     "commands.thermoo.soaking.add.success": "Added %d points to the soaking value of %s (now %d)",
-    "commands.thermoo.soaking.remove.success": "Removed %d points from the soaking value of %s (now %d)"
+    "commands.thermoo.soaking.remove.success": "Removed %d points from the soaking value of %s (now %d)",
+    
+    "text.thermoo.thermoo-patches-nag.body": "The following mod(s) can work with Thermoo, Frostiful, and/or Scorchful, but you are missing the Thermoo Patches compatibility mod:",
+    "text.thermoo.thermoo-patches-nag.item": "- %1$s (%2$s)",
+    "text.thermoo.thermoo-patches-nag.footer": "You can get Thermoo Patches at the below link:",
+    "text.thermoo.thermoo-patches-nag.disable": "You may disable this message at any time in the Thermoo config."
 }
