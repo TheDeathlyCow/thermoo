@@ -46,7 +46,7 @@ public record ThermooConfig(
 
     private static void writeConfig(Properties properties, Path path) {
         try (OutputStream output = Files.newOutputStream(path)) {
-            properties.store(output, "Thermoo Config path, used for internal configuration only.");
+            properties.store(output, "Thermoo Config file, used for internal configuration only.");
         } catch (IOException e) {
             Thermoo.LOGGER.error("Unable to write Thermoo default config path", e);
         }
