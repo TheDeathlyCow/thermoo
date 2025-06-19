@@ -31,7 +31,7 @@ public class ThermooPatchesNag implements ClientTickEvents.EndTick {
     private static final Style LINK_STYLE = Style.EMPTY
             .withUnderline(true)
             .withColor(Formatting.GREEN)
-            .withClickEvent(new ClickEvent.OpenUrl(URI.create("https://www.modrinth.com/mod/thermoo-patches")));
+            .withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://www.modrinth.com/mod/thermoo-patches"));
 
     private static final ThermooPatchesNag INSTANCE = new ThermooPatchesNag();
 

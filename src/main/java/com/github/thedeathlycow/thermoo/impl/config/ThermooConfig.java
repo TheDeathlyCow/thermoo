@@ -9,6 +9,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URI;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.util.Properties;
 
@@ -36,7 +37,7 @@ public record ThermooConfig(
     private static void readConfig(Properties properties, Path path) {
         try (InputStream input = Files.newInputStream(path)) {
             properties.load(input);
-        } catch (FileNotFoundException e) {
+        } catch (NoSuchFileException e) {
             writeConfig(newDefaultConfig(), path);
         } catch (IOException e) {
             Thermoo.LOGGER.error("Unable to read Thermoo config path, falling back to default config", e);
