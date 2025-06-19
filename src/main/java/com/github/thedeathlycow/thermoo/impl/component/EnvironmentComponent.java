@@ -1,10 +1,10 @@
 package com.github.thedeathlycow.thermoo.impl.component;
 
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.RegistryByteBuf;
-import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import net.minecraft.util.math.BlockPos;
 import org.ladysnake.cca.api.v3.component.Component;
 import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
@@ -45,13 +45,13 @@ public class EnvironmentComponent implements Component, AutoSyncedComponent {
     }
 
     @Override
-    public void readFromNbt(NbtCompound tag, RegistryWrapper.WrapperLookup registryLookup) {
-        this.value = tag.getInt(NBT_KEY, 0);
+    public void readData(ReadView readView) {
+        this.value = readView.getInt(NBT_KEY, 0);
     }
 
     @Override
-    public void writeToNbt(NbtCompound tag, RegistryWrapper.WrapperLookup registryLookup) {
-        tag.putInt(NBT_KEY, this.value);
+    public void writeData(WriteView writeView) {
+        writeView.putInt(NBT_KEY, this.value);
     }
 
     @Override

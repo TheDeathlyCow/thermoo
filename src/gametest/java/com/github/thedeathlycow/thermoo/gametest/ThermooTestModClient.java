@@ -3,6 +3,7 @@ package com.github.thedeathlycow.thermoo.gametest;
 import com.github.thedeathlycow.thermoo.api.client.StatusBarOverlayRenderEvents;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import net.fabricmc.api.ClientModInitializer;
+import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.entity.LivingEntity;
@@ -65,7 +66,7 @@ public class ThermooTestModClient implements ClientModInitializer {
 
             int u = isHalfHeart ? 9 : 0;
 
-            context.drawTexture(RenderLayer::getGuiTextured, HEART_OVERLAY_TEXTURE, x, y, u, 0, 9, 10, TEXTURE_WIDTH, TEXTURE_HEIGHT);
+            context.drawTexture(RenderPipelines.GUI_TEXTURED, HEART_OVERLAY_TEXTURE, x, y, u, 0, 9, 10, TEXTURE_WIDTH, TEXTURE_HEIGHT);
         }
     }
 

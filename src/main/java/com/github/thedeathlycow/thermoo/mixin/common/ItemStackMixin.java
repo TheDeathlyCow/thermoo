@@ -12,6 +12,7 @@ import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.entry.RegistryEntry;
+import org.apache.commons.lang3.function.TriConsumer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -27,13 +28,13 @@ public abstract class ItemStackMixin {
             method = "applyAttributeModifier",
             at = @At(
                     value = "INVOKE",
-                    target = "Lnet/minecraft/component/type/AttributeModifiersComponent;applyModifiers(Lnet/minecraft/component/type/AttributeModifierSlot;Ljava/util/function/BiConsumer;)V"
+                    target = "Lnet/minecraft/component/type/AttributeModifiersComponent;applyModifiers(Lnet/minecraft/component/type/AttributeModifierSlot;Lorg/apache/commons/lang3/function/TriConsumer;)V"
             )
     )
     private void hookItemModifierEvent(
             AttributeModifiersComponent instance,
             AttributeModifierSlot slot,
-            BiConsumer<RegistryEntry<EntityAttribute>, EntityAttributeModifier> attributeConsumer,
+            TriConsumer<RegistryEntry<EntityAttribute>, EntityAttributeModifier, AttributeModifiersComponent.Display> attributeConsumer,
             Operation<Void> original
     ) {
         // prevent overriding modified components from commands

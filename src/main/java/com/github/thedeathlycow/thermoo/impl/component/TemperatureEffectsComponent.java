@@ -5,6 +5,8 @@ import com.github.thedeathlycow.thermoo.impl.temperature.effect.TemperatureEffec
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import net.minecraft.util.Identifier;
 import org.ladysnake.cca.api.v3.component.Component;
 import org.ladysnake.cca.api.v3.component.tick.ServerTickingComponent;
@@ -23,13 +25,13 @@ public class TemperatureEffectsComponent implements Component, ServerTickingComp
     }
 
     @Override
-    public void readFromNbt(NbtCompound tag, RegistryWrapper.WrapperLookup registryLookup) {
-
+    public void readData(ReadView readView) {
+        // nothing to read
     }
 
     @Override
-    public void writeToNbt(NbtCompound tag, RegistryWrapper.WrapperLookup registryLookup) {
-
+    public void writeData(WriteView writeView) {
+        // nothing to write
     }
 
     @Override

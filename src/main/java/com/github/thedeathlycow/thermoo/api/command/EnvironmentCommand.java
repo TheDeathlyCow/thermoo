@@ -135,9 +135,9 @@ public final class EnvironmentCommand {
         BlockPos pos = LivingEntityTickUtil.getTemperatureTickPos(target);
         final EnvironmentTickContextImpl<ServerPlayerEntity> context = new EnvironmentTickContextImpl<>(
                 target,
-                target.getServerWorld(),
+                target.getWorld(),
                 pos,
-                EnvironmentLookup.getInstance().findEnvironmentComponents(target.getServerWorld(), pos)
+                EnvironmentLookup.getInstance().findEnvironmentComponents(target.getWorld(), pos)
         );
 
         int tempChange = ServerPlayerEnvironmentTickEvents.GET_TEMPERATURE_CHANGE.invoker().addPointChange(context);

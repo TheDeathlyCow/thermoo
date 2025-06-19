@@ -9,7 +9,6 @@
         "ItemStackMixin",
         "LivingEntityAttributeMixin",
         "LivingEntityEnvironmentTickMixin",
-        "PlayerTemperatureTickMixin",
         "accessor.AttributeModifiersComponentBuilderAccessor",
         "accessor.ComponentMapBuilderAccessor",
         "datafix.AttributeIdPrefixFixMixin"
