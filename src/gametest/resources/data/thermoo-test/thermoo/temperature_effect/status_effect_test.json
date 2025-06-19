@@ -8,8 +8,8 @@
         "effects": [
             {
                 "amplifier": 0,
-                "duration": 200,
-                "effect": "minecraft:regeneration"
+                "duration": 1000,
+                "effect": "minecraft:night_vision"
             }
         ]
     }

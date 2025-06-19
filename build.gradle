@@ -78,7 +78,7 @@ fabricApi {
         modId = "thermoo-test"
         enableGameTests = true
         eula = true
-        enableClientGameTests = false
+        enableClientGameTests = true
     }
 }
 
