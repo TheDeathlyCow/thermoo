@@ -9,6 +9,8 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import org.joml.Vector2i;
 
+import java.util.List;
+
 /**
  * Event for rendering temperature overlays on status bar.
  */
@@ -75,11 +77,10 @@ public final class StatusBarOverlayRenderEvents {
         void render(
                 DrawContext context,
                 PlayerEntity player,
-                Vector2i[] heartPositions,
+                List<Vector2i> heartPositions,
                 int displayHealth,
                 int maxDisplayHealth
         );
-
     }
 
     @FunctionalInterface
@@ -98,7 +99,7 @@ public final class StatusBarOverlayRenderEvents {
                 DrawContext context,
                 PlayerEntity player,
                 LivingEntity mount,
-                Vector2i[] mountHeartPositions,
+                List<Vector2i> mountHeartPositions,
                 int displayMountHealth,
                 int maxDisplayMountHealth
         );

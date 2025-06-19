@@ -5,13 +5,15 @@ import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import net.fabricmc.api.ClientModInitializer;
 import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.render.RenderLayer;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector2i;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class ThermooTestModClient implements ClientModInitializer {
 
@@ -30,7 +32,7 @@ public class ThermooTestModClient implements ClientModInitializer {
             DrawContext context,
             PlayerEntity player,
             LivingEntity mount,
-            Vector2i[] heartPositions,
+            List<Vector2i> heartPositions,
             int displayHealth,
             int maxDisplayHealth
     ) {
@@ -40,23 +42,19 @@ public class ThermooTestModClient implements ClientModInitializer {
     public static void renderFireHeartBar(
             DrawContext context,
             PlayerEntity player,
-            Vector2i[] heartPositions,
+            List<Vector2i> heartPositions,
             int displayHealth,
             int maxDisplayHealth
     ) {
         renderFireHeartBar(context, player, heartPositions, maxDisplayHealth);
     }
 
-    private static void renderFireHeartBar(DrawContext context, LivingEntity mount, Vector2i[] heartPositions, int maxDisplayHealth) {
+    private static void renderFireHeartBar(DrawContext context, LivingEntity mount, List<Vector2i> heartPositions, int maxDisplayHealth) {
         int fireHeartPoints = getNumFirePoints(mount, maxDisplayHealth);
         int fireHearts = getNumFireHeartsFromPoints(fireHeartPoints, maxDisplayHealth);
 
-        for (int m = 0; m < fireHearts; m++) {
-            Vector2i heartPos = heartPositions[m];
-
-            if (heartPos == null) {
-                continue;
-            }
+        for (int m = 0; m < fireHearts && m < heartPositions.size(); m++)  {
+            Vector2i heartPos = heartPositions.get(m);
 
             // is half heart if this is the last heart being rendered and we have an odd
             // number of frozen health points

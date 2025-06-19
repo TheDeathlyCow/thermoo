@@ -1,10 +1,8 @@
 package com.github.thedeathlycow.thermoo.mixin.client;
 
 import com.github.thedeathlycow.thermoo.api.client.StatusBarOverlayRenderEvents;
-import com.github.thedeathlycow.thermoo.impl.client.HeartOverlayTracker;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.Share;
-import com.llamalad7.mixinextras.sugar.ref.LocalIntRef;
 import com.llamalad7.mixinextras.sugar.ref.LocalRef;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
@@ -19,6 +17,10 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * For the mount health bar. For the player health bar see {@link InGameHudPlayerTemperatureMixin}
@@ -47,15 +49,12 @@ public abstract class InGameHudMountTemperatureMixin {
             CallbackInfo ci,
             @Local(ordinal = 8) int heartX,
             @Local(ordinal = 4) int heartY,
-            @Share("thermoo_index") LocalIntRef index,
-            @Share("thermoo_tracker") LocalRef<HeartOverlayTracker> tracker
+            @Share("thermoo_heart_positions") LocalRef<List<Vector2i>> heartPositions
     ) {
-        if (tracker.get() == null) {
-            tracker.set(new HeartOverlayTracker());
+        if (heartPositions.get() == null) {
+            heartPositions.set(new ArrayList<>());
         }
-        int indexValue = index.get();
-        tracker.get().addHeartPosition(indexValue, heartX, heartY);
-        index.set(indexValue + 1);
+        heartPositions.get().add(new Vector2i(heartX, heartY));
     }
 
     @Inject(
@@ -65,14 +64,13 @@ public abstract class InGameHudMountTemperatureMixin {
     private void renderMountHealth(
             DrawContext context,
             CallbackInfo ci,
-            @Share("thermoo_tracker") LocalRef<HeartOverlayTracker> trackerRef
+            @Share("thermoo_heart_positions") LocalRef<List<Vector2i>> heartPositionsRef
     ) {
-        HeartOverlayTracker tracker = trackerRef.get();
-        if (tracker == null) {
+        List<Vector2i> heartPositions = heartPositionsRef.get();
+        if (heartPositions == null) {
             return;
         }
 
-        Vector2i[] heartPositions = tracker.getHeartPositions();
         PlayerEntity player = this.getCameraPlayer();
         LivingEntity mount = this.getRiddenEntity();
 
@@ -87,7 +85,7 @@ public abstract class InGameHudMountTemperatureMixin {
                         context,
                         player,
                         mount,
-                        heartPositions,
+                        Collections.unmodifiableList(heartPositions),
                         health,
                         maxHealth
                 );

@@ -1,10 +1,10 @@
 package com.github.thedeathlycow.thermoo.mixin.client;
 
 import com.github.thedeathlycow.thermoo.api.client.StatusBarOverlayRenderEvents;
-import com.github.thedeathlycow.thermoo.impl.client.HeartOverlayTracker;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.Share;
 import com.llamalad7.mixinextras.sugar.ref.LocalRef;
+import kotlin.collections.ArrayDeque;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.entity.player.PlayerEntity;
@@ -14,6 +14,9 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import java.util.Collections;
+import java.util.List;
 
 @Mixin(InGameHud.class)
 public abstract class InGameHudPlayerTemperatureMixin {
@@ -41,13 +44,13 @@ public abstract class InGameHudPlayerTemperatureMixin {
             @Local(ordinal = 10) int index,
             @Local(ordinal = 13) int heartX,
             @Local(ordinal = 14) int heartY,
-            @Share("thermoo_tracker") LocalRef<HeartOverlayTracker> tracker
+            @Share("thermoo_tracker") LocalRef<List<Vector2i>> tracker
     ) {
         if (tracker.get() == null) {
-            tracker.set(new HeartOverlayTracker());
+            tracker.set(new ArrayDeque<>());
         }
 
-        tracker.get().addHeartPosition(index, heartX, heartY);
+        tracker.get().addFirst(new Vector2i(heartX, heartY));
     }
 
     @Inject(
@@ -68,21 +71,20 @@ public abstract class InGameHudPlayerTemperatureMixin {
             int absorption,
             boolean blinking,
             CallbackInfo ci,
-            @Share("thermoo_tracker") LocalRef<HeartOverlayTracker> trackerRef
+            @Share("thermoo_tracker") LocalRef<List<Vector2i>> heartPositionsRef
     ) {
-        HeartOverlayTracker tracker = trackerRef.get();
-        if (tracker == null) {
+        List<Vector2i> heartPositions = heartPositionsRef.get();
+        if (heartPositions == null) {
             return;
         }
 
-        Vector2i[] heartPositions = tracker.getHeartPositions();
         int maxDisplayHealth = MathHelper.ceil(maxHealth);
 
         StatusBarOverlayRenderEvents.AFTER_HEALTH_BAR.invoker()
                 .render(
                         context,
                         player,
-                        heartPositions,
+                        Collections.unmodifiableList(heartPositions),
                         health,
                         maxDisplayHealth
                 );
