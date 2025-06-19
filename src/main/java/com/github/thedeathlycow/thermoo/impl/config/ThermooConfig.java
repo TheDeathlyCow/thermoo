@@ -3,12 +3,12 @@ package com.github.thedeathlycow.thermoo.impl.config;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import net.fabricmc.loader.api.FabricLoader;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URI;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.util.Properties;
 
@@ -36,7 +36,7 @@ public record ThermooConfig(
     private static void readConfig(Properties properties, Path path) {
         try (InputStream input = Files.newInputStream(path)) {
             properties.load(input);
-        } catch (FileNotFoundException e) {
+        } catch (NoSuchFileException e) {
             writeConfig(newDefaultConfig(), path);
         } catch (IOException e) {
             Thermoo.LOGGER.error("Unable to read Thermoo config path, falling back to default config", e);
@@ -45,7 +45,7 @@ public record ThermooConfig(
 
     private static void writeConfig(Properties properties, Path path) {
         try (OutputStream output = Files.newOutputStream(path)) {
-            properties.store(output, "Thermoo Config path, used for internal configuration only.");
+            properties.store(output, "Thermoo Config file, used for internal configuration only.");
         } catch (IOException e) {
             Thermoo.LOGGER.error("Unable to write Thermoo default config path", e);
         }
