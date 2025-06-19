@@ -12,7 +12,6 @@ public class HealthBarTests implements FabricClientGameTest {
     private static final String HALF_FULL = "half_full_temperature_bar";
     private static final String FULL = "full_temperature_bar";
 
-
     @Override
     public void runTest(ClientGameTestContext context) {
         context.getInput().resizeWindow(2048, 1024); // Multiple of 256 to not squish the pixels of 256x overlays.
