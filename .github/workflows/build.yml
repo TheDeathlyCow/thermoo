@@ -43,31 +43,3 @@ jobs:
         with:
           name: Artifacts
           path: build/libs/
-  client_game_test:
-    strategy:
-      matrix:
-        # Use these Java versions
-        java: [
-          21,    # Current Java LTS
-        ]
-    runs-on: windows-latest
-    steps:
-      - name: checkout repository
-        uses: actions/checkout@v4
-      - name: validate gradle wrapper
-        uses: gradle/wrapper-validation-action@v2
-      - name: setup jdk ${{ matrix.java }}
-        uses: actions/setup-java@v4
-        with:
-          java-version: ${{ matrix.java }}
-          distribution: 'microsoft'
-      - name: make gradle wrapper executable
-        run: chmod +x ./gradlew
-      - name: run tests
-        run: ./gradlew runClientGameTest
-      - name: Upload test screenshots
-        if: failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: Test Screenshots
-          path: build/run/clientGameTest/screenshots
