@@ -1,18 +1,17 @@
 package com.github.thedeathlycow.thermoo.gametest.client;
 
-import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import net.fabricmc.fabric.api.client.gametest.v1.FabricClientGameTest;
 import net.fabricmc.fabric.api.client.gametest.v1.context.ClientGameTestContext;
 import net.fabricmc.fabric.api.client.gametest.v1.context.TestSingleplayerContext;
 import net.fabricmc.fabric.api.client.gametest.v1.screenshot.TestScreenshotComparisonOptions;
 
 public class HealthBarTests implements FabricClientGameTest {
-    private static final String EMPTY = "empty";
-    private static final String TWENTIETH = "twentieth";
-    private static final String TENTH = "tenth";
-    private static final String HALF = "half";
-    private static final String FULL = "full";
-    private static final String TWO_BARS = "_two_bars";
+    static final String EMPTY = "player_empty";
+    static final String TWENTIETH = "player_twentieth";
+    static final String TENTH = "player_tenth";
+    static final String HALF = "player_half";
+    static final String FULL = "player_full";
+    static final String TWO_BARS = "_two_bars";
 
     private int offset = 0;
 
@@ -27,6 +26,7 @@ public class HealthBarTests implements FabricClientGameTest {
         try (TestSingleplayerContext singleplayer = context.worldBuilder().create()) {
             singleplayer.getServer().runCommand("/gamerule fireDamage false"); // hack to prevent damage from affecting health underneath temperature display
             singleplayer.getClientWorld().waitForChunksRender();
+            offset = 0;
 
             final int maxTemperature = 5600;
 
