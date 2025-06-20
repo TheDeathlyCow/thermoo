@@ -4,7 +4,6 @@ import com.github.thedeathlycow.thermoo.api.client.StatusBarOverlayRenderEvents;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.Share;
 import com.llamalad7.mixinextras.sugar.ref.LocalRef;
-import kotlin.collections.ArrayDeque;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.entity.player.PlayerEntity;
@@ -47,7 +46,8 @@ public abstract class InGameHudPlayerTemperatureMixin {
             @Share("thermoo_tracker") LocalRef<List<Vector2i>> tracker
     ) {
         if (tracker.get() == null) {
-            tracker.set(new ArrayDeque<>());
+            // the kotlin ArrayDeque implementation implements list, but the normal java one does not for some reason
+            tracker.set(new kotlin.collections.ArrayDeque<>());
         }
 
         tracker.get().addFirst(new Vector2i(heartX, heartY));
