@@ -16,15 +16,8 @@ import java.util.List;
  */
 @Environment(EnvType.CLIENT)
 public final class StatusBarOverlayRenderEvents {
-    private StatusBarOverlayRenderEvents() {
-
-    }
-
     /**
      * Invoked after the player health bar is drawn. Does not include information on the Absorption bar.
-     * <p>
-     * Integrates with Colorful Hearts and Overflowing Bars for now - but this integration will be removed in the
-     * future.
      * <p>
      * Custom heart types, like Frozen Hearts, should be handled separately.
      */
@@ -62,15 +55,14 @@ public final class StatusBarOverlayRenderEvents {
 
     @FunctionalInterface
     public interface RenderHealthBarCallback {
-
         /**
-         * Note that {@code displayHealth} and {@code maxDisplayHealth} are not always the same as health and max health. Mods that
-         * override the health bar rendering like Colorful Hearts may change these values.
+         * Note that {@code displayHealth} and {@code maxDisplayHealth} are not always the same as health and max
+         * health. Mods that override the health bar rendering like Colorful Hearts may change these values.
          *
          * @param context          DrawContext for the HUD
          * @param player           The player rendering hearts for
-         * @param heartPositions   An array of heart positions on the HUD. Elements may be null, indicating that a heart
-         *                         should not be rendered at this index.
+         * @param heartPositions   A list of heart positions where they were rendered on the HUD, ordered from
+         *                         left-to-right, bottom to top.
          * @param displayHealth    How many half hearts are to be displayed
          * @param maxDisplayHealth The maximum number of half hearts to be displayed
          */
@@ -85,13 +77,12 @@ public final class StatusBarOverlayRenderEvents {
 
     @FunctionalInterface
     public interface RenderMountHealthBarCallback {
-
         /**
          * @param context               Draw context
          * @param player                The main player
          * @param mount                 The animal the player is riding (ex: pig, horse, camel)
-         * @param mountHeartPositions   The positions of the hearts. Elements may be null, indicating that a heart
-         *                              should not be rendered at this index.
+         * @param mountHeartPositions   A list of heart positions where they were rendered on the HUD, ordered from
+         *                              right-to-left, bottom to top.
          * @param displayMountHealth    How many half hearts are to be displayed
          * @param maxDisplayMountHealth The maximum number of half hearts to be displayed
          */
@@ -103,7 +94,9 @@ public final class StatusBarOverlayRenderEvents {
                 int displayMountHealth,
                 int maxDisplayMountHealth
         );
-
     }
 
+    private StatusBarOverlayRenderEvents() {
+
+    }
 }
