@@ -63,7 +63,7 @@ jobs:
           distribution: 'microsoft'
       - name: make gradle wrapper executable
         run: chmod +x ./gradlew
-      - name: build
+      - name: run tests
         run: ./gradlew runClientGameTest
       - name: Upload test screenshots
         if: failure()
