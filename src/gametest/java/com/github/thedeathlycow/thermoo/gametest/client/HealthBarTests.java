@@ -10,6 +10,8 @@ public class HealthBarTests implements FabricClientGameTest {
     static final String TWENTIETH = "player_twentieth";
     static final String TENTH = "player_tenth";
     static final String HALF = "player_half";
+    static final String NINETIETH = "player_ninetieth";
+    static final String NINETY_FIFTH = "player_ninety_fifth";
     static final String FULL = "player_full";
     static final String TWO_BARS = "_two_bars";
 
@@ -36,6 +38,8 @@ public class HealthBarTests implements FabricClientGameTest {
             testPlayerTemperatureBar(singleplayer, context, maxTemperature / 10, TENTH);
             testPlayerTemperatureBar(singleplayer, context, maxTemperature / 10 + 1, TENTH);
             testPlayerTemperatureBar(singleplayer, context, maxTemperature / 2, HALF);
+            testPlayerTemperatureBar(singleplayer, context, maxTemperature * 9 / 10, NINETIETH);
+            testPlayerTemperatureBar(singleplayer, context, maxTemperature * 19 / 20, NINETY_FIFTH);
             testPlayerTemperatureBar(singleplayer, context, maxTemperature, FULL);
 
             singleplayer.getServer().runCommand("/attribute @p max_health base set 40");
@@ -49,6 +53,8 @@ public class HealthBarTests implements FabricClientGameTest {
             testPlayerTemperatureBar(singleplayer, context, maxTemperature / 10, TENTH + TWO_BARS);
             testPlayerTemperatureBar(singleplayer, context, maxTemperature / 10 + 1, TENTH + TWO_BARS);
             testPlayerTemperatureBar(singleplayer, context, maxTemperature / 2, HALF + TWO_BARS);
+            testPlayerTemperatureBar(singleplayer, context, maxTemperature * 9 / 10, NINETIETH + TWO_BARS);
+            testPlayerTemperatureBar(singleplayer, context, maxTemperature * 19 / 20, NINETY_FIFTH + TWO_BARS);
             testPlayerTemperatureBar(singleplayer, context, maxTemperature, FULL + TWO_BARS);
         }
     }

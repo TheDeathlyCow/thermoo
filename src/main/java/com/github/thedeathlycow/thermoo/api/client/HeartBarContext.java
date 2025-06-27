@@ -15,7 +15,7 @@ public interface HeartBarContext {
      * An unmodifiable sequenced collection containing positions of individual hearts as rendered on the screen in the
      * heart bar.
      * <p>
-     * This list is ordered such that earlier hearts represent smaller health values. For vanilla player health, this is
+     * This list is ordered such that earlier hearts represent smaller health values. For vanilla player health, this
      * means it is ordered left-to-right, bottom-to-top. For vanilla mount health, it is right-to-left, bottom-to-top.
      * <p>
      * For non-vanilla heart bars, this could be in some other order.

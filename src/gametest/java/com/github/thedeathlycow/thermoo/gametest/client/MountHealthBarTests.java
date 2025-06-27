@@ -10,6 +10,7 @@ public class MountHealthBarTests implements FabricClientGameTest {
     static final String FIFTH = "mount_fifth";
     static final String TENTH = "mount_tenth";
     static final String HALF = "mount_half";
+    static final String NINETIETH = "mount_ninetieth";
     static final String FULL = "mount_full";
     static final String TWO_BARS = "_two_bars";
     static final String THREE_BARS = "_three_bars";
@@ -40,6 +41,7 @@ public class MountHealthBarTests implements FabricClientGameTest {
             testMountTemperatureBar(singleplayer, context, maxTemperature / 10 + 1, TENTH);
             testMountTemperatureBar(singleplayer, context, maxTemperature / 5, FIFTH);
             testMountTemperatureBar(singleplayer, context, maxTemperature / 2, HALF);
+            testMountTemperatureBar(singleplayer, context, maxTemperature * 9 / 10, NINETIETH);
             testMountTemperatureBar(singleplayer, context, maxTemperature, FULL);
 
             singleplayer.getServer().runCommand("/attribute @n[tag=pig] max_health base set 40");
@@ -53,6 +55,7 @@ public class MountHealthBarTests implements FabricClientGameTest {
             testMountTemperatureBar(singleplayer, context, maxTemperature / 10 + 1, TENTH + TWO_BARS);
             testMountTemperatureBar(singleplayer, context, maxTemperature / 5, FIFTH + TWO_BARS);
             testMountTemperatureBar(singleplayer, context, maxTemperature / 2, HALF + TWO_BARS);
+            testMountTemperatureBar(singleplayer, context, maxTemperature * 9 / 10, NINETIETH + TWO_BARS);
             testMountTemperatureBar(singleplayer, context, maxTemperature, FULL + TWO_BARS);
 
             singleplayer.getServer().runCommand("/attribute @n[tag=pig] max_health base set 60");
@@ -66,6 +69,7 @@ public class MountHealthBarTests implements FabricClientGameTest {
             testMountTemperatureBar(singleplayer, context, maxTemperature / 10 + 1, TENTH + THREE_BARS);
             testMountTemperatureBar(singleplayer, context, maxTemperature / 5, FIFTH + THREE_BARS);
             testMountTemperatureBar(singleplayer, context, maxTemperature / 2, HALF + THREE_BARS);
+            testMountTemperatureBar(singleplayer, context, maxTemperature * 9 / 10, NINETIETH + THREE_BARS);
             testMountTemperatureBar(singleplayer, context, maxTemperature, FULL + THREE_BARS);
 
             singleplayer.getServer().runCommand("/attribute @n[tag=pig] max_health base set 80");
@@ -79,6 +83,7 @@ public class MountHealthBarTests implements FabricClientGameTest {
             testMountTemperatureBar(singleplayer, context, maxTemperature / 10 + 1, TENTH + FOUR_BARS);
             testMountTemperatureBar(singleplayer, context, maxTemperature / 5, FIFTH + FOUR_BARS);
             testMountTemperatureBar(singleplayer, context, maxTemperature / 2, HALF + FOUR_BARS);
+            testMountTemperatureBar(singleplayer, context, maxTemperature * 9 / 10, NINETIETH + FOUR_BARS);
             testMountTemperatureBar(singleplayer, context, maxTemperature, FULL + FOUR_BARS);
         }
     }
