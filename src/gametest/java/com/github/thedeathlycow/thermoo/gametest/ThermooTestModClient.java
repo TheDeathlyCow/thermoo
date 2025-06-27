@@ -1,5 +1,6 @@
 package com.github.thedeathlycow.thermoo.gametest;
 
+import com.github.thedeathlycow.thermoo.api.client.HeartBarContext;
 import com.github.thedeathlycow.thermoo.api.client.StatusBarOverlayRenderEvents;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import net.fabricmc.api.ClientModInitializer;
@@ -11,10 +12,6 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector2i;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.function.ToIntFunction;
 
 public class ThermooTestModClient implements ClientModInitializer {
 
@@ -33,21 +30,22 @@ public class ThermooTestModClient implements ClientModInitializer {
             DrawContext context,
             PlayerEntity player,
             LivingEntity mount,
-            List<Vector2i> heartPositions,
-            int displayHealth,
-            int maxDisplayHealth
+            HeartBarContext heartBarContext
     ) {
-        int fireHeartPoints = getNumFirePoints(mount, maxDisplayHealth);
-        int fireHearts = getNumFireHeartsFromPoints(fireHeartPoints);
+        final int fireHalfHearts = getNumFireHalfHearts(mount, heartBarContext.positions().size());
+        final int fireHearts = getNumFireHearts(fireHalfHearts);
+        final boolean drawHalfHeartAtEnd = fireHalfHearts % 2 != 0;
 
-        for (int m = 0; m < fireHearts && m < heartPositions.size(); m++) {
-            Vector2i heartPos = heartPositions.get(m);
+        int heartsRendered = 0;
 
-            // is half heart if this is the last heart being rendered and we have an odd
-            // number of frozen health points
-            int x = heartPos.x;
-            int y = heartPos.y - 1;
-            boolean isHalfHeart = m + 1 >= fireHearts && (fireHeartPoints & 1) == 1; // is odd check;
+        for (Vector2i position : heartBarContext.positions()) {
+            if (heartsRendered >= fireHearts) {
+                break;
+            }
+
+            int x = position.x();
+            int y = position.y() - 1;
+            boolean isHalfHeart = drawHalfHeartAtEnd && heartsRendered == fireHearts - 1;
 
             if (isHalfHeart) {
                 context.drawTexture(
@@ -68,29 +66,30 @@ public class ThermooTestModClient implements ClientModInitializer {
                         TEXTURE_WIDTH, TEXTURE_HEIGHT
                 );
             }
+
+            heartsRendered++;
         }
     }
 
     public static void renderFireHeartBar(
             DrawContext context,
             PlayerEntity player,
-            List<Vector2i> heartPositions,
-            int displayHealth,
-            int maxDisplayHealth
+            HeartBarContext heartBarContext
     ) {
-        int fireHeartPoints = getNumFirePoints(player, maxDisplayHealth);
-        int fireHearts = getNumFireHeartsFromPoints(fireHeartPoints);
+        final int fireHalfHearts = getNumFireHalfHearts(player, heartBarContext.positions().size());
+        final int fireHearts = getNumFireHearts(fireHalfHearts);
+        final boolean drawHalfHeartAtEnd = fireHalfHearts % 2 != 0;
 
-        for (int m = 0; m < fireHearts && m < heartPositions.size(); m++) {
-            Vector2i heartPos = heartPositions.get(m);
+        int heartsRendered = 0;
 
-            // is half heart if this is the last heart being rendered and we have an odd
-            // number of frozen health points
-            int x = heartPos.x;
-            int y = heartPos.y - 1;
-            boolean isHalfHeart = m + 1 >= fireHearts && (fireHeartPoints & 1) == 1; // is odd check
+        for (Vector2i position : heartBarContext.positions()) {
+            if (heartsRendered >= fireHearts) {
+                break;
+            }
 
-            int u = isHalfHeart ? 9 : 0;
+            int x = position.x();
+            int y = position.y() - 1;
+            int u = drawHalfHeartAtEnd && heartsRendered == fireHearts - 1 ? 9 : 0;
 
             context.drawTexture(
                     RenderPipelines.GUI_TEXTURED,
@@ -100,19 +99,24 @@ public class ThermooTestModClient implements ClientModInitializer {
                     9, 10,
                     TEXTURE_WIDTH, TEXTURE_HEIGHT
             );
+
+            heartsRendered++;
         }
     }
 
-    private static int getNumFirePoints(@NotNull LivingEntity player, int maxDisplayHealth) {
+    private static int getNumFireHalfHearts(@NotNull LivingEntity player, int maxDisplayHealth) {
         float overheatProgress = player.thermoo$getTemperatureScale();
         if (overheatProgress <= 0f) {
             return 0;
         }
-        return Math.round(overheatProgress * maxDisplayHealth);
+        return Math.round(overheatProgress * maxDisplayHealth * 2);
     }
 
-    private static int getNumFireHeartsFromPoints(int fireHealthPoints) {
-        // number of whole hearts
-        return MathHelper.ceil(fireHealthPoints / 2.0f);
+    private static int getNumFireHearts(int halfHearts) {
+        return MathHelper.ceil(halfHearts / 2.0f);
+    }
+
+    private static boolean isHalfHeart(int index, int size) {
+        return index >= size && index % 2 != 0;
     }
 }

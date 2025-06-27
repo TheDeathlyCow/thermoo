@@ -23,9 +23,9 @@ public final class StatusBarOverlayRenderEvents {
      */
     public static final Event<RenderHealthBarCallback> AFTER_HEALTH_BAR = EventFactory.createArrayBacked(
             RenderHealthBarCallback.class,
-            callbacks -> (context, player, heartPositions, displayHealth, maxDisplayHeath) -> {
+            callbacks -> (context, player, heartBarContext) -> {
                 for (RenderHealthBarCallback callback : callbacks) {
-                    callback.render(context, player, heartPositions, displayHealth, maxDisplayHeath);
+                    callback.render(context, player, heartBarContext);
                 }
             }
     );
@@ -41,13 +41,13 @@ public final class StatusBarOverlayRenderEvents {
      */
     public static final Event<RenderMountHealthBarCallback> AFTER_MOUNT_HEALTH_BAR = EventFactory.createArrayBacked(
             RenderMountHealthBarCallback.class,
-            callbacks -> (context, player, mount, mountHeartPositions, displayMountHealth, maxDisplayMountHealth) -> {
+            callbacks -> (context, player, mount, heartBarContext) -> {
                 for (RenderMountHealthBarCallback callback : callbacks) {
                     callback.render(
                             context,
-                            player, mount,
-                            mountHeartPositions,
-                            displayMountHealth, maxDisplayMountHealth
+                            player,
+                            mount,
+                            heartBarContext
                     );
                 }
             }
@@ -59,40 +59,30 @@ public final class StatusBarOverlayRenderEvents {
          * Note that {@code displayHealth} and {@code maxDisplayHealth} are not always the same as health and max
          * health. Mods that override the health bar rendering like Colorful Hearts may change these values.
          *
-         * @param context          DrawContext for the HUD
-         * @param player           The player rendering hearts for
-         * @param heartPositions   A list of heart positions where they were rendered on the HUD, ordered from
-         *                         left-to-right, bottom to top.
-         * @param displayHealth    How many half hearts are to be displayed
-         * @param maxDisplayHealth The maximum number of half hearts to be displayed
+         * @param drawContext     DrawContext for the HUD
+         * @param player          The player rendering hearts for
+         * @param heartBarContext Data associated with the player heart bar.
          */
         void render(
-                DrawContext context,
+                DrawContext drawContext,
                 PlayerEntity player,
-                List<Vector2i> heartPositions,
-                int displayHealth,
-                int maxDisplayHealth
+                HeartBarContext heartBarContext
         );
     }
 
     @FunctionalInterface
     public interface RenderMountHealthBarCallback {
         /**
-         * @param context               Draw context
-         * @param player                The main player
-         * @param mount                 The animal the player is riding (ex: pig, horse, camel)
-         * @param mountHeartPositions   A list of heart positions where they were rendered on the HUD, ordered from
-         *                              right-to-left, bottom to top.
-         * @param displayMountHealth    How many half hearts are to be displayed
-         * @param maxDisplayMountHealth The maximum number of half hearts to be displayed
+         * @param drawContext     Draw context
+         * @param player          The main player
+         * @param mount           The animal the player is riding (ex: pig, horse, camel)
+         * @param heartBarContext Data associated with the mount heart bar.
          */
         void render(
-                DrawContext context,
+                DrawContext drawContext,
                 PlayerEntity player,
                 LivingEntity mount,
-                List<Vector2i> mountHeartPositions,
-                int displayMountHealth,
-                int maxDisplayMountHealth
+                HeartBarContext heartBarContext
         );
     }
 
