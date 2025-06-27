@@ -1,11 +1,11 @@
 package com.github.thedeathlycow.thermoo.gametest;
 
+import com.github.thedeathlycow.thermoo.api.client.HeartBarContext;
 import com.github.thedeathlycow.thermoo.api.client.StatusBarOverlayRenderEvents;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import net.fabricmc.api.ClientModInitializer;
 import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.render.RenderLayer;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Identifier;
@@ -30,58 +30,93 @@ public class ThermooTestModClient implements ClientModInitializer {
             DrawContext context,
             PlayerEntity player,
             LivingEntity mount,
-            Vector2i[] heartPositions,
-            int displayHealth,
-            int maxDisplayHealth
+            HeartBarContext heartBarContext
     ) {
-        renderFireHeartBar(context, mount, heartPositions, maxDisplayHealth);
+        final int fireHalfHearts = getNumFireHalfHearts(mount, heartBarContext.positions().size());
+        final int fireHearts = getNumFireHearts(fireHalfHearts);
+        final boolean drawHalfHeartAtEnd = fireHalfHearts % 2 != 0;
+
+        int heartsRendered = 0;
+
+        for (Vector2i position : heartBarContext.positions()) {
+            if (heartsRendered >= fireHearts) {
+                break;
+            }
+
+            int x = position.x();
+            int y = position.y() - 1;
+            boolean isHalfHeart = drawHalfHeartAtEnd && heartsRendered == fireHearts - 1;
+
+            if (isHalfHeart) {
+                context.drawTexture(
+                        RenderPipelines.GUI_TEXTURED,
+                        HEART_OVERLAY_TEXTURE,
+                        x + 4, y,
+                        4, 0,
+                        5, 10,
+                        TEXTURE_WIDTH, TEXTURE_HEIGHT
+                );
+            } else {
+                context.drawTexture(
+                        RenderPipelines.GUI_TEXTURED,
+                        HEART_OVERLAY_TEXTURE,
+                        x, y,
+                        0, 0,
+                        9, 10,
+                        TEXTURE_WIDTH, TEXTURE_HEIGHT
+                );
+            }
+
+            heartsRendered++;
+        }
     }
 
     public static void renderFireHeartBar(
             DrawContext context,
             PlayerEntity player,
-            Vector2i[] heartPositions,
-            int displayHealth,
-            int maxDisplayHealth
+            HeartBarContext heartBarContext
     ) {
-        renderFireHeartBar(context, player, heartPositions, maxDisplayHealth);
-    }
+        final int fireHalfHearts = getNumFireHalfHearts(player, heartBarContext.positions().size());
+        final int fireHearts = getNumFireHearts(fireHalfHearts);
+        final boolean drawHalfHeartAtEnd = fireHalfHearts % 2 != 0;
 
-    private static void renderFireHeartBar(DrawContext context, LivingEntity mount, Vector2i[] heartPositions, int maxDisplayHealth) {
-        int fireHeartPoints = getNumFirePoints(mount, maxDisplayHealth);
-        int fireHearts = getNumFireHeartsFromPoints(fireHeartPoints, maxDisplayHealth);
+        int heartsRendered = 0;
 
-        for (int m = 0; m < fireHearts; m++) {
-            Vector2i heartPos = heartPositions[m];
-
-            if (heartPos == null) {
-                continue;
+        for (Vector2i position : heartBarContext.positions()) {
+            if (heartsRendered >= fireHearts) {
+                break;
             }
 
-            // is half heart if this is the last heart being rendered and we have an odd
-            // number of frozen health points
-            int x = heartPos.x;
-            int y = heartPos.y - 1;
-            boolean isHalfHeart = m + 1 >= fireHearts && (fireHeartPoints & 1) == 1; // is odd check
+            int x = position.x();
+            int y = position.y() - 1;
+            int u = drawHalfHeartAtEnd && heartsRendered == fireHearts - 1 ? 9 : 0;
 
-            int u = isHalfHeart ? 9 : 0;
+            context.drawTexture(
+                    RenderPipelines.GUI_TEXTURED,
+                    HEART_OVERLAY_TEXTURE,
+                    x, y,
+                    u, 0,
+                    9, 10,
+                    TEXTURE_WIDTH, TEXTURE_HEIGHT
+            );
 
-            context.drawTexture(RenderPipelines.GUI_TEXTURED, HEART_OVERLAY_TEXTURE, x, y, u, 0, 9, 10, TEXTURE_WIDTH, TEXTURE_HEIGHT);
+            heartsRendered++;
         }
     }
 
-    private static int getNumFirePoints(@NotNull LivingEntity player, int maxDisplayHealth) {
-        float tempScale = player.thermoo$getTemperatureScale();
-        if (tempScale <= 0f) {
+    private static int getNumFireHalfHearts(@NotNull LivingEntity player, int maxDisplayHealth) {
+        float overheatProgress = player.thermoo$getTemperatureScale();
+        if (overheatProgress <= 0f) {
             return 0;
         }
-        return (int) (tempScale * maxDisplayHealth);
+        return Math.round(overheatProgress * maxDisplayHealth * 2);
     }
 
-    private static int getNumFireHeartsFromPoints(int fireHealthPoints, int maxDisplayHealth) {
-        // number of whole hearts
-        int frozenHealthHearts = MathHelper.ceil(fireHealthPoints / 2.0f);
+    private static int getNumFireHearts(int halfHearts) {
+        return MathHelper.ceil(halfHearts / 2.0f);
+    }
 
-        return Math.min(maxDisplayHealth / 2, frozenHealthHearts);
+    private static boolean isHalfHeart(int index, int size) {
+        return index >= size && index % 2 != 0;
     }
 }

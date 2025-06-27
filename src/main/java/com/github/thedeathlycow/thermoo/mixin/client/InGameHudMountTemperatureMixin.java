@@ -1,10 +1,9 @@
 package com.github.thedeathlycow.thermoo.mixin.client;
 
 import com.github.thedeathlycow.thermoo.api.client.StatusBarOverlayRenderEvents;
-import com.github.thedeathlycow.thermoo.impl.client.HeartOverlayTracker;
+import com.github.thedeathlycow.thermoo.impl.client.HeartBarContextImpl;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.Share;
-import com.llamalad7.mixinextras.sugar.ref.LocalIntRef;
 import com.llamalad7.mixinextras.sugar.ref.LocalRef;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
@@ -20,6 +19,10 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.SequencedCollection;
+
 /**
  * For the mount health bar. For the player health bar see {@link InGameHudPlayerTemperatureMixin}
  */
@@ -32,7 +35,8 @@ public abstract class InGameHudMountTemperatureMixin {
     @Shadow
     protected abstract PlayerEntity getCameraPlayer();
 
-    @Shadow protected abstract int getHeartCount(@Nullable LivingEntity entity);
+    @Shadow
+    protected abstract int getHeartCount(@Nullable LivingEntity entity);
 
     @Inject(
             method = "renderMountHealth",
@@ -42,20 +46,18 @@ public abstract class InGameHudMountTemperatureMixin {
                     ordinal = 0
             )
     )
-    private void captureMountHealth(
+    private void startHeartCapture(
             DrawContext context,
             CallbackInfo ci,
             @Local(ordinal = 8) int heartX,
             @Local(ordinal = 4) int heartY,
-            @Share("thermoo_index") LocalIntRef index,
-            @Share("thermoo_tracker") LocalRef<HeartOverlayTracker> tracker
+            @Share("thermoo_heart_positions") LocalRef<SequencedCollection<Vector2i>> heartPositionsRef
     ) {
-        if (tracker.get() == null) {
-            tracker.set(new HeartOverlayTracker());
+        if (heartPositionsRef.get() == null) {
+            heartPositionsRef.set(new ArrayList<>());
         }
-        int indexValue = index.get();
-        tracker.get().addHeartPosition(indexValue, heartX, heartY);
-        index.set(indexValue + 1);
+
+        heartPositionsRef.get().add(new Vector2i(heartX, heartY));
     }
 
     @Inject(
@@ -65,14 +67,13 @@ public abstract class InGameHudMountTemperatureMixin {
     private void renderMountHealth(
             DrawContext context,
             CallbackInfo ci,
-            @Share("thermoo_tracker") LocalRef<HeartOverlayTracker> trackerRef
+            @Share("thermoo_heart_positions") LocalRef<SequencedCollection<Vector2i>> heartPositionsRef
     ) {
-        HeartOverlayTracker tracker = trackerRef.get();
-        if (tracker == null) {
+        SequencedCollection<Vector2i> heartPositions = heartPositionsRef.get();
+        if (heartPositions == null) {
             return;
         }
 
-        Vector2i[] heartPositions = tracker.getHeartPositions();
         PlayerEntity player = this.getCameraPlayer();
         LivingEntity mount = this.getRiddenEntity();
 
@@ -82,14 +83,12 @@ public abstract class InGameHudMountTemperatureMixin {
         int maxHealth = this.getHeartCount(mount) * 2;
         int health = Math.min(MathHelper.ceil(mount.getHealth()), maxHealth);
 
-        StatusBarOverlayRenderEvents.AFTER_MOUNT_HEALTH_BAR.invoker()
-                .render(
-                        context,
-                        player,
-                        mount,
-                        heartPositions,
-                        health,
-                        maxHealth
-                );
+        var heartBarContext = new HeartBarContextImpl(
+                Collections.unmodifiableSequencedCollection(heartPositions),
+                health,
+                maxHealth
+        );
+
+        StatusBarOverlayRenderEvents.AFTER_MOUNT_HEALTH_BAR.invoker().render(context, player, mount, heartBarContext);
     }
 }
