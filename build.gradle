@@ -168,12 +168,12 @@ publishMods {
 
         javaVersions.add(JavaVersion.VERSION_21)
 
-        clientRequired = true
+        clientRequired = false
         serverRequired = true
 
         requires("fabric-api", "cardinal-components-api")
 
-        optional("thermoo-patches")
+        optional("thermoo-patches", "polymer")
     }
 
     modrinth {
@@ -183,7 +183,7 @@ publishMods {
 
         requires("fabric-api", "cardinal-components-api")
 
-        optional("thermoo-patches")
+        optional("thermoo-patches", "polymer")
     }
 
     github {
