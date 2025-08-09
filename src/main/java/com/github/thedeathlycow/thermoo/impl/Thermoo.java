@@ -4,6 +4,7 @@ import com.github.thedeathlycow.thermoo.api.ThermooRegistryKeys;
 import com.github.thedeathlycow.thermoo.api.command.*;
 import com.github.thedeathlycow.thermoo.api.environment.EnvironmentDefinition;
 import com.github.thedeathlycow.thermoo.api.environment.provider.EnvironmentProvider;
+import com.github.thedeathlycow.thermoo.impl.compat.init.DependentModInitializer;
 import com.github.thedeathlycow.thermoo.impl.config.ThermooConfig;
 import com.github.thedeathlycow.thermoo.impl.environment.EnvironmentLookupImpl;
 import com.github.thedeathlycow.thermoo.impl.temperature.effect.TemperatureEffectLoader;
@@ -12,6 +13,7 @@ import net.fabricmc.fabric.api.command.v2.ArgumentTypeRegistry;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.registry.DynamicRegistries;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.command.argument.serialize.ConstantArgumentSerializer;
 import net.minecraft.resource.ResourceType;
 import net.minecraft.util.Identifier;
@@ -19,6 +21,9 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class Thermoo implements ModInitializer {
     public static final String MODID = "thermoo";
@@ -66,6 +71,8 @@ public class Thermoo implements ModInitializer {
 
         EnvironmentLookupImpl.initialize();
 
+        initializeDependentEntryPoints();
+
         LOGGER.info("Thermoo initialized");
     }
 
@@ -85,5 +92,22 @@ public class Thermoo implements ModInitializer {
             config = ThermooConfig.create();
         }
         return config;
+    }
+
+    private static void initializeDependentEntryPoints() {
+        List<DependentModInitializer> initializers = FabricLoader.getInstance().getEntrypoints(
+                DependentModInitializer.ID,
+                DependentModInitializer.class
+        );
+
+        for (DependentModInitializer initializer : initializers) {
+            boolean initialize = Arrays.stream(initializer.getRequiredModIds()).allMatch(
+                    id -> FabricLoader.getInstance().isModLoaded(id)
+            );
+
+            if (initialize) {
+                initializer.onInitialize();
+            }
+        }
     }
 }
