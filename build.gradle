@@ -51,7 +51,7 @@ dependencies {
     modImplementation "org.ladysnake.cardinal-components-api:cardinal-components-base:${project.cca_version}"
     modImplementation "org.ladysnake.cardinal-components-api:cardinal-components-entity:${project.cca_version}"
 
-    modImplementation "eu.pb4:polymer-core:${project.polymer_version}"
+    modCompileOnly "eu.pb4:polymer-core:${project.polymer_version}"
 
     testImplementation "net.fabricmc:fabric-loader-junit:${project.loader_version}"
     testImplementation "org.junit.jupiter:junit-jupiter"
