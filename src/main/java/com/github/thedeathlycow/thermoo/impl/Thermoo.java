@@ -4,16 +4,19 @@ import com.github.thedeathlycow.thermoo.api.ThermooRegistryKeys;
 import com.github.thedeathlycow.thermoo.api.command.*;
 import com.github.thedeathlycow.thermoo.api.environment.EnvironmentDefinition;
 import com.github.thedeathlycow.thermoo.api.environment.provider.EnvironmentProvider;
+import com.github.thedeathlycow.thermoo.api.util.TemperatureUnit;
 import com.github.thedeathlycow.thermoo.impl.compat.init.DependentModInitializer;
 import com.github.thedeathlycow.thermoo.impl.config.ThermooConfig;
 import com.github.thedeathlycow.thermoo.impl.environment.EnvironmentLookupImpl;
 import com.github.thedeathlycow.thermoo.impl.temperature.effect.TemperatureEffectLoader;
+import com.mojang.brigadier.arguments.ArgumentType;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.ArgumentTypeRegistry;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.registry.DynamicRegistries;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.command.argument.serialize.ArgumentSerializer;
 import net.minecraft.command.argument.serialize.ConstantArgumentSerializer;
 import net.minecraft.resource.ResourceType;
 import net.minecraft.util.Identifier;
@@ -30,6 +33,17 @@ public class Thermoo implements ModInitializer {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(MODID);
 
+    public static final ArgumentSerializer<
+            HeatingModeArgumentType,
+            ConstantArgumentSerializer<HeatingModeArgumentType>.Properties
+            > HEATING_MODE_ARG_SERIALIZER = ConstantArgumentSerializer.of(HeatingModeArgumentType::heatingMode);
+
+
+    public static final ArgumentSerializer<
+            TemperatureUnitArgumentType,
+            ConstantArgumentSerializer<TemperatureUnitArgumentType>.Properties
+            > TEMPERATURE_UNIT_ARG_SERIALIZER = ConstantArgumentSerializer.of(TemperatureUnitArgumentType::temperatureUnit);
+
     @Nullable
     private static ThermooConfig config = null;
 
@@ -38,12 +52,13 @@ public class Thermoo implements ModInitializer {
         ArgumentTypeRegistry.registerArgumentType(
                 Thermoo.id("heating_mode"),
                 HeatingModeArgumentType.class,
-                ConstantArgumentSerializer.of(HeatingModeArgumentType::heatingMode)
+                HEATING_MODE_ARG_SERIALIZER
         );
+
         ArgumentTypeRegistry.registerArgumentType(
                 Thermoo.id("temperature_unit"),
                 TemperatureUnitArgumentType.class,
-                ConstantArgumentSerializer.of(TemperatureUnitArgumentType::temperatureUnit)
+                TEMPERATURE_UNIT_ARG_SERIALIZER
         );
 
         CommandRegistrationCallback.EVENT.register(
