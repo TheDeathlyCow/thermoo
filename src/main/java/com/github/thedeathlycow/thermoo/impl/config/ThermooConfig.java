@@ -14,14 +14,17 @@ import java.util.Properties;
 
 public record ThermooConfig(
         boolean enableThermooPatchesNag,
+        boolean enablePolymerPatch,
         URI thermooPatchesPatchListUrl
 ) {
     private static final String ENABLE_THERMOO_PATCHES_NAG_KEY = "enable_thermoo_patches_nag";
+    private static final String ENABLE_POLYMER_PATCH_KEY = "enable_polymer_patch";
     private static final String THERMOO_PATCHES_PATCH_LIST_URL_KEY = "thermoo_patches_patch_list_url";
 
     private ThermooConfig(Properties properties) {
         this(
                 Boolean.parseBoolean(properties.getProperty(ENABLE_THERMOO_PATCHES_NAG_KEY)),
+                Boolean.parseBoolean(properties.getProperty(ENABLE_POLYMER_PATCH_KEY)),
                 URI.create(properties.getProperty(THERMOO_PATCHES_PATCH_LIST_URL_KEY))
         );
     }
@@ -55,6 +58,7 @@ public record ThermooConfig(
         var properties = new Properties();
 
         properties.setProperty(ENABLE_THERMOO_PATCHES_NAG_KEY, "true");
+        properties.setProperty(ENABLE_POLYMER_PATCH_KEY, "true");
         properties.setProperty(THERMOO_PATCHES_PATCH_LIST_URL_KEY, "https://thermoo.thedeathlycow.com/assets/thermoo-patches-patch-list.json");
 
         return properties;
