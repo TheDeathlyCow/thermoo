@@ -2,7 +2,6 @@ package com.github.thedeathlycow.thermoo.impl;
 
 import com.github.thedeathlycow.thermoo.impl.compat.ThermooPatchesNag;
 import com.github.thedeathlycow.thermoo.impl.compat.init.DependentClientModInitializer;
-import com.github.thedeathlycow.thermoo.impl.compat.init.DependentModInitializer;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 
