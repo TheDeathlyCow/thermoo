@@ -253,9 +253,8 @@ public class EnvironmentCommand {
 
         if (resistance >= 0) {
             source.sendFeedback(
-                    () -> Text.translatableWithFallback(
+                    () -> Text.translatable(
                             "commands.thermoo.environment.temperature.player.success",
-                            "The environment temperature change of %s is %s (with a %s chance to dodge)",
                             target.getDisplayName(),
                             tempChange,
                             "%.2f%%".formatted(resistance * 100)
@@ -264,9 +263,8 @@ public class EnvironmentCommand {
             );
         } else {
             source.sendFeedback(
-                    () -> Text.translatableWithFallback(
+                    () -> Text.translatable(
                             "commands.thermoo.environment.temperature.player.negative.success",
-                            "The environment temperature change of %s is %s (with a %s chance of doubling)",
                             target.getDisplayName(),
                             tempChange,
                             "%.2f%%".formatted(resistance * -100)
@@ -288,9 +286,8 @@ public class EnvironmentCommand {
         source.sendFeedback(
                 () -> {
                     RegistryKey<Biome> biome = source.getWorld().getBiome(location).getKey().orElse(null);
-                    return Text.translatableWithFallback(
+                    return Text.translatable(
                             "commands.thermoo.environment.temperature.success",
-                            "The environment temperature at %s, %s, %s (%s) is %s°%s",
                             location.getX(),
                             location.getY(),
                             location.getZ(),
@@ -314,9 +311,8 @@ public class EnvironmentCommand {
         source.sendFeedback(
                 () -> {
                     RegistryKey<Biome> biome = source.getWorld().getBiome(location).getKey().orElse(null);
-                    return Text.translatableWithFallback(
+                    return Text.translatable(
                             "commands.thermoo.environment.humidity.success",
-                            "The environmental relative humidity at %s, %s, %s (%s) is %s%",
                             location.getX(),
                             location.getY(),
                             location.getZ(),

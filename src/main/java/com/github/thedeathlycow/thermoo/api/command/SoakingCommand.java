@@ -174,9 +174,8 @@ public final class SoakingCommand {
             entity.thermoo$addWetTicks(-value);
 
             source.sendFeedback(
-                    () -> Text.translatableWithFallback(
+                    () -> Text.translatable(
                             "commands.thermoo.soaking.remove.success",
-                            "Removed %d points from the soaking value of %s (now %d)",
                             target.getDisplayName(),
                             value,
                             entity.thermoo$getWetTicks()
@@ -194,9 +193,8 @@ public final class SoakingCommand {
             entity.thermoo$addWetTicks(value);
 
             source.sendFeedback(
-                    () -> Text.translatableWithFallback(
+                    () -> Text.translatable(
                             "commands.thermoo.soaking.add.success",
-                            "Added %d points to the soaking value of %s (now %d)",
                             target.getDisplayName(),
                             value,
                             entity.thermoo$getWetTicks()
@@ -214,9 +212,8 @@ public final class SoakingCommand {
             entity.thermoo$setWetTicks(value);
 
             source.sendFeedback(
-                    () -> Text.translatableWithFallback(
+                    () -> Text.translatable(
                             "commands.thermoo.soaking.set.success",
-                            "Set the soaking value of %s to %d (now %d)",
                             target.getDisplayName(),
                             value,
                             entity.thermoo$getWetTicks()
@@ -234,9 +231,8 @@ public final class SoakingCommand {
             int value = entity.thermoo$getMaxWetTicks();
 
             source.sendFeedback(
-                    () -> Text.translatableWithFallback(
+                    () -> Text.translatable(
                             "commands.thermoo.soaking.get.max.success",
-                            "The maximum soaking value of %s is %d",
                             target.getDisplayName(),
                             value
                     ), false
@@ -253,9 +249,8 @@ public final class SoakingCommand {
             int value = 0;
 
             source.sendFeedback(
-                    () -> Text.translatableWithFallback(
+                    () -> Text.translatable(
                             "commands.thermoo.soaking.get.min.success",
-                            "The minimum soaking value of %s is %d",
                             target.getDisplayName(),
                             value
                     ), false
@@ -272,9 +267,8 @@ public final class SoakingCommand {
             int value = MathHelper.floor(entity.thermoo$getSoakedScale() * scale);
 
             source.sendFeedback(
-                    () -> Text.translatableWithFallback(
+                    () -> Text.translatable(
                             "commands.thermoo.soaking.get.scale.success",
-                            "The current soaking scale of %s is %d",
                             target.getDisplayName(),
                             value
                     ), false
@@ -291,9 +285,8 @@ public final class SoakingCommand {
             int value = entity.thermoo$getWetTicks();
 
             source.sendFeedback(
-                    () -> Text.translatableWithFallback(
+                    () -> Text.translatable(
                             "commands.thermoo.soaking.get.current.success",
-                            "The current soaking value of %s is %d",
                             target.getDisplayName(),
                             value
                     ), false

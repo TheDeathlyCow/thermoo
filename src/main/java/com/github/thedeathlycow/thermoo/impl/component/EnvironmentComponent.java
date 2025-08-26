@@ -71,4 +71,9 @@ public class EnvironmentComponent implements Component, AutoSyncedComponent {
         return player == this.provider
                 || providerPos.isWithinDistance(player.getSyncedPos(), EnvironmentComponent.SYNC_DISTANCE);
     }
+
+    @Override
+    public boolean isRequiredOnClient() {
+        return false;
+    }
 }
