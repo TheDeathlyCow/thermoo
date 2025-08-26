@@ -33,10 +33,7 @@ public final class TemperatureCommand {
     }
 
     static final SimpleCommandExceptionType NOT_LIVING_ENTITY = new SimpleCommandExceptionType(
-            Text.translatableWithFallback(
-                    "commands.thermoo.temperature.exception.not_living_entity",
-                    "Target is not a living entity!"
-            )
+            Text.translatable("commands.thermoo.temperature.exception.not_living_entity")
     );
 
     /**
@@ -324,16 +321,14 @@ public final class TemperatureCommand {
 
         Text msg;
         if (targets.size() == 1) {
-            msg = Text.translatableWithFallback(
+            msg = Text.translatable(
                     "commands.thermoo.temperature.set.success.single",
-                    "Set the temperature of %s to %d",
                     targets.iterator().next().getName(),
                     amount
             );
         } else {
-            msg = Text.translatableWithFallback(
+            msg = Text.translatable(
                     "commands.thermoo.temperature.set.success.multiple",
-                    "Set the temperature of %s entities to %d",
                     targets.size(),
                     amount
             );
