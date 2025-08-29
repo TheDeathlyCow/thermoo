@@ -24,7 +24,10 @@
 		],
 		"cardinal-components-entity": [
 			"com.github.thedeathlycow.thermoo.impl.component.ThermooComponents"
-		]
+		],
+        "thermoo-dependent-mod-server": [
+            "com.github.thedeathlycow.thermoo.impl.compat.polymer.ThermooPolymerPatch"
+        ]
 	},
 	"mixins": [
 		"thermoo.mixins.json",
