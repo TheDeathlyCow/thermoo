@@ -116,9 +116,9 @@ public final class ConfiguredTemperatureEffect<C> {
      * @return Returns {@code true} if the effect was applied.
      */
     public boolean apply(LivingEntity victim) {
-        World world = victim.getWorld();
+        World world = victim.getEntityWorld();
 
-        if (world.isClient) {
+        if (world.isClient()) {
             return false;
         }
 
@@ -141,9 +141,9 @@ public final class ConfiguredTemperatureEffect<C> {
      * @param victim The entity the effect was applied to
      */
     public void remove(LivingEntity victim) {
-        World world = victim.getWorld();
+        World world = victim.getEntityWorld();
 
-        if (world.isClient) {
+        if (world.isClient()) {
             return;
         }
 
@@ -157,7 +157,7 @@ public final class ConfiguredTemperatureEffect<C> {
                 new LootContext.Builder(
                         new LootWorldContext.Builder(world)
                                 .add(LootContextParameters.THIS_ENTITY, victim)
-                                .add(LootContextParameters.ORIGIN, victim.getPos())
+                                .add(LootContextParameters.ORIGIN, victim.getEntityPos())
                                 .build(LootContextTypes.COMMAND)
                 ).build(Optional.empty())
         );

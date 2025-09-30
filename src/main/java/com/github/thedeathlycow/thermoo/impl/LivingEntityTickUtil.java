@@ -28,7 +28,7 @@ public final class LivingEntityTickUtil {
             return;
         }
 
-        if (entity.getWorld() instanceof ServerWorld serverWorld) {
+        if (entity.getEntityWorld() instanceof ServerWorld serverWorld) {
             BlockPos pos = getTemperatureTickPos(entity);
             if (entity instanceof ServerPlayerEntity player) {
                 EnvironmentTickContext<ServerPlayerEntity> context = new EnvironmentTickContextImpl<>(
@@ -67,11 +67,11 @@ public final class LivingEntityTickUtil {
      * @return returns a blockpos shifted up 0.21 blocks from the entity's current position
      */
     public static BlockPos getTemperatureTickPos(LivingEntity entity) {
-        Vec3d pos = entity.getPos();
+        Vec3d pos = entity.getEntityPos();
         final float offset = 0.21f;
         if (entity.supportingBlockPos.isPresent()) {
             BlockPos blockPos = entity.supportingBlockPos.get();
-            BlockState blockState = entity.getWorld().getBlockState(blockPos);
+            BlockState blockState = entity.getEntityWorld().getBlockState(blockPos);
             return !blockState.isIn(BlockTags.FENCES) && !blockState.isIn(BlockTags.WALLS) && !(blockState.getBlock() instanceof FenceGateBlock)
                     ? blockPos.withY(MathHelper.floor(pos.y + offset))
                     : blockPos;

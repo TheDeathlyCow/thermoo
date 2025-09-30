@@ -15,6 +15,7 @@ import net.minecraft.command.argument.EntityArgumentType;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.biome.Biome;
@@ -133,11 +134,12 @@ public final class EnvironmentCommand {
 
     private static int executeEntityTemperature(ServerCommandSource source, ServerPlayerEntity target) {
         BlockPos pos = LivingEntityTickUtil.getTemperatureTickPos(target);
+        ServerWorld world = target.getEntityWorld();
         final EnvironmentTickContextImpl<ServerPlayerEntity> context = new EnvironmentTickContextImpl<>(
                 target,
-                target.getWorld(),
+                world,
                 pos,
-                EnvironmentLookup.getInstance().findEnvironmentComponents(target.getWorld(), pos)
+                EnvironmentLookup.getInstance().findEnvironmentComponents(world, pos)
         );
 
         int tempChange = ServerPlayerEnvironmentTickEvents.GET_TEMPERATURE_CHANGE.invoker().addPointChange(context);
