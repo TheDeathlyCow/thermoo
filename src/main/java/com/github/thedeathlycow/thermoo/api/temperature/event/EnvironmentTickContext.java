@@ -33,7 +33,7 @@ public interface EnvironmentTickContext<T extends TemperatureAware & Soakable> {
     /**
      * The block position of the affected temperature aware/soakable. This should be preferred over using methods such as
      * {@link LivingEntity#getBlockPos()} since it can correct for being slightly sunk into blocks like mud or soul sand
-     * by taking the block position that is slightly above their actual {@linkplain LivingEntity#getPos() position}.
+     * by taking the block position that is slightly above their actual {@linkplain LivingEntity#getEntityPos() position}.
      */
     @NotNull
     BlockPos pos();
