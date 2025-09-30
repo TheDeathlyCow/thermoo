@@ -22,10 +22,12 @@
     "commands.thermoo.temperature.set.success.single": "Se estableció la temperatura de %s en %d",
     "commands.thermoo.temperature.set.success.multiple": "Se estableció la temperatura de %s entidades en %d",
 
+
     "commands.thermoo.environment.temperature.success": "La temperatura ambiental en %s, %s, %s (%s) es de %s°%s",
     "commands.thermoo.environment.humidity.success": "La humedad relativa ambiental en %s, %s, %s (%s) es de %s%%",
     "commands.thermoo.environment.temperature.player.success": "El cambio de temperatura ambiental de %s es de %s (con una probabilidad de %s de evitarlo)",
     "commands.thermoo.environment.temperature.player.negative.success": "El cambio de temperatura ambiental de %s es de %s (con una probabilidad de %s de duplicarse)",
+
 
     "commands.thermoo.soaking.get.current.success": "El valor actual de empapado de %s es %d",
     "commands.thermoo.soaking.get.scale.success": "La escala de empapado actual de %s es %d",
@@ -33,5 +35,11 @@
     "commands.thermoo.soaking.get.max.success": "El valor máximo de empapado de %s es %d",
     "commands.thermoo.soaking.set.success": "Se estableció el valor de empapado de %s en %d (ahora tiene %d)",
     "commands.thermoo.soaking.add.success": "Se le sumaron %d puntos al valor de empapado de %s (ahora tiene %d)",
-    "commands.thermoo.soaking.remove.success": "Se le restaron %d puntos al valor de empapado de %s (ahora tiene %d)"
+    "commands.thermoo.soaking.remove.success": "Se le restaron %d puntos al valor de empapado de %s (ahora tiene %d)",
+
+    "text.thermoo.thermoo-patches-nag.body": "Los siguientes mod(s) pueden funcionar con Thermoo, Frostiful y/o Scorchful, pero te falta el mod de compatibilidad Thermoo Patches:",
+    "text.thermoo.thermoo-patches-nag.item": "- %1$s (%2$s)",
+    "text.thermoo.thermoo-patches-nag.footer": "Podés conseguir Thermoo Patches en el siguiente enlace:",
+    "text.thermoo.thermoo-patches-nag.disable": "Podés desactivar este mensaje en cualquier momento desde la configuración de Thermoo."
+
 }
