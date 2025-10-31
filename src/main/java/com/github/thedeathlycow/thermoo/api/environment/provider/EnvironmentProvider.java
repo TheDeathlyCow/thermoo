@@ -18,10 +18,17 @@ public interface EnvironmentProvider {
     Codec<EnvironmentProvider> ELEMENT_CODEC = ThermooRegistries.ENVIRONMENT_PROVIDER_TYPE.byNameCodec()
             .dispatch("type", EnvironmentProvider::getType, EnvironmentProviderType::codec);
 
-    Codec<Holder<EnvironmentProvider>> ENTRY_CODEC = RegistryFileCodec.create(
+    Codec<Holder<EnvironmentProvider>> HOLDER_CODEC = RegistryFileCodec.create(
             ThermooRegistryKeys.ENVIRONMENT_PROVIDER,
             ELEMENT_CODEC
     );
+
+    /**
+     * @deprecated This field was named based on Yarn mappings. Use {@link #HOLDER_CODEC} to better confirm to Official
+     * Mappings.
+     */
+    @Deprecated(since = "8.1.0")
+    Codec<Holder<EnvironmentProvider>> ENTRY_CODEC = HOLDER_CODEC;
 
     /**
      * Builds the current environment parameter components at a point and biome in a world into a reducible builder.
