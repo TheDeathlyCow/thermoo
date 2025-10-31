@@ -5,9 +5,9 @@ import com.github.thedeathlycow.thermoo.impl.environment.SeasonalProviderBuilder
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -43,7 +43,7 @@ public final class TemperateSeasonEnvironmentProvider extends SeasonalEnvironmen
 
     private TemperateSeasonEnvironmentProvider(
             Optional<ThermooSeason> fallbackSeason,
-            Map<ThermooSeason, RegistryEntry<EnvironmentProvider>> seasons
+            Map<ThermooSeason, Holder<EnvironmentProvider>> seasons
     ) {
         super(fallbackSeason, seasons);
     }
@@ -54,12 +54,12 @@ public final class TemperateSeasonEnvironmentProvider extends SeasonalEnvironmen
     }
 
     @Override
-    protected Optional<ThermooSeason> getCurrentSeason(World world, BlockPos pos) {
-        return ThermooSeason.getCurrentSeason(world);
+    protected Optional<ThermooSeason> getCurrentSeason(Level level, BlockPos pos) {
+        return ThermooSeason.getCurrentSeason(level);
     }
 
-    private static DataResult<Map<ThermooSeason, RegistryEntry<EnvironmentProvider>>> allKeysAreTemperate(
-            Map<ThermooSeason, RegistryEntry<EnvironmentProvider>> seasonMap
+    private static DataResult<Map<ThermooSeason, Holder<EnvironmentProvider>>> allKeysAreTemperate(
+            Map<ThermooSeason, Holder<EnvironmentProvider>> seasonMap
     ) {
         for (ThermooSeason season : seasonMap.keySet()) {
             if (season.isTropical()) {
@@ -102,7 +102,7 @@ public final class TemperateSeasonEnvironmentProvider extends SeasonalEnvironmen
          * @return Returns this builder
          */
         @Contract("_,_->this")
-        public Builder addSeasonProvider(@NotNull ThermooSeason season, @NotNull RegistryEntry<EnvironmentProvider> provider) {
+        public Builder addSeasonProvider(@NotNull ThermooSeason season, @NotNull Holder<EnvironmentProvider> provider) {
             Objects.requireNonNull(season);
             if (!season.isTropical()) {
                 this.helper.setSeasonProvider(season, provider);

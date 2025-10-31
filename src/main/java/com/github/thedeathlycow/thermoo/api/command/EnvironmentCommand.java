@@ -10,20 +10,15 @@ import com.github.thedeathlycow.thermoo.impl.LivingEntityTickUtil;
 import com.github.thedeathlycow.thermoo.impl.environment.EnvironmentTickContextImpl;
 import com.mojang.brigadier.arguments.DoubleArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
-import net.minecraft.command.argument.BlockPosArgumentType;
-import net.minecraft.command.argument.EntityArgumentType;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.commands.arguments.coordinates.BlockPosArgument;
 import net.minecraft.core.BlockPos;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.server.command.ServerCommandSource;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.text.Text;
-import net.minecraft.world.biome.Biome;
+import net.minecraft.world.level.biome.Biome;
 import org.jetbrains.annotations.Contract;
 
 import java.util.function.Supplier;
@@ -98,7 +93,7 @@ public final class EnvironmentCommand {
                                                         .executes(
                                                                 context -> executeTemperature(
                                                                         context.getSource(),
-                                                                        BlockPosArgumentType.getLoadedBlockPos(context, location),
+                                                                        BlockPosArgument.getLoadedBlockPos(context, location),
                                                                         TemperatureUnitArgumentType.getTemperatureUnit(context, unit),
                                                                         DoubleArgumentType.getDouble(context, scale)
                                                                 )
@@ -110,11 +105,11 @@ public final class EnvironmentCommand {
         final double fallbackHumidityScale = 100.0;
 
         var relativeHumidity = literal("relativehumidity").then(
-                argument(location, BlockPosArgumentType.blockPos())
+                argument(location, BlockPosArgument.blockPos())
                         .executes(
                                 context -> executeRelativeHumidity(
                                         context.getSource(),
-                                        BlockPosArgumentType.getLoadedBlockPos(context, location),
+                                        BlockPosArgument.getLoadedBlockPos(context, location),
                                         fallbackHumidityScale
                                 )
                         )
@@ -123,7 +118,7 @@ public final class EnvironmentCommand {
                                         .executes(
                                                 context -> executeRelativeHumidity(
                                                         context.getSource(),
-                                                        BlockPosArgumentType.getLoadedBlockPos(context, location),
+                                                        BlockPosArgument.getLoadedBlockPos(context, location),
                                                         DoubleArgumentType.getDouble(context, scale)
                                                 )
                                         )
@@ -131,7 +126,7 @@ public final class EnvironmentCommand {
         );
 
         return literal("thermoo").then(
-                (literal("environment").requires((src) -> src.hasPermissionLevel(2)))
+                (literal("environment").requires((src) -> src.hasPermission(2)))
                         .then(temperature)
                         .then(relativeHumidity)
         );
@@ -153,8 +148,8 @@ public final class EnvironmentCommand {
                 : 0.0;
 
         if (resistance >= 0) {
-            source.sendFeedback(
-                    () -> Text.translatable(
+            source.sendSuccess(
+                    () -> Component.translatable(
                             "commands.thermoo.environment.temperature.player.success",
                             target.getDisplayName(),
                             tempChange,
@@ -163,8 +158,8 @@ public final class EnvironmentCommand {
                     false
             );
         } else {
-            source.sendFeedback(
-                    () -> Text.translatable(
+            source.sendSuccess(
+                    () -> Component.translatable(
                             "commands.thermoo.environment.temperature.player.negative.success",
                             target.getDisplayName(),
                             tempChange,
@@ -180,19 +175,19 @@ public final class EnvironmentCommand {
 
     private static int executeTemperature(CommandSourceStack source, BlockPos location, TemperatureUnit unit, double scale) {
         double temperature = EnvironmentLookup.getInstance().findEnvironmentComponents(
-                        source.getWorld(), location
+                        source.getLevel(), location
                 ).getOrDefault(EnvironmentComponentTypes.TEMPERATURE, TemperatureRecordComponent.DEFAULT)
                 .valueInUnit(unit);
 
-        source.sendFeedback(
+        source.sendSuccess(
                 () -> {
-                    RegistryKey<Biome> biome = source.getWorld().getBiome(location).getKey().orElse(null);
-                    return Text.translatable(
+                    ResourceKey<Biome> biome = source.getLevel().getBiome(location).unwrapKey().orElse(null);
+                    return Component.translatable(
                             "commands.thermoo.environment.temperature.success",
                             location.getX(),
                             location.getY(),
                             location.getZ(),
-                            biome == null ? "unknown" : biome.getValue().toString(),
+                            biome == null ? "unknown" : biome.location().toString(),
                             String.format("%.2f", temperature),
                             unit.getUnitSymbol()
                     );
@@ -205,19 +200,19 @@ public final class EnvironmentCommand {
 
     private static int executeRelativeHumidity(CommandSourceStack source, BlockPos location, double scale) {
         double relativeHumidity = EnvironmentLookup.getInstance().findEnvironmentComponents(
-                source.getWorld(), location
+                source.getLevel(), location
         ).getOrDefault(EnvironmentComponentTypes.RELATIVE_HUMIDITY, RelativeHumidityComponent.DEFAULT);
         double scaledHumidity = relativeHumidity * scale;
 
-        source.sendFeedback(
+        source.sendSuccess(
                 () -> {
-                    RegistryKey<Biome> biome = source.getWorld().getBiome(location).getKey().orElse(null);
-                    return Text.translatable(
+                    ResourceKey<Biome> biome = source.getLevel().getBiome(location).unwrapKey().orElse(null);
+                    return Component.translatable(
                             "commands.thermoo.environment.humidity.success",
                             location.getX(),
                             location.getY(),
                             location.getZ(),
-                            biome == null ? "unknown" : biome.getValue().toString(),
+                            biome == null ? "unknown" : biome.location().toString(),
                             String.format("%.2f", scaledHumidity)
                     );
                 },

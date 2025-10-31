@@ -4,12 +4,12 @@ import com.github.thedeathlycow.thermoo.api.season.ThermooSeason;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.MapCodec;
-import net.minecraft.component.ComponentMap;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.util.StringIdentifiable;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponentMap;
+import net.minecraft.util.StringRepresentable;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.biome.Biome;
 
 import java.util.Collections;
 import java.util.EnumMap;
@@ -22,11 +22,11 @@ import java.util.Optional;
 public abstract sealed class SeasonalEnvironmentProvider implements EnvironmentProvider
         permits TemperateSeasonEnvironmentProvider, TropicalSeasonEnvironmentProvider {
     private final Optional<ThermooSeason> fallbackSeason;
-    private final Map<ThermooSeason, RegistryEntry<EnvironmentProvider>> seasons;
+    private final Map<ThermooSeason, Holder<EnvironmentProvider>> seasons;
 
     protected SeasonalEnvironmentProvider(
             Optional<ThermooSeason> fallbackSeason,
-            Map<ThermooSeason, RegistryEntry<EnvironmentProvider>> seasons
+            Map<ThermooSeason, Holder<EnvironmentProvider>> seasons
     ) {
         this.fallbackSeason = fallbackSeason;
         this.seasons = new EnumMap<>(ThermooSeason.class);
@@ -39,18 +39,18 @@ public abstract sealed class SeasonalEnvironmentProvider implements EnvironmentP
      * not exist at this world position, then this will use the components provided by the
      * {@link #fallbackSeason fallback season}. If there is no fallback season, then this does nothing.
      *
-     * @param world   The world/level being queried
+     * @param level   The world/level being queried
      * @param pos     The position in the world to query
      * @param biome   The biome at the position in the world
      * @param builder Component map builder to append to
      */
     @Override
-    public final void buildCurrentComponents(World world, BlockPos pos, RegistryEntry<Biome> biome, ComponentMap.Builder builder) {
-        Optional<ThermooSeason> season = this.getCurrentSeason(world, pos).or(this::fallbackSeason);
+    public final void buildCurrentComponents(Level level, BlockPos pos, Holder<Biome> biome, DataComponentMap.Builder builder) {
+        Optional<ThermooSeason> season = this.getCurrentSeason(level, pos).or(this::fallbackSeason);
         if (season.isPresent()) {
-            RegistryEntry<EnvironmentProvider> provider = this.seasons.get(season.get());
+            Holder<EnvironmentProvider> provider = this.seasons.get(season.get());
             if (provider != null) {
-                provider.value().buildCurrentComponents(world, pos, biome, builder);
+                provider.value().buildCurrentComponents(level, pos, biome, builder);
             }
         }
     }
@@ -72,7 +72,7 @@ public abstract sealed class SeasonalEnvironmentProvider implements EnvironmentP
      *
      * @return Returns an unmodifiable map of {@link #seasons}
      */
-    public final Map<ThermooSeason, RegistryEntry<EnvironmentProvider>> seasons() {
+    public final Map<ThermooSeason, Holder<EnvironmentProvider>> seasons() {
         return Collections.unmodifiableMap(this.seasons);
     }
 
@@ -80,18 +80,18 @@ public abstract sealed class SeasonalEnvironmentProvider implements EnvironmentP
      * Gets the current season state of the world at a position (usually by delegating to a
      * {@linkplain com.github.thedeathlycow.thermoo.api.season.ThermooSeasonEvents season event}.
      *
-     * @param world The world to query the season state of
+     * @param level The world to query the season state of
      * @param pos   The position to query the season state at
      * @return Returns the season state of a particular world position, or empty if no season state exists there or if a
      * season mod is not loaded.
      */
-    protected abstract Optional<ThermooSeason> getCurrentSeason(World world, BlockPos pos);
+    protected abstract Optional<ThermooSeason> getCurrentSeason(Level level, BlockPos pos);
 
-    protected static MapCodec<Map<ThermooSeason, RegistryEntry<EnvironmentProvider>>> createSeasonMapCodec() {
+    protected static MapCodec<Map<ThermooSeason, Holder<EnvironmentProvider>>> createSeasonMapCodec() {
         return Codec.simpleMap(
                 ThermooSeason.CODEC,
                 EnvironmentProvider.ENTRY_CODEC,
-                StringIdentifiable.toKeyable(ThermooSeason.values())
+                StringRepresentable.keys(ThermooSeason.values())
         ).validate(seasonMap -> {
             if (seasonMap.isEmpty()) {
                 return DataResult.error(() -> "No season key in: " + seasonMap);
@@ -109,7 +109,7 @@ public abstract sealed class SeasonalEnvironmentProvider implements EnvironmentP
                             if (season.isEmpty()) {
                                 return DataResult.success(provider);
                             } else if (!provider.seasons().containsKey(season.get())) {
-                                return DataResult.error(() -> "Fallback season '" + season.get().asString() + "' is not a key in: " + provider.seasons());
+                                return DataResult.error(() -> "Fallback season '" + season.get().getSerializedName() + "' is not a key in: " + provider.seasons());
                             } else {
                                 return DataResult.success(provider);
                             }

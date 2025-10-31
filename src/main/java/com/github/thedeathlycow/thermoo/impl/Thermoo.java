@@ -14,13 +14,10 @@ import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.registry.DynamicRegistries;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.command.argument.serialize.ArgumentSerializer;
-import net.minecraft.command.argument.serialize.ConstantArgumentSerializer;
+import net.minecraft.commands.synchronization.ArgumentTypeInfo;
 import net.minecraft.commands.synchronization.SingletonArgumentInfo;
-import net.minecraft.resource.ResourceType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
-import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
@@ -34,15 +31,15 @@ public class Thermoo implements ModInitializer {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(MODID);
 
-    public static final ArgumentSerializer<
-            HeatingModeArgumentType,
-            SingletonArgumentInfo<HeatingModeArgumentType>.Properties
-            > HEATING_MODE_ARG_SERIALIZER = SingletonArgumentInfo.contextAware(HeatingModeArgumentType::heatingMode);
+    public static final ArgumentTypeInfo<
+                HeatingModeArgumentType,
+                SingletonArgumentInfo<HeatingModeArgumentType>.Template
+                > HEATING_MODE_ARG_SERIALIZER = SingletonArgumentInfo.contextFree(HeatingModeArgumentType::heatingMode);
 
 
-    public static final ArgumentSerializer<
+    public static final ArgumentTypeInfo<
             TemperatureUnitArgumentType,
-            SingletonArgumentInfo<TemperatureUnitArgumentType>.Properties
+            SingletonArgumentInfo<TemperatureUnitArgumentType>.Template
             > TEMPERATURE_UNIT_ARG_SERIALIZER = SingletonArgumentInfo.contextFree(TemperatureUnitArgumentType::temperatureUnit);
 
     @Nullable
