@@ -20,6 +20,11 @@ public class ThermooCommonRegisters {
         registerTemperatureEffect("scaling_attribute_modifier", TemperatureEffects.SCALING_ATTRIBUTE_MODIFIER);
         registerTemperatureEffect("attribute_modifier", TemperatureEffects.ATTRIBUTE_MODIFIER);
         registerTemperatureEffect("damage", TemperatureEffects.DAMAGE);
+
+        ThermooRegistries.TEMPERATURE_EFFECTS.addAlias(
+                Thermoo.location("mob_effect"),
+                Thermoo.location("status_effect")
+        );
     }
 
     public static void registerEnvironmentProviderTypes() {

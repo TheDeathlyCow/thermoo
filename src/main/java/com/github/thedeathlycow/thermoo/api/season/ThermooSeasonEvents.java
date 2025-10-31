@@ -18,8 +18,7 @@ public final class ThermooSeasonEvents {
     }
 
     /**
-     * Retrieves the current season. This event just places season integration into
-     * a common source.
+     * Retrieves the current season. This event just places season integration into a common source.
      * <p>
      * If any listener returns a non-empty season, then all further processing is cancelled and that season is returned.
      * <p>
@@ -42,7 +41,7 @@ public final class ThermooSeasonEvents {
     );
 
     /**
-     * Retrieves the current tropical season at a positive in the world. If the position queried is not in a tropical
+     * Retrieves the current tropical season at a positive in the level. If the position queried is not in a tropical
      * biome, or a seasons mod is not loaded, then empty should be returned.
      * <p>
      * If any listener returns a non-empty season, then all further processing is cancelled and that season is returned.

@@ -30,7 +30,7 @@ public final class ScalingAttributeModifierTemperatureEffect extends Temperature
                             .forGetter(Config::attribute),
                     ResourceLocation.CODEC
                             .fieldOf("id")
-                            .forGetter(Config::id),
+                            .forGetter(Config::location),
                     AttributeModifier.Operation.CODEC
                             .fieldOf("operation")
                             .forGetter(Config::operation)
@@ -53,7 +53,7 @@ public final class ScalingAttributeModifierTemperatureEffect extends Temperature
 
         attrInstance.addTransientModifier(
                 new AttributeModifier(
-                        config.id,
+                        config.location,
                         amount,
                         config.operation
                 )
@@ -69,7 +69,7 @@ public final class ScalingAttributeModifierTemperatureEffect extends Temperature
             return false;
         }
 
-        AttributeModifier modifier = attrInstance.getModifier(config.id);
+        AttributeModifier modifier = attrInstance.getModifier(config.location);
         if (modifier == null) {
             return true;
         }
@@ -81,7 +81,7 @@ public final class ScalingAttributeModifierTemperatureEffect extends Temperature
 
         if (shouldApply) {
             // remove the modifier - even if the other predicate tests fail
-            attrInstance.removeModifier(config.id);
+            attrInstance.removeModifier(config.location);
         }
 
         return shouldApply;
@@ -90,9 +90,17 @@ public final class ScalingAttributeModifierTemperatureEffect extends Temperature
     public record Config(
             float scale,
             Holder<Attribute> attribute,
-            ResourceLocation id,
+            ResourceLocation location,
             AttributeModifier.Operation operation
     ) {
+        /**
+         * @return Returns the value of {@link #location}
+         * @deprecated This field was named based on Yarn mappings. Use {@link #location} to better conform to Official
+         * Mappings.
+         */
+        @Deprecated(since = "8.1.0", forRemoval = true)
+        public ResourceLocation id() {
+            return location;
+        }
     }
-
 }
