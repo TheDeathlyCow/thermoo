@@ -35,10 +35,10 @@ public class LightThresholdLightProvider implements EnvironmentProvider {
                     Codec.intRange(0, 15)
                             .fieldOf("threshold")
                             .forGetter(LightThresholdLightProvider::threshold),
-                    EnvironmentProvider.ENTRY_CODEC
+                    EnvironmentProvider.HOLDER_CODEC
                             .fieldOf("above")
                             .forGetter(LightThresholdLightProvider::above),
-                    EnvironmentProvider.ENTRY_CODEC
+                    EnvironmentProvider.HOLDER_CODEC
                             .fieldOf("below")
                             .forGetter(LightThresholdLightProvider::below)
             ).apply(instance, LightThresholdLightProvider::new)
