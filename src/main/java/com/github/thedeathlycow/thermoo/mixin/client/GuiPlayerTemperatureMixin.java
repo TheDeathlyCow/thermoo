@@ -5,10 +5,10 @@ import com.github.thedeathlycow.thermoo.impl.client.HeartBarContextImpl;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.Share;
 import com.llamalad7.mixinextras.sugar.ref.LocalRef;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.hud.InGameHud;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.player.Player;
 import org.joml.Vector2i;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -19,20 +19,20 @@ import java.util.ArrayDeque;
 import java.util.Collections;
 import java.util.SequencedCollection;
 
-@Mixin(InGameHud.class)
-public abstract class InGameHudPlayerTemperatureMixin {
+@Mixin(Gui.class)
+public abstract class GuiPlayerTemperatureMixin {
 
     @Inject(
-            method = "renderHealthBar",
+            method = "renderHearts",
             at = @At(
                     value = "INVOKE",
-                    target = "Lnet/minecraft/client/gui/hud/InGameHud;drawHeart(Lnet/minecraft/client/gui/DrawContext;Lnet/minecraft/client/gui/hud/InGameHud$HeartType;IIZZZ)V",
+                    target = "Lnet/minecraft/client/gui/Gui;renderHeart(Lnet/minecraft/client/gui/GuiGraphics;Lnet/minecraft/client/gui/Gui$HeartType;IIZZZ)V",
                     ordinal = 0
             )
     )
     private void captureHeartPositions(
-            DrawContext context,
-            PlayerEntity player,
+            GuiGraphics graphics,
+            Player player,
             int x, int y,
             int lines,
             int regeneratingHeartIndex,
@@ -54,14 +54,14 @@ public abstract class InGameHudPlayerTemperatureMixin {
     }
 
     @Inject(
-            method = "renderHealthBar",
+            method = "renderHearts",
             at = @At(
                     value = "TAIL"
             )
     )
     private void drawHeartOverlayBar(
-            DrawContext context,
-            PlayerEntity player,
+            GuiGraphics graphics,
+            Player player,
             int x, int y,
             int lines,
             int regeneratingHeartIndex,
@@ -78,7 +78,7 @@ public abstract class InGameHudPlayerTemperatureMixin {
             return;
         }
 
-        int maxDisplayHealth = MathHelper.ceil(maxHealth);
+        int maxDisplayHealth = Mth.ceil(maxHealth);
 
         var heartBarContext = new HeartBarContextImpl(
                 Collections.unmodifiableSequencedCollection(heartPositions),
@@ -86,6 +86,6 @@ public abstract class InGameHudPlayerTemperatureMixin {
                 maxDisplayHealth
         );
 
-        StatusBarOverlayRenderEvents.AFTER_HEALTH_BAR.invoker().render(context, player, heartBarContext);
+        StatusBarOverlayRenderEvents.AFTER_HEALTH_BAR.invoker().render(graphics, player, heartBarContext);
     }
 }

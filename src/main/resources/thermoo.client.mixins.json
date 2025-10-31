@@ -3,8 +3,8 @@
     "package": "com.github.thedeathlycow.thermoo.mixin.client",
     "compatibilityLevel": "JAVA_21",
     "client": [
-        "InGameHudMountTemperatureMixin",
-        "InGameHudPlayerTemperatureMixin"
+        "GuiMountTemperatureMixin",
+        "GuiPlayerTemperatureMixin"
     ],
     "injectors": {
         "defaultRequire": 1

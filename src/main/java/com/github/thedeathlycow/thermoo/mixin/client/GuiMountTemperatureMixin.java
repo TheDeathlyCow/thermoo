@@ -5,7 +5,6 @@ import com.github.thedeathlycow.thermoo.impl.client.HeartBarContextImpl;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.Share;
 import com.llamalad7.mixinextras.sugar.ref.LocalRef;
-import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.util.Mth;
@@ -25,11 +24,11 @@ import java.util.Collections;
 import java.util.SequencedCollection;
 
 /**
- * For the mount health bar. For the player health bar see {@link InGameHudPlayerTemperatureMixin}
+ * For the mount health bar. For the player health bar see {@link GuiPlayerTemperatureMixin}
  */
 @Mixin(Gui.class)
 @Debug(export = true)
-public abstract class InGameHudMountTemperatureMixin {
+public abstract class GuiMountTemperatureMixin {
     @Shadow
     protected abstract LivingEntity getPlayerVehicleWithHealth();
 
@@ -43,7 +42,7 @@ public abstract class InGameHudMountTemperatureMixin {
             method = "renderVehicleHealth",
             at = @At(
                     value = "INVOKE",
-                    target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/util/Identifier;IIII)V",
+                    target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/resources/ResourceLocation;IIII)V",
                     ordinal = 0
             )
     )
