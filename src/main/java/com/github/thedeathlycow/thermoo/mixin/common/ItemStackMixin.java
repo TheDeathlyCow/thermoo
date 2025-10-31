@@ -3,15 +3,15 @@ package com.github.thedeathlycow.thermoo.mixin.common;
 import com.github.thedeathlycow.thermoo.impl.item.ModifyItemAttributeModifiersImpl;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import net.minecraft.component.ComponentChanges;
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.AttributeModifierSlot;
-import net.minecraft.component.type.AttributeModifiersComponent;
-import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponentPatch;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.item.ItemStack;
-import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.ItemAttributeModifiers;
 import org.apache.commons.lang3.function.TriConsumer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -22,23 +22,23 @@ import java.util.function.BiConsumer;
 @Mixin(ItemStack.class)
 public abstract class ItemStackMixin {
     @Shadow
-    public abstract ComponentChanges getComponentChanges();
+    public abstract DataComponentPatch getComponentsPatch();
 
     @WrapOperation(
-            method = "applyAttributeModifier",
+            method = "forEachModifier(Lnet/minecraft/world/entity/EquipmentSlotGroup;Lorg/apache/commons/lang3/function/TriConsumer;)V",
             at = @At(
                     value = "INVOKE",
-                    target = "Lnet/minecraft/component/type/AttributeModifiersComponent;applyModifiers(Lnet/minecraft/component/type/AttributeModifierSlot;Lorg/apache/commons/lang3/function/TriConsumer;)V"
+                    target = "Lnet/minecraft/world/item/component/ItemAttributeModifiers;forEach(Lnet/minecraft/world/entity/EquipmentSlotGroup;Lorg/apache/commons/lang3/function/TriConsumer;)V"
             )
     )
     private void hookItemModifierEvent(
-            AttributeModifiersComponent instance,
-            AttributeModifierSlot slot,
-            TriConsumer<RegistryEntry<Attribute>, AttributeModifier, AttributeModifiersComponent.Display> attributeConsumer,
+            ItemAttributeModifiers instance,
+            EquipmentSlotGroup slot,
+            TriConsumer<Holder<Attribute>, AttributeModifier, ItemAttributeModifiers.Display> attributeConsumer,
             Operation<Void> original
     ) {
         // prevent overriding modified components from commands
-        if (this.getComponentChanges().get(DataComponentTypes.ATTRIBUTE_MODIFIERS) == null) {
+        if (this.getComponentsPatch().get(DataComponents.ATTRIBUTE_MODIFIERS) == null) {
             instance = ModifyItemAttributeModifiersImpl.invoke((ItemStack) (Object) this, instance);
         }
         original.call(instance, slot, attributeConsumer);
@@ -46,20 +46,20 @@ public abstract class ItemStackMixin {
 
 
     @WrapOperation(
-            method = "applyAttributeModifiers",
+            method = "forEachModifier(Lnet/minecraft/world/entity/EquipmentSlot;Ljava/util/function/BiConsumer;)V",
             at = @At(
                     value = "INVOKE",
-                    target = "Lnet/minecraft/component/type/AttributeModifiersComponent;applyModifiers(Lnet/minecraft/entity/EquipmentSlot;Ljava/util/function/BiConsumer;)V"
+                    target = "Lnet/minecraft/world/item/component/ItemAttributeModifiers;forEach(Lnet/minecraft/world/entity/EquipmentSlot;Ljava/util/function/BiConsumer;)V"
             )
     )
     private void hookItemModifierEvent(
-            AttributeModifiersComponent instance,
+            ItemAttributeModifiers instance,
             EquipmentSlot slot,
-            BiConsumer<RegistryEntry<Attribute>, AttributeModifier> attributeConsumer,
+            BiConsumer<Holder<Attribute>, AttributeModifier> attributeConsumer,
             Operation<Void> original
     ) {
         // prevent overriding modified components from commands
-        if (this.getComponentChanges().get(DataComponentTypes.ATTRIBUTE_MODIFIERS) == null) {
+        if (this.getComponentsPatch().get(DataComponents.ATTRIBUTE_MODIFIERS) == null) {
             instance = ModifyItemAttributeModifiersImpl.invoke((ItemStack) (Object) this, instance);
         }
         original.call(instance, slot, attributeConsumer);
