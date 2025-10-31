@@ -35,7 +35,7 @@ public class TemperatureEffectManager {
                             .stream()
                             .filter(entry -> {
                                 var allowedTypes = entry.getValue().entityTypes();
-                                return allowedTypes.size() == 0 || type.isIn(allowedTypes);
+                                return allowedTypes.size() == 0 || type.is(allowedTypes);
                             })
                             .map(EntityTypeCacheEntry::new)
                             .collect(Collectors.toUnmodifiableSet());

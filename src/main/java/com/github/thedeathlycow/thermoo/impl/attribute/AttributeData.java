@@ -7,8 +7,6 @@ import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.util.Identifier;
 
 /**
  * Metadata for Thermoo attributes

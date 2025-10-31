@@ -1,11 +1,11 @@
 package com.github.thedeathlycow.thermoo.impl.component;
 
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.network.RegistryByteBuf;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.storage.ReadView;
-import net.minecraft.storage.WriteView;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import org.ladysnake.cca.api.v3.component.Component;
 import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
 
@@ -45,31 +45,31 @@ public class EnvironmentComponent implements Component, AutoSyncedComponent {
     }
 
     @Override
-    public void readData(ReadView readView) {
-        this.value = readView.getInt(NBT_KEY, 0);
+    public void readData(ValueInput readView) {
+        this.value = readView.getIntOr(NBT_KEY, 0);
     }
 
     @Override
-    public void writeData(WriteView writeView) {
+    public void writeData(ValueOutput writeView) {
         writeView.putInt(NBT_KEY, this.value);
     }
 
     @Override
-    public void writeSyncPacket(RegistryByteBuf buf, ServerPlayerEntity recipient) {
+    public void writeSyncPacket(RegistryFriendlyByteBuf buf, ServerPlayer recipient) {
         buf.writeVarInt(this.value);
         this.dirty = false;
     }
 
     @Override
-    public void applySyncPacket(RegistryByteBuf buf) {
+    public void applySyncPacket(RegistryFriendlyByteBuf buf) {
         this.value = buf.readVarInt();
     }
 
     @Override
-    public boolean shouldSyncWith(ServerPlayerEntity player) {
-        final BlockPos providerPos = this.provider.getBlockPos();
+    public boolean shouldSyncWith(ServerPlayer player) {
+        final BlockPos providerPos = this.provider.blockPosition();
         return player == this.provider
-                || providerPos.isWithinDistance(player.getSyncedPos(), EnvironmentComponent.SYNC_DISTANCE);
+                || providerPos.closerToCenterThan(player.trackingPosition(), EnvironmentComponent.SYNC_DISTANCE);
     }
 
     @Override

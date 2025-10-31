@@ -1,7 +1,6 @@
 package com.github.thedeathlycow.thermoo.api.util;
 
 import com.mojang.serialization.Codec;
-import net.minecraft.util.StringIdentifiable;
 import net.minecraft.util.StringRepresentable;
 
 import java.util.function.DoubleUnaryOperator;
@@ -40,7 +39,7 @@ public enum TemperatureUnit implements StringRepresentable {
             3
     );
 
-    public static final Codec<TemperatureUnit> CODEC = StringIdentifiable.createCodec(TemperatureUnit::values);
+    public static final Codec<TemperatureUnit> CODEC = StringRepresentable.fromEnum(TemperatureUnit::values);
 
     private final String unitSymbol;
 

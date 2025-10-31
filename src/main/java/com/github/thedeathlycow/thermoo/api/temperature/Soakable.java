@@ -1,6 +1,6 @@
 package com.github.thedeathlycow.thermoo.api.temperature;
 
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.Mth;
 import org.apache.commons.lang3.NotImplementedException;
 import org.jetbrains.annotations.ApiStatus;
 
@@ -76,7 +76,7 @@ public interface Soakable {
             return 0.0f;
         }
 
-        return MathHelper.clamp(
+        return Mth.clamp(
                 ((float) this.thermoo$getWetTicks()) / maxWetness,
                 0.0f, 1.0f
         );

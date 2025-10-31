@@ -1,8 +1,8 @@
 package com.github.thedeathlycow.thermoo.api.temperature;
 
-import net.minecraft.entity.Entity;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.util.math.random.Random;
 import org.apache.commons.lang3.NotImplementedException;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
@@ -161,8 +161,8 @@ public interface TemperatureAware {
     /**
      * @return Returns a random number generator object associated with this temperature aware
      */
-    default Random thermoo$getRandom() {
-        return Random.create();
+    default RandomSource thermoo$getRandom() {
+        return RandomSource.create();
     }
 
     /**
