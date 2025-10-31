@@ -24,10 +24,20 @@ public interface EnvironmentTickContext<T extends TemperatureAware & Soakable> {
     T affected();
 
     /**
-     * The server world of the affected temperature aware/soakable
+     * @deprecated This method was named based on Yarn Mappings. Use {@link #level()} to better conform to Official
+     * Mappings.
      */
     @NotNull
-    ServerLevel world();
+    @Deprecated(since = "8.1.0", forRemoval = true)
+    default ServerLevel world() {
+        return this.level();
+    }
+
+    /**
+     * The server level of the affected temperature aware/soakable
+     */
+    @NotNull
+    ServerLevel level();
 
     /**
      * The block position of the affected temperature aware/soakable. This should be preferred over using methods such as
