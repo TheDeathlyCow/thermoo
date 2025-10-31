@@ -32,9 +32,9 @@ public class EnvironmentPriorityTests {
                 .toList();
 
         List<ResourceLocation> expectedEnvironments = List.of(
-                ThermooTestMod.id("priority/high_priority"),
-                ThermooTestMod.id("priority/default_priority"),
-                ThermooTestMod.id("priority/low_priority")
+                ThermooTestMod.location("priority/high_priority"),
+                ThermooTestMod.location("priority/default_priority"),
+                ThermooTestMod.location("priority/low_priority")
         );
 
         helper.assertValueEqual(loadedEnvironments, expectedEnvironments, Component.literal("Nether Wastes Environment Providers"));

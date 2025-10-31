@@ -1,25 +1,25 @@
 package com.github.thedeathlycow.thermoo.gametest.tick;
 
-import com.github.thedeathlycow.thermoo.api.temperature.event.LivingEntityTemperatureTickEvents;
 import com.github.thedeathlycow.thermoo.api.temperature.event.EnvironmentTickContext;
+import com.github.thedeathlycow.thermoo.api.temperature.event.LivingEntityTemperatureTickEvents;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
 import net.fabricmc.fabric.api.util.TriState;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.EntityType;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.GameRules;
-import net.minecraft.world.LightType;
+import net.minecraft.world.level.GameRules;
+import net.minecraft.world.level.LightLayer;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 
 public class TestTemperatureChanges {
     /**
      * Gamerule to enable/disable passive changes for testing purposes
      */
-    public static final GameRules.Key<GameRules.BooleanRule> APPLY_PASSIVE_CHANGES =
+    public static final GameRules.Key<GameRules.BooleanValue> APPLY_PASSIVE_CHANGES =
             GameRuleRegistry.register(
                     Thermoo.MODID + ".applyPassiveChanges",
                     GameRules.Category.MISC,
@@ -29,7 +29,7 @@ public class TestTemperatureChanges {
     /**
      * Gamerule to enable/disable active changes for testing purposes
      */
-    public static final GameRules.Key<GameRules.BooleanRule> APPLY_ACTIVE_CHANGES =
+    public static final GameRules.Key<GameRules.BooleanValue> APPLY_ACTIVE_CHANGES =
             GameRuleRegistry.register(
                     Thermoo.MODID + ".applyActiveChanges",
                     GameRules.Category.MISC,
@@ -53,20 +53,20 @@ public class TestTemperatureChanges {
 
     public static int getPassiveChange(EnvironmentTickContext<? extends LivingEntity> context) {
         LivingEntity affected = context.affected();
-        ServerWorld world = context.world();
+        ServerLevel world = context.world();
         BlockPos pos = context.pos();
         int total = 0;
 
-        BlockState state = context.affected().getSteppingBlockState();
-        if (state.isOf(Blocks.MAGMA_BLOCK)) {
+        BlockState state = context.affected().getBlockStateOn();
+        if (state.is(Blocks.MAGMA_BLOCK)) {
             total += 12;
 
-            if (affected.getType() == EntityType.PLAYER && affected.age % 20 == 0) {
+            if (affected.getType() == EntityType.PLAYER && affected.tickCount % 20 == 0) {
                 Thermoo.LOGGER.info("player is stepping on magma");
             }
         }
 
-        int lightLevel = world.getLightLevel(LightType.BLOCK, pos);
+        int lightLevel = world.getBrightness(LightLayer.BLOCK, pos);
         if (lightLevel >= 5) {
             total += 2 * (lightLevel - 5);
         }
@@ -81,7 +81,7 @@ public class TestTemperatureChanges {
         });
         LivingEntityTemperatureTickEvents.GET_PASSIVE_TEMPERATURE_CHANGE.register(TestTemperatureChanges::getPassiveChange);
         LivingEntityTemperatureTickEvents.ALLOW_PASSIVE_TEMPERATURE_CHANGE.register((context, temperatureChange) -> {
-            if (context.affected().getType() == EntityType.PLAYER && context.affected().age % 20 == 0) {
+            if (context.affected().getType() == EntityType.PLAYER && context.affected().tickCount % 20 == 0) {
                 Thermoo.LOGGER.info("Applying passive temperature change of {} to player", temperatureChange);
             }
 
@@ -94,7 +94,7 @@ public class TestTemperatureChanges {
         });
         LivingEntityTemperatureTickEvents.GET_ACTIVE_TEMPERATURE_CHANGE.register(TestTemperatureChanges::getActiveChange);
         LivingEntityTemperatureTickEvents.ALLOW_ACTIVE_TEMPERATURE_CHANGE.register((context, temperatureChange) -> {
-            if (context.affected().getType() == EntityType.PLAYER && context.affected().age % 20 == 0) {
+            if (context.affected().getType() == EntityType.PLAYER && context.affected().tickCount % 20 == 0) {
                 Thermoo.LOGGER.info("Applying active temperature change of {} to player", temperatureChange);
             }
 
