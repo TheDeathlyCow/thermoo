@@ -3,19 +3,19 @@ package com.github.thedeathlycow.thermoo.api.temperature.effects;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.command.CommandExecutionContext;
-import net.minecraft.command.ReturnValueConsumer;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.StringNbtReader;
+import net.minecraft.commands.*;
+import net.minecraft.commands.execution.ExecutionContext;
+import net.minecraft.commands.functions.CommandFunction;
+import net.minecraft.commands.functions.InstantiatedFunction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.TagParser;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.command.CommandManager;
-import net.minecraft.server.command.ServerCommandSource;
-import net.minecraft.server.function.*;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.dynamic.Codecs;
-import net.minecraft.util.profiler.Profiler;
-import net.minecraft.util.profiler.Profilers;
+import net.minecraft.server.ServerFunctionManager;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.ExtraCodecs;
+import net.minecraft.util.profiling.Profiler;
+import net.minecraft.util.profiling.ProfilerFiller;
+import net.minecraft.world.entity.LivingEntity;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
@@ -26,13 +26,13 @@ public final class FunctionTemperatureEffect extends TemperatureEffect<FunctionT
 
     public static final Codec<Config> CODEC = RecordCodecBuilder.create(
             instance -> instance.group(
-                    LazyContainer.CODEC
+                    CacheableFunction.CODEC
                             .fieldOf("function")
                             .forGetter(Config::function),
-                    StringNbtReader.STRINGIFIED_CODEC
+                    TagParser.FLATTENED_CODEC
                             .optionalFieldOf("arguments")
                             .forGetter(Config::arguments),
-                    Codecs.POSITIVE_INT
+                    ExtraCodecs.POSITIVE_INT
                             .fieldOf("interval")
                             .orElse(20)
                             .forGetter(Config::interval),
@@ -51,15 +51,15 @@ public final class FunctionTemperatureEffect extends TemperatureEffect<FunctionT
     }
 
     @Override
-    public void apply(LivingEntity victim, ServerWorld serverWorld, Config config) {
-        MinecraftServer server = serverWorld.getServer();
-        CommandFunctionManager functionManager = server.getCommandFunctionManager();
+    public void apply(LivingEntity victim, ServerLevel serverLevel, Config config) {
+        MinecraftServer server = serverLevel.getServer();
+        ServerFunctionManager functionManager = server.getFunctions();
 
         config.function.get(functionManager).ifPresent(
                 func -> {
-                    ServerCommandSource commandSource = victim.getCommandSource(serverWorld)
-                            .withSilent()
-                            .withLevel(config.permissionLevel);
+                    CommandSourceStack commandSource = victim.createCommandSourceStackForNameResolution(serverLevel)
+                            .withSuppressedOutput()
+                            .withPermission(config.permissionLevel);
 
                     this.execute(
                             func,
@@ -74,34 +74,34 @@ public final class FunctionTemperatureEffect extends TemperatureEffect<FunctionT
 
     @Override
     public boolean shouldApply(LivingEntity victim, Config config) {
-        return config.interval <= 1 || victim.age % config.interval == 0;
+        return config.interval <= 1 || victim.tickCount % config.interval == 0;
     }
 
     private void execute(
-            CommandFunction<ServerCommandSource> function,
-            ServerCommandSource source,
+            CommandFunction<CommandSourceStack> function,
+            CommandSourceStack source,
             MinecraftServer server,
-            @Nullable NbtCompound arguments
+            @Nullable CompoundTag arguments
     ) {
-        Profiler profiler = Profilers.get();
+        ProfilerFiller profiler = Profiler.get();
         profiler.push(() -> "function " + function.id());
 
         try {
-            Procedure<ServerCommandSource> procedure = function.withMacroReplaced(
+            InstantiatedFunction<CommandSourceStack> procedure = function.instantiate(
                     arguments,
-                    server.getCommandManager().getDispatcher()
+                    server.getCommands().getDispatcher()
             );
-            CommandManager.callWithContext(
+            Commands.executeCommandInContext(
                     source,
-                    context -> CommandExecutionContext.enqueueProcedureCall(
+                    context -> ExecutionContext.queueInitialFunctionCall(
                             context,
                             procedure,
                             source,
-                            ReturnValueConsumer.EMPTY
+                            CommandResultCallback.EMPTY
                     )
             );
-        } catch (MacroException e) {
-            Thermoo.LOGGER.warn("Failed to apply macros to function {}", function.id(), e);
+        } catch (FunctionInstantiationException e) {
+            Thermoo.LOGGER.warn("Failed to instantiate function {}", function.id(), e);
         } catch (Exception e) {
             Thermoo.LOGGER.warn("Failed to execute function {}", function.id(), e);
         } finally {
@@ -110,8 +110,8 @@ public final class FunctionTemperatureEffect extends TemperatureEffect<FunctionT
     }
 
     public record Config(
-            LazyContainer function,
-            Optional<NbtCompound> arguments,
+            CacheableFunction function,
+            Optional<CompoundTag> arguments,
             int interval,
             int permissionLevel
     ) {

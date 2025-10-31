@@ -1,9 +1,9 @@
 package com.github.thedeathlycow.thermoo.api.predicate;
 
-import net.minecraft.loot.condition.LootConditionType;
+import net.minecraft.world.level.storage.loot.predicates.LootItemConditionType;
 
 /**
- * Custom {@linkplain LootConditionType loot condition types} provided by Thermoo
+ * Custom {@linkplain LootItemConditionType loot item condition types} provided by Thermoo
  */
 public class ThermooLootConditionTypes {
 
@@ -11,12 +11,12 @@ public class ThermooLootConditionTypes {
     /**
      * Tests the temperature of an entity
      */
-    public static final LootConditionType TEMPERATURE = new LootConditionType(TemperatureLootCondition.CODEC);
+    public static final LootItemConditionType TEMPERATURE = new LootItemConditionType(TemperatureLootCondition.CODEC);
 
     /**
      * Tests the soaking value of an entity
      */
-    public static final LootConditionType SOAKED = new LootConditionType(SoakedLootCondition.CODEC);
+    public static final LootItemConditionType SOAKED = new LootItemConditionType(SoakedLootCondition.CODEC);
 
 
     private ThermooLootConditionTypes() {

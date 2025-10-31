@@ -3,14 +3,15 @@ package com.github.thedeathlycow.thermoo.api.temperature.effects;
 import com.github.thedeathlycow.thermoo.api.temperature.TemperatureAware;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.core.Holder;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.Identifier;
+
 
 /**
  * A temperature effect that applies an attribute modifier to a victim that increases in strength with respect to the
@@ -24,10 +25,10 @@ public final class ScalingAttributeModifierTemperatureEffect extends Temperature
                             .fieldOf("scale")
                             .orElse(1f)
                             .forGetter(Config::scale),
-                    Registries.ATTRIBUTE.getEntryCodec()
+                    BuiltInRegistries.ATTRIBUTE.holderByNameCodec()
                             .fieldOf("attribute_type")
                             .forGetter(Config::attribute),
-                    Identifier.CODEC
+                    ResourceLocation.CODEC
                             .fieldOf("id")
                             .forGetter(Config::id),
                     AttributeModifier.Operation.CODEC
@@ -41,8 +42,8 @@ public final class ScalingAttributeModifierTemperatureEffect extends Temperature
     }
 
     @Override
-    public void apply(LivingEntity victim, ServerWorld serverWorld, Config config) {
-        AttributeInstance attrInstance = victim.getAttributeInstance(config.attribute);
+    public void apply(LivingEntity victim, ServerLevel serverLevel, Config config) {
+        AttributeInstance attrInstance = victim.getAttribute(config.attribute);
         if (attrInstance == null) {
             return;
         }
@@ -50,7 +51,7 @@ public final class ScalingAttributeModifierTemperatureEffect extends Temperature
         // add the modifier back with greater strength
         double amount = config.scale * victim.thermoo$getTemperatureScale();
 
-        attrInstance.addTemporaryModifier(
+        attrInstance.addTransientModifier(
                 new AttributeModifier(
                         config.id,
                         amount,
@@ -62,7 +63,7 @@ public final class ScalingAttributeModifierTemperatureEffect extends Temperature
     @Override
     public boolean shouldApply(LivingEntity victim, Config config) {
         // this effect will always apply as it scales with the temperature
-        AttributeInstance attrInstance = victim.getAttributeInstance(config.attribute);
+        AttributeInstance attrInstance = victim.getAttribute(config.attribute);
 
         if (attrInstance == null) {
             return false;
@@ -74,7 +75,7 @@ public final class ScalingAttributeModifierTemperatureEffect extends Temperature
         }
 
         double newAmount = config.scale * victim.thermoo$getTemperatureScale();
-        double currentValue = modifier.value();
+        double currentValue = modifier.amount();
 
         boolean shouldApply = newAmount != currentValue;
 
@@ -88,8 +89,8 @@ public final class ScalingAttributeModifierTemperatureEffect extends Temperature
 
     public record Config(
             float scale,
-            RegistryEntry<Attribute> attribute,
-            Identifier id,
+            Holder<Attribute> attribute,
+            ResourceLocation id,
             AttributeModifier.Operation operation
     ) {
     }
