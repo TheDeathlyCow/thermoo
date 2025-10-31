@@ -15,10 +15,15 @@ public class ThermooCommonRegisters {
         registerTemperatureEffect("empty", TemperatureEffects.EMPTY);
         registerTemperatureEffect("sequence", TemperatureEffects.SEQUENCE);
         registerTemperatureEffect("function", TemperatureEffects.FUNCTION);
-        registerTemperatureEffect("status_effect", TemperatureEffects.STATUS_EFFECT);
+        registerTemperatureEffect("mob_effect", TemperatureEffects.MOB_EFFECT);
         registerTemperatureEffect("scaling_attribute_modifier", TemperatureEffects.SCALING_ATTRIBUTE_MODIFIER);
         registerTemperatureEffect("attribute_modifier", TemperatureEffects.ATTRIBUTE_MODIFIER);
         registerTemperatureEffect("damage", TemperatureEffects.DAMAGE);
+
+        ThermooRegistries.TEMPERATURE_EFFECTS.addAlias(
+                Thermoo.location("status_effect"),
+                Thermoo.location("mob_effect")
+        );
     }
 
     public static void registerEnvironmentProviderTypes() {

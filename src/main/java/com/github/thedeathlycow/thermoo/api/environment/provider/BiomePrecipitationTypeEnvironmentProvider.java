@@ -76,7 +76,7 @@ public final class BiomePrecipitationTypeEnvironmentProvider implements Environm
     private static MapCodec<Map<Biome.Precipitation, Holder<EnvironmentProvider>>> createPrecipitationMapCodec() {
         return Codec.simpleMap(
                 Biome.Precipitation.CODEC,
-                EnvironmentProvider.ENTRY_CODEC,
+                EnvironmentProvider.HOLDER_CODEC,
                 StringRepresentable.keys(Biome.Precipitation.values())
         ).validate(map -> {
             if (map.isEmpty()) {

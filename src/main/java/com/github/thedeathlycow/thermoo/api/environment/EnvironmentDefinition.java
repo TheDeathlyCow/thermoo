@@ -25,7 +25,7 @@ public final class EnvironmentDefinition {
                     RegistryCodecs.homogeneousList(Registries.BIOME)
                             .optionalFieldOf("exclude_biomes", HolderSet.empty())
                             .forGetter(EnvironmentDefinition::excludeBiomes),
-                    EnvironmentProvider.ENTRY_CODEC
+                    EnvironmentProvider.HOLDER_CODEC
                             .fieldOf("provider")
                             .forGetter(EnvironmentDefinition::provider),
                     Codec.INT

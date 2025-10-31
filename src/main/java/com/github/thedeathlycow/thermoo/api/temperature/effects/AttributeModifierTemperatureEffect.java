@@ -30,7 +30,7 @@ public final class AttributeModifierTemperatureEffect extends TemperatureEffect<
                             .forGetter(Config::attribute),
                     ResourceLocation.CODEC
                             .fieldOf("id")
-                            .forGetter(Config::id),
+                            .forGetter(Config::location),
                     AttributeModifier.Operation.CODEC
                             .fieldOf("operation")
                             .forGetter(Config::operation)
@@ -44,10 +44,10 @@ public final class AttributeModifierTemperatureEffect extends TemperatureEffect<
     @Override
     public void apply(LivingEntity victim, ServerLevel serverWorld, Config config) {
         AttributeInstance attrInstance = victim.getAttribute(config.attribute);
-        if (attrInstance != null && !attrInstance.hasModifier(config.id)) {
+        if (attrInstance != null && !attrInstance.hasModifier(config.location)) {
             attrInstance.addTransientModifier(
                     new AttributeModifier(
-                            config.id,
+                            config.location,
                             config.value,
                             config.operation
                     )
@@ -67,7 +67,7 @@ public final class AttributeModifierTemperatureEffect extends TemperatureEffect<
         super.remove(victim, serverWorld, config);
         AttributeInstance attributeInstance = victim.getAttribute(config.attribute);
         if (attributeInstance != null) {
-            attributeInstance.removeModifier(config.id);
+            attributeInstance.removeModifier(config.location);
         }
     }
 
@@ -75,9 +75,17 @@ public final class AttributeModifierTemperatureEffect extends TemperatureEffect<
     public record Config(
             float value,
             Holder<Attribute> attribute,
-            ResourceLocation id,
+            ResourceLocation location,
             AttributeModifier.Operation operation
     ) {
+        /**
+         * @return Returns the value of {@link #location}
+         * @deprecated This field was named based on Yarn mappings. Use {@link #location} to better conform to Official
+         * Mappings.
+         */
+        @Deprecated(since = "8.1.0", forRemoval = true)
+        public ResourceLocation id() {
+            return location;
+        }
     }
-
 }

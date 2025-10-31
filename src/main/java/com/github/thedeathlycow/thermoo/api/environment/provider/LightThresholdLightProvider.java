@@ -28,23 +28,23 @@ public class LightThresholdLightProvider implements EnvironmentProvider {
                                     name -> LightLayer.valueOf(name.toUpperCase())
                             )
                             .optionalFieldOf("light_type")
-                            .forGetter(LightThresholdLightProvider::lightType),
+                            .forGetter(LightThresholdLightProvider::lightLayer),
                     Codec.BOOL
                             .optionalFieldOf("apply_ambient_darkness", true)
                             .forGetter(LightThresholdLightProvider::applyAmbientDarkness),
                     Codec.intRange(0, 15)
                             .fieldOf("threshold")
                             .forGetter(LightThresholdLightProvider::threshold),
-                    EnvironmentProvider.ENTRY_CODEC
+                    EnvironmentProvider.HOLDER_CODEC
                             .fieldOf("above")
                             .forGetter(LightThresholdLightProvider::above),
-                    EnvironmentProvider.ENTRY_CODEC
+                    EnvironmentProvider.HOLDER_CODEC
                             .fieldOf("below")
                             .forGetter(LightThresholdLightProvider::below)
             ).apply(instance, LightThresholdLightProvider::new)
     );
 
-    private final Optional<LightLayer> lightType;
+    private final Optional<LightLayer> lightLayer;
     private final boolean applyAmbientDarkness;
     private final int threshold;
     private final Holder<EnvironmentProvider> above;
@@ -74,13 +74,13 @@ public class LightThresholdLightProvider implements EnvironmentProvider {
     }
 
     private LightThresholdLightProvider(
-            Optional<LightLayer> lightType,
+            Optional<LightLayer> lightLayer,
             boolean applyAmbientDarkness,
             int threshold,
             Holder<EnvironmentProvider> above,
             Holder<EnvironmentProvider> below
     ) {
-        this.lightType = lightType;
+        this.lightLayer = lightLayer;
         this.applyAmbientDarkness = applyAmbientDarkness;
         this.threshold = threshold;
         this.above = above;
@@ -99,13 +99,13 @@ public class LightThresholdLightProvider implements EnvironmentProvider {
      * @param builder Component map builder to append to
      */
     @Override
-    public void buildCurrentComponents(Level world, BlockPos pos, Holder<Biome> biome, DataComponentMap.Builder builder) {
-        int lightLevel = this.lightType
-                .map(type -> world.getBrightness(type, pos))
-                .orElseGet(() -> world.getMaxLocalRawBrightness(pos));
+    public void buildCurrentComponents(Level level, BlockPos pos, Holder<Biome> biome, DataComponentMap.Builder builder) {
+        int lightLevel = this.lightLayer
+                .map(type -> level.getBrightness(type, pos))
+                .orElseGet(() -> level.getMaxLocalRawBrightness(pos));
 
-        if (this.applyAmbientDarkness && this.lightType.orElse(null) == LightLayer.SKY) {
-            lightLevel -= world.getSkyDarken();
+        if (this.applyAmbientDarkness && this.lightLayer.orElse(null) == LightLayer.SKY) {
+            lightLevel -= level.getSkyDarken();
         }
 
         if (lightLevel >= this.threshold) {
@@ -124,10 +124,22 @@ public class LightThresholdLightProvider implements EnvironmentProvider {
      * The optional light type of this provider. If not specified, uses {@link net.minecraft.world.level.LevelReader#getMaxLocalRawBrightness(BlockPos)}
      * to determine light level.
      *
-     * @return Returns the light type of this provider.
+     * @return Returns the light layer of this provider.
+     * @deprecated This method is named based on Yarn, use {@link #lightLayer()} to better conform to official mappings.
      */
+    @Deprecated(since = "8.1.0", forRemoval = true)
     public Optional<LightLayer> lightType() {
-        return this.lightType;
+        return this.lightLayer;
+    }
+
+    /**
+     * The optional light layer of this provider. If not specified, uses {@link net.minecraft.world.level.LevelReader#getMaxLocalRawBrightness(BlockPos)}
+     * to determine light level.
+     *
+     * @return Returns the light layer of this provider.
+     */
+    public Optional<LightLayer> lightLayer() {
+        return this.lightLayer;
     }
 
     /**

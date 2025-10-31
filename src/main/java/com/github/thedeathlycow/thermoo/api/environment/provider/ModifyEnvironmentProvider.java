@@ -24,7 +24,7 @@ public final class ModifyEnvironmentProvider implements EnvironmentProvider {
                     RegistryCodecs.homogeneousList(ThermooRegistryKeys.ENVIRONMENT_PROVIDER)
                             .fieldOf("modifiers")
                             .forGetter(ModifyEnvironmentProvider::modifiers),
-                    EnvironmentProvider.ENTRY_CODEC
+                    EnvironmentProvider.HOLDER_CODEC
                             .fieldOf("base")
                             .forGetter(ModifyEnvironmentProvider::base)
             ).apply(instance, ModifyEnvironmentProvider::new)
