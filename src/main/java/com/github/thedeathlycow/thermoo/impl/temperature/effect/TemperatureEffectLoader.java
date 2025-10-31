@@ -11,15 +11,16 @@ import com.mojang.serialization.JsonOps;
 import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener;
 import net.fabricmc.fabric.api.resource.conditions.v1.ResourceCondition;
 import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditions;
-import net.minecraft.entity.EntityType;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.RegistryOps;
-import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.resource.Resource;
-import net.minecraft.resource.ResourceFinder;
-import net.minecraft.resource.ResourceManager;
-import net.minecraft.util.Identifier;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.FileToIdConverter;
+import net.minecraft.resources.RegistryOps;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.Resource;
+import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.world.entity.EntityType;
+
 
 import java.io.BufferedReader;
 import java.util.*;
@@ -27,33 +28,33 @@ import java.util.*;
 public class TemperatureEffectLoader implements SimpleSynchronousResourceReloadListener {
 
     public static final String DIRECTORY = "thermoo/temperature_effect";
-    public static final Identifier ID = Thermoo.location("temperature_effects");
+    public static final ResourceLocation ID = Thermoo.location("temperature_effects");
 
-    private final Map<Identifier, ConfiguredTemperatureEffect<?>> globalEffects = new HashMap<>();
+    private final Map<ResourceLocation, ConfiguredTemperatureEffect<?>> globalEffects = new HashMap<>();
 
-    private final Map<RegistryKey<EntityType<?>>, Set<ConfiguredTemperatureEffect<?>>> entityTypeToEffect = new IdentityHashMap<>();
+    private final Map<ResourceKey<EntityType<?>>, Set<ConfiguredTemperatureEffect<?>>> entityTypeToEffect = new IdentityHashMap<>();
 
     private final RegistryOps<JsonElement> ops;
 
-    public TemperatureEffectLoader(RegistryWrapper.WrapperLookup lookup) {
-        this.ops = RegistryOps.of(JsonOps.INSTANCE, lookup);
+    public TemperatureEffectLoader(HolderLookup.Provider lookup) {
+        this.ops = RegistryOps.create(JsonOps.INSTANCE, lookup);
     }
 
     @Override
-    public Identifier getFabricId() {
+    public ResourceLocation getFabricId() {
         return ID;
     }
 
     @Override
-    public void reload(ResourceManager manager) {
-        Map<Identifier, ConfiguredTemperatureEffect<?>> updatedRegistry = new HashMap<>();
-        ResourceFinder resourceFinder = ResourceFinder.json(DIRECTORY);
-        Map<Identifier, List<Resource>> foundResources = resourceFinder.findAllResources(manager);
+    public void onResourceManagerReload(ResourceManager manager) {
+        Map<ResourceLocation, ConfiguredTemperatureEffect<?>> updatedRegistry = new HashMap<>();
+        FileToIdConverter resourceFinder = FileToIdConverter.json(DIRECTORY);
+        Map<ResourceLocation, List<Resource>> foundResources = resourceFinder.listMatchingResourceStacks(manager);
 
-        for (Map.Entry<Identifier, List<Resource>> allResources : foundResources.entrySet()) {
-            Identifier effectID = resourceFinder.toResourceId(allResources.getKey());
+        for (Map.Entry<ResourceLocation, List<Resource>> allResources : foundResources.entrySet()) {
+            ResourceLocation effectID = resourceFinder.fileToId(allResources.getKey());
             for (Resource resource : allResources.getValue()) {
-                try (BufferedReader reader = resource.getReader()) {
+                try (BufferedReader reader = resource.openAsReader()) {
                     this.loadEffect(updatedRegistry, effectID, reader);
                 } catch (Exception e) {
                     Thermoo.LOGGER.error("An error occurred while loading temperature effect {}: {}", allResources.getKey(), e);
@@ -65,8 +66,8 @@ public class TemperatureEffectLoader implements SimpleSynchronousResourceReloadL
     }
 
     private void loadEffect(
-            Map<Identifier, ConfiguredTemperatureEffect<?>> updatedRegistry,
-            Identifier id,
+            Map<ResourceLocation, ConfiguredTemperatureEffect<?>> updatedRegistry,
+            ResourceLocation id,
             BufferedReader reader
     ) {
         JsonElement json = JsonParser.parseReader(reader);
@@ -93,7 +94,7 @@ public class TemperatureEffectLoader implements SimpleSynchronousResourceReloadL
         }
     }
 
-    private boolean objectMatchesConditions(Identifier key, JsonObject json) {
+    private boolean objectMatchesConditions(ResourceLocation key, JsonObject json) {
         if (json.has(ResourceConditions.CONDITIONS_KEY)) {
             DataResult<ResourceCondition> conditions = ResourceCondition.CONDITION_CODEC.parse(
                     JsonOps.INSTANCE,
@@ -108,7 +109,7 @@ public class TemperatureEffectLoader implements SimpleSynchronousResourceReloadL
                     Thermoo.LOGGER.debug(
                             "{} resource of type {} with id {}",
                             verdict,
-                            RegistryKeys.getPath(ThermooRegistryKeys.TEMPERATURE_EFFECT),
+                            Registries.elementsDirPath(ThermooRegistryKeys.TEMPERATURE_EFFECT),
                             key
                     );
                 }
@@ -117,7 +118,7 @@ public class TemperatureEffectLoader implements SimpleSynchronousResourceReloadL
             } else {
                 Thermoo.LOGGER.error(
                         "Failed to parse resource conditions for file of type {} with id {}, skipping: {}",
-                        RegistryKeys.getPath(ThermooRegistryKeys.TEMPERATURE_EFFECT),
+                        Registries.elementsDirPath(ThermooRegistryKeys.TEMPERATURE_EFFECT),
                         key,
                         conditions.error().get().message()
                 );

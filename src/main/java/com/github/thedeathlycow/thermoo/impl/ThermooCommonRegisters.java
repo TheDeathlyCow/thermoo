@@ -6,9 +6,10 @@ import com.github.thedeathlycow.thermoo.api.environment.provider.EnvironmentProv
 import com.github.thedeathlycow.thermoo.api.predicate.ThermooLootConditionTypes;
 import com.github.thedeathlycow.thermoo.api.temperature.effects.TemperatureEffect;
 import com.github.thedeathlycow.thermoo.api.temperature.effects.TemperatureEffects;
-import net.minecraft.loot.condition.LootConditionType;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.world.level.storage.loot.predicates.LootItemConditionType;
+
 
 public class ThermooCommonRegisters {
     public static void registerTemperatureEffects() {
@@ -45,7 +46,7 @@ public class ThermooCommonRegisters {
         Registry.register(ThermooRegistries.ENVIRONMENT_PROVIDER_TYPE, Thermoo.location(name), providerType);
     }
 
-    private static void registerLootConditionType(String name, LootConditionType lootConditionType) {
-        Registry.register(Registries.LOOT_CONDITION_TYPE, Thermoo.location(name), lootConditionType);
+    private static void registerLootConditionType(String name, LootItemConditionType lootConditionType) {
+        Registry.register(BuiltInRegistries.LOOT_CONDITION_TYPE, Thermoo.location(name), lootConditionType);
     }
 }
