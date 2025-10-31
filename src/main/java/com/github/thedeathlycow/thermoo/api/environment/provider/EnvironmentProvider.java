@@ -27,7 +27,7 @@ public interface EnvironmentProvider {
      * @deprecated This field was named based on Yarn mappings. Use {@link #HOLDER_CODEC} to better confirm to Official
      * Mappings.
      */
-    @Deprecated(since = "8.1.0")
+    @Deprecated(since = "8.1.0", forRemoval = true)
     Codec<Holder<EnvironmentProvider>> ENTRY_CODEC = HOLDER_CODEC;
 
     /**

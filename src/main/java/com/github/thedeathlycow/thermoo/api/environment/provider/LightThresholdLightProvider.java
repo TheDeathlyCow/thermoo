@@ -127,7 +127,7 @@ public class LightThresholdLightProvider implements EnvironmentProvider {
      * @return Returns the light layer of this provider.
      * @deprecated This method is named based on Yarn, use {@link #lightLayer()} to better conform to official mappings.
      */
-    @Deprecated(since = "8.1.0")
+    @Deprecated(since = "8.1.0", forRemoval = true)
     public Optional<LightLayer> lightType() {
         return this.lightLayer;
     }
