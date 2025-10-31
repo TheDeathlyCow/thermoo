@@ -38,14 +38,14 @@ public class ThermooCommonRegisters {
     }
 
     private static void registerTemperatureEffect(String name, TemperatureEffect<?> temperatureEffect) {
-        Registry.register(ThermooRegistries.TEMPERATURE_EFFECTS, Thermoo.id(name), temperatureEffect);
+        Registry.register(ThermooRegistries.TEMPERATURE_EFFECTS, Thermoo.location(name), temperatureEffect);
     }
 
     private static void registerEnvironmentProviderType(String name, EnvironmentProviderType<?> providerType) {
-        Registry.register(ThermooRegistries.ENVIRONMENT_PROVIDER_TYPE, Thermoo.id(name), providerType);
+        Registry.register(ThermooRegistries.ENVIRONMENT_PROVIDER_TYPE, Thermoo.location(name), providerType);
     }
 
     private static void registerLootConditionType(String name, LootConditionType lootConditionType) {
-        Registry.register(Registries.LOOT_CONDITION_TYPE, Thermoo.id(name), lootConditionType);
+        Registry.register(Registries.LOOT_CONDITION_TYPE, Thermoo.location(name), lootConditionType);
     }
 }

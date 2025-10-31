@@ -8,10 +8,10 @@ import net.minecraft.component.type.AttributeModifierSlot;
 import net.minecraft.component.type.AttributeModifiersComponent;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.attribute.EntityAttributeModifier;
-import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.entity.passive.VillagerEntity;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.registry.tag.ItemTags;
@@ -25,11 +25,11 @@ public class ModifyItemAttributeModifiersTest {
         ModifyItemAttributeModifiersCallback.EVENT.register((stack, builder) -> {
             if (stack.isOf(Items.DIAMOND_CHESTPLATE)) {
                 builder.add(
-                        EntityAttributes.SCALE,
-                        new EntityAttributeModifier(
+                        Attributes.SCALE,
+                        new AttributeModifier(
                                 ThermooTestMod.id("diamond_chestplate_scale_test"),
                                 1.0,
-                                EntityAttributeModifier.Operation.ADD_VALUE
+                                AttributeModifier.Operation.ADD_VALUE
                         ),
                         AttributeModifierSlot.CHEST
                 );
@@ -37,11 +37,11 @@ public class ModifyItemAttributeModifiersTest {
 
             if (stack.isIn(ItemTags.AXES)) {
                 builder.add(
-                        EntityAttributes.ARMOR,
-                        new EntityAttributeModifier(
+                        Attributes.ARMOR,
+                        new AttributeModifier(
                                 ThermooTestMod.id("diamond_axe_armor_test"),
                                 1.0,
-                                EntityAttributeModifier.Operation.ADD_VALUE
+                                AttributeModifier.Operation.ADD_VALUE
                         ),
                         AttributeModifierSlot.MAINHAND
                 );
@@ -49,12 +49,12 @@ public class ModifyItemAttributeModifiersTest {
 
             if (stack.isOf(Items.NETHERITE_AXE)) {
                 builder.add(
-                        EntityAttributes.ARMOR,
+                        Attributes.ARMOR,
                         // duplicate
-                        new EntityAttributeModifier(
+                        new AttributeModifier(
                                 ThermooTestMod.id("diamond_axe_armor_test"),
                                 5.0,
-                                EntityAttributeModifier.Operation.ADD_VALUE
+                                AttributeModifier.Operation.ADD_VALUE
                         ),
                         AttributeModifierSlot.MAINHAND
                 );

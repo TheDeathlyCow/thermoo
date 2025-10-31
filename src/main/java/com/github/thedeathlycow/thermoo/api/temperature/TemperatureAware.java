@@ -1,7 +1,7 @@
 package com.github.thedeathlycow.thermoo.api.temperature;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.util.math.random.Random;
 import org.apache.commons.lang3.NotImplementedException;
 import org.jetbrains.annotations.ApiStatus;
@@ -14,7 +14,7 @@ import org.jetbrains.annotations.Nullable;
  * units of temperature like Celsius, Kelvin, or Fahrenheit. Positive values of temperature are treated as 'warm' and
  * negative values are treated as 'cold'.
  * <p>
- * This class is interface injected into {@link net.minecraft.entity.LivingEntity}. Therefore, ALL methods must have a
+ * This class is interface injected into {@link net.minecraft.world.entity.LivingEntity}. Therefore, ALL methods must have a
  * default implementation. Therefore, all methods that would normally be declared abstract are instead made to throw a
  * {@link NotImplementedException}.
  */

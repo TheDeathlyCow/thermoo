@@ -12,19 +12,24 @@ import com.mojang.brigadier.arguments.DoubleArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import net.minecraft.command.argument.BlockPosArgumentType;
 import net.minecraft.command.argument.EntityArgumentType;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.arguments.EntityArgument;
+import net.minecraft.commands.arguments.coordinates.BlockPosArgument;
+import net.minecraft.core.BlockPos;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.server.command.ServerCommandSource;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.biome.Biome;
 import org.jetbrains.annotations.Contract;
 
 import java.util.function.Supplier;
 
-import static net.minecraft.server.command.CommandManager.argument;
-import static net.minecraft.server.command.CommandManager.literal;
+import static net.minecraft.commands.Commands.argument;
+import static net.minecraft.commands.Commands.literal;
 
 /**
  * Command relating to environment effects
@@ -49,10 +54,10 @@ public final class EnvironmentCommand {
      * <p>
      * Registered by the default implementation of this API.
      */
-    public static final Supplier<LiteralArgumentBuilder<ServerCommandSource>> COMMAND_BUILDER = EnvironmentCommand::buildCommand;
+    public static final Supplier<LiteralArgumentBuilder<CommandSourceStack>> COMMAND_BUILDER = EnvironmentCommand::buildCommand;
 
     @Contract("->new")
-    private static LiteralArgumentBuilder<ServerCommandSource> buildCommand() {
+    private static LiteralArgumentBuilder<CommandSourceStack> buildCommand() {
         final String location = "location";
         final String target = "target";
         final String unit = "unit";
@@ -61,19 +66,19 @@ public final class EnvironmentCommand {
         final double fallbackTempScale = 1.0;
 
         var temperature = literal("temperature")
-                .then(argument(target, EntityArgumentType.player())
+                .then(argument(target, EntityArgument.player())
                         .executes(
                                 context -> executeEntityTemperature(
                                         context.getSource(),
-                                        EntityArgumentType.getPlayer(context, target)
+                                        EntityArgument.getPlayer(context, target)
                                 )
                         )
                 )
-                .then(argument(location, BlockPosArgumentType.blockPos())
+                .then(argument(location, BlockPosArgument.blockPos())
                         .executes(
                                 context -> executeTemperature(
                                         context.getSource(),
-                                        BlockPosArgumentType.getLoadedBlockPos(context, location),
+                                        BlockPosArgument.getLoadedBlockPos(context, location),
                                         TemperatureUnit.CELSIUS,
                                         fallbackTempScale
                                 )
@@ -83,7 +88,7 @@ public final class EnvironmentCommand {
                                         .executes(
                                                 context -> executeTemperature(
                                                         context.getSource(),
-                                                        BlockPosArgumentType.getLoadedBlockPos(context, location),
+                                                        BlockPosArgument.getLoadedBlockPos(context, location),
                                                         TemperatureUnitArgumentType.getTemperatureUnit(context, unit),
                                                         fallbackTempScale
                                                 )
@@ -132,10 +137,10 @@ public final class EnvironmentCommand {
         );
     }
 
-    private static int executeEntityTemperature(ServerCommandSource source, ServerPlayerEntity target) {
+    private static int executeEntityTemperature(CommandSourceStack source, ServerPlayer target) {
         BlockPos pos = LivingEntityTickUtil.getTemperatureTickPos(target);
-        ServerWorld world = target.getEntityWorld();
-        final EnvironmentTickContextImpl<ServerPlayerEntity> context = new EnvironmentTickContextImpl<>(
+        ServerLevel world = target.level();
+        final EnvironmentTickContextImpl<ServerPlayer> context = new EnvironmentTickContextImpl<>(
                 target,
                 world,
                 pos,
@@ -173,7 +178,7 @@ public final class EnvironmentCommand {
         return tempChange;
     }
 
-    private static int executeTemperature(ServerCommandSource source, BlockPos location, TemperatureUnit unit, double scale) {
+    private static int executeTemperature(CommandSourceStack source, BlockPos location, TemperatureUnit unit, double scale) {
         double temperature = EnvironmentLookup.getInstance().findEnvironmentComponents(
                         source.getWorld(), location
                 ).getOrDefault(EnvironmentComponentTypes.TEMPERATURE, TemperatureRecordComponent.DEFAULT)
@@ -198,7 +203,7 @@ public final class EnvironmentCommand {
         return (int) (temperature * scale);
     }
 
-    private static int executeRelativeHumidity(ServerCommandSource source, BlockPos location, double scale) {
+    private static int executeRelativeHumidity(CommandSourceStack source, BlockPos location, double scale) {
         double relativeHumidity = EnvironmentLookup.getInstance().findEnvironmentComponents(
                 source.getWorld(), location
         ).getOrDefault(EnvironmentComponentTypes.RELATIVE_HUMIDITY, RelativeHumidityComponent.DEFAULT);

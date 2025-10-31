@@ -3,7 +3,7 @@ package com.github.thedeathlycow.thermoo.api.temperature.effects;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.loot.condition.LootCondition;
 import net.minecraft.predicate.NumberRange;
 import net.minecraft.registry.RegistryCodecs;

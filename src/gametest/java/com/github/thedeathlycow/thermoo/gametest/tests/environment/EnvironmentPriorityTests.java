@@ -8,6 +8,7 @@ import net.fabricmc.fabric.api.gametest.v1.GameTest;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.test.TestContext;
 import net.minecraft.text.Text;
@@ -27,11 +28,11 @@ public class EnvironmentPriorityTests {
                 .getOrThrow(RegistryKeys.BIOME)
                 .getOrThrow(BiomeKeys.NETHER_WASTES);
 
-        List<Identifier> loadedEnvironments = EnvironmentLookupImpl.getAllMatchingEnvironments(netherWastes, registry)
+        List<ResourceLocation> loadedEnvironments = EnvironmentLookupImpl.getAllMatchingEnvironments(netherWastes, registry)
                 .map(registry::getId)
                 .toList();
 
-        List<Identifier> expectedEnvironments = List.of(
+        List<ResourceLocation> expectedEnvironments = List.of(
                 ThermooTestMod.id("priority/high_priority"),
                 ThermooTestMod.id("priority/default_priority"),
                 ThermooTestMod.id("priority/low_priority")

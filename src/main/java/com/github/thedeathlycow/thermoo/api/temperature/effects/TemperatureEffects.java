@@ -1,7 +1,7 @@
 package com.github.thedeathlycow.thermoo.api.temperature.effects;
 
 import com.github.thedeathlycow.thermoo.impl.temperature.effect.TemperatureEffectManager;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 
@@ -45,7 +45,7 @@ public final class TemperatureEffects {
     );
 
     /**
-     * Applies scaled {@linkplain net.minecraft.entity.attribute.EntityAttributeModifier attribute modifiers} to
+     * Applies scaled {@linkplain net.minecraft.world.entity.ai.attributes.AttributeModifier attribute modifiers} to
      * entities based on their temperature
      */
     public static final TemperatureEffect<ScalingAttributeModifierTemperatureEffect.Config> SCALING_ATTRIBUTE_MODIFIER = new ScalingAttributeModifierTemperatureEffect(
@@ -53,7 +53,7 @@ public final class TemperatureEffects {
     );
 
     /**
-     * Applies {@linkplain net.minecraft.entity.attribute.EntityAttributeModifier attribute modifiers} to entities
+     * Applies {@linkplain net.minecraft.world.entity.ai.attributes.AttributeModifier attribute modifiers} to entities
      */
     public static final TemperatureEffect<AttributeModifierTemperatureEffect.Config> ATTRIBUTE_MODIFIER = new AttributeModifierTemperatureEffect(
             AttributeModifierTemperatureEffect.CODEC

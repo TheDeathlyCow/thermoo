@@ -3,14 +3,14 @@ package com.github.thedeathlycow.thermoo.impl.environment;
 import com.github.thedeathlycow.thermoo.api.temperature.Soakable;
 import com.github.thedeathlycow.thermoo.api.temperature.TemperatureAware;
 import com.github.thedeathlycow.thermoo.api.temperature.event.EnvironmentTickContext;
-import net.minecraft.component.ComponentMap;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponentMap;
+import net.minecraft.server.level.ServerLevel;
 
 public record EnvironmentTickContextImpl<T extends TemperatureAware & Soakable>(
         T affected,
-        ServerWorld world,
+        ServerLevel world,
         BlockPos pos,
-        ComponentMap components
+        DataComponentMap components
 ) implements EnvironmentTickContext<T> {
 }

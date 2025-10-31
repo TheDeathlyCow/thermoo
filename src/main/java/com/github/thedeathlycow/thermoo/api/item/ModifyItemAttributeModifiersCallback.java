@@ -21,7 +21,7 @@ import org.jetbrains.annotations.ApiStatus;
  * {@code
  *  ModifyItemAttributeModifiersCallback.EVENT.register((stack, builder) -> {
  *  	if (stack.isIn(ItemTags.HEAD_ARMOR)) {
- *          builder.add(EntityAttributes.MAX_HEALTH, MODIFIER, AttributeModifierSlot.HEAD);
+ *          builder.add(Attributes.MAX_HEALTH, MODIFIER, AttributeModifierSlot.HEAD);
  *      }
  *  });
  * }

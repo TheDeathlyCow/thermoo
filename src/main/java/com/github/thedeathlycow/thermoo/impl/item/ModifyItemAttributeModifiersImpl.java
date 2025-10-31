@@ -4,7 +4,7 @@ import com.github.thedeathlycow.thermoo.api.item.ModifyItemAttributeModifiersCal
 import com.github.thedeathlycow.thermoo.mixin.common.accessor.AttributeModifiersComponentBuilderAccessor;
 import it.unimi.dsi.fastutil.Pair;
 import net.minecraft.component.type.AttributeModifiersComponent;
-import net.minecraft.entity.attribute.EntityAttribute;
+import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.util.Identifier;
@@ -26,11 +26,11 @@ public final class ModifyItemAttributeModifiersImpl {
     }
 
     private static List<AttributeModifiersComponent.Entry> removeDuplicates(Collection<AttributeModifiersComponent.Entry> modifiers) {
-        Map<Pair<RegistryKey<EntityAttribute>, Identifier>, AttributeModifiersComponent.Entry> map = new LinkedHashMap<>();
+        Map<Pair<RegistryKey<Attribute>, Identifier>, AttributeModifiersComponent.Entry> map = new LinkedHashMap<>();
 
         // de-duplicates the modifiers to remove any entries that modify the same attribute and have the same ID
         for (var modifier : modifiers) {
-            Pair<RegistryKey<EntityAttribute>, Identifier> key = Pair.of(
+            Pair<RegistryKey<Attribute>, Identifier> key = Pair.of(
                     modifier.attribute().getKey().orElseThrow(),
                     modifier.modifier().id()
             );

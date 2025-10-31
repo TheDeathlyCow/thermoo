@@ -4,7 +4,7 @@ import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.damage.DamageType;
 import net.minecraft.registry.DynamicRegistryManager;
@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Applies damage to {@link net.minecraft.entity.LivingEntity}s when their temperature scale is within a given range.
+ * Applies damage to {@link net.minecraft.world.entity.LivingEntity}s when their temperature scale is within a given range.
  * The amount and interval of the damage pulses can be configured, as well as the damage type. However, the {@link DamageSource}
  * applied only stores the type - the direct source entity, attacker, and position are all {@code null}.
  */

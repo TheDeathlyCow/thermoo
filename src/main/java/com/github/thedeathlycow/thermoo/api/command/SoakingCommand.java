@@ -4,18 +4,18 @@ import com.mojang.brigadier.Command;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import net.minecraft.command.argument.EntityArgumentType;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.server.command.ServerCommandSource;
-import net.minecraft.text.Text;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.arguments.EntityArgument;
+import net.minecraft.network.chat.Component;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import org.jetbrains.annotations.Contract;
 
 import java.util.function.Supplier;
 
-import static net.minecraft.server.command.CommandManager.argument;
-import static net.minecraft.server.command.CommandManager.literal;
+import static net.minecraft.commands.Commands.argument;
+import static net.minecraft.commands.Commands.literal;
 
 /**
  * Command relating to soaking. Allows soaking values to be modified in game.
@@ -31,7 +31,7 @@ public final class SoakingCommand {
      * <p>
      * Registered by the default implementation of this API.
      */
-    public static final Supplier<LiteralArgumentBuilder<ServerCommandSource>> COMMAND_BUILDER = SoakingCommand::buildCommand;
+    public static final Supplier<LiteralArgumentBuilder<CommandSourceStack>> COMMAND_BUILDER = SoakingCommand::buildCommand;
 
     private static final String TARGET_KEY = "target";
     private static final String SCALE_KEY = "scale";
@@ -40,9 +40,9 @@ public final class SoakingCommand {
     private static final String VALUE_KEY = "value";
 
     @Contract("->new")
-    private static LiteralArgumentBuilder<ServerCommandSource> buildCommand() {
+    private static LiteralArgumentBuilder<CommandSourceStack> buildCommand() {
         return literal("thermoo").then(
-                (literal("soaking").requires(src -> src.hasPermissionLevel(2)))
+                (literal("soaking").requires(src -> src.hasPermission(2)))
                         .then(buildGetCommand())
                         .then(buildSetCommand())
                         .then(buildAddCommand())
@@ -50,17 +50,17 @@ public final class SoakingCommand {
         );
     }
 
-    private static LiteralArgumentBuilder<ServerCommandSource> buildRemoveCommand() {
+    private static LiteralArgumentBuilder<CommandSourceStack> buildRemoveCommand() {
         return literal("remove")
                 .then(
-                        argument(TARGET_KEY, EntityArgumentType.entity())
+                        argument(TARGET_KEY, EntityArgument.entity())
                                 .then(
                                         argument(VALUE_KEY, IntegerArgumentType.integer(0))
                                                 .executes(
                                                         context -> {
                                                             return remove(
                                                                     context.getSource(),
-                                                                    EntityArgumentType.getEntity(context, TARGET_KEY),
+                                                                    EntityArgument.getEntity(context, TARGET_KEY),
                                                                     IntegerArgumentType.getInteger(context, VALUE_KEY)
                                                             );
                                                         }
@@ -69,17 +69,17 @@ public final class SoakingCommand {
                 );
     }
 
-    private static LiteralArgumentBuilder<ServerCommandSource> buildAddCommand() {
+    private static LiteralArgumentBuilder<CommandSourceStack> buildAddCommand() {
         return literal("add")
                 .then(
-                        argument(TARGET_KEY, EntityArgumentType.entity())
+                        argument(TARGET_KEY, EntityArgument.entity())
                                 .then(
                                         argument(VALUE_KEY, IntegerArgumentType.integer(0))
                                                 .executes(
                                                         context -> {
                                                             return add(
                                                                     context.getSource(),
-                                                                    EntityArgumentType.getEntity(context, TARGET_KEY),
+                                                                    EntityArgument.getEntity(context, TARGET_KEY),
                                                                     IntegerArgumentType.getInteger(context, VALUE_KEY)
                                                             );
                                                         }
@@ -88,17 +88,17 @@ public final class SoakingCommand {
                 );
     }
 
-    private static LiteralArgumentBuilder<ServerCommandSource> buildSetCommand() {
+    private static LiteralArgumentBuilder<CommandSourceStack> buildSetCommand() {
         return literal("set")
                 .then(
-                        argument(TARGET_KEY, EntityArgumentType.entity())
+                        argument(TARGET_KEY, EntityArgument.entity())
                                 .then(
                                         argument(VALUE_KEY, IntegerArgumentType.integer(0))
                                                 .executes(
                                                         context -> {
                                                             return set(
                                                                     context.getSource(),
-                                                                    EntityArgumentType.getEntity(context, TARGET_KEY),
+                                                                    EntityArgument.getEntity(context, TARGET_KEY),
                                                                     IntegerArgumentType.getInteger(context, VALUE_KEY)
                                                             );
                                                         }
@@ -107,11 +107,11 @@ public final class SoakingCommand {
                 );
     }
 
-    private static LiteralArgumentBuilder<ServerCommandSource> buildGetCommand() {
-        Command<ServerCommandSource> getCurrent = context -> {
+    private static LiteralArgumentBuilder<CommandSourceStack> buildGetCommand() {
+        Command<CommandSourceStack> getCurrent = context -> {
             return getCurrent(
                     context.getSource(),
-                    EntityArgumentType.getEntity(context, TARGET_KEY)
+                    EntityArgument.getEntity(context, TARGET_KEY)
             );
         };
 
@@ -122,7 +122,7 @@ public final class SoakingCommand {
                                         context -> {
                                             return getScale(
                                                     context.getSource(),
-                                                    EntityArgumentType.getEntity(context, TARGET_KEY),
+                                                    EntityArgument.getEntity(context, TARGET_KEY),
                                                     IntegerArgumentType.getInteger(context, SCALE_KEY)
                                             );
                                         }
@@ -132,7 +132,7 @@ public final class SoakingCommand {
                         context -> {
                             return getScale(
                                     context.getSource(),
-                                    EntityArgumentType.getEntity(context, TARGET_KEY),
+                                    EntityArgument.getEntity(context, TARGET_KEY),
                                     100
                             );
                         }
@@ -143,7 +143,7 @@ public final class SoakingCommand {
                         context -> {
                             return getMin(
                                     context.getSource(),
-                                    EntityArgumentType.getEntity(context, TARGET_KEY)
+                                    EntityArgument.getEntity(context, TARGET_KEY)
                             );
                         }
                 );
@@ -153,14 +153,14 @@ public final class SoakingCommand {
                         context -> {
                             return getMax(
                                     context.getSource(),
-                                    EntityArgumentType.getEntity(context, TARGET_KEY)
+                                    EntityArgument.getEntity(context, TARGET_KEY)
                             );
                         }
                 );
 
         return literal("get")
                 .then(
-                        argument(TARGET_KEY, EntityArgumentType.entity())
+                        argument(TARGET_KEY, EntityArgument.entity())
                                 .executes(getCurrent)
                                 .then(literal("current").executes(getCurrent))
                                 .then(getScale)
@@ -169,12 +169,12 @@ public final class SoakingCommand {
                 );
     }
 
-    private static int remove(ServerCommandSource source, Entity target, int value) throws CommandSyntaxException {
+    private static int remove(CommandSourceStack source, Entity target, int value) throws CommandSyntaxException {
         if (target instanceof LivingEntity entity) {
             entity.thermoo$addWetTicks(-value);
 
-            source.sendFeedback(
-                    () -> Text.translatable(
+            source.sendSuccess(
+                    () -> Component.translatable(
                             "commands.thermoo.soaking.remove.success",
                             target.getDisplayName(),
                             value,
@@ -188,12 +188,12 @@ public final class SoakingCommand {
         }
     }
 
-    private static int add(ServerCommandSource source, Entity target, int value) throws CommandSyntaxException {
+    private static int add(CommandSourceStack source, Entity target, int value) throws CommandSyntaxException {
         if (target instanceof LivingEntity entity) {
             entity.thermoo$addWetTicks(value);
 
-            source.sendFeedback(
-                    () -> Text.translatable(
+            source.sendSuccess(
+                    () -> Component.translatable(
                             "commands.thermoo.soaking.add.success",
                             target.getDisplayName(),
                             value,
@@ -207,12 +207,12 @@ public final class SoakingCommand {
         }
     }
 
-    private static int set(ServerCommandSource source, Entity target, int value) throws CommandSyntaxException {
+    private static int set(CommandSourceStack source, Entity target, int value) throws CommandSyntaxException {
         if (target instanceof LivingEntity entity) {
             entity.thermoo$setWetTicks(value);
 
-            source.sendFeedback(
-                    () -> Text.translatable(
+            source.sendSuccess(
+                    () -> Component.translatable(
                             "commands.thermoo.soaking.set.success",
                             target.getDisplayName(),
                             value,
@@ -226,12 +226,12 @@ public final class SoakingCommand {
         }
     }
 
-    private static int getMax(ServerCommandSource source, Entity target) throws CommandSyntaxException {
+    private static int getMax(CommandSourceStack source, Entity target) throws CommandSyntaxException {
         if (target instanceof LivingEntity entity) {
             int value = entity.thermoo$getMaxWetTicks();
 
-            source.sendFeedback(
-                    () -> Text.translatable(
+            source.sendSuccess(
+                    () -> Component.translatable(
                             "commands.thermoo.soaking.get.max.success",
                             target.getDisplayName(),
                             value
@@ -244,12 +244,12 @@ public final class SoakingCommand {
         }
     }
 
-    private static int getMin(ServerCommandSource source, Entity target) throws CommandSyntaxException {
+    private static int getMin(CommandSourceStack source, Entity target) throws CommandSyntaxException {
         if (target instanceof LivingEntity) {
             int value = 0;
 
-            source.sendFeedback(
-                    () -> Text.translatable(
+            source.sendSuccess(
+                    () -> Component.translatable(
                             "commands.thermoo.soaking.get.min.success",
                             target.getDisplayName(),
                             value
@@ -262,12 +262,12 @@ public final class SoakingCommand {
         }
     }
 
-    private static int getScale(ServerCommandSource source, Entity target, int scale) throws CommandSyntaxException {
+    private static int getScale(CommandSourceStack source, Entity target, int scale) throws CommandSyntaxException {
         if (target instanceof LivingEntity entity) {
-            int value = MathHelper.floor(entity.thermoo$getSoakedScale() * scale);
+            int value = Mth.floor(entity.thermoo$getSoakedScale() * scale);
 
-            source.sendFeedback(
-                    () -> Text.translatable(
+            source.sendSuccess(
+                    () -> Component.translatable(
                             "commands.thermoo.soaking.get.scale.success",
                             target.getDisplayName(),
                             value
@@ -280,12 +280,12 @@ public final class SoakingCommand {
         }
     }
 
-    private static int getCurrent(ServerCommandSource source, Entity target) throws CommandSyntaxException {
+    private static int getCurrent(CommandSourceStack source, Entity target) throws CommandSyntaxException {
         if (target instanceof LivingEntity entity) {
             int value = entity.thermoo$getWetTicks();
 
-            source.sendFeedback(
-                    () -> Text.translatable(
+            source.sendSuccess(
+                    () -> Component.translatable(
                             "commands.thermoo.soaking.get.current.success",
                             target.getDisplayName(),
                             value

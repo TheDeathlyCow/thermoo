@@ -8,8 +8,8 @@ import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.AttributeModifierSlot;
 import net.minecraft.component.type.AttributeModifiersComponent;
 import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.attribute.EntityAttribute;
-import net.minecraft.entity.attribute.EntityAttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.entry.RegistryEntry;
 import org.apache.commons.lang3.function.TriConsumer;
@@ -34,7 +34,7 @@ public abstract class ItemStackMixin {
     private void hookItemModifierEvent(
             AttributeModifiersComponent instance,
             AttributeModifierSlot slot,
-            TriConsumer<RegistryEntry<EntityAttribute>, EntityAttributeModifier, AttributeModifiersComponent.Display> attributeConsumer,
+            TriConsumer<RegistryEntry<Attribute>, AttributeModifier, AttributeModifiersComponent.Display> attributeConsumer,
             Operation<Void> original
     ) {
         // prevent overriding modified components from commands
@@ -55,7 +55,7 @@ public abstract class ItemStackMixin {
     private void hookItemModifierEvent(
             AttributeModifiersComponent instance,
             EquipmentSlot slot,
-            BiConsumer<RegistryEntry<EntityAttribute>, EntityAttributeModifier> attributeConsumer,
+            BiConsumer<RegistryEntry<Attribute>, AttributeModifier> attributeConsumer,
             Operation<Void> original
     ) {
         // prevent overriding modified components from commands

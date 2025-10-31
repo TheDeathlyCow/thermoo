@@ -1,9 +1,9 @@
 package com.github.thedeathlycow.thermoo.impl.attribute;
 
 import net.minecraft.datafixer.schema.IdentifierNormalizingSchema;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.attribute.EntityAttributeInstance;
-import net.minecraft.entity.attribute.EntityAttributeModifier;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 
 /**
  * Helper methods for attribute related functions
@@ -28,13 +28,13 @@ public class AttributeHelper {
             AttributeData attribute,
             double value
     ) {
-        var modifier = new EntityAttributeModifier(
-                attribute.id(),
+        var modifier = new AttributeModifier(
+                attribute.location(),
                 value,
-                EntityAttributeModifier.Operation.ADD_VALUE
+                AttributeModifier.Operation.ADD_VALUE
         );
 
-        EntityAttributeInstance attributeInstance = entity.getAttributeInstance(attribute.attribute());
+        AttributeInstance attributeInstance = entity.getAttributeInstance(attribute.attribute());
 
         if (attributeInstance == null) {
             throw new IllegalStateException("Attribute not found on " + entity.getType() + ": " + attribute);

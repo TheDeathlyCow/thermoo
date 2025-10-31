@@ -1,12 +1,12 @@
 package com.github.thedeathlycow.thermoo.api.temperature;
 
-import net.minecraft.util.StringIdentifiable;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.Mth;
+import net.minecraft.util.StringRepresentable;
 
 /**
  * The three primary modes for adding and removing heat from a {@link TemperatureAware}.
  */
-public enum HeatingModes implements HeatingMode, StringIdentifiable {
+public enum HeatingModes implements HeatingMode, StringRepresentable {
     /**
      * Applies temperature changes absolutely - ignoring all resistance in all conditions.
      * Used as the default mode in commands or other debug environments.
@@ -63,7 +63,7 @@ public enum HeatingModes implements HeatingMode, StringIdentifiable {
     }
 
     @Override
-    public String asString() {
+    public String getSerializedName() {
         return this.id;
     }
 
@@ -79,6 +79,6 @@ public enum HeatingModes implements HeatingMode, StringIdentifiable {
 
         double resistanceAsPercent = ((resistance * 10.0) / 100.0);
 
-        return MathHelper.ceil((1 - resistanceAsPercent) * temperatureChange);
+        return Mth.ceil((1 - resistanceAsPercent) * temperatureChange);
     }
 }

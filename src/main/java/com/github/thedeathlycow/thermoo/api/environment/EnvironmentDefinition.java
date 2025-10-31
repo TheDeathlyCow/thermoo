@@ -3,11 +3,11 @@ package com.github.thedeathlycow.thermoo.api.environment;
 import com.github.thedeathlycow.thermoo.api.environment.provider.EnvironmentProvider;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.registry.RegistryCodecs;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.registry.entry.RegistryEntryList;
-import net.minecraft.world.biome.Biome;
+import net.minecraft.core.Holder;
+import net.minecraft.core.HolderSet;
+import net.minecraft.core.RegistryCodecs;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.world.level.biome.Biome;
 import org.jetbrains.annotations.Contract;
 
 /**
@@ -19,11 +19,11 @@ public final class EnvironmentDefinition {
 
     public static final Codec<EnvironmentDefinition> CODEC = RecordCodecBuilder.create(
             instance -> instance.group(
-                    RegistryCodecs.entryList(RegistryKeys.BIOME)
+                    RegistryCodecs.homogeneousList(Registries.BIOME)
                             .fieldOf("biomes")
                             .forGetter(EnvironmentDefinition::biomes),
-                    RegistryCodecs.entryList(RegistryKeys.BIOME)
-                            .optionalFieldOf("exclude_biomes", RegistryEntryList.empty())
+                    RegistryCodecs.homogeneousList(Registries.BIOME)
+                            .optionalFieldOf("exclude_biomes", HolderSet.empty())
                             .forGetter(EnvironmentDefinition::excludeBiomes),
                     EnvironmentProvider.ENTRY_CODEC
                             .fieldOf("provider")
@@ -34,18 +34,18 @@ public final class EnvironmentDefinition {
             ).apply(instance, EnvironmentDefinition::new)
     );
 
-    private final RegistryEntryList<Biome> biomes;
+    private final HolderSet<Biome> biomes;
 
-    private final RegistryEntryList<Biome> excludeBiomes;
+    private final HolderSet<Biome> excludeBiomes;
 
-    private final RegistryEntry<EnvironmentProvider> provider;
+    private final Holder<EnvironmentProvider> provider;
 
     private final int priority;
 
     private EnvironmentDefinition(
-            RegistryEntryList<Biome> biomes,
-            RegistryEntryList<Biome> excludeBiomes,
-            RegistryEntry<EnvironmentProvider> provider,
+            HolderSet<Biome> biomes,
+            HolderSet<Biome> excludeBiomes,
+            Holder<EnvironmentProvider> provider,
             int priority
     ) {
         this.biomes = biomes;
@@ -55,8 +55,8 @@ public final class EnvironmentDefinition {
     }
 
     public static EnvironmentDefinition.Builder builder(
-            RegistryEntryList<Biome> biomes,
-            RegistryEntry<EnvironmentProvider> provider
+            HolderSet<Biome> biomes,
+            Holder<EnvironmentProvider> provider
     ) {
         return new Builder(biomes, provider);
     }
@@ -67,11 +67,11 @@ public final class EnvironmentDefinition {
      * @param biomes   The biomes this definition provides for
      * @param provider The base value provider of this definition
      * @return Returns a new definition
-     * @deprecated Use {@link #builder(RegistryEntryList, RegistryEntry)}
+     * @deprecated Use {@link #builder(HolderSet, Holder)}
      */
     @Contract("_,_->new")
     @Deprecated(since = "4.5")
-    public static EnvironmentDefinition create(RegistryEntryList<Biome> biomes, RegistryEntry<EnvironmentProvider> provider) {
+    public static EnvironmentDefinition create(HolderSet<Biome> biomes, Holder<EnvironmentProvider> provider) {
         return builder(biomes, provider).build();
     }
 
@@ -82,14 +82,14 @@ public final class EnvironmentDefinition {
      * @param excludeBiomes The biomes this definition has been blocked from providing for
      * @param provider      The base value provider of this definition
      * @return Returns a new definition
-     * @deprecated Use {@link #builder(RegistryEntryList, RegistryEntry)}
+     * @deprecated Use {@link #builder(HolderSet, Holder)}
      */
     @Contract("_,_,_->new")
     @Deprecated(since = "4.5")
     public static EnvironmentDefinition create(
-            RegistryEntryList<Biome> biomes,
-            RegistryEntryList<Biome> excludeBiomes,
-            RegistryEntry<EnvironmentProvider> provider
+            HolderSet<Biome> biomes,
+            HolderSet<Biome> excludeBiomes,
+            Holder<EnvironmentProvider> provider
     ) {
         return builder(biomes, provider).excludeBiomes(excludeBiomes).build();
     }
@@ -101,7 +101,7 @@ public final class EnvironmentDefinition {
      * @return Returns {@code true} if the biome is in this definition's {@linkplain #biomes() biome list}, and NOT in
      * this definition's {@linkplain #excludeBiomes() excluded biome list}.
      */
-    public boolean providesFor(RegistryEntry<Biome> biome) {
+    public boolean providesFor(Holder<Biome> biome) {
         return this.biomes().contains(biome) && !this.excludeBiomes().contains(biome);
     }
 
@@ -110,7 +110,7 @@ public final class EnvironmentDefinition {
      *
      * @return The biomes that this definition provides an environment for
      */
-    public RegistryEntryList<Biome> biomes() {
+    public HolderSet<Biome> biomes() {
         return this.biomes;
     }
 
@@ -119,14 +119,14 @@ public final class EnvironmentDefinition {
      *
      * @return The biomes that this definition provides excludes
      */
-    public RegistryEntryList<Biome> excludeBiomes() {
+    public HolderSet<Biome> excludeBiomes() {
         return this.excludeBiomes;
     }
 
     /**
      * @return The environment provider for this definition
      */
-    public RegistryEntry<EnvironmentProvider> provider() {
+    public Holder<EnvironmentProvider> provider() {
         return this.provider;
     }
 
@@ -144,17 +144,17 @@ public final class EnvironmentDefinition {
     }
 
     public static class Builder {
-        private final RegistryEntryList<Biome> biomes;
-        private final RegistryEntry<EnvironmentProvider> provider;
-        private RegistryEntryList<Biome> excludeBiomes = RegistryEntryList.empty();
+        private final HolderSet<Biome> biomes;
+        private final Holder<EnvironmentProvider> provider;
+        private HolderSet<Biome> excludeBiomes = HolderSet.empty();
         private int priority = DEFAULT_PRIORITY;
 
-        private Builder(RegistryEntryList<Biome> biomes, RegistryEntry<EnvironmentProvider> provider) {
+        private Builder(HolderSet<Biome> biomes, Holder<EnvironmentProvider> provider) {
             this.biomes = biomes;
             this.provider = provider;
         }
 
-        public Builder excludeBiomes(RegistryEntryList<Biome> biomes) {
+        public Builder excludeBiomes(HolderSet<Biome> biomes) {
             this.excludeBiomes = biomes;
             return this;
         }

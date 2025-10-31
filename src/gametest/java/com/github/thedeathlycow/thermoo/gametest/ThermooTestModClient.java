@@ -6,7 +6,7 @@ import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import net.fabricmc.api.ClientModInitializer;
 import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
@@ -15,7 +15,7 @@ import org.joml.Vector2i;
 
 public class ThermooTestModClient implements ClientModInitializer {
 
-    public static final Identifier HEART_OVERLAY_TEXTURE = Thermoo.id("textures/gui/fire_heart_overlay.png");
+    public static final Identifier HEART_OVERLAY_TEXTURE = Thermoo.location("textures/gui/fire_heart_overlay.png");
 
     private static final int TEXTURE_WIDTH = 18;
     private static final int TEXTURE_HEIGHT = 30;

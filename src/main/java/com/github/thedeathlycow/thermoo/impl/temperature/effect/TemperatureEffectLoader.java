@@ -27,7 +27,7 @@ import java.util.*;
 public class TemperatureEffectLoader implements SimpleSynchronousResourceReloadListener {
 
     public static final String DIRECTORY = "thermoo/temperature_effect";
-    public static final Identifier ID = Thermoo.id("temperature_effects");
+    public static final Identifier ID = Thermoo.location("temperature_effects");
 
     private final Map<Identifier, ConfiguredTemperatureEffect<?>> globalEffects = new HashMap<>();
 

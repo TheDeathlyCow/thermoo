@@ -12,7 +12,7 @@ import net.minecraft.predicate.NumberRange;
 
 /**
  * Loot condition used to test the soaking values of an entity in a predicate. Only works for entities that implement
- * {@link TemperatureAware}, which by default is only {@link net.minecraft.entity.LivingEntity}. All other entities will
+ * {@link TemperatureAware}, which by default is only {@link net.minecraft.world.entity.LivingEntity}. All other entities will
  * always return false.
  *
  * @param value The {@linkplain TemperatureAware#thermoo$getTemperature() temperature value}

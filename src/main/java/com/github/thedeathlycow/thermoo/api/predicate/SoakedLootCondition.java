@@ -12,7 +12,7 @@ import net.minecraft.predicate.NumberRange;
 
 /**
  * Loot condition used to test the soaking values of an entity in a predicate. Only works for entities that implement
- * {@link Soakable}, which by default is only {@link net.minecraft.entity.LivingEntity}. All other entities will return
+ * {@link Soakable}, which by default is only {@link net.minecraft.world.entity.LivingEntity}. All other entities will return
  * always false.
  *
  * @param value The {@linkplain Soakable#thermoo$getWetTicks() soaking value}

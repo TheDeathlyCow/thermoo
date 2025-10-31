@@ -4,13 +4,13 @@ import com.github.thedeathlycow.thermoo.api.ThermooRegistryKeys;
 import com.github.thedeathlycow.thermoo.api.environment.EnvironmentDefinition;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.component.ComponentMap;
-import net.minecraft.registry.RegistryCodecs;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.registry.entry.RegistryEntryList;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.core.HolderSet;
+import net.minecraft.core.RegistryCodecs;
+import net.minecraft.core.component.DataComponentMap;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.biome.Biome;
 
 /**
  * Applies modifiers to a base environment provider from a tag or list of environment providers
@@ -21,7 +21,7 @@ import net.minecraft.world.biome.Biome;
 public final class ModifyEnvironmentProvider implements EnvironmentProvider {
     public static final MapCodec<ModifyEnvironmentProvider> CODEC = RecordCodecBuilder.mapCodec(
             instance -> instance.group(
-                    RegistryCodecs.entryList(ThermooRegistryKeys.ENVIRONMENT_PROVIDER)
+                    RegistryCodecs.homogeneousList(ThermooRegistryKeys.ENVIRONMENT_PROVIDER)
                             .fieldOf("modifiers")
                             .forGetter(ModifyEnvironmentProvider::modifiers),
                     EnvironmentProvider.ENTRY_CODEC
@@ -30,20 +30,20 @@ public final class ModifyEnvironmentProvider implements EnvironmentProvider {
             ).apply(instance, ModifyEnvironmentProvider::new)
     );
 
-    private final RegistryEntryList<EnvironmentProvider> modifiers;
-    private final RegistryEntry<EnvironmentProvider> base;
+    private final HolderSet<EnvironmentProvider> modifiers;
+    private final Holder<EnvironmentProvider> base;
 
     private ModifyEnvironmentProvider(
-            RegistryEntryList<EnvironmentProvider> modifiers,
-            RegistryEntry<EnvironmentProvider> base
+            HolderSet<EnvironmentProvider> modifiers,
+            Holder<EnvironmentProvider> base
     ) {
         this.modifiers = modifiers;
         this.base = base;
     }
 
     public ModifyEnvironmentProvider create(
-            RegistryEntryList<EnvironmentProvider> modifiers,
-            RegistryEntry<EnvironmentProvider> base
+            HolderSet<EnvironmentProvider> modifiers,
+            Holder<EnvironmentProvider> base
     ) {
         return new ModifyEnvironmentProvider(modifiers, base);
     }
@@ -52,16 +52,16 @@ public final class ModifyEnvironmentProvider implements EnvironmentProvider {
      * Builds the current components from the {@link #base()} and applies the modifiers to it, in the order that the
      * modifiers are specified.
      *
-     * @param world   The world/level being queried
+     * @param level   The world/level being queried
      * @param pos     The position in the world to query
      * @param biome   The biome at the position in the world
      * @param builder Component map builder to append to
      */
     @Override
-    public void buildCurrentComponents(World world, BlockPos pos, RegistryEntry<Biome> biome, ComponentMap.Builder builder) {
-        base.value().buildCurrentComponents(world, pos, biome, builder);
-        for (RegistryEntry<EnvironmentProvider> modifier : this.modifiers) {
-            modifier.value().buildCurrentComponents(world, pos, biome, builder);
+    public void buildCurrentComponents(Level level, BlockPos pos, Holder<Biome> biome, DataComponentMap.Builder builder) {
+        base.value().buildCurrentComponents(level, pos, biome, builder);
+        for (Holder<EnvironmentProvider> modifier : this.modifiers) {
+            modifier.value().buildCurrentComponents(level, pos, biome, builder);
         }
     }
 
@@ -75,7 +75,7 @@ public final class ModifyEnvironmentProvider implements EnvironmentProvider {
      *
      * @return Returns a registry entry list of providers
      */
-    public RegistryEntryList<EnvironmentProvider> modifiers() {
+    public HolderSet<EnvironmentProvider> modifiers() {
         return modifiers;
     }
 
@@ -84,7 +84,7 @@ public final class ModifyEnvironmentProvider implements EnvironmentProvider {
      *
      * @return Returns the provider registry entry
      */
-    public RegistryEntry<EnvironmentProvider> base() {
+    public Holder<EnvironmentProvider> base() {
         return base;
     }
 }

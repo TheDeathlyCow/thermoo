@@ -8,9 +8,9 @@ import com.github.thedeathlycow.thermoo.api.temperature.TemperatureAware;
 import com.github.thedeathlycow.thermoo.impl.component.ThermooComponents;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
-import net.minecraft.entity.attribute.EntityAttribute;
+import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
@@ -33,7 +33,7 @@ public abstract class EnvironmentAwareEntityMixin extends Entity implements Temp
     public abstract boolean canBreatheInWater();
 
     @Shadow
-    public abstract double getAttributeValue(RegistryEntry<EntityAttribute> attribute);
+    public abstract double getAttributeValue(RegistryEntry<Attribute> attribute);
 
     @Shadow
     public abstract boolean hasStatusEffect(RegistryEntry<StatusEffect> effect);

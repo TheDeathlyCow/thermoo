@@ -4,6 +4,7 @@ import com.github.thedeathlycow.thermoo.api.environment.component.EnvironmentCom
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.component.ComponentMap;
+import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -22,9 +23,9 @@ public final class ConstantEnvironmentProvider implements EnvironmentProvider {
             ).apply(instance, ConstantEnvironmentProvider::new)
     );
 
-    private final ComponentMap components;
+    private final DataComponentMap components;
 
-    private ConstantEnvironmentProvider(ComponentMap components) {
+    private ConstantEnvironmentProvider(DataComponentMap components) {
         this.components = components;
     }
 
@@ -36,7 +37,7 @@ public final class ConstantEnvironmentProvider implements EnvironmentProvider {
      * @return Returns a new replacement environment provider
      */
     @Contract("_->new")
-    public static ConstantEnvironmentProvider create(ComponentMap.Builder builder) {
+    public static ConstantEnvironmentProvider create(DataComponentMap.Builder builder) {
         return new ConstantEnvironmentProvider(builder.build());
     }
 
@@ -63,7 +64,7 @@ public final class ConstantEnvironmentProvider implements EnvironmentProvider {
     /**
      * Gets the component map stored in this provider. This is an {@link EnvironmentComponentTypes environment component}.
      */
-    public ComponentMap components() {
+    public DataComponentMap components() {
         return this.components;
     }
 }

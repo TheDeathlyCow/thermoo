@@ -4,12 +4,10 @@ import com.github.thedeathlycow.thermoo.api.ThermooRegistryKeys;
 import com.github.thedeathlycow.thermoo.api.command.*;
 import com.github.thedeathlycow.thermoo.api.environment.EnvironmentDefinition;
 import com.github.thedeathlycow.thermoo.api.environment.provider.EnvironmentProvider;
-import com.github.thedeathlycow.thermoo.api.util.TemperatureUnit;
 import com.github.thedeathlycow.thermoo.impl.compat.init.DependentModInitializer;
 import com.github.thedeathlycow.thermoo.impl.config.ThermooConfig;
 import com.github.thedeathlycow.thermoo.impl.environment.EnvironmentLookupImpl;
 import com.github.thedeathlycow.thermoo.impl.temperature.effect.TemperatureEffectLoader;
-import com.mojang.brigadier.arguments.ArgumentType;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.ArgumentTypeRegistry;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
@@ -18,7 +16,10 @@ import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.command.argument.serialize.ArgumentSerializer;
 import net.minecraft.command.argument.serialize.ConstantArgumentSerializer;
+import net.minecraft.commands.synchronization.SingletonArgumentInfo;
 import net.minecraft.resource.ResourceType;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.PackType;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
@@ -35,14 +36,14 @@ public class Thermoo implements ModInitializer {
 
     public static final ArgumentSerializer<
             HeatingModeArgumentType,
-            ConstantArgumentSerializer<HeatingModeArgumentType>.Properties
-            > HEATING_MODE_ARG_SERIALIZER = ConstantArgumentSerializer.of(HeatingModeArgumentType::heatingMode);
+            SingletonArgumentInfo<HeatingModeArgumentType>.Properties
+            > HEATING_MODE_ARG_SERIALIZER = SingletonArgumentInfo.contextAware(HeatingModeArgumentType::heatingMode);
 
 
     public static final ArgumentSerializer<
             TemperatureUnitArgumentType,
-            ConstantArgumentSerializer<TemperatureUnitArgumentType>.Properties
-            > TEMPERATURE_UNIT_ARG_SERIALIZER = ConstantArgumentSerializer.of(TemperatureUnitArgumentType::temperatureUnit);
+            SingletonArgumentInfo<TemperatureUnitArgumentType>.Properties
+            > TEMPERATURE_UNIT_ARG_SERIALIZER = SingletonArgumentInfo.contextFree(TemperatureUnitArgumentType::temperatureUnit);
 
     @Nullable
     private static ThermooConfig config = null;
@@ -50,13 +51,13 @@ public class Thermoo implements ModInitializer {
     @Override
     public void onInitialize() {
         ArgumentTypeRegistry.registerArgumentType(
-                Thermoo.id("heating_mode"),
+                Thermoo.location("heating_mode"),
                 HeatingModeArgumentType.class,
                 HEATING_MODE_ARG_SERIALIZER
         );
 
         ArgumentTypeRegistry.registerArgumentType(
-                Thermoo.id("temperature_unit"),
+                Thermoo.location("temperature_unit"),
                 TemperatureUnitArgumentType.class,
                 TEMPERATURE_UNIT_ARG_SERIALIZER
         );
@@ -81,7 +82,7 @@ public class Thermoo implements ModInitializer {
         ThermooCommonRegisters.registerEnvironmentProviderTypes();
         ThermooCommonRegisters.registerLootConditionTypes();
 
-        ResourceManagerHelper serverManager = ResourceManagerHelper.get(ResourceType.SERVER_DATA);
+        ResourceManagerHelper serverManager = ResourceManagerHelper.get(PackType.SERVER_DATA);
         serverManager.registerReloadListener(TemperatureEffectLoader.ID, TemperatureEffectLoader::new);
 
         EnvironmentLookupImpl.initialize();
@@ -92,14 +93,14 @@ public class Thermoo implements ModInitializer {
     }
 
     /**
-     * Creates a new {@link Identifier} under the namespace {@value #MODID}
+     * Creates a new {@link ResourceLocation} under the namespace {@value #MODID}
      *
      * @param path The identifier path
-     * @return Returns a new {@link Identifier}
+     * @return Returns a new {@link ResourceLocation}
      */
     @Contract("_->new")
-    public static Identifier id(String path) {
-        return Identifier.of(MODID, path);
+    public static ResourceLocation location(String path) {
+        return ResourceLocation.fromNamespaceAndPath(MODID, path);
     }
 
     public static ThermooConfig getConfig() {

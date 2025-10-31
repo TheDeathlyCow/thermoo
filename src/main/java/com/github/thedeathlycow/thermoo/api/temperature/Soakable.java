@@ -8,7 +8,7 @@ import org.jetbrains.annotations.ApiStatus;
  * Soakable entities are things that can get wet. Wetness can increase when in the rain, swimming, or splashed with a water bottle.
  * This is not related to thirst, instead is just how wet an entity is.
  * <p>
- * This class is interface injected into {@link net.minecraft.entity.LivingEntity}. Therefore, ALL methods must have a
+ * This class is interface injected into {@link net.minecraft.world.entity.LivingEntity}. Therefore, ALL methods must have a
  * default implementation. Methods that should normally be abstract should throw a {@link NotImplementedException} instead
  * of being declared abstract.
  */
