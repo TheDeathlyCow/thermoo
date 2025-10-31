@@ -1,8 +1,7 @@
 package com.github.thedeathlycow.thermoo.api.temperature.effects;
 
 import com.github.thedeathlycow.thermoo.impl.temperature.effect.TemperatureEffectManager;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
@@ -37,7 +36,7 @@ public final class TemperatureEffects {
     );
 
     /**
-     * Applies {@linkplain  net.minecraft.entity.effect.StatusEffect status effects} to entities based on their
+     * Applies {@linkplain net.minecraft.world.effect.MobEffect mob effects} to entities based on their
      * temperature
      */
     public static final TemperatureEffect<StatusEffectTemperatureEffect.Config> STATUS_EFFECT = new StatusEffectTemperatureEffect(
@@ -45,7 +44,7 @@ public final class TemperatureEffects {
     );
 
     /**
-     * Applies scaled {@linkplain net.minecraft.entity.attribute.EntityAttributeModifier attribute modifiers} to
+     * Applies scaled {@linkplain net.minecraft.world.entity.ai.attributes.AttributeModifier attribute modifiers} to
      * entities based on their temperature
      */
     public static final TemperatureEffect<ScalingAttributeModifierTemperatureEffect.Config> SCALING_ATTRIBUTE_MODIFIER = new ScalingAttributeModifierTemperatureEffect(
@@ -53,7 +52,7 @@ public final class TemperatureEffects {
     );
 
     /**
-     * Applies {@linkplain net.minecraft.entity.attribute.EntityAttributeModifier attribute modifiers} to entities
+     * Applies {@linkplain net.minecraft.world.entity.ai.attributes.AttributeModifier attribute modifiers} to entities
      */
     public static final TemperatureEffect<AttributeModifierTemperatureEffect.Config> ATTRIBUTE_MODIFIER = new AttributeModifierTemperatureEffect(
             AttributeModifierTemperatureEffect.CODEC
@@ -67,13 +66,13 @@ public final class TemperatureEffects {
     public static final TemperatureEffect<DamageTemperatureEffect.Config> DAMAGE = new DamageTemperatureEffect(DamageTemperatureEffect.CODEC);
 
     /**
-     * Gets the effect from an ID.
+     * Gets the effect from a resource location.
      *
-     * @return Returns the effect with the given id, or null if not present.
+     * @return Returns the effect with the given resource location, or null if not present.
      */
     @Nullable
-    public static ConfiguredTemperatureEffect<?> getEffect(Identifier id) {
-        return TemperatureEffectManager.INSTANCE.getEffect(id);
+    public static ConfiguredTemperatureEffect<?> getEffect(ResourceLocation location) {
+        return TemperatureEffectManager.INSTANCE.getEffect(location);
     }
 
 

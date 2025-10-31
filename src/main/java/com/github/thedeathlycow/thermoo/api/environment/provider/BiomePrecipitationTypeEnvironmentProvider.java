@@ -4,12 +4,12 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.component.ComponentMap;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.util.StringIdentifiable;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponentMap;
+import net.minecraft.util.StringRepresentable;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.biome.Biome;
 import org.jetbrains.annotations.Contract;
 
 import java.util.Collections;
@@ -30,9 +30,9 @@ public final class BiomePrecipitationTypeEnvironmentProvider implements Environm
             ).apply(instance, BiomePrecipitationTypeEnvironmentProvider::new)
     );
 
-    private final Map<Biome.Precipitation, RegistryEntry<EnvironmentProvider>> precipitationTypeMap;
+    private final Map<Biome.Precipitation, Holder<EnvironmentProvider>> precipitationTypeMap;
 
-    private BiomePrecipitationTypeEnvironmentProvider(Map<Biome.Precipitation, RegistryEntry<EnvironmentProvider>> precipitationTypeMap) {
+    private BiomePrecipitationTypeEnvironmentProvider(Map<Biome.Precipitation, Holder<EnvironmentProvider>> precipitationTypeMap) {
         this.precipitationTypeMap = new EnumMap<>(Biome.Precipitation.class);
         this.precipitationTypeMap.putAll(precipitationTypeMap);
     }
@@ -45,17 +45,17 @@ public final class BiomePrecipitationTypeEnvironmentProvider implements Environm
      * <p>
      * If no provider is mapped to the local precipitation type, then nothing is built.
      *
-     * @param world   The world/level being queried
+     * @param level   The world/level being queried
      * @param pos     The position in the world to query
      * @param biome   The biome at the position in the world
      * @param builder A component map builder to append to
      */
     @Override
-    public void buildCurrentComponents(World world, BlockPos pos, RegistryEntry<Biome> biome, ComponentMap.Builder builder) {
-        Biome.Precipitation biomePrecipitationType = biome.value().getPrecipitation(pos, world.getSeaLevel());
-        RegistryEntry<EnvironmentProvider> provider = this.precipitationTypeMap.get(biomePrecipitationType);
+    public void buildCurrentComponents(Level level, BlockPos pos, Holder<Biome> biome, DataComponentMap.Builder builder) {
+        Biome.Precipitation biomePrecipitationType = biome.value().getPrecipitationAt(pos, level.getSeaLevel());
+        Holder<EnvironmentProvider> provider = this.precipitationTypeMap.get(biomePrecipitationType);
         if (provider != null) {
-            provider.value().buildCurrentComponents(world, pos, biome, builder);
+            provider.value().buildCurrentComponents(level, pos, biome, builder);
         }
     }
 
@@ -69,15 +69,15 @@ public final class BiomePrecipitationTypeEnvironmentProvider implements Environm
      *
      * @return Returns an unmodifiable enum map
      */
-    public Map<Biome.Precipitation, RegistryEntry<EnvironmentProvider>> precipitationType() {
+    public Map<Biome.Precipitation, Holder<EnvironmentProvider>> precipitationType() {
         return Collections.unmodifiableMap(precipitationTypeMap);
     }
 
-    private static MapCodec<Map<Biome.Precipitation, RegistryEntry<EnvironmentProvider>>> createPrecipitationMapCodec() {
+    private static MapCodec<Map<Biome.Precipitation, Holder<EnvironmentProvider>>> createPrecipitationMapCodec() {
         return Codec.simpleMap(
                 Biome.Precipitation.CODEC,
                 EnvironmentProvider.ENTRY_CODEC,
-                StringIdentifiable.toKeyable(Biome.Precipitation.values())
+                StringRepresentable.keys(Biome.Precipitation.values())
         ).validate(map -> {
             if (map.isEmpty()) {
                 return DataResult.error(() -> "No precipitation key in: " + map);
@@ -91,7 +91,7 @@ public final class BiomePrecipitationTypeEnvironmentProvider implements Environm
      * A builder for local precipitation environment providers.
      */
     public static final class Builder {
-        private final Map<Biome.Precipitation, RegistryEntry<EnvironmentProvider>> precipitationMap = new EnumMap<>(Biome.Precipitation.class);
+        private final Map<Biome.Precipitation, Holder<EnvironmentProvider>> precipitationMap = new EnumMap<>(Biome.Precipitation.class);
 
         private Builder() {
 
@@ -105,7 +105,7 @@ public final class BiomePrecipitationTypeEnvironmentProvider implements Environm
          * @return Returns this builder
          */
         @Contract("_,_->this")
-        public Builder addChild(Biome.Precipitation precipitation, RegistryEntry<EnvironmentProvider> child) {
+        public Builder addChild(Biome.Precipitation precipitation, Holder<EnvironmentProvider> child) {
             Objects.requireNonNull(precipitation);
             Objects.requireNonNull(child);
 

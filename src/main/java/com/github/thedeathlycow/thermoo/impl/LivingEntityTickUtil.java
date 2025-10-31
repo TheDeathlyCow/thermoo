@@ -11,45 +11,46 @@ import com.github.thedeathlycow.thermoo.impl.environment.EnvironmentTickContextI
 import com.github.thedeathlycow.thermoo.impl.environment.ServerPlayerTickUtil;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.util.TriState;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.FenceGateBlock;
-import net.minecraft.component.ComponentMap;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.registry.tag.BlockTags;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponentMap;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.block.FenceGateBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
+
 
 public final class LivingEntityTickUtil {
     public static void tick(LivingEntity entity) {
-        if (entity.isDead() || entity.isRemoved()) {
+        if (entity.isDeadOrDying() || entity.isRemoved()) {
             return;
         }
 
-        if (entity.getEntityWorld() instanceof ServerWorld serverWorld) {
+        if (entity.level() instanceof ServerLevel serverLevel) {
             BlockPos pos = getTemperatureTickPos(entity);
-            if (entity instanceof ServerPlayerEntity player) {
-                EnvironmentTickContext<ServerPlayerEntity> context = new EnvironmentTickContextImpl<>(
+            if (entity instanceof ServerPlayer player) {
+                EnvironmentTickContext<ServerPlayer> context = new EnvironmentTickContextImpl<>(
                         player,
-                        serverWorld,
+                        serverLevel,
                         pos,
-                        EnvironmentLookup.getInstance().findEnvironmentComponents(serverWorld, pos)
+                        EnvironmentLookup.getInstance().findEnvironmentComponents(serverLevel, pos)
                 );
                 invokeEntityEvents(context);
                 ServerPlayerTickUtil.invokePlayerTemperatureEvents(context);
             } else {
                 EnvironmentTickContext<LivingEntity> context = new EnvironmentTickContextImpl<>(
                         entity,
-                        serverWorld,
+                        serverLevel,
                         pos,
-                        ComponentMap.EMPTY
+                        DataComponentMap.EMPTY
                 );
                 invokeEntityEvents(context);
             }
 
-            boolean isSyncTick = entity.age % 20 == 0;
+            boolean isSyncTick = entity.tickCount % 20 == 0;
 
             if (isSyncTick || ThermooComponents.TEMPERATURE.get(entity).isDirty()) {
                 ThermooComponents.TEMPERATURE.sync(entity);
@@ -67,19 +68,19 @@ public final class LivingEntityTickUtil {
      * @return returns a blockpos shifted up 0.21 blocks from the entity's current position
      */
     public static BlockPos getTemperatureTickPos(LivingEntity entity) {
-        Vec3d pos = entity.getEntityPos();
+        Vec3 pos = entity.position();
         final float offset = 0.21f;
-        if (entity.supportingBlockPos.isPresent()) {
-            BlockPos blockPos = entity.supportingBlockPos.get();
-            BlockState blockState = entity.getEntityWorld().getBlockState(blockPos);
-            return !blockState.isIn(BlockTags.FENCES) && !blockState.isIn(BlockTags.WALLS) && !(blockState.getBlock() instanceof FenceGateBlock)
-                    ? blockPos.withY(MathHelper.floor(pos.y + offset))
+        if (entity.mainSupportingBlockPos.isPresent()) {
+            BlockPos blockPos = entity.mainSupportingBlockPos.get();
+            BlockState blockState = entity.level().getBlockState(blockPos);
+            return !blockState.is(BlockTags.FENCES) && !blockState.is(BlockTags.WALLS) && !(blockState.getBlock() instanceof FenceGateBlock)
+                    ? blockPos.atY(Mth.floor(pos.y + offset))
                     : blockPos;
         } else {
             return new BlockPos(
-                    MathHelper.floor(pos.x),
-                    MathHelper.floor(pos.y + offset),
-                    MathHelper.floor(pos.z)
+                    Mth.floor(pos.x),
+                    Mth.floor(pos.y + offset),
+                    Mth.floor(pos.z)
             );
         }
     }

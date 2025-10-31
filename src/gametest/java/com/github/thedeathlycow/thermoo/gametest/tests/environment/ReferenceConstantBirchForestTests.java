@@ -2,9 +2,9 @@ package com.github.thedeathlycow.thermoo.gametest.tests.environment;
 
 import net.fabricmc.fabric.api.gametest.v1.CustomTestMethodInvoker;
 import net.fabricmc.fabric.api.gametest.v1.GameTest;
-import net.minecraft.test.TestContext;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.BiomeKeys;
+import net.minecraft.gametest.framework.GameTestHelper;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.biome.Biomes;
 
 import java.lang.reflect.Method;
 
@@ -12,29 +12,29 @@ import java.lang.reflect.Method;
 public class ReferenceConstantBirchForestTests implements CustomTestMethodInvoker {
 
     @GameTest(environment = EnvironmentTestHelper.NO_SEASONS)
-    public void birch_forest_temperature_is_22c(TestContext context) {
-        World world = context.getWorld();
+    public void birch_forest_temperature_is_22c(GameTestHelper helper) {
+        ServerLevel level = helper.getLevel();
 
-        double temperature = EnvironmentTestHelper.getBiomeTemperature(context, world, BiomeKeys.BIRCH_FOREST);
-        EnvironmentTestHelper.assertTemperatureEquals(context, 22.0, temperature);
+        double temperature = EnvironmentTestHelper.getBiomeTemperature(helper, level, Biomes.BIRCH_FOREST);
+        EnvironmentTestHelper.assertTemperatureEquals(helper, 22.0, temperature);
 
-        context.complete();
+        helper.succeed();
     }
 
     @GameTest(environment = EnvironmentTestHelper.NO_SEASONS)
-    public void birch_forest_humidity_is_52pc(TestContext context) {
-        World world = context.getWorld();
+    public void birch_forest_humidity_is_52pc(GameTestHelper helper) {
+        ServerLevel level = helper.getLevel();
 
-        double humidity = EnvironmentTestHelper.getBiomeHumidity(context, world, BiomeKeys.BIRCH_FOREST);
-        EnvironmentTestHelper.assertHumidityEquals(context, 0.52, humidity);
+        double humidity = EnvironmentTestHelper.getBiomeHumidity(helper, level, Biomes.BIRCH_FOREST);
+        EnvironmentTestHelper.assertHumidityEquals(helper, 0.52, humidity);
 
-        context.complete();
+        helper.succeed();
     }
 
     @Override
-    public void invokeTestMethod(TestContext context, Method method) throws ReflectiveOperationException {
-        EnvironmentTestHelper.expectTemperateSeason(context, null);
-        EnvironmentTestHelper.expectTropicalSeason(context, null);
-        method.invoke(this, context);
+    public void invokeTestMethod(GameTestHelper helper, Method method) throws ReflectiveOperationException {
+        EnvironmentTestHelper.expectTemperateSeason(helper, null);
+        EnvironmentTestHelper.expectTropicalSeason(helper, null);
+        method.invoke(this, helper);
     }
 }

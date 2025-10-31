@@ -5,7 +5,7 @@ import com.google.gson.JsonElement;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.JsonOps;
-import net.minecraft.util.JsonHelper;
+import net.minecraft.util.GsonHelper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -54,7 +54,7 @@ class FunctionTemperatureEffectTest {
     }
 
     private static JsonElement createJson(int permissionLevel) {
-        return JsonHelper.deserialize(
+        return GsonHelper.parse(
                 String.format("""
                                 {
                                     "function": "test:test",

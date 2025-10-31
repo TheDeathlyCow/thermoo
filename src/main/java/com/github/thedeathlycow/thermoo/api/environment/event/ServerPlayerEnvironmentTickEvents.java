@@ -4,7 +4,7 @@ import com.github.thedeathlycow.thermoo.api.temperature.event.EnvironmentTickCon
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 import net.fabricmc.fabric.api.util.TriState;
-import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.level.ServerPlayer;
 
 /**
  * Events that are called for a server player each tick to update and apply passive temperature changes based on their
@@ -75,17 +75,17 @@ public final class ServerPlayerEnvironmentTickEvents {
 
     @FunctionalInterface
     public interface AllowTemperatureChangeUpdate {
-        TriState allowUpdate(EnvironmentTickContext<ServerPlayerEntity> context);
+        TriState allowUpdate(EnvironmentTickContext<ServerPlayer> context);
     }
 
     @FunctionalInterface
     public interface GetTemperatureChange {
-        int addPointChange(EnvironmentTickContext<ServerPlayerEntity> context);
+        int addPointChange(EnvironmentTickContext<ServerPlayer> context);
     }
 
     @FunctionalInterface
     public interface AllowTemperatureChangeApply {
-        TriState allowTemperatureChange(EnvironmentTickContext<ServerPlayerEntity> context, int temperatureChange);
+        TriState allowTemperatureChange(EnvironmentTickContext<ServerPlayer> context, int temperatureChange);
     }
 
     private ServerPlayerEnvironmentTickEvents() {

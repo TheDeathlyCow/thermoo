@@ -5,11 +5,11 @@ import com.github.thedeathlycow.thermoo.impl.client.HeartBarContextImpl;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.Share;
 import com.llamalad7.mixinextras.sugar.ref.LocalRef;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.hud.InGameHud;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector2i;
 import org.spongepowered.asm.mixin.Debug;
@@ -24,30 +24,30 @@ import java.util.Collections;
 import java.util.SequencedCollection;
 
 /**
- * For the mount health bar. For the player health bar see {@link InGameHudPlayerTemperatureMixin}
+ * For the mount health bar. For the player health bar see {@link GuiPlayerTemperatureMixin}
  */
-@Mixin(InGameHud.class)
+@Mixin(Gui.class)
 @Debug(export = true)
-public abstract class InGameHudMountTemperatureMixin {
+public abstract class GuiMountTemperatureMixin {
     @Shadow
-    protected abstract LivingEntity getRiddenEntity();
+    protected abstract LivingEntity getPlayerVehicleWithHealth();
 
     @Shadow
-    protected abstract PlayerEntity getCameraPlayer();
+    protected abstract Player getCameraPlayer();
 
     @Shadow
-    protected abstract int getHeartCount(@Nullable LivingEntity entity);
+    protected abstract int getVehicleMaxHearts(@Nullable LivingEntity entity);
 
     @Inject(
-            method = "renderMountHealth",
+            method = "renderVehicleHealth",
             at = @At(
                     value = "INVOKE",
-                    target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/util/Identifier;IIII)V",
+                    target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/resources/ResourceLocation;IIII)V",
                     ordinal = 0
             )
     )
     private void startHeartCapture(
-            DrawContext context,
+            GuiGraphics poseStack,
             CallbackInfo ci,
             @Local(ordinal = 8) int heartX,
             @Local(ordinal = 4) int heartY,
@@ -61,11 +61,11 @@ public abstract class InGameHudMountTemperatureMixin {
     }
 
     @Inject(
-            method = "renderMountHealth",
+            method = "renderVehicleHealth",
             at = @At("TAIL")
     )
     private void renderMountHealth(
-            DrawContext context,
+            GuiGraphics graphics,
             CallbackInfo ci,
             @Share("thermoo_heart_positions") LocalRef<SequencedCollection<Vector2i>> heartPositionsRef
     ) {
@@ -74,14 +74,14 @@ public abstract class InGameHudMountTemperatureMixin {
             return;
         }
 
-        PlayerEntity player = this.getCameraPlayer();
-        LivingEntity mount = this.getRiddenEntity();
+        Player player = this.getCameraPlayer();
+        LivingEntity mount = this.getPlayerVehicleWithHealth();
 
         // this weirdness accounts for two vanilla bugs:
         // - MC-200102: last half heart is not displayed with an odd max health
         // - a second bug that only shows up to 3 rows of mount health
-        int maxHealth = this.getHeartCount(mount) * 2;
-        int health = Math.min(MathHelper.ceil(mount.getHealth()), maxHealth);
+        int maxHealth = this.getVehicleMaxHearts(mount) * 2;
+        int health = Math.min(Mth.ceil(mount.getHealth()), maxHealth);
 
         var heartBarContext = new HeartBarContextImpl(
                 Collections.unmodifiableSequencedCollection(heartPositions),
@@ -89,6 +89,6 @@ public abstract class InGameHudMountTemperatureMixin {
                 maxHealth
         );
 
-        StatusBarOverlayRenderEvents.AFTER_MOUNT_HEALTH_BAR.invoker().render(context, player, mount, heartBarContext);
+        StatusBarOverlayRenderEvents.AFTER_MOUNT_HEALTH_BAR.invoker().render(graphics, player, mount, heartBarContext);
     }
 }

@@ -3,11 +3,11 @@ package com.github.thedeathlycow.thermoo.api.environment.provider;
 import com.github.thedeathlycow.thermoo.api.environment.component.EnvironmentComponentTypes;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.component.ComponentMap;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponentMap;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.biome.Biome;
 import org.jetbrains.annotations.Contract;
 
 /**
@@ -22,9 +22,9 @@ public final class ConstantEnvironmentProvider implements EnvironmentProvider {
             ).apply(instance, ConstantEnvironmentProvider::new)
     );
 
-    private final ComponentMap components;
+    private final DataComponentMap components;
 
-    private ConstantEnvironmentProvider(ComponentMap components) {
+    private ConstantEnvironmentProvider(DataComponentMap components) {
         this.components = components;
     }
 
@@ -36,7 +36,7 @@ public final class ConstantEnvironmentProvider implements EnvironmentProvider {
      * @return Returns a new replacement environment provider
      */
     @Contract("_->new")
-    public static ConstantEnvironmentProvider create(ComponentMap.Builder builder) {
+    public static ConstantEnvironmentProvider create(DataComponentMap.Builder builder) {
         return new ConstantEnvironmentProvider(builder.build());
     }
 
@@ -45,13 +45,13 @@ public final class ConstantEnvironmentProvider implements EnvironmentProvider {
      * this provider are immutable and never change. If a component type is mapped to a value in the builder and NOT
      * mapped to a value in this provider, then it will be unaffected.
      *
-     * @param world   The world/level being queried
+     * @param level   The world/level being queried
      * @param pos     The position in the world to query
      * @param biome   The biome at the position in the world
      * @param builder A component map builder to append to
      */
     @Override
-    public void buildCurrentComponents(World world, BlockPos pos, RegistryEntry<Biome> biome, ComponentMap.Builder builder) {
+    public void buildCurrentComponents(Level level, BlockPos pos, Holder<Biome> biome, DataComponentMap.Builder builder) {
         builder.addAll(this.components);
     }
 
@@ -63,7 +63,7 @@ public final class ConstantEnvironmentProvider implements EnvironmentProvider {
     /**
      * Gets the component map stored in this provider. This is an {@link EnvironmentComponentTypes environment component}.
      */
-    public ComponentMap components() {
+    public DataComponentMap components() {
         return this.components;
     }
 }

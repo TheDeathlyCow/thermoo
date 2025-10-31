@@ -1,32 +1,31 @@
 package com.github.thedeathlycow.thermoo.gametest;
 
 import com.github.thedeathlycow.thermoo.api.ThermooAttributes;
-import com.github.thedeathlycow.thermoo.api.item.ModifyItemAttributeModifiersCallback;
 import com.github.thedeathlycow.thermoo.api.season.ThermooSeason;
 import com.github.thedeathlycow.thermoo.api.season.ThermooSeasonEvents;
-import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import com.github.thedeathlycow.thermoo.gametest.tests.item.ModifyItemAttributeModifiersTest;
 import com.github.thedeathlycow.thermoo.gametest.tick.TestEnvironmentChanges;
 import com.github.thedeathlycow.thermoo.gametest.tick.TestSoakableChanges;
 import com.github.thedeathlycow.thermoo.gametest.tick.TestTemperatureChanges;
+import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
-import net.minecraft.util.Identifier;
-import net.minecraft.world.GameRules;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.GameRules;
 
 import java.util.Optional;
 
 public class ThermooTestMod implements ModInitializer {
     public static final String MODID = Thermoo.MODID + "-test";
-    public static final GameRules.Key<GameRules.IntRule> CURRENT_SEASON =
+    public static final GameRules.Key<GameRules.IntegerValue> CURRENT_SEASON =
             GameRuleRegistry.register(
                     Thermoo.MODID + ".setTestSeason",
                     GameRules.Category.MISC,
                     GameRuleFactory.createIntRule(0, 0, 4)
             );
 
-    public static final GameRules.Key<GameRules.IntRule> CURRENT_TROPICAL_SEASON =
+    public static final GameRules.Key<GameRules.IntegerValue> CURRENT_TROPICAL_SEASON =
             GameRuleRegistry.register(
                     Thermoo.MODID + ".setTestTropicalSeason",
                     GameRules.Category.MISC,
@@ -62,7 +61,7 @@ public class ThermooTestMod implements ModInitializer {
         );
     }
 
-    public static Identifier id(String path) {
-        return Identifier.of(MODID, path);
+    public static ResourceLocation location(String path) {
+        return ResourceLocation.fromNamespaceAndPath(MODID, path);
     }
 }

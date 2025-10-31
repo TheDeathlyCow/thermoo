@@ -2,8 +2,8 @@ package com.github.thedeathlycow.thermoo.api.temperature.effects;
 
 
 import com.mojang.serialization.Codec;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.server.world.ServerWorld;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.LivingEntity;
 
 /**
  * Represents an 'empty' temperature effect that is never applied and does nothing.
@@ -19,7 +19,7 @@ public final class EmptyTemperatureEffect extends TemperatureEffect<EmptyTempera
     }
 
     @Override
-    public void apply(LivingEntity victim, ServerWorld serverWorld, Config config) {
+    public void apply(LivingEntity victim, ServerLevel serverLevel, Config config) {
         // does nothing
     }
 

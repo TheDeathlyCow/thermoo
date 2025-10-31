@@ -6,14 +6,14 @@ import com.github.thedeathlycow.thermoo.api.environment.EnvironmentLookup;
 import com.github.thedeathlycow.thermoo.api.environment.provider.EnvironmentProvider;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
-import net.minecraft.component.ComponentMap;
-import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.core.Registry;
+import net.minecraft.core.component.DataComponentMap;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.biome.Biome;
 import org.jetbrains.annotations.VisibleForTesting;
 
 import java.util.Comparator;
@@ -29,46 +29,46 @@ public class EnvironmentLookupImpl implements EnvironmentLookup {
     }
 
     @Override
-    public ComponentMap findEnvironmentComponents(World world, BlockPos pos) {
-        RegistryEntry<Biome> biome = world.getBiome(pos);
-        return this.findEnvironmentComponentsForBiome(world, pos, biome);
+    public DataComponentMap findEnvironmentComponents(Level level, BlockPos pos) {
+        Holder<Biome> biome = level.getBiome(pos);
+        return this.findEnvironmentComponentsForBiome(level, pos, biome);
     }
 
-    public ComponentMap findEnvironmentComponentsForBiome(World world, BlockPos pos, RegistryEntry<Biome> biome) {
-        ComponentMap.Builder builder = ComponentMap.builder();
-        for (RegistryEntry<EnvironmentProvider> provider : this.getProviders(biome)) {
-            provider.value().buildCurrentComponents(world, pos, biome, builder);
+    public DataComponentMap findEnvironmentComponentsForBiome(Level level, BlockPos pos, Holder<Biome> biome) {
+        DataComponentMap.Builder builder = DataComponentMap.builder();
+        for (Holder<EnvironmentProvider> provider : this.getProviders(biome)) {
+            provider.value().buildCurrentComponents(level, pos, biome, builder);
         }
         return builder.build();
     }
 
-    private List<RegistryEntry<EnvironmentProvider>> getProviders(RegistryEntry<Biome> biomeEntry) {
+    private List<Holder<EnvironmentProvider>> getProviders(Holder<Biome> biomeEntry) {
         Biome biome = biomeEntry.value();
         return ((ThermooBiome) (Object) biome).thermoo$getEnvironmentProviders();
     }
 
     private void addProvidersToBiomes(MinecraftServer server) {
-        Registry<EnvironmentDefinition> envRegistry = server.getRegistryManager().getOrThrow(ThermooRegistryKeys.ENVIRONMENT);
-        Registry<Biome> biomeRegistry = server.getRegistryManager().getOrThrow(RegistryKeys.BIOME);
+        Registry<EnvironmentDefinition> envRegistry = server.registryAccess().lookupOrThrow(ThermooRegistryKeys.ENVIRONMENT);
+        Registry<Biome> biomeRegistry = server.registryAccess().lookupOrThrow(Registries.BIOME);
 
-        biomeRegistry.streamEntries().forEach(entry -> {
-            List<RegistryEntry<EnvironmentProvider>> providers = getAllMatchingEnvironments(entry, envRegistry)
+        biomeRegistry.listElements().forEach(holder -> {
+            List<Holder<EnvironmentProvider>> providers = getAllMatchingEnvironments(holder, envRegistry)
                     .map(EnvironmentDefinition::provider)
                     .toList();
 
-            Biome biome = entry.value();
+            Biome biome = holder.value();
             Objects.requireNonNull(biome);
             ThermooBiome extendedBiome = ((ThermooBiome) (Object) biome);
             extendedBiome.thermoo$replaceProviders(providers);
 
             if (Thermoo.LOGGER.isDebugEnabled()) {
-                Thermoo.LOGGER.debug("Found {} providers for {}.", providers.size(), entry.registryKey().getValue());
+                Thermoo.LOGGER.debug("Found {} providers for {}.", providers.size(), holder.key().location());
             }
         });
     }
 
     @VisibleForTesting
-    public static Stream<EnvironmentDefinition> getAllMatchingEnvironments(RegistryEntry<Biome> biome, Registry<EnvironmentDefinition> envRegistry) {
+    public static Stream<EnvironmentDefinition> getAllMatchingEnvironments(Holder<Biome> biome, Registry<EnvironmentDefinition> envRegistry) {
         return envRegistry.stream()
                 .filter(entry -> entry.providesFor(biome))
                 .sorted(Comparator.comparingInt(EnvironmentDefinition::priority).reversed());

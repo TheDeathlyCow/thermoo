@@ -4,9 +4,9 @@ import com.github.thedeathlycow.thermoo.api.ThermooRegistries;
 import com.github.thedeathlycow.thermoo.api.util.TemperatureRecord;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import com.mojang.serialization.Codec;
-import net.minecraft.component.ComponentMap;
-import net.minecraft.component.ComponentType;
-import net.minecraft.registry.Registry;
+import net.minecraft.core.Registry;
+import net.minecraft.core.component.DataComponentMap;
+import net.minecraft.core.component.DataComponentType;
 
 import java.util.function.UnaryOperator;
 
@@ -17,10 +17,10 @@ import java.util.function.UnaryOperator;
  * {@link ThermooRegistries#ENVIRONMENT_COMPONENT_TYPE}.
  */
 public final class EnvironmentComponentTypes {
-    public static final Codec<ComponentType<?>> COMPONENT_TYPE_CODEC = Codec.lazyInitialized(
-            ThermooRegistries.ENVIRONMENT_COMPONENT_TYPE::getCodec
+    public static final Codec<DataComponentType<?>> COMPONENT_TYPE_CODEC = Codec.lazyInitialized(
+            ThermooRegistries.ENVIRONMENT_COMPONENT_TYPE::byNameCodec
     );
-    public static final Codec<ComponentMap> COMPONENT_MAP_CODEC = ComponentMap.createCodec(COMPONENT_TYPE_CODEC);
+    public static final Codec<DataComponentMap> COMPONENT_MAP_CODEC = DataComponentMap.makeCodec(COMPONENT_TYPE_CODEC);
 
     /**
      * Stores a temperature reading in {@link com.github.thedeathlycow.thermoo.api.util.TemperatureUnit a unit} such as
@@ -28,9 +28,9 @@ public final class EnvironmentComponentTypes {
      *
      * @see TemperatureRecordComponent
      */
-    public static final ComponentType<TemperatureRecord> TEMPERATURE = register(
+    public static final DataComponentType<TemperatureRecord> TEMPERATURE = register(
             "temperature",
-            builder -> builder.codec(TemperatureRecordComponent.CODEC)
+            builder -> builder.persistent(TemperatureRecordComponent.CODEC)
     );
 
     /**
@@ -42,19 +42,19 @@ public final class EnvironmentComponentTypes {
      *
      * @see RelativeHumidityComponent
      */
-    public static final ComponentType<Double> RELATIVE_HUMIDITY = register(
+    public static final DataComponentType<Double> RELATIVE_HUMIDITY = register(
             "relative_humidity",
-            builder -> builder.codec(RelativeHumidityComponent.CODEC)
+            builder -> builder.persistent(RelativeHumidityComponent.CODEC)
     );
 
-    private static <T> ComponentType<T> register(
+    private static <T> DataComponentType<T> register(
             String name,
-            UnaryOperator<ComponentType.Builder<T>> builderOperator
+            UnaryOperator<DataComponentType.Builder<T>> builderOperator
     ) {
         return Registry.register(
                 ThermooRegistries.ENVIRONMENT_COMPONENT_TYPE,
-                Thermoo.id(name),
-                builderOperator.apply(ComponentType.builder())
+                Thermoo.location(name),
+                builderOperator.apply(DataComponentType.builder())
                         .build()
         );
     }

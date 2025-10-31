@@ -7,11 +7,11 @@ import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import com.github.thedeathlycow.thermoo.mixin.common.accessor.ComponentMapBuilderAccessor;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.component.ComponentMap;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponentMap;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.biome.Biome;
 import org.jetbrains.annotations.Contract;
 
 /**
@@ -48,20 +48,20 @@ public final class TemperatureShiftEnvironmentProvider implements EnvironmentPro
      * temperature component in the builder. If no temperature component is in the builder, then this will skip and log
      * a warning.
      *
-     * @param world   The world/level being queried
+     * @param level   The world/level being queried
      * @param pos     The position in the world to query
      * @param biome   The biome at the position in the world
      * @param builder A reducible component map builder to append to
      */
     @Override
-    public void buildCurrentComponents(World world, BlockPos pos, RegistryEntry<Biome> biome, ComponentMap.Builder builder) {
+    public void buildCurrentComponents(Level level, BlockPos pos, Holder<Biome> biome, DataComponentMap.Builder builder) {
         ComponentMapBuilderAccessor accessor = (ComponentMapBuilderAccessor) builder;
         if (builder.contains(EnvironmentComponentTypes.TEMPERATURE)) {
             TemperatureRecord base = builder.getOrDefault(EnvironmentComponentTypes.TEMPERATURE, TemperatureRecordComponent.DEFAULT);
             TemperatureRecord shifted = base.add(this.shift);
-            builder.add(EnvironmentComponentTypes.TEMPERATURE, shifted);
+            builder.set(EnvironmentComponentTypes.TEMPERATURE, shifted);
         } else {
-            Thermoo.LOGGER.warn("Unable to shift a missing temperature component in: {}", accessor.thermoo$getComponents());
+            Thermoo.LOGGER.warn("Unable to shift a missing temperature component in: {}", accessor.thermoo$getMap());
         }
     }
 

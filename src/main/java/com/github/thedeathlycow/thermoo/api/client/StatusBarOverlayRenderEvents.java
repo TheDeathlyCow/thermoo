@@ -4,12 +4,9 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import org.joml.Vector2i;
-
-import java.util.List;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 
 /**
  * Event for rendering temperature overlays on status bar.
@@ -59,13 +56,13 @@ public final class StatusBarOverlayRenderEvents {
          * Note that {@code displayHealth} and {@code maxDisplayHealth} are not always the same as health and max
          * health. Mods that override the health bar rendering like Colorful Hearts may change these values.
          *
-         * @param drawContext     DrawContext for the HUD
+         * @param graphics        Graphical draw context for the HUD
          * @param player          The player rendering hearts for
          * @param heartBarContext Data associated with the player heart bar.
          */
         void render(
-                DrawContext drawContext,
-                PlayerEntity player,
+                GuiGraphics graphics,
+                Player player,
                 HeartBarContext heartBarContext
         );
     }
@@ -73,14 +70,14 @@ public final class StatusBarOverlayRenderEvents {
     @FunctionalInterface
     public interface RenderMountHealthBarCallback {
         /**
-         * @param drawContext     Draw context
+         * @param graphics        Graphical draw context for the HUD
          * @param player          The main player
          * @param mount           The animal the player is riding (ex: pig, horse, camel)
          * @param heartBarContext Data associated with the mount heart bar.
          */
         void render(
-                DrawContext drawContext,
-                PlayerEntity player,
+                GuiGraphics graphics,
+                Player player,
                 LivingEntity mount,
                 HeartBarContext heartBarContext
         );

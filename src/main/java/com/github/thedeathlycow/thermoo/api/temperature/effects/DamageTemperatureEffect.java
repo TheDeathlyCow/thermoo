@@ -4,22 +4,22 @@ import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.damage.DamageType;
-import net.minecraft.registry.DynamicRegistryManager;
-import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.dynamic.Codecs;
+import net.minecraft.core.Registry;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.ExtraCodecs;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageType;
+import net.minecraft.world.entity.LivingEntity;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Applies damage to {@link net.minecraft.entity.LivingEntity}s when their temperature scale is within a given range.
+ * Applies damage to {@link net.minecraft.world.entity.LivingEntity}s when their temperature scale is within a given range.
  * The amount and interval of the damage pulses can be configured, as well as the damage type. However, the {@link DamageSource}
  * applied only stores the type - the direct source entity, attacker, and position are all {@code null}.
  */
@@ -27,13 +27,13 @@ public final class DamageTemperatureEffect extends TemperatureEffect<DamageTempe
 
     public static final Codec<Config> CODEC = RecordCodecBuilder.create(
             instance -> instance.group(
-                    Codecs.POSITIVE_FLOAT
+                    ExtraCodecs.POSITIVE_FLOAT
                             .fieldOf("amount")
                             .forGetter(Config::amount),
-                    Codecs.POSITIVE_INT
+                    ExtraCodecs.POSITIVE_INT
                             .fieldOf("damage_interval")
                             .forGetter(Config::damageInterval),
-                    RegistryKey.createCodec(RegistryKeys.DAMAGE_TYPE)
+                    ResourceKey.codec(Registries.DAMAGE_TYPE)
                             .fieldOf("damage_type")
                             .forGetter(config -> config.damageType)
             ).apply(instance, Config::new)
@@ -42,7 +42,7 @@ public final class DamageTemperatureEffect extends TemperatureEffect<DamageTempe
     @Nullable
     private Registry<DamageType> registry;
 
-    private final Map<RegistryKey<DamageType>, DamageSource> damageSourcePool = new HashMap<>();
+    private final Map<ResourceKey<DamageType>, DamageSource> damageSourcePool = new HashMap<>();
 
     public DamageTemperatureEffect(Codec<Config> codec) {
         super(codec);
@@ -58,30 +58,30 @@ public final class DamageTemperatureEffect extends TemperatureEffect<DamageTempe
     }
 
     @Override
-    public void apply(LivingEntity victim, ServerWorld serverWorld, Config config) {
+    public void apply(LivingEntity victim, ServerLevel serverLevel, Config config) {
 
         if (registry == null) {
-            DynamicRegistryManager registryManager = serverWorld.getServer().getRegistryManager();
-            this.registry = registryManager.getOrThrow(RegistryKeys.DAMAGE_TYPE);
+            RegistryAccess access = serverLevel.getServer().registryAccess();
+            this.registry = access.lookupOrThrow(Registries.DAMAGE_TYPE);
         }
 
         DamageSource source = this.getDamageSourceFromType(config.damageType, this.registry);
         if (source != null) {
-            victim.damage(serverWorld, source, config.amount);
+            victim.hurtServer(serverLevel, source, config.amount);
         }
     }
 
     @Override
     public boolean shouldApply(LivingEntity victim, Config config) {
-        return victim.age % config.damageInterval == 0 && config.amount != 0.0f;
+        return victim.tickCount % config.damageInterval == 0 && config.amount != 0.0f;
     }
 
     @Nullable
-    private DamageSource getDamageSourceFromType(RegistryKey<DamageType> damageType, Registry<DamageType> registry) {
+    private DamageSource getDamageSourceFromType(ResourceKey<DamageType> damageType, Registry<DamageType> registry) {
         return this.damageSourcePool.computeIfAbsent(
                 damageType,
                 key -> {
-                    if (!registry.contains(key)) {
+                    if (!registry.containsKey(key)) {
                         Thermoo.LOGGER.error("Temperature effect trying to use unknown damage type {}", key);
                         return null;
                     }
@@ -99,7 +99,7 @@ public final class DamageTemperatureEffect extends TemperatureEffect<DamageTempe
     public record Config(
             float amount,
             int damageInterval,
-            RegistryKey<DamageType> damageType
+            ResourceKey<DamageType> damageType
     ) {
 
     }

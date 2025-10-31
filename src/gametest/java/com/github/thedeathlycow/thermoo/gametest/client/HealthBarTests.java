@@ -21,8 +21,8 @@ public class HealthBarTests implements FabricClientGameTest {
     public void runTest(ClientGameTestContext context) {
         context.getInput().resizeWindow(2048, 1024); // Multiple of 256 to not squish the pixels of 256x overlays.
         context.runOnClient(client -> {
-            client.options.hudHidden = false;
-            client.options.getGuiScale().setValue(2);
+            client.options.hideGui = false;
+            client.options.guiScale().set(2);
         });
 
         try (TestSingleplayerContext singleplayer = context.worldBuilder().create()) {
