@@ -21,13 +21,13 @@ import java.util.Optional;
 public final class WeatherStateEnvironmentProvider implements EnvironmentProvider {
     public static final MapCodec<WeatherStateEnvironmentProvider> CODEC = RecordCodecBuilder.mapCodec(
             instance -> instance.group(
-                    EnvironmentProvider.ENTRY_CODEC
+                    EnvironmentProvider.HOLDER_CODEC
                             .optionalFieldOf("clear")
                             .forGetter(WeatherStateEnvironmentProvider::clear),
-                    EnvironmentProvider.ENTRY_CODEC
+                    EnvironmentProvider.HOLDER_CODEC
                             .optionalFieldOf("rain")
                             .forGetter(WeatherStateEnvironmentProvider::rain),
-                    EnvironmentProvider.ENTRY_CODEC
+                    EnvironmentProvider.HOLDER_CODEC
                             .optionalFieldOf("thunder")
                             .forGetter(WeatherStateEnvironmentProvider::thunder)
             ).apply(instance, WeatherStateEnvironmentProvider::new)

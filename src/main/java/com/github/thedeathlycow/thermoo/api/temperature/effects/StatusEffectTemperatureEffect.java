@@ -20,7 +20,6 @@ import java.util.List;
  * effects to all be applied at once.
  */
 public final class StatusEffectTemperatureEffect extends TemperatureEffect<StatusEffectTemperatureEffect.Config> {
-
     public static final Codec<Config> CODEC = RecordCodecBuilder.create(
             instance -> instance.group(
                     Codec.list(Config.ConfigEffect.CODEC)
@@ -28,7 +27,6 @@ public final class StatusEffectTemperatureEffect extends TemperatureEffect<Statu
                             .forGetter(Config::effects)
             ).apply(instance, Config::new)
     );
-
 
     public StatusEffectTemperatureEffect(Codec<Config> configCodec) {
         super(configCodec);
@@ -93,6 +91,4 @@ public final class StatusEffectTemperatureEffect extends TemperatureEffect<Statu
             );
         }
     }
-
-
 }
