@@ -4,7 +4,6 @@ import com.github.thedeathlycow.thermoo.api.environment.event.ServerPlayerEnviro
 import com.github.thedeathlycow.thermoo.api.temperature.event.EnvironmentTickContext;
 import net.fabricmc.fabric.api.util.TriState;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.server.network.ServerPlayerEntity;
 
 public final class ServerPlayerTickUtil {
     public static void invokePlayerTemperatureEvents(EnvironmentTickContext<ServerPlayer> context) {

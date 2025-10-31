@@ -3,7 +3,6 @@ package com.github.thedeathlycow.thermoo.impl.environment;
 import com.github.thedeathlycow.thermoo.api.environment.provider.EnvironmentProvider;
 import com.github.thedeathlycow.thermoo.api.season.ThermooSeason;
 import net.minecraft.core.Holder;
-import net.minecraft.registry.entry.RegistryEntry;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

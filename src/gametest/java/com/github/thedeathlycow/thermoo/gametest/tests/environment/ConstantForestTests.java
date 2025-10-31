@@ -3,9 +3,6 @@ package com.github.thedeathlycow.thermoo.gametest.tests.environment;
 import net.fabricmc.fabric.api.gametest.v1.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.test.TestContext;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.BiomeKeys;
 import net.minecraft.world.level.biome.Biomes;
 
 @SuppressWarnings("unused")

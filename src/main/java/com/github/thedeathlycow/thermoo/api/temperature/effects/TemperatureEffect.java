@@ -41,7 +41,7 @@ public abstract class TemperatureEffect<C> {
                         configCodec
                                 .fieldOf("config")
                                 .forGetter(ConfiguredTemperatureEffect::config),
-                        LootItemCondition.CODEC
+                        LootItemCondition.DIRECT_CODEC
                                 .optionalFieldOf("entity")
                                 .forGetter(ConfiguredTemperatureEffect::predicate),
                         RegistryCodecs.homogeneousList(Registries.ENTITY_TYPE)
