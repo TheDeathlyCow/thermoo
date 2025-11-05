@@ -9,13 +9,13 @@ import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
 import net.fabricmc.fabric.api.util.TriState;
-import net.minecraft.world.GameRules;
+import net.minecraft.world.level.GameRules;
 
 public final class TestEnvironmentChanges {
     /**
      * Gamerule to enable/disable environment changes for testing purposes
      */
-    public static final GameRules.Key<GameRules.BooleanRule> APPLY_ENVIRONMENT_CHANGES =
+    public static final GameRules.Key<GameRules.BooleanValue> APPLY_ENVIRONMENT_CHANGES =
             GameRuleRegistry.register(
                     Thermoo.MODID + ".applyEnvironmentChanges",
                     GameRules.Category.MISC,

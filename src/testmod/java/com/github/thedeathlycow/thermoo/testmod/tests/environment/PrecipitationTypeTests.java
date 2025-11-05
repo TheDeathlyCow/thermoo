@@ -1,58 +1,58 @@
 package com.github.thedeathlycow.thermoo.testmod.tests.environment;
 
 import net.fabricmc.fabric.api.gametest.v1.FabricGameTest;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.test.AfterBatch;
-import net.minecraft.test.BeforeBatch;
-import net.minecraft.test.GameTest;
-import net.minecraft.test.TestContext;
-import net.minecraft.world.biome.BiomeKeys;
+import net.minecraft.gametest.framework.AfterBatch;
+import net.minecraft.gametest.framework.BeforeBatch;
+import net.minecraft.gametest.framework.GameTest;
+import net.minecraft.gametest.framework.GameTestHelper;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.biome.Biomes;
 
 @SuppressWarnings("unused")
 public class PrecipitationTypeTests {
-    @BeforeBatch(batchId = "snowyPlains_rainy")
-    public void setRainyForRainy(ServerWorld world) {
-        world.setWeather(0, 20000000, false, false);
-        world.setRainGradient(1f);
+    @BeforeBatch(batch = "snowyPlains_rainy")
+    public void setRainyForRainy(ServerLevel world) {
+        world.setWeatherParameters(0, 20000000, false, false);
+        world.setRainLevel(1f);
     }
 
-    @AfterBatch(batchId = "snowyPlains_rainy")
-    public void setClearForRainy(ServerWorld world) {
-        world.setWeather(20000000, 0, false, false);
-        world.setRainGradient(0f);
+    @AfterBatch(batch = "snowyPlains_rainy")
+    public void setClearForRainy(ServerLevel world) {
+        world.setWeatherParameters(20000000, 0, false, false);
+        world.setRainLevel(0f);
     }
 
-    @BeforeBatch(batchId = "snowyPlains_sunny")
-    public void setClearForSunny(ServerWorld world) {
-        world.setWeather(20000000, 0, false, false);
-        world.setRainGradient(0f);
-    }
-
-    @GameTest(
-            templateName = FabricGameTest.EMPTY_STRUCTURE,
-            batchId = "snowyPlains_rainy"
-    )
-    public void snowy_plains_has_snowy_temperature_when_not_raining(TestContext context) {
-        ServerWorld world = context.getWorld();
-        EnvironmentTestHelper.setSeasons(context, null, null);
-
-        double temperature = EnvironmentTestHelper.getBiomeTemperature(context, world, BiomeKeys.SNOWY_PLAINS);
-        EnvironmentTestHelper.assertTemperatureEquals(context, -5.0, temperature);
-
-        context.complete();
+    @BeforeBatch(batch = "snowyPlains_sunny")
+    public void setClearForSunny(ServerLevel world) {
+        world.setWeatherParameters(20000000, 0, false, false);
+        world.setRainLevel(0f);
     }
 
     @GameTest(
-            templateName = FabricGameTest.EMPTY_STRUCTURE,
-            batchId = "snowyPlains_sunny"
+            template = FabricGameTest.EMPTY_STRUCTURE,
+            batch = "snowyPlains_rainy"
     )
-    public void snowy_plains_has_snowy_temperature_when_raining(TestContext context) {
-        ServerWorld world = context.getWorld();
+    public void snowy_plains_has_snowy_temperature_when_not_raining(GameTestHelper context) {
+        ServerLevel world = context.getLevel();
         EnvironmentTestHelper.setSeasons(context, null, null);
 
-        double temperature = EnvironmentTestHelper.getBiomeTemperature(context, world, BiomeKeys.SNOWY_PLAINS);
+        double temperature = EnvironmentTestHelper.getBiomeTemperature(context, world, Biomes.SNOWY_PLAINS);
         EnvironmentTestHelper.assertTemperatureEquals(context, -5.0, temperature);
 
-        context.complete();
+        context.succeed();
+    }
+
+    @GameTest(
+            template = FabricGameTest.EMPTY_STRUCTURE,
+            batch = "snowyPlains_sunny"
+    )
+    public void snowy_plains_has_snowy_temperature_when_raining(GameTestHelper context) {
+        ServerLevel world = context.getLevel();
+        EnvironmentTestHelper.setSeasons(context, null, null);
+
+        double temperature = EnvironmentTestHelper.getBiomeTemperature(context, world, Biomes.SNOWY_PLAINS);
+        EnvironmentTestHelper.assertTemperatureEquals(context, -5.0, temperature);
+
+        context.succeed();
     }
 }

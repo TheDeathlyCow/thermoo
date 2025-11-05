@@ -9,42 +9,42 @@ import com.github.thedeathlycow.thermoo.api.util.TemperatureRecord;
 import com.github.thedeathlycow.thermoo.api.util.TemperatureUnit;
 import com.github.thedeathlycow.thermoo.impl.environment.EnvironmentLookupImpl;
 import com.github.thedeathlycow.thermoo.testmod.ThermooTestMod;
-import net.minecraft.component.ComponentMap;
-import net.minecraft.registry.DynamicRegistryManager;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.component.DataComponentMap;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.gametest.framework.GameTestHelper;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.test.TestContext;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.GameRules;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
+import net.minecraft.world.level.GameRules;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.biome.Biome;
 import org.jetbrains.annotations.Nullable;
 
 public final class EnvironmentTestHelper {
-    public static void assertTemperatureEquals(TestContext context, double expected, double actual) {
+    public static void assertTemperatureEquals(GameTestHelper context, double expected, double actual) {
         context.assertTrue(
                 Math.abs(actual - expected) <= 1e-2,
                 "Expected temperature was " + expected + "°C but was actually " + actual + "°C"
         );
     }
 
-    public static void assertHumidityEquals(TestContext context, double expected, double actual) {
+    public static void assertHumidityEquals(GameTestHelper context, double expected, double actual) {
         context.assertTrue(
                 Math.abs(actual - expected) <= 1e-2,
                 "Expected humidity was " + expected + "% but was actually " + actual + "%"
         );
     }
 
-    public static TemperatureRecord getTemperature(TestContext context, BlockPos pos, EnvironmentProvider provider) {
-        BlockPos absolute = context.getAbsolutePos(pos);
+    public static TemperatureRecord getTemperature(GameTestHelper context, BlockPos pos, EnvironmentProvider provider) {
+        BlockPos absolute = context.absolutePos(pos);
 
-        ComponentMap.Builder builder = ComponentMap.builder();
+        DataComponentMap.Builder builder = DataComponentMap.builder();
         provider.buildCurrentComponents(
-                context.getWorld(),
+                context.getLevel(),
                 absolute,
-                context.getWorld().getBiome(absolute),
+                context.getLevel().getBiome(absolute),
                 builder
         );
         TemperatureRecord component = builder.build().get(EnvironmentComponentTypes.TEMPERATURE);
@@ -52,34 +52,34 @@ public final class EnvironmentTestHelper {
         return component;
     }
 
-    public static double getBiomeTemperature(TestContext context, World world, RegistryKey<Biome> biomeKey) {
-        RegistryEntry<Biome> plains = EnvironmentTestHelper.getBiomeEntry(world.getRegistryManager(), biomeKey);
+    public static double getBiomeTemperature(GameTestHelper context, Level world, ResourceKey<Biome> biomeKey) {
+        Holder<Biome> plains = EnvironmentTestHelper.getBiomeEntry(world.registryAccess(), biomeKey);
         return EnvironmentLookupImpl.INSTANCE.findEnvironmentComponentsForBiome(
                         world,
-                        context.getAbsolutePos(BlockPos.ORIGIN),
+                        context.absolutePos(BlockPos.ZERO),
                         plains
                 ).getOrDefault(EnvironmentComponentTypes.TEMPERATURE, TemperatureRecordComponent.DEFAULT)
                 .valueInUnit(TemperatureUnit.CELSIUS);
     }
 
-    public static double getBiomeHumidity(TestContext context, World world, RegistryKey<Biome> biomeKey) {
-        RegistryEntry<Biome> plains = EnvironmentTestHelper.getBiomeEntry(world.getRegistryManager(), biomeKey);
+    public static double getBiomeHumidity(GameTestHelper context, Level world, ResourceKey<Biome> biomeKey) {
+        Holder<Biome> plains = EnvironmentTestHelper.getBiomeEntry(world.registryAccess(), biomeKey);
         return EnvironmentLookupImpl.INSTANCE.findEnvironmentComponentsForBiome(
                 world,
-                context.getAbsolutePos(BlockPos.ORIGIN),
+                context.absolutePos(BlockPos.ZERO),
                 plains
         ).getOrDefault(EnvironmentComponentTypes.RELATIVE_HUMIDITY, RelativeHumidityComponent.DEFAULT);
     }
 
-    public static RegistryEntry<Biome> getBiomeEntry(DynamicRegistryManager manager, RegistryKey<Biome> biomeKey) {
-        return manager.get(RegistryKeys.BIOME)
-                .getEntry(biomeKey.getValue())
+    public static Holder<Biome> getBiomeEntry(RegistryAccess manager, ResourceKey<Biome> biomeKey) {
+        return manager.registryOrThrow(Registries.BIOME)
+                .getHolder(biomeKey.location())
                 .orElseThrow();
     }
 
-    public static void setSeasons(TestContext context, @Nullable ThermooSeason temperateSeason, @Nullable ThermooSeason tropicalSeason) {
-        MinecraftServer server = context.getWorld().getServer();
-        GameRules.IntRule temperateSeasonRule = server.getGameRules().get(ThermooTestMod.CURRENT_SEASON);
+    public static void setSeasons(GameTestHelper context, @Nullable ThermooSeason temperateSeason, @Nullable ThermooSeason tropicalSeason) {
+        MinecraftServer server = context.getLevel().getServer();
+        GameRules.IntegerValue temperateSeasonRule = server.getGameRules().getRule(ThermooTestMod.CURRENT_SEASON);
         int temperateSeasonValue = switch (temperateSeason) {
             case SPRING -> 1;
             case SUMMER -> 2;
@@ -89,7 +89,7 @@ public final class EnvironmentTestHelper {
         };
         temperateSeasonRule.set(temperateSeasonValue, server);
 
-        GameRules.IntRule tropicalSeasonRule = server.getGameRules().get(ThermooTestMod.CURRENT_TROPICAL_SEASON);
+        GameRules.IntegerValue tropicalSeasonRule = server.getGameRules().getRule(ThermooTestMod.CURRENT_TROPICAL_SEASON);
         int tropicalSeasonValue = switch (tropicalSeason) {
             case TROPICAL_WET -> 1;
             case TROPICAL_DRY -> 2;
@@ -97,13 +97,13 @@ public final class EnvironmentTestHelper {
         };
         tropicalSeasonRule.set(tropicalSeasonValue, server);
 
-        ThermooSeason newTemperateSeason = ThermooSeason.getCurrentSeason(context.getWorld()).orElse(null);
+        ThermooSeason newTemperateSeason = ThermooSeason.getCurrentSeason(context.getLevel()).orElse(null);
         context.assertTrue(
                 newTemperateSeason == temperateSeason,
                 "Expected temperate season to be " + temperateSeason + " but was " + newTemperateSeason
         );
 
-        ThermooSeason newTropicalSeason = ThermooSeason.getCurrentTropicalSeason(context.getWorld(), BlockPos.ORIGIN)
+        ThermooSeason newTropicalSeason = ThermooSeason.getCurrentTropicalSeason(context.getLevel(), BlockPos.ZERO)
                 .orElse(null);
         context.assertTrue(
                 newTropicalSeason == tropicalSeason,

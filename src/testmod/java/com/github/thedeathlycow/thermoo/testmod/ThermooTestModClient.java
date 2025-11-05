@@ -3,17 +3,17 @@ package com.github.thedeathlycow.thermoo.testmod;
 import com.github.thedeathlycow.thermoo.api.client.StatusBarOverlayRenderEvents;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import net.fabricmc.api.ClientModInitializer;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector2i;
 
 public class ThermooTestModClient implements ClientModInitializer {
 
-    public static final Identifier HEART_OVERLAY_TEXTURE = Thermoo.id("textures/gui/fire_heart_overlay.png");
+    public static final ResourceLocation HEART_OVERLAY_TEXTURE = Thermoo.id("textures/gui/fire_heart_overlay.png");
 
     private static final int TEXTURE_WIDTH = 18;
     private static final int TEXTURE_HEIGHT = 30;
@@ -25,8 +25,8 @@ public class ThermooTestModClient implements ClientModInitializer {
     }
 
     public static void renderMountFireHeartBar(
-            DrawContext context,
-            PlayerEntity player,
+            GuiGraphics context,
+            Player player,
             LivingEntity mount,
             Vector2i[] heartPositions,
             int displayHealth,
@@ -36,8 +36,8 @@ public class ThermooTestModClient implements ClientModInitializer {
     }
 
     public static void renderFireHeartBar(
-            DrawContext context,
-            PlayerEntity player,
+            GuiGraphics context,
+            Player player,
             Vector2i[] heartPositions,
             int displayHealth,
             int maxDisplayHealth
@@ -45,7 +45,7 @@ public class ThermooTestModClient implements ClientModInitializer {
         renderFireHeartBar(context, player, heartPositions, maxDisplayHealth);
     }
 
-    private static void renderFireHeartBar(DrawContext context, LivingEntity mount, Vector2i[] heartPositions, int maxDisplayHealth) {
+    private static void renderFireHeartBar(GuiGraphics context, LivingEntity mount, Vector2i[] heartPositions, int maxDisplayHealth) {
         int fireHeartPoints = getNumFirePoints(mount, maxDisplayHealth);
         int fireHearts = getNumFireHeartsFromPoints(fireHeartPoints, maxDisplayHealth);
 
@@ -64,7 +64,7 @@ public class ThermooTestModClient implements ClientModInitializer {
 
             int u = isHalfHeart ? 9 : 0;
 
-            context.drawTexture(HEART_OVERLAY_TEXTURE, x, y, u, 0, 9, 10, TEXTURE_WIDTH, TEXTURE_HEIGHT);
+            context.blit(HEART_OVERLAY_TEXTURE, x, y, u, 0, 9, 10, TEXTURE_WIDTH, TEXTURE_HEIGHT);
         }
     }
 
@@ -78,7 +78,7 @@ public class ThermooTestModClient implements ClientModInitializer {
 
     private static int getNumFireHeartsFromPoints(int fireHealthPoints, int maxDisplayHealth) {
         // number of whole hearts
-        int frozenHealthHearts = MathHelper.ceil(fireHealthPoints / 2.0f);
+        int frozenHealthHearts = Mth.ceil(fireHealthPoints / 2.0f);
 
         return Math.min(maxDisplayHealth / 2, frozenHealthHearts);
     }

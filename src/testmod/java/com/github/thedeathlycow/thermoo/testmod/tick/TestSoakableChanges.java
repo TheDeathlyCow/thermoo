@@ -6,16 +6,15 @@ import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
 import net.fabricmc.fabric.api.util.TriState;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.world.GameRules;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.GameRules;
+import net.minecraft.world.level.block.Blocks;
 
 public class TestSoakableChanges {
     /**
      * Gamerule to enable/disable soaking changes for testing purposes
      */
-    public static final GameRules.Key<GameRules.BooleanRule> ALLOW_SOAKING_UPDATES =
+    public static final GameRules.Key<GameRules.BooleanValue> ALLOW_SOAKING_UPDATES =
             GameRuleRegistry.register(
                     Thermoo.MODID + ".allowSoakingUpdates",
                     GameRules.Category.MISC,
@@ -26,11 +25,11 @@ public class TestSoakableChanges {
         LivingEntity entity = context.affected();
         int total = 0;
 
-        if (entity.isTouchingWater() || entity.getBlockStateAtPos().isOf(Blocks.WATER_CAULDRON)) {
+        if (entity.isInWater() || entity.getInBlockState().is(Blocks.WATER_CAULDRON)) {
             total += 5;
         }
 
-        if (entity.isSubmergedInWater()) {
+        if (entity.isUnderWater()) {
             total = entity.thermoo$getMaxWetTicks();
         }
 
