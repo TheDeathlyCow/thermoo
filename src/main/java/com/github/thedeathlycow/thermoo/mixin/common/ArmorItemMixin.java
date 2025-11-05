@@ -1,6 +1,7 @@
 package com.github.thedeathlycow.thermoo.mixin.common;
 
 import com.github.thedeathlycow.thermoo.impl.ThermalResistanceType;
+import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.core.Holder;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
@@ -17,17 +18,14 @@ public abstract class ArmorItemMixin {
     @Inject(
             method = "method_56689",
             at = @At(
-                    value = "TAIL",
-                    shift = At.Shift.BEFORE
-            ),
-            locals = LocalCapture.CAPTURE_FAILEXCEPTION
+                    value = "TAIL"
+            )
     )
     private static void buildAttributeValues(
             Holder<ArmorMaterial> armorMaterial,
             ArmorItem.Type type,
             CallbackInfoReturnable<ItemAttributeModifiers> cir,
-            int protection, float toughness,
-            ItemAttributeModifiers.Builder builder
+            @Local ItemAttributeModifiers.Builder builder
     ) {
         for (ThermalResistanceType resistanceType : ThermalResistanceType.values()) {
             resistanceType.buildResistance(armorMaterial, type, builder);
