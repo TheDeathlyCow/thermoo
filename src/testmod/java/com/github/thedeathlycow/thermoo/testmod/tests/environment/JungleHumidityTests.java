@@ -1,6 +1,5 @@
 package com.github.thedeathlycow.thermoo.testmod.tests.environment;
 
-import com.github.thedeathlycow.thermoo.api.environment.EnvironmentLookup;
 import com.github.thedeathlycow.thermoo.api.environment.component.RelativeHumidityComponent;
 import com.github.thedeathlycow.thermoo.api.season.ThermooSeason;
 import net.fabricmc.fabric.api.gametest.v1.FabricGameTest;

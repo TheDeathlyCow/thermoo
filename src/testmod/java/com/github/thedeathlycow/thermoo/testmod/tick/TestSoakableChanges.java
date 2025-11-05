@@ -1,7 +1,7 @@
 package com.github.thedeathlycow.thermoo.testmod.tick;
 
-import com.github.thedeathlycow.thermoo.api.temperature.event.LivingEntitySoakingTickEvents;
 import com.github.thedeathlycow.thermoo.api.temperature.event.EnvironmentTickContext;
+import com.github.thedeathlycow.thermoo.api.temperature.event.LivingEntitySoakingTickEvents;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;

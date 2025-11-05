@@ -2,11 +2,12 @@ package com.github.thedeathlycow.thermoo.api.temperature.effects;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import java.util.List;
 import net.minecraft.core.HolderSet;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+
+import java.util.List;
 
 /**
  * Applies multiple child temperature effects at once. Useful for when you want to apply several different temperature

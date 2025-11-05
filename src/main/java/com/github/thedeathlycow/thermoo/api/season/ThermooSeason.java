@@ -1,12 +1,11 @@
 package com.github.thedeathlycow.thermoo.api.season;
 
 import com.mojang.serialization.Codec;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.Optional;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.level.Level;
+
+import java.util.Optional;
 
 /**
  * Mod-agnostic Seasons enum. Thermoo does not any provide seasons-like functionality itself, but this can be used to

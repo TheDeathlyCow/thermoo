@@ -1,7 +1,6 @@
 package com.github.thedeathlycow.thermoo.api.environment;
 
 import com.github.thedeathlycow.thermoo.api.environment.component.EnvironmentComponentTypes;
-import com.github.thedeathlycow.thermoo.api.util.TemperatureUnit;
 import com.github.thedeathlycow.thermoo.impl.environment.EnvironmentLookupImpl;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponentMap;

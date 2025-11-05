@@ -3,7 +3,6 @@ package com.github.thedeathlycow.thermoo.impl.config;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import net.fabricmc.loader.api.FabricLoader;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;

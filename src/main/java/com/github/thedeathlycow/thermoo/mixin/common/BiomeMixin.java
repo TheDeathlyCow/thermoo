@@ -2,14 +2,14 @@ package com.github.thedeathlycow.thermoo.mixin.common;
 
 import com.github.thedeathlycow.thermoo.api.environment.provider.EnvironmentProvider;
 import com.github.thedeathlycow.thermoo.impl.environment.ThermooBiome;
+import net.minecraft.core.Holder;
+import net.minecraft.world.level.biome.Biome;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import net.minecraft.core.Holder;
-import net.minecraft.world.level.biome.Biome;
 
 @Mixin(Biome.class)
 public class BiomeMixin implements ThermooBiome {

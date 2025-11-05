@@ -1,9 +1,9 @@
 package com.github.thedeathlycow.thermoo.api.util;
 
 import com.mojang.serialization.Codec;
-import java.util.function.DoubleUnaryOperator;
-import java.util.function.Supplier;
 import net.minecraft.util.StringRepresentable;
+
+import java.util.function.DoubleUnaryOperator;
 
 /**
  * Defines the basic units of temperature and allows for conversions between them.

@@ -2,9 +2,6 @@ package com.github.thedeathlycow.thermoo.api.temperature.effects;
 
 import com.github.thedeathlycow.thermoo.api.ThermooRegistries;
 import com.mojang.serialization.Codec;
-import org.jetbrains.annotations.ApiStatus;
-
-import java.util.Optional;
 import net.minecraft.advancements.critereon.MinMaxBounds;
 import net.minecraft.core.HolderSet;
 import net.minecraft.server.level.ServerLevel;
@@ -16,6 +13,9 @@ import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
+import org.jetbrains.annotations.ApiStatus;
+
+import java.util.Optional;
 
 /**
  * Represents a configured instance of a {@link TemperatureEffect} type.

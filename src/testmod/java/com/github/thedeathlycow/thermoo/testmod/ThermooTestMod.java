@@ -2,7 +2,6 @@ package com.github.thedeathlycow.thermoo.testmod;
 
 import com.github.thedeathlycow.thermoo.api.ThermooAttributes;
 import com.github.thedeathlycow.thermoo.api.armor.material.ArmorMaterialEvents;
-import com.github.thedeathlycow.thermoo.api.item.ModifyItemAttributeModifiersCallback;
 import com.github.thedeathlycow.thermoo.api.season.ThermooSeason;
 import com.github.thedeathlycow.thermoo.api.season.ThermooSeasonEvents;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
@@ -15,6 +14,7 @@ import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.GameRules;
+
 import java.util.Optional;
 
 public class ThermooTestMod implements ModInitializer {

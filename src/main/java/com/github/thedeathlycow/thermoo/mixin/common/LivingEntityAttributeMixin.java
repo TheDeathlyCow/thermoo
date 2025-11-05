@@ -1,7 +1,5 @@
 package com.github.thedeathlycow.thermoo.mixin.common;
 
-import com.github.thedeathlycow.thermoo.api.temperature.EnvironmentController;
-import com.github.thedeathlycow.thermoo.api.temperature.EnvironmentManager;
 import com.github.thedeathlycow.thermoo.impl.attribute.AttributeData;
 import com.github.thedeathlycow.thermoo.impl.attribute.AttributeHelper;
 import net.minecraft.world.entity.EntityType;

@@ -3,7 +3,6 @@ package com.github.thedeathlycow.thermoo.api.temperature.effects;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import java.util.List;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.level.ServerLevel;
@@ -11,6 +10,8 @@ import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
+
+import java.util.List;
 
 /**
  * Applies {@link MobEffect}s to {@link LivingEntity}s if their temperature scale is within a given range.

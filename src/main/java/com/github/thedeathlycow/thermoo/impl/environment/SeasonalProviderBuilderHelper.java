@@ -2,13 +2,13 @@ package com.github.thedeathlycow.thermoo.impl.environment;
 
 import com.github.thedeathlycow.thermoo.api.environment.provider.EnvironmentProvider;
 import com.github.thedeathlycow.thermoo.api.season.ThermooSeason;
+import net.minecraft.core.Holder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.Objects;
-import net.minecraft.core.Holder;
 
 public class SeasonalProviderBuilderHelper {
     @Nullable

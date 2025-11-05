@@ -2,17 +2,17 @@ package com.github.thedeathlycow.thermoo.api.armor.material;
 
 import com.github.thedeathlycow.thermoo.ThermooTest;
 import com.github.thedeathlycow.thermoo.api.ThermooAttributes;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.Items;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashSet;
 import java.util.Set;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.world.item.Items;
 
 class ArmorMaterialEventsTest {
 

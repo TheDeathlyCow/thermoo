@@ -1,10 +1,10 @@
 package com.github.thedeathlycow.thermoo.api.util;
 
-import com.github.thedeathlycow.thermoo.api.util.TemperatureUnit;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.language.LanguageManager;
+
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
