@@ -2,10 +2,10 @@ package com.github.thedeathlycow.thermoo.api.temperature.effects;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.registry.entry.RegistryEntryList;
-import net.minecraft.server.world.ServerWorld;
+import net.minecraft.core.HolderSet;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 
 import java.util.List;
 
@@ -28,10 +28,10 @@ public class SequenceTemperatureEffect extends TemperatureEffect<SequenceTempera
     }
 
     @Override
-    public void apply(LivingEntity victim, ServerWorld serverWorld, Config config) {
+    public void apply(LivingEntity victim, ServerLevel serverWorld, Config config) {
         for (ConfiguredTemperatureEffect<?> child : config.children()) {
-            RegistryEntryList<EntityType<?>> allowedTypes = child.entityTypes();
-            if (allowedTypes.size() == 0 || victim.getType().isIn(allowedTypes)) {
+            HolderSet<EntityType<?>> allowedTypes = child.entityTypes();
+            if (allowedTypes.size() == 0 || victim.getType().is(allowedTypes)) {
                 child.apply(victim);
             }
         }

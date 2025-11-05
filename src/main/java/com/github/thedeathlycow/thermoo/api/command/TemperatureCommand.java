@@ -6,19 +6,19 @@ import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
-import net.minecraft.command.argument.EntityArgumentType;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.server.command.ServerCommandSource;
-import net.minecraft.text.Text;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.arguments.EntityArgument;
+import net.minecraft.network.chat.Component;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import org.jetbrains.annotations.Contract;
 
 import java.util.Collection;
 import java.util.function.Supplier;
 
-import static net.minecraft.server.command.CommandManager.argument;
-import static net.minecraft.server.command.CommandManager.literal;
+import static net.minecraft.commands.Commands.argument;
+import static net.minecraft.commands.Commands.literal;
 
 /**
  * Command relating to temperature. Allows temperature to be modified in game.
@@ -30,7 +30,7 @@ import static net.minecraft.server.command.CommandManager.literal;
 public class TemperatureCommand {
 
     static final SimpleCommandExceptionType NOT_LIVING_ENTITY = new SimpleCommandExceptionType(
-            Text.translatable("commands.thermoo.temperature.exception.not_living_entity")
+            Component.translatable("commands.thermoo.temperature.exception.not_living_entity")
     );
 
     /**
@@ -38,24 +38,24 @@ public class TemperatureCommand {
      * <p>
      * Registered by the default implementation of this API.
      */
-    public static final Supplier<LiteralArgumentBuilder<ServerCommandSource>> COMMAND_BUILDER = TemperatureCommand::buildCommand;
+    public static final Supplier<LiteralArgumentBuilder<CommandSourceStack>> COMMAND_BUILDER = TemperatureCommand::buildCommand;
 
     @Contract("->new")
-    private static LiteralArgumentBuilder<ServerCommandSource> buildCommand() {
+    private static LiteralArgumentBuilder<CommandSourceStack> buildCommand() {
         var getSubCommand = literal("get")
                 .then(
-                        argument("target", EntityArgumentType.entity())
+                        argument("target", EntityArgument.entity())
                                 .executes(context -> {
                                     return runGetCurrent(
                                             context.getSource(),
-                                            EntityArgumentType.getEntity(context, "target")
+                                            EntityArgument.getEntity(context, "target")
                                     );
                                 })
                                 .then(literal("current")
                                         .executes(context -> {
                                             return runGetCurrent(
                                                     context.getSource(),
-                                                    EntityArgumentType.getEntity(context, "target")
+                                                    EntityArgument.getEntity(context, "target")
                                             );
                                         })
                                 )
@@ -63,7 +63,7 @@ public class TemperatureCommand {
                                         .executes(context -> {
                                             return runGetMax(
                                                     context.getSource(),
-                                                    EntityArgumentType.getEntity(context, "target")
+                                                    EntityArgument.getEntity(context, "target")
                                             );
                                         })
                                 )
@@ -71,7 +71,7 @@ public class TemperatureCommand {
                                         .executes(context -> {
                                             return runGetMin(
                                                     context.getSource(),
-                                                    EntityArgumentType.getEntity(context, "target")
+                                                    EntityArgument.getEntity(context, "target")
                                             );
                                         })
                                 )
@@ -79,7 +79,7 @@ public class TemperatureCommand {
                                         .executes(context -> {
                                             return runGetScale(
                                                     context.getSource(),
-                                                    EntityArgumentType.getEntity(context, "target"),
+                                                    EntityArgument.getEntity(context, "target"),
                                                     100
                                             );
                                         })
@@ -87,7 +87,7 @@ public class TemperatureCommand {
                                                 .executes(context -> {
                                                     return runGetScale(
                                                             context.getSource(),
-                                                            EntityArgumentType.getEntity(context, "target"),
+                                                            EntityArgument.getEntity(context, "target"),
                                                             IntegerArgumentType.getInteger(context, "scale")
                                                     );
                                                 })
@@ -99,14 +99,14 @@ public class TemperatureCommand {
 
         var remove = literal("remove")
                 .then(
-                        argument("targets", EntityArgumentType.entities())
+                        argument("targets", EntityArgument.entities())
                                 .then(
                                         argument("amount", IntegerArgumentType.integer(0))
                                                 .executes(
                                                         context -> {
                                                             return runAdjust(
                                                                     context.getSource(),
-                                                                    EntityArgumentType.getEntities(context, "targets"),
+                                                                    EntityArgument.getEntities(context, "targets"),
                                                                     IntegerArgumentType.getInteger(context, "amount"),
                                                                     HeatingModes.ABSOLUTE,
                                                                     true
@@ -118,7 +118,7 @@ public class TemperatureCommand {
                                                                 .executes(context -> {
                                                                             return runAdjust(
                                                                                     context.getSource(),
-                                                                                    EntityArgumentType.getEntities(context, "targets"),
+                                                                                    EntityArgument.getEntities(context, "targets"),
                                                                                     IntegerArgumentType.getInteger(context, "amount"),
                                                                                     HeatingModeArgumentType.getHeatingMode(context, "mode"),
                                                                                     true
@@ -131,14 +131,14 @@ public class TemperatureCommand {
 
         var add = literal("add")
                 .then(
-                        argument("targets", EntityArgumentType.entities())
+                        argument("targets", EntityArgument.entities())
                                 .then(
                                         argument("amount", IntegerArgumentType.integer(0))
                                                 .executes(
                                                         context -> {
                                                             return runAdjust(
                                                                     context.getSource(),
-                                                                    EntityArgumentType.getEntities(context, "targets"),
+                                                                    EntityArgument.getEntities(context, "targets"),
                                                                     IntegerArgumentType.getInteger(context, "amount"),
                                                                     HeatingModes.ABSOLUTE,
                                                                     false
@@ -150,7 +150,7 @@ public class TemperatureCommand {
                                                                 .executes(context -> {
                                                                             return runAdjust(
                                                                                     context.getSource(),
-                                                                                    EntityArgumentType.getEntities(context, "targets"),
+                                                                                    EntityArgument.getEntities(context, "targets"),
                                                                                     IntegerArgumentType.getInteger(context, "amount"),
                                                                                     HeatingModeArgumentType.getHeatingMode(context, "mode"),
                                                                                     false
@@ -163,19 +163,19 @@ public class TemperatureCommand {
 
         var setSubCommand = literal("set")
                 .then(
-                        argument("targets", EntityArgumentType.entities())
+                        argument("targets", EntityArgument.entities())
                                 .then(
                                         argument("amount", IntegerArgumentType.integer())
                                                 .executes(context -> {
                                                     return runSet(context.getSource(),
-                                                            EntityArgumentType.getEntities(context, "targets"),
+                                                            EntityArgument.getEntities(context, "targets"),
                                                             IntegerArgumentType.getInteger(context, "amount"));
                                                 })
                                 )
                 );
 
         return literal("thermoo").then(
-                (literal("temperature").requires((src) -> src.hasPermissionLevel(2)))
+                (literal("temperature").requires((src) -> src.hasPermission(2)))
                         .then(getSubCommand)
                         .then(remove)
                         .then(add)
@@ -183,13 +183,13 @@ public class TemperatureCommand {
         );
     }
 
-    private static int runGetScale(ServerCommandSource source, Entity target, int scale) throws CommandSyntaxException {
+    private static int runGetScale(CommandSourceStack source, Entity target, int scale) throws CommandSyntaxException {
         if (target instanceof LivingEntity livingEntity) {
             float progress = livingEntity.thermoo$getTemperatureScale();
-            int result = MathHelper.floor(progress * scale);
+            int result = Mth.floor(progress * scale);
 
-            source.sendFeedback(
-                    () -> Text.translatable(
+            source.sendSuccess(
+                    () -> Component.translatable(
                             "commands.thermoo.temperature.get.scale.success",
                             target.getDisplayName(),
                             result
@@ -202,12 +202,12 @@ public class TemperatureCommand {
         }
     }
 
-    private static int runGetMax(ServerCommandSource source, Entity target) throws CommandSyntaxException {
+    private static int runGetMax(CommandSourceStack source, Entity target) throws CommandSyntaxException {
 
         if (target instanceof LivingEntity livingEntity) {
             int amount = livingEntity.thermoo$getMaxTemperature();
-            source.sendFeedback(
-                    () -> Text.translatable("commands.thermoo.temperature.get.max.success", target.getDisplayName(), amount),
+            source.sendSuccess(
+                    () -> Component.translatable("commands.thermoo.temperature.get.max.success", target.getDisplayName(), amount),
                     false
             );
             return amount;
@@ -218,11 +218,11 @@ public class TemperatureCommand {
 
     }
 
-    private static int runGetMin(ServerCommandSource source, Entity target) throws CommandSyntaxException {
+    private static int runGetMin(CommandSourceStack source, Entity target) throws CommandSyntaxException {
         if (target instanceof LivingEntity livingEntity) {
             int amount = livingEntity.thermoo$getMinTemperature();
-            source.sendFeedback(
-                    () -> Text.translatable(
+            source.sendSuccess(
+                    () -> Component.translatable(
                             "commands.thermoo.temperature.get.min.success",
                             target.getDisplayName(),
                             amount
@@ -235,11 +235,11 @@ public class TemperatureCommand {
         }
     }
 
-    private static int runGetCurrent(ServerCommandSource source, Entity target) throws CommandSyntaxException {
+    private static int runGetCurrent(CommandSourceStack source, Entity target) throws CommandSyntaxException {
         if (target instanceof LivingEntity livingEntity) {
             int amount = livingEntity.thermoo$getTemperature();
-            source.sendFeedback(
-                    () -> Text.translatable(
+            source.sendSuccess(
+                    () -> Component.translatable(
                             "commands.thermoo.temperature.get.current.success",
                             target.getDisplayName(),
                             amount
@@ -252,7 +252,7 @@ public class TemperatureCommand {
         }
     }
 
-    private static int runAdjust(ServerCommandSource source, Collection<? extends Entity> targets, int amount, HeatingModes mode, boolean isRemoving) throws CommandSyntaxException {
+    private static int runAdjust(CommandSourceStack source, Collection<? extends Entity> targets, int amount, HeatingModes mode, boolean isRemoving) throws CommandSyntaxException {
         amount = isRemoving ? -amount : amount;
         int sum = 0;
         for (Entity target : targets) {
@@ -265,18 +265,18 @@ public class TemperatureCommand {
         }
 
 
-        Text msg;
+        Component msg;
         if (isRemoving) {
             if (targets.size() == 1) {
                 var target = targets.iterator().next();
-                msg = Text.translatable(
+                msg = Component.translatable(
                         "commands.thermoo.temperature.remove.success.single",
                         amount,
                         target.getName(),
                         ((TemperatureAware) target).thermoo$getTemperature()
                 );
             } else {
-                msg = Text.translatable(
+                msg = Component.translatable(
                         "commands.thermoo.temperature.remove.success.multiple",
                         amount,
                         targets.size()
@@ -285,14 +285,14 @@ public class TemperatureCommand {
         } else {
             if (targets.size() == 1) {
                 var target = targets.iterator().next();
-                msg = Text.translatable(
+                msg = Component.translatable(
                         "commands.thermoo.temperature.add.success.single",
                         amount,
                         target.getName(),
                         ((TemperatureAware) target).thermoo$getTemperature()
                 );
             } else {
-                msg = Text.translatable(
+                msg = Component.translatable(
                         "commands.thermoo.temperature.add.success.multiple",
                         amount,
                         targets.size()
@@ -300,11 +300,11 @@ public class TemperatureCommand {
             }
         }
 
-        source.sendFeedback(() -> msg, true);
+        source.sendSuccess(() -> msg, true);
         return sum;
     }
 
-    private static int runSet(ServerCommandSource source, Collection<? extends Entity> targets, int amount) throws CommandSyntaxException {
+    private static int runSet(CommandSourceStack source, Collection<? extends Entity> targets, int amount) throws CommandSyntaxException {
 
         int sum = 0;
         for (Entity target : targets) {
@@ -316,21 +316,21 @@ public class TemperatureCommand {
             }
         }
 
-        Text msg;
+        Component msg;
         if (targets.size() == 1) {
-            msg = Text.translatable(
+            msg = Component.translatable(
                     "commands.thermoo.temperature.set.success.single",
                     targets.iterator().next().getName(),
                     amount
             );
         } else {
-            msg = Text.translatable(
+            msg = Component.translatable(
                     "commands.thermoo.temperature.set.success.multiple",
                     targets.size(),
                     amount
             );
         }
-        source.sendFeedback(() -> msg, true);
+        source.sendSuccess(() -> msg, true);
 
         return sum;
     }

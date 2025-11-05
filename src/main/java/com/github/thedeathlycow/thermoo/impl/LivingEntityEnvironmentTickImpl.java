@@ -6,18 +6,18 @@ import com.github.thedeathlycow.thermoo.api.temperature.HeatingModes;
 import com.github.thedeathlycow.thermoo.api.temperature.event.PlayerEnvironmentEvents;
 import com.github.thedeathlycow.thermoo.impl.component.ThermooComponents;
 import net.fabricmc.fabric.api.util.TriState;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 
 public class LivingEntityEnvironmentTickImpl {
 
 
     public static void tick(LivingEntity entity) {
-        World world = entity.getWorld();
+        Level world = entity.level();
 
-        if (world.isClient() || entity.isSpectator() || entity.isDead() || entity.isRemoved()) {
+        if (world.isClientSide() || entity.isSpectator() || entity.isDeadOrDying() || entity.isRemoved()) {
             return;
         }
 
@@ -26,7 +26,7 @@ public class LivingEntityEnvironmentTickImpl {
         int tempChange;
 
         // tick area heat sources
-        tempChange = controller.getHeatAtLocation(world, entity.getRootVehicle().getBlockPos());
+        tempChange = controller.getHeatAtLocation(world, entity.getRootVehicle().blockPosition());
         tempChange = controller.applyAwareHeat(entity, tempChange);
         if (tempChange != 0) {
             entity.thermoo$addTemperature(tempChange, HeatingModes.PASSIVE);
@@ -38,7 +38,7 @@ public class LivingEntityEnvironmentTickImpl {
         }
 
         int soakChange = controller.getSoakChange(entity);
-        boolean isSyncTick = entity.age % 20 == 0;
+        boolean isSyncTick = entity.tickCount % 20 == 0;
 
         if (soakChange != 0) {
             entity.thermoo$addWetTicks(soakChange);
@@ -53,14 +53,14 @@ public class LivingEntityEnvironmentTickImpl {
         }
     }
 
-    public static void tickPlayer(PlayerEntity player) {
-        World world = player.getWorld();
+    public static void tickPlayer(Player player) {
+        Level world = player.level();
 
-        if (world.isClient || player.isSpectator()) {
+        if (world.isClientSide || player.isSpectator()) {
             return;
         }
 
-        BlockPos pos = player.getBlockPos();
+        BlockPos pos = player.blockPosition();
         var controller = EnvironmentManager.INSTANCE.getController();
         int temperatureChange = controller.getLocalTemperatureChange(world, pos);
 

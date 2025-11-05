@@ -4,9 +4,9 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import org.joml.Vector2i;
 
 /**
@@ -70,8 +70,8 @@ public class StatusBarOverlayRenderEvents {
          * @param maxDisplayHealth The maximum number of half hearts to be displayed
          */
         void render(
-                DrawContext context,
-                PlayerEntity player,
+                GuiGraphics context,
+                Player player,
                 Vector2i[] heartPositions,
                 int displayHealth,
                 int maxDisplayHealth
@@ -92,8 +92,8 @@ public class StatusBarOverlayRenderEvents {
          * @param maxDisplayMountHealth The maximum number of half hearts to be displayed
          */
         void render(
-                DrawContext context,
-                PlayerEntity player,
+                GuiGraphics context,
+                Player player,
                 LivingEntity mount,
                 Vector2i[] mountHeartPositions,
                 int displayMountHealth,

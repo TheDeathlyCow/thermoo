@@ -3,14 +3,13 @@ package com.github.thedeathlycow.thermoo.api.temperature.effects;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.loot.condition.LootCondition;
-import net.minecraft.predicate.NumberRange;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.RegistryCodecs;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.entry.RegistryEntryList;
-import net.minecraft.server.world.ServerWorld;
+import net.minecraft.advancements.critereon.MinMaxBounds;
+import net.minecraft.core.HolderSet;
+import net.minecraft.core.RegistryCodecs;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 
 /**
  * A temperature effect is some effect that is applied to a {@link LivingEntity} based on their current temperature,
@@ -42,15 +41,15 @@ public abstract class TemperatureEffect<C> {
                         configCodec
                                 .fieldOf("config")
                                 .forGetter(ConfiguredTemperatureEffect::config),
-                        LootCondition.CODEC
+                        LootItemCondition.DIRECT_CODEC
                                 .optionalFieldOf("entity")
                                 .forGetter(ConfiguredTemperatureEffect::predicate),
-                        RegistryCodecs.entryList(RegistryKeys.ENTITY_TYPE)
-                                .optionalFieldOf("entity_type", RegistryEntryList.of())
+                        RegistryCodecs.homogeneousList(Registries.ENTITY_TYPE)
+                                .optionalFieldOf("entity_type", HolderSet.direct())
                                 .forGetter(ConfiguredTemperatureEffect::entityTypes),
-                        NumberRange.DoubleRange.CODEC
+                        MinMaxBounds.Doubles.CODEC
                                 .fieldOf("temperature_scale_range")
-                                .orElse(NumberRange.DoubleRange.ANY)
+                                .orElse(MinMaxBounds.Doubles.ANY)
                                 .forGetter(ConfiguredTemperatureEffect::temperatureScaleRange),
                         Codec.INT
                                 .fieldOf("loading_priority")
@@ -79,7 +78,7 @@ public abstract class TemperatureEffect<C> {
      * @param serverWorld The server world of the victim
      * @param config      The effect config
      */
-    public abstract void apply(LivingEntity victim, ServerWorld serverWorld, C config);
+    public abstract void apply(LivingEntity victim, ServerLevel serverWorld, C config);
 
     /**
      * Tests if the effect should be applied to a living entity.
@@ -99,7 +98,7 @@ public abstract class TemperatureEffect<C> {
      * @param serverWorld The server world of the entity
      * @param config      The effect config
      */
-    public void remove(LivingEntity victim, ServerWorld serverWorld, C config) {
+    public void remove(LivingEntity victim, ServerLevel serverWorld, C config) {
         // Empty by default
     }
 

@@ -7,18 +7,18 @@ import com.github.thedeathlycow.thermoo.api.temperature.HeatingMode;
 import com.github.thedeathlycow.thermoo.api.temperature.Soakable;
 import com.github.thedeathlycow.thermoo.api.temperature.TemperatureAware;
 import com.github.thedeathlycow.thermoo.impl.component.ThermooComponents;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.attribute.DefaultAttributeContainer;
-import net.minecraft.entity.attribute.EntityAttribute;
-import net.minecraft.entity.effect.StatusEffect;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.World;
+import net.minecraft.core.Holder;
+import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -29,21 +29,21 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class EnvironmentAwareEntityMixin extends Entity implements TemperatureAware, Soakable {
 
     @Shadow
-    public abstract boolean canBreatheInWater();
+    public abstract boolean canBreatheUnderwater();
 
     @Shadow
-    public abstract double getAttributeValue(RegistryEntry<EntityAttribute> attribute);
+    public abstract double getAttributeValue(Holder<Attribute> attribute);
 
     @Shadow
-    public abstract boolean hasStatusEffect(RegistryEntry<StatusEffect> effect);
+    public abstract boolean hasEffect(Holder<MobEffect> effect);
 
-    public EnvironmentAwareEntityMixin(EntityType<?> type, World world) {
+    public EnvironmentAwareEntityMixin(EntityType<?> type, Level world) {
         super(type, world);
     }
 
     @Override
     public void thermoo$setWetTicks(int amount) {
-        int value = MathHelper.clamp(amount, 0, this.thermoo$getMaxWetTicks());
+        int value = Mth.clamp(amount, 0, this.thermoo$getMaxWetTicks());
         ThermooComponents.WETNESS.get(this).setValue(value);
     }
 
@@ -57,17 +57,17 @@ public abstract class EnvironmentAwareEntityMixin extends Entity implements Temp
         // base of 600
         int base = EnvironmentManager.INSTANCE.getController().getMaxWetTicks(this);
         double multiplier = this.getAttributeValue(ThermooAttributes.MAX_SOAKING_TICK_MULTIPLIER);
-        return MathHelper.floor(base * multiplier);
+        return Mth.floor(base * multiplier);
     }
 
 
     @Override
     public boolean thermoo$ignoresFrigidWater() {
-        boolean canBreatheInWater = this.canBreatheInWater()
-                || this.hasStatusEffect(StatusEffects.WATER_BREATHING)
-                || this.hasStatusEffect(StatusEffects.CONDUIT_POWER);
+        boolean canBreatheInWater = this.canBreatheUnderwater()
+                || this.hasEffect(MobEffects.WATER_BREATHING)
+                || this.hasEffect(MobEffects.CONDUIT_POWER);
 
-        return canBreatheInWater && this.isSubmergedInWater();
+        return canBreatheInWater && this.isUnderWater();
     }
 
     @Override
@@ -77,7 +77,7 @@ public abstract class EnvironmentAwareEntityMixin extends Entity implements Temp
 
     @Override
     public void thermoo$setTemperature(int temperature) {
-        int value = MathHelper.clamp(temperature, this.thermoo$getMinTemperature(), this.thermoo$getMaxTemperature());
+        int value = Mth.clamp(temperature, this.thermoo$getMinTemperature(), this.thermoo$getMaxTemperature());
         ThermooComponents.TEMPERATURE.get(this).setValue(value);
     }
 
@@ -122,12 +122,12 @@ public abstract class EnvironmentAwareEntityMixin extends Entity implements Temp
 
         if (this.isSpectator()) {
             return false;
-        } else if (type.isIn(ThermooTags.BENEFITS_FROM_COLD_ENTITY_TYPE)) {
+        } else if (type.is(ThermooTags.BENEFITS_FROM_COLD_ENTITY_TYPE)) {
             // entities that benefit from heat override entities that are immune to it
             return true;
-        } else if (type.isIn(ThermooTags.COLD_IMMUNE_ENTITY_TYPE)) {
+        } else if (type.is(ThermooTags.COLD_IMMUNE_ENTITY_TYPE)) {
             return false;
-        } else if ((Entity) this instanceof PlayerEntity player) {
+        } else if ((Entity) this instanceof Player player) {
             return !player.isCreative();
         } else {
             return true;
@@ -140,12 +140,12 @@ public abstract class EnvironmentAwareEntityMixin extends Entity implements Temp
 
         if (this.isSpectator()) {
             return false;
-        } else if (type.isIn(ThermooTags.BENEFITS_FROM_HEAT_ENTITY_TYPE)) {
+        } else if (type.is(ThermooTags.BENEFITS_FROM_HEAT_ENTITY_TYPE)) {
             // entities that benefit from heat override entities that are immune to it
             return true;
-        } else if (type.isIn(ThermooTags.HEAT_IMMUNE_ENTITY_TYPE)) {
+        } else if (type.is(ThermooTags.HEAT_IMMUNE_ENTITY_TYPE)) {
             return false;
-        } else if ((Entity) this instanceof PlayerEntity player) {
+        } else if ((Entity) this instanceof Player player) {
             return !player.isCreative();
         } else {
             return true;
@@ -172,7 +172,7 @@ public abstract class EnvironmentAwareEntityMixin extends Entity implements Temp
     }
 
     @Override
-    public Random thermoo$getRandom() {
+    public RandomSource thermoo$getRandom() {
         return this.random;
     }
 
@@ -180,8 +180,8 @@ public abstract class EnvironmentAwareEntityMixin extends Entity implements Temp
             method = "createLivingAttributes",
             at = @At("TAIL")
     )
-    private static void addThermooAttributesToLivingEntities(CallbackInfoReturnable<DefaultAttributeContainer.Builder> cir) {
-        DefaultAttributeContainer.Builder builder = cir.getReturnValue();
+    private static void addThermooAttributesToLivingEntities(CallbackInfoReturnable<AttributeSupplier.Builder> cir) {
+        AttributeSupplier.Builder builder = cir.getReturnValue();
 
         // register attributes to living entities
         builder.add(ThermooAttributes.MIN_TEMPERATURE);

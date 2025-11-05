@@ -1,9 +1,9 @@
 package com.github.thedeathlycow.thermoo.api.armor.material;
 
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
-import net.minecraft.item.ArmorMaterial;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.tag.TagKey;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.ArmorMaterial;
 
 /**
  * @deprecated Removed in 1.21.2+, replaced with {@link com.github.thedeathlycow.thermoo.api.item.ModifyItemAttributeModifiersCallback}
@@ -23,7 +23,7 @@ public class ArmorMaterialTags {
     public static final TagKey<ArmorMaterial> VERY_WEAK_TO_COLD = createArmorMaterialTag("very_weak_to_cold");
 
     private static TagKey<ArmorMaterial> createArmorMaterialTag(String path) {
-        return TagKey.of(RegistryKeys.ARMOR_MATERIAL, Thermoo.id(path));
+        return TagKey.create(Registries.ARMOR_MATERIAL, Thermoo.id(path));
     }
 
     private ArmorMaterialTags() {

@@ -5,9 +5,9 @@ import com.github.thedeathlycow.thermoo.api.temperature.EnvironmentManager;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
-import net.minecraft.entity.attribute.EntityAttribute;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.util.Identifier;
+import net.minecraft.core.Holder;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.ai.attributes.Attribute;
 
 /**
  * Metadata for Thermoo attributes
@@ -43,24 +43,24 @@ public enum AttributeData {
             ThermooAttributes.ENVIRONMENT_FROST_RESISTANCE
     );
 
-    private final Identifier id;
-    private final RegistryEntry<EntityAttribute> attribute;
+    private final ResourceLocation id;
+    private final Holder<Attribute> attribute;
     private final Event<ThermooAttributes.SetBaseAttributeValue> baseAttributeValueEvent;
 
     AttributeData(
-            Identifier id,
-            RegistryEntry<EntityAttribute> attribute
+            ResourceLocation id,
+            Holder<Attribute> attribute
     ) {
         this.id = id;
         this.attribute = attribute;
         this.baseAttributeValueEvent = createEvent(attribute);
     }
 
-    public Identifier id() {
+    public ResourceLocation id() {
         return id;
     }
 
-    public RegistryEntry<EntityAttribute> attribute() {
+    public Holder<Attribute> attribute() {
         return attribute;
     }
 
@@ -68,7 +68,7 @@ public enum AttributeData {
         return baseAttributeValueEvent;
     }
 
-    private static Event<ThermooAttributes.SetBaseAttributeValue> createEvent(RegistryEntry<EntityAttribute> attribute) {
+    private static Event<ThermooAttributes.SetBaseAttributeValue> createEvent(Holder<Attribute> attribute) {
         return EventFactory.createArrayBacked(
                 ThermooAttributes.SetBaseAttributeValue.class,
                 listeners -> (entity, baseValue) -> {

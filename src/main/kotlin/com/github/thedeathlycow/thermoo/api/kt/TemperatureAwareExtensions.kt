@@ -3,9 +3,9 @@ package com.github.thedeathlycow.thermoo.api.kt
 import com.github.thedeathlycow.thermoo.api.temperature.HeatingMode
 import com.github.thedeathlycow.thermoo.api.temperature.HeatingModes
 import com.github.thedeathlycow.thermoo.api.temperature.TemperatureAware
-import net.minecraft.entity.Entity
-import net.minecraft.entity.LivingEntity
-import net.minecraft.util.math.random.Random
+import net.minecraft.util.RandomSource
+import net.minecraft.world.entity.Entity
+import net.minecraft.world.entity.LivingEntity
 
 /**
  * The current temperature of this temperature aware object
@@ -56,7 +56,7 @@ fun TemperatureAware.addTemperature(temperatureChange: Int, mode: HeatingMode = 
 val TemperatureAware.temperatureScale: Float
     get() = this.`thermoo$getTemperatureScale`()
 
-val TemperatureAware.random: Random
+val TemperatureAware.random: RandomSource
     get() = this.`thermoo$getRandom`()
 
 val LivingEntity.temperatureAware: TemperatureAware

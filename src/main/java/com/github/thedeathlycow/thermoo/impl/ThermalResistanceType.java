@@ -3,14 +3,13 @@ package com.github.thedeathlycow.thermoo.impl;
 import com.github.thedeathlycow.thermoo.api.ThermooAttributes;
 import com.github.thedeathlycow.thermoo.api.armor.material.ArmorMaterialEvents;
 import net.fabricmc.fabric.api.event.Event;
-import net.minecraft.component.type.AttributeModifierSlot;
-import net.minecraft.component.type.AttributeModifiersComponent;
-import net.minecraft.entity.attribute.EntityAttribute;
-import net.minecraft.entity.attribute.EntityAttributeModifier;
-import net.minecraft.item.ArmorItem;
-import net.minecraft.item.ArmorMaterial;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.util.Identifier;
+import net.minecraft.core.Holder;
+import net.minecraft.world.entity.EquipmentSlotGroup;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.ArmorMaterial;
+import net.minecraft.world.item.component.ItemAttributeModifiers;
 
 public enum ThermalResistanceType {
 
@@ -25,12 +24,12 @@ public enum ThermalResistanceType {
             "armor.heat_resistance"
     );
     private final Event<ArmorMaterialEvents.GetResistance> event;
-    private final RegistryEntry<EntityAttribute> attribute;
+    private final Holder<Attribute> attribute;
     private final String modifierId;
 
     ThermalResistanceType(
             Event<ArmorMaterialEvents.GetResistance> event,
-            RegistryEntry<EntityAttribute> attribute,
+            Holder<Attribute> attribute,
             String modifierId
     ) {
         this.event = event;
@@ -39,21 +38,21 @@ public enum ThermalResistanceType {
     }
 
     public void buildResistance(
-            RegistryEntry<ArmorMaterial> armorMaterial,
+            Holder<ArmorMaterial> armorMaterial,
             ArmorItem.Type type,
-            AttributeModifiersComponent.Builder builder
+            ItemAttributeModifiers.Builder builder
     ) {
         double resistanceValue = this.getResistanceValue(armorMaterial, type);
 
         if (resistanceValue != 0 && !Double.isNaN(resistanceValue)) {
             builder.add(
                     attribute,
-                    new EntityAttributeModifier(
+                    new AttributeModifier(
                             Thermoo.id(this.modifierId + "." + type.getName()),
                             resistanceValue,
-                            EntityAttributeModifier.Operation.ADD_VALUE
+                            AttributeModifier.Operation.ADD_VALUE
                     ),
-                    AttributeModifierSlot.forEquipmentSlot(type.getEquipmentSlot())
+                    EquipmentSlotGroup.bySlot(type.getSlot())
             );
             if (Thermoo.LOGGER.isDebugEnabled()) {
                 Thermoo.LOGGER.debug("Applying {} {} to armor material {}", resistanceValue, attribute, armorMaterial);
@@ -61,7 +60,7 @@ public enum ThermalResistanceType {
         }
     }
 
-    private double getResistanceValue(RegistryEntry<ArmorMaterial> armorMaterial, ArmorItem.Type type) {
+    private double getResistanceValue(Holder<ArmorMaterial> armorMaterial, ArmorItem.Type type) {
         return this.event.invoker().getValue(armorMaterial, type);
     }
 }

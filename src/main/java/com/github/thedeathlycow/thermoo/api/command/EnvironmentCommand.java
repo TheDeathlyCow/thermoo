@@ -13,21 +13,21 @@ import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import com.github.thedeathlycow.thermoo.impl.environment.EnvironmentTickContextImpl;
 import com.mojang.brigadier.arguments.DoubleArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
-import net.minecraft.command.argument.BlockPosArgumentType;
-import net.minecraft.command.argument.EntityArgumentType;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.server.command.ServerCommandSource;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.biome.Biome;
+import net.minecraft.ChatFormatting;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.arguments.EntityArgument;
+import net.minecraft.commands.arguments.coordinates.BlockPosArgument;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.level.biome.Biome;
 import org.jetbrains.annotations.Contract;
 
 import java.util.function.Supplier;
 
-import static net.minecraft.server.command.CommandManager.argument;
-import static net.minecraft.server.command.CommandManager.literal;
+import static net.minecraft.commands.Commands.argument;
+import static net.minecraft.commands.Commands.literal;
 
 /**
  * Command relating to environment effects
@@ -49,10 +49,10 @@ public class EnvironmentCommand {
      * <p>
      * Registered by the default implementation of this API.
      */
-    public static final Supplier<LiteralArgumentBuilder<ServerCommandSource>> COMMAND_BUILDER = EnvironmentCommand::buildCommand;
+    public static final Supplier<LiteralArgumentBuilder<CommandSourceStack>> COMMAND_BUILDER = EnvironmentCommand::buildCommand;
 
     @Contract("->new")
-    private static LiteralArgumentBuilder<ServerCommandSource> buildCommand() {
+    private static LiteralArgumentBuilder<CommandSourceStack> buildCommand() {
 
         var printController = literal("printcontroller")
                 .executes(
@@ -72,15 +72,15 @@ public class EnvironmentCommand {
                         }
                 )
                 .then(
-                        argument("target", EntityArgumentType.entity())
+                        argument("target", EntityArgument.entity())
                                 .executes(
                                         context -> {
                                             return executeCheckTemperature(
                                                     context.getSource(),
-                                                    EntityArgumentType.getEntity(
+                                                    EntityArgument.getEntity(
                                                             context,
                                                             "target"
-                                                    ).getBlockPos()
+                                                    ).blockPosition()
                                             );
                                         }
                                 )
@@ -90,10 +90,10 @@ public class EnvironmentCommand {
                                                         context -> {
                                                             return executeCheckTemperature(
                                                                     context.getSource(),
-                                                                    EntityArgumentType.getEntity(
+                                                                    EntityArgument.getEntity(
                                                                             context,
                                                                             "target"
-                                                                    ).getBlockPos(),
+                                                                    ).blockPosition(),
                                                                     TemperatureUnitArgumentType.getTemperatureUnit(
                                                                             context,
                                                                             "unit"
@@ -104,12 +104,12 @@ public class EnvironmentCommand {
                                 )
                 )
                 .then(
-                        argument("location", BlockPosArgumentType.blockPos())
+                        argument("location", BlockPosArgument.blockPos())
                                 .executes(
                                         context -> {
                                             return executeCheckTemperature(
                                                     context.getSource(),
-                                                    BlockPosArgumentType.getLoadedBlockPos(
+                                                    BlockPosArgument.getLoadedBlockPos(
                                                             context,
                                                             "location"
                                                     )
@@ -122,7 +122,7 @@ public class EnvironmentCommand {
                                                         context -> {
                                                             return executeCheckTemperature(
                                                                     context.getSource(),
-                                                                    BlockPosArgumentType.getLoadedBlockPos(
+                                                                    BlockPosArgument.getLoadedBlockPos(
                                                                             context,
                                                                             "location"
                                                                     ),
@@ -144,19 +144,19 @@ public class EnvironmentCommand {
         final double fallbackTempScale = 1.0;
 
         var temperature = literal("temperature")
-                .then(argument(target, EntityArgumentType.player())
+                .then(argument(target, EntityArgument.player())
                         .executes(
                                 context -> executeEntityTemperature(
                                         context.getSource(),
-                                        EntityArgumentType.getPlayer(context, target)
+                                        EntityArgument.getPlayer(context, target)
                                 )
                         )
                 )
-                .then(argument(location, BlockPosArgumentType.blockPos())
+                .then(argument(location, BlockPosArgument.blockPos())
                         .executes(
                                 context -> executeTemperature(
                                         context.getSource(),
-                                        BlockPosArgumentType.getLoadedBlockPos(context, location),
+                                        BlockPosArgument.getLoadedBlockPos(context, location),
                                         TemperatureUnit.CELSIUS,
                                         fallbackTempScale
                                 )
@@ -166,7 +166,7 @@ public class EnvironmentCommand {
                                         .executes(
                                                 context -> executeTemperature(
                                                         context.getSource(),
-                                                        BlockPosArgumentType.getLoadedBlockPos(context, location),
+                                                        BlockPosArgument.getLoadedBlockPos(context, location),
                                                         TemperatureUnitArgumentType.getTemperatureUnit(context, unit),
                                                         fallbackTempScale
                                                 )
@@ -176,7 +176,7 @@ public class EnvironmentCommand {
                                                         .executes(
                                                                 context -> executeTemperature(
                                                                         context.getSource(),
-                                                                        BlockPosArgumentType.getLoadedBlockPos(context, location),
+                                                                        BlockPosArgument.getLoadedBlockPos(context, location),
                                                                         TemperatureUnitArgumentType.getTemperatureUnit(context, unit),
                                                                         DoubleArgumentType.getDouble(context, scale)
                                                                 )
@@ -188,11 +188,11 @@ public class EnvironmentCommand {
         final double fallbackHumidityScale = 100.0;
 
         var relativeHumidity = literal("relativehumidity").then(
-                argument(location, BlockPosArgumentType.blockPos())
+                argument(location, BlockPosArgument.blockPos())
                         .executes(
                                 context -> executeRelativeHumidity(
                                         context.getSource(),
-                                        BlockPosArgumentType.getLoadedBlockPos(context, location),
+                                        BlockPosArgument.getLoadedBlockPos(context, location),
                                         fallbackHumidityScale
                                 )
                         )
@@ -201,7 +201,7 @@ public class EnvironmentCommand {
                                         .executes(
                                                 context -> executeRelativeHumidity(
                                                         context.getSource(),
-                                                        BlockPosArgumentType.getLoadedBlockPos(context, location),
+                                                        BlockPosArgument.getLoadedBlockPos(context, location),
                                                         DoubleArgumentType.getDouble(context, scale)
                                                 )
                                         )
@@ -209,7 +209,7 @@ public class EnvironmentCommand {
         );
 
         return literal("thermoo").then(
-                (literal("environment").requires((src) -> src.hasPermissionLevel(2)))
+                (literal("environment").requires((src) -> src.hasPermission(2)))
                         .then(checkTemperature)
                         .then(printController)
                         .then(temperature)
@@ -218,18 +218,18 @@ public class EnvironmentCommand {
     }
 
     @Deprecated
-    private static int printController(ServerCommandSource source) {
+    private static int printController(CommandSourceStack source) {
         String controller = EnvironmentManager.INSTANCE.getController().toString();
 
-        source.sendFeedback(() -> Text.translatableWithFallback(
+        source.sendSuccess(() -> Component.translatableWithFallback(
                 "commands.thermoo.environment.printcontroller.success",
                 "Controller logged to console"
         ), false);
-        source.sendFeedback(
-                () -> Text.translatableWithFallback(
+        source.sendSuccess(
+                () -> Component.translatableWithFallback(
                         "commands.thermoo.environment.printcontroller.deprecation",
                         "This command is deprecated, the Environment Controller has been replaced with the Environment Datapack Registry."
-                ).formatted(Formatting.RED),
+                ).withStyle(ChatFormatting.RED),
                 false
         );
 
@@ -237,13 +237,13 @@ public class EnvironmentCommand {
         return 0;
     }
 
-    private static int executeEntityTemperature(ServerCommandSource source, ServerPlayerEntity target) {
+    private static int executeEntityTemperature(CommandSourceStack source, ServerPlayer target) {
         BlockPos pos = LivingEntityTickUtil.getTemperatureTickPos(target);
-        final EnvironmentTickContextImpl<ServerPlayerEntity> context = new EnvironmentTickContextImpl<>(
+        final EnvironmentTickContextImpl<ServerPlayer> context = new EnvironmentTickContextImpl<>(
                 target,
-                target.getServerWorld(),
+                target.serverLevel(),
                 pos,
-                EnvironmentLookup.getInstance().findEnvironmentComponents(target.getServerWorld(), pos)
+                EnvironmentLookup.getInstance().findEnvironmentComponents(target.serverLevel(), pos)
         );
 
         int tempChange = ServerPlayerEnvironmentTickEvents.GET_TEMPERATURE_CHANGE.invoker().addPointChange(context);
@@ -252,8 +252,8 @@ public class EnvironmentCommand {
                 : 0.0;
 
         if (resistance >= 0) {
-            source.sendFeedback(
-                    () -> Text.translatable(
+            source.sendSuccess(
+                    () -> Component.translatable(
                             "commands.thermoo.environment.temperature.player.success",
                             target.getDisplayName(),
                             tempChange,
@@ -262,8 +262,8 @@ public class EnvironmentCommand {
                     false
             );
         } else {
-            source.sendFeedback(
-                    () -> Text.translatable(
+            source.sendSuccess(
+                    () -> Component.translatable(
                             "commands.thermoo.environment.temperature.player.negative.success",
                             target.getDisplayName(),
                             tempChange,
@@ -277,21 +277,21 @@ public class EnvironmentCommand {
         return tempChange;
     }
 
-    private static int executeTemperature(ServerCommandSource source, BlockPos location, TemperatureUnit unit, double scale) {
+    private static int executeTemperature(CommandSourceStack source, BlockPos location, TemperatureUnit unit, double scale) {
         double temperature = EnvironmentLookup.getInstance().findEnvironmentComponents(
-                        source.getWorld(), location
+                        source.getLevel(), location
                 ).getOrDefault(EnvironmentComponentTypes.TEMPERATURE, TemperatureRecordComponent.DEFAULT)
                 .valueInUnit(unit);
 
-        source.sendFeedback(
+        source.sendSuccess(
                 () -> {
-                    RegistryKey<Biome> biome = source.getWorld().getBiome(location).getKey().orElse(null);
-                    return Text.translatable(
+                    ResourceKey<Biome> biome = source.getLevel().getBiome(location).unwrapKey().orElse(null);
+                    return Component.translatable(
                             "commands.thermoo.environment.temperature.success",
                             location.getX(),
                             location.getY(),
                             location.getZ(),
-                            biome == null ? "unknown" : biome.getValue().toString(),
+                            biome == null ? "unknown" : biome.location().toString(),
                             String.format("%.2f", temperature),
                             unit.getUnitSymbol()
                     );
@@ -302,21 +302,21 @@ public class EnvironmentCommand {
         return (int) (temperature * scale);
     }
 
-    private static int executeRelativeHumidity(ServerCommandSource source, BlockPos location, double scale) {
+    private static int executeRelativeHumidity(CommandSourceStack source, BlockPos location, double scale) {
         double relativeHumidity = EnvironmentLookup.getInstance().findEnvironmentComponents(
-                source.getWorld(), location
+                source.getLevel(), location
         ).getOrDefault(EnvironmentComponentTypes.RELATIVE_HUMIDITY, RelativeHumidityComponent.DEFAULT);
         double scaledHumidity = relativeHumidity * scale;
 
-        source.sendFeedback(
+        source.sendSuccess(
                 () -> {
-                    RegistryKey<Biome> biome = source.getWorld().getBiome(location).getKey().orElse(null);
-                    return Text.translatable(
+                    ResourceKey<Biome> biome = source.getLevel().getBiome(location).unwrapKey().orElse(null);
+                    return Component.translatable(
                             "commands.thermoo.environment.humidity.success",
                             location.getX(),
                             location.getY(),
                             location.getZ(),
-                            biome == null ? "unknown" : biome.getValue().toString(),
+                            biome == null ? "unknown" : biome.location().toString(),
                             String.format("%.2f", scaledHumidity)
                     );
                 },
@@ -327,33 +327,33 @@ public class EnvironmentCommand {
     }
 
     @Deprecated
-    private static int executeCheckTemperature(ServerCommandSource source, BlockPos location) {
+    private static int executeCheckTemperature(CommandSourceStack source, BlockPos location) {
 
         int temperatureChange = EnvironmentManager.INSTANCE.getController().getLocalTemperatureChange(
-                source.getWorld(),
+                source.getLevel(),
                 location
         );
 
 
-        var biome = source.getWorld().getBiome(location).getKey().orElse(null);
+        var biome = source.getLevel().getBiome(location).unwrapKey().orElse(null);
 
-        source.sendFeedback(
-                () -> Text.translatableWithFallback(
+        source.sendSuccess(
+                () -> Component.translatableWithFallback(
                         "commands.thermoo.environment.checktemperature.success",
                         "The passive temperature change at %s, %s, %s (%s) is %s",
                         location.getX(),
                         location.getY(),
                         location.getZ(),
-                        biome == null ? "unknown" : biome.getValue().toString(),
+                        biome == null ? "unknown" : biome.location().toString(),
                         temperatureChange
                 ),
                 false
         );
-        source.sendFeedback(
-                () -> Text.translatableWithFallback(
+        source.sendSuccess(
+                () -> Component.translatableWithFallback(
                         "commands.thermoo.environment.checktemperature.deprecation",
                         "This command is deprecated, use /thermoo environment temperature <pos>"
-                ).formatted(Formatting.RED),
+                ).withStyle(ChatFormatting.RED),
                 false
         );
 
@@ -361,39 +361,39 @@ public class EnvironmentCommand {
     }
 
     @Deprecated
-    private static int executeCheckTemperature(ServerCommandSource source, BlockPos location, TemperatureUnit unit) {
+    private static int executeCheckTemperature(CommandSourceStack source, BlockPos location, TemperatureUnit unit) {
 
         int temperatureTick = EnvironmentManager.INSTANCE.getController().getLocalTemperatureChange(
-                source.getWorld(),
+                source.getLevel(),
                 location
         );
 
 
-        var biome = source.getWorld().getBiome(location).getKey().orElse(null);
+        var biome = source.getLevel().getBiome(location).unwrapKey().orElse(null);
 
         double temperature = TemperatureConverter.temperatureTickToAmbientTemperature(
                 temperatureTick,
                 new TemperatureConverter.Settings(unit, 1, 0)
         );
 
-        source.sendFeedback(
-                () -> Text.translatableWithFallback(
+        source.sendSuccess(
+                () -> Component.translatableWithFallback(
                         "commands.thermoo.environment.checktemperature.unit.success",
                         "The temperature at %s, %s, %s (%s) is %s°%s",
                         location.getX(),
                         location.getY(),
                         location.getZ(),
-                        biome == null ? "unknown" : biome.getValue().toString(),
+                        biome == null ? "unknown" : biome.location().toString(),
                         String.format("%.2f", temperature),
                         unit.getUnitSymbol()
                 ),
                 false
         );
-        source.sendFeedback(
-                () -> Text.translatableWithFallback(
+        source.sendSuccess(
+                () -> Component.translatableWithFallback(
                         "commands.thermoo.environment.checktemperature.deprecation",
                         "This command is deprecated, use /thermoo environment temperature <pos>"
-                ).formatted(Formatting.RED),
+                ).withStyle(ChatFormatting.RED),
                 false
         );
 

@@ -15,10 +15,10 @@ import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.registry.DynamicRegistries;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.command.argument.serialize.ArgumentSerializer;
-import net.minecraft.command.argument.serialize.ConstantArgumentSerializer;
-import net.minecraft.resource.ResourceType;
-import net.minecraft.util.Identifier;
+import net.minecraft.commands.synchronization.ArgumentTypeInfo;
+import net.minecraft.commands.synchronization.SingletonArgumentInfo;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.PackType;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
@@ -32,16 +32,16 @@ public class Thermoo implements ModInitializer {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(MODID);
 
-    public static final ArgumentSerializer<
+    public static final ArgumentTypeInfo<
             HeatingModeArgumentType,
-            ConstantArgumentSerializer<HeatingModeArgumentType>.Properties
-            > HEATING_MODE_ARG_SERIALIZER = ConstantArgumentSerializer.of(HeatingModeArgumentType::heatingMode);
+            SingletonArgumentInfo<HeatingModeArgumentType>.Template
+            > HEATING_MODE_ARG_SERIALIZER = SingletonArgumentInfo.contextFree(HeatingModeArgumentType::heatingMode);
 
 
-    public static final ArgumentSerializer<
+    public static final ArgumentTypeInfo<
             TemperatureUnitArgumentType,
-            ConstantArgumentSerializer<TemperatureUnitArgumentType>.Properties
-            > TEMPERATURE_UNIT_ARG_SERIALIZER = ConstantArgumentSerializer.of(TemperatureUnitArgumentType::temperatureUnit);
+            SingletonArgumentInfo<TemperatureUnitArgumentType>.Template
+            > TEMPERATURE_UNIT_ARG_SERIALIZER = SingletonArgumentInfo.contextFree(TemperatureUnitArgumentType::temperatureUnit);
 
     @Nullable
     private static ThermooConfig config = null;
@@ -81,7 +81,7 @@ public class Thermoo implements ModInitializer {
         ThermooCommonRegisters.registerEnvironmentProviderTypes();
         ThermooCommonRegisters.registerLootConditionTypes();
 
-        ResourceManagerHelper serverManager = ResourceManagerHelper.get(ResourceType.SERVER_DATA);
+        ResourceManagerHelper serverManager = ResourceManagerHelper.get(PackType.SERVER_DATA);
         serverManager.registerReloadListener(TemperatureEffectLoader.ID, TemperatureEffectLoader::new);
 
         EnvironmentLookupImpl.initialize();
@@ -93,14 +93,14 @@ public class Thermoo implements ModInitializer {
     }
 
     /**
-     * Creates a new {@link Identifier} under the namespace {@value #MODID}
+     * Creates a new {@link ResourceLocation} under the namespace {@value #MODID}
      *
      * @param path The identifier path
-     * @return Returns a new {@link Identifier}
+     * @return Returns a new {@link ResourceLocation}
      */
     @Contract("_->new")
-    public static Identifier id(String path) {
-        return Identifier.of(MODID, path);
+    public static ResourceLocation id(String path) {
+        return ResourceLocation.fromNamespaceAndPath(MODID, path);
     }
 
     public static ThermooConfig getConfig() {

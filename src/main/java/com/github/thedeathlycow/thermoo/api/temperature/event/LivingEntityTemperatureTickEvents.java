@@ -3,7 +3,7 @@ package com.github.thedeathlycow.thermoo.api.temperature.event;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 import net.fabricmc.fabric.api.util.TriState;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.world.entity.LivingEntity;
 
 /**
  * Events for ticking passive and active temperature changes on entities on the logical server. These events will apply

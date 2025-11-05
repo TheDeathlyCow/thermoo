@@ -2,18 +2,17 @@ package com.github.thedeathlycow.thermoo.api;
 
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import com.github.thedeathlycow.thermoo.impl.attribute.AttributeData;
-import com.github.thedeathlycow.thermoo.impl.environment.EnvironmentHeatingMode;
 import net.fabricmc.fabric.api.event.Event;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.attribute.ClampedEntityAttribute;
-import net.minecraft.entity.attribute.EntityAttribute;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.core.Holder;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.RangedAttribute;
 import org.jetbrains.annotations.ApiStatus;
 
 /**
- * Custom {@link EntityAttribute}s provided by Thermoo
+ * Custom {@link Attribute}s provided by Thermoo
  */
 public final class ThermooAttributes {
 
@@ -26,11 +25,11 @@ public final class ThermooAttributes {
      *
      * @see #MAX_TEMPERATURE
      */
-    public static final RegistryEntry<EntityAttribute> MIN_TEMPERATURE = register(
+    public static final Holder<Attribute> MIN_TEMPERATURE = register(
             "generic.min_temperature",
-            new ClampedEntityAttribute(
+            new RangedAttribute(
                     "attribute.thermoo.generic.min_temperature", 0.0, 0.0, 8192
-            ).setTracked(true)
+            ).setSyncable(true)
     );
 
     /**
@@ -42,11 +41,11 @@ public final class ThermooAttributes {
      *
      * @see #MIN_TEMPERATURE
      */
-    public static final RegistryEntry<EntityAttribute> MAX_TEMPERATURE = register(
+    public static final Holder<Attribute> MAX_TEMPERATURE = register(
             "generic.max_temperature",
-            new ClampedEntityAttribute(
+            new RangedAttribute(
                     "attribute.thermoo.generic.max_temperature", 0.0, 0.0, 8192
-            ).setTracked(true)
+            ).setSyncable(true)
     );
 
     /**
@@ -54,11 +53,11 @@ public final class ThermooAttributes {
      * <p>
      * The final max soaking tick value for living entities is floor(600 * multiplier).
      */
-    public static final RegistryEntry<EntityAttribute> MAX_SOAKING_TICK_MULTIPLIER = register(
+    public static final Holder<Attribute> MAX_SOAKING_TICK_MULTIPLIER = register(
             "generic.max_soaking_tick_multiplier",
-            new ClampedEntityAttribute(
+            new RangedAttribute(
                     "attribute.thermoo.generic.max_soaking_tick_multiplier", 1.0, 0.0, 8192
-            ).setTracked(true)
+            ).setSyncable(true)
     );
 
     /**
@@ -66,11 +65,11 @@ public final class ThermooAttributes {
      *
      * @see #HEAT_RESISTANCE
      */
-    public static final RegistryEntry<EntityAttribute> FROST_RESISTANCE = register(
+    public static final Holder<Attribute> FROST_RESISTANCE = register(
             "generic.frost_resistance",
-            new ClampedEntityAttribute(
+            new RangedAttribute(
                     "attribute.thermoo.generic.frost_resistance", 0.0, -10.0, 10.0
-            ).setTracked(true)
+            ).setSyncable(true)
     );
 
     /**
@@ -78,11 +77,11 @@ public final class ThermooAttributes {
      *
      * @see #FROST_RESISTANCE
      */
-    public static final RegistryEntry<EntityAttribute> HEAT_RESISTANCE = register(
+    public static final Holder<Attribute> HEAT_RESISTANCE = register(
             "generic.heat_resistance",
-            new ClampedEntityAttribute(
+            new RangedAttribute(
                     "attribute.thermoo.generic.heat_resistance", 0.0, -10.0, 10.0
-            ).setTracked(true)
+            ).setSyncable(true)
     );
 
     /**
@@ -94,11 +93,11 @@ public final class ThermooAttributes {
      *
      * @see #ENVIRONMENT_FROST_RESISTANCE
      */
-    public static final RegistryEntry<EntityAttribute> ENVIRONMENT_HEAT_RESISTANCE = register(
+    public static final Holder<Attribute> ENVIRONMENT_HEAT_RESISTANCE = register(
             "generic.environment_heat_resistance",
-            new ClampedEntityAttribute(
+            new RangedAttribute(
                     "attribute.thermoo.generic.environment_heat_resistance", 0.0, -1.0, 1.0
-            ).setTracked(true)
+            ).setSyncable(true)
     );
 
     /**
@@ -110,11 +109,11 @@ public final class ThermooAttributes {
      *
      * @see #ENVIRONMENT_HEAT_RESISTANCE
      */
-    public static final RegistryEntry<EntityAttribute> ENVIRONMENT_FROST_RESISTANCE = register(
+    public static final Holder<Attribute> ENVIRONMENT_FROST_RESISTANCE = register(
             "generic.environment_frost_resistance",
-            new ClampedEntityAttribute(
+            new RangedAttribute(
                     "attribute.thermoo.generic.environment_frost_resistance", 0.0, -1.0, 1.0
-            ).setTracked(true)
+            ).setSyncable(true)
     );
 
     /**
@@ -125,7 +124,7 @@ public final class ThermooAttributes {
      * @return Returns the event for the attribute
      * @throws IllegalArgumentException if the given attribute is not a thermoo attribute defined by this class
      */
-    public static Event<SetBaseAttributeValue> baseValueEvent(RegistryEntry<EntityAttribute> attribute) {
+    public static Event<SetBaseAttributeValue> baseValueEvent(Holder<Attribute> attribute) {
         for (AttributeData data : AttributeData.values()) {
             if (attribute == data.attribute()) {
                 return data.baseValueEvent();
@@ -139,7 +138,7 @@ public final class ThermooAttributes {
     public interface SetBaseAttributeValue {
         /**
          * Gets a base value for the event. If the value returned by this event is non-zero, then it will be applied
-         * to the entity as a temporary attribute modifier using the {@link net.minecraft.entity.attribute.EntityAttributeModifier.Operation#ADD_VALUE}
+         * to the entity as a temporary attribute modifier using the {@link net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation#ADD_VALUE}
          * operation.
          * <p>
          * Note: the actual base value will be unaffected. To modify the base value, use {@link net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry}.
@@ -165,8 +164,8 @@ public final class ThermooAttributes {
         }
     }
 
-    private static RegistryEntry<EntityAttribute> register(String name, EntityAttribute attribute) {
-        return Registry.registerReference(Registries.ATTRIBUTE, Thermoo.id(name), attribute);
+    private static Holder<Attribute> register(String name, Attribute attribute) {
+        return Registry.registerForHolder(BuiltInRegistries.ATTRIBUTE, Thermoo.id(name), attribute);
     }
 
     private ThermooAttributes() {

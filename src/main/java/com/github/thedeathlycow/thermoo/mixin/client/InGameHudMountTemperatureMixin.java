@@ -6,11 +6,11 @@ import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.Share;
 import com.llamalad7.mixinextras.sugar.ref.LocalIntRef;
 import com.llamalad7.mixinextras.sugar.ref.LocalRef;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.hud.InGameHud;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector2i;
 import org.spongepowered.asm.mixin.Debug;
@@ -23,27 +23,27 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 /**
  * For the mount health bar. For the player health bar see {@link InGameHudPlayerTemperatureMixin}
  */
-@Mixin(InGameHud.class)
+@Mixin(Gui.class)
 @Debug(export = true)
 public abstract class InGameHudMountTemperatureMixin {
     @Shadow
-    protected abstract LivingEntity getRiddenEntity();
+    protected abstract LivingEntity getPlayerVehicleWithHealth();
 
     @Shadow
-    protected abstract PlayerEntity getCameraPlayer();
+    protected abstract Player getCameraPlayer();
 
-    @Shadow protected abstract int getHeartCount(@Nullable LivingEntity entity);
+    @Shadow protected abstract int getVehicleMaxHearts(@Nullable LivingEntity entity);
 
     @Inject(
-            method = "renderMountHealth",
+            method = "renderVehicleHealth",
             at = @At(
                     value = "INVOKE",
-                    target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Lnet/minecraft/util/Identifier;IIII)V",
+                    target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Lnet/minecraft/resources/ResourceLocation;IIII)V",
                     ordinal = 0
             )
     )
     private void captureMountHealth(
-            DrawContext context,
+            GuiGraphics context,
             CallbackInfo ci,
             @Local(ordinal = 8) int heartX,
             @Local(ordinal = 4) int heartY,
@@ -59,24 +59,24 @@ public abstract class InGameHudMountTemperatureMixin {
     }
 
     @Inject(
-            method = "renderMountHealth",
+            method = "renderVehicleHealth",
             at = @At("TAIL")
     )
     private void renderMountHealth(
-            DrawContext context,
+            GuiGraphics context,
             CallbackInfo ci,
             @Share("thermoo_tracker") LocalRef<HeartOverlayTracker> tracker
     ) {
         Vector2i[] heartPositions = tracker.get().getHeartPositions();
 
-        PlayerEntity player = this.getCameraPlayer();
-        LivingEntity mount = this.getRiddenEntity();
+        Player player = this.getCameraPlayer();
+        LivingEntity mount = this.getPlayerVehicleWithHealth();
 
         // this weirdness accounts for two vanilla bugs:
         // - MC-200102: last half heart is not displayed with an odd max health
         // - a second bug that only shows up to 3 rows of mount health
-        int maxHealth = this.getHeartCount(mount) * 2;
-        int health = Math.min(MathHelper.ceil(mount.getHealth()), maxHealth);
+        int maxHealth = this.getVehicleMaxHearts(mount) * 2;
+        int health = Math.min(Mth.ceil(mount.getHealth()), maxHealth);
 
         StatusBarOverlayRenderEvents.AFTER_MOUNT_HEALTH_BAR.invoker()
                 .render(

@@ -3,132 +3,132 @@ package com.github.thedeathlycow.thermoo.testmod.tests.item;
 import com.github.thedeathlycow.thermoo.api.item.ModifyItemAttributeModifiersCallback;
 import com.github.thedeathlycow.thermoo.testmod.ThermooTestMod;
 import net.fabricmc.fabric.api.gametest.v1.FabricGameTest;
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.AttributeModifierSlot;
-import net.minecraft.component.type.AttributeModifiersComponent;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.attribute.EntityAttributeModifier;
-import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.passive.VillagerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.registry.tag.ItemTags;
-import net.minecraft.test.GameTest;
-import net.minecraft.test.TestContext;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.gametest.framework.GameTest;
+import net.minecraft.gametest.framework.GameTestHelper;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.EquipmentSlotGroup;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.npc.Villager;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.component.ItemAttributeModifiers;
 
 @SuppressWarnings("unused")
 public class ModifyItemAttributeModifiersTest {
     public static void initialize() {
         ModifyItemAttributeModifiersCallback.EVENT.register((stack, builder) -> {
-            if (stack.isOf(Items.DIAMOND_CHESTPLATE)) {
+            if (stack.is(Items.DIAMOND_CHESTPLATE)) {
                 builder.add(
-                        EntityAttributes.GENERIC_SCALE,
-                        new EntityAttributeModifier(
+                        Attributes.SCALE,
+                        new AttributeModifier(
                                 ThermooTestMod.id("diamond_chestplate_scale_test"),
                                 1.0,
-                                EntityAttributeModifier.Operation.ADD_VALUE
+                                AttributeModifier.Operation.ADD_VALUE
                         ),
-                        AttributeModifierSlot.CHEST
+                        EquipmentSlotGroup.CHEST
                 );
             }
 
-            if (stack.isIn(ItemTags.AXES)) {
+            if (stack.is(ItemTags.AXES)) {
                 builder.add(
-                        EntityAttributes.GENERIC_ARMOR,
-                        new EntityAttributeModifier(
+                        Attributes.ARMOR,
+                        new AttributeModifier(
                                 ThermooTestMod.id("diamond_axe_armor_test"),
                                 1.0,
-                                EntityAttributeModifier.Operation.ADD_VALUE
+                                AttributeModifier.Operation.ADD_VALUE
                         ),
-                        AttributeModifierSlot.MAINHAND
+                        EquipmentSlotGroup.MAINHAND
                 );
             }
 
-            if (stack.isOf(Items.NETHERITE_AXE)) {
+            if (stack.is(Items.NETHERITE_AXE)) {
                 builder.add(
-                        EntityAttributes.GENERIC_ARMOR,
+                        Attributes.ARMOR,
                         // duplicate
-                        new EntityAttributeModifier(
+                        new AttributeModifier(
                                 ThermooTestMod.id("diamond_axe_armor_test"),
                                 5.0,
-                                EntityAttributeModifier.Operation.ADD_VALUE
+                                AttributeModifier.Operation.ADD_VALUE
                         ),
-                        AttributeModifierSlot.MAINHAND
+                        EquipmentSlotGroup.MAINHAND
                 );
             }
         });
     }
 
-    @GameTest(templateName = FabricGameTest.EMPTY_STRUCTURE)
-    public void default_diamond_chestplate_applies_scale(TestContext context) {
-        VillagerEntity villager = context.spawnEntity(EntityType.VILLAGER, BlockPos.ORIGIN);
-        context.expectEntityWithData(BlockPos.ORIGIN, EntityType.VILLAGER, LivingEntity::getScale, 1f);
+    @GameTest(template = FabricGameTest.EMPTY_STRUCTURE)
+    public void default_diamond_chestplate_applies_scale(GameTestHelper context) {
+        Villager villager = context.spawn(EntityType.VILLAGER, BlockPos.ZERO);
+        context.assertEntityData(BlockPos.ZERO, EntityType.VILLAGER, LivingEntity::getScale, 1f);
 
-        villager.equipStack(EquipmentSlot.CHEST, Items.DIAMOND_CHESTPLATE.getDefaultStack());
-        context.expectEntityWithDataEnd(BlockPos.ORIGIN, EntityType.VILLAGER, LivingEntity::getScale, 2f);
+        villager.setItemSlot(EquipmentSlot.CHEST, Items.DIAMOND_CHESTPLATE.getDefaultInstance());
+        context.succeedWhenEntityData(BlockPos.ZERO, EntityType.VILLAGER, LivingEntity::getScale, 2f);
     }
 
-    @GameTest(templateName = FabricGameTest.EMPTY_STRUCTURE)
-    public void default_diamond_chestplate_does_not_apply_scale_when_held(TestContext context) {
-        VillagerEntity villager = context.spawnEntity(EntityType.VILLAGER, BlockPos.ORIGIN);
-        context.expectEntityWithData(BlockPos.ORIGIN, EntityType.VILLAGER, LivingEntity::getScale, 1f);
+    @GameTest(template = FabricGameTest.EMPTY_STRUCTURE)
+    public void default_diamond_chestplate_does_not_apply_scale_when_held(GameTestHelper context) {
+        Villager villager = context.spawn(EntityType.VILLAGER, BlockPos.ZERO);
+        context.assertEntityData(BlockPos.ZERO, EntityType.VILLAGER, LivingEntity::getScale, 1f);
 
-        villager.setStackInHand(Hand.MAIN_HAND, Items.DIAMOND_CHESTPLATE.getDefaultStack());
-        context.expectEntityWithDataEnd(BlockPos.ORIGIN, EntityType.VILLAGER, LivingEntity::getScale, 1f);
+        villager.setItemInHand(InteractionHand.MAIN_HAND, Items.DIAMOND_CHESTPLATE.getDefaultInstance());
+        context.succeedWhenEntityData(BlockPos.ZERO, EntityType.VILLAGER, LivingEntity::getScale, 1f);
     }
 
-    @GameTest(templateName = FabricGameTest.EMPTY_STRUCTURE)
-    public void modified_diamond_chestplate_does_not_apply_scale(TestContext context) {
-        VillagerEntity villager = context.spawnEntity(EntityType.VILLAGER, BlockPos.ORIGIN);
-        context.expectEntityWithData(BlockPos.ORIGIN, EntityType.VILLAGER, LivingEntity::getScale, 1f);
+    @GameTest(template = FabricGameTest.EMPTY_STRUCTURE)
+    public void modified_diamond_chestplate_does_not_apply_scale(GameTestHelper context) {
+        Villager villager = context.spawn(EntityType.VILLAGER, BlockPos.ZERO);
+        context.assertEntityData(BlockPos.ZERO, EntityType.VILLAGER, LivingEntity::getScale, 1f);
 
-        ItemStack stack = Items.DIAMOND_CHESTPLATE.getDefaultStack();
-        stack.set(DataComponentTypes.ATTRIBUTE_MODIFIERS, AttributeModifiersComponent.DEFAULT);
+        ItemStack stack = Items.DIAMOND_CHESTPLATE.getDefaultInstance();
+        stack.set(DataComponents.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.EMPTY);
 
-        villager.equipStack(EquipmentSlot.CHEST, stack);
-        context.expectEntityWithDataEnd(BlockPos.ORIGIN, EntityType.VILLAGER, LivingEntity::getScale, 1f);
+        villager.setItemSlot(EquipmentSlot.CHEST, stack);
+        context.succeedWhenEntityData(BlockPos.ZERO, EntityType.VILLAGER, LivingEntity::getScale, 1f);
     }
 
-    @GameTest(templateName = FabricGameTest.EMPTY_STRUCTURE)
-    public void default_diamond_axe_applies_armor(TestContext context) {
-        VillagerEntity villager = context.spawnEntity(EntityType.VILLAGER, BlockPos.ORIGIN);
-        context.expectEntityWithData(BlockPos.ORIGIN, EntityType.VILLAGER, LivingEntity::getArmor, 0);
+    @GameTest(template = FabricGameTest.EMPTY_STRUCTURE)
+    public void default_diamond_axe_applies_armor(GameTestHelper context) {
+        Villager villager = context.spawn(EntityType.VILLAGER, BlockPos.ZERO);
+        context.assertEntityData(BlockPos.ZERO, EntityType.VILLAGER, LivingEntity::getArmorValue, 0);
 
-        villager.setStackInHand(Hand.MAIN_HAND, Items.DIAMOND_AXE.getDefaultStack());
-        context.expectEntityWithDataEnd(BlockPos.ORIGIN, EntityType.VILLAGER, LivingEntity::getArmor, 1);
+        villager.setItemInHand(InteractionHand.MAIN_HAND, Items.DIAMOND_AXE.getDefaultInstance());
+        context.succeedWhenEntityData(BlockPos.ZERO, EntityType.VILLAGER, LivingEntity::getArmorValue, 1);
     }
 
-    @GameTest(templateName = FabricGameTest.EMPTY_STRUCTURE)
-    public void default_netherite_axe_overwrites_armor(TestContext context) {
-        VillagerEntity villager = context.spawnEntity(EntityType.VILLAGER, BlockPos.ORIGIN);
-        context.expectEntityWithData(BlockPos.ORIGIN, EntityType.VILLAGER, LivingEntity::getArmor, 0);
+    @GameTest(template = FabricGameTest.EMPTY_STRUCTURE)
+    public void default_netherite_axe_overwrites_armor(GameTestHelper context) {
+        Villager villager = context.spawn(EntityType.VILLAGER, BlockPos.ZERO);
+        context.assertEntityData(BlockPos.ZERO, EntityType.VILLAGER, LivingEntity::getArmorValue, 0);
 
-        villager.setStackInHand(Hand.MAIN_HAND, Items.NETHERITE_AXE.getDefaultStack());
-        context.expectEntityWithDataEnd(BlockPos.ORIGIN, EntityType.VILLAGER, LivingEntity::getArmor, 5);
+        villager.setItemInHand(InteractionHand.MAIN_HAND, Items.NETHERITE_AXE.getDefaultInstance());
+        context.succeedWhenEntityData(BlockPos.ZERO, EntityType.VILLAGER, LivingEntity::getArmorValue, 5);
     }
 
-    @GameTest(templateName = FabricGameTest.EMPTY_STRUCTURE)
-    public void default_diamond_axe_does_not_apply_armor_when_worn(TestContext context) {
-        VillagerEntity villager = context.spawnEntity(EntityType.VILLAGER, BlockPos.ORIGIN);
-        context.expectEntityWithData(BlockPos.ORIGIN, EntityType.VILLAGER, LivingEntity::getArmor, 0);
+    @GameTest(template = FabricGameTest.EMPTY_STRUCTURE)
+    public void default_diamond_axe_does_not_apply_armor_when_worn(GameTestHelper context) {
+        Villager villager = context.spawn(EntityType.VILLAGER, BlockPos.ZERO);
+        context.assertEntityData(BlockPos.ZERO, EntityType.VILLAGER, LivingEntity::getArmorValue, 0);
 
-        villager.equipStack(EquipmentSlot.HEAD, Items.DIAMOND_AXE.getDefaultStack());
-        context.expectEntityWithDataEnd(BlockPos.ORIGIN, EntityType.VILLAGER, LivingEntity::getArmor, 0);
+        villager.setItemSlot(EquipmentSlot.HEAD, Items.DIAMOND_AXE.getDefaultInstance());
+        context.succeedWhenEntityData(BlockPos.ZERO, EntityType.VILLAGER, LivingEntity::getArmorValue, 0);
     }
 
-    @GameTest(templateName = FabricGameTest.EMPTY_STRUCTURE)
-    public void modified_diamond_axe_does_not_apply_armor(TestContext context) {
-        VillagerEntity villager = context.spawnEntity(EntityType.VILLAGER, BlockPos.ORIGIN);
-        context.expectEntityWithData(BlockPos.ORIGIN, EntityType.VILLAGER, LivingEntity::getArmor, 0);
+    @GameTest(template = FabricGameTest.EMPTY_STRUCTURE)
+    public void modified_diamond_axe_does_not_apply_armor(GameTestHelper context) {
+        Villager villager = context.spawn(EntityType.VILLAGER, BlockPos.ZERO);
+        context.assertEntityData(BlockPos.ZERO, EntityType.VILLAGER, LivingEntity::getArmorValue, 0);
 
-        ItemStack stack = Items.DIAMOND_AXE.getDefaultStack();
-        stack.set(DataComponentTypes.ATTRIBUTE_MODIFIERS, AttributeModifiersComponent.DEFAULT);
+        ItemStack stack = Items.DIAMOND_AXE.getDefaultInstance();
+        stack.set(DataComponents.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.EMPTY);
 
-        villager.equipStack(EquipmentSlot.CHEST, stack);
-        context.expectEntityWithDataEnd(BlockPos.ORIGIN, EntityType.VILLAGER, LivingEntity::getArmor, 0);
+        villager.setItemSlot(EquipmentSlot.CHEST, stack);
+        context.succeedWhenEntityData(BlockPos.ZERO, EntityType.VILLAGER, LivingEntity::getArmorValue, 0);
     }
 }

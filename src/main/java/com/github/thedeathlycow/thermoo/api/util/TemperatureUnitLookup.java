@@ -1,10 +1,9 @@
 package com.github.thedeathlycow.thermoo.api.util;
 
-import com.github.thedeathlycow.thermoo.api.util.TemperatureUnit;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.resource.language.LanguageManager;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.language.LanguageManager;
 
 import java.util.HashSet;
 import java.util.Locale;
@@ -40,8 +39,8 @@ public final class TemperatureUnitLookup {
      */
     @Environment(EnvType.CLIENT)
     public static TemperatureUnit fromCurrentLanguage() {
-        LanguageManager manager = MinecraftClient.getInstance().getLanguageManager();
-        return manager.getLanguage().endsWith("_us")
+        LanguageManager manager = Minecraft.getInstance().getLanguageManager();
+        return manager.getSelected().endsWith("_us")
                 ? TemperatureUnit.FAHRENHEIT
                 : TemperatureUnit.CELSIUS;
     }

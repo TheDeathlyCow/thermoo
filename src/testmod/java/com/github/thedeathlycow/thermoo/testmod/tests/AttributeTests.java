@@ -2,30 +2,30 @@ package com.github.thedeathlycow.thermoo.testmod.tests;
 
 import com.github.thedeathlycow.thermoo.api.ThermooAttributes;
 import net.fabricmc.fabric.api.gametest.v1.FabricGameTest;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.passive.VillagerEntity;
-import net.minecraft.test.GameTest;
-import net.minecraft.test.TestContext;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.BlockPos;
+import net.minecraft.gametest.framework.GameTest;
+import net.minecraft.gametest.framework.GameTestHelper;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.npc.Villager;
 
 @SuppressWarnings("unused")
 public class AttributeTests {
 
-    @GameTest(templateName = FabricGameTest.EMPTY_STRUCTURE)
-    public void villager_min_temperature_is_set_by_event(TestContext context) {
-        VillagerEntity villager = context.spawnEntity(EntityType.VILLAGER, BlockPos.ORIGIN.up());
+    @GameTest(template = FabricGameTest.EMPTY_STRUCTURE)
+    public void villager_min_temperature_is_set_by_event(GameTestHelper context) {
+        Villager villager = context.spawn(EntityType.VILLAGER, BlockPos.ZERO.above());
 
-        context.assertEquals(villager.getAttributeValue(ThermooAttributes.MIN_TEMPERATURE), 40.0, "Min Temperature Attribute");
-        context.assertEquals(villager.thermoo$getMinTemperature(), -40 * 140, "Min Temperature Value");
-        context.complete();
+        context.assertValueEqual(villager.getAttributeValue(ThermooAttributes.MIN_TEMPERATURE), 40.0, "Min Temperature Attribute");
+        context.assertValueEqual(villager.thermoo$getMinTemperature(), -40 * 140, "Min Temperature Value");
+        context.succeed();
     }
 
-    @GameTest(templateName = FabricGameTest.EMPTY_STRUCTURE)
-    public void villager_max_temperature_is_set_by_event(TestContext context) {
-        VillagerEntity villager = context.spawnEntity(EntityType.VILLAGER, BlockPos.ORIGIN.up());
+    @GameTest(template = FabricGameTest.EMPTY_STRUCTURE)
+    public void villager_max_temperature_is_set_by_event(GameTestHelper context) {
+        Villager villager = context.spawn(EntityType.VILLAGER, BlockPos.ZERO.above());
 
-        context.assertEquals(villager.getAttributeValue(ThermooAttributes.MAX_TEMPERATURE), 40.0, "Max Temperature Attribute");
-        context.assertEquals(villager.thermoo$getMaxTemperature(), 40 * 140, "Max Temperature Value");
-        context.complete();
+        context.assertValueEqual(villager.getAttributeValue(ThermooAttributes.MAX_TEMPERATURE), 40.0, "Max Temperature Attribute");
+        context.assertValueEqual(villager.thermoo$getMaxTemperature(), 40 * 140, "Max Temperature Value");
+        context.succeed();
     }
 }

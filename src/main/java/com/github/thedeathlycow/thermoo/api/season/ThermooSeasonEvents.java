@@ -2,8 +2,8 @@ package com.github.thedeathlycow.thermoo.api.season;
 
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 
 import java.util.Optional;
 
@@ -22,7 +22,7 @@ public class ThermooSeasonEvents {
      * <p>
      * Returns empty by default.
      * 
-     * @see ThermooSeason#getCurrentSeason(World) 
+     * @see ThermooSeason#getCurrentSeason(Level) 
      */
     public static final Event<CurrentSeasonCallback> GET_CURRENT_SEASON = EventFactory.createArrayBacked(
             CurrentSeasonCallback.class,
@@ -46,7 +46,7 @@ public class ThermooSeasonEvents {
      * <p>
      * Returns empty by default.
      * 
-     * @see ThermooSeason#getCurrentTropicalSeason(World, BlockPos)
+     * @see ThermooSeason#getCurrentTropicalSeason(Level, BlockPos)
      */
     public static final Event<CurrentTropicalSeasonCallback> GET_CURRENT_TROPICAL_SEASON = EventFactory.createArrayBacked(
             CurrentTropicalSeasonCallback.class,
@@ -64,11 +64,11 @@ public class ThermooSeasonEvents {
 
     @FunctionalInterface
     public interface CurrentSeasonCallback {
-        Optional<ThermooSeason> getCurrentSeason(World world);
+        Optional<ThermooSeason> getCurrentSeason(Level world);
     }
 
     @FunctionalInterface
     public interface CurrentTropicalSeasonCallback {
-        Optional<ThermooSeason> getCurrentTropicalSeason(World world, BlockPos pos);
+        Optional<ThermooSeason> getCurrentTropicalSeason(Level world, BlockPos pos);
     }
 }

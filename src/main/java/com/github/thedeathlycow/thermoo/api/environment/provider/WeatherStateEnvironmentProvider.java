@@ -2,11 +2,11 @@ package com.github.thedeathlycow.thermoo.api.environment.provider;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.component.ComponentMap;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponentMap;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.biome.Biome;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
 
@@ -33,14 +33,14 @@ public final class WeatherStateEnvironmentProvider implements EnvironmentProvide
             ).apply(instance, WeatherStateEnvironmentProvider::new)
     );
 
-    private final Optional<RegistryEntry<EnvironmentProvider>> clear;
-    private final Optional<RegistryEntry<EnvironmentProvider>> rain;
-    private final Optional<RegistryEntry<EnvironmentProvider>> thunder;
+    private final Optional<Holder<EnvironmentProvider>> clear;
+    private final Optional<Holder<EnvironmentProvider>> rain;
+    private final Optional<Holder<EnvironmentProvider>> thunder;
 
     private WeatherStateEnvironmentProvider(
-            Optional<RegistryEntry<EnvironmentProvider>> clear,
-            Optional<RegistryEntry<EnvironmentProvider>> rain,
-            Optional<RegistryEntry<EnvironmentProvider>> thunder
+            Optional<Holder<EnvironmentProvider>> clear,
+            Optional<Holder<EnvironmentProvider>> rain,
+            Optional<Holder<EnvironmentProvider>> thunder
     ) {
         this.clear = clear;
         this.rain = rain;
@@ -67,7 +67,7 @@ public final class WeatherStateEnvironmentProvider implements EnvironmentProvide
      * @param builder A reducible component map builder to append to
      */
     @Override
-    public void buildCurrentComponents(World world, BlockPos pos, RegistryEntry<Biome> biome, ComponentMap.Builder builder) {
+    public void buildCurrentComponents(Level world, BlockPos pos, Holder<Biome> biome, DataComponentMap.Builder builder) {
         if (world.isThundering()) {
             this.thunder.ifPresent(p -> p.value().buildCurrentComponents(world, pos, biome, builder));
         } else if (world.isRaining()) {
@@ -85,21 +85,21 @@ public final class WeatherStateEnvironmentProvider implements EnvironmentProvide
     /**
      * Provider to use when the world is neither raining nor thundering
      */
-    public Optional<RegistryEntry<EnvironmentProvider>> clear() {
+    public Optional<Holder<EnvironmentProvider>> clear() {
         return clear;
     }
 
     /**
      * Provider to use when the world is raining but not thundering
      */
-    public Optional<RegistryEntry<EnvironmentProvider>> rain() {
+    public Optional<Holder<EnvironmentProvider>> rain() {
         return rain;
     }
 
     /**
      * Provider to use when the world is thundering
      */
-    public Optional<RegistryEntry<EnvironmentProvider>> thunder() {
+    public Optional<Holder<EnvironmentProvider>> thunder() {
         return thunder;
     }
 
@@ -108,11 +108,11 @@ public final class WeatherStateEnvironmentProvider implements EnvironmentProvide
      */
     public static final class Builder {
         @Nullable
-        private RegistryEntry<EnvironmentProvider> clear = null;
+        private Holder<EnvironmentProvider> clear = null;
         @Nullable
-        private RegistryEntry<EnvironmentProvider> rain = null;
+        private Holder<EnvironmentProvider> rain = null;
         @Nullable
-        private RegistryEntry<EnvironmentProvider> thunder = null;
+        private Holder<EnvironmentProvider> thunder = null;
 
         private Builder() {
 
@@ -125,7 +125,7 @@ public final class WeatherStateEnvironmentProvider implements EnvironmentProvide
          * @return Returns this builder
          */
         @Contract("_->this")
-        public Builder withClear(RegistryEntry<EnvironmentProvider> clear) {
+        public Builder withClear(Holder<EnvironmentProvider> clear) {
             Objects.requireNonNull(clear);
             this.clear = clear;
             return this;
@@ -138,7 +138,7 @@ public final class WeatherStateEnvironmentProvider implements EnvironmentProvide
          * @return Returns this builder
          */
         @Contract("_->this")
-        public Builder withRain(RegistryEntry<EnvironmentProvider> rain) {
+        public Builder withRain(Holder<EnvironmentProvider> rain) {
             Objects.requireNonNull(rain);
             this.rain = rain;
             return this;
@@ -151,7 +151,7 @@ public final class WeatherStateEnvironmentProvider implements EnvironmentProvide
          * @return Returns this builder
          */
         @Contract("_->this")
-        public Builder withThunder(RegistryEntry<EnvironmentProvider> thunder) {
+        public Builder withThunder(Holder<EnvironmentProvider> thunder) {
             Objects.requireNonNull(thunder);
             this.thunder = thunder;
             return this;

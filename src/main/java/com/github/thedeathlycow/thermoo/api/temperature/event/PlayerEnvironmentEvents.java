@@ -3,7 +3,7 @@ package com.github.thedeathlycow.thermoo.api.temperature.event;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 import net.fabricmc.fabric.api.util.TriState;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.world.entity.player.Player;
 
 /**
  * Events relevant to player ticking and passive temperature changes
@@ -49,7 +49,7 @@ public final class PlayerEnvironmentEvents {
          * for the {@code change} to be applied to the {@code player}. If this returns {@link TriState#FALSE}, falls back
          * to further processing.
          */
-        TriState canApplyChange(int change, PlayerEntity player);
+        TriState canApplyChange(int change, Player player);
 
     }
 

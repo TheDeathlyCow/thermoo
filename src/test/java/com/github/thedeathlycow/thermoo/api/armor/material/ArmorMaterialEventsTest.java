@@ -2,11 +2,11 @@ package com.github.thedeathlycow.thermoo.api.armor.material;
 
 import com.github.thedeathlycow.thermoo.ThermooTest;
 import com.github.thedeathlycow.thermoo.api.ThermooAttributes;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.attribute.EntityAttribute;
-import net.minecraft.item.ArmorItem;
-import net.minecraft.item.Items;
-import net.minecraft.registry.RegistryKey;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.Items;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -30,13 +30,13 @@ class ArmorMaterialEventsTest {
 
     @Test
     void noListenersRegistered_noFrostResistance() {
-        var stack = Items.DIAMOND_BOOTS.getDefaultStack();
+        var stack = Items.DIAMOND_BOOTS.getDefaultInstance();
 
-        final var frostResistance = ThermooAttributes.FROST_RESISTANCE.getKey().orElse(null);
-        Set<RegistryKey<EntityAttribute>> attributeKeys = new HashSet<>();
+        final var frostResistance = ThermooAttributes.FROST_RESISTANCE.unwrapKey().orElse(null);
+        Set<ResourceKey<Attribute>> attributeKeys = new HashSet<>();
 
-        stack.applyAttributeModifiers(EquipmentSlot.FEET, (attribute, modifier) -> {
-            attributeKeys.add(attribute.getKey().orElse(null));
+        stack.forEachModifier(EquipmentSlot.FEET, (attribute, modifier) -> {
+            attributeKeys.add(attribute.unwrapKey().orElse(null));
         });
 
         Assertions.assertFalse(attributeKeys.contains(frostResistance));
@@ -44,13 +44,13 @@ class ArmorMaterialEventsTest {
 
     @Test
     void listenersRegistered_containsFrostResistance() {
-        var stack = Items.DIAMOND_HELMET.getDefaultStack();
+        var stack = Items.DIAMOND_HELMET.getDefaultInstance();
 
-        final var frostResistance = ThermooAttributes.FROST_RESISTANCE.getKey().orElse(null);
-        Set<RegistryKey<EntityAttribute>> attributeKeys = new HashSet<>();
+        final var frostResistance = ThermooAttributes.FROST_RESISTANCE.unwrapKey().orElse(null);
+        Set<ResourceKey<Attribute>> attributeKeys = new HashSet<>();
 
-        stack.applyAttributeModifiers(EquipmentSlot.HEAD, (attribute, modifier) -> {
-            attributeKeys.add(attribute.getKey().orElse(null));
+        stack.forEachModifier(EquipmentSlot.HEAD, (attribute, modifier) -> {
+            attributeKeys.add(attribute.unwrapKey().orElse(null));
         });
 
         Assertions.assertTrue(attributeKeys.contains(frostResistance));
@@ -58,13 +58,13 @@ class ArmorMaterialEventsTest {
 
     @Test
     void noListenersRegistered_noHeatResistance() {
-        var stack = Items.DIAMOND_BOOTS.getDefaultStack();
+        var stack = Items.DIAMOND_BOOTS.getDefaultInstance();
 
-        final var heatResistance = ThermooAttributes.HEAT_RESISTANCE.getKey().orElse(null);
-        Set<RegistryKey<EntityAttribute>> attributeKeys = new HashSet<>();
+        final var heatResistance = ThermooAttributes.HEAT_RESISTANCE.unwrapKey().orElse(null);
+        Set<ResourceKey<Attribute>> attributeKeys = new HashSet<>();
 
-        stack.applyAttributeModifiers(EquipmentSlot.FEET, (attribute, modifier) -> {
-            attributeKeys.add(attribute.getKey().orElse(null));
+        stack.forEachModifier(EquipmentSlot.FEET, (attribute, modifier) -> {
+            attributeKeys.add(attribute.unwrapKey().orElse(null));
         });
 
         Assertions.assertFalse(attributeKeys.contains(heatResistance));
@@ -72,13 +72,13 @@ class ArmorMaterialEventsTest {
 
     @Test
     void listenersRegistered_containsHeatResistance() {
-        var stack = Items.DIAMOND_HELMET.getDefaultStack();
+        var stack = Items.DIAMOND_HELMET.getDefaultInstance();
 
-        final var heatResistance = ThermooAttributes.HEAT_RESISTANCE.getKey().orElse(null);
-        Set<RegistryKey<EntityAttribute>> attributeKeys = new HashSet<>();
+        final var heatResistance = ThermooAttributes.HEAT_RESISTANCE.unwrapKey().orElse(null);
+        Set<ResourceKey<Attribute>> attributeKeys = new HashSet<>();
 
-        stack.applyAttributeModifiers(EquipmentSlot.HEAD, (attribute, modifier) -> {
-            attributeKeys.add(attribute.getKey().orElse(null));
+        stack.forEachModifier(EquipmentSlot.HEAD, (attribute, modifier) -> {
+            attributeKeys.add(attribute.unwrapKey().orElse(null));
         });
 
         Assertions.assertTrue(attributeKeys.contains(heatResistance));

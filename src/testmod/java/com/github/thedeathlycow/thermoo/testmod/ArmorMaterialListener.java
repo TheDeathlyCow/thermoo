@@ -2,10 +2,10 @@ package com.github.thedeathlycow.thermoo.testmod;
 
 import com.github.thedeathlycow.thermoo.api.armor.material.ArmorMaterialEvents;
 import com.github.thedeathlycow.thermoo.api.armor.material.ArmorMaterialTags;
-import net.minecraft.item.ArmorItem;
-import net.minecraft.item.ArmorMaterial;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.registry.tag.TagKey;
+import net.minecraft.core.Holder;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.ArmorMaterial;
 
 public class ArmorMaterialListener implements ArmorMaterialEvents.GetResistance {
 
@@ -30,9 +30,9 @@ public class ArmorMaterialListener implements ArmorMaterialEvents.GetResistance 
     }
 
     @Override
-    public double getValue(RegistryEntry<ArmorMaterial> armorMaterial, ArmorItem.Type armorType) {
+    public double getValue(Holder<ArmorMaterial> armorMaterial, ArmorItem.Type armorType) {
         for (Level level : this.levels) {
-            if (armorMaterial.isIn(level.tag())) {
+            if (armorMaterial.is(level.tag())) {
                 return level.value();
             }
         }
