@@ -65,7 +65,7 @@ class TemperatureRecordTest {
         JsonElement encoded = result.getOrThrow();
         var expected = new JsonObject();
         expected.addProperty("value", 20.0);
-        expected.addProperty("unit", TemperatureUnit.CELSIUS.asString());
+        expected.addProperty("unit", TemperatureUnit.CELSIUS.getSerializedName());
         Assertions.assertEquals(expected, encoded);
     }
 
@@ -80,7 +80,7 @@ class TemperatureRecordTest {
         JsonElement encoded = result.getOrThrow();
         var expected = new JsonObject();
         expected.addProperty("value", 60.0);
-        expected.addProperty("unit", TemperatureUnit.FAHRENHEIT.asString());
+        expected.addProperty("unit", TemperatureUnit.FAHRENHEIT.getSerializedName());
         Assertions.assertEquals(expected, encoded);
     }
 

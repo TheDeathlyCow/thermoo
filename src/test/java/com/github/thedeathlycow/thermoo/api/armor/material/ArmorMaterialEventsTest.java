@@ -2,6 +2,7 @@ package com.github.thedeathlycow.thermoo.api.armor.material;
 
 import com.github.thedeathlycow.thermoo.ThermooTest;
 import com.github.thedeathlycow.thermoo.api.ThermooAttributes;
+import net.minecraft.world.item.ArmorItem;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -31,7 +32,7 @@ class ArmorMaterialEventsTest {
     void noListenersRegistered_noFrostResistance() {
         var stack = Items.DIAMOND_BOOTS.getDefaultInstance();
 
-        final var frostResistance = ThermooAttributes.FROST_RESISTANCE.getKey().orElse(null);
+        final var frostResistance = ThermooAttributes.FROST_RESISTANCE.unwrapKey().orElse(null);
         Set<ResourceKey<Attribute>> attributeKeys = new HashSet<>();
 
         stack.forEachModifier(EquipmentSlot.FEET, (attribute, modifier) -> {
@@ -45,7 +46,7 @@ class ArmorMaterialEventsTest {
     void listenersRegistered_containsFrostResistance() {
         var stack = Items.DIAMOND_HELMET.getDefaultInstance();
 
-        final var frostResistance = ThermooAttributes.FROST_RESISTANCE.getKey().orElse(null);
+        final var frostResistance = ThermooAttributes.FROST_RESISTANCE.unwrapKey().orElse(null);
         Set<ResourceKey<Attribute>> attributeKeys = new HashSet<>();
 
         stack.forEachModifier(EquipmentSlot.HEAD, (attribute, modifier) -> {
@@ -59,7 +60,7 @@ class ArmorMaterialEventsTest {
     void noListenersRegistered_noHeatResistance() {
         var stack = Items.DIAMOND_BOOTS.getDefaultInstance();
 
-        final var heatResistance = ThermooAttributes.HEAT_RESISTANCE.getKey().orElse(null);
+        final var heatResistance = ThermooAttributes.HEAT_RESISTANCE.unwrapKey().orElse(null);
         Set<ResourceKey<Attribute>> attributeKeys = new HashSet<>();
 
         stack.forEachModifier(EquipmentSlot.FEET, (attribute, modifier) -> {
@@ -73,7 +74,7 @@ class ArmorMaterialEventsTest {
     void listenersRegistered_containsHeatResistance() {
         var stack = Items.DIAMOND_HELMET.getDefaultInstance();
 
-        final var heatResistance = ThermooAttributes.HEAT_RESISTANCE.getKey().orElse(null);
+        final var heatResistance = ThermooAttributes.HEAT_RESISTANCE.unwrapKey().orElse(null);
         Set<ResourceKey<Attribute>> attributeKeys = new HashSet<>();
 
         stack.forEachModifier(EquipmentSlot.HEAD, (attribute, modifier) -> {
