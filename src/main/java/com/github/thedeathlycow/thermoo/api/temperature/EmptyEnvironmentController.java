@@ -1,11 +1,11 @@
 package com.github.thedeathlycow.thermoo.api.temperature;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.attribute.EntityAttribute;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 
 /**
  * The most basic concrete implementation of the environment controller. All methods return either {@code 0},
@@ -24,13 +24,13 @@ public final class EmptyEnvironmentController implements EnvironmentController {
     }
 
     @Override
-    public int getLocalTemperatureChange(World world, BlockPos pos) {
+    public int getLocalTemperatureChange(Level world, BlockPos pos) {
         return 0;
     }
 
     @Override
     @Deprecated
-    public double getBaseValueForAttribute(RegistryEntry<EntityAttribute> attribute, LivingEntity entity) {
+    public double getBaseValueForAttribute(Holder<Attribute> attribute, LivingEntity entity) {
         return 0;
     }
 
@@ -40,7 +40,7 @@ public final class EmptyEnvironmentController implements EnvironmentController {
     }
 
     @Override
-    public int getFloorTemperature(LivingEntity entity, World world, BlockState state, BlockPos pos) {
+    public int getFloorTemperature(LivingEntity entity, Level world, BlockState state, BlockPos pos) {
         return 0;
     }
 
@@ -50,7 +50,7 @@ public final class EmptyEnvironmentController implements EnvironmentController {
     }
 
     @Override
-    public int getHeatAtLocation(World world, BlockPos pos) {
+    public int getHeatAtLocation(Level world, BlockPos pos) {
         return 0;
     }
 
@@ -70,7 +70,7 @@ public final class EmptyEnvironmentController implements EnvironmentController {
     }
 
     @Override
-    public boolean isAreaHeated(World world, BlockPos pos) {
+    public boolean isAreaHeated(Level world, BlockPos pos) {
         return false;
     }
 

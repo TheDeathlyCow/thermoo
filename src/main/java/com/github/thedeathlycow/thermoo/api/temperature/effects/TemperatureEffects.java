@@ -1,11 +1,11 @@
 package com.github.thedeathlycow.thermoo.api.temperature.effects;
 
 import com.github.thedeathlycow.thermoo.impl.temperature.effect.TemperatureEffectManager;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.LivingEntity;
 
 /**
  * A container class that contains all the various temperature effect types provided by Thermoo. You can, of course, create
@@ -37,7 +37,7 @@ public final class TemperatureEffects {
     );
 
     /**
-     * Applies {@linkplain  net.minecraft.entity.effect.StatusEffect status effects} to entities based on their
+     * Applies {@linkplain  net.minecraft.world.effect.MobEffect status effects} to entities based on their
      * temperature
      */
     public static final TemperatureEffect<StatusEffectTemperatureEffect.Config> STATUS_EFFECT = new StatusEffectTemperatureEffect(
@@ -45,7 +45,7 @@ public final class TemperatureEffects {
     );
 
     /**
-     * Applies scaled {@linkplain net.minecraft.entity.attribute.EntityAttributeModifier attribute modifiers} to
+     * Applies scaled {@linkplain net.minecraft.world.entity.ai.attributes.AttributeModifier attribute modifiers} to
      * entities based on their temperature
      */
     public static final TemperatureEffect<ScalingAttributeModifierTemperatureEffect.Config> SCALING_ATTRIBUTE_MODIFIER = new ScalingAttributeModifierTemperatureEffect(
@@ -53,7 +53,7 @@ public final class TemperatureEffects {
     );
 
     /**
-     * Applies {@linkplain net.minecraft.entity.attribute.EntityAttributeModifier attribute modifiers} to entities
+     * Applies {@linkplain net.minecraft.world.entity.ai.attributes.AttributeModifier attribute modifiers} to entities
      */
     public static final TemperatureEffect<AttributeModifierTemperatureEffect.Config> ATTRIBUTE_MODIFIER = new AttributeModifierTemperatureEffect(
             AttributeModifierTemperatureEffect.CODEC
@@ -85,7 +85,7 @@ public final class TemperatureEffects {
      * @return Returns the effect with the given id, or null if not present.
      */
     @Nullable
-    public static ConfiguredTemperatureEffect<?> getEffect(Identifier id) {
+    public static ConfiguredTemperatureEffect<?> getEffect(ResourceLocation id) {
         return TemperatureEffectManager.INSTANCE.getEffect(id);
     }
 

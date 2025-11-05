@@ -1,6 +1,6 @@
 package com.github.thedeathlycow.thermoo.api.util;
 
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.Mth;
 
 /**
  * Helper API for conversions between normal temperature units (like Celsius and Fahrenheit) to per-tick temperature
@@ -51,7 +51,7 @@ public class TemperatureConverter {
     public static int ambientTemperatureToTemperatureTick(double temperatureValue, Settings settings) {
         double celsiusTemperature = settings.unit.toCelsius(temperatureValue);
 
-        return MathHelper.floor(settings.scale / 10.0 * (celsiusTemperature - (15.0 + settings.baseShift)));
+        return Mth.floor(settings.scale / 10.0 * (celsiusTemperature - (15.0 + settings.baseShift)));
     }
 
     /**

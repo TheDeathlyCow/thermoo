@@ -3,10 +3,10 @@ package com.github.thedeathlycow.thermoo.impl.environment;
 import com.github.thedeathlycow.thermoo.api.environment.event.ServerPlayerEnvironmentTickEvents;
 import com.github.thedeathlycow.thermoo.api.temperature.event.EnvironmentTickContext;
 import net.fabricmc.fabric.api.util.TriState;
-import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.level.ServerPlayer;
 
 public final class ServerPlayerTickUtil {
-    public static void invokePlayerTemperatureEvents(EnvironmentTickContext<ServerPlayerEntity> context) {
+    public static void invokePlayerTemperatureEvents(EnvironmentTickContext<ServerPlayer> context) {
         if (ServerPlayerEnvironmentTickEvents.ALLOW_TEMPERATURE_UPDATE.invoker().allowUpdate(context) == TriState.FALSE) {
             return;
         }
@@ -18,7 +18,7 @@ public final class ServerPlayerTickUtil {
         }
     }
 
-    private static boolean invokeAllowChange(EnvironmentTickContext<ServerPlayerEntity> context, int temperatureChange) {
+    private static boolean invokeAllowChange(EnvironmentTickContext<ServerPlayer> context, int temperatureChange) {
         TriState result = ServerPlayerEnvironmentTickEvents.ALLOW_TEMPERATURE_CHANGE.invoker()
                 .allowTemperatureChange(context, temperatureChange);
         return result != TriState.FALSE;

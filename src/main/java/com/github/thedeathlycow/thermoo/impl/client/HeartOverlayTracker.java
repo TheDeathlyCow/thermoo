@@ -1,10 +1,10 @@
 package com.github.thedeathlycow.thermoo.impl.client;
 
-import net.minecraft.util.Util;
 import org.joml.Vector2i;
 
 import java.util.Arrays;
 import java.util.Objects;
+import net.minecraft.Util;
 
 public class HeartOverlayTracker {
 

@@ -1,12 +1,12 @@
 package com.github.thedeathlycow.thermoo.api.temperature;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.attribute.EntityAttribute;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -51,11 +51,11 @@ public abstract non-sealed class EnvironmentControllerDecorator implements Envir
     }
 
     /**
-     * @deprecated Replaced with {@link com.github.thedeathlycow.thermoo.api.ThermooAttributes#baseValueEvent(RegistryEntry)}
+     * @deprecated Replaced with {@link com.github.thedeathlycow.thermoo.api.ThermooAttributes#baseValueEvent(Holder)}
      */
     @Override
     @Deprecated(since = "5.1")
-    public double getBaseValueForAttribute(RegistryEntry<EntityAttribute> attribute, LivingEntity entity) {
+    public double getBaseValueForAttribute(Holder<Attribute> attribute, LivingEntity entity) {
         return controller.getBaseValueForAttribute(attribute, entity);
     }
 
@@ -64,7 +64,7 @@ public abstract non-sealed class EnvironmentControllerDecorator implements Envir
      */
     @Override
     @Deprecated(since = "4.4")
-    public int getLocalTemperatureChange(World world, BlockPos pos) {
+    public int getLocalTemperatureChange(Level world, BlockPos pos) {
         return controller.getLocalTemperatureChange(world, pos);
     }
 
@@ -73,7 +73,7 @@ public abstract non-sealed class EnvironmentControllerDecorator implements Envir
      */
     @Override
     @Deprecated(since = "4.4")
-    public int getEnvironmentTemperatureForPlayer(PlayerEntity player, int localTemperature) {
+    public int getEnvironmentTemperatureForPlayer(Player player, int localTemperature) {
         return controller.getEnvironmentTemperatureForPlayer(player, localTemperature);
     }
 
@@ -91,7 +91,7 @@ public abstract non-sealed class EnvironmentControllerDecorator implements Envir
      */
     @Override
     @Deprecated(since = "4.4")
-    public int getFloorTemperature(LivingEntity entity, World world, BlockState state, BlockPos pos) {
+    public int getFloorTemperature(LivingEntity entity, Level world, BlockState state, BlockPos pos) {
         return controller.getFloorTemperature(entity, world, state, pos);
     }
 
@@ -110,7 +110,7 @@ public abstract non-sealed class EnvironmentControllerDecorator implements Envir
      */
     @Override
     @Deprecated(since = "4.4")
-    public int getHeatAtLocation(World world, BlockPos pos) {
+    public int getHeatAtLocation(Level world, BlockPos pos) {
         return controller.getHeatAtLocation(world, pos);
     }
 
@@ -155,7 +155,7 @@ public abstract non-sealed class EnvironmentControllerDecorator implements Envir
      */
     @Override
     @Deprecated(since = "4.4")
-    public boolean isAreaHeated(World world, BlockPos pos) {
+    public boolean isAreaHeated(Level world, BlockPos pos) {
         return controller.isAreaHeated(world, pos);
     }
 

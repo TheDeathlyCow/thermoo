@@ -2,13 +2,11 @@ package com.github.thedeathlycow.thermoo.api;
 
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
-import net.minecraft.block.Block;
-import net.minecraft.entity.EntityType;
-import net.minecraft.item.ArmorMaterial;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroups;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.tag.TagKey;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
 
 /**
  * All tags used by Thermoo. Thermoo by default leaves these tags as empty - even for vanilla entries
@@ -47,15 +45,15 @@ public class ThermooTags {
 
 
     private static TagKey<EntityType<?>> createEntityTypeTag(String path) {
-        return TagKey.of(RegistryKeys.ENTITY_TYPE, Thermoo.id(path));
+        return TagKey.create(Registries.ENTITY_TYPE, Thermoo.id(path));
     }
 
     private static TagKey<Block> createBlockTag(String path) {
-        return TagKey.of(RegistryKeys.BLOCK, Thermoo.id(path));
+        return TagKey.create(Registries.BLOCK, Thermoo.id(path));
     }
 
     private static TagKey<Item> createItemTag(String path) {
-        return TagKey.of(RegistryKeys.ITEM, Thermoo.id(path));
+        return TagKey.create(Registries.ITEM, Thermoo.id(path));
     }
 
     private ThermooTags() {

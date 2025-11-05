@@ -3,29 +3,29 @@ package com.github.thedeathlycow.thermoo.api.environment.provider;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.component.ComponentMap;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.LightType;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 import java.util.Optional;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponentMap;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LightLayer;
+import net.minecraft.world.level.biome.Biome;
 
 /**
- * Used to pick between two child providers based on a light level threshold. Can filter for {@link LightType} and apply
- * or ignore {@link World#getAmbientDarkness() ambient darkness} to sky light.
+ * Used to pick between two child providers based on a light level threshold. Can filter for {@link LightLayer} and apply
+ * or ignore {@link Level#getSkyDarken() ambient darkness} to sky light.
  */
 public class LightThresholdLightProvider implements EnvironmentProvider {
     public static final MapCodec<LightThresholdLightProvider> CODEC = RecordCodecBuilder.mapCodec(
             instance -> instance.group(
                     Codec.stringResolver(
                                     light -> light.name().toLowerCase(),
-                                    name -> LightType.valueOf(name.toUpperCase())
+                                    name -> LightLayer.valueOf(name.toUpperCase())
                             )
                             .optionalFieldOf("light_type")
                             .forGetter(LightThresholdLightProvider::lightType),
@@ -44,11 +44,11 @@ public class LightThresholdLightProvider implements EnvironmentProvider {
             ).apply(instance, LightThresholdLightProvider::new)
     );
 
-    private final Optional<LightType> lightType;
+    private final Optional<LightLayer> lightType;
     private final boolean applyAmbientDarkness;
     private final int threshold;
-    private final RegistryEntry<EnvironmentProvider> above;
-    private final RegistryEntry<EnvironmentProvider> below;
+    private final Holder<EnvironmentProvider> above;
+    private final Holder<EnvironmentProvider> below;
 
     /**
      * Creates a new builder with the mandatory threshold, above, and below fields
@@ -61,8 +61,8 @@ public class LightThresholdLightProvider implements EnvironmentProvider {
     @Contract("_,_,_->new")
     public static Builder builder(
             int threshold,
-            @NotNull RegistryEntry<EnvironmentProvider> above,
-            @NotNull RegistryEntry<EnvironmentProvider> below
+            @NotNull Holder<EnvironmentProvider> above,
+            @NotNull Holder<EnvironmentProvider> below
     ) {
         if (threshold < 0 || threshold > 15) {
             throw new IllegalArgumentException("Threshold must be between 0 and 15 but is " + threshold);
@@ -74,11 +74,11 @@ public class LightThresholdLightProvider implements EnvironmentProvider {
     }
 
     private LightThresholdLightProvider(
-            Optional<LightType> lightType,
+            Optional<LightLayer> lightType,
             boolean applyAmbientDarkness,
             int threshold,
-            RegistryEntry<EnvironmentProvider> above,
-            RegistryEntry<EnvironmentProvider> below
+            Holder<EnvironmentProvider> above,
+            Holder<EnvironmentProvider> below
     ) {
         this.lightType = lightType;
         this.applyAmbientDarkness = applyAmbientDarkness;
@@ -99,13 +99,13 @@ public class LightThresholdLightProvider implements EnvironmentProvider {
      * @param builder Component map builder to append to
      */
     @Override
-    public void buildCurrentComponents(World world, BlockPos pos, RegistryEntry<Biome> biome, ComponentMap.Builder builder) {
+    public void buildCurrentComponents(Level world, BlockPos pos, Holder<Biome> biome, DataComponentMap.Builder builder) {
         int lightLevel = this.lightType
-                .map(type -> world.getLightLevel(type, pos))
-                .orElseGet(() -> world.getLightLevel(pos));
+                .map(type -> world.getBrightness(type, pos))
+                .orElseGet(() -> world.getMaxLocalRawBrightness(pos));
 
-        if (this.applyAmbientDarkness && this.lightType.orElse(null) == LightType.SKY) {
-            lightLevel -= world.getAmbientDarkness();
+        if (this.applyAmbientDarkness && this.lightType.orElse(null) == LightLayer.SKY) {
+            lightLevel -= world.getSkyDarken();
         }
 
         if (lightLevel >= this.threshold) {
@@ -121,12 +121,12 @@ public class LightThresholdLightProvider implements EnvironmentProvider {
     }
 
     /**
-     * The optional light type of this provider. If not specified, uses {@link net.minecraft.world.WorldView#getLightLevel(BlockPos)}
+     * The optional light type of this provider. If not specified, uses {@link net.minecraft.world.level.LevelReader#getMaxLocalRawBrightness(BlockPos)}
      * to determine light level.
      *
      * @return Returns the light type of this provider.
      */
-    public Optional<LightType> lightType() {
+    public Optional<LightLayer> lightType() {
         return this.lightType;
     }
 
@@ -148,14 +148,14 @@ public class LightThresholdLightProvider implements EnvironmentProvider {
     /**
      * The provider to use when the light level is at or above the {@link #threshold()}
      */
-    public RegistryEntry<EnvironmentProvider> above() {
+    public Holder<EnvironmentProvider> above() {
         return this.above;
     }
 
     /**
      * The provider to use when the light level is below the {@link #threshold()}
      */
-    public RegistryEntry<EnvironmentProvider> below() {
+    public Holder<EnvironmentProvider> below() {
         return this.below;
     }
 
@@ -164,13 +164,13 @@ public class LightThresholdLightProvider implements EnvironmentProvider {
      */
     public static final class Builder {
         @Nullable
-        private LightType lightType = null;
+        private LightLayer lightType = null;
         private boolean applyAmbientDarkness = true;
         private final int threshold;
-        private final RegistryEntry<EnvironmentProvider> above;
-        private final RegistryEntry<EnvironmentProvider> below;
+        private final Holder<EnvironmentProvider> above;
+        private final Holder<EnvironmentProvider> below;
 
-        private Builder(int threshold, RegistryEntry<EnvironmentProvider> above, RegistryEntry<EnvironmentProvider> below) {
+        private Builder(int threshold, Holder<EnvironmentProvider> above, Holder<EnvironmentProvider> below) {
             this.threshold = threshold;
             this.above = above;
             this.below = below;
@@ -193,7 +193,7 @@ public class LightThresholdLightProvider implements EnvironmentProvider {
          * @return Returns this builder
          */
         @Contract("_->this")
-        public Builder withLightType(LightType lightType) {
+        public Builder withLightType(LightLayer lightType) {
             this.lightType = lightType;
             return this;
         }

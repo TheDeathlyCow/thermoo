@@ -2,9 +2,9 @@ package com.github.thedeathlycow.thermoo.api.armor.material;
 
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
-import net.minecraft.item.ArmorItem;
-import net.minecraft.item.ArmorMaterial;
-import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.core.Holder;
+import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.ArmorMaterial;
 
 /**
  * Events for getting the thermal resistances of various {@linkplain ArmorMaterial armor materials}
@@ -68,7 +68,7 @@ public class ArmorMaterialEvents {
     @Deprecated
     public interface GetResistance {
 
-        double getValue(RegistryEntry<ArmorMaterial> armorMaterial, ArmorItem.Type armorType);
+        double getValue(Holder<ArmorMaterial> armorMaterial, ArmorItem.Type armorType);
 
     }
 

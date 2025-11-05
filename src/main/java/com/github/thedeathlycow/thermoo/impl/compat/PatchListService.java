@@ -2,7 +2,6 @@ package com.github.thedeathlycow.thermoo.impl.compat;
 
 import com.google.gson.JsonObject;
 import com.mojang.serialization.JsonOps;
-import net.minecraft.util.JsonHelper;
 import org.apache.http.client.HttpResponseException;
 
 import java.io.IOException;
@@ -11,6 +10,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import net.minecraft.util.GsonHelper;
 
 public final class PatchListService {
     /**
@@ -35,7 +35,7 @@ public final class PatchListService {
             throw new HttpResponseException(response.statusCode(), response.body());
         }
 
-        JsonObject json = JsonHelper.deserialize(response.body());
+        JsonObject json = GsonHelper.parse(response.body());
         return PatchList.CODEC.parse(
                 JsonOps.INSTANCE,
                 json

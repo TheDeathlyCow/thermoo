@@ -7,13 +7,13 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
 import net.fabricmc.loader.api.VersionParsingException;
 import net.fabricmc.loader.api.metadata.ModMetadata;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.text.ClickEvent;
-import net.minecraft.text.MutableText;
-import net.minecraft.text.Style;
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.network.chat.ClickEvent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.Style;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,8 +29,8 @@ public class ThermooPatchesNag implements ClientTickEvents.EndTick {
     private static final Logger LOGGER = LoggerFactory.getLogger(Thermoo.MODID + "-patch-nag");
 
     private static final Style LINK_STYLE = Style.EMPTY
-            .withUnderline(true)
-            .withColor(Formatting.GREEN)
+            .withUnderlined(true)
+            .withColor(ChatFormatting.GREEN)
             .withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://www.modrinth.com/mod/thermoo-patches"));
 
     private static final ThermooPatchesNag INSTANCE = new ThermooPatchesNag();
@@ -40,7 +40,7 @@ public class ThermooPatchesNag implements ClientTickEvents.EndTick {
     private boolean naggedPlayer = false;
 
     @Nullable
-    private Text nagMessage = null;
+    private Component nagMessage = null;
 
     public static void initialize(ThermooConfig config) {
         if (enableNag(config)) {
@@ -54,17 +54,17 @@ public class ThermooPatchesNag implements ClientTickEvents.EndTick {
     }
 
     @Override
-    public void onEndTick(MinecraftClient client) {
+    public void onEndTick(Minecraft client) {
         if (this.naggedPlayer) {
             return;
         }
 
-        Text nagMessageText = this.getNagMessage();
-        ClientPlayerEntity player = client.player;
+        Component nagMessageText = this.getNagMessage();
+        LocalPlayer player = client.player;
 
         if (nagMessageText != null && player != null) {
             this.naggedPlayer = true;
-            player.sendMessage(nagMessageText, false);
+            player.displayClientMessage(nagMessageText, false);
             LOGGER.warn(nagMessageText.getString());
         }
     }
@@ -102,7 +102,7 @@ public class ThermooPatchesNag implements ClientTickEvents.EndTick {
     }
 
     @Nullable
-    private Text getNagMessage() {
+    private Component getNagMessage() {
         if (!this.patchAvailableMods.isEmpty()) {
             this.nagMessage = this.createNagMessage();
         }
@@ -110,21 +110,21 @@ public class ThermooPatchesNag implements ClientTickEvents.EndTick {
         return this.nagMessage;
     }
 
-    private Text createNagMessage() {
-        MutableText message = Text.literal("").formatted(Formatting.DARK_GREEN);
+    private Component createNagMessage() {
+        MutableComponent message = Component.literal("").withStyle(ChatFormatting.DARK_GREEN);
 
         message.append("\n");
-        message.append(Text.translatable("text.thermoo.thermoo-patches-nag.body"));
+        message.append(Component.translatable("text.thermoo.thermoo-patches-nag.body"));
         message.append("\n\n");
 
         synchronized (this.patchAvailableMods) {
             patchAvailableMods.forEach(mod -> {
                 ModMetadata metadata = mod.getMetadata();
-                Text modEntry = Text.translatable(
+                Component modEntry = Component.translatable(
                         "text.thermoo.thermoo-patches-nag.item",
                         metadata.getName(),
                         metadata.getId()
-                ).formatted(Formatting.YELLOW);
+                ).withStyle(ChatFormatting.YELLOW);
 
                 message.append(modEntry);
                 message.append("\n");
@@ -132,12 +132,12 @@ public class ThermooPatchesNag implements ClientTickEvents.EndTick {
         }
 
         message.append("\n");
-        message.append(Text.translatable("text.thermoo.thermoo-patches-nag.footer"));
+        message.append(Component.translatable("text.thermoo.thermoo-patches-nag.footer"));
         message.append(
-                Text.literal("\nhttps://www.modrinth.com/mod/thermoo-patches\n\n")
+                Component.literal("\nhttps://www.modrinth.com/mod/thermoo-patches\n\n")
                         .setStyle(LINK_STYLE)
         );
-        message.append(Text.translatable("text.thermoo.thermoo-patches-nag.disable"));
+        message.append(Component.translatable("text.thermoo.thermoo-patches-nag.disable"));
 
         return message;
     }

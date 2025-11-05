@@ -1,15 +1,14 @@
 package com.github.thedeathlycow.thermoo.api.util;
 
 import com.mojang.serialization.Codec;
-import net.minecraft.util.StringIdentifiable;
-
 import java.util.function.DoubleUnaryOperator;
 import java.util.function.Supplier;
+import net.minecraft.util.StringRepresentable;
 
 /**
  * Defines the basic units of temperature and allows for conversions between them.
  */
-public enum TemperatureUnit implements StringIdentifiable {
+public enum TemperatureUnit implements StringRepresentable {
 
     CELSIUS(
             "C",
@@ -40,7 +39,7 @@ public enum TemperatureUnit implements StringIdentifiable {
             3
     );
 
-    public static final Codec<TemperatureUnit> CODEC = StringIdentifiable.createCodec(TemperatureUnit::values);
+    public static final Codec<TemperatureUnit> CODEC = StringRepresentable.fromEnum(TemperatureUnit::values);
 
     private final String unitSymbol;
 
@@ -129,7 +128,7 @@ public enum TemperatureUnit implements StringIdentifiable {
     }
 
     @Override
-    public String asString() {
+    public String getSerializedName() {
         return this.name;
     }
 }

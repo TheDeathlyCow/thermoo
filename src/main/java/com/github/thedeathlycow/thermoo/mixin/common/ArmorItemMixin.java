@@ -1,10 +1,10 @@
 package com.github.thedeathlycow.thermoo.mixin.common;
 
 import com.github.thedeathlycow.thermoo.impl.ThermalResistanceType;
-import net.minecraft.component.type.AttributeModifiersComponent;
-import net.minecraft.item.ArmorItem;
-import net.minecraft.item.ArmorMaterial;
-import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.core.Holder;
+import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.ArmorMaterial;
+import net.minecraft.world.item.component.ItemAttributeModifiers;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -23,11 +23,11 @@ public abstract class ArmorItemMixin {
             locals = LocalCapture.CAPTURE_FAILEXCEPTION
     )
     private static void buildAttributeValues(
-            RegistryEntry<ArmorMaterial> armorMaterial,
+            Holder<ArmorMaterial> armorMaterial,
             ArmorItem.Type type,
-            CallbackInfoReturnable<AttributeModifiersComponent> cir,
+            CallbackInfoReturnable<ItemAttributeModifiers> cir,
             int protection, float toughness,
-            AttributeModifiersComponent.Builder builder
+            ItemAttributeModifiers.Builder builder
     ) {
         for (ThermalResistanceType resistanceType : ThermalResistanceType.values()) {
             resistanceType.buildResistance(armorMaterial, type, builder);

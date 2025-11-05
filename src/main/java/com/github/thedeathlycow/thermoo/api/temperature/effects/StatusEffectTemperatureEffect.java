@@ -3,18 +3,17 @@ package com.github.thedeathlycow.thermoo.api.temperature.effects;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.effect.StatusEffect;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.dynamic.Codecs;
-
 import java.util.List;
+import net.minecraft.core.Holder;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.ExtraCodecs;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.LivingEntity;
 
 /**
- * Applies {@link StatusEffect}s to {@link LivingEntity}s if their temperature scale is within a given range.
+ * Applies {@link MobEffect}s to {@link LivingEntity}s if their temperature scale is within a given range.
  * <p>
  * The type, duration, and intensity can all be configured of each status effect can be configured. May specify 1 or more
  * effects to all be applied at once.
@@ -35,22 +34,22 @@ public class StatusEffectTemperatureEffect extends TemperatureEffect<StatusEffec
     }
 
     @Override
-    public void apply(LivingEntity victim, ServerWorld serverWorld, Config config) {
+    public void apply(LivingEntity victim, ServerLevel serverWorld, Config config) {
         for (Config.ConfigEffect effect : config.effects) {
             this.addEffect(victim, effect);
         }
     }
 
     private void addEffect(LivingEntity victim, Config.ConfigEffect effect) {
-        StatusEffectInstance existingEffect = victim.getStatusEffect(effect.type);
+        MobEffectInstance existingEffect = victim.getEffect(effect.type);
         if (existingEffect != null) {
             if (existingEffect.getAmplifier() == effect.amplifier && existingEffect.getDuration() > effect.duration / 2) {
                 return;
             }
         }
 
-        victim.addStatusEffect(
-                new StatusEffectInstance(
+        victim.addEffect(
+                new MobEffectInstance(
                         effect.type,
                         effect.duration,
                         effect.amplifier,
@@ -63,14 +62,14 @@ public class StatusEffectTemperatureEffect extends TemperatureEffect<StatusEffec
     @Override
     public boolean shouldApply(LivingEntity victim, Config config) {
         // only try to apply every 5 ticks
-        return victim.age % 5 == 0;
+        return victim.tickCount % 5 == 0;
     }
 
     public record Config(
             List<ConfigEffect> effects
     ) {
         protected record ConfigEffect(
-                RegistryEntry<StatusEffect> type,
+                Holder<MobEffect> type,
                 int duration,
                 int amplifier
         ) {
@@ -78,14 +77,14 @@ public class StatusEffectTemperatureEffect extends TemperatureEffect<StatusEffec
             public static final Codec<ConfigEffect> CODEC = RecordCodecBuilder.create(
                     instance -> {
                         return instance.group(
-                                Registries.STATUS_EFFECT.getEntryCodec()
+                                BuiltInRegistries.MOB_EFFECT.holderByNameCodec()
                                         .fieldOf("effect")
                                         .forGetter(ConfigEffect::type),
-                                Codecs.POSITIVE_INT
+                                ExtraCodecs.POSITIVE_INT
                                         .fieldOf("duration")
                                         .orElse(20)
                                         .forGetter(ConfigEffect::duration),
-                                Codecs.NONNEGATIVE_INT
+                                ExtraCodecs.NON_NEGATIVE_INT
                                         .fieldOf("amplifier")
                                         .forGetter(ConfigEffect::amplifier)
                         ).apply(instance, ConfigEffect::new);

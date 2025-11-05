@@ -3,14 +3,14 @@ package com.github.thedeathlycow.thermoo.api.temperature.effects;
 import com.github.thedeathlycow.thermoo.api.temperature.TemperatureAware;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.attribute.EntityAttribute;
-import net.minecraft.entity.attribute.EntityAttributeInstance;
-import net.minecraft.entity.attribute.EntityAttributeModifier;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.Identifier;
+import net.minecraft.core.Holder;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 
 /**
  * A temperature effect that applies an attribute modifier to a victim.
@@ -25,13 +25,13 @@ public final class AttributeModifierTemperatureEffect extends TemperatureEffect<
                     Codec.FLOAT
                             .fieldOf("value")
                             .forGetter(Config::value),
-                    Registries.ATTRIBUTE.getEntryCodec()
+                    BuiltInRegistries.ATTRIBUTE.holderByNameCodec()
                             .fieldOf("attribute_type")
                             .forGetter(Config::attribute),
-                    Identifier.CODEC
+                    ResourceLocation.CODEC
                             .fieldOf("id")
                             .forGetter(Config::id),
-                    EntityAttributeModifier.Operation.CODEC
+                    AttributeModifier.Operation.CODEC
                             .fieldOf("operation")
                             .forGetter(Config::operation)
             ).apply(instance, Config::new)
@@ -42,11 +42,11 @@ public final class AttributeModifierTemperatureEffect extends TemperatureEffect<
     }
 
     @Override
-    public void apply(LivingEntity victim, ServerWorld serverWorld, Config config) {
-        EntityAttributeInstance attrInstance = victim.getAttributeInstance(config.attribute);
+    public void apply(LivingEntity victim, ServerLevel serverWorld, Config config) {
+        AttributeInstance attrInstance = victim.getAttribute(config.attribute);
         if (attrInstance != null && !attrInstance.hasModifier(config.id)) {
-            attrInstance.addTemporaryModifier(
-                    new EntityAttributeModifier(
+            attrInstance.addTransientModifier(
+                    new AttributeModifier(
                             config.id,
                             config.value,
                             config.operation
@@ -58,14 +58,14 @@ public final class AttributeModifierTemperatureEffect extends TemperatureEffect<
     @Override
     public boolean shouldApply(LivingEntity victim, Config config) {
         // only apply when the entity has this attribute
-        EntityAttributeInstance attrInstance = victim.getAttributeInstance(config.attribute);
+        AttributeInstance attrInstance = victim.getAttribute(config.attribute);
         return attrInstance != null;
     }
 
     @Override
-    public void remove(LivingEntity victim, ServerWorld serverWorld, Config config) {
+    public void remove(LivingEntity victim, ServerLevel serverWorld, Config config) {
         super.remove(victim, serverWorld, config);
-        EntityAttributeInstance attributeInstance = victim.getAttributeInstance(config.attribute);
+        AttributeInstance attributeInstance = victim.getAttribute(config.attribute);
         if (attributeInstance != null) {
             attributeInstance.removeModifier(config.id);
         }
@@ -74,9 +74,9 @@ public final class AttributeModifierTemperatureEffect extends TemperatureEffect<
 
     public record Config(
             float value,
-            RegistryEntry<EntityAttribute> attribute,
-            Identifier id,
-            EntityAttributeModifier.Operation operation
+            Holder<Attribute> attribute,
+            ResourceLocation id,
+            AttributeModifier.Operation operation
     ) {
     }
 

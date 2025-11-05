@@ -3,8 +3,8 @@ package com.github.thedeathlycow.thermoo.api;
 import com.github.thedeathlycow.thermoo.api.environment.provider.EnvironmentProviderType;
 import com.github.thedeathlycow.thermoo.api.temperature.effects.TemperatureEffect;
 import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
-import net.minecraft.component.ComponentType;
-import net.minecraft.registry.Registry;
+import net.minecraft.core.Registry;
+import net.minecraft.core.component.DataComponentType;
 
 /**
  * Custom registries provided by Thermoo
@@ -26,7 +26,7 @@ public final class ThermooRegistries {
      *
      * @see com.github.thedeathlycow.thermoo.api.environment.component.EnvironmentComponentTypes
      */
-    public static final Registry<ComponentType<?>> ENVIRONMENT_COMPONENT_TYPE = FabricRegistryBuilder.createSimple(
+    public static final Registry<DataComponentType<?>> ENVIRONMENT_COMPONENT_TYPE = FabricRegistryBuilder.createSimple(
             ThermooRegistryKeys.ENVIRONMENT_COMPONENT_TYPE
     ).buildAndRegister();
 

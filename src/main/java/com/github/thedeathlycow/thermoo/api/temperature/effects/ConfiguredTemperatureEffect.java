@@ -2,20 +2,20 @@ package com.github.thedeathlycow.thermoo.api.temperature.effects;
 
 import com.github.thedeathlycow.thermoo.api.ThermooRegistries;
 import com.mojang.serialization.Codec;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.loot.condition.LootCondition;
-import net.minecraft.loot.context.LootContext;
-import net.minecraft.loot.context.LootContextParameterSet;
-import net.minecraft.loot.context.LootContextParameters;
-import net.minecraft.loot.context.LootContextTypes;
-import net.minecraft.predicate.NumberRange;
-import net.minecraft.registry.entry.RegistryEntryList;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.world.World;
 import org.jetbrains.annotations.ApiStatus;
 
 import java.util.Optional;
+import net.minecraft.advancements.critereon.MinMaxBounds;
+import net.minecraft.core.HolderSet;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.LootParams;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
+import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 
 /**
  * Represents a configured instance of a {@link TemperatureEffect} type.
@@ -43,20 +43,20 @@ public final class ConfiguredTemperatureEffect<C> {
     /**
      * If not null, then only applies the effect to entities for which this predicate is TRUE.
      */
-    private final Optional<LootCondition> predicate;
+    private final Optional<LootItemCondition> predicate;
 
     /**
      * If not null, then only applies this effect to entities of the specific type. This is more
      * performant than using predicates if you want to apply an effect only to one specific type.
      */
-    private final RegistryEntryList<EntityType<?>> entityTypes;
+    private final HolderSet<EntityType<?>> entityTypes;
 
     /**
      * The temperature scale at which this should be applied to an entity. This is more
      * performant than using predicates if you want to apply an effect only within a particular
      * temperature range
      */
-    private final NumberRange.DoubleRange temperatureScaleRange;
+    private final MinMaxBounds.Doubles temperatureScaleRange;
 
     /**
      * Priority for loading. Effects with a higher priority at the same resource location will
@@ -78,9 +78,9 @@ public final class ConfiguredTemperatureEffect<C> {
     public ConfiguredTemperatureEffect(
             TemperatureEffect<C> type,
             C config,
-            Optional<LootCondition> predicate,
+            Optional<LootItemCondition> predicate,
             Optional<EntityType<?>> entityType,
-            NumberRange.DoubleRange temperatureScaleRange,
+            MinMaxBounds.Doubles temperatureScaleRange,
             int loadingPriority
     ) {
         this(
@@ -88,8 +88,8 @@ public final class ConfiguredTemperatureEffect<C> {
                 config,
                 predicate,
                 entityType.isPresent()
-                        ? RegistryEntryList.of(entityType.get().getRegistryEntry())
-                        : RegistryEntryList.empty(),
+                        ? HolderSet.direct(entityType.get().builtInRegistryHolder())
+                        : HolderSet.empty(),
                 temperatureScaleRange,
                 loadingPriority
         );
@@ -99,9 +99,9 @@ public final class ConfiguredTemperatureEffect<C> {
     public ConfiguredTemperatureEffect(
             TemperatureEffect<C> type,
             C config,
-            Optional<LootCondition> predicate,
-            RegistryEntryList<EntityType<?>> entityTypes,
-            NumberRange.DoubleRange temperatureScaleRange,
+            Optional<LootItemCondition> predicate,
+            HolderSet<EntityType<?>> entityTypes,
+            MinMaxBounds.Doubles temperatureScaleRange,
             int loadingPriority
     ) {
         this.type = type;
@@ -117,7 +117,7 @@ public final class ConfiguredTemperatureEffect<C> {
      * {@linkplain TemperatureEffect type}.
      */
     public static final Codec<ConfiguredTemperatureEffect<?>> CODEC = ThermooRegistries.TEMPERATURE_EFFECTS
-            .getCodec()
+            .byNameCodec()
             .dispatch(
                     "type",
                     ConfiguredTemperatureEffect::type,
@@ -144,15 +144,15 @@ public final class ConfiguredTemperatureEffect<C> {
      * @return Returns {@code true} if the effect was applied.
      */
     public boolean apply(LivingEntity victim) {
-        World world = victim.getWorld();
+        Level world = victim.level();
 
-        if (world.isClient) {
+        if (world.isClientSide) {
             return false;
         }
 
-        ServerWorld serverWorld = (ServerWorld) world;
+        ServerLevel serverWorld = (ServerLevel) world;
         boolean shouldApply = this.type.shouldApply(victim, this.config)
-                && this.temperatureScaleRange.test(victim.thermoo$getTemperatureScale())
+                && this.temperatureScaleRange.matches(victim.thermoo$getTemperatureScale())
                 && this.testPredicate(victim, serverWorld);
 
         if (shouldApply) {
@@ -169,25 +169,25 @@ public final class ConfiguredTemperatureEffect<C> {
      * @param victim The entity the effect was applied to
      */
     public void remove(LivingEntity victim) {
-        World world = victim.getWorld();
+        Level world = victim.level();
 
-        if (world.isClient) {
+        if (world.isClientSide) {
             return;
         }
 
-        ServerWorld serverWorld = (ServerWorld) world;
+        ServerLevel serverWorld = (ServerLevel) world;
         this.type.remove(victim, serverWorld, this.config);
     }
 
-    private boolean testPredicate(LivingEntity victim, ServerWorld world) {
+    private boolean testPredicate(LivingEntity victim, ServerLevel world) {
         return this.predicate.isEmpty()
                 || this.predicate.get().test(
                 new LootContext.Builder(
-                        new LootContextParameterSet.Builder(world)
-                                .add(LootContextParameters.THIS_ENTITY, victim)
-                                .add(LootContextParameters.ORIGIN, victim.getPos())
-                                .build(LootContextTypes.COMMAND)
-                ).build(Optional.empty())
+                        new LootParams.Builder(world)
+                                .withParameter(LootContextParams.THIS_ENTITY, victim)
+                                .withParameter(LootContextParams.ORIGIN, victim.position())
+                                .create(LootContextParamSets.COMMAND)
+                ).create(Optional.empty())
         );
     }
 
@@ -199,11 +199,11 @@ public final class ConfiguredTemperatureEffect<C> {
         return config;
     }
 
-    public Optional<LootCondition> predicate() {
+    public Optional<LootItemCondition> predicate() {
         return predicate;
     }
 
-    public RegistryEntryList<EntityType<?>> entityTypes() {
+    public HolderSet<EntityType<?>> entityTypes() {
         return entityTypes;
     }
 
@@ -219,7 +219,7 @@ public final class ConfiguredTemperatureEffect<C> {
         return Optional.empty();
     }
 
-    public NumberRange.DoubleRange temperatureScaleRange() {
+    public MinMaxBounds.Doubles temperatureScaleRange() {
         return temperatureScaleRange;
     }
 

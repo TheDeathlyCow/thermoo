@@ -3,9 +3,9 @@ package com.github.thedeathlycow.thermoo.api.environment;
 import com.github.thedeathlycow.thermoo.api.environment.component.EnvironmentComponentTypes;
 import com.github.thedeathlycow.thermoo.api.util.TemperatureUnit;
 import com.github.thedeathlycow.thermoo.impl.environment.EnvironmentLookupImpl;
-import net.minecraft.component.ComponentMap;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponentMap;
+import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.ApiStatus;
 
 /**
@@ -29,5 +29,5 @@ public interface EnvironmentLookup {
      * @param pos   The position to lookup at
      * @return Returns an environment component map whose keys are defined by {@link EnvironmentComponentTypes}
      */
-    ComponentMap findEnvironmentComponents(World world, BlockPos pos);
+    DataComponentMap findEnvironmentComponents(Level world, BlockPos pos);
 }

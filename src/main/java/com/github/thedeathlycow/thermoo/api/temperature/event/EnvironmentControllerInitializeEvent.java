@@ -5,7 +5,7 @@ import com.github.thedeathlycow.thermoo.api.temperature.EnvironmentManager;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 /**
  * Phased event for applying environment controllers in an ordered manner.
@@ -18,19 +18,19 @@ public class EnvironmentControllerInitializeEvent {
     /**
      * First phase after setting values in default. Use this to apply changes to base values.
      */
-    public static final Identifier MODIFY_PHASE = Thermoo.id("modify");
+    public static final ResourceLocation MODIFY_PHASE = Thermoo.id("modify");
 
     /**
      * Overriding phase of environment controller initialization. Use this to force override the base controllers and
      * change values.
      */
-    public static final Identifier OVERRIDE_PHASE = Thermoo.id("override");
+    public static final ResourceLocation OVERRIDE_PHASE = Thermoo.id("override");
 
     /**
      * Final phase of environment controller initialization. Controllers added in this phase should not change base values,
      * only read them.
      */
-    public static final Identifier LISTENER_PHASE = Thermoo.id("listener");
+    public static final ResourceLocation LISTENER_PHASE = Thermoo.id("listener");
 
 
     /**

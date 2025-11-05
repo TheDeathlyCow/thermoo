@@ -1,12 +1,12 @@
 package com.github.thedeathlycow.thermoo.api.temperature;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.attribute.EntityAttribute;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 import oshi.annotation.concurrent.Immutable;
 
@@ -47,10 +47,10 @@ public sealed interface EnvironmentController permits EnvironmentControllerDecor
      * @param attribute The attribute to get the base value for. Strictly the attributes in {@link com.github.thedeathlycow.thermoo.api.ThermooAttributes}.
      * @param entity    The entity to apply the attribute to.
      * @return Returns the base value for the attribute to apply to the entity.
-     * @deprecated Use {@link com.github.thedeathlycow.thermoo.api.ThermooAttributes#baseValueEvent(RegistryEntry)}
+     * @deprecated Use {@link com.github.thedeathlycow.thermoo.api.ThermooAttributes#baseValueEvent(Holder)}
      */
     @Deprecated(since = "4.3", forRemoval = true)
-    double getBaseValueForAttribute(RegistryEntry<EntityAttribute> attribute, LivingEntity entity);
+    double getBaseValueForAttribute(Holder<Attribute> attribute, LivingEntity entity);
 
     /**
      * Computes the local temperature change from the environment at a given position in a world.
@@ -61,11 +61,11 @@ public sealed interface EnvironmentController permits EnvironmentControllerDecor
      * @deprecated Replaced with {@link com.github.thedeathlycow.thermoo.api.environment.event.ServerPlayerEnvironmentTickEvents}
      */
     @Deprecated(since = "4.4")
-    int getLocalTemperatureChange(World world, BlockPos pos);
+    int getLocalTemperatureChange(Level world, BlockPos pos);
 
     /**
      * Computes the environmental temperature change for a player, based on a local temperature computed from
-     * {@link #getLocalTemperatureChange(World, BlockPos)}.
+     * {@link #getLocalTemperatureChange(Level, BlockPos)}.
      * <p>
      * By default, this returns the value of {@code localTemperature}, and NOT {@code 0}.
      *
@@ -75,7 +75,7 @@ public sealed interface EnvironmentController permits EnvironmentControllerDecor
      * @deprecated Replaced with {@link com.github.thedeathlycow.thermoo.api.environment.event.ServerPlayerEnvironmentTickEvents}
      */
     @Deprecated(since = "4.4")
-    default int getEnvironmentTemperatureForPlayer(PlayerEntity player, int localTemperature) {
+    default int getEnvironmentTemperatureForPlayer(Player player, int localTemperature) {
         return localTemperature;
     }
 
@@ -95,7 +95,7 @@ public sealed interface EnvironmentController permits EnvironmentControllerDecor
      * <p>
      * Hot floor is different from {@link #getHeatFromBlockState(BlockState)}, as it ONLY applies to entities stepping on
      * the block - it does not affect the area around the block. An example implementation would be to provide warmth from
-     * {@link net.minecraft.block.Blocks#MAGMA_BLOCK}, but not provide area heat.
+     * {@link net.minecraft.world.level.block.Blocks#MAGMA_BLOCK}, but not provide area heat.
      * <p>
      * You can also use this for blocks that are cold to step on.
      *
@@ -107,7 +107,7 @@ public sealed interface EnvironmentController permits EnvironmentControllerDecor
      * @deprecated Use the passive effects in {@link com.github.thedeathlycow.thermoo.api.temperature.event.LivingEntityTemperatureTickEvents}
      */
     @Deprecated(since = "4.4")
-    int getFloorTemperature(LivingEntity entity, World world, BlockState state, BlockPos pos);
+    int getFloorTemperature(LivingEntity entity, Level world, BlockState state, BlockPos pos);
 
     /**
      * Gets the default maximum wet ticks for the {@code soakable}.
@@ -147,17 +147,17 @@ public sealed interface EnvironmentController permits EnvironmentControllerDecor
      * @deprecated Use the passive effects in  {@link com.github.thedeathlycow.thermoo.api.temperature.event.LivingEntityTemperatureTickEvents}
      */
     @Deprecated(since = "4.4")
-    int getHeatAtLocation(World world, BlockPos pos);
+    int getHeatAtLocation(Level world, BlockPos pos);
 
     /**
-     * Gets the heat {@linkplain #getHeatAtLocation(World, BlockPos) from nearby heat sources} to apply to a Temperature
+     * Gets the heat {@linkplain #getHeatAtLocation(Level, BlockPos) from nearby heat sources} to apply to a Temperature
      * Aware this tick.
      * <p>
      * By default, the temperature aware will accept all heat from nearby heat sources.
      *
      * @param temperatureAware The temperature aware affected.
      * @param locationHeat     The heat at the temperature aware's location, as computed by
-     *                         {@link #getHeatAtLocation(World, BlockPos)}
+     *                         {@link #getHeatAtLocation(Level, BlockPos)}
      * @return Returns {@code locationHeat} by default.
      * @deprecated Use the passive effects in {@link com.github.thedeathlycow.thermoo.api.temperature.event.LivingEntityTemperatureTickEvents}
      */
@@ -204,9 +204,9 @@ public sealed interface EnvironmentController permits EnvironmentControllerDecor
      * @param world The world of the position
      * @param pos   The position to check
      * @return Returns if the location in the world is heated
-     * @see EnvironmentController#getHeatAtLocation(World, BlockPos)
+     * @see EnvironmentController#getHeatAtLocation(Level, BlockPos)
      * @deprecated Use the passive effects in {@link com.github.thedeathlycow.thermoo.api.temperature.event.LivingEntityTemperatureTickEvents}
      */
     @Deprecated(since = "4.4")
-    boolean isAreaHeated(World world, BlockPos pos);
+    boolean isAreaHeated(Level world, BlockPos pos);
 }
