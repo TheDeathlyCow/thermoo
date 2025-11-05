@@ -9,7 +9,7 @@ import net.minecraft.server.level.ServerLevel;
 
 public record EnvironmentTickContextImpl<T extends TemperatureAware & Soakable>(
         T affected,
-        ServerLevel world,
+        ServerLevel level,
         BlockPos pos,
         DataComponentMap components
 ) implements EnvironmentTickContext<T> {

@@ -40,6 +40,16 @@ public final class TemperatureEffects {
      * Applies {@linkplain  net.minecraft.world.effect.MobEffect status effects} to entities based on their
      * temperature
      */
+    public static final TemperatureEffect<StatusEffectTemperatureEffect.Config> MOB_EFFECT = new StatusEffectTemperatureEffect(
+            StatusEffectTemperatureEffect.CODEC
+    );
+
+    /**
+     * @deprecated This field was named based on Yarn Mappings, use {@link #MOB_EFFECT} to better conform to Official
+     * Mappings. Also note that when this field is removed, the underlying class will also be renamed to
+     * MobEffectTemperatureEffect.
+     */
+    @Deprecated(since = "8.1.0", forRemoval = true)
     public static final TemperatureEffect<StatusEffectTemperatureEffect.Config> STATUS_EFFECT = new StatusEffectTemperatureEffect(
             StatusEffectTemperatureEffect.CODEC
     );

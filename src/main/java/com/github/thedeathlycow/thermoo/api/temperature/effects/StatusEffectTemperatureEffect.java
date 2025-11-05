@@ -29,7 +29,6 @@ public class StatusEffectTemperatureEffect extends TemperatureEffect<StatusEffec
             ).apply(instance, Config::new)
     );
 
-
     public StatusEffectTemperatureEffect(Codec<Config> configCodec) {
         super(configCodec);
     }
@@ -93,6 +92,4 @@ public class StatusEffectTemperatureEffect extends TemperatureEffect<StatusEffec
             );
         }
     }
-
-
 }

@@ -15,6 +15,7 @@ public class ThermooCommonRegisters {
         registerTemperatureEffect("empty", TemperatureEffects.EMPTY);
         registerTemperatureEffect("sequence", TemperatureEffects.SEQUENCE);
         registerTemperatureEffect("function", TemperatureEffects.FUNCTION);
+        registerTemperatureEffect("mob_effect", TemperatureEffects.MOB_EFFECT);
         registerTemperatureEffect("status_effect", TemperatureEffects.STATUS_EFFECT);
         registerTemperatureEffect("scaling_attribute_modifier", TemperatureEffects.SCALING_ATTRIBUTE_MODIFIER);
         registerTemperatureEffect("attribute_modifier", TemperatureEffects.ATTRIBUTE_MODIFIER);
