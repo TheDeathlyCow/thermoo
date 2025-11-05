@@ -50,7 +50,9 @@ public final class TemperatureEffects {
      * MobEffectTemperatureEffect.
      */
     @Deprecated(since = "8.1.0", forRemoval = true)
-    public static final TemperatureEffect<StatusEffectTemperatureEffect.Config> STATUS_EFFECT = MOB_EFFECT;
+    public static final TemperatureEffect<StatusEffectTemperatureEffect.Config> STATUS_EFFECT = new StatusEffectTemperatureEffect(
+            StatusEffectTemperatureEffect.CODEC
+    );
 
     /**
      * Applies scaled {@linkplain net.minecraft.world.entity.ai.attributes.AttributeModifier attribute modifiers} to

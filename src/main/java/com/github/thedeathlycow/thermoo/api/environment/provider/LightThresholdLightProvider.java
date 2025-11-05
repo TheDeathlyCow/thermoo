@@ -93,7 +93,7 @@ public class LightThresholdLightProvider implements EnvironmentProvider {
      * <p>
      * Filters for sky/block light and ambient darkness if requested.
      *
-     * @param world   The world/level being queried
+     * @param level   The world/level being queried
      * @param pos     The position in the world to query
      * @param biome   The biome at the position in the world
      * @param builder Component map builder to append to
@@ -109,9 +109,9 @@ public class LightThresholdLightProvider implements EnvironmentProvider {
         }
 
         if (lightLevel >= this.threshold) {
-            this.above.value().buildCurrentComponents(world, pos, biome, builder);
+            this.above.value().buildCurrentComponents(level, pos, biome, builder);
         } else {
-            this.below.value().buildCurrentComponents(world, pos, biome, builder);
+            this.below.value().buildCurrentComponents(level, pos, biome, builder);
         }
     }
 
