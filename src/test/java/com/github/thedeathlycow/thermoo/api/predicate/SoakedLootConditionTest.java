@@ -1,11 +1,11 @@
 package com.github.thedeathlycow.thermoo.api.predicate;
 
 import com.github.thedeathlycow.thermoo.ThermooTest;
-import net.minecraft.entity.passive.VillagerEntity;
-import net.minecraft.entity.vehicle.BoatEntity;
-import net.minecraft.loot.context.LootContext;
-import net.minecraft.loot.context.LootContextParameters;
-import net.minecraft.predicate.NumberRange;
+import net.minecraft.advancements.critereon.MinMaxBounds;
+import net.minecraft.world.entity.npc.Villager;
+import net.minecraft.world.entity.vehicle.Boat;
+import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,7 +17,7 @@ import org.mockito.Mockito;
 class SoakedLootConditionTest {
 
     LootContext mockContext;
-    VillagerEntity mockVillager;
+    Villager mockVillager;
 
     static final int MIN_BOUNDARY_VALUE = 50;
     static final int MAX_BOUNDARY_VALUE = 100;
@@ -25,8 +25,8 @@ class SoakedLootConditionTest {
     static final float MIN_BOUNDARY_SCALE = 0.25f;
     static final float MAX_BOUNDARY_SCALE = 0.75f;
 
-    static final NumberRange.IntRange VALUE_RANGE = NumberRange.IntRange.between(MIN_BOUNDARY_VALUE, MAX_BOUNDARY_VALUE);
-    static final NumberRange.DoubleRange SCALE_RANGE = NumberRange.DoubleRange.between(MIN_BOUNDARY_SCALE, MAX_BOUNDARY_SCALE);
+    static final MinMaxBounds.Ints VALUE_RANGE = MinMaxBounds.Ints.between(MIN_BOUNDARY_VALUE, MAX_BOUNDARY_VALUE);
+    static final MinMaxBounds.Doubles SCALE_RANGE = MinMaxBounds.Doubles.between(MIN_BOUNDARY_SCALE, MAX_BOUNDARY_SCALE);
 
     @BeforeAll
     static void setup() {
@@ -36,9 +36,9 @@ class SoakedLootConditionTest {
     @BeforeEach
     void mockLootContext() {
         mockContext = Mockito.mock(LootContext.class);
-        mockVillager = Mockito.mock(VillagerEntity.class);
+        mockVillager = Mockito.mock(Villager.class);
 
-        Mockito.when(mockContext.get(LootContextParameters.THIS_ENTITY))
+        Mockito.when(mockContext.getParamOrNull(LootContextParams.THIS_ENTITY))
                 .thenReturn(mockVillager);
     }
 
@@ -54,7 +54,7 @@ class SoakedLootConditionTest {
         Mockito.when(mockVillager.thermoo$getWetTicks())
                 .thenReturn(soaked);
 
-        var condition = new SoakedLootCondition(VALUE_RANGE, NumberRange.DoubleRange.ANY);
+        var condition = new SoakedLootCondition(VALUE_RANGE, MinMaxBounds.Doubles.ANY);
 
         Assertions.assertTrue(condition.test(mockContext));
     }
@@ -72,7 +72,7 @@ class SoakedLootConditionTest {
         Mockito.when(mockVillager.thermoo$getWetTicks())
                 .thenReturn(soaked);
 
-        var condition = new SoakedLootCondition(VALUE_RANGE, NumberRange.DoubleRange.ANY);
+        var condition = new SoakedLootCondition(VALUE_RANGE, MinMaxBounds.Doubles.ANY);
 
         Assertions.assertFalse(condition.test(mockContext));
     }
@@ -89,7 +89,7 @@ class SoakedLootConditionTest {
         Mockito.when(mockVillager.thermoo$getSoakedScale())
                 .thenReturn(soaked);
 
-        var condition = new SoakedLootCondition(NumberRange.IntRange.ANY, SCALE_RANGE);
+        var condition = new SoakedLootCondition(MinMaxBounds.Ints.ANY, SCALE_RANGE);
 
         Assertions.assertTrue(condition.test(mockContext));
     }
@@ -109,7 +109,7 @@ class SoakedLootConditionTest {
         Mockito.when(mockVillager.thermoo$getSoakedScale())
                 .thenReturn(soaked);
 
-        var condition = new SoakedLootCondition(NumberRange.IntRange.ANY, SCALE_RANGE);
+        var condition = new SoakedLootCondition(MinMaxBounds.Ints.ANY, SCALE_RANGE);
 
         Assertions.assertFalse(condition.test(mockContext));
     }
@@ -138,11 +138,11 @@ class SoakedLootConditionTest {
 
     @Test
     void entityNotSoakable_anyValueOrScale_false() {
-        BoatEntity mockBoat = Mockito.mock(BoatEntity.class);
-        Mockito.when(mockContext.get(LootContextParameters.THIS_ENTITY))
+        Boat mockBoat = Mockito.mock(Boat.class);
+        Mockito.when(mockContext.getParamOrNull(LootContextParams.THIS_ENTITY))
                 .thenReturn(mockBoat);
 
-        var condition = new SoakedLootCondition(NumberRange.IntRange.ANY, NumberRange.DoubleRange.ANY);
+        var condition = new SoakedLootCondition(MinMaxBounds.Ints.ANY, MinMaxBounds.Doubles.ANY);
 
         Assertions.assertFalse(condition.test(mockContext));
     }
