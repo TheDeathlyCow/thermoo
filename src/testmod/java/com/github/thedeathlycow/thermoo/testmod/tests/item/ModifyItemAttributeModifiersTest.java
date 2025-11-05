@@ -7,10 +7,14 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -20,40 +24,40 @@ import net.minecraft.world.item.component.ItemAttributeModifiers;
 public class ModifyItemAttributeModifiersTest {
     public static void initialize() {
         ModifyItemAttributeModifiersCallback.EVENT.register((stack, builder) -> {
-            if (stack.isOf(Items.DIAMOND_CHESTPLATE)) {
+            if (stack.is(Items.DIAMOND_CHESTPLATE)) {
                 builder.add(
-                        EntityAttributes.GENERIC_SCALE,
-                        new EntityAttributeModifier(
+                        Attributes.SCALE,
+                        new AttributeModifier(
                                 ThermooTestMod.id("diamond_chestplate_scale_test"),
                                 1.0,
-                                EntityAttributeModifier.Operation.ADD_VALUE
+                                AttributeModifier.Operation.ADD_VALUE
                         ),
-                        AttributeModifierSlot.CHEST
+                        EquipmentSlotGroup.CHEST
                 );
             }
 
-            if (stack.isIn(ItemTags.AXES)) {
+            if (stack.is(ItemTags.AXES)) {
                 builder.add(
-                        EntityAttributes.GENERIC_ARMOR,
-                        new EntityAttributeModifier(
+                        Attributes.ARMOR,
+                        new AttributeModifier(
                                 ThermooTestMod.id("diamond_axe_armor_test"),
                                 1.0,
-                                EntityAttributeModifier.Operation.ADD_VALUE
+                                AttributeModifier.Operation.ADD_VALUE
                         ),
-                        AttributeModifierSlot.MAINHAND
+                        EquipmentSlotGroup.MAINHAND
                 );
             }
 
-            if (stack.isOf(Items.NETHERITE_AXE)) {
+            if (stack.is(Items.NETHERITE_AXE)) {
                 builder.add(
-                        EntityAttributes.GENERIC_ARMOR,
+                        Attributes.ARMOR,
                         // duplicate
-                        new EntityAttributeModifier(
+                        new AttributeModifier(
                                 ThermooTestMod.id("diamond_axe_armor_test"),
                                 5.0,
-                                EntityAttributeModifier.Operation.ADD_VALUE
+                                AttributeModifier.Operation.ADD_VALUE
                         ),
-                        AttributeModifierSlot.MAINHAND
+                        EquipmentSlotGroup.MAINHAND
                 );
             }
         });

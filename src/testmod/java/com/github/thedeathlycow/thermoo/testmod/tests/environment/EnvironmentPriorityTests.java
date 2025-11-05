@@ -29,7 +29,7 @@ public class EnvironmentPriorityTests {
                 .orElseThrow(() -> new GameTestAssertException("Missing nether wastes biome!"));
 
         List<ResourceLocation> loadedEnvironments = EnvironmentLookupImpl.getAllMatchingEnvironments(netherWastes, registry)
-                .map(registry::getId)
+                .map(registry::getKey)
                 .toList();
 
         List<ResourceLocation> expectedEnvironments = List.of(

@@ -6,6 +6,7 @@ import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
 import net.fabricmc.fabric.api.util.TriState;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.block.Blocks;
@@ -47,7 +48,7 @@ public class TestSoakableChanges {
         });
         LivingEntitySoakingTickEvents.GET_SOAKING_CHANGE.register(TestSoakableChanges::addSoakingChange);
         LivingEntitySoakingTickEvents.ALLOW_SOAKING_CHANGE.register((context, soakingChange) -> {
-            if (context.affected().getType() == EntityType.PLAYER && context.affected().age % 20 == 0) {
+            if (context.affected().getType() == EntityType.PLAYER && context.affected().tickCount % 20 == 0) {
                 Thermoo.LOGGER.info("Applying soaking change of {} to player", soakingChange);
             }
 

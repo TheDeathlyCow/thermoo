@@ -26,7 +26,7 @@ public final class TestEnvironmentChanges {
     private static final TemperatureRecord WARM_TEMPERATURE = new TemperatureRecord(25, TemperatureUnit.CELSIUS);
 
     public static void initialize() {
-        ServerPlayerEnvironmentTickEvents.ALLOW_TEMPERATURE_UPDATE.register(context -> TriState.of(context.world().getGameRules().get(APPLY_ENVIRONMENT_CHANGES).get()));
+        ServerPlayerEnvironmentTickEvents.ALLOW_TEMPERATURE_UPDATE.register(context -> TriState.of(context.world().getGameRules().getBoolean(APPLY_ENVIRONMENT_CHANGES)));
 
         ServerPlayerEnvironmentTickEvents.GET_TEMPERATURE_CHANGE.register(context -> {
             TemperatureRecord temperature = context.components()

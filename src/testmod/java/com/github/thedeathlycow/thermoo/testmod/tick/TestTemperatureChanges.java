@@ -57,7 +57,7 @@ public class TestTemperatureChanges {
         BlockPos pos = context.pos();
         int total = 0;
 
-        BlockState state = context.affected().getSteppingBlockState();
+        BlockState state = context.affected().getBlockStateOn();
         if (state.is(Blocks.MAGMA_BLOCK)) {
             total += 12;
 
@@ -81,7 +81,7 @@ public class TestTemperatureChanges {
         });
         LivingEntityTemperatureTickEvents.GET_PASSIVE_TEMPERATURE_CHANGE.register(TestTemperatureChanges::getPassiveChange);
         LivingEntityTemperatureTickEvents.ALLOW_PASSIVE_TEMPERATURE_CHANGE.register((context, temperatureChange) -> {
-            if (context.affected().getType() == EntityType.PLAYER && context.affected().age % 20 == 0) {
+            if (context.affected().getType() == EntityType.PLAYER && context.affected().tickCount % 20 == 0) {
                 Thermoo.LOGGER.info("Applying passive temperature change of {} to player", temperatureChange);
             }
 
@@ -94,7 +94,7 @@ public class TestTemperatureChanges {
         });
         LivingEntityTemperatureTickEvents.GET_ACTIVE_TEMPERATURE_CHANGE.register(TestTemperatureChanges::getActiveChange);
         LivingEntityTemperatureTickEvents.ALLOW_ACTIVE_TEMPERATURE_CHANGE.register((context, temperatureChange) -> {
-            if (context.affected().getType() == EntityType.PLAYER && context.affected().age % 20 == 0) {
+            if (context.affected().getType() == EntityType.PLAYER && context.affected().tickCount % 20 == 0) {
                 Thermoo.LOGGER.info("Applying active temperature change of {} to player", temperatureChange);
             }
 
