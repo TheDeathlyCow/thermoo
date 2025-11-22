@@ -53,7 +53,7 @@ public class TestTemperatureChanges {
 
     public static int getPassiveChange(EnvironmentTickContext<? extends LivingEntity> context) {
         LivingEntity affected = context.affected();
-        ServerLevel world = context.world();
+        ServerLevel world = context.level();
         BlockPos pos = context.pos();
         int total = 0;
 
@@ -76,7 +76,7 @@ public class TestTemperatureChanges {
 
     public static void initialize() {
         LivingEntityTemperatureTickEvents.ALLOW_PASSIVE_TEMPERATURE_UPDATE.register(context -> {
-            boolean applyPassiveChanges = context.world().getGameRules().getBoolean(APPLY_PASSIVE_CHANGES);
+            boolean applyPassiveChanges = context.level().getGameRules().getBoolean(APPLY_PASSIVE_CHANGES);
             return TriState.of(applyPassiveChanges);
         });
         LivingEntityTemperatureTickEvents.GET_PASSIVE_TEMPERATURE_CHANGE.register(TestTemperatureChanges::getPassiveChange);
@@ -89,7 +89,7 @@ public class TestTemperatureChanges {
         });
 
         LivingEntityTemperatureTickEvents.ALLOW_ACTIVE_TEMPERATURE_UPDATE.register(context -> {
-            boolean applyActiveChanges = context.world().getGameRules().getBoolean(APPLY_ACTIVE_CHANGES);
+            boolean applyActiveChanges = context.level().getGameRules().getBoolean(APPLY_ACTIVE_CHANGES);
             return TriState.of(applyActiveChanges);
         });
         LivingEntityTemperatureTickEvents.GET_ACTIVE_TEMPERATURE_CHANGE.register(TestTemperatureChanges::getActiveChange);

@@ -17,6 +17,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.block.FenceGateBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -67,7 +68,8 @@ public final class LivingEntityTickUtil {
      *
      * @return returns a blockpos shifted up 0.21 blocks from the entity's current position
      */
-    public static BlockPos getTemperatureTickPos(LivingEntity entity) {
+    public static BlockPos getTemperatureTickPos(LivingEntity target) {
+        Entity entity = target.getRootVehicle();
         Vec3 pos = entity.position();
         final float offset = 0.21f;
         if (entity.mainSupportingBlockPos.isPresent()) {
