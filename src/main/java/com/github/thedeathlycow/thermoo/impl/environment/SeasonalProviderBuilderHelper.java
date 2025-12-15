@@ -1,7 +1,7 @@
 package com.github.thedeathlycow.thermoo.impl.environment;
 
 import com.github.thedeathlycow.thermoo.api.environment.provider.EnvironmentProvider;
-import com.github.thedeathlycow.thermoo.api.season.ThermooSeason;
+import com.github.thedeathlycow.thermoo.api.season.TemperateSeason;
 import net.minecraft.core.Holder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -12,25 +12,25 @@ import java.util.Objects;
 
 public class SeasonalProviderBuilderHelper {
     @Nullable
-    private ThermooSeason fallbackSeason = null;
+    private TemperateSeason fallbackSeason = null;
 
-    private final Map<ThermooSeason, Holder<EnvironmentProvider>> seasons = new EnumMap<>(ThermooSeason.class);
+    private final Map<TemperateSeason, Holder<EnvironmentProvider>> seasons = new EnumMap<>(TemperateSeason.class);
 
     @Nullable
-    public ThermooSeason getFallbackSeason() {
+    public TemperateSeason getFallbackSeason() {
         return fallbackSeason;
     }
 
-    public Map<ThermooSeason, Holder<EnvironmentProvider>> getSeasons() {
+    public Map<TemperateSeason, Holder<EnvironmentProvider>> getSeasons() {
         return seasons;
     }
 
-    public void setFallbackSeason(@NotNull ThermooSeason season) {
+    public void setFallbackSeason(@NotNull TemperateSeason season) {
         Objects.requireNonNull(season);
         this.fallbackSeason = season;
     }
 
-    public void setSeasonProvider(@NotNull ThermooSeason season, @NotNull Holder<EnvironmentProvider> provider) {
+    public void setSeasonProvider(@NotNull TemperateSeason season, @NotNull Holder<EnvironmentProvider> provider) {
         Objects.requireNonNull(season);
         Objects.requireNonNull(provider);
         this.seasons.put(season, provider);

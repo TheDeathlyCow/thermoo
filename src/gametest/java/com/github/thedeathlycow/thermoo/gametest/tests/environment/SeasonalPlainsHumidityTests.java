@@ -1,6 +1,6 @@
 package com.github.thedeathlycow.thermoo.gametest.tests.environment;
 
-import com.github.thedeathlycow.thermoo.api.season.ThermooSeason;
+import com.github.thedeathlycow.thermoo.api.season.TemperateSeason;
 import net.fabricmc.fabric.api.gametest.v1.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.server.level.ServerLevel;
@@ -23,7 +23,7 @@ public class SeasonalPlainsHumidityTests {
     @GameTest(environment = EnvironmentTestHelper.SPRING)
     public void plains_spring_humidity_is_75pc(GameTestHelper helper) {
         ServerLevel level = helper.getLevel();
-        EnvironmentTestHelper.expectTemperateSeason(helper, ThermooSeason.SPRING);
+        EnvironmentTestHelper.expectTemperateSeason(helper, TemperateSeason.SPRING);
         EnvironmentTestHelper.expectTropicalSeason(helper, null);
 
         double humidity = EnvironmentTestHelper.getBiomeHumidity(helper, level, Biomes.PLAINS);
@@ -35,7 +35,7 @@ public class SeasonalPlainsHumidityTests {
     @GameTest(environment = EnvironmentTestHelper.SUMMER)
     public void plains_summer_humidity_is_75pc(GameTestHelper helper) {
         ServerLevel level = helper.getLevel();
-        EnvironmentTestHelper.expectTemperateSeason(helper, ThermooSeason.SUMMER);
+        EnvironmentTestHelper.expectTemperateSeason(helper, TemperateSeason.SUMMER);
         EnvironmentTestHelper.expectTropicalSeason(helper, null);
 
         double humidity = EnvironmentTestHelper.getBiomeHumidity(helper, level, Biomes.PLAINS);
@@ -47,7 +47,7 @@ public class SeasonalPlainsHumidityTests {
     @GameTest(environment = EnvironmentTestHelper.AUTUMN)
     public void plains_autumn_humidity_is_25pc(GameTestHelper helper) {
         ServerLevel level = helper.getLevel();
-        EnvironmentTestHelper.expectTemperateSeason(helper, ThermooSeason.AUTUMN);
+        EnvironmentTestHelper.expectTemperateSeason(helper, TemperateSeason.AUTUMN);
         EnvironmentTestHelper.expectTropicalSeason(helper, null);
 
         double humidity = EnvironmentTestHelper.getBiomeHumidity(helper, level, Biomes.PLAINS);
@@ -59,7 +59,7 @@ public class SeasonalPlainsHumidityTests {
     @GameTest(environment = EnvironmentTestHelper.WINTER)
     public void plains_winter_humidity_is_25pc(GameTestHelper helper) {
         ServerLevel level = helper.getLevel();
-        EnvironmentTestHelper.expectTemperateSeason(helper, ThermooSeason.WINTER);
+        EnvironmentTestHelper.expectTemperateSeason(helper, TemperateSeason.WINTER);
         EnvironmentTestHelper.expectTropicalSeason(helper, null);
 
         double humidity = EnvironmentTestHelper.getBiomeHumidity(helper, level, Biomes.PLAINS);

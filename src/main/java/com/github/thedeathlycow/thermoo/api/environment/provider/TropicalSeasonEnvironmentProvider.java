@@ -1,6 +1,6 @@
 package com.github.thedeathlycow.thermoo.api.environment.provider;
 
-import com.github.thedeathlycow.thermoo.api.season.ThermooSeason;
+import com.github.thedeathlycow.thermoo.api.season.TemperateSeason;
 import com.github.thedeathlycow.thermoo.impl.environment.SeasonalProviderBuilderHelper;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.MapCodec;
@@ -21,7 +21,7 @@ public final class TropicalSeasonEnvironmentProvider extends SeasonalEnvironment
     public static final MapCodec<TropicalSeasonEnvironmentProvider> CODEC = validate(
             RecordCodecBuilder.mapCodec(
                     instance -> instance.group(
-                            ThermooSeason.CODEC
+                            TemperateSeason.CODEC
                                     .optionalFieldOf("fallback_season")
                                     .forGetter(TropicalSeasonEnvironmentProvider::fallbackSeason),
                             SeasonalEnvironmentProvider.createSeasonMapCodec()
@@ -40,8 +40,8 @@ public final class TropicalSeasonEnvironmentProvider extends SeasonalEnvironment
     }
 
     private TropicalSeasonEnvironmentProvider(
-            Optional<ThermooSeason> fallbackSeason,
-            Map<ThermooSeason, Holder<EnvironmentProvider>> seasons
+            Optional<TemperateSeason> fallbackSeason,
+            Map<TemperateSeason, Holder<EnvironmentProvider>> seasons
     ) {
         super(fallbackSeason, seasons);
     }
@@ -52,14 +52,14 @@ public final class TropicalSeasonEnvironmentProvider extends SeasonalEnvironment
     }
 
     @Override
-    protected Optional<ThermooSeason> getCurrentSeason(Level level, BlockPos pos) {
-        return ThermooSeason.getCurrentTropicalSeason(level, pos);
+    protected Optional<TemperateSeason> getCurrentSeason(Level level, BlockPos pos) {
+        return TemperateSeason.getCurrentTropicalSeason(level, pos);
     }
 
-    private static DataResult<Map<ThermooSeason, Holder<EnvironmentProvider>>> allKeysAreTropical(
-            Map<ThermooSeason, Holder<EnvironmentProvider>> seasonMap
+    private static DataResult<Map<TemperateSeason, Holder<EnvironmentProvider>>> allKeysAreTropical(
+            Map<TemperateSeason, Holder<EnvironmentProvider>> seasonMap
     ) {
-        for (ThermooSeason season : seasonMap.keySet()) {
+        for (TemperateSeason season : seasonMap.keySet()) {
             if (!season.isTropical()) {
                 return DataResult.error(() -> "Found temperate season '" + season.name() + "' in a tropical season map!");
             }
@@ -83,7 +83,7 @@ public final class TropicalSeasonEnvironmentProvider extends SeasonalEnvironment
          * @param season A non-null tropical season to add as fallback.
          * @return Returns this builder
          */
-        public Builder withFallbackSeason(@NotNull ThermooSeason season) {
+        public Builder withFallbackSeason(@NotNull TemperateSeason season) {
             Objects.requireNonNull(season);
             if (season.isTropical()) {
                 this.helper.setFallbackSeason(season);
@@ -98,7 +98,7 @@ public final class TropicalSeasonEnvironmentProvider extends SeasonalEnvironment
          * @param provider A non-null provider to add
          * @return Returns this builder
          */
-        public Builder addSeasonProvider(@NotNull ThermooSeason season, @NotNull Holder<EnvironmentProvider> provider) {
+        public Builder addSeasonProvider(@NotNull TemperateSeason season, @NotNull Holder<EnvironmentProvider> provider) {
             Objects.requireNonNull(season);
             if (season.isTropical()) {
                 this.helper.setSeasonProvider(season, provider);

@@ -24,14 +24,14 @@ public final class ThermooSeasonEvents {
      * <p>
      * Returns empty by default.
      * 
-     * @see ThermooSeason#getCurrentSeason(Level)
+     * @see TemperateSeason#getCurrentSeason(Level)
      */
     public static final Event<CurrentSeasonCallback> GET_CURRENT_SEASON = EventFactory.createArrayBacked(
             CurrentSeasonCallback.class,
             callbacks -> level -> {
                 for (CurrentSeasonCallback callback : callbacks) {
-                    Optional<ThermooSeason> season = callback.getCurrentSeason(level);
-                    if (season.isPresent() && !season.get().isTropical()) {
+                    Optional<TemperateSeason> season = callback.getCurrentSeason(level);
+                    if (season.isPresent()) {
                         return season;
                     }
                 }
@@ -48,14 +48,14 @@ public final class ThermooSeasonEvents {
      * <p>
      * Returns empty by default.
      * 
-     * @see ThermooSeason#getCurrentTropicalSeason(Level, BlockPos)
+     * @see TropicalSeason#getCurrentSeason(Level, BlockPos)
      */
     public static final Event<CurrentTropicalSeasonCallback> GET_CURRENT_TROPICAL_SEASON = EventFactory.createArrayBacked(
             CurrentTropicalSeasonCallback.class,
             callbacks -> (level, pos) -> {
                 for (CurrentTropicalSeasonCallback callback : callbacks) {
-                    Optional<ThermooSeason> season = callback.getCurrentTropicalSeason(level, pos);
-                    if (season.isPresent() && season.get().isTropical()) {
+                    Optional<TropicalSeason> season = callback.getCurrentTropicalSeason(level, pos);
+                    if (season.isPresent()) {
                         return season;
                     }
                 }
@@ -66,11 +66,11 @@ public final class ThermooSeasonEvents {
 
     @FunctionalInterface
     public interface CurrentSeasonCallback {
-        Optional<ThermooSeason> getCurrentSeason(Level level);
+        Optional<TemperateSeason> getCurrentSeason(Level level);
     }
 
     @FunctionalInterface
     public interface CurrentTropicalSeasonCallback {
-        Optional<ThermooSeason> getCurrentTropicalSeason(Level level, BlockPos pos);
+        Optional<TropicalSeason> getCurrentTropicalSeason(Level level, BlockPos pos);
     }
 }

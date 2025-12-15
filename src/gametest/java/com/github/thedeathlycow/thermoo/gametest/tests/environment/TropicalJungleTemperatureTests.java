@@ -1,7 +1,7 @@
 package com.github.thedeathlycow.thermoo.gametest.tests.environment;
 
 import com.github.thedeathlycow.thermoo.api.environment.component.TemperatureRecordComponent;
-import com.github.thedeathlycow.thermoo.api.season.ThermooSeason;
+import com.github.thedeathlycow.thermoo.api.season.TropicalSeason;
 import net.fabricmc.fabric.api.gametest.v1.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.server.level.ServerLevel;
@@ -29,7 +29,7 @@ public class TropicalJungleTemperatureTests {
     public void jungle_wet_temperature_is_30c(GameTestHelper helper) {
         ServerLevel level = helper.getLevel();
         EnvironmentTestHelper.expectTemperateSeason(helper, null);
-        EnvironmentTestHelper.expectTropicalSeason(helper, ThermooSeason.TROPICAL_WET);
+        EnvironmentTestHelper.expectTropicalSeason(helper, TropicalSeason.WET);
 
         double temperature = EnvironmentTestHelper.getBiomeTemperature(helper, level, Biomes.JUNGLE);
         EnvironmentTestHelper.assertTemperatureEquals(helper, 30.0, temperature);
@@ -41,7 +41,7 @@ public class TropicalJungleTemperatureTests {
     public void jungle_dry_temperature_is_50c(GameTestHelper helper) {
         ServerLevel level = helper.getLevel();
         EnvironmentTestHelper.expectTemperateSeason(helper, null);
-        EnvironmentTestHelper.expectTropicalSeason(helper, ThermooSeason.TROPICAL_DRY);
+        EnvironmentTestHelper.expectTropicalSeason(helper, TropicalSeason.DRY);
 
         double temperature = EnvironmentTestHelper.getBiomeTemperature(helper, level, Biomes.JUNGLE);
         EnvironmentTestHelper.assertTemperatureEquals(helper, 50.0, temperature);
