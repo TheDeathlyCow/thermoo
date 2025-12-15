@@ -13,12 +13,22 @@ import net.fabricmc.fabric.api.gamerule.v1.GameRuleBuilder;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.gamerules.GameRule;
+import net.minecraft.world.level.gamerules.GameRules;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
 public class ThermooTestMod implements ModInitializer {
     public static final String MODID = Thermoo.MODID + "-test";
+
+    public static final GameRule<@NotNull Boolean> ENABLE_SEASONS =
+            GameRuleBuilder.forBoolean(false)
+                    .buildAndRegister(id("enable_seasons"));
+
+    public static final GameRule<@NotNull Boolean> ENABLE_TROPICAL_SEASONS =
+            GameRuleBuilder.forBoolean(false)
+                    .buildAndRegister(id("enable_tropical_seasons"));
+
     public static final GameRule<@NotNull ThermooSeason> CURRENT_SEASON =
             GameRuleBuilder.forEnum(ThermooSeason.SPRING)
                     .codec(ThermooSeason.CODEC)
@@ -42,7 +52,11 @@ public class ThermooTestMod implements ModInitializer {
         ThermooSeasonEvents.GET_CURRENT_SEASON.register(
                 level -> {
                     if (level instanceof ServerLevel serverLevel) {
-                        return Optional.of(serverLevel.getGameRules().get(CURRENT_SEASON));
+                        GameRules rules = serverLevel.getGameRules();
+
+                        return rules.get(ENABLE_SEASONS)
+                                ? Optional.of(serverLevel.getGameRules().get(CURRENT_SEASON))
+                                : Optional.empty();
                     } else {
                         return Optional.empty();
                     }
@@ -52,7 +66,11 @@ public class ThermooTestMod implements ModInitializer {
         ThermooSeasonEvents.GET_CURRENT_TROPICAL_SEASON.register(
                 (level, pos) -> {
                     if (level instanceof ServerLevel serverLevel) {
-                        return Optional.of(serverLevel.getGameRules().get(CURRENT_TROPICAL_SEASON));
+                        GameRules rules = serverLevel.getGameRules();
+
+                        return rules.get(ENABLE_TROPICAL_SEASONS)
+                                ? Optional.of(serverLevel.getGameRules().get(CURRENT_TROPICAL_SEASON))
+                                : Optional.empty();
                     } else {
                         return Optional.empty();
                     }

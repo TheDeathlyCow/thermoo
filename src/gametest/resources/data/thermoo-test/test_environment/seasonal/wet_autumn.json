@@ -4,6 +4,8 @@
         {
             "type": "minecraft:game_rules",
             "rules": {
+                "thermoo-test:enable_seasons": true,
+                "thermoo-test:enable_tropical_seasons": true,
                 "thermoo-test:set_test_season": "autumn",
                 "thermoo-test:set_test_tropical_season": "wet"
             }
