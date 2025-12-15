@@ -30,7 +30,7 @@ public final class AttributeModifierTemperatureEffect extends TemperatureEffect<
                             .forGetter(Config::attribute),
                     Identifier.CODEC
                             .fieldOf("id")
-                            .forGetter(Config::location),
+                            .forGetter(Config::id),
                     AttributeModifier.Operation.CODEC
                             .fieldOf("operation")
                             .forGetter(Config::operation)
@@ -44,10 +44,10 @@ public final class AttributeModifierTemperatureEffect extends TemperatureEffect<
     @Override
     public void apply(LivingEntity victim, ServerLevel serverWorld, Config config) {
         AttributeInstance attrInstance = victim.getAttribute(config.attribute);
-        if (attrInstance != null && !attrInstance.hasModifier(config.location)) {
+        if (attrInstance != null && !attrInstance.hasModifier(config.id)) {
             attrInstance.addTransientModifier(
                     new AttributeModifier(
-                            config.location,
+                            config.id,
                             config.value,
                             config.operation
                     )
@@ -67,7 +67,7 @@ public final class AttributeModifierTemperatureEffect extends TemperatureEffect<
         super.remove(victim, serverWorld, config);
         AttributeInstance attributeInstance = victim.getAttribute(config.attribute);
         if (attributeInstance != null) {
-            attributeInstance.removeModifier(config.location);
+            attributeInstance.removeModifier(config.id);
         }
     }
 
@@ -75,17 +75,16 @@ public final class AttributeModifierTemperatureEffect extends TemperatureEffect<
     public record Config(
             float value,
             Holder<Attribute> attribute,
-            Identifier location,
+            Identifier id,
             AttributeModifier.Operation operation
     ) {
         /**
-         * @return Returns the value of {@link #location}
-         * @deprecated This field was named based on Yarn mappings. Use {@link #location} to better conform to Official
-         * Mappings.
+         * @return Returns the value of {@link #id}
+         * @deprecated This field was named based on old name in Mojmap. Use {@link #id} to better conform to the new name.
          */
-        @Deprecated(since = "8.1.0", forRemoval = true)
-        public Identifier id() {
-            return location;
+        @Deprecated(since = "9.0.0", forRemoval = true)
+        public Identifier location() {
+            return id;
         }
     }
 }

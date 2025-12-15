@@ -30,7 +30,7 @@ public final class ScalingAttributeModifierTemperatureEffect extends Temperature
                             .forGetter(Config::attribute),
                     Identifier.CODEC
                             .fieldOf("id")
-                            .forGetter(Config::location),
+                            .forGetter(Config::id),
                     AttributeModifier.Operation.CODEC
                             .fieldOf("operation")
                             .forGetter(Config::operation)
@@ -53,7 +53,7 @@ public final class ScalingAttributeModifierTemperatureEffect extends Temperature
 
         attrInstance.addTransientModifier(
                 new AttributeModifier(
-                        config.location,
+                        config.id,
                         amount,
                         config.operation
                 )
@@ -69,7 +69,7 @@ public final class ScalingAttributeModifierTemperatureEffect extends Temperature
             return false;
         }
 
-        AttributeModifier modifier = attrInstance.getModifier(config.location);
+        AttributeModifier modifier = attrInstance.getModifier(config.id);
         if (modifier == null) {
             return true;
         }
@@ -81,7 +81,7 @@ public final class ScalingAttributeModifierTemperatureEffect extends Temperature
 
         if (shouldApply) {
             // remove the modifier - even if the other predicate tests fail
-            attrInstance.removeModifier(config.location);
+            attrInstance.removeModifier(config.id);
         }
 
         return shouldApply;
@@ -90,17 +90,16 @@ public final class ScalingAttributeModifierTemperatureEffect extends Temperature
     public record Config(
             float scale,
             Holder<Attribute> attribute,
-            Identifier location,
+            Identifier id,
             AttributeModifier.Operation operation
     ) {
         /**
-         * @return Returns the value of {@link #location}
-         * @deprecated This field was named based on Yarn mappings. Use {@link #location} to better conform to Official
-         * Mappings.
+         * @return Returns the value of {@link #id}
+         * @deprecated This field was named based on old name in Mojmap. Use {@link #id} to better conform to the new name.
          */
-        @Deprecated(since = "8.1.0", forRemoval = true)
-        public Identifier id() {
-            return location;
+        @Deprecated(since = "9.0.0", forRemoval = true)
+        public Identifier location() {
+            return id;
         }
     }
 }
