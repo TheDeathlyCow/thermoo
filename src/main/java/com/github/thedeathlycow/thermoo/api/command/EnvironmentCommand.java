@@ -18,6 +18,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.permissions.LevelBasedPermissionSet;
+import net.minecraft.server.permissions.Permissions;
 import net.minecraft.world.level.biome.Biome;
 import org.jetbrains.annotations.Contract;
 
@@ -126,7 +128,8 @@ public final class EnvironmentCommand {
         );
 
         return literal("thermoo").then(
-                (literal("environment").requires((src) -> src.hasPermission(2)))
+                (literal("environment").requires((src) -> src.permissions()
+                        .hasPermission(Permissions.COMMANDS_GAMEMASTER)))
                         .then(temperature)
                         .then(relativeHumidity)
         );
@@ -187,7 +190,7 @@ public final class EnvironmentCommand {
                             location.getX(),
                             location.getY(),
                             location.getZ(),
-                            biome == null ? "unknown" : biome.location().toString(),
+                            biome == null ? "unknown" : biome.identifier().toString(),
                             String.format("%.2f", temperature),
                             unit.getUnitSymbol()
                     );
@@ -212,7 +215,7 @@ public final class EnvironmentCommand {
                             location.getX(),
                             location.getY(),
                             location.getZ(),
-                            biome == null ? "unknown" : biome.location().toString(),
+                            biome == null ? "unknown" : biome.identifier().toString(),
                             String.format("%.2f", scaledHumidity)
                     );
                 },

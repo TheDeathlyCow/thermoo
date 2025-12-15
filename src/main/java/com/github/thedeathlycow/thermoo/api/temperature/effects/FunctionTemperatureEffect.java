@@ -59,6 +59,7 @@ public final class FunctionTemperatureEffect extends TemperatureEffect<FunctionT
                 func -> {
                     CommandSourceStack commandSource = victim.createCommandSourceStackForNameResolution(serverLevel)
                             .withSuppressedOutput()
+                            // TODO: upgrade to new permissions system?
                             .withPermission(config.permissionLevel);
 
                     this.execute(

@@ -2,6 +2,7 @@ package com.github.thedeathlycow.thermoo.api.temperature.effects;
 
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 
@@ -12,7 +13,7 @@ import net.minecraft.world.entity.LivingEntity;
  */
 public final class EmptyTemperatureEffect extends TemperatureEffect<EmptyTemperatureEffect.Config> {
 
-    public static final Codec<Config> CODEC = Codec.unit(() -> Config.INSTANCE);
+    public static final Codec<Config> CODEC = MapCodec.unit(() -> Config.INSTANCE).codec();
 
     public EmptyTemperatureEffect(Codec<Config> configCodec) {
         super(configCodec);

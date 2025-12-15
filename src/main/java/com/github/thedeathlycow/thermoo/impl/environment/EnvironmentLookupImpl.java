@@ -62,7 +62,7 @@ public class EnvironmentLookupImpl implements EnvironmentLookup {
             extendedBiome.thermoo$replaceProviders(providers);
 
             if (Thermoo.LOGGER.isDebugEnabled()) {
-                Thermoo.LOGGER.debug("Found {} providers for {}.", providers.size(), holder.key().location());
+                Thermoo.LOGGER.debug("Found {} providers for {}.", providers.size(), holder.key().identifier());
             }
         });
     }

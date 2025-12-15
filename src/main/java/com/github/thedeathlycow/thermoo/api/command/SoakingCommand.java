@@ -7,6 +7,7 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.permissions.Permissions;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -42,7 +43,8 @@ public final class SoakingCommand {
     @Contract("->new")
     private static LiteralArgumentBuilder<CommandSourceStack> buildCommand() {
         return literal("thermoo").then(
-                (literal("soaking").requires(src -> src.hasPermission(2)))
+                (literal("soaking").requires(src -> src.permissions()
+                        .hasPermission(Permissions.COMMANDS_GAMEMASTER)))
                         .then(buildGetCommand())
                         .then(buildSetCommand())
                         .then(buildAddCommand())
