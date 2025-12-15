@@ -3,7 +3,6 @@ package com.github.thedeathlycow.thermoo.impl.compat;
 import com.google.gson.JsonObject;
 import com.mojang.serialization.JsonOps;
 import net.minecraft.util.GsonHelper;
-import org.apache.http.client.HttpResponseException;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;

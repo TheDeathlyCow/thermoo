@@ -1,7 +1,7 @@
 package com.github.thedeathlycow.thermoo.api.predicate;
 
 import com.github.thedeathlycow.thermoo.ThermooTest;
-import net.minecraft.advancements.critereon.MinMaxBounds;
+import net.minecraft.advancements.criterion.MinMaxBounds;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.level.storage.loot.LootContext;
