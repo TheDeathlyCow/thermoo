@@ -1,6 +1,5 @@
 package com.github.thedeathlycow.thermoo.api.environment.provider;
 
-import com.github.thedeathlycow.thermoo.api.season.TemperateSeason;
 import com.github.thedeathlycow.thermoo.api.season.TropicalSeason;
 import com.github.thedeathlycow.thermoo.impl.environment.SeasonalProviderBuilderHelper;
 import com.mojang.serialization.MapCodec;

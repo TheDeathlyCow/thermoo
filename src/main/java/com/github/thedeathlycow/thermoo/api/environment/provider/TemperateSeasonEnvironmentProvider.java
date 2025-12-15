@@ -1,9 +1,7 @@
 package com.github.thedeathlycow.thermoo.api.environment.provider;
 
 import com.github.thedeathlycow.thermoo.api.season.TemperateSeason;
-import com.github.thedeathlycow.thermoo.api.season.TropicalSeason;
 import com.github.thedeathlycow.thermoo.impl.environment.SeasonalProviderBuilderHelper;
-import com.mojang.serialization.DataResult;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
