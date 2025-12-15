@@ -36,9 +36,12 @@ public abstract sealed class SeasonalEnvironmentProvider<S extends Enum<S> & Str
 
     /**
      * Builds the environment components based on the world's current season state, generally using the
-     * {@link TemperateSeason season API}. If no seasons mod is installed, or if the tropical/temperate season state does
-     * not exist at this world position, then this will use the components provided by the
-     * {@link #fallbackSeason fallback season}. If there is no fallback season, then this does nothing.
+     * {@link com.github.thedeathlycow.thermoo.api.season.ThermooSeasonEvents season API}.
+     * <p>
+     * If no seasons mod is installed, or if the tropical/temperate season state does not exist at this world position,
+     * then this will use the components provided by the {@link #fallbackSeason fallback season}.
+     * <p>
+     * If there is no fallback season, then this does nothing.
      *
      * @param level   The world/level being queried
      * @param pos     The position in the world to query
