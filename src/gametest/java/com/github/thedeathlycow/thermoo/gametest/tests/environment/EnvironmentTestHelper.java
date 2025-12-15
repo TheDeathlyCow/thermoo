@@ -99,7 +99,8 @@ public final class EnvironmentTestHelper {
     }
 
     public static void expectTemperateSeason(GameTestHelper context, @Nullable TemperateSeason season) {
-        TemperateSeason newTemperateSeason = TemperateSeason.getCurrentSeason(context.getLevel()).orElse(null);
+        BlockPos pos = context.absolutePos(BlockPos.ZERO);
+        TemperateSeason newTemperateSeason = TemperateSeason.getCurrentSeason(context.getLevel(), pos).orElse(null);
         context.assertTrue(
                 newTemperateSeason == season,
                 Component.literal("Expected temperate season to be " + season + " but was " + newTemperateSeason)

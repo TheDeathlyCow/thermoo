@@ -55,7 +55,7 @@ public final class TemperateSeasonEnvironmentProvider extends SeasonalEnvironmen
 
     @Override
     protected Optional<TemperateSeason> getCurrentSeason(Level level, BlockPos pos) {
-        return TemperateSeason.getCurrentSeason(level);
+        return TemperateSeason.getCurrentSeason(level, pos);
     }
 
     /**

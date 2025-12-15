@@ -24,13 +24,13 @@ public final class ThermooSeasonEvents {
      * <p>
      * Returns empty by default.
      * 
-     * @see TemperateSeason#getCurrentSeason(Level)
+     * @see TemperateSeason#getCurrentSeason(Level, BlockPos)
      */
     public static final Event<CurrentSeasonCallback> GET_CURRENT_SEASON = EventFactory.createArrayBacked(
             CurrentSeasonCallback.class,
-            callbacks -> level -> {
+            callbacks -> (level, pos) -> {
                 for (CurrentSeasonCallback callback : callbacks) {
-                    Optional<TemperateSeason> season = callback.getCurrentSeason(level);
+                    Optional<TemperateSeason> season = callback.getCurrentSeason(level, pos);
                     if (season.isPresent()) {
                         return season;
                     }
@@ -66,7 +66,7 @@ public final class ThermooSeasonEvents {
 
     @FunctionalInterface
     public interface CurrentSeasonCallback {
-        Optional<TemperateSeason> getCurrentSeason(Level level);
+        Optional<TemperateSeason> getCurrentSeason(Level level, BlockPos pos);
     }
 
     @FunctionalInterface
