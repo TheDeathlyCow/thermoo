@@ -9,28 +9,23 @@ import com.github.thedeathlycow.thermoo.gametest.tick.TestSoakableChanges;
 import com.github.thedeathlycow.thermoo.gametest.tick.TestTemperatureChanges;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
-import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
+import net.fabricmc.fabric.api.gamerule.v1.GameRuleBuilder;
 import net.minecraft.resources.Identifier;
-import net.minecraft.world.level.GameRules;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.gamerules.GameRule;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
 public class ThermooTestMod implements ModInitializer {
     public static final String MODID = Thermoo.MODID + "-test";
-    public static final GameRules.Key<GameRules.IntegerValue> CURRENT_SEASON =
-            GameRuleRegistry.register(
-                    Thermoo.MODID + ".setTestSeason",
-                    GameRules.Category.MISC,
-                    GameRuleFactory.createIntRule(0, 0, 4)
-            );
+    public static final GameRule<@NotNull ThermooSeason> CURRENT_SEASON =
+            GameRuleBuilder.forEnum(ThermooSeason.SPRING)
+                            .buildAndRegister(id("setTestSeason"));
 
-    public static final GameRules.Key<GameRules.IntegerValue> CURRENT_TROPICAL_SEASON =
-            GameRuleRegistry.register(
-                    Thermoo.MODID + ".setTestTropicalSeason",
-                    GameRules.Category.MISC,
-                    GameRuleFactory.createIntRule(0, 0, 2)
-            );
+    public static final GameRule<@NotNull ThermooSeason> CURRENT_TROPICAL_SEASON =
+            GameRuleBuilder.forEnum(ThermooSeason.TROPICAL_DRY)
+                    .buildAndRegister(id("setTestTropicalSeason"));
 
     @Override
     public void onInitialize() {
@@ -43,25 +38,27 @@ public class ThermooTestMod implements ModInitializer {
         ModifyItemAttributeModifiersTest.initialize();
 
         ThermooSeasonEvents.GET_CURRENT_SEASON.register(
-                world -> Optional.ofNullable(switch (world.getServer().getGameRules().getInt(CURRENT_SEASON)) {
-                    case 1 -> ThermooSeason.SPRING;
-                    case 2 -> ThermooSeason.SUMMER;
-                    case 3 -> ThermooSeason.AUTUMN;
-                    case 4 -> ThermooSeason.WINTER;
-                    default -> null;
-                })
+                level -> {
+                    if (level instanceof ServerLevel serverLevel) {
+                        return Optional.of(serverLevel.getGameRules().get(CURRENT_SEASON));
+                    } else {
+                        return Optional.empty();
+                    }
+                }
         );
 
         ThermooSeasonEvents.GET_CURRENT_TROPICAL_SEASON.register(
-                (world, pos) -> Optional.ofNullable(switch (world.getServer().getGameRules().getInt(CURRENT_TROPICAL_SEASON)) {
-                    case 1 -> ThermooSeason.TROPICAL_WET;
-                    case 2 -> ThermooSeason.TROPICAL_DRY;
-                    default -> null;
-                })
+                (level, pos) -> {
+                    if (level instanceof ServerLevel serverLevel) {
+                        return Optional.of(serverLevel.getGameRules().get(CURRENT_TROPICAL_SEASON));
+                    } else {
+                        return Optional.empty();
+                    }
+                }
         );
     }
 
-    public static Identifier location(String path) {
+    public static Identifier id(String path) {
         return Identifier.fromNamespaceAndPath(MODID, path);
     }
 }

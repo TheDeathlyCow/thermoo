@@ -2,25 +2,23 @@ package com.github.thedeathlycow.thermoo.gametest.tick;
 
 import com.github.thedeathlycow.thermoo.api.temperature.event.EnvironmentTickContext;
 import com.github.thedeathlycow.thermoo.api.temperature.event.LivingEntitySoakingTickEvents;
+import com.github.thedeathlycow.thermoo.gametest.ThermooTestMod;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
-import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
-import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
+import net.fabricmc.fabric.api.gamerule.v1.GameRuleBuilder;
 import net.fabricmc.fabric.api.util.TriState;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.gamerules.GameRule;
+import org.jetbrains.annotations.NotNull;
 
 public class TestSoakableChanges {
     /**
      * Gamerule to enable/disable soaking changes for testing purposes
      */
-    public static final GameRules.Key<GameRules.BooleanValue> ALLOW_SOAKING_UPDATES =
-            GameRuleRegistry.register(
-                    Thermoo.MODID + ".allowSoakingUpdates",
-                    GameRules.Category.MISC,
-                    GameRuleFactory.createBooleanRule(true)
-            );
+    public static final GameRule<@NotNull Boolean> ALLOW_SOAKING_UPDATES =
+            GameRuleBuilder.forBoolean(true)
+                            .buildAndRegister(ThermooTestMod.id("allowSoakingUpdates"));
 
     public static int addSoakingChange(EnvironmentTickContext<? extends LivingEntity> context) {
         LivingEntity entity = context.affected();
@@ -43,7 +41,7 @@ public class TestSoakableChanges {
 
     public static void initialize() {
         LivingEntitySoakingTickEvents.ALLOW_SOAKING_UPDATE.register(context -> {
-            boolean applyPassiveChanges = context.world().getGameRules().getBoolean(ALLOW_SOAKING_UPDATES);
+            boolean applyPassiveChanges = context.level().getGameRules().get(ALLOW_SOAKING_UPDATES);
             return TriState.of(applyPassiveChanges);
         });
         LivingEntitySoakingTickEvents.GET_SOAKING_CHANGE.register(TestSoakableChanges::addSoakingChange);

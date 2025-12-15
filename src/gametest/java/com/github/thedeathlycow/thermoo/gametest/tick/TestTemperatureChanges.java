@@ -2,39 +2,34 @@ package com.github.thedeathlycow.thermoo.gametest.tick;
 
 import com.github.thedeathlycow.thermoo.api.temperature.event.EnvironmentTickContext;
 import com.github.thedeathlycow.thermoo.api.temperature.event.LivingEntityTemperatureTickEvents;
+import com.github.thedeathlycow.thermoo.gametest.ThermooTestMod;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
-import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
-import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
+import net.fabricmc.fabric.api.gamerule.v1.GameRuleBuilder;
 import net.fabricmc.fabric.api.util.TriState;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.gamerules.GameRule;
+import org.jetbrains.annotations.NotNull;
 
 public class TestTemperatureChanges {
     /**
      * Gamerule to enable/disable passive changes for testing purposes
      */
-    public static final GameRules.Key<GameRules.BooleanValue> APPLY_PASSIVE_CHANGES =
-            GameRuleRegistry.register(
-                    Thermoo.MODID + ".applyPassiveChanges",
-                    GameRules.Category.MISC,
-                    GameRuleFactory.createBooleanRule(true)
-            );
+    public static final GameRule<@NotNull Boolean> APPLY_PASSIVE_CHANGES =
+            GameRuleBuilder.forBoolean(true)
+                            .buildAndRegister(ThermooTestMod.id("applyPassiveChanges"));
 
     /**
      * Gamerule to enable/disable active changes for testing purposes
      */
-    public static final GameRules.Key<GameRules.BooleanValue> APPLY_ACTIVE_CHANGES =
-            GameRuleRegistry.register(
-                    Thermoo.MODID + ".applyActiveChanges",
-                    GameRules.Category.MISC,
-                    GameRuleFactory.createBooleanRule(true)
-            );
+    public static final GameRule<@NotNull Boolean> APPLY_ACTIVE_CHANGES =
+            GameRuleBuilder.forBoolean(true)
+                    .buildAndRegister(ThermooTestMod.id("applyActiveChanges"));
 
     public static int getActiveChange(EnvironmentTickContext<? extends LivingEntity> context) {
         LivingEntity affected = context.affected();
@@ -76,7 +71,7 @@ public class TestTemperatureChanges {
 
     public static void initialize() {
         LivingEntityTemperatureTickEvents.ALLOW_PASSIVE_TEMPERATURE_UPDATE.register(context -> {
-            boolean applyPassiveChanges = context.level().getGameRules().getBoolean(APPLY_PASSIVE_CHANGES);
+            boolean applyPassiveChanges = context.level().getGameRules().get(APPLY_PASSIVE_CHANGES);
             return TriState.of(applyPassiveChanges);
         });
         LivingEntityTemperatureTickEvents.GET_PASSIVE_TEMPERATURE_CHANGE.register(TestTemperatureChanges::getPassiveChange);
@@ -89,7 +84,7 @@ public class TestTemperatureChanges {
         });
 
         LivingEntityTemperatureTickEvents.ALLOW_ACTIVE_TEMPERATURE_UPDATE.register(context -> {
-            boolean applyActiveChanges = context.level().getGameRules().getBoolean(APPLY_ACTIVE_CHANGES);
+            boolean applyActiveChanges = context.level().getGameRules().get(APPLY_ACTIVE_CHANGES);
             return TriState.of(applyActiveChanges);
         });
         LivingEntityTemperatureTickEvents.GET_ACTIVE_TEMPERATURE_CHANGE.register(TestTemperatureChanges::getActiveChange);

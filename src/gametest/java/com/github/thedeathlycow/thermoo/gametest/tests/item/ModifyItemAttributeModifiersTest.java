@@ -14,7 +14,7 @@ import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.npc.Villager;
+import net.minecraft.world.entity.npc.villager.Villager;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
@@ -27,7 +27,7 @@ public class ModifyItemAttributeModifiersTest {
                 builder.add(
                         Attributes.SCALE,
                         new AttributeModifier(
-                                ThermooTestMod.location("diamond_chestplate_scale_test"),
+                                ThermooTestMod.id("diamond_chestplate_scale_test"),
                                 1.0,
                                 AttributeModifier.Operation.ADD_VALUE
                         ),
@@ -39,7 +39,7 @@ public class ModifyItemAttributeModifiersTest {
                 builder.add(
                         Attributes.ARMOR,
                         new AttributeModifier(
-                                ThermooTestMod.location("diamond_axe_armor_test"),
+                                ThermooTestMod.id("diamond_axe_armor_test"),
                                 1.0,
                                 AttributeModifier.Operation.ADD_VALUE
                         ),
@@ -52,7 +52,7 @@ public class ModifyItemAttributeModifiersTest {
                         Attributes.ARMOR,
                         // duplicate
                         new AttributeModifier(
-                                ThermooTestMod.location("diamond_axe_armor_test"),
+                                ThermooTestMod.id("diamond_axe_armor_test"),
                                 5.0,
                                 AttributeModifier.Operation.ADD_VALUE
                         ),

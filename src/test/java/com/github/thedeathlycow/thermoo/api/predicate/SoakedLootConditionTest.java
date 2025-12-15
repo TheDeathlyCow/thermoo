@@ -2,8 +2,8 @@ package com.github.thedeathlycow.thermoo.api.predicate;
 
 import com.github.thedeathlycow.thermoo.ThermooTest;
 import net.minecraft.advancements.criterion.MinMaxBounds;
-import net.minecraft.world.entity.npc.Villager;
-import net.minecraft.world.entity.vehicle.Boat;
+import net.minecraft.world.entity.npc.villager.Villager;
+import net.minecraft.world.entity.vehicle.boat.Boat;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import org.junit.jupiter.api.Assertions;
