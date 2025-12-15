@@ -19,17 +19,18 @@ import java.util.Optional;
 /**
  * An environment provider that dispatches to another provider based on the current season state of a world.
  */
-public abstract sealed class SeasonalEnvironmentProvider implements EnvironmentProvider
+public abstract sealed class SeasonalEnvironmentProvider<S extends Enum<S> & StringRepresentable> implements EnvironmentProvider
         permits TemperateSeasonEnvironmentProvider, TropicalSeasonEnvironmentProvider {
-    private final Optional<TemperateSeason> fallbackSeason;
-    private final Map<TemperateSeason, Holder<EnvironmentProvider>> seasons;
+    private final Optional<S> fallbackSeason;
+    private final Map<S, Holder<EnvironmentProvider>> seasons;
 
     protected SeasonalEnvironmentProvider(
-            Optional<TemperateSeason> fallbackSeason,
-            Map<TemperateSeason, Holder<EnvironmentProvider>> seasons
+            Optional<S> fallbackSeason,
+            Map<S, Holder<EnvironmentProvider>> seasons,
+            Class<S> seasonClass
     ) {
         this.fallbackSeason = fallbackSeason;
-        this.seasons = new EnumMap<>(TemperateSeason.class);
+        this.seasons = new EnumMap<>(seasonClass);
         this.seasons.putAll(seasons);
     }
 
@@ -46,7 +47,7 @@ public abstract sealed class SeasonalEnvironmentProvider implements EnvironmentP
      */
     @Override
     public final void buildCurrentComponents(Level level, BlockPos pos, Holder<Biome> biome, DataComponentMap.Builder builder) {
-        Optional<TemperateSeason> season = this.getCurrentSeason(level, pos).or(this::fallbackSeason);
+        Optional<S> season = this.getCurrentSeason(level, pos).or(this::fallbackSeason);
         if (season.isPresent()) {
             Holder<EnvironmentProvider> provider = this.seasons.get(season.get());
             if (provider != null) {
@@ -62,7 +63,7 @@ public abstract sealed class SeasonalEnvironmentProvider implements EnvironmentP
      *
      * @return Returns {@link #fallbackSeason}
      */
-    public final Optional<TemperateSeason> fallbackSeason() {
+    public final Optional<S> fallbackSeason() {
         return this.fallbackSeason;
     }
 
@@ -72,7 +73,7 @@ public abstract sealed class SeasonalEnvironmentProvider implements EnvironmentP
      *
      * @return Returns an unmodifiable map of {@link #seasons}
      */
-    public final Map<TemperateSeason, Holder<EnvironmentProvider>> seasons() {
+    public final Map<S, Holder<EnvironmentProvider>> seasons() {
         return Collections.unmodifiableMap(this.seasons);
     }
 
@@ -85,13 +86,16 @@ public abstract sealed class SeasonalEnvironmentProvider implements EnvironmentP
      * @return Returns the season state of a particular world position, or empty if no season state exists there or if a
      * season mod is not loaded.
      */
-    protected abstract Optional<TemperateSeason> getCurrentSeason(Level level, BlockPos pos);
+    protected abstract Optional<S> getCurrentSeason(Level level, BlockPos pos);
 
-    protected static MapCodec<Map<TemperateSeason, Holder<EnvironmentProvider>>> createSeasonMapCodec() {
+    protected static <S extends Enum<S> & StringRepresentable> MapCodec<Map<S, Holder<EnvironmentProvider>>> createSeasonMapCodec(
+            Codec<S> baseCodec,
+            S[] values
+    ) {
         return Codec.simpleMap(
-                TemperateSeason.CODEC,
+                baseCodec,
                 EnvironmentProvider.HOLDER_CODEC,
-                StringRepresentable.keys(TemperateSeason.values())
+                StringRepresentable.keys(values)
         ).validate(seasonMap -> {
             if (seasonMap.isEmpty()) {
                 return DataResult.error(() -> "No season key in: " + seasonMap);
@@ -101,11 +105,11 @@ public abstract sealed class SeasonalEnvironmentProvider implements EnvironmentP
         });
     }
 
-    protected static <T extends SeasonalEnvironmentProvider> MapCodec<T> validate(MapCodec<T> codec) {
+    protected static <S extends Enum<S> & StringRepresentable, T extends SeasonalEnvironmentProvider<S>> MapCodec<T> validate(MapCodec<T> codec) {
         return codec
                 .validate(
                         provider -> {
-                            Optional<TemperateSeason> season = provider.fallbackSeason();
+                            Optional<S> season = provider.fallbackSeason();
                             if (season.isEmpty()) {
                                 return DataResult.success(provider);
                             } else if (!provider.seasons().containsKey(season.get())) {

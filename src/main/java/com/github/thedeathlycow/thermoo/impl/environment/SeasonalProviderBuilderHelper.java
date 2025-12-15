@@ -10,27 +10,31 @@ import java.util.EnumMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class SeasonalProviderBuilderHelper {
+public class SeasonalProviderBuilderHelper<Season extends Enum<Season>> {
     @Nullable
-    private TemperateSeason fallbackSeason = null;
+    private Season fallbackSeason = null;
 
-    private final Map<TemperateSeason, Holder<EnvironmentProvider>> seasons = new EnumMap<>(TemperateSeason.class);
+    private final Map<Season, Holder<EnvironmentProvider>> seasons;
+
+    public SeasonalProviderBuilderHelper(Class<Season> seasonClass) {
+        this.seasons = new EnumMap<>(seasonClass);
+    }
 
     @Nullable
-    public TemperateSeason getFallbackSeason() {
+    public Season getFallbackSeason() {
         return fallbackSeason;
     }
 
-    public Map<TemperateSeason, Holder<EnvironmentProvider>> getSeasons() {
+    public Map<Season, Holder<EnvironmentProvider>> getSeasons() {
         return seasons;
     }
 
-    public void setFallbackSeason(@NotNull TemperateSeason season) {
+    public void setFallbackSeason(@NotNull Season season) {
         Objects.requireNonNull(season);
         this.fallbackSeason = season;
     }
 
-    public void setSeasonProvider(@NotNull TemperateSeason season, @NotNull Holder<EnvironmentProvider> provider) {
+    public void setSeasonProvider(@NotNull Season season, @NotNull Holder<EnvironmentProvider> provider) {
         Objects.requireNonNull(season);
         Objects.requireNonNull(provider);
         this.seasons.put(season, provider);
