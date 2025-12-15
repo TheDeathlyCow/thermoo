@@ -11,7 +11,7 @@ import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.GameRules;
 
 import java.util.Optional;
@@ -61,7 +61,7 @@ public class ThermooTestMod implements ModInitializer {
         );
     }
 
-    public static ResourceLocation location(String path) {
-        return ResourceLocation.fromNamespaceAndPath(MODID, path);
+    public static Identifier location(String path) {
+        return Identifier.fromNamespaceAndPath(MODID, path);
     }
 }

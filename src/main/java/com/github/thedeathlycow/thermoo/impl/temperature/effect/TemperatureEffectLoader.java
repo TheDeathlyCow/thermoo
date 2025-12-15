@@ -16,7 +16,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.FileToIdConverter;
 import net.minecraft.resources.RegistryOps;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.world.entity.EntityType;
@@ -27,9 +27,9 @@ import java.util.*;
 public class TemperatureEffectLoader implements SimpleSynchronousResourceReloadListener {
 
     public static final String DIRECTORY = "thermoo/temperature_effect";
-    public static final ResourceLocation ID = Thermoo.location("temperature_effects");
+    public static final Identifier ID = Thermoo.id("temperature_effects");
 
-    private final Map<ResourceLocation, ConfiguredTemperatureEffect<?>> globalEffects = new HashMap<>();
+    private final Map<Identifier, ConfiguredTemperatureEffect<?>> globalEffects = new HashMap<>();
 
     private final Map<ResourceKey<EntityType<?>>, Set<ConfiguredTemperatureEffect<?>>> entityTypeToEffect = new IdentityHashMap<>();
 
@@ -40,18 +40,18 @@ public class TemperatureEffectLoader implements SimpleSynchronousResourceReloadL
     }
 
     @Override
-    public ResourceLocation getFabricId() {
+    public Identifier getFabricId() {
         return ID;
     }
 
     @Override
     public void onResourceManagerReload(ResourceManager manager) {
-        Map<ResourceLocation, ConfiguredTemperatureEffect<?>> updatedRegistry = new HashMap<>();
+        Map<Identifier, ConfiguredTemperatureEffect<?>> updatedRegistry = new HashMap<>();
         FileToIdConverter resourceFinder = FileToIdConverter.json(DIRECTORY);
-        Map<ResourceLocation, List<Resource>> foundResources = resourceFinder.listMatchingResourceStacks(manager);
+        Map<Identifier, List<Resource>> foundResources = resourceFinder.listMatchingResourceStacks(manager);
 
-        for (Map.Entry<ResourceLocation, List<Resource>> allResources : foundResources.entrySet()) {
-            ResourceLocation effectID = resourceFinder.fileToId(allResources.getKey());
+        for (Map.Entry<Identifier, List<Resource>> allResources : foundResources.entrySet()) {
+            Identifier effectID = resourceFinder.fileToId(allResources.getKey());
             for (Resource resource : allResources.getValue()) {
                 try (BufferedReader reader = resource.openAsReader()) {
                     this.loadEffect(updatedRegistry, effectID, reader);
@@ -65,8 +65,8 @@ public class TemperatureEffectLoader implements SimpleSynchronousResourceReloadL
     }
 
     private void loadEffect(
-            Map<ResourceLocation, ConfiguredTemperatureEffect<?>> updatedRegistry,
-            ResourceLocation id,
+            Map<Identifier, ConfiguredTemperatureEffect<?>> updatedRegistry,
+            Identifier id,
             BufferedReader reader
     ) {
         JsonElement json = JsonParser.parseReader(reader);
@@ -93,7 +93,7 @@ public class TemperatureEffectLoader implements SimpleSynchronousResourceReloadL
         }
     }
 
-    private boolean objectMatchesConditions(ResourceLocation key, JsonObject json) {
+    private boolean objectMatchesConditions(Identifier key, JsonObject json) {
         if (json.has(ResourceConditions.CONDITIONS_KEY)) {
             DataResult<ResourceCondition> conditions = ResourceCondition.CONDITION_CODEC.parse(
                     JsonOps.INSTANCE,

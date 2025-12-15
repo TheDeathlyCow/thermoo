@@ -5,7 +5,7 @@ import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.core.Holder;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 
 /**
@@ -14,40 +14,40 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 public enum AttributeData {
 
     MIN_TEMPERATURE(
-            Thermoo.location("base_min_temperature"),
+            Thermoo.id("base_min_temperature"),
             ThermooAttributes.MIN_TEMPERATURE
     ),
     MAX_TEMPERATURE(
-            Thermoo.location("base_max_temperature"),
+            Thermoo.id("base_max_temperature"),
             ThermooAttributes.MAX_TEMPERATURE
     ),
     MAX_SOAKING_TICK_MULTIPLIER(
-            Thermoo.location("base_max_soaking_tick_multiplier"),
+            Thermoo.id("base_max_soaking_tick_multiplier"),
             ThermooAttributes.MAX_SOAKING_TICK_MULTIPLIER
     ),
     FROST_RESISTANCE(
-            Thermoo.location("base_frost_resistance"),
+            Thermoo.id("base_frost_resistance"),
             ThermooAttributes.FROST_RESISTANCE
     ),
     HEAT_RESISTANCE(
-            Thermoo.location("base_heat_resistance"),
+            Thermoo.id("base_heat_resistance"),
             ThermooAttributes.HEAT_RESISTANCE
     ),
     ENVIRONMENT_HEAT_RESISTANCE(
-            Thermoo.location("base_environment_heat_resistance"),
+            Thermoo.id("base_environment_heat_resistance"),
             ThermooAttributes.ENVIRONMENT_HEAT_RESISTANCE
     ),
     ENVIRONMENT_FROST_RESISTANCE(
-            Thermoo.location("base_environment_frost_resistance"),
+            Thermoo.id("base_environment_frost_resistance"),
             ThermooAttributes.ENVIRONMENT_FROST_RESISTANCE
     );
 
-    private final ResourceLocation location;
+    private final Identifier location;
     private final Holder<Attribute> attribute;
     private final Event<ThermooAttributes.SetBaseAttributeValue> baseAttributeValueEvent;
 
     AttributeData(
-            ResourceLocation location,
+            Identifier location,
             Holder<Attribute> attribute
     ) {
         this.location = location;
@@ -55,7 +55,7 @@ public enum AttributeData {
         this.baseAttributeValueEvent = createEvent(attribute);
     }
 
-    public ResourceLocation location() {
+    public Identifier location() {
         return location;
     }
 

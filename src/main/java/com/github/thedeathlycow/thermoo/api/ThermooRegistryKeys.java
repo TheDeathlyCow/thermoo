@@ -52,7 +52,7 @@ public final class ThermooRegistryKeys {
     public static final ResourceKey<Registry<EnvironmentDefinition>> ENVIRONMENT = createRegistryKey("environment");
 
     private static <T> ResourceKey<Registry<T>> createRegistryKey(String registryId) {
-        return ResourceKey.createRegistryKey(Thermoo.location(registryId));
+        return ResourceKey.createRegistryKey(Thermoo.id(registryId));
     }
 
     private ThermooRegistryKeys() {

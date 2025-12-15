@@ -22,8 +22,8 @@ public class ThermooCommonRegisters {
         registerTemperatureEffect("damage", TemperatureEffects.DAMAGE);
 
         ThermooRegistries.TEMPERATURE_EFFECTS.addAlias(
-                Thermoo.location("status_effect"),
-                Thermoo.location("mob_effect")
+                Thermoo.id("status_effect"),
+                Thermoo.id("mob_effect")
         );
     }
 
@@ -44,14 +44,14 @@ public class ThermooCommonRegisters {
     }
 
     private static void registerTemperatureEffect(String name, TemperatureEffect<?> temperatureEffect) {
-        Registry.register(ThermooRegistries.TEMPERATURE_EFFECTS, Thermoo.location(name), temperatureEffect);
+        Registry.register(ThermooRegistries.TEMPERATURE_EFFECTS, Thermoo.id(name), temperatureEffect);
     }
 
     private static void registerEnvironmentProviderType(String name, EnvironmentProviderType<?> providerType) {
-        Registry.register(ThermooRegistries.ENVIRONMENT_PROVIDER_TYPE, Thermoo.location(name), providerType);
+        Registry.register(ThermooRegistries.ENVIRONMENT_PROVIDER_TYPE, Thermoo.id(name), providerType);
     }
 
     private static void registerLootConditionType(String name, LootItemConditionType lootConditionType) {
-        Registry.register(BuiltInRegistries.LOOT_CONDITION_TYPE, Thermoo.location(name), lootConditionType);
+        Registry.register(BuiltInRegistries.LOOT_CONDITION_TYPE, Thermoo.id(name), lootConditionType);
     }
 }

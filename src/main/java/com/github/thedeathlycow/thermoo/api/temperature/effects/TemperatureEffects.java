@@ -1,7 +1,7 @@
 package com.github.thedeathlycow.thermoo.api.temperature.effects;
 
 import com.github.thedeathlycow.thermoo.impl.temperature.effect.TemperatureEffectManager;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
@@ -79,7 +79,7 @@ public final class TemperatureEffects {
      * @return Returns the effect with the given resource location, or null if not present.
      */
     @Nullable
-    public static ConfiguredTemperatureEffect<?> getEffect(ResourceLocation location) {
+    public static ConfiguredTemperatureEffect<?> getEffect(Identifier location) {
         return TemperatureEffectManager.INSTANCE.getEffect(location);
     }
 

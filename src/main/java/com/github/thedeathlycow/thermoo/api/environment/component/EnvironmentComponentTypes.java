@@ -53,7 +53,7 @@ public final class EnvironmentComponentTypes {
     ) {
         return Registry.register(
                 ThermooRegistries.ENVIRONMENT_COMPONENT_TYPE,
-                Thermoo.location(name),
+                Thermoo.id(name),
                 builderOperator.apply(DataComponentType.builder())
                         .build()
         );

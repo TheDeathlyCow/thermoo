@@ -44,15 +44,15 @@ public final class ThermooTags {
 
 
     private static TagKey<EntityType<?>> createEntityTypeTag(String path) {
-        return TagKey.create(Registries.ENTITY_TYPE, Thermoo.location(path));
+        return TagKey.create(Registries.ENTITY_TYPE, Thermoo.id(path));
     }
 
     private static TagKey<Block> createBlockTag(String path) {
-        return TagKey.create(Registries.BLOCK, Thermoo.location(path));
+        return TagKey.create(Registries.BLOCK, Thermoo.id(path));
     }
 
     private static TagKey<Item> createItemTag(String path) {
-        return TagKey.create(Registries.ITEM, Thermoo.location(path));
+        return TagKey.create(Registries.ITEM, Thermoo.id(path));
     }
 
     private ThermooTags() {

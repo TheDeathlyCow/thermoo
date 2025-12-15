@@ -5,7 +5,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -28,7 +28,7 @@ public final class AttributeModifierTemperatureEffect extends TemperatureEffect<
                     BuiltInRegistries.ATTRIBUTE.holderByNameCodec()
                             .fieldOf("attribute_type")
                             .forGetter(Config::attribute),
-                    ResourceLocation.CODEC
+                    Identifier.CODEC
                             .fieldOf("id")
                             .forGetter(Config::location),
                     AttributeModifier.Operation.CODEC
@@ -75,7 +75,7 @@ public final class AttributeModifierTemperatureEffect extends TemperatureEffect<
     public record Config(
             float value,
             Holder<Attribute> attribute,
-            ResourceLocation location,
+            Identifier location,
             AttributeModifier.Operation operation
     ) {
         /**
@@ -84,7 +84,7 @@ public final class AttributeModifierTemperatureEffect extends TemperatureEffect<
          * Mappings.
          */
         @Deprecated(since = "8.1.0", forRemoval = true)
-        public ResourceLocation id() {
+        public Identifier id() {
             return location;
         }
     }

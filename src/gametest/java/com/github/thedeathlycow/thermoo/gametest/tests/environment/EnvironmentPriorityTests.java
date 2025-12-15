@@ -10,7 +10,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Biomes;
@@ -27,11 +27,11 @@ public class EnvironmentPriorityTests {
                 .lookupOrThrow(Registries.BIOME)
                 .getOrThrow(Biomes.NETHER_WASTES);
 
-        List<ResourceLocation> loadedEnvironments = EnvironmentLookupImpl.getAllMatchingEnvironments(netherWastes, registry)
+        List<Identifier> loadedEnvironments = EnvironmentLookupImpl.getAllMatchingEnvironments(netherWastes, registry)
                 .map(registry::getKey)
                 .toList();
 
-        List<ResourceLocation> expectedEnvironments = List.of(
+        List<Identifier> expectedEnvironments = List.of(
                 ThermooTestMod.location("priority/high_priority"),
                 ThermooTestMod.location("priority/default_priority"),
                 ThermooTestMod.location("priority/low_priority")

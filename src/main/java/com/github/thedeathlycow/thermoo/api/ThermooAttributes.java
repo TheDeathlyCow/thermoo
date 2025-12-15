@@ -161,7 +161,7 @@ public final class ThermooAttributes {
     }
 
     private static Holder<Attribute> register(String name, Attribute attribute) {
-        return Registry.registerForHolder(BuiltInRegistries.ATTRIBUTE, Thermoo.location(name), attribute);
+        return Registry.registerForHolder(BuiltInRegistries.ATTRIBUTE, Thermoo.id(name), attribute);
     }
 
     private ThermooAttributes() {

@@ -16,7 +16,7 @@ import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.commands.synchronization.ArgumentTypeInfo;
 import net.minecraft.commands.synchronization.SingletonArgumentInfo;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.PackType;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
@@ -48,13 +48,13 @@ public class Thermoo implements ModInitializer {
     @Override
     public void onInitialize() {
         ArgumentTypeRegistry.registerArgumentType(
-                Thermoo.location("heating_mode"),
+                Thermoo.id("heating_mode"),
                 HeatingModeArgumentType.class,
                 HEATING_MODE_ARG_SERIALIZER
         );
 
         ArgumentTypeRegistry.registerArgumentType(
-                Thermoo.location("temperature_unit"),
+                Thermoo.id("temperature_unit"),
                 TemperatureUnitArgumentType.class,
                 TEMPERATURE_UNIT_ARG_SERIALIZER
         );
@@ -90,14 +90,14 @@ public class Thermoo implements ModInitializer {
     }
 
     /**
-     * Creates a new {@link ResourceLocation} under the namespace {@value #MODID}
+     * Creates a new {@link Identifier} under the namespace {@value #MODID}
      *
      * @param path The identifier path
-     * @return Returns a new {@link ResourceLocation}
+     * @return Returns a new {@link Identifier}
      */
     @Contract("_->new")
-    public static ResourceLocation location(String path) {
-        return ResourceLocation.fromNamespaceAndPath(MODID, path);
+    public static Identifier id(String path) {
+        return Identifier.fromNamespaceAndPath(MODID, path);
     }
 
     public static ThermooConfig getConfig() {

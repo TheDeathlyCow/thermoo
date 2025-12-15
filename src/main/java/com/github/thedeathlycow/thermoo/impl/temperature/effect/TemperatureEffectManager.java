@@ -4,7 +4,7 @@ import com.github.thedeathlycow.thermoo.api.temperature.effects.ConfiguredTemper
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 
@@ -17,7 +17,7 @@ public class TemperatureEffectManager {
 
     private final Map<ResourceKey<EntityType<?>>, Set<EntityTypeCacheEntry>> entityTypeCache = new IdentityHashMap<>();
 
-    private final Map<ResourceLocation, ConfiguredTemperatureEffect<?>> registry = new HashMap<>();
+    private final Map<Identifier, ConfiguredTemperatureEffect<?>> registry = new HashMap<>();
 
     public Set<EntityTypeCacheEntry> getEffectsEntriesForEntity(LivingEntity entity) {
         EntityType<?> type = entity.getType();
@@ -43,16 +43,16 @@ public class TemperatureEffectManager {
         );
 
         if (Thermoo.LOGGER.isDebugEnabled()) {
-            ResourceLocation[] effectIds = effects.stream()
+            Identifier[] effectIds = effects.stream()
                     .map(entry -> entry.location)
-                    .toArray(ResourceLocation[]::new);
+                    .toArray(Identifier[]::new);
             Thermoo.LOGGER.debug("Available Temperature Effects for {}: {}", entityTypeKey, Arrays.toString(effectIds));
         }
 
         return effects;
     }
 
-    public ConfiguredTemperatureEffect<?> getEffect(ResourceLocation location) {
+    public ConfiguredTemperatureEffect<?> getEffect(Identifier location) {
         return this.registry.getOrDefault(location, null);
     }
 
@@ -60,13 +60,13 @@ public class TemperatureEffectManager {
         return this.registry.values();
     }
 
-    public record EntityTypeCacheEntry(ResourceLocation location, ConfiguredTemperatureEffect<?> effect) {
-        public EntityTypeCacheEntry(Map.Entry<ResourceLocation, ConfiguredTemperatureEffect<?>> mapEntry) {
+    public record EntityTypeCacheEntry(Identifier location, ConfiguredTemperatureEffect<?> effect) {
+        public EntityTypeCacheEntry(Map.Entry<Identifier, ConfiguredTemperatureEffect<?>> mapEntry) {
             this(mapEntry.getKey(), mapEntry.getValue());
         }
     }
 
-    void updateRegistry(Map<ResourceLocation, ConfiguredTemperatureEffect<?>> effectsRegistry) {
+    void updateRegistry(Map<Identifier, ConfiguredTemperatureEffect<?>> effectsRegistry) {
         this.clearCache();
 
         this.registry.clear();

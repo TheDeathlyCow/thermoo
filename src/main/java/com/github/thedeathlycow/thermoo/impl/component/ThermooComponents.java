@@ -10,17 +10,17 @@ import org.ladysnake.cca.api.v3.entity.EntityComponentInitializer;
 public final class ThermooComponents implements EntityComponentInitializer {
 
     public static final ComponentKey<EnvironmentComponent> TEMPERATURE = ComponentRegistry.getOrCreate(
-            Thermoo.location("temperature"),
+            Thermoo.id("temperature"),
             EnvironmentComponent.class
     );
 
     public static final ComponentKey<EnvironmentComponent> WETNESS = ComponentRegistry.getOrCreate(
-            Thermoo.location("wetness"),
+            Thermoo.id("wetness"),
             EnvironmentComponent.class
     );
 
     public static final ComponentKey<TemperatureEffectsComponent> TEMPERATURE_EFFECTS = ComponentRegistry.getOrCreate(
-            Thermoo.location("temperature_effects"),
+            Thermoo.id("temperature_effects"),
             TemperatureEffectsComponent.class
     );
 

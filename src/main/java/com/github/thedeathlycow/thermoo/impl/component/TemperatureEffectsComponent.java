@@ -2,7 +2,7 @@ package com.github.thedeathlycow.thermoo.impl.component;
 
 import com.github.thedeathlycow.thermoo.api.temperature.effects.ConfiguredTemperatureEffect;
 import com.github.thedeathlycow.thermoo.impl.temperature.effect.TemperatureEffectManager;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
@@ -14,7 +14,7 @@ import java.util.Map;
 
 public class TemperatureEffectsComponent implements Component, ServerTickingComponent {
 
-    private final Map<ResourceLocation, Settings> effectsSettings = new HashMap<>();
+    private final Map<Identifier, Settings> effectsSettings = new HashMap<>();
 
     private final LivingEntity provider;
 
