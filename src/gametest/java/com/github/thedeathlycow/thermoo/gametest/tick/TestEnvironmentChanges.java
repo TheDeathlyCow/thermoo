@@ -17,7 +17,7 @@ public final class TestEnvironmentChanges {
      */
     public static final GameRule<@NotNull Boolean> APPLY_ENVIRONMENT_CHANGES =
             GameRuleBuilder.forBoolean(true)
-                            .buildAndRegister(ThermooTestMod.id("applyEnvironmentChanges"));
+                            .buildAndRegister(ThermooTestMod.id("apply_environment_changes"));
 
     private static final TemperatureRecord COLD_TEMPERATURE = new TemperatureRecord(5, TemperatureUnit.CELSIUS);
     private static final TemperatureRecord WARM_TEMPERATURE = new TemperatureRecord(25, TemperatureUnit.CELSIUS);

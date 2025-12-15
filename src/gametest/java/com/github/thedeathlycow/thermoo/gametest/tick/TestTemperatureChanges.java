@@ -22,14 +22,14 @@ public class TestTemperatureChanges {
      */
     public static final GameRule<@NotNull Boolean> APPLY_PASSIVE_CHANGES =
             GameRuleBuilder.forBoolean(true)
-                            .buildAndRegister(ThermooTestMod.id("applyPassiveChanges"));
+                            .buildAndRegister(ThermooTestMod.id("apply_passive_changes"));
 
     /**
      * Gamerule to enable/disable active changes for testing purposes
      */
     public static final GameRule<@NotNull Boolean> APPLY_ACTIVE_CHANGES =
             GameRuleBuilder.forBoolean(true)
-                    .buildAndRegister(ThermooTestMod.id("applyActiveChanges"));
+                    .buildAndRegister(ThermooTestMod.id("apply_active_changes"));
 
     public static int getActiveChange(EnvironmentTickContext<? extends LivingEntity> context) {
         LivingEntity affected = context.affected();

@@ -18,7 +18,7 @@ public class TestSoakableChanges {
      */
     public static final GameRule<@NotNull Boolean> ALLOW_SOAKING_UPDATES =
             GameRuleBuilder.forBoolean(true)
-                            .buildAndRegister(ThermooTestMod.id("allowSoakingUpdates"));
+                            .buildAndRegister(ThermooTestMod.id("allow_soak_updates"));
 
     public static int addSoakingChange(EnvironmentTickContext<? extends LivingEntity> context) {
         LivingEntity entity = context.affected();

@@ -21,11 +21,13 @@ public class ThermooTestMod implements ModInitializer {
     public static final String MODID = Thermoo.MODID + "-test";
     public static final GameRule<@NotNull ThermooSeason> CURRENT_SEASON =
             GameRuleBuilder.forEnum(ThermooSeason.SPRING)
-                            .buildAndRegister(id("setTestSeason"));
+                    .codec(ThermooSeason.CODEC)
+                    .buildAndRegister(id("set_test_season"));
 
     public static final GameRule<@NotNull ThermooSeason> CURRENT_TROPICAL_SEASON =
             GameRuleBuilder.forEnum(ThermooSeason.TROPICAL_DRY)
-                    .buildAndRegister(id("setTestTropicalSeason"));
+                    .codec(ThermooSeason.CODEC)
+                    .buildAndRegister(id("set_test_tropical_season"));
 
     @Override
     public void onInitialize() {

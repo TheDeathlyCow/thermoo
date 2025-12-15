@@ -3,17 +3,10 @@
     "definitions": [
         {
             "type": "minecraft:game_rules",
-            "bool_rules": [],
-            "int_rules": [
-                {
-                    "rule": "thermoo.setTestSeason",
-                    "value": 1
-                },
-                {
-                    "rule": "thermoo.setTestTropicalSeason",
-                    "value": 1
-                }
-            ]
+            "rules": {
+                "thermoo-test:set_test_season": "spring",
+                "thermoo-test:set_test_tropical_season": "wet"
+            }
         }
     ]
 }
