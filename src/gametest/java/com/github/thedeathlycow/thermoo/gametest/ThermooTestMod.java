@@ -51,7 +51,7 @@ public class ThermooTestMod implements ModInitializer {
         ModifyItemAttributeModifiersTest.initialize();
 
         ThermooSeasonEvents.GET_CURRENT_SEASON.register(
-                level -> {
+                (level, pos) -> {
                     if (level instanceof ServerLevel serverLevel) {
                         GameRules rules = serverLevel.getGameRules();
 
