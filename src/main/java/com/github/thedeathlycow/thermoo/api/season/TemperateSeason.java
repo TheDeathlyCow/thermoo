@@ -8,8 +8,11 @@ import net.minecraft.world.level.Level;
 import java.util.Optional;
 
 /**
- * Mod-agnostic Seasons enum. Thermoo does not any provide seasons-like functionality itself, but this can be used to
- * better integrate with any mods that do provide season functionality.
+ * Enumeration for the four traditional (temperate) seasons. Note that Thermoo will not provide any seasons mod
+ * functionality by itself, that must be provided by an external seasons mod. This is primarily intended to be used for
+ * mod-agnostic seasons mod integration.
+ *
+ * @see TropicalSeason
  */
 public enum TemperateSeason implements StringRepresentable {
     SPRING("spring"),
@@ -28,13 +31,13 @@ public enum TemperateSeason implements StringRepresentable {
     /**
      * Shorthand for invoking {@link ThermooSeasonEvents#GET_CURRENT_SEASON}.
      * <p>
-     * Retrieves the current season, if a season mod is loaded. Thermoo does not add seasons by itself, seasons must be
-     * implemented by another mod like Fabric Seasons or Serene Seasons. This event just places season integration into
-     * a common source.
+     * Retrieves the current temperate season at a position in a level, if a season mod is loaded. Thermoo does not add
+     * seasons by itself, seasons must be implemented by another mod like Fabric Seasons or Serene Seasons. This event
+     * just places season integration into a common source.
      * <p>
-     * This event should only ever return the temperate seasons, that is {@link #SPRING}, {@link #SUMMER},
-     * {@link #AUTUMN}, or {@link #WINTER}, and never the tropical seasons. For tropical seasons, use
-     * {@link TropicalSeason}
+     * If any listener returns a non-empty season, then all further processing is cancelled and that season is returned.
+     * <p>
+     * If the queried position does not have seasons, or a seasons mod is not installed, then returns empty.
      *
      * @param level The current world / level to get the season from.
      * @return Returns the current season if a Seasons mod is installed, or empty if no seasons mod is installed.

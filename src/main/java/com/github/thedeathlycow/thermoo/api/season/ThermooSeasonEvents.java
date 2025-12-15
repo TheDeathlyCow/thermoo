@@ -8,9 +8,9 @@ import net.minecraft.world.level.Level;
 import java.util.Optional;
 
 /**
- * Events related to Seasons mod integration in Thermoo. Thermoo does not add seasonal functionality by itself, seasons
- * must be implemented by another mod like Fabric Seasons or Serene Seasons. This only provides the ability to query
- * seasons if you want to use them.
+ * Events related to Seasons in Thermoo. Note that Thermoo will not provide any seasons mod functionality by itself,
+ * that must be provided by an external seasons mod. This is primarily intended to be used for mod-agnostic seasons mod
+ * integration.
  */
 public final class ThermooSeasonEvents {
     private ThermooSeasonEvents() {
@@ -18,13 +18,16 @@ public final class ThermooSeasonEvents {
     }
 
     /**
-     * Retrieves the current season. This event just places season integration into a common source.
+     * Retrieves the current temperate season at a position in a level, if a season mod is loaded. Thermoo does not add
+     * seasons by itself, seasons must be implemented by another mod like Fabric Seasons or Serene Seasons. This event
+     * just places season integration into a common source.
      * <p>
      * If any listener returns a non-empty season, then all further processing is cancelled and that season is returned.
      * <p>
-     * Returns empty by default.
+     * If the queried position does not have seasons, or a seasons mod is not installed, then returns empty.
      * 
      * @see TemperateSeason#getCurrentSeason(Level, BlockPos)
+     * @see #GET_CURRENT_TROPICAL_SEASON
      */
     public static final Event<CurrentSeasonCallback> GET_CURRENT_SEASON = EventFactory.createArrayBacked(
             CurrentSeasonCallback.class,
@@ -41,14 +44,16 @@ public final class ThermooSeasonEvents {
     );
 
     /**
-     * Retrieves the current tropical season at a positive in the level. If the position queried is not in a tropical
-     * biome, or a seasons mod is not loaded, then empty should be returned.
+     * Retrieves the current tropical season at a position in a level, if a season mod is loaded. Thermoo does not add
+     * seasons by itself, seasons must be implemented by another mod like Fabric Seasons or Serene Seasons. This event
+     * just places season integration into a common source.
      * <p>
      * If any listener returns a non-empty season, then all further processing is cancelled and that season is returned.
      * <p>
-     * Returns empty by default.
+     * If the queried position is not tropical, or a seasons mod is not installed, then returns empty.
      * 
      * @see TropicalSeason#getCurrentSeason(Level, BlockPos)
+     * @see #GET_CURRENT_SEASON
      */
     public static final Event<CurrentTropicalSeasonCallback> GET_CURRENT_TROPICAL_SEASON = EventFactory.createArrayBacked(
             CurrentTropicalSeasonCallback.class,
