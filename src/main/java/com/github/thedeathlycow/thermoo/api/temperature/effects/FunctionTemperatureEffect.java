@@ -12,6 +12,9 @@ import net.minecraft.nbt.TagParser;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.ServerFunctionManager;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.permissions.LevelBasedPermissionSet;
+import net.minecraft.server.permissions.PermissionLevel;
+import net.minecraft.server.permissions.PermissionSet;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.util.profiling.Profiler;
 import net.minecraft.util.profiling.ProfilerFiller;
@@ -57,10 +60,12 @@ public final class FunctionTemperatureEffect extends TemperatureEffect<FunctionT
 
         config.function.get(functionManager).ifPresent(
                 func -> {
+                    PermissionLevel permissionLevel = PermissionLevel.byId(config.permissionLevel());
+                    PermissionSet permissionSet = LevelBasedPermissionSet.forLevel(permissionLevel);
+
                     CommandSourceStack commandSource = victim.createCommandSourceStackForNameResolution(serverLevel)
                             .withSuppressedOutput()
-                            // TODO: upgrade to new permissions system?
-                            .withPermission(config.permissionLevel);
+                            .withPermission(permissionSet);
 
                     this.execute(
                             func,
