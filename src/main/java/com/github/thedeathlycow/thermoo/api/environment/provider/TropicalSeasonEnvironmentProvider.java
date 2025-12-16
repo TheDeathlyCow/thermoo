@@ -1,8 +1,7 @@
 package com.github.thedeathlycow.thermoo.api.environment.provider;
 
-import com.github.thedeathlycow.thermoo.api.season.ThermooSeason;
+import com.github.thedeathlycow.thermoo.api.season.TropicalSeason;
 import com.github.thedeathlycow.thermoo.impl.environment.SeasonalProviderBuilderHelper;
-import com.mojang.serialization.DataResult;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
@@ -17,15 +16,14 @@ import java.util.Optional;
 /**
  * A seasonal environment provider for the tropical seasons (wet and dry).
  */
-public final class TropicalSeasonEnvironmentProvider extends SeasonalEnvironmentProvider {
+public final class TropicalSeasonEnvironmentProvider extends SeasonalEnvironmentProvider<TropicalSeason> {
     public static final MapCodec<TropicalSeasonEnvironmentProvider> CODEC = validate(
             RecordCodecBuilder.mapCodec(
                     instance -> instance.group(
-                            ThermooSeason.CODEC
+                            TropicalSeason.CODEC
                                     .optionalFieldOf("fallback_season")
                                     .forGetter(TropicalSeasonEnvironmentProvider::fallbackSeason),
-                            SeasonalEnvironmentProvider.createSeasonMapCodec()
-                                    .validate(TropicalSeasonEnvironmentProvider::allKeysAreTropical)
+                            SeasonalEnvironmentProvider.createSeasonMapCodec(TropicalSeason.CODEC, TropicalSeason.values())
                                     .fieldOf("seasons")
                                     .forGetter(TropicalSeasonEnvironmentProvider::seasons)
                     ).apply(instance, TropicalSeasonEnvironmentProvider::new)
@@ -40,10 +38,10 @@ public final class TropicalSeasonEnvironmentProvider extends SeasonalEnvironment
     }
 
     private TropicalSeasonEnvironmentProvider(
-            Optional<ThermooSeason> fallbackSeason,
-            Map<ThermooSeason, Holder<EnvironmentProvider>> seasons
+            Optional<TropicalSeason> fallbackSeason,
+            Map<TropicalSeason, Holder<EnvironmentProvider>> seasons
     ) {
-        super(fallbackSeason, seasons);
+        super(fallbackSeason, seasons, TropicalSeason.class);
     }
 
     @Override
@@ -52,26 +50,15 @@ public final class TropicalSeasonEnvironmentProvider extends SeasonalEnvironment
     }
 
     @Override
-    protected Optional<ThermooSeason> getCurrentSeason(Level level, BlockPos pos) {
-        return ThermooSeason.getCurrentTropicalSeason(level, pos);
-    }
-
-    private static DataResult<Map<ThermooSeason, Holder<EnvironmentProvider>>> allKeysAreTropical(
-            Map<ThermooSeason, Holder<EnvironmentProvider>> seasonMap
-    ) {
-        for (ThermooSeason season : seasonMap.keySet()) {
-            if (!season.isTropical()) {
-                return DataResult.error(() -> "Found temperate season '" + season.name() + "' in a tropical season map!");
-            }
-        }
-        return DataResult.success(seasonMap);
+    protected Optional<TropicalSeason> getCurrentSeason(Level level, BlockPos pos) {
+        return TropicalSeason.getCurrentSeason(level, pos);
     }
 
     /**
      * Builder for tropical season providers. By default, there is no fallback season and the seasons map is empty.
      */
     public static final class Builder {
-        private final SeasonalProviderBuilderHelper helper = new SeasonalProviderBuilderHelper();
+        private final SeasonalProviderBuilderHelper<TropicalSeason> helper = new SeasonalProviderBuilderHelper<>(TropicalSeason.class);
 
         private Builder() {
 
@@ -83,11 +70,9 @@ public final class TropicalSeasonEnvironmentProvider extends SeasonalEnvironment
          * @param season A non-null tropical season to add as fallback.
          * @return Returns this builder
          */
-        public Builder withFallbackSeason(@NotNull ThermooSeason season) {
+        public Builder withFallbackSeason(@NotNull TropicalSeason season) {
             Objects.requireNonNull(season);
-            if (season.isTropical()) {
-                this.helper.setFallbackSeason(season);
-            }
+            this.helper.setFallbackSeason(season);
             return this;
         }
 
@@ -98,11 +83,9 @@ public final class TropicalSeasonEnvironmentProvider extends SeasonalEnvironment
          * @param provider A non-null provider to add
          * @return Returns this builder
          */
-        public Builder addSeasonProvider(@NotNull ThermooSeason season, @NotNull Holder<EnvironmentProvider> provider) {
+        public Builder addSeasonProvider(@NotNull TropicalSeason season, @NotNull Holder<EnvironmentProvider> provider) {
             Objects.requireNonNull(season);
-            if (season.isTropical()) {
-                this.helper.setSeasonProvider(season, provider);
-            }
+            this.helper.setSeasonProvider(season, provider);
             return this;
         }
 

@@ -18,7 +18,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.server.permissions.LevelBasedPermissionSet;
 import net.minecraft.server.permissions.Permissions;
 import net.minecraft.world.level.biome.Biome;
 import org.jetbrains.annotations.Contract;

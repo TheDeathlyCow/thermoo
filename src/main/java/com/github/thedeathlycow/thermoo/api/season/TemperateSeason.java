@@ -1,0 +1,54 @@
+package com.github.thedeathlycow.thermoo.api.season;
+
+import com.mojang.serialization.Codec;
+import net.minecraft.core.BlockPos;
+import net.minecraft.util.StringRepresentable;
+import net.minecraft.world.level.Level;
+
+import java.util.Optional;
+
+/**
+ * Enumeration for the four traditional (temperate) seasons. Note that Thermoo will not provide any seasons mod
+ * functionality by itself, that must be provided by an external seasons mod. This is primarily intended to be used for
+ * mod-agnostic seasons mod integration.
+ *
+ * @see TropicalSeason
+ */
+public enum TemperateSeason implements StringRepresentable {
+    SPRING("spring"),
+    SUMMER("summer"),
+    AUTUMN("autumn"),
+    WINTER("winter");
+
+    public static final Codec<TemperateSeason> CODEC = StringRepresentable.fromEnum(TemperateSeason::values);
+
+    private final String name;
+
+    TemperateSeason(String name) {
+        this.name = name;
+    }
+
+    /**
+     * Shorthand for invoking {@link ThermooSeasonEvents#GET_CURRENT_SEASON}.
+     * <p>
+     * Retrieves the current temperate season at a position in a level, if a season mod is loaded. Thermoo does not add
+     * seasons by itself, seasons must be implemented by another mod like Fabric Seasons or Serene Seasons. This event
+     * just places season integration into a common source.
+     * <p>
+     * If any listener returns a non-empty season, then all further processing is cancelled and that season is returned.
+     * <p>
+     * If the queried position does not have seasons, or a seasons mod is not installed, then returns empty.
+     *
+     * @param level The current world / level to get the season from.
+     * @return Returns the current season if a Seasons mod is installed, or empty if no seasons mod is installed.
+     * @see TropicalSeason to get the current tropical season
+     */
+    public static Optional<TemperateSeason> getCurrentSeason(Level level, BlockPos pos) {
+        return ThermooSeasonEvents.GET_CURRENT_SEASON.invoker().getCurrentSeason(level, pos);
+    }
+
+    @Override
+    public String getSerializedName() {
+        return this.name;
+    }
+}

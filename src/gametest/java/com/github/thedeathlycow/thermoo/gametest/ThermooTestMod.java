@@ -1,8 +1,9 @@
 package com.github.thedeathlycow.thermoo.gametest;
 
 import com.github.thedeathlycow.thermoo.api.ThermooAttributes;
-import com.github.thedeathlycow.thermoo.api.season.ThermooSeason;
+import com.github.thedeathlycow.thermoo.api.season.TemperateSeason;
 import com.github.thedeathlycow.thermoo.api.season.ThermooSeasonEvents;
+import com.github.thedeathlycow.thermoo.api.season.TropicalSeason;
 import com.github.thedeathlycow.thermoo.gametest.tests.item.ModifyItemAttributeModifiersTest;
 import com.github.thedeathlycow.thermoo.gametest.tick.TestEnvironmentChanges;
 import com.github.thedeathlycow.thermoo.gametest.tick.TestSoakableChanges;
@@ -29,14 +30,14 @@ public class ThermooTestMod implements ModInitializer {
             GameRuleBuilder.forBoolean(false)
                     .buildAndRegister(id("enable_tropical_seasons"));
 
-    public static final GameRule<@NotNull ThermooSeason> CURRENT_SEASON =
-            GameRuleBuilder.forEnum(ThermooSeason.SPRING)
-                    .codec(ThermooSeason.CODEC)
+    public static final GameRule<@NotNull TemperateSeason> CURRENT_SEASON =
+            GameRuleBuilder.forEnum(TemperateSeason.SPRING)
+                    .codec(TemperateSeason.CODEC)
                     .buildAndRegister(id("set_test_season"));
 
-    public static final GameRule<@NotNull ThermooSeason> CURRENT_TROPICAL_SEASON =
-            GameRuleBuilder.forEnum(ThermooSeason.TROPICAL_DRY)
-                    .codec(ThermooSeason.CODEC)
+    public static final GameRule<@NotNull TropicalSeason> CURRENT_TROPICAL_SEASON =
+            GameRuleBuilder.forEnum(TropicalSeason.DRY)
+                    .codec(TropicalSeason.CODEC)
                     .buildAndRegister(id("set_test_tropical_season"));
 
     @Override
@@ -50,7 +51,7 @@ public class ThermooTestMod implements ModInitializer {
         ModifyItemAttributeModifiersTest.initialize();
 
         ThermooSeasonEvents.GET_CURRENT_SEASON.register(
-                level -> {
+                (level, pos) -> {
                     if (level instanceof ServerLevel serverLevel) {
                         GameRules rules = serverLevel.getGameRules();
 

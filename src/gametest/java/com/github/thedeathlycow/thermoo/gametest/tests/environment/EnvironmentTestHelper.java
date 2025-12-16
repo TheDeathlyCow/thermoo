@@ -4,7 +4,8 @@ import com.github.thedeathlycow.thermoo.api.environment.component.EnvironmentCom
 import com.github.thedeathlycow.thermoo.api.environment.component.RelativeHumidityComponent;
 import com.github.thedeathlycow.thermoo.api.environment.component.TemperatureRecordComponent;
 import com.github.thedeathlycow.thermoo.api.environment.provider.EnvironmentProvider;
-import com.github.thedeathlycow.thermoo.api.season.ThermooSeason;
+import com.github.thedeathlycow.thermoo.api.season.TemperateSeason;
+import com.github.thedeathlycow.thermoo.api.season.TropicalSeason;
 import com.github.thedeathlycow.thermoo.api.util.TemperatureRecord;
 import com.github.thedeathlycow.thermoo.api.util.TemperatureUnit;
 import com.github.thedeathlycow.thermoo.gametest.ThermooTestMod;
@@ -97,17 +98,18 @@ public final class EnvironmentTestHelper {
                 .orElseThrow();
     }
 
-    public static void expectTemperateSeason(GameTestHelper context, @Nullable ThermooSeason season) {
-        ThermooSeason newTemperateSeason = ThermooSeason.getCurrentSeason(context.getLevel()).orElse(null);
+    public static void expectTemperateSeason(GameTestHelper context, @Nullable TemperateSeason season) {
+        BlockPos pos = context.absolutePos(BlockPos.ZERO);
+        TemperateSeason newTemperateSeason = TemperateSeason.getCurrentSeason(context.getLevel(), pos).orElse(null);
         context.assertTrue(
                 newTemperateSeason == season,
                 Component.literal("Expected temperate season to be " + season + " but was " + newTemperateSeason)
         );
     }
 
-    public static void expectTropicalSeason(GameTestHelper context, @Nullable ThermooSeason season) {
+    public static void expectTropicalSeason(GameTestHelper context, @Nullable TropicalSeason season) {
         BlockPos pos = context.absolutePos(BlockPos.ZERO);
-        ThermooSeason newTropicalSeason = ThermooSeason.getCurrentTropicalSeason(context.getLevel(), pos).orElse(null);
+        TropicalSeason newTropicalSeason = TropicalSeason.getCurrentSeason(context.getLevel(), pos).orElse(null);
 
         context.assertTrue(
                 newTropicalSeason == season,
