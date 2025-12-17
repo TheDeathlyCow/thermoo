@@ -69,6 +69,20 @@ public final class ThermooSeasonEvents {
             }
     );
 
+    public static final Event<CurrentPolarSeasonCallback> GET_CURRENT_POLAR_SEASON = EventFactory.createArrayBacked(
+            CurrentPolarSeasonCallback.class,
+            callbacks -> (level, pos) -> {
+                for (CurrentPolarSeasonCallback callback : callbacks) {
+                    Optional<PolarSeason> season = callback.getCurrentPolarSeason(level, pos);
+                    if (season.isPresent()) {
+                        return season;
+                    }
+                }
+
+                return Optional.empty();
+            }
+    );
+
     @FunctionalInterface
     public interface CurrentSeasonCallback {
         Optional<TemperateSeason> getCurrentSeason(Level level, BlockPos pos);
@@ -77,5 +91,10 @@ public final class ThermooSeasonEvents {
     @FunctionalInterface
     public interface CurrentTropicalSeasonCallback {
         Optional<TropicalSeason> getCurrentTropicalSeason(Level level, BlockPos pos);
+    }
+
+    @FunctionalInterface
+    public interface CurrentPolarSeasonCallback {
+        Optional<PolarSeason> getCurrentPolarSeason(Level level, BlockPos pos);
     }
 }
