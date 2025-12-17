@@ -26,6 +26,8 @@ public final class EnvironmentProviderTypes {
      */
     public static final EnvironmentProviderType<TropicalSeasonEnvironmentProvider> TROPICAL_SEASONAL = new EnvironmentProviderType<>(TropicalSeasonEnvironmentProvider.CODEC);
 
+    public static final EnvironmentProviderType<PolarSeasonEnvironmentProvider> POLAR_SEASONAL = new EnvironmentProviderType<>(PolarSeasonEnvironmentProvider.CODEC);
+
     /**
      * A provider that can apply a list of modifiers to a base provider
      *

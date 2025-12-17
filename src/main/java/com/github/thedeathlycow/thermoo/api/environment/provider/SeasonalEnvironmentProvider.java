@@ -19,7 +19,7 @@ import java.util.Optional;
  * An environment provider that dispatches to another provider based on the current season state of a world.
  */
 public abstract sealed class SeasonalEnvironmentProvider<S extends Enum<S> & StringRepresentable> implements EnvironmentProvider
-        permits TemperateSeasonEnvironmentProvider, TropicalSeasonEnvironmentProvider {
+        permits TemperateSeasonEnvironmentProvider, TropicalSeasonEnvironmentProvider, PolarSeasonEnvironmentProvider {
     private final Optional<S> fallbackSeason;
     private final Map<S, Holder<EnvironmentProvider>> seasons;
 
