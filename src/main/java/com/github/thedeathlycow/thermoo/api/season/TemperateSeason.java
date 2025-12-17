@@ -14,7 +14,7 @@ import java.util.Optional;
  *
  * @see TropicalSeason
  */
-public enum TemperateSeason implements StringRepresentable {
+public enum TemperateSeason implements ThermooSeason {
     SPRING("spring"),
     SUMMER("summer"),
     AUTUMN("autumn"),
@@ -43,7 +43,7 @@ public enum TemperateSeason implements StringRepresentable {
      * @return Returns the current season if a Seasons mod is installed, or empty if no seasons mod is installed.
      * @see TropicalSeason to get the current tropical season
      */
-    public static Optional<TemperateSeason> getCurrentSeason(Level level, BlockPos pos) {
+    public static Optional<ThermooSeasonState<TemperateSeason>> getCurrentSeason(Level level, BlockPos pos) {
         return ThermooSeasonEvents.GET_CURRENT_SEASON.invoker().getCurrentSeason(level, pos);
     }
 

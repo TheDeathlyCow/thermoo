@@ -4,6 +4,7 @@ import com.github.thedeathlycow.thermoo.api.environment.attribute.ThermooEnviron
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.core.BlockPos;
+import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.level.Level;
 
 import java.util.Optional;
@@ -31,11 +32,11 @@ public final class ThermooSeasonEvents {
      * @see TemperateSeason#getCurrentSeason(Level, BlockPos)
      * @see #GET_CURRENT_TROPICAL_SEASON
      */
-    public static final Event<CurrentSeasonCallback> GET_CURRENT_SEASON = EventFactory.createArrayBacked(
+    public static final Event<CurrentSeasonCallback<TemperateSeason>> GET_CURRENT_SEASON = EventFactory.createArrayBacked(
             CurrentSeasonCallback.class,
             callbacks -> (level, pos) -> {
-                for (CurrentSeasonCallback callback : callbacks) {
-                    Optional<TemperateSeason> season = callback.getCurrentSeason(level, pos);
+                for (CurrentSeasonCallback<TemperateSeason> callback : callbacks) {
+                    Optional<ThermooSeasonState<TemperateSeason>> season = callback.getCurrentSeason(level, pos);
                     if (season.isPresent()) {
                         return season;
                     }
@@ -59,11 +60,11 @@ public final class ThermooSeasonEvents {
      * @see TropicalSeason#getCurrentSeason(Level, BlockPos)
      * @see #GET_CURRENT_SEASON
      */
-    public static final Event<CurrentTropicalSeasonCallback> GET_CURRENT_TROPICAL_SEASON = EventFactory.createArrayBacked(
-            CurrentTropicalSeasonCallback.class,
+    public static final Event<CurrentSeasonCallback<TropicalSeason>> GET_CURRENT_TROPICAL_SEASON = EventFactory.createArrayBacked(
+            CurrentSeasonCallback.class,
             callbacks -> (level, pos) -> {
-                for (CurrentTropicalSeasonCallback callback : callbacks) {
-                    Optional<TropicalSeason> season = callback.getCurrentTropicalSeason(level, pos);
+                for (CurrentSeasonCallback<TropicalSeason> callback : callbacks) {
+                    Optional<ThermooSeasonState<TropicalSeason>> season = callback.getCurrentSeason(level, pos);
                     if (season.isPresent()) {
                         return season;
                     }
@@ -75,12 +76,7 @@ public final class ThermooSeasonEvents {
     );
 
     @FunctionalInterface
-    public interface CurrentSeasonCallback {
-        Optional<TemperateSeason> getCurrentSeason(Level level, BlockPos pos);
-    }
-
-    @FunctionalInterface
-    public interface CurrentTropicalSeasonCallback {
-        Optional<TropicalSeason> getCurrentTropicalSeason(Level level, BlockPos pos);
+    public interface CurrentSeasonCallback<S extends ThermooSeason> {
+        Optional<ThermooSeasonState<S>> getCurrentSeason(Level level, BlockPos pos);
     }
 }

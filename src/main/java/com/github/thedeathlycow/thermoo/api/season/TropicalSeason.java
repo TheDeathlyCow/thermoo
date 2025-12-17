@@ -13,7 +13,7 @@ import java.util.Optional;
  * mod-agnostic seasons mod integration.
  * @see TemperateSeason
  */
-public enum TropicalSeason implements StringRepresentable {
+public enum TropicalSeason implements ThermooSeason {
     DRY("dry"),
     WET("wet"),
     MILD("mild");
@@ -47,7 +47,7 @@ public enum TropicalSeason implements StringRepresentable {
      * @return Returns the current season if a Seasons mod is installed, or empty if no seasons mod is installed.
      * @see TemperateSeason to get the standard 'temperate' season
      */
-    public static Optional<TropicalSeason> getCurrentSeason(Level level, BlockPos pos) {
-        return ThermooSeasonEvents.GET_CURRENT_TROPICAL_SEASON.invoker().getCurrentTropicalSeason(level, pos);
+    public static Optional<ThermooSeasonState<TropicalSeason>> getCurrentSeason(Level level, BlockPos pos) {
+        return ThermooSeasonEvents.GET_CURRENT_TROPICAL_SEASON.invoker().getCurrentSeason(level, pos);
     }
 }
