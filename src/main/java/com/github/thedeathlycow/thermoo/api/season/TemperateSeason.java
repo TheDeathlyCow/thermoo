@@ -14,7 +14,7 @@ import java.util.Optional;
  *
  * @see TropicalSeason
  */
-public enum TemperateSeason implements ThermooSeason {
+public enum TemperateSeason implements ThermooSeason<TemperateSeason> {
     SPRING("spring"),
     SUMMER("summer"),
     AUTUMN("autumn"),
@@ -50,5 +50,10 @@ public enum TemperateSeason implements ThermooSeason {
     @Override
     public String getSerializedName() {
         return this.name;
+    }
+
+    @Override
+    public ThermooSeasonState<TemperateSeason> createState() {
+        return ThermooSeasonState.of(this);
     }
 }

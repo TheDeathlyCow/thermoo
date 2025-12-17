@@ -76,7 +76,7 @@ public final class ThermooSeasonEvents {
     );
 
     @FunctionalInterface
-    public interface CurrentSeasonCallback<S extends ThermooSeason> {
+    public interface CurrentSeasonCallback<S extends ThermooSeason<S>> {
         Optional<ThermooSeasonState<S>> getCurrentSeason(Level level, BlockPos pos);
     }
 }

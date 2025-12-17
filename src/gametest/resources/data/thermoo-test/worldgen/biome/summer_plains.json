@@ -1,7 +1,9 @@
 {
     "attributes": {
         "thermoo:gameplay/temperate_season": {
-            "value": "summer"
+            "value": {
+                "season": "summer"
+            }
         }
     },
     "carvers": [

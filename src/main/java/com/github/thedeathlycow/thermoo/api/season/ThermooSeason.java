@@ -2,8 +2,15 @@ package com.github.thedeathlycow.thermoo.api.season;
 
 import net.minecraft.util.StringRepresentable;
 
-public interface ThermooSeason extends StringRepresentable {
-    default ThermooSeasonState<? extends ThermooSeason> createState() {
-        return ThermooSeasonState.of(this, 0f);
-    }
+/**
+ * Contains common functionality for all thermoo season types.
+ *
+ * @see TemperateSeason
+ * @see TropicalSeason
+ */
+public sealed interface ThermooSeason<S extends ThermooSeason<S>> extends StringRepresentable permits TemperateSeason, TropicalSeason {
+    /**
+     * Creates a season state that represents the start of this season.
+     */
+    ThermooSeasonState<S> createState();
 }

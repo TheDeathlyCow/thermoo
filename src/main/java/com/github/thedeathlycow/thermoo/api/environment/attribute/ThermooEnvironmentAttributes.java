@@ -1,6 +1,7 @@
 package com.github.thedeathlycow.thermoo.api.environment.attribute;
 
 import com.github.thedeathlycow.thermoo.api.season.TemperateSeason;
+import com.github.thedeathlycow.thermoo.api.season.ThermooSeasonState;
 import com.github.thedeathlycow.thermoo.api.season.TropicalSeason;
 import com.github.thedeathlycow.thermoo.api.util.TemperatureRecord;
 import com.github.thedeathlycow.thermoo.api.util.TemperatureUnit;
@@ -19,7 +20,7 @@ public final class ThermooEnvironmentAttributes {
      *
      * @see ThermooAttributeTypes#TEMPERATE_SEASON
      */
-    public static final EnvironmentAttribute<Optional<TemperateSeason>> TEMPERATE_SEASON = EnvironmentAttribute.builder(ThermooAttributeTypes.TEMPERATE_SEASON)
+    public static final EnvironmentAttribute<Optional<ThermooSeasonState<TemperateSeason>>> TEMPERATE_SEASON = EnvironmentAttribute.builder(ThermooAttributeTypes.TEMPERATE_SEASON)
             .defaultValue(Optional.empty())
             .build();
 
@@ -28,7 +29,7 @@ public final class ThermooEnvironmentAttributes {
      *
      * @see ThermooAttributeTypes#TROPICAL_SEASON
      */
-    public static final EnvironmentAttribute<Optional<TropicalSeason>> TROPICAL_SEASON = EnvironmentAttribute.builder(ThermooAttributeTypes.TROPICAL_SEASON)
+    public static final EnvironmentAttribute<Optional<ThermooSeasonState<TropicalSeason>>> TROPICAL_SEASON = EnvironmentAttribute.builder(ThermooAttributeTypes.TROPICAL_SEASON)
             .defaultValue(Optional.empty())
             .build();
 
