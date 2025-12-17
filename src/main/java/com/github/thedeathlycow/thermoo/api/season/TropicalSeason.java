@@ -15,7 +15,8 @@ import java.util.Optional;
  */
 public enum TropicalSeason implements StringRepresentable {
     DRY("dry"),
-    WET("wet");
+    WET("wet"),
+    MILD("mild");
 
     public static final Codec<TropicalSeason> CODEC = StringRepresentable.fromEnum(TropicalSeason::values);
 
