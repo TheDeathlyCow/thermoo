@@ -8,7 +8,7 @@ import net.minecraft.world.level.Level;
 import java.util.Optional;
 
 /**
- * Enumeration for the two tropical seasons. Note that Thermoo will not provide any seasons mod
+ * Enumeration for the three tropical seasons. Note that Thermoo will not provide any seasons mod
  * functionality by itself, that must be provided by an external seasons mod. This is primarily intended to be used for
  * mod-agnostic seasons mod integration.
  * @see TemperateSeason
