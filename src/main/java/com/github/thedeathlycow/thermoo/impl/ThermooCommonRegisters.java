@@ -50,8 +50,10 @@ public class ThermooCommonRegisters {
     public static void registerEnvironmentAttributes() {
         registerAttributeType("temperate_season", ThermooAttributeTypes.TEMPERATE_SEASON);
         registerAttributeType("tropical_season", ThermooAttributeTypes.TROPICAL_SEASON);
+        registerAttributeType("temperature", ThermooAttributeTypes.TEMPERATURE);
         registerEnvironmentAttribute("gameplay/temperate_season", ThermooEnvironmentAttributes.TEMPERATE_SEASON);
         registerEnvironmentAttribute("gameplay/tropical_season", ThermooEnvironmentAttributes.TROPICAL_SEASON);
+        registerEnvironmentAttribute("gameplay/temperature", ThermooEnvironmentAttributes.TEMPERATURE);
     }
 
     private static void registerTemperatureEffect(String name, TemperatureEffect<?> temperatureEffect) {
