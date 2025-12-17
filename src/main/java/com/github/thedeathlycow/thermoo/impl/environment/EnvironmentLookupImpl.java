@@ -3,7 +3,10 @@ package com.github.thedeathlycow.thermoo.impl.environment;
 import com.github.thedeathlycow.thermoo.api.ThermooRegistryKeys;
 import com.github.thedeathlycow.thermoo.api.environment.EnvironmentDefinition;
 import com.github.thedeathlycow.thermoo.api.environment.EnvironmentLookup;
+import com.github.thedeathlycow.thermoo.api.environment.attribute.ThermooEnvironmentAttributes;
+import com.github.thedeathlycow.thermoo.api.environment.component.EnvironmentComponentTypes;
 import com.github.thedeathlycow.thermoo.api.environment.provider.EnvironmentProvider;
+import com.github.thedeathlycow.thermoo.api.util.TemperatureRecord;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.minecraft.core.BlockPos;
@@ -12,6 +15,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.world.attribute.EnvironmentAttributeSystem;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import org.jetbrains.annotations.VisibleForTesting;
@@ -36,6 +40,11 @@ public class EnvironmentLookupImpl implements EnvironmentLookup {
 
     public DataComponentMap findEnvironmentComponentsForBiome(Level level, BlockPos pos, Holder<Biome> biome) {
         DataComponentMap.Builder builder = DataComponentMap.builder();
+
+        EnvironmentAttributeSystem attributes = level.environmentAttributes();
+        TemperatureRecord baseValue = attributes.getValue(ThermooEnvironmentAttributes.TEMPERATURE, pos);
+        builder.set(EnvironmentComponentTypes.TEMPERATURE, baseValue);
+
         for (Holder<EnvironmentProvider> provider : this.getProviders(biome)) {
             provider.value().buildCurrentComponents(level, pos, biome, builder);
         }

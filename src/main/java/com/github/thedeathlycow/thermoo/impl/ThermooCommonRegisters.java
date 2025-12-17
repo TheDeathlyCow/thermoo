@@ -1,6 +1,8 @@
 package com.github.thedeathlycow.thermoo.impl;
 
 import com.github.thedeathlycow.thermoo.api.ThermooRegistries;
+import com.github.thedeathlycow.thermoo.api.environment.attribute.ThermooAttributeTypes;
+import com.github.thedeathlycow.thermoo.api.environment.attribute.ThermooEnvironmentAttributes;
 import com.github.thedeathlycow.thermoo.api.environment.provider.EnvironmentProviderType;
 import com.github.thedeathlycow.thermoo.api.environment.provider.EnvironmentProviderTypes;
 import com.github.thedeathlycow.thermoo.api.predicate.ThermooLootConditionTypes;
@@ -8,6 +10,8 @@ import com.github.thedeathlycow.thermoo.api.temperature.effects.TemperatureEffec
 import com.github.thedeathlycow.thermoo.api.temperature.effects.TemperatureEffects;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.world.attribute.AttributeType;
+import net.minecraft.world.attribute.EnvironmentAttribute;
 import net.minecraft.world.level.storage.loot.predicates.LootItemConditionType;
 
 
@@ -43,6 +47,15 @@ public class ThermooCommonRegisters {
         registerLootConditionType("soaked", ThermooLootConditionTypes.SOAKED);
     }
 
+    public static void registerEnvironmentAttributes() {
+        registerAttributeType("temperate_season", ThermooAttributeTypes.TEMPERATE_SEASON);
+        registerAttributeType("tropical_season", ThermooAttributeTypes.TROPICAL_SEASON);
+        registerAttributeType("temperature", ThermooAttributeTypes.TEMPERATURE);
+        registerEnvironmentAttribute("gameplay/temperate_season", ThermooEnvironmentAttributes.TEMPERATE_SEASON);
+        registerEnvironmentAttribute("gameplay/tropical_season", ThermooEnvironmentAttributes.TROPICAL_SEASON);
+        registerEnvironmentAttribute("gameplay/temperature", ThermooEnvironmentAttributes.TEMPERATURE);
+    }
+
     private static void registerTemperatureEffect(String name, TemperatureEffect<?> temperatureEffect) {
         Registry.register(ThermooRegistries.TEMPERATURE_EFFECTS, Thermoo.id(name), temperatureEffect);
     }
@@ -53,5 +66,13 @@ public class ThermooCommonRegisters {
 
     private static void registerLootConditionType(String name, LootItemConditionType lootConditionType) {
         Registry.register(BuiltInRegistries.LOOT_CONDITION_TYPE, Thermoo.id(name), lootConditionType);
+    }
+
+    private static <V> AttributeType<V> registerAttributeType(String name, AttributeType<V> type) {
+        return Registry.register(BuiltInRegistries.ATTRIBUTE_TYPE, Thermoo.id(name), type);
+    }
+
+    private static <V> EnvironmentAttribute<V> registerEnvironmentAttribute(String name, EnvironmentAttribute<V> attribute) {
+        return Registry.register(BuiltInRegistries.ENVIRONMENT_ATTRIBUTE, Thermoo.id(name), attribute);
     }
 }

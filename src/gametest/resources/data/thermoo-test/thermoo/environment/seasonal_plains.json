@@ -1,6 +1,7 @@
 {
     "biomes": [
-        "minecraft:plains"
+        "minecraft:plains",
+        "thermoo-test:summer_plains"
     ],
     "provider": {
         "type": "thermoo:seasonal/temperate",

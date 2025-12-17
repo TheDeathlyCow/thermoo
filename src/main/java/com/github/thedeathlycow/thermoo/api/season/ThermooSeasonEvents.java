@@ -1,5 +1,6 @@
 package com.github.thedeathlycow.thermoo.api.season;
 
+import com.github.thedeathlycow.thermoo.api.environment.attribute.ThermooEnvironmentAttributes;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.core.BlockPos;
@@ -24,7 +25,8 @@ public final class ThermooSeasonEvents {
      * <p>
      * If any listener returns a non-empty season, then all further processing is cancelled and that season is returned.
      * <p>
-     * If the queried position does not have seasons, or a seasons mod is not installed, then returns empty.
+     * If the queried position does not have seasons, or a seasons mod is not installed, then returns the environment
+     * attribute value of {@link ThermooEnvironmentAttributes#TEMPERATE_SEASON}.
      * 
      * @see TemperateSeason#getCurrentSeason(Level, BlockPos)
      * @see #GET_CURRENT_TROPICAL_SEASON
@@ -39,7 +41,8 @@ public final class ThermooSeasonEvents {
                     }
                 }
 
-                return Optional.empty();
+                return level.environmentAttributes()
+                        .getValue(ThermooEnvironmentAttributes.TEMPERATE_SEASON, pos);
             }
     );
 
@@ -50,7 +53,8 @@ public final class ThermooSeasonEvents {
      * <p>
      * If any listener returns a non-empty season, then all further processing is cancelled and that season is returned.
      * <p>
-     * If the queried position is not tropical, or a seasons mod is not installed, then returns empty.
+     * If the queried position is not tropical, or a seasons mod is not installed, then returns the environment
+     * attribute value of {@link ThermooEnvironmentAttributes#TROPICAL_SEASON}.
      * 
      * @see TropicalSeason#getCurrentSeason(Level, BlockPos)
      * @see #GET_CURRENT_SEASON
@@ -65,7 +69,8 @@ public final class ThermooSeasonEvents {
                     }
                 }
 
-                return Optional.empty();
+                return level.environmentAttributes()
+                        .getValue(ThermooEnvironmentAttributes.TROPICAL_SEASON, pos);
             }
     );
 
