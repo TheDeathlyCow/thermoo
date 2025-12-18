@@ -1,5 +1,6 @@
 package com.github.thedeathlycow.thermoo.impl;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import com.mojang.serialization.Codec;
@@ -32,5 +33,16 @@ class CodecHelperTest {
         assertFalse(result.isError());
         assertFalse(result.getOrThrow().getFirst().isEmpty());
         assertEquals(67, result.getOrThrow().getFirst().orElseThrow());
+    }
+
+    @Test
+    void decodeArray_isError() {
+        Codec<Optional<Integer>> codec = CodecHelper.optionalCodec(Codec.INT);
+        var json = new JsonArray();
+
+        var result = codec.decode(JsonOps.INSTANCE, json);
+
+        assertTrue(result.isError());
+        assertThrows(IllegalStateException.class, result::getOrThrow);
     }
 }
