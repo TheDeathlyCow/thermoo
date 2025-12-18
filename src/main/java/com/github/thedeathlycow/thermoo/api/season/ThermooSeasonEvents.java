@@ -46,7 +46,7 @@ public final class ThermooSeasonEvents {
 
                 return attributes.getValue(ThermooEnvironmentAttributes.TEMPERATE_SEASON, pos)
                         .map(season -> {
-                            float progress = attributes.getDimensionValue(ThermooEnvironmentAttributes.SEASON_PROGRESS);
+                            float progress = attributes.getDimensionValue(ThermooEnvironmentAttributes.TEMPERATE_SEASON_PROGRESS);
                             return ThermooSeasonState.of(season, progress);
                         });
             }
@@ -79,7 +79,7 @@ public final class ThermooSeasonEvents {
 
                 return attributes.getValue(ThermooEnvironmentAttributes.TROPICAL_SEASON, pos)
                         .map(season -> {
-                            float progress = attributes.getDimensionValue(ThermooEnvironmentAttributes.SEASON_PROGRESS);
+                            float progress = attributes.getDimensionValue(ThermooEnvironmentAttributes.TROPICAL_SEASON_PROGRESS);
                             return ThermooSeasonState.of(season, progress);
                         });
             }
