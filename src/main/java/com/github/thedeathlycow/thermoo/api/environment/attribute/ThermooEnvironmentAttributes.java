@@ -44,7 +44,6 @@ public final class ThermooEnvironmentAttributes {
      */
     public static final EnvironmentAttribute<Float> SEASON_PROGRESS = EnvironmentAttribute.builder(AttributeTypes.FLOAT)
             .defaultValue(0f)
-            .notPositional()
             .build();
 
     /**
