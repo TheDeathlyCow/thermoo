@@ -1,10 +1,10 @@
 package com.github.thedeathlycow.thermoo.api.environment.attribute;
 
 import com.github.thedeathlycow.thermoo.api.season.TemperateSeason;
-import com.github.thedeathlycow.thermoo.api.season.ThermooSeasonState;
 import com.github.thedeathlycow.thermoo.api.season.TropicalSeason;
 import com.github.thedeathlycow.thermoo.api.util.TemperatureRecord;
 import com.github.thedeathlycow.thermoo.api.util.TemperatureUnit;
+import net.minecraft.world.attribute.AttributeTypes;
 import net.minecraft.world.attribute.EnvironmentAttribute;
 
 import java.util.Optional;
@@ -20,8 +20,8 @@ public final class ThermooEnvironmentAttributes {
      *
      * @see ThermooAttributeTypes#TEMPERATE_SEASON
      */
-    public static final EnvironmentAttribute<SeasonStateAttribute<TemperateSeason>> TEMPERATE_SEASON = EnvironmentAttribute.builder(ThermooAttributeTypes.TEMPERATE_SEASON)
-            .defaultValue(SeasonStateAttribute.empty())
+    public static final EnvironmentAttribute<Optional<TemperateSeason>> TEMPERATE_SEASON = EnvironmentAttribute.builder(ThermooAttributeTypes.TEMPERATE_SEASON)
+            .defaultValue(Optional.empty())
             .build();
 
     /**
@@ -29,8 +29,13 @@ public final class ThermooEnvironmentAttributes {
      *
      * @see ThermooAttributeTypes#TROPICAL_SEASON
      */
-    public static final EnvironmentAttribute<SeasonStateAttribute<TropicalSeason>> TROPICAL_SEASON = EnvironmentAttribute.builder(ThermooAttributeTypes.TROPICAL_SEASON)
-            .defaultValue(SeasonStateAttribute.empty())
+    public static final EnvironmentAttribute<Optional<TropicalSeason>> TROPICAL_SEASON = EnvironmentAttribute.builder(ThermooAttributeTypes.TROPICAL_SEASON)
+            .defaultValue(Optional.empty())
+            .build();
+
+    public static final EnvironmentAttribute<Float> SEASON_PROGRESS = EnvironmentAttribute.builder(AttributeTypes.FLOAT)
+            .defaultValue(0f)
+            .notPositional()
             .build();
 
     /**

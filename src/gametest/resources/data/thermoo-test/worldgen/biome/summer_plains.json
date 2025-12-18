@@ -1,10 +1,7 @@
 {
     "attributes": {
-        "thermoo:gameplay/temperate_season": {
-            "state": {
-                "season": "summer"
-            }
-        }
+        "thermoo:gameplay/temperate_season": "summer",
+        "thermoo:gameplay/season_progress": 0.67
     },
     "carvers": [
         "minecraft:cave",

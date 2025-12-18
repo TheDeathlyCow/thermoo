@@ -53,6 +53,7 @@ public class ThermooCommonRegisters {
         registerAttributeType("temperature", ThermooAttributeTypes.TEMPERATURE);
         registerEnvironmentAttribute("gameplay/temperate_season", ThermooEnvironmentAttributes.TEMPERATE_SEASON);
         registerEnvironmentAttribute("gameplay/tropical_season", ThermooEnvironmentAttributes.TROPICAL_SEASON);
+        registerEnvironmentAttribute("gameplay/season_progress", ThermooEnvironmentAttributes.SEASON_PROGRESS);
         registerEnvironmentAttribute("gameplay/temperature", ThermooEnvironmentAttributes.TEMPERATURE);
     }
 

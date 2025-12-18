@@ -48,7 +48,7 @@ public enum TropicalSeason implements ThermooSeason {
      * @see TemperateSeason to get the standard 'temperate' season
      */
     public static Optional<ThermooSeasonState<TropicalSeason>> getCurrentSeason(Level level, BlockPos pos) {
-        return ThermooSeasonEvents.GET_CURRENT_TROPICAL_SEASON.invoker().getCurrentSeason(level, pos);
+        return ThermooSeasonEvents.GET_CURRENT_TROPICAL_SEASON.invoker().getCurrentSeasonState(level, pos);
     }
 
     @Override
