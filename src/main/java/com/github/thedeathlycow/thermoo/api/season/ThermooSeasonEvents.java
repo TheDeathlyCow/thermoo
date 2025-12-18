@@ -30,7 +30,7 @@ public final class ThermooSeasonEvents {
      * If the queried position does not have seasons, or a seasons mod is not installed, then returns a state based
      * on the current value of the {@linkplain ThermooEnvironmentAttributes environment attributes}.
      *
-     * @see TemperateSeason#getCurrentSeason(Level, BlockPos)
+     * @see TemperateSeason#getCurrentState(Level, BlockPos)
      * @see #GET_CURRENT_TROPICAL_SEASON
      */
     public static final Event<CurrentSeasonCallback<TemperateSeason>> GET_CURRENT_SEASON = EventFactory.createArrayBacked(
@@ -64,7 +64,7 @@ public final class ThermooSeasonEvents {
      * If the queried position does not have seasons, or a seasons mod is not installed, then returns a state based
      * on the current value of the {@linkplain ThermooEnvironmentAttributes environment attributes}.
      *
-     * @see TropicalSeason#getCurrentSeason(Level, BlockPos)
+     * @see TropicalSeason#getCurrentState(Level, BlockPos)
      * @see #GET_CURRENT_SEASON
      */
     public static final Event<CurrentSeasonCallback<TropicalSeason>> GET_CURRENT_TROPICAL_SEASON = EventFactory.createArrayBacked(

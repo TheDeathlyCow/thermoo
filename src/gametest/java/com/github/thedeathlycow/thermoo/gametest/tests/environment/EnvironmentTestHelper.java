@@ -101,7 +101,7 @@ public final class EnvironmentTestHelper {
 
     public static void expectTemperateSeason(GameTestHelper context, @Nullable TemperateSeason season) {
         BlockPos pos = context.absolutePos(BlockPos.ZERO);
-        TemperateSeason newTemperateSeason = TemperateSeason.getCurrentSeason(context.getLevel(), pos)
+        TemperateSeason newTemperateSeason = TemperateSeason.getCurrentState(context.getLevel(), pos)
                 .map(ThermooSeasonState::season)
                 .orElse(null);
         context.assertTrue(
@@ -112,7 +112,7 @@ public final class EnvironmentTestHelper {
 
     public static void expectTropicalSeason(GameTestHelper context, @Nullable TropicalSeason season) {
         BlockPos pos = context.absolutePos(BlockPos.ZERO);
-        TropicalSeason newTropicalSeason = TropicalSeason.getCurrentSeason(context.getLevel(), pos)
+        TropicalSeason newTropicalSeason = TropicalSeason.getCurrentState(context.getLevel(), pos)
                 .map(ThermooSeasonState::season)
                 .orElse(null);
 

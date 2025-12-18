@@ -52,7 +52,7 @@ public final class TropicalSeasonEnvironmentProvider extends SeasonalEnvironment
 
     @Override
     protected Optional<TropicalSeason> getCurrentSeason(Level level, BlockPos pos) {
-        return TropicalSeason.getCurrentSeason(level, pos).map(ThermooSeasonState::season);
+        return TropicalSeason.getCurrentState(level, pos).map(ThermooSeasonState::season);
     }
 
     /**

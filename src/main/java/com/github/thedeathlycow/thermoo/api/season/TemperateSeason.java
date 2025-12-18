@@ -43,9 +43,9 @@ public enum TemperateSeason implements ThermooSeason {
      * on the current value of the {@linkplain ThermooEnvironmentAttributes environment attributes}.
      *
      * @see ThermooSeasonEvents#GET_CURRENT_SEASON
-     * @see TropicalSeason#getCurrentSeason(Level, BlockPos)
+     * @see TropicalSeason#getCurrentState(Level, BlockPos)
      */
-    public static Optional<ThermooSeasonState<TemperateSeason>> getCurrentSeason(Level level, BlockPos pos) {
+    public static Optional<ThermooSeasonState<TemperateSeason>> getCurrentState(Level level, BlockPos pos) {
         return ThermooSeasonEvents.GET_CURRENT_SEASON.invoker().getCurrentSeasonState(level, pos);
     }
 

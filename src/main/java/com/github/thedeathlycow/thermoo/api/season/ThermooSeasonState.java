@@ -42,6 +42,13 @@ public interface ThermooSeasonState<S extends ThermooSeason> {
         return new SeasonStateImpl<>(season, clampedProgress);
     }
 
+    /**
+     * Creates a codec for a season state of a particular season type.
+     *
+     * @param seasonCodec The base codec of the season type.
+     * @param <S>         The season type.
+     * @return A new codec for the season state.
+     */
     static <S extends ThermooSeason> Codec<ThermooSeasonState<S>> codec(Codec<S> seasonCodec) {
         return RecordCodecBuilder.create(
                 instance -> instance.group(
