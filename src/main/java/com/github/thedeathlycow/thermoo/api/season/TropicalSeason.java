@@ -13,7 +13,7 @@ import java.util.Optional;
  * mod-agnostic seasons mod integration.
  * @see TemperateSeason
  */
-public enum TropicalSeason implements ThermooSeason<TropicalSeason> {
+public enum TropicalSeason implements ThermooSeason {
     DRY("dry"),
     WET("wet"),
     MILD("mild");

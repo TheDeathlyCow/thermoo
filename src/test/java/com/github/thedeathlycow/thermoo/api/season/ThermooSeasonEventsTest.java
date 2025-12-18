@@ -38,10 +38,10 @@ class ThermooSeasonEventsTest {
     void temperateSeason_getCurrentSeason_isNotEmpty(TemperateSeason season) {
         currentSeason = season;
 
-        var currentSeason = TemperateSeason.getCurrentSeason(null, null);
+        var returnedSeason = TemperateSeason.getCurrentSeason(null, null);
 
-        Assertions.assertFalse(currentSeason.isEmpty());
-        Assertions.assertSame(season, currentSeason.get());
+        Assertions.assertFalse(returnedSeason.isEmpty());
+        Assertions.assertEquals(season, returnedSeason.get().season());
     }
 
     @ParameterizedTest
@@ -52,9 +52,9 @@ class ThermooSeasonEventsTest {
     void tropicalSeason_getCurrentTropicalSeason_isNotEmpty(TropicalSeason season) {
         currentTropicalSeason = season;
 
-        var currentTropicalSeason = TropicalSeason.getCurrentSeason(null, null);
+        var returnedSeason = TropicalSeason.getCurrentSeason(null, null);
 
-        Assertions.assertFalse(currentTropicalSeason.isEmpty());
-        Assertions.assertSame(season, currentTropicalSeason.get());
+        Assertions.assertFalse(returnedSeason.isEmpty());
+        Assertions.assertEquals(season, returnedSeason.get().season());
     }
 }

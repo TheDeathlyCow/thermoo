@@ -3,6 +3,7 @@ package com.github.thedeathlycow.thermoo.api.season;
 import com.github.thedeathlycow.thermoo.impl.season.SeasonStateImpl;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.util.Mth;
 import org.jetbrains.annotations.ApiStatus;
 
 /**
@@ -11,7 +12,7 @@ import org.jetbrains.annotations.ApiStatus;
  * @param <S> The season type, either temperate or tropical.
  */
 @ApiStatus.NonExtendable
-public interface ThermooSeasonState<S extends ThermooSeason<S>> {
+public interface ThermooSeasonState<S extends ThermooSeason> {
     /**
      * @return The season of this state.
      */
@@ -25,15 +26,23 @@ public interface ThermooSeasonState<S extends ThermooSeason<S>> {
      */
     float progress();
 
-    static <S extends ThermooSeason<S>> ThermooSeasonState<S> of(S season) {
+    /**
+     * Creates a season state that represents the beginning of the season.
+     */
+    static <S extends ThermooSeason> ThermooSeasonState<S> of(S season) {
         return of(season, 0f);
     }
 
-    static <S extends ThermooSeason<S>> ThermooSeasonState<S> of(S season, float progress) {
-        return new SeasonStateImpl<>(season, progress);
+    /**
+     * Creates a season state for some progress in a season. The progress is clamped to the range [0, 1].
+     */
+    static <S extends ThermooSeason> ThermooSeasonState<S> of(S season, float progress) {
+        float clampedProgress = Mth.clamp(progress, 0f, 1f);
+
+        return new SeasonStateImpl<>(season, clampedProgress);
     }
 
-    static <S extends ThermooSeason<S>> Codec<ThermooSeasonState<S>> codec(Codec<S> seasonCodec) {
+    static <S extends ThermooSeason> Codec<ThermooSeasonState<S>> codec(Codec<S> seasonCodec) {
         return RecordCodecBuilder.create(
                 instance -> instance.group(
                         seasonCodec
