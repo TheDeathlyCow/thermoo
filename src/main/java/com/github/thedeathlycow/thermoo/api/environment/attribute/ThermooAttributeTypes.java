@@ -20,10 +20,8 @@ public final class ThermooAttributeTypes {
      * <p>
      * This attribute type has no defined modifier operation.
      */
-    public static final AttributeType<Optional<ThermooSeasonState<TemperateSeason>>> TEMPERATE_SEASON = AttributeType.ofNotInterpolated(
-            ThermooSeasonState.codec(TemperateSeason.CODEC)
-                    .optionalFieldOf("value")
-                    .codec()
+    public static final AttributeType<SeasonStateAttribute<TemperateSeason>> TEMPERATE_SEASON = AttributeType.ofNotInterpolated(
+            SeasonStateAttribute.codec(TemperateSeason.CODEC)
     );
 
     /**
@@ -31,10 +29,8 @@ public final class ThermooAttributeTypes {
      * <p>
      * This attribute type has no defined modifier operation.
      */
-    public static final AttributeType<Optional<ThermooSeasonState<TropicalSeason>>> TROPICAL_SEASON = AttributeType.ofNotInterpolated(
-            ThermooSeasonState.codec(TropicalSeason.CODEC)
-                    .optionalFieldOf("value")
-                    .codec()
+    public static final AttributeType<SeasonStateAttribute<TropicalSeason>> TROPICAL_SEASON = AttributeType.ofNotInterpolated(
+            SeasonStateAttribute.codec(TropicalSeason.CODEC)
     );
 
     /**

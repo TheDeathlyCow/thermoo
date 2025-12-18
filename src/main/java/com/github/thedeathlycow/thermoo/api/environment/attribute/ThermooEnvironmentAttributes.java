@@ -20,8 +20,8 @@ public final class ThermooEnvironmentAttributes {
      *
      * @see ThermooAttributeTypes#TEMPERATE_SEASON
      */
-    public static final EnvironmentAttribute<Optional<ThermooSeasonState<TemperateSeason>>> TEMPERATE_SEASON = EnvironmentAttribute.builder(ThermooAttributeTypes.TEMPERATE_SEASON)
-            .defaultValue(Optional.empty())
+    public static final EnvironmentAttribute<SeasonStateAttribute<TemperateSeason>> TEMPERATE_SEASON = EnvironmentAttribute.builder(ThermooAttributeTypes.TEMPERATE_SEASON)
+            .defaultValue(SeasonStateAttribute.empty())
             .build();
 
     /**
@@ -29,8 +29,8 @@ public final class ThermooEnvironmentAttributes {
      *
      * @see ThermooAttributeTypes#TROPICAL_SEASON
      */
-    public static final EnvironmentAttribute<Optional<ThermooSeasonState<TropicalSeason>>> TROPICAL_SEASON = EnvironmentAttribute.builder(ThermooAttributeTypes.TROPICAL_SEASON)
-            .defaultValue(Optional.empty())
+    public static final EnvironmentAttribute<SeasonStateAttribute<TropicalSeason>> TROPICAL_SEASON = EnvironmentAttribute.builder(ThermooAttributeTypes.TROPICAL_SEASON)
+            .defaultValue(SeasonStateAttribute.empty())
             .build();
 
     /**

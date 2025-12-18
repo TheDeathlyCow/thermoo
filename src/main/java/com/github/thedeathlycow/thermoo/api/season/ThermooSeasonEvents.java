@@ -43,7 +43,8 @@ public final class ThermooSeasonEvents {
                 }
 
                 return level.environmentAttributes()
-                        .getValue(ThermooEnvironmentAttributes.TEMPERATE_SEASON, pos);
+                        .getValue(ThermooEnvironmentAttributes.TEMPERATE_SEASON, pos)
+                        .state();
             }
     );
 
@@ -71,7 +72,8 @@ public final class ThermooSeasonEvents {
                 }
 
                 return level.environmentAttributes()
-                        .getValue(ThermooEnvironmentAttributes.TROPICAL_SEASON, pos);
+                        .getValue(ThermooEnvironmentAttributes.TROPICAL_SEASON, pos)
+                        .state();
             }
     );
 

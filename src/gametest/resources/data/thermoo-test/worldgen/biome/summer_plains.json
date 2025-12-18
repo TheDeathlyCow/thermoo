@@ -1,7 +1,7 @@
 {
     "attributes": {
         "thermoo:gameplay/temperate_season": {
-            "value": {
+            "state": {
                 "season": "summer"
             }
         }
