@@ -56,7 +56,7 @@ public class ThermooTestMod implements ModInitializer {
                         GameRules rules = serverLevel.getGameRules();
 
                         return rules.get(ENABLE_SEASONS)
-                                ? Optional.of(serverLevel.getGameRules().get(CURRENT_SEASON))
+                                ? Optional.of(serverLevel.getGameRules().get(CURRENT_SEASON).createState())
                                 : Optional.empty();
                     } else {
                         return Optional.empty();
@@ -70,7 +70,7 @@ public class ThermooTestMod implements ModInitializer {
                         GameRules rules = serverLevel.getGameRules();
 
                         return rules.get(ENABLE_TROPICAL_SEASONS)
-                                ? Optional.of(serverLevel.getGameRules().get(CURRENT_TROPICAL_SEASON))
+                                ? Optional.of(serverLevel.getGameRules().get(CURRENT_TROPICAL_SEASON).createState())
                                 : Optional.empty();
                     } else {
                         return Optional.empty();

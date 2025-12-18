@@ -4,6 +4,7 @@ import com.github.thedeathlycow.thermoo.api.environment.attribute.ThermooEnviron
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.attribute.EnvironmentAttributeSystem;
 import net.minecraft.world.level.Level;
 
 import java.util.Optional;
@@ -19,68 +20,75 @@ public final class ThermooSeasonEvents {
     }
 
     /**
-     * Retrieves the current temperate season at a position in a level, if a season mod is loaded. Thermoo does not add
-     * seasons by itself, seasons must be implemented by another mod like Fabric Seasons or Serene Seasons. This event
-     * just places season integration into a common source.
+     * Retrieves the current temperate season state at a position in a level, if a season mod is loaded. Thermoo does
+     * not add seasons by itself, seasons must be implemented by another mod like Fabric Seasons or Serene Seasons. This
+     * event just places season integration into a common source.
      * <p>
-     * If any listener returns a non-empty season, then all further processing is cancelled and that season is returned.
+     * If any listener returns a non-empty season state, then all further processing is cancelled and that state is
+     * returned.
      * <p>
-     * If the queried position does not have seasons, or a seasons mod is not installed, then returns the environment
-     * attribute value of {@link ThermooEnvironmentAttributes#TEMPERATE_SEASON}.
-     * 
-     * @see TemperateSeason#getCurrentSeason(Level, BlockPos)
+     * If the queried position does not have seasons, or a seasons mod is not installed, then returns a state based
+     * on the current value of the {@linkplain ThermooEnvironmentAttributes environment attributes}.
+     *
+     * @see TemperateSeason#getCurrentState(Level, BlockPos)
      * @see #GET_CURRENT_TROPICAL_SEASON
      */
-    public static final Event<CurrentSeasonCallback> GET_CURRENT_SEASON = EventFactory.createArrayBacked(
+    public static final Event<CurrentSeasonCallback<TemperateSeason>> GET_CURRENT_SEASON = EventFactory.createArrayBacked(
             CurrentSeasonCallback.class,
             callbacks -> (level, pos) -> {
-                for (CurrentSeasonCallback callback : callbacks) {
-                    Optional<TemperateSeason> season = callback.getCurrentSeason(level, pos);
+                for (CurrentSeasonCallback<TemperateSeason> callback : callbacks) {
+                    Optional<ThermooSeasonState<TemperateSeason>> season = callback.getCurrentSeasonState(level, pos);
                     if (season.isPresent()) {
                         return season;
                     }
                 }
 
-                return level.environmentAttributes()
-                        .getValue(ThermooEnvironmentAttributes.TEMPERATE_SEASON, pos);
+                EnvironmentAttributeSystem attributes = level.environmentAttributes();
+
+                return attributes.getValue(ThermooEnvironmentAttributes.TEMPERATE_SEASON, pos)
+                        .map(season -> {
+                            float progress = attributes.getDimensionValue(ThermooEnvironmentAttributes.TEMPERATE_SEASON_PROGRESS);
+                            return ThermooSeasonState.of(season, progress);
+                        });
             }
     );
 
     /**
-     * Retrieves the current tropical season at a position in a level, if a season mod is loaded. Thermoo does not add
-     * seasons by itself, seasons must be implemented by another mod like Fabric Seasons or Serene Seasons. This event
-     * just places season integration into a common source.
+     * Retrieves the current tropical season state at a position in a level, if a season mod is loaded. Thermoo does not
+     * add seasons by itself, seasons must be implemented by another mod like Fabric Seasons or Serene Seasons. This
+     * event just places season integration into a common source.
      * <p>
-     * If any listener returns a non-empty season, then all further processing is cancelled and that season is returned.
+     * If any listener returns a non-empty season state, then all further processing is cancelled and that state is
+     * returned.
      * <p>
-     * If the queried position is not tropical, or a seasons mod is not installed, then returns the environment
-     * attribute value of {@link ThermooEnvironmentAttributes#TROPICAL_SEASON}.
-     * 
-     * @see TropicalSeason#getCurrentSeason(Level, BlockPos)
+     * If the queried position does not have seasons, or a seasons mod is not installed, then returns a state based
+     * on the current value of the {@linkplain ThermooEnvironmentAttributes environment attributes}.
+     *
+     * @see TropicalSeason#getCurrentState(Level, BlockPos)
      * @see #GET_CURRENT_SEASON
      */
-    public static final Event<CurrentTropicalSeasonCallback> GET_CURRENT_TROPICAL_SEASON = EventFactory.createArrayBacked(
-            CurrentTropicalSeasonCallback.class,
+    public static final Event<CurrentSeasonCallback<TropicalSeason>> GET_CURRENT_TROPICAL_SEASON = EventFactory.createArrayBacked(
+            CurrentSeasonCallback.class,
             callbacks -> (level, pos) -> {
-                for (CurrentTropicalSeasonCallback callback : callbacks) {
-                    Optional<TropicalSeason> season = callback.getCurrentTropicalSeason(level, pos);
+                for (CurrentSeasonCallback<TropicalSeason> callback : callbacks) {
+                    Optional<ThermooSeasonState<TropicalSeason>> season = callback.getCurrentSeasonState(level, pos);
                     if (season.isPresent()) {
                         return season;
                     }
                 }
 
-                return level.environmentAttributes()
-                        .getValue(ThermooEnvironmentAttributes.TROPICAL_SEASON, pos);
+                EnvironmentAttributeSystem attributes = level.environmentAttributes();
+
+                return attributes.getValue(ThermooEnvironmentAttributes.TROPICAL_SEASON, pos)
+                        .map(season -> {
+                            float progress = attributes.getDimensionValue(ThermooEnvironmentAttributes.TROPICAL_SEASON_PROGRESS);
+                            return ThermooSeasonState.of(season, progress);
+                        });
             }
     );
 
     @FunctionalInterface
-    public interface CurrentSeasonCallback {
-        Optional<TemperateSeason> getCurrentSeason(Level level, BlockPos pos);
-    }
-
-    @FunctionalInterface
-    public interface CurrentTropicalSeasonCallback {
-        Optional<TropicalSeason> getCurrentTropicalSeason(Level level, BlockPos pos);
+    public interface CurrentSeasonCallback<S extends ThermooSeason> {
+        Optional<ThermooSeasonState<S>> getCurrentSeasonState(Level level, BlockPos pos);
     }
 }

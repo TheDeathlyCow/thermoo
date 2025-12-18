@@ -20,8 +20,8 @@ class ThermooSeasonEventsTest {
     @BeforeAll
     static void setup() {
         ThermooTest.bootstrapRegistries();
-        ThermooSeasonEvents.GET_CURRENT_SEASON.register((world, pos) -> Optional.ofNullable(currentSeason));
-        ThermooSeasonEvents.GET_CURRENT_TROPICAL_SEASON.register((world, pos) -> Optional.ofNullable(currentTropicalSeason));
+        ThermooSeasonEvents.GET_CURRENT_SEASON.register((world, pos) -> Optional.ofNullable(currentSeason).map(TemperateSeason::createState));
+        ThermooSeasonEvents.GET_CURRENT_TROPICAL_SEASON.register((world, pos) -> Optional.ofNullable(currentTropicalSeason).map(TropicalSeason::createState));
     }
 
     @AfterEach
@@ -38,10 +38,10 @@ class ThermooSeasonEventsTest {
     void temperateSeason_getCurrentSeason_isNotEmpty(TemperateSeason season) {
         currentSeason = season;
 
-        Optional<TemperateSeason> currentSeason = TemperateSeason.getCurrentSeason(null, null);
+        var returnedSeason = TemperateSeason.getCurrentState(null, null);
 
-        Assertions.assertFalse(currentSeason.isEmpty());
-        Assertions.assertSame(season, currentSeason.get());
+        Assertions.assertFalse(returnedSeason.isEmpty());
+        Assertions.assertEquals(season, returnedSeason.get().season());
     }
 
     @ParameterizedTest
@@ -52,9 +52,9 @@ class ThermooSeasonEventsTest {
     void tropicalSeason_getCurrentTropicalSeason_isNotEmpty(TropicalSeason season) {
         currentTropicalSeason = season;
 
-        Optional<TropicalSeason> currentTropicalSeason = TropicalSeason.getCurrentSeason(null, null);
+        var returnedSeason = TropicalSeason.getCurrentState(null, null);
 
-        Assertions.assertFalse(currentTropicalSeason.isEmpty());
-        Assertions.assertSame(season, currentTropicalSeason.get());
+        Assertions.assertFalse(returnedSeason.isEmpty());
+        Assertions.assertEquals(season, returnedSeason.get().season());
     }
 }

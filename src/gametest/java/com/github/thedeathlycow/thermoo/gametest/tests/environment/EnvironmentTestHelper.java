@@ -5,6 +5,7 @@ import com.github.thedeathlycow.thermoo.api.environment.component.RelativeHumidi
 import com.github.thedeathlycow.thermoo.api.environment.component.TemperatureRecordComponent;
 import com.github.thedeathlycow.thermoo.api.environment.provider.EnvironmentProvider;
 import com.github.thedeathlycow.thermoo.api.season.TemperateSeason;
+import com.github.thedeathlycow.thermoo.api.season.ThermooSeasonState;
 import com.github.thedeathlycow.thermoo.api.season.TropicalSeason;
 import com.github.thedeathlycow.thermoo.api.util.TemperatureRecord;
 import com.github.thedeathlycow.thermoo.api.util.TemperatureUnit;
@@ -100,7 +101,9 @@ public final class EnvironmentTestHelper {
 
     public static void expectTemperateSeason(GameTestHelper context, @Nullable TemperateSeason season) {
         BlockPos pos = context.absolutePos(BlockPos.ZERO);
-        TemperateSeason newTemperateSeason = TemperateSeason.getCurrentSeason(context.getLevel(), pos).orElse(null);
+        TemperateSeason newTemperateSeason = TemperateSeason.getCurrentState(context.getLevel(), pos)
+                .map(ThermooSeasonState::season)
+                .orElse(null);
         context.assertTrue(
                 newTemperateSeason == season,
                 Component.literal("Expected temperate season to be " + season + " but was " + newTemperateSeason)
@@ -109,7 +112,9 @@ public final class EnvironmentTestHelper {
 
     public static void expectTropicalSeason(GameTestHelper context, @Nullable TropicalSeason season) {
         BlockPos pos = context.absolutePos(BlockPos.ZERO);
-        TropicalSeason newTropicalSeason = TropicalSeason.getCurrentSeason(context.getLevel(), pos).orElse(null);
+        TropicalSeason newTropicalSeason = TropicalSeason.getCurrentState(context.getLevel(), pos)
+                .map(ThermooSeasonState::season)
+                .orElse(null);
 
         context.assertTrue(
                 newTropicalSeason == season,

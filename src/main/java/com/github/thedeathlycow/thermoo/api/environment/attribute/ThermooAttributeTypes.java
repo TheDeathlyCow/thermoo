@@ -3,6 +3,7 @@ package com.github.thedeathlycow.thermoo.api.environment.attribute;
 import com.github.thedeathlycow.thermoo.api.season.TemperateSeason;
 import com.github.thedeathlycow.thermoo.api.season.TropicalSeason;
 import com.github.thedeathlycow.thermoo.api.util.TemperatureRecord;
+import com.github.thedeathlycow.thermoo.impl.CodecHelper;
 import com.github.thedeathlycow.thermoo.impl.environment.attribute.TemperatureModifier;
 import net.minecraft.world.attribute.AttributeType;
 
@@ -20,7 +21,7 @@ public final class ThermooAttributeTypes {
      * This attribute type has no defined modifier operation.
      */
     public static final AttributeType<Optional<TemperateSeason>> TEMPERATE_SEASON = AttributeType.ofNotInterpolated(
-            TemperateSeason.CODEC.optionalFieldOf("value").codec()
+            CodecHelper.optionalCodec(TemperateSeason.CODEC)
     );
 
     /**
@@ -29,7 +30,7 @@ public final class ThermooAttributeTypes {
      * This attribute type has no defined modifier operation.
      */
     public static final AttributeType<Optional<TropicalSeason>> TROPICAL_SEASON = AttributeType.ofNotInterpolated(
-            TropicalSeason.CODEC.optionalFieldOf("value").codec()
+            CodecHelper.optionalCodec(TropicalSeason.CODEC)
     );
 
     /**

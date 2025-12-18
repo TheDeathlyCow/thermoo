@@ -1,5 +1,6 @@
 package com.github.thedeathlycow.thermoo.api.environment.provider;
 
+import com.github.thedeathlycow.thermoo.api.season.ThermooSeasonState;
 import com.github.thedeathlycow.thermoo.api.season.TropicalSeason;
 import com.github.thedeathlycow.thermoo.impl.environment.SeasonalProviderBuilderHelper;
 import com.mojang.serialization.MapCodec;
@@ -51,7 +52,7 @@ public final class TropicalSeasonEnvironmentProvider extends SeasonalEnvironment
 
     @Override
     protected Optional<TropicalSeason> getCurrentSeason(Level level, BlockPos pos) {
-        return TropicalSeason.getCurrentSeason(level, pos);
+        return TropicalSeason.getCurrentState(level, pos).map(ThermooSeasonState::season);
     }
 
     /**

@@ -1,5 +1,6 @@
 package com.github.thedeathlycow.thermoo.api.season;
 
+import com.github.thedeathlycow.thermoo.api.environment.attribute.ThermooEnvironmentAttributes;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.StringRepresentable;
@@ -8,12 +9,12 @@ import net.minecraft.world.level.Level;
 import java.util.Optional;
 
 /**
- * Enumeration for the two tropical seasons. Note that Thermoo will not provide any seasons mod
+ * Enumeration for the three tropical seasons. Note that Thermoo will not provide any seasons mod
  * functionality by itself, that must be provided by an external seasons mod. This is primarily intended to be used for
  * mod-agnostic seasons mod integration.
  * @see TemperateSeason
  */
-public enum TropicalSeason implements StringRepresentable {
+public enum TropicalSeason implements ThermooSeason {
     DRY("dry"),
     WET("wet"),
     MILD("mild");
@@ -35,19 +36,25 @@ public enum TropicalSeason implements StringRepresentable {
     /**
      * Shorthand for invoking {@link ThermooSeasonEvents#GET_CURRENT_TROPICAL_SEASON}.
      * <p>
-     * Retrieves the current tropical season at a position in a level, if a season mod is loaded. Thermoo does not add
-     * seasons by itself, seasons must be implemented by another mod like Fabric Seasons or Serene Seasons. This event
-     * just places season integration into a common source.
+     * Retrieves the current tropical season state at a position in a level, if a season mod is loaded. Thermoo does not
+     * add seasons by itself, seasons must be implemented by another mod like Fabric Seasons or Serene Seasons. This
+     * event just places season integration into a common source.
      * <p>
-     * If any listener returns a non-empty season, then all further processing is cancelled and that season is returned.
+     * If any listener returns a non-empty season state, then all further processing is cancelled and that state is
+     * returned.
      * <p>
-     * If the queried position is not tropical, or a seasons mod is not installed, then returns empty.
+     * If the queried position does not have seasons, or a seasons mod is not installed, then returns a state based
+     * on the current value of the {@linkplain ThermooEnvironmentAttributes environment attributes}.
      *
-     * @param level The current world / level to get the season from.
-     * @return Returns the current season if a Seasons mod is installed, or empty if no seasons mod is installed.
-     * @see TemperateSeason to get the standard 'temperate' season
+     * @see ThermooSeasonEvents#GET_CURRENT_TROPICAL_SEASON
+     * @see TemperateSeason#getCurrentState(Level, BlockPos)
      */
-    public static Optional<TropicalSeason> getCurrentSeason(Level level, BlockPos pos) {
-        return ThermooSeasonEvents.GET_CURRENT_TROPICAL_SEASON.invoker().getCurrentTropicalSeason(level, pos);
+    public static Optional<ThermooSeasonState<TropicalSeason>> getCurrentState(Level level, BlockPos pos) {
+        return ThermooSeasonEvents.GET_CURRENT_TROPICAL_SEASON.invoker().getCurrentSeasonState(level, pos);
+    }
+
+    @Override
+    public ThermooSeasonState<TropicalSeason> createState() {
+        return ThermooSeasonState.of(this);
     }
 }
