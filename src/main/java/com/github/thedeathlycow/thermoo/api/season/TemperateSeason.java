@@ -1,5 +1,6 @@
 package com.github.thedeathlycow.thermoo.api.season;
 
+import com.github.thedeathlycow.thermoo.api.environment.attribute.ThermooEnvironmentAttributes;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.StringRepresentable;
@@ -31,17 +32,18 @@ public enum TemperateSeason implements ThermooSeason {
     /**
      * Shorthand for invoking {@link ThermooSeasonEvents#GET_CURRENT_SEASON}.
      * <p>
-     * Retrieves the current temperate season at a position in a level, if a season mod is loaded. Thermoo does not add
-     * seasons by itself, seasons must be implemented by another mod like Fabric Seasons or Serene Seasons. This event
-     * just places season integration into a common source.
+     * Retrieves the current temperate season state at a position in a level, if a season mod is loaded. Thermoo does
+     * not add seasons by itself, seasons must be implemented by another mod like Fabric Seasons or Serene Seasons. This
+     * event just places season integration into a common source.
      * <p>
-     * If any listener returns a non-empty season, then all further processing is cancelled and that season is returned.
+     * If any listener returns a non-empty season state, then all further processing is cancelled and that state is
+     * returned.
      * <p>
-     * If the queried position does not have seasons, or a seasons mod is not installed, then returns empty.
+     * If the queried position does not have seasons, or a seasons mod is not installed, then returns a state based
+     * on the current value of the {@linkplain ThermooEnvironmentAttributes environment attributes}.
      *
-     * @param level The current world / level to get the season from.
-     * @return Returns the current season if a Seasons mod is installed, or empty if no seasons mod is installed.
-     * @see TropicalSeason to get the current tropical season
+     * @see ThermooSeasonEvents#GET_CURRENT_SEASON
+     * @see TropicalSeason#getCurrentSeason(Level, BlockPos)
      */
     public static Optional<ThermooSeasonState<TemperateSeason>> getCurrentSeason(Level level, BlockPos pos) {
         return ThermooSeasonEvents.GET_CURRENT_SEASON.invoker().getCurrentSeasonState(level, pos);

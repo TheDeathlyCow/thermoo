@@ -20,11 +20,12 @@ public final class ThermooSeasonEvents {
     }
 
     /**
-     * Retrieves the current temperate season at a position in a level, if a season mod is loaded. Thermoo does not add
-     * seasons by itself, seasons must be implemented by another mod like Fabric Seasons or Serene Seasons. This event
-     * just places season integration into a common source.
+     * Retrieves the current temperate season state at a position in a level, if a season mod is loaded. Thermoo does
+     * not add seasons by itself, seasons must be implemented by another mod like Fabric Seasons or Serene Seasons. This
+     * event just places season integration into a common source.
      * <p>
-     * If any listener returns a non-empty season, then all further processing is cancelled and that season is returned.
+     * If any listener returns a non-empty season state, then all further processing is cancelled and that state is
+     * returned.
      * <p>
      * If the queried position does not have seasons, or a seasons mod is not installed, then returns a state based
      * on the current value of the {@linkplain ThermooEnvironmentAttributes environment attributes}.
@@ -53,11 +54,12 @@ public final class ThermooSeasonEvents {
     );
 
     /**
-     * Retrieves the current tropical season at a position in a level, if a season mod is loaded. Thermoo does not add
-     * seasons by itself, seasons must be implemented by another mod like Fabric Seasons or Serene Seasons. This event
-     * just places season integration into a common source.
+     * Retrieves the current tropical season state at a position in a level, if a season mod is loaded. Thermoo does not
+     * add seasons by itself, seasons must be implemented by another mod like Fabric Seasons or Serene Seasons. This
+     * event just places season integration into a common source.
      * <p>
-     * If any listener returns a non-empty season, then all further processing is cancelled and that season is returned.
+     * If any listener returns a non-empty season state, then all further processing is cancelled and that state is
+     * returned.
      * <p>
      * If the queried position does not have seasons, or a seasons mod is not installed, then returns a state based
      * on the current value of the {@linkplain ThermooEnvironmentAttributes environment attributes}.
