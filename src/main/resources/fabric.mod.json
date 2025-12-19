@@ -41,11 +41,11 @@
     ],
     "depends": {
         "fabricloader": ">=0.17.2",
-        "fabric-api": ">=0.133.14",
-        "minecraft": ">=1.21.9",
+        "fabric-api": ">=0.139.5",
+        "minecraft": ">=1.21.11",
         "java": ">=21",
-        "cardinal-components-base": ">=7.1.0-beta.1",
-        "cardinal-components-entity": ">=7.1.0-beta.1"
+        "cardinal-components-base": ">=7.3.0",
+        "cardinal-components-entity": ">=7.3.0"
     },
     "suggests": {
         "frostiful": "*",

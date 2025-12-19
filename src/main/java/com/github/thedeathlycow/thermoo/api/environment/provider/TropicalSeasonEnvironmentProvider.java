@@ -15,7 +15,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 /**
- * A seasonal environment provider for the tropical seasons (wet and dry).
+ * A seasonal environment provider for the tropical seasons (wet, dry, and mild).
  */
 public final class TropicalSeasonEnvironmentProvider extends SeasonalEnvironmentProvider<TropicalSeason> {
     public static final MapCodec<TropicalSeasonEnvironmentProvider> CODEC = validate(

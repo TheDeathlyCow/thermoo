@@ -1,7 +1,6 @@
 package com.github.thedeathlycow.thermoo.impl.environment.attribute;
 
 import com.github.thedeathlycow.thermoo.api.util.TemperatureRecord;
-import com.github.thedeathlycow.thermoo.api.util.TemperatureUnit;
 import com.mojang.serialization.Codec;
 import net.minecraft.util.Mth;
 import net.minecraft.world.attribute.EnvironmentAttribute;
@@ -28,13 +27,8 @@ public interface TemperatureModifier<Argument> extends AttributeModifier<Tempera
     );
 
     static TemperatureRecord lerp(float delta, TemperatureRecord a, TemperatureRecord b) {
-        double kelvinA = a.valueInUnit(TemperatureUnit.KELVIN);
-        double kelvinB = b.valueInUnit(TemperatureUnit.KELVIN);
-
-        double interpolated = Mth.lerp(delta, kelvinA, kelvinB);
-        var result = new TemperatureRecord(interpolated, TemperatureUnit.KELVIN);
-
-        return result.convertToUnit(a.unit());
+        double interpolated = Mth.lerp(delta, a.value(), b.valueInUnit(a.unit()));
+        return new TemperatureRecord(interpolated, a.unit());
     }
 
     @FunctionalInterface
