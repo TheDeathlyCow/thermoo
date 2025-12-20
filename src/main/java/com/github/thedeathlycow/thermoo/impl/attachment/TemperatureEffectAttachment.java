@@ -1,39 +1,17 @@
-package com.github.thedeathlycow.thermoo.impl.component;
+package com.github.thedeathlycow.thermoo.impl.attachment;
 
 import com.github.thedeathlycow.thermoo.api.temperature.effects.ConfiguredTemperatureEffect;
 import com.github.thedeathlycow.thermoo.impl.temperature.effect.TemperatureEffectManager;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
-import org.ladysnake.cca.api.v3.component.Component;
-import org.ladysnake.cca.api.v3.component.tick.ServerTickingComponent;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class TemperatureEffectsComponent implements Component, ServerTickingComponent {
-
+public final class TemperatureEffectAttachment {
     private final Map<ResourceLocation, Settings> effectsSettings = new HashMap<>();
 
-    private final LivingEntity provider;
-
-    public TemperatureEffectsComponent(LivingEntity provider) {
-        this.provider = provider;
-    }
-
-    @Override
-    public void readFromNbt(CompoundTag tag, HolderLookup.Provider registryLookup) {
-
-    }
-
-    @Override
-    public void writeToNbt(CompoundTag tag, HolderLookup.Provider registryLookup) {
-
-    }
-
-    @Override
-    public void serverTick() {
+    public void serverTick(LivingEntity provider) {
         var availableEffects = TemperatureEffectManager.INSTANCE.getEffectsEntriesForEntity(provider);
         for (TemperatureEffectManager.EntityTypeCacheEntry effectEntry : availableEffects) {
             Settings settings = this.effectsSettings.computeIfAbsent(effectEntry.id(), ignored -> new Settings());

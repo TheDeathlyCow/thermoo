@@ -21,9 +21,6 @@
 		],
 		"client": [
 			"com.github.thedeathlycow.thermoo.impl.ThermooClient"
-		],
-		"cardinal-components-entity": [
-			"com.github.thedeathlycow.thermoo.impl.component.ThermooComponents"
 		]
 	},
 	"mixins": [

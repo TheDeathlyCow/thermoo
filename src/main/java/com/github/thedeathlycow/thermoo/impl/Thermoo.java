@@ -5,6 +5,7 @@ import com.github.thedeathlycow.thermoo.api.command.*;
 import com.github.thedeathlycow.thermoo.api.environment.EnvironmentDefinition;
 import com.github.thedeathlycow.thermoo.api.environment.provider.EnvironmentProvider;
 import com.github.thedeathlycow.thermoo.api.temperature.EnvironmentManager;
+import com.github.thedeathlycow.thermoo.impl.attachment.ThermooAttachments;
 import com.github.thedeathlycow.thermoo.impl.attribute.AttributeHelper;
 import com.github.thedeathlycow.thermoo.impl.compat.init.DependentModInitializer;
 import com.github.thedeathlycow.thermoo.impl.config.ThermooConfig;
@@ -80,6 +81,7 @@ public class Thermoo {
                 EnvironmentProvider.ELEMENT_CODEC
         );
         modBus.addListener(ThermooCommonRegisters::register);
+        ThermooAttachments.ATTACHMENT_TYPES.register(modBus);
 
         ResourceManagerHelper serverManager = ResourceManagerHelper.get(PackType.SERVER_DATA);
         serverManager.registerReloadListener(TemperatureEffectLoader.ID, TemperatureEffectLoader::new);

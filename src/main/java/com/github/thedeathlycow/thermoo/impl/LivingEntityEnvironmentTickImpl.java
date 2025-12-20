@@ -4,7 +4,6 @@ import com.github.thedeathlycow.thermoo.api.temperature.EnvironmentController;
 import com.github.thedeathlycow.thermoo.api.temperature.EnvironmentManager;
 import com.github.thedeathlycow.thermoo.api.temperature.HeatingModes;
 import com.github.thedeathlycow.thermoo.api.temperature.event.PlayerEnvironmentEvents;
-import com.github.thedeathlycow.thermoo.impl.component.ThermooComponents;
 import net.fabricmc.fabric.api.util.TriState;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.LivingEntity;
@@ -42,14 +41,6 @@ public class LivingEntityEnvironmentTickImpl {
 
         if (soakChange != 0) {
             entity.thermoo$addWetTicks(soakChange);
-        }
-
-        if (isSyncTick || ThermooComponents.TEMPERATURE.get(entity).isDirty()) {
-            ThermooComponents.TEMPERATURE.sync(entity);
-        }
-
-        if (isSyncTick || ThermooComponents.WETNESS.get(entity).isDirty()) {
-            ThermooComponents.WETNESS.sync(entity);
         }
     }
 

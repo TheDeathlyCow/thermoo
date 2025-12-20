@@ -6,7 +6,7 @@ import com.github.thedeathlycow.thermoo.api.temperature.EnvironmentManager;
 import com.github.thedeathlycow.thermoo.api.temperature.HeatingMode;
 import com.github.thedeathlycow.thermoo.api.temperature.Soakable;
 import com.github.thedeathlycow.thermoo.api.temperature.TemperatureAware;
-import com.github.thedeathlycow.thermoo.impl.component.ThermooComponents;
+import com.github.thedeathlycow.thermoo.impl.attachment.ThermooAttachments;
 import net.minecraft.core.Holder;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -23,6 +23,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LivingEntity.class)
@@ -44,12 +45,12 @@ public abstract class EnvironmentAwareEntityMixin extends Entity implements Temp
     @Override
     public void thermoo$setWetTicks(int amount) {
         int value = Mth.clamp(amount, 0, this.thermoo$getMaxWetTicks());
-        ThermooComponents.WETNESS.get(this).setValue(value);
+        this.setData(ThermooAttachments.WETNESS, value);
     }
 
     @Override
     public int thermoo$getWetTicks() {
-        return ThermooComponents.WETNESS.get(this).getValue();
+        return this.getData(ThermooAttachments.WETNESS);
     }
 
     @Override
@@ -72,13 +73,13 @@ public abstract class EnvironmentAwareEntityMixin extends Entity implements Temp
 
     @Override
     public int thermoo$getTemperature() {
-        return ThermooComponents.TEMPERATURE.get(this).getValue();
+        return this.getData(ThermooAttachments.TEMPERATURE);
     }
 
     @Override
     public void thermoo$setTemperature(int temperature) {
         int value = Mth.clamp(temperature, this.thermoo$getMinTemperature(), this.thermoo$getMaxTemperature());
-        ThermooComponents.TEMPERATURE.get(this).setValue(value);
+        this.setData(ThermooAttachments.TEMPERATURE, value);
     }
 
     @Override
@@ -191,5 +192,15 @@ public abstract class EnvironmentAwareEntityMixin extends Entity implements Temp
         builder.add(ThermooAttributes.HEAT_RESISTANCE);
         builder.add(ThermooAttributes.ENVIRONMENT_HEAT_RESISTANCE);
         builder.add(ThermooAttributes.ENVIRONMENT_FROST_RESISTANCE);
+    }
+
+    @Inject(
+            method = "tick",
+            at = @At("TAIL")
+    )
+    private void afterTick(CallbackInfo ci) {
+        if (!this.level().isClientSide()) {
+            this.getData(ThermooAttachments.TEMPERATURE_EFFECTS).serverTick((LivingEntity) (Object) this);
+        }
     }
 }
