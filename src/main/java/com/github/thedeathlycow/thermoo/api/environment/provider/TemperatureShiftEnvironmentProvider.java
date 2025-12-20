@@ -7,6 +7,7 @@ import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import com.github.thedeathlycow.thermoo.mixin.common.accessor.ComponentMapBuilderAccessor;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.fabricmc.fabric.api.item.v1.FabricComponentMapBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponentMap;
@@ -57,7 +58,7 @@ public final class TemperatureShiftEnvironmentProvider implements EnvironmentPro
     public void buildCurrentComponents(Level world, BlockPos pos, Holder<Biome> biome, DataComponentMap.Builder builder) {
         ComponentMapBuilderAccessor accessor = (ComponentMapBuilderAccessor) builder;
         if (accessor.thermoo$getComponents().containsKey(EnvironmentComponentTypes.TEMPERATURE)) {
-            TemperatureRecord base = builder.getOrDefault(EnvironmentComponentTypes.TEMPERATURE, TemperatureRecordComponent.DEFAULT);
+            TemperatureRecord base = ((FabricComponentMapBuilder) builder).getOrDefault(EnvironmentComponentTypes.TEMPERATURE, TemperatureRecordComponent.DEFAULT);
             TemperatureRecord shifted = base.add(this.shift);
             builder.set(EnvironmentComponentTypes.TEMPERATURE, shifted);
         } else {

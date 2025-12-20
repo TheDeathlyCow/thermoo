@@ -65,9 +65,14 @@ public abstract class InGameHudMountTemperatureMixin {
     private void renderMountHealth(
             GuiGraphics context,
             CallbackInfo ci,
-            @Share("thermoo_tracker") LocalRef<HeartOverlayTracker> tracker
+            @Share("thermoo_tracker") LocalRef<HeartOverlayTracker> trackerRef
     ) {
-        Vector2i[] heartPositions = tracker.get().getHeartPositions();
+        HeartOverlayTracker tracker = trackerRef.get();
+        if (tracker == null) {
+            return;
+        }
+
+        Vector2i[] heartPositions = tracker.getHeartPositions();
 
         Player player = this.getCameraPlayer();
         LivingEntity mount = this.getPlayerVehicleWithHealth();

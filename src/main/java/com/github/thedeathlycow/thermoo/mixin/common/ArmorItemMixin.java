@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class ArmorItemMixin {
 
     @Inject(
-            method = "method_56689",
+            method = "lambda$new$0",
             at = @At(
                     value = "TAIL",
                     shift = At.Shift.BEFORE // required to shift to before the builder is actually built
@@ -31,5 +31,4 @@ public abstract class ArmorItemMixin {
             resistanceType.buildResistance(armorMaterial, type, builder);
         }
     }
-
 }
