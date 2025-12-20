@@ -9,7 +9,6 @@ import com.github.thedeathlycow.thermoo.impl.compat.init.DependentModInitializer
 import com.github.thedeathlycow.thermoo.impl.config.ThermooConfig;
 import com.github.thedeathlycow.thermoo.impl.environment.EnvironmentLookupImpl;
 import com.github.thedeathlycow.thermoo.impl.temperature.effect.TemperatureEffectLoader;
-import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.ArgumentTypeRegistry;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.registry.DynamicRegistries;
@@ -19,6 +18,9 @@ import net.minecraft.commands.synchronization.ArgumentTypeInfo;
 import net.minecraft.commands.synchronization.SingletonArgumentInfo;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.common.Mod;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
@@ -27,7 +29,8 @@ import org.slf4j.LoggerFactory;
 import java.util.Arrays;
 import java.util.List;
 
-public class Thermoo implements ModInitializer {
+@Mod(Thermoo.MODID)
+public class Thermoo {
     public static final String MODID = "thermoo";
 
     public static final Logger LOGGER = LoggerFactory.getLogger(MODID);
@@ -46,9 +49,7 @@ public class Thermoo implements ModInitializer {
     @Nullable
     private static ThermooConfig config = null;
 
-
-    @Override
-    public void onInitialize() {
+    public Thermoo(IEventBus modEventBus, ModContainer modContainer) {
         ArgumentTypeRegistry.registerArgumentType(
                 Thermoo.id("heating_mode"),
                 HeatingModeArgumentType.class,
