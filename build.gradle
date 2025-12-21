@@ -21,7 +21,8 @@ group = mod_group_id
 repositories {
     maven {
         url "https://maven.su5ed.dev/releases"
-    }}
+    }
+}
 
 base {
     archivesName = mod_id
@@ -119,6 +120,7 @@ neoForge {
     unitTest {
         enable()
         testedMod = mods.named("${mod_id}")
+        loadedMods = [testedMod.get()]
     }
 
     interfaceInjectionData.from file('src/main/resources/interfaces.json').absolutePath

@@ -1,6 +1,5 @@
 package com.github.thedeathlycow.thermoo.api.season;
 
-import com.github.thedeathlycow.thermoo.ThermooTest;
 import org.jetbrains.annotations.Nullable;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -19,7 +18,6 @@ class ThermooSeasonEventsTest {
 
     @BeforeAll
     static void setup() {
-        ThermooTest.bootstrapRegistries();
         ThermooSeasonEvents.GET_CURRENT_SEASON.register(world -> Optional.ofNullable(currentSeason));
         ThermooSeasonEvents.GET_CURRENT_TROPICAL_SEASON.register((world, pos) -> Optional.ofNullable(currentTropicalSeason));
     }

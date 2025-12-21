@@ -42,10 +42,10 @@ public class ThermooPatchesNag implements ClientTickEvents.EndTick {
     private Component nagMessage = null;
 
     public static void initialize(ThermooConfig config) {
-        if (enableNag(config)) {
-            INSTANCE.fetchAsync(config);
-            ClientTickEvents.END_CLIENT_TICK.register(INSTANCE);
-        }
+//        if (enableNag(config)) {
+//            INSTANCE.fetchAsync(config);
+//            ClientTickEvents.END_CLIENT_TICK.register(INSTANCE);
+//        }
     }
 
     private static boolean enableNag(ThermooConfig config) {

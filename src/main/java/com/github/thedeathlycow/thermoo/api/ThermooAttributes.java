@@ -165,6 +165,11 @@ public final class ThermooAttributes {
         }
     }
 
+    @ApiStatus.Internal
+    public static void initialize() {
+        // load and register the attributes
+    }
+
     private static Holder<Attribute> register(String name, Attribute attribute) {
         return AttributeHelper.REGISTRY.register(name, () -> attribute);
     }

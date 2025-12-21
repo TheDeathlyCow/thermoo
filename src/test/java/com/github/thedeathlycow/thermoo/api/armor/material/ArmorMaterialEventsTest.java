@@ -1,6 +1,5 @@
 package com.github.thedeathlycow.thermoo.api.armor.material;
 
-import com.github.thedeathlycow.thermoo.ThermooTest;
 import com.github.thedeathlycow.thermoo.api.ThermooAttributes;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -18,8 +17,6 @@ class ArmorMaterialEventsTest {
 
     @BeforeAll
     static void setup() {
-        ThermooTest.bootstrapRegistries();
-
         ArmorMaterialEvents.GET_FROST_RESISTANCE.register(
                 (armorMaterial, armorType) -> armorType == ArmorItem.Type.HELMET ? 1 : Double.NaN
         );

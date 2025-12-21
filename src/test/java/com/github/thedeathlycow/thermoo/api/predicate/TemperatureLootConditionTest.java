@@ -1,6 +1,5 @@
 package com.github.thedeathlycow.thermoo.api.predicate;
 
-import com.github.thedeathlycow.thermoo.ThermooTest;
 import net.minecraft.advancements.critereon.MinMaxBounds;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.vehicle.Boat;
@@ -29,7 +28,6 @@ class TemperatureLootConditionTest {
 
     @BeforeAll
     static void setup() {
-        ThermooTest.bootstrapRegistries();
     }
 
     @BeforeEach

@@ -1,6 +1,5 @@
 package com.github.thedeathlycow.thermoo.api.temperature.effects;
 
-import com.github.thedeathlycow.thermoo.ThermooTest;
 import com.google.gson.JsonElement;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.DataResult;
@@ -15,7 +14,6 @@ class FunctionTemperatureEffectTest {
 
     @BeforeAll
     static void setup() {
-        ThermooTest.bootstrapRegistries();
     }
 
     @ParameterizedTest
