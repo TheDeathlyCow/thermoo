@@ -1,5 +1,6 @@
 package com.github.thedeathlycow.thermoo.testmod.tests.environment;
 
+import com.github.thedeathlycow.thermoo.testmod.ThermooTestMod;
 import net.fabricmc.fabric.api.gametest.v1.FabricGameTest;
 import net.minecraft.gametest.framework.AfterBatch;
 import net.minecraft.gametest.framework.BeforeBatch;
@@ -7,8 +8,10 @@ import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.biome.Biomes;
+import net.neoforged.neoforge.gametest.GameTestHolder;
 
 @SuppressWarnings("unused")
+@GameTestHolder(ThermooTestMod.MODID)
 public class WeatherStateTests {
     @BeforeBatch(batch = "snowyTaiga_rainy")
     public void setRainyForRainy(ServerLevel world) {

@@ -1,14 +1,17 @@
 package com.github.thedeathlycow.thermoo.testmod.tests;
 
 import com.github.thedeathlycow.thermoo.api.ThermooAttributes;
+import com.github.thedeathlycow.thermoo.testmod.ThermooTestMod;
 import net.fabricmc.fabric.api.gametest.v1.FabricGameTest;
 import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.npc.Villager;
+import net.neoforged.neoforge.gametest.GameTestHolder;
 
 @SuppressWarnings("unused")
+@GameTestHolder(ThermooTestMod.MODID)
 public class AttributeTests {
 
     @GameTest(template = FabricGameTest.EMPTY_STRUCTURE)

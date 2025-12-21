@@ -1,0 +1,18 @@
+modLoader="javafml"
+
+loaderVersion="[1,)"
+
+license="LGPL-3.0"
+
+issueTrackerURL="https://www.github.com/TheDeathlyCow/thermoo/issues"
+
+[[mods]] #mandatory
+modId="thermoo_test"
+version="1.0.0"
+displayName="Thermoo Test Mod"
+
+displayURL="https://thermoo.thedeathlycow.com"
+
+authors="TheDeathlyCow"
+
+description='''Testmod for Thermoo'''

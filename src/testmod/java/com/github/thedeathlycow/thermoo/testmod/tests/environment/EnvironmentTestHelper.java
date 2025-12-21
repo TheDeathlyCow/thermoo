@@ -20,8 +20,10 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
+import net.neoforged.neoforge.gametest.GameTestHolder;
 import org.jetbrains.annotations.Nullable;
 
+@GameTestHolder(ThermooTestMod.MODID)
 public final class EnvironmentTestHelper {
     public static void assertTemperatureEquals(GameTestHelper context, double expected, double actual) {
         context.assertTrue(

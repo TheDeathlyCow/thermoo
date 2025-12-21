@@ -14,11 +14,13 @@ import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.GameRules;
+import net.neoforged.fml.common.Mod;
 
 import java.util.Optional;
 
-public class ThermooTestMod implements ModInitializer {
-    public static final String MODID = Thermoo.MODID + "-test";
+@Mod(ThermooTestMod.MODID)
+public class ThermooTestMod {
+    public static final String MODID = Thermoo.MODID + "_test";
 
     public static final GameRules.Key<GameRules.IntegerValue> CURRENT_SEASON =
             GameRuleRegistry.register(
@@ -34,8 +36,7 @@ public class ThermooTestMod implements ModInitializer {
                     GameRuleFactory.createIntRule(0, 0, 2)
             );
 
-    @Override
-    public void onInitialize() {
+    public ThermooTestMod() {
         ArmorMaterialEvents.GET_FROST_RESISTANCE.register(ArmorMaterialListener.COLD);
         ArmorMaterialEvents.GET_HEAT_RESISTANCE.register(ArmorMaterialListener.HEAT);
         ThermooAttributes.baseValueEvent(ThermooAttributes.MIN_TEMPERATURE).register((entity, baseValue) -> 40);

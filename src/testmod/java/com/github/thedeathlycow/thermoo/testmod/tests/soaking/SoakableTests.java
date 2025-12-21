@@ -1,13 +1,16 @@
 package com.github.thedeathlycow.thermoo.testmod.tests.soaking;
 
+import com.github.thedeathlycow.thermoo.testmod.ThermooTestMod;
 import net.fabricmc.fabric.api.gametest.v1.FabricGameTest;
 import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.npc.Villager;
+import net.neoforged.neoforge.gametest.GameTestHolder;
 
 @SuppressWarnings("unused")
+@GameTestHolder(ThermooTestMod.MODID)
 public class SoakableTests {
     @GameTest(template = FabricGameTest.EMPTY_STRUCTURE)
     public void entity_max_wet_ticks_is_600(GameTestHelper context) {

@@ -19,8 +19,10 @@ import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
+import net.neoforged.neoforge.gametest.GameTestHolder;
 
 @SuppressWarnings("unused")
+@GameTestHolder(ThermooTestMod.MODID)
 public class ModifyItemAttributeModifiersTest {
     public static void initialize() {
         ModifyItemAttributeModifiersCallback.EVENT.register((stack, builder) -> {

@@ -2,13 +2,16 @@ package com.github.thedeathlycow.thermoo.testmod.tests.environment;
 
 import com.github.thedeathlycow.thermoo.api.environment.component.RelativeHumidityComponent;
 import com.github.thedeathlycow.thermoo.api.season.ThermooSeason;
+import com.github.thedeathlycow.thermoo.testmod.ThermooTestMod;
 import net.fabricmc.fabric.api.gametest.v1.FabricGameTest;
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biomes;
+import net.neoforged.neoforge.gametest.GameTestHolder;
 
 @SuppressWarnings("unused")
+@GameTestHolder(ThermooTestMod.MODID)
 public class JungleHumidityTests {
     @GameTest(template = FabricGameTest.EMPTY_STRUCTURE)
     public void jungle_fallback_humidity_is_normal_fallback(GameTestHelper context) {
