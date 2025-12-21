@@ -2,7 +2,7 @@
     "type": "thermoo:sequence",
     "entity": {
         "condition": "minecraft:reference",
-        "name": "thermoo-test:is_cold"
+        "name": "thermoo_test:is_cold"
     },
     "config": {
         "children": [
@@ -13,7 +13,7 @@
                 },
                 "config": {
                     "scale": -0.5,
-                    "id": "thermoo-test:freezing_small",
+                    "id": "thermoo_test:freezing_small",
                     "attribute_type": "minecraft:generic.scale",
                     "operation": "add_value"
                 }
@@ -22,7 +22,7 @@
                 "type": "thermoo:status_effect",
                 "entity": {
                     "condition": "minecraft:reference",
-                    "name": "thermoo-test:is_freezing"
+                    "name": "thermoo_test:is_freezing"
                 },
                 "config": {
                     "effects": [

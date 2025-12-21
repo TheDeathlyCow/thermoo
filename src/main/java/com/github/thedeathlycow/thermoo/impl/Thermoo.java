@@ -81,6 +81,7 @@ public class Thermoo {
                 EnvironmentProvider.ELEMENT_CODEC
         );
         modBus.addListener(ThermooCommonRegisters::register);
+        AttributeHelper.REGISTRY.register(modBus);
         ThermooAttachments.ATTACHMENT_TYPES.register(modBus);
 
         ResourceManagerHelper serverManager = ResourceManagerHelper.get(PackType.SERVER_DATA);

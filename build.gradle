@@ -57,7 +57,6 @@ neoForge {
     runs {
         client {
             client()
-            logLevel = org.slf4j.event.Level.INFO
 
             // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
             systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
@@ -65,7 +64,6 @@ neoForge {
 
         server {
             server()
-            logLevel = org.slf4j.event.Level.INFO
             programArgument '--nogui'
             systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
         }
@@ -75,13 +73,12 @@ neoForge {
         // The gametest system is also enabled by default for other run configs under the /test command.
         gameTestServer {
             type = "gameTestServer"
-            logLevel = org.slf4j.event.Level.INFO
             systemProperty 'neoforge.enabledGameTestNamespaces', "${project.mod_id},${project.mod_id}_test"
+            logLevel = org.slf4j.event.Level.INFO
         }
 
         data {
             data()
-            logLevel = org.slf4j.event.Level.INFO
 
             // example of overriding the workingDirectory set in configureEach above, uncomment if you want to use it
             // gameDirectory = project.file('run-data')

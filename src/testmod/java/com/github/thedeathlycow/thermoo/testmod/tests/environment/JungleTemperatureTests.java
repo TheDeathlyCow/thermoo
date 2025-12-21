@@ -9,11 +9,13 @@ import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biomes;
 import net.neoforged.neoforge.gametest.GameTestHolder;
+import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 
 @SuppressWarnings("unused")
 @GameTestHolder(ThermooTestMod.MODID)
+@PrefixGameTestTemplate(false)
 public class JungleTemperatureTests {
-    @GameTest(template = FabricGameTest.EMPTY_STRUCTURE)
+    @GameTest(template = ThermooTestMod.EMPTY_STRUCTURE)
     public void jungle_fallback_temperature_is_normal_fallback(GameTestHelper context) {
         Level world = context.getLevel();
         EnvironmentTestHelper.setSeasons(context, null, null);
@@ -27,7 +29,7 @@ public class JungleTemperatureTests {
 
         context.succeed();
     }
-    @GameTest(template = FabricGameTest.EMPTY_STRUCTURE)
+    @GameTest(template = ThermooTestMod.EMPTY_STRUCTURE)
     public void jungle_wet_temperature_is_30c(GameTestHelper context) {
         Level world = context.getLevel();
         EnvironmentTestHelper.setSeasons(context, null, ThermooSeason.TROPICAL_WET);
@@ -38,7 +40,7 @@ public class JungleTemperatureTests {
         context.succeed();
     }
 
-    @GameTest(template = FabricGameTest.EMPTY_STRUCTURE)
+    @GameTest(template = ThermooTestMod.EMPTY_STRUCTURE)
     public void jungle_dry_temperature_is_50c(GameTestHelper context) {
         Level world = context.getLevel();
         EnvironmentTestHelper.setSeasons(context, null, ThermooSeason.TROPICAL_DRY);

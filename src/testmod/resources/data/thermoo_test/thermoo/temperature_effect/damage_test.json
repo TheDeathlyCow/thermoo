@@ -5,7 +5,7 @@
     ],
     "entity": {
         "condition": "minecraft:reference",
-        "name": "thermoo-test:is_hot"
+        "name": "thermoo_test:is_hot"
     },
     "config": {
         "amount": 1.0,

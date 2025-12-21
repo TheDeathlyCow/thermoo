@@ -7,11 +7,13 @@ import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biomes;
 import net.neoforged.neoforge.gametest.GameTestHolder;
+import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 
 @SuppressWarnings("unused")
 @GameTestHolder(ThermooTestMod.MODID)
+@PrefixGameTestTemplate(false)
 public class ForestTests {
-    @GameTest(template = FabricGameTest.EMPTY_STRUCTURE)
+    @GameTest(template = ThermooTestMod.EMPTY_STRUCTURE)
     public void forest_temperature_is_21c(GameTestHelper context) {
         Level world = context.getLevel();
         EnvironmentTestHelper.setSeasons(context, null, null);
@@ -22,7 +24,7 @@ public class ForestTests {
         context.succeed();
     }
 
-    @GameTest(template = FabricGameTest.EMPTY_STRUCTURE)
+    @GameTest(template = ThermooTestMod.EMPTY_STRUCTURE)
     public void forest_humidity_is_51pc(GameTestHelper context) {
         Level world = context.getLevel();
         EnvironmentTestHelper.setSeasons(context, null, null);

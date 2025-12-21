@@ -9,9 +9,11 @@ import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.biome.Biomes;
 import net.neoforged.neoforge.gametest.GameTestHolder;
+import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 
 @SuppressWarnings("unused")
 @GameTestHolder(ThermooTestMod.MODID)
+@PrefixGameTestTemplate(false)
 public class PrecipitationTypeTests {
     @BeforeBatch(batch = "snowyPlains_rainy")
     public void setRainyForRainy(ServerLevel world) {
@@ -32,7 +34,7 @@ public class PrecipitationTypeTests {
     }
 
     @GameTest(
-            template = FabricGameTest.EMPTY_STRUCTURE,
+            template = ThermooTestMod.EMPTY_STRUCTURE,
             batch = "snowyPlains_rainy"
     )
     public void snowy_plains_has_snowy_temperature_when_not_raining(GameTestHelper context) {
@@ -46,7 +48,7 @@ public class PrecipitationTypeTests {
     }
 
     @GameTest(
-            template = FabricGameTest.EMPTY_STRUCTURE,
+            template = ThermooTestMod.EMPTY_STRUCTURE,
             batch = "snowyPlains_sunny"
     )
     public void snowy_plains_has_snowy_temperature_when_raining(GameTestHelper context) {

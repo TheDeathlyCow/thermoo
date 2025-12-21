@@ -8,11 +8,13 @@ import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biomes;
 import net.neoforged.neoforge.gametest.GameTestHolder;
+import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 
 @SuppressWarnings("unused")
 @GameTestHolder(ThermooTestMod.MODID)
+@PrefixGameTestTemplate(false)
 public class DarkForestTests {
-    @GameTest(template = FabricGameTest.EMPTY_STRUCTURE)
+    @GameTest(template = ThermooTestMod.EMPTY_STRUCTURE)
     public void dark_forest_temperature_is_10c(GameTestHelper context) {
         Level world = context.getLevel();
         EnvironmentTestHelper.setSeasons(context, null, null);
@@ -23,7 +25,7 @@ public class DarkForestTests {
         context.succeed();
     }
 
-    @GameTest(template = FabricGameTest.EMPTY_STRUCTURE)
+    @GameTest(template = ThermooTestMod.EMPTY_STRUCTURE)
     public void dark_forest_humidity_is_51pc(GameTestHelper context) {
         Level world = context.getLevel();
         EnvironmentTestHelper.setSeasons(context, null, null);
@@ -34,7 +36,7 @@ public class DarkForestTests {
         context.succeed();
     }
 
-    @GameTest(template = FabricGameTest.EMPTY_STRUCTURE)
+    @GameTest(template = ThermooTestMod.EMPTY_STRUCTURE)
     public void dark_forest_winter_temperature_is_0c(GameTestHelper context) {
         Level world = context.getLevel();
         EnvironmentTestHelper.setSeasons(context, ThermooSeason.WINTER, null);
@@ -45,7 +47,7 @@ public class DarkForestTests {
         context.succeed();
     }
 
-    @GameTest(template = FabricGameTest.EMPTY_STRUCTURE)
+    @GameTest(template = ThermooTestMod.EMPTY_STRUCTURE)
     public void dark_forest_winter_humidity_is_25pc(GameTestHelper context) {
         Level world = context.getLevel();
         EnvironmentTestHelper.setSeasons(context, ThermooSeason.WINTER, null);
@@ -56,7 +58,7 @@ public class DarkForestTests {
         context.succeed();
     }
 
-    @GameTest(template = FabricGameTest.EMPTY_STRUCTURE)
+    @GameTest(template = ThermooTestMod.EMPTY_STRUCTURE)
     public void dark_forest_summer_temperature_is_replaced_with_35c(GameTestHelper context) {
         Level world = context.getLevel();
         EnvironmentTestHelper.setSeasons(context, ThermooSeason.SUMMER, null);
@@ -67,7 +69,7 @@ public class DarkForestTests {
         context.succeed();
     }
 
-    @GameTest(template = FabricGameTest.EMPTY_STRUCTURE)
+    @GameTest(template = ThermooTestMod.EMPTY_STRUCTURE)
     public void dark_forest_summer_humidity_is_replaced_with_75pc(GameTestHelper context) {
         Level world = context.getLevel();
         EnvironmentTestHelper.setSeasons(context, ThermooSeason.SUMMER, null);

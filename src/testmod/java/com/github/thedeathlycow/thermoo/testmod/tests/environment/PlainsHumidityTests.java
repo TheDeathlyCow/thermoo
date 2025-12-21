@@ -8,11 +8,14 @@ import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biomes;
 import net.neoforged.neoforge.gametest.GameTestHolder;
+import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
+import org.sinytra.fabric.gametest_api_v1.FabricGameTestApiV1;
 
 @SuppressWarnings("unused")
 @GameTestHolder(ThermooTestMod.MODID)
+@PrefixGameTestTemplate(false)
 public class PlainsHumidityTests {
-    @GameTest(template = FabricGameTest.EMPTY_STRUCTURE)
+    @GameTest(template = "empty")
     public void plains_fallback_humidity_is_spring(GameTestHelper context) {
         Level world = context.getLevel();
         EnvironmentTestHelper.setSeasons(context, null, null);
@@ -23,7 +26,7 @@ public class PlainsHumidityTests {
         context.succeed();
     }
 
-    @GameTest(template = FabricGameTest.EMPTY_STRUCTURE)
+    @GameTest(template = ThermooTestMod.EMPTY_STRUCTURE)
     public void plains_spring_humidity_is_75pc(GameTestHelper context) {
         Level world = context.getLevel();
         EnvironmentTestHelper.setSeasons(context, ThermooSeason.SPRING, null);
@@ -34,7 +37,7 @@ public class PlainsHumidityTests {
         context.succeed();
     }
 
-    @GameTest(template = FabricGameTest.EMPTY_STRUCTURE)
+    @GameTest(template = ThermooTestMod.EMPTY_STRUCTURE)
     public void plains_summer_humidity_is_75pc(GameTestHelper context) {
         Level world = context.getLevel();
         EnvironmentTestHelper.setSeasons(context, ThermooSeason.SUMMER, null);
@@ -45,7 +48,7 @@ public class PlainsHumidityTests {
         context.succeed();
     }
 
-    @GameTest(template = FabricGameTest.EMPTY_STRUCTURE)
+    @GameTest(template = ThermooTestMod.EMPTY_STRUCTURE)
     public void plains_autumn_humidity_is_25pc(GameTestHelper context) {
         Level world = context.getLevel();
         EnvironmentTestHelper.setSeasons(context, ThermooSeason.AUTUMN, null);
@@ -56,7 +59,7 @@ public class PlainsHumidityTests {
         context.succeed();
     }
 
-    @GameTest(template = FabricGameTest.EMPTY_STRUCTURE)
+    @GameTest(template = ThermooTestMod.EMPTY_STRUCTURE)
     public void plains_winter_humidity_is_25pc(GameTestHelper context) {
         Level world = context.getLevel();
         EnvironmentTestHelper.setSeasons(context, ThermooSeason.WINTER, null);

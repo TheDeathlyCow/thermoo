@@ -20,9 +20,11 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.neoforged.neoforge.gametest.GameTestHolder;
+import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 
 @SuppressWarnings("unused")
 @GameTestHolder(ThermooTestMod.MODID)
+@PrefixGameTestTemplate(false)
 public class ModifyItemAttributeModifiersTest {
     public static void initialize() {
         ModifyItemAttributeModifiersCallback.EVENT.register((stack, builder) -> {
@@ -65,7 +67,7 @@ public class ModifyItemAttributeModifiersTest {
         });
     }
 
-    @GameTest(template = FabricGameTest.EMPTY_STRUCTURE)
+    @GameTest(template = ThermooTestMod.EMPTY_STRUCTURE)
     public void default_diamond_chestplate_applies_scale(GameTestHelper context) {
         Villager villager = context.spawn(EntityType.VILLAGER, BlockPos.ZERO);
         context.assertEntityData(BlockPos.ZERO, EntityType.VILLAGER, LivingEntity::getScale, 1f);
@@ -74,7 +76,7 @@ public class ModifyItemAttributeModifiersTest {
         context.succeedWhenEntityData(BlockPos.ZERO, EntityType.VILLAGER, LivingEntity::getScale, 2f);
     }
 
-    @GameTest(template = FabricGameTest.EMPTY_STRUCTURE)
+    @GameTest(template = ThermooTestMod.EMPTY_STRUCTURE)
     public void default_diamond_chestplate_does_not_apply_scale_when_held(GameTestHelper context) {
         Villager villager = context.spawn(EntityType.VILLAGER, BlockPos.ZERO);
         context.assertEntityData(BlockPos.ZERO, EntityType.VILLAGER, LivingEntity::getScale, 1f);
@@ -83,7 +85,7 @@ public class ModifyItemAttributeModifiersTest {
         context.succeedWhenEntityData(BlockPos.ZERO, EntityType.VILLAGER, LivingEntity::getScale, 1f);
     }
 
-    @GameTest(template = FabricGameTest.EMPTY_STRUCTURE)
+    @GameTest(template = ThermooTestMod.EMPTY_STRUCTURE)
     public void modified_diamond_chestplate_does_not_apply_scale(GameTestHelper context) {
         Villager villager = context.spawn(EntityType.VILLAGER, BlockPos.ZERO);
         context.assertEntityData(BlockPos.ZERO, EntityType.VILLAGER, LivingEntity::getScale, 1f);
@@ -95,7 +97,7 @@ public class ModifyItemAttributeModifiersTest {
         context.succeedWhenEntityData(BlockPos.ZERO, EntityType.VILLAGER, LivingEntity::getScale, 1f);
     }
 
-    @GameTest(template = FabricGameTest.EMPTY_STRUCTURE)
+    @GameTest(template = ThermooTestMod.EMPTY_STRUCTURE)
     public void default_diamond_axe_applies_armor(GameTestHelper context) {
         Villager villager = context.spawn(EntityType.VILLAGER, BlockPos.ZERO);
         context.assertEntityData(BlockPos.ZERO, EntityType.VILLAGER, LivingEntity::getArmorValue, 0);
@@ -104,7 +106,7 @@ public class ModifyItemAttributeModifiersTest {
         context.succeedWhenEntityData(BlockPos.ZERO, EntityType.VILLAGER, LivingEntity::getArmorValue, 1);
     }
 
-    @GameTest(template = FabricGameTest.EMPTY_STRUCTURE)
+    @GameTest(template = ThermooTestMod.EMPTY_STRUCTURE)
     public void default_netherite_axe_overwrites_armor(GameTestHelper context) {
         Villager villager = context.spawn(EntityType.VILLAGER, BlockPos.ZERO);
         context.assertEntityData(BlockPos.ZERO, EntityType.VILLAGER, LivingEntity::getArmorValue, 0);
@@ -113,7 +115,7 @@ public class ModifyItemAttributeModifiersTest {
         context.succeedWhenEntityData(BlockPos.ZERO, EntityType.VILLAGER, LivingEntity::getArmorValue, 5);
     }
 
-    @GameTest(template = FabricGameTest.EMPTY_STRUCTURE)
+    @GameTest(template = ThermooTestMod.EMPTY_STRUCTURE)
     public void default_diamond_axe_does_not_apply_armor_when_worn(GameTestHelper context) {
         Villager villager = context.spawn(EntityType.VILLAGER, BlockPos.ZERO);
         context.assertEntityData(BlockPos.ZERO, EntityType.VILLAGER, LivingEntity::getArmorValue, 0);
@@ -122,7 +124,7 @@ public class ModifyItemAttributeModifiersTest {
         context.succeedWhenEntityData(BlockPos.ZERO, EntityType.VILLAGER, LivingEntity::getArmorValue, 0);
     }
 
-    @GameTest(template = FabricGameTest.EMPTY_STRUCTURE)
+    @GameTest(template = ThermooTestMod.EMPTY_STRUCTURE)
     public void modified_diamond_axe_does_not_apply_armor(GameTestHelper context) {
         Villager villager = context.spawn(EntityType.VILLAGER, BlockPos.ZERO);
         context.assertEntityData(BlockPos.ZERO, EntityType.VILLAGER, LivingEntity::getArmorValue, 0);

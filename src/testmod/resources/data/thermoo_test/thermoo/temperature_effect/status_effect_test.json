@@ -2,7 +2,7 @@
     "type": "thermoo:status_effect",
     "entity": {
         "condition": "minecraft:reference",
-        "name": "thermoo-test:is_cold"
+        "name": "thermoo_test:is_cold"
     },
     "config": {
         "effects": [

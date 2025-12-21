@@ -5,10 +5,10 @@
     "provider": {
         "type": "thermoo:modify",
         "modifiers": [
-            "thermoo-test:modifiers/dark_forest_shift",
-            "thermoo-test:modifiers/dark_forest_winter_temperature",
-            "thermoo-test:modifiers/dark_forest_winter_humidity",
-            "thermoo-test:modifiers/dark_forest_summer_replace"
+            "thermoo_test:modifiers/dark_forest_shift",
+            "thermoo_test:modifiers/dark_forest_winter_temperature",
+            "thermoo_test:modifiers/dark_forest_winter_humidity",
+            "thermoo_test:modifiers/dark_forest_summer_replace"
         ],
         "base": {
             "type": "thermoo:constant",

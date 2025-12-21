@@ -2,6 +2,7 @@ package com.github.thedeathlycow.thermoo.api;
 
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import com.github.thedeathlycow.thermoo.impl.attribute.AttributeData;
+import com.github.thedeathlycow.thermoo.impl.attribute.AttributeHelper;
 import net.fabricmc.fabric.api.event.Event;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
@@ -165,7 +166,7 @@ public final class ThermooAttributes {
     }
 
     private static Holder<Attribute> register(String name, Attribute attribute) {
-        return Registry.registerForHolder(BuiltInRegistries.ATTRIBUTE, Thermoo.id(name), attribute);
+        return AttributeHelper.REGISTRY.register(name, () -> attribute);
     }
 
     private ThermooAttributes() {

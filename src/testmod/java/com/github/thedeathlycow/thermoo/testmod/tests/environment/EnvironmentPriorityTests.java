@@ -16,13 +16,15 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Biomes;
 import net.neoforged.neoforge.gametest.GameTestHolder;
+import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 
 import java.util.List;
 
 @SuppressWarnings("unused")
 @GameTestHolder(ThermooTestMod.MODID)
+@PrefixGameTestTemplate(false)
 public class EnvironmentPriorityTests {
-    @GameTest(template = FabricGameTest.EMPTY_STRUCTURE)
+    @GameTest(template = ThermooTestMod.EMPTY_STRUCTURE)
     public void environments_loaded_in_priority_order(GameTestHelper context) {
         ServerLevel world = context.getLevel();
         Registry<EnvironmentDefinition> registry = world.registryAccess().registryOrThrow(ThermooRegistryKeys.ENVIRONMENT);

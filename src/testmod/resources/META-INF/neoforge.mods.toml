@@ -16,3 +16,10 @@ displayURL="https://thermoo.thedeathlycow.com"
 authors="TheDeathlyCow"
 
 description='''Testmod for Thermoo'''
+
+[[dependencies.thermoo_test]]
+    modId="thermoo"
+    type="required"
+    versionRange="[1.0.0,)"
+    ordering="AFTER"
+    side="BOTH"

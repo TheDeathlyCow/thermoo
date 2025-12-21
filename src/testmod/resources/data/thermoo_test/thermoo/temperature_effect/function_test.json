@@ -5,6 +5,6 @@
     },
     "entity_type": "minecraft:player",
     "config": {
-        "function": "thermoo-test:message"
+        "function": "thermoo_test:message"
     }
 }

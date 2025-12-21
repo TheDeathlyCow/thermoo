@@ -9,12 +9,14 @@ import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.npc.Villager;
 import net.neoforged.neoforge.gametest.GameTestHolder;
+import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 
 @SuppressWarnings("unused")
 @GameTestHolder(ThermooTestMod.MODID)
+@PrefixGameTestTemplate(false)
 public class AttributeTests {
 
-    @GameTest(template = FabricGameTest.EMPTY_STRUCTURE)
+    @GameTest(template = ThermooTestMod.EMPTY_STRUCTURE)
     public void villager_min_temperature_is_set_by_event(GameTestHelper context) {
         Villager villager = context.spawn(EntityType.VILLAGER, BlockPos.ZERO.above());
 
@@ -23,7 +25,7 @@ public class AttributeTests {
         context.succeed();
     }
 
-    @GameTest(template = FabricGameTest.EMPTY_STRUCTURE)
+    @GameTest(template = ThermooTestMod.EMPTY_STRUCTURE)
     public void villager_max_temperature_is_set_by_event(GameTestHelper context) {
         Villager villager = context.spawn(EntityType.VILLAGER, BlockPos.ZERO.above());
 

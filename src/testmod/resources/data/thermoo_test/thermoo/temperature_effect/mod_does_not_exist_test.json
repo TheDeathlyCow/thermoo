@@ -5,15 +5,15 @@
     },
     "entity_type": "minecraft:player",
     "config": {
-        "function": "thermoo-test:macro_message",
+        "function": "thermoo_test:macro_message",
         "interval": 100,
-        "arguments": "{message:\"Thermoo exists!\"}"
+        "arguments": "{message:\"Frostiful exists!\"}"
     },
     "fabric:load_conditions": [
         {
             "condition": "fabric:all_mods_loaded",
             "values": [
-                "thermoo"
+                "frostiful"
             ]
         }
     ]

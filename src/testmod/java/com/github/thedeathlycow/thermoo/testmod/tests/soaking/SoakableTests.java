@@ -8,11 +8,13 @@ import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.npc.Villager;
 import net.neoforged.neoforge.gametest.GameTestHolder;
+import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 
 @SuppressWarnings("unused")
 @GameTestHolder(ThermooTestMod.MODID)
+@PrefixGameTestTemplate(false)
 public class SoakableTests {
-    @GameTest(template = FabricGameTest.EMPTY_STRUCTURE)
+    @GameTest(template = ThermooTestMod.EMPTY_STRUCTURE)
     public void entity_max_wet_ticks_is_600(GameTestHelper context) {
         Villager villager = context.spawn(EntityType.VILLAGER, BlockPos.ZERO);
         context.assertValueEqual(villager.thermoo$getMaxWetTicks(), 600, "Max Wet Ticks");

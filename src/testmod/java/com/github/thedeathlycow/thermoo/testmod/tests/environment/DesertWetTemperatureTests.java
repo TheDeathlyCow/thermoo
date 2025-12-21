@@ -8,11 +8,13 @@ import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biomes;
 import net.neoforged.neoforge.gametest.GameTestHolder;
+import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 
 @SuppressWarnings("unused")
 @GameTestHolder(ThermooTestMod.MODID)
+@PrefixGameTestTemplate(false)
 public class DesertWetTemperatureTests {
-    @GameTest(template = FabricGameTest.EMPTY_STRUCTURE)
+    @GameTest(template = ThermooTestMod.EMPTY_STRUCTURE)
     public void desert_wet_fallback_temperature_is_summer(GameTestHelper context) {
         Level world = context.getLevel();
         EnvironmentTestHelper.setSeasons(context, null, ThermooSeason.TROPICAL_WET);
@@ -23,7 +25,7 @@ public class DesertWetTemperatureTests {
         context.succeed();
     }
 
-    @GameTest(template = FabricGameTest.EMPTY_STRUCTURE)
+    @GameTest(template = ThermooTestMod.EMPTY_STRUCTURE)
     public void desert_wet_spring_temperature_is_31c(GameTestHelper context) {
         Level world = context.getLevel();
         EnvironmentTestHelper.setSeasons(context, ThermooSeason.SPRING, ThermooSeason.TROPICAL_WET);
@@ -34,7 +36,7 @@ public class DesertWetTemperatureTests {
         context.succeed();
     }
 
-    @GameTest(template = FabricGameTest.EMPTY_STRUCTURE)
+    @GameTest(template = ThermooTestMod.EMPTY_STRUCTURE)
     public void desert_wet_summer_temperature_is_41c(GameTestHelper context) {
         Level world = context.getLevel();
         EnvironmentTestHelper.setSeasons(context, ThermooSeason.SUMMER, ThermooSeason.TROPICAL_WET);
@@ -45,7 +47,7 @@ public class DesertWetTemperatureTests {
         context.succeed();
     }
 
-    @GameTest(template = FabricGameTest.EMPTY_STRUCTURE)
+    @GameTest(template = ThermooTestMod.EMPTY_STRUCTURE)
     public void desert_wet_autumn_temperature_is_31c(GameTestHelper context) {
         Level world = context.getLevel();
         EnvironmentTestHelper.setSeasons(context, ThermooSeason.AUTUMN, ThermooSeason.TROPICAL_WET);
@@ -56,7 +58,7 @@ public class DesertWetTemperatureTests {
         context.succeed();
     }
 
-    @GameTest(template = FabricGameTest.EMPTY_STRUCTURE)
+    @GameTest(template = ThermooTestMod.EMPTY_STRUCTURE)
     public void desert_wet_winter_temperature_is_21c(GameTestHelper context) {
         Level world = context.getLevel();
         EnvironmentTestHelper.setSeasons(context, ThermooSeason.WINTER, ThermooSeason.TROPICAL_WET);

@@ -12,7 +12,7 @@
                     "thermoo:relative_humidity": 1.0
                 }
             },
-            "dry": "thermoo-test:jungle_dry"
+            "dry": "thermoo_test:jungle_dry"
         }
     }
 }

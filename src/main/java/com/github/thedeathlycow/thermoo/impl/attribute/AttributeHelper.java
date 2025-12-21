@@ -1,14 +1,22 @@
 package com.github.thedeathlycow.thermoo.impl.attribute;
 
+import com.github.thedeathlycow.thermoo.impl.Thermoo;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.util.datafix.schemas.NamespacedSchema;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.neoforged.neoforge.registries.DeferredRegister;
 
 /**
  * Helper methods for attribute related functions
  */
 public class AttributeHelper {
+    public static final DeferredRegister<Attribute> REGISTRY = DeferredRegister.create(
+            Registries.ATTRIBUTE,
+            Thermoo.MODID
+    );
 
     private static final String PREFIX = "thermoo:generic.";
 

@@ -9,9 +9,11 @@ import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.biome.Biomes;
 import net.neoforged.neoforge.gametest.GameTestHolder;
+import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 
 @SuppressWarnings("unused")
 @GameTestHolder(ThermooTestMod.MODID)
+@PrefixGameTestTemplate(false)
 public class WeatherStateTests {
     @BeforeBatch(batch = "snowyTaiga_rainy")
     public void setRainyForRainy(ServerLevel world) {
@@ -47,7 +49,7 @@ public class WeatherStateTests {
     }
 
     @GameTest(
-            template = FabricGameTest.EMPTY_STRUCTURE,
+            template = ThermooTestMod.EMPTY_STRUCTURE,
             batch = "snowyTaiga_sunny"
     )
     public void snowy_taiga_during_sunny_is_neg5c(GameTestHelper context) {
@@ -61,7 +63,7 @@ public class WeatherStateTests {
     }
 
     @GameTest(
-            template = FabricGameTest.EMPTY_STRUCTURE,
+            template = ThermooTestMod.EMPTY_STRUCTURE,
             batch = "snowyTaiga_rainy"
     )
     public void snowy_taiga_during_rainy_is_neg10c(GameTestHelper context) {
@@ -75,7 +77,7 @@ public class WeatherStateTests {
     }
 
     @GameTest(
-            template = FabricGameTest.EMPTY_STRUCTURE,
+            template = ThermooTestMod.EMPTY_STRUCTURE,
             batch = "snowyTaiga_thundering"
     )
     public void snowy_taiga_during_thunder_is_neg15c(GameTestHelper context) {
