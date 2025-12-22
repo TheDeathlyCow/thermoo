@@ -26,5 +26,5 @@ jobs:
       - name: Make Gradle wrapper executable
         run: chmod +x ./gradlew
 
-      - name: Build with Gradle
+      - name: Run Game Tests with Gradle
         run: ./gradlew runGameTestServer
