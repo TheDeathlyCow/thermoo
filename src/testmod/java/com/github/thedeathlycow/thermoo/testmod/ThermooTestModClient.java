@@ -2,24 +2,26 @@ package com.github.thedeathlycow.thermoo.testmod;
 
 import com.github.thedeathlycow.thermoo.api.client.StatusBarOverlayRenderEvents;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
-import net.fabricmc.api.ClientModInitializer;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.common.Mod;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector2i;
 
-public class ThermooTestModClient implements ClientModInitializer {
+@Mod(value = ThermooTestMod.MODID, dist = Dist.CLIENT)
+public class ThermooTestModClient {
 
     public static final ResourceLocation HEART_OVERLAY_TEXTURE = Thermoo.id("textures/gui/fire_heart_overlay.png");
 
     private static final int TEXTURE_WIDTH = 18;
     private static final int TEXTURE_HEIGHT = 30;
 
-    @Override
-    public void onInitializeClient() {
+    public ThermooTestModClient(IEventBus modBus) {
         StatusBarOverlayRenderEvents.AFTER_HEALTH_BAR.register(ThermooTestModClient::renderFireHeartBar);
         StatusBarOverlayRenderEvents.AFTER_MOUNT_HEALTH_BAR.register(ThermooTestModClient::renderMountFireHeartBar);
     }
