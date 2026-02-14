@@ -400,6 +400,10 @@ public final class TemperatureCommand {
 
         final int result = totalAffected;
 
+        if (result == 0) {
+            throw enabled ? FAILED_TO_ENABLE_EFFECT.create(id) : FAILED_TO_DISABLE_EFFECT.create(id);
+        }
+
         if (enabled) {
             source.sendSuccess(() -> Component.translatable("commands.thermoo.temperature.effect.multiple.set_enabled.true", id.toString(), result), true);
         } else {
