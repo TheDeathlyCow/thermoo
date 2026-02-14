@@ -61,6 +61,14 @@ public final class EnvironmentProviderTypes {
      */
     public static final EnvironmentProviderType<TemperatureShiftEnvironmentProvider> TEMPERATURE_SHIFT = new EnvironmentProviderType<>(TemperatureShiftEnvironmentProvider.CODEC);
 
+    /**
+     * A leaf-modifier provider that applies the Ideal Gas Law to the temperature in a map, using some base pressure.
+     *
+     * @see SetTemperatureFromPressure
+     */
+    public static final EnvironmentProviderType<SetTemperatureFromPressure> SET_TEMPERATURE_FROM_PRESSURE = new EnvironmentProviderType<>(SetTemperatureFromPressure.CODEC);
+
+
     private EnvironmentProviderTypes() {
 
     }
