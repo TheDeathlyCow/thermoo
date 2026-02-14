@@ -2,6 +2,8 @@ package com.github.thedeathlycow.thermoo.impl.component;
 
 import com.github.thedeathlycow.thermoo.api.temperature.effects.ConfiguredTemperatureEffect;
 import com.github.thedeathlycow.thermoo.impl.temperature.effect.TemperatureEffectManager;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.storage.ValueInput;
@@ -13,7 +15,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class TemperatureEffectsComponent implements Component, ServerTickingComponent {
-
     private final Map<Identifier, Settings> effectsSettings = new HashMap<>();
 
     private final LivingEntity provider;
@@ -22,14 +23,36 @@ public class TemperatureEffectsComponent implements Component, ServerTickingComp
         this.provider = provider;
     }
 
+    public boolean setEffectEnabled(Identifier id, boolean enabled) {
+        Settings settings = this.effectsSettings.get(id);
+
+        if (settings != null && settings.enabled != enabled) {
+            settings.enabled = enabled;
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean isEffectEnabled(Identifier id) {
+        Settings settings = this.effectsSettings.get(id);
+
+        if (settings != null) {
+            return settings.enabled;
+        }
+
+        return false;
+    }
+
     @Override
     public void readData(ValueInput readView) {
-        // nothing to read
+        this.effectsSettings.clear();
+        readView.read(Settings.SETTINGS_KEY, Settings.MAP_CODEC).ifPresent(this.effectsSettings::putAll);
     }
 
     @Override
     public void writeData(ValueOutput writeView) {
-        // nothing to write
+        writeView.store(Settings.SETTINGS_KEY, Settings.MAP_CODEC, this.effectsSettings);
     }
 
     @Override
@@ -40,7 +63,7 @@ public class TemperatureEffectsComponent implements Component, ServerTickingComp
             boolean wasApplied = settings.applied;
             ConfiguredTemperatureEffect<?> effect = effectEntry.effect();
 
-            if (effect.apply(provider)) {
+            if (settings.enabled && effect.apply(provider)) {
                 settings.applied = true;
             } else {
                 settings.applied = false;
@@ -53,6 +76,23 @@ public class TemperatureEffectsComponent implements Component, ServerTickingComp
     }
 
     private static class Settings {
+        public static final Codec<Settings> CODEC = RecordCodecBuilder.create(
+                instance -> instance.group(
+                        Codec.BOOL
+                                .fieldOf("enabled")
+                                .forGetter(settings -> settings.enabled)
+                ).apply(instance, enabled -> {
+                    var settings = new Settings();
+                    settings.enabled = enabled;
+                    return settings;
+                })
+        );
+
+        public static final Codec<Map<Identifier, Settings>> MAP_CODEC = Codec.unboundedMap(Identifier.CODEC, CODEC);
+
+        public static final String SETTINGS_KEY = "settings";
+
         private boolean applied = false;
+        private boolean enabled = true;
     }
 }
