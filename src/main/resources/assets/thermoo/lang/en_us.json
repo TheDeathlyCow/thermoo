@@ -37,11 +37,12 @@
     "commands.thermoo.soaking.add.success": "Added %d points to the soaking value of %s (now %d)",
     "commands.thermoo.soaking.remove.success": "Removed %d points from the soaking value of %s (now %d)",
     
-    "commands.thermoo.temperature.effect.single.enable.on": "Enabled temperature effect %s for %s",
-    "commands.thermoo.temperature.effect.single.enable.off": "Disabled temperature effect %s for %s",
-    "commands.thermoo.temperature.effect.multiple.enable.on": "Enabled temperature effect %s for %s entities",
-    "commands.thermoo.temperature.effect.multiple.enable.off": "Disabled temperature effect %s for %s entities",
+    "commands.thermoo.temperature.effect.single.set_enabled.true": "Enabled temperature effect %s for %s",
+    "commands.thermoo.temperature.effect.single.set_enabled.false": "Disabled temperature effect %s for %s",
+    "commands.thermoo.temperature.effect.multiple.set_enabled.true": "Enabled temperature effect %s for %s entities",
+    "commands.thermoo.temperature.effect.multiple.set_enabled.false": "Disabled temperature effect %s for %s entities",
     "commands.thermoo.temperature.exception.failed_to_enable_effect": "Failed to enable temperature effect %s",
+    "commands.thermoo.temperature.exception.failed_to_disable_effect": "Failed to disable temperature effect %s",
     "commands.thermoo.temperature.exception.effect_already_enabled": "Effect %s is already enabled",
     "commands.thermoo.temperature.exception.effect_already_disabled": "Effect %s is already disabled",
     

@@ -55,6 +55,10 @@ public final class TemperatureCommand {
             id -> Component.translatable("commands.thermoo.temperature.exception.failed_to_enable_effect", id.toString())
     );
 
+    static final DynamicCommandExceptionType FAILED_TO_DISABLE_EFFECT = new DynamicCommandExceptionType(
+            id -> Component.translatable("commands.thermoo.temperature.exception.failed_to_disable_effect", id.toString())
+    );
+
     /**
      * Supplier for creating a new temperature command builder to be registered to the Minecraft server
      * <p>
@@ -397,9 +401,9 @@ public final class TemperatureCommand {
         final int result = totalAffected;
 
         if (enabled) {
-            source.sendSuccess(() -> Component.translatable("commands.thermoo.temperature.effect.multiple.enable.on", id.toString(), result), true);
+            source.sendSuccess(() -> Component.translatable("commands.thermoo.temperature.effect.multiple.set_enabled.true", id.toString(), result), true);
         } else {
-            source.sendSuccess(() -> Component.translatable("commands.thermoo.temperature.effect.multiple.enable.off", id.toString(), result), true);
+            source.sendSuccess(() -> Component.translatable("commands.thermoo.temperature.effect.multiple.set_enabled.false", id.toString(), result), true);
         }
 
         return result;
@@ -412,12 +416,12 @@ public final class TemperatureCommand {
 
         if (ConfiguredTemperatureEffect.setEffectEnabled(entity, id, enabled)) {
             if (enabled) {
-                source.sendSuccess(() -> Component.translatable("commands.thermoo.temperature.effect.single.enable.on", id.toString(), entity.getDisplayName()), true);
+                source.sendSuccess(() -> Component.translatable("commands.thermoo.temperature.effect.single.set_enabled.true", id.toString(), entity.getDisplayName()), true);
             } else {
-                source.sendSuccess(() -> Component.translatable("commands.thermoo.temperature.effect.single.enable.off", id.toString(), entity.getDisplayName()), true);
+                source.sendSuccess(() -> Component.translatable("commands.thermoo.temperature.effect.single.set_enabled.false", id.toString(), entity.getDisplayName()), true);
             }
         } else {
-            throw FAILED_TO_ENABLE_EFFECT.create(id);
+            throw enabled ? FAILED_TO_ENABLE_EFFECT.create(id) : FAILED_TO_DISABLE_EFFECT.create(id);
         }
 
         return Command.SINGLE_SUCCESS;
