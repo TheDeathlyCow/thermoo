@@ -22,6 +22,17 @@ public class TemperatureEffectsComponent implements Component, ServerTickingComp
         this.provider = provider;
     }
 
+    public boolean setEffectEnabled(Identifier id, boolean enabled) {
+        Settings settings = this.effectsSettings.get(id);
+
+        if (settings != null) {
+            settings.enabled = enabled;
+            return true;
+        }
+
+        return false;
+    }
+
     @Override
     public void readData(ValueInput readView) {
         // nothing to read
@@ -40,7 +51,7 @@ public class TemperatureEffectsComponent implements Component, ServerTickingComp
             boolean wasApplied = settings.applied;
             ConfiguredTemperatureEffect<?> effect = effectEntry.effect();
 
-            if (effect.apply(provider)) {
+            if (settings.enabled && effect.apply(provider)) {
                 settings.applied = true;
             } else {
                 settings.applied = false;
@@ -54,5 +65,6 @@ public class TemperatureEffectsComponent implements Component, ServerTickingComp
 
     private static class Settings {
         private boolean applied = false;
+        private boolean enabled = true;
     }
 }
