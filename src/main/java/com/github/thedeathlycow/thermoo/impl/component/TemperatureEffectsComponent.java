@@ -15,8 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class TemperatureEffectsComponent implements Component, ServerTickingComponent {
-
-    private Map<Identifier, Settings> effectsSettings = new HashMap<>();
+    private final Map<Identifier, Settings> effectsSettings = new HashMap<>();
 
     private final LivingEntity provider;
 
@@ -35,12 +34,20 @@ public class TemperatureEffectsComponent implements Component, ServerTickingComp
         return false;
     }
 
+    public boolean isEffectEnabled(Identifier id) {
+        Settings settings = this.effectsSettings.get(id);
+
+        if (settings != null) {
+            return settings.enabled;
+        }
+
+        return false;
+    }
+
     @Override
     public void readData(ValueInput readView) {
-        readView.read(Settings.SETTINGS_KEY, Settings.MAP_CODEC).ifPresentOrElse(
-                settings -> this.effectsSettings = settings,
-                () -> this.effectsSettings = new HashMap<>()
-        );
+        this.effectsSettings.clear();
+        readView.read(Settings.SETTINGS_KEY, Settings.MAP_CODEC).ifPresent(this.effectsSettings::putAll);
     }
 
     @Override

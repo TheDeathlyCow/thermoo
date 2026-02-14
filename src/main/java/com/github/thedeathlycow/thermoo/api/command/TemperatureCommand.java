@@ -2,13 +2,19 @@ package com.github.thedeathlycow.thermoo.api.command;
 
 import com.github.thedeathlycow.thermoo.api.temperature.HeatingModes;
 import com.github.thedeathlycow.thermoo.api.temperature.TemperatureAware;
+import com.github.thedeathlycow.thermoo.api.temperature.effects.ConfiguredTemperatureEffect;
+import com.mojang.brigadier.Command;
+import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.arguments.EntityArgument;
+import net.minecraft.commands.arguments.IdentifierArgument;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.permissions.Permissions;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
@@ -35,6 +41,18 @@ public final class TemperatureCommand {
 
     static final SimpleCommandExceptionType NOT_LIVING_ENTITY = new SimpleCommandExceptionType(
             Component.translatable("commands.thermoo.temperature.exception.not_living_entity")
+    );
+
+    static final DynamicCommandExceptionType EFFECT_ALREADY_ENABLED = new DynamicCommandExceptionType(
+            id -> Component.translatable("commands.thermoo.temperature.exception.effect_already_enabled", id.toString())
+    );
+
+    static final DynamicCommandExceptionType EFFECT_ALREADY_DISABLED = new DynamicCommandExceptionType(
+            id -> Component.translatable("commands.thermoo.temperature.exception.effect_already_disabled", id.toString())
+    );
+
+    static final DynamicCommandExceptionType FAILED_TO_ENABLE_EFFECT = new DynamicCommandExceptionType(
+            id -> Component.translatable("commands.thermoo.temperature.exception.failed_to_enable_effect", id.toString())
     );
 
     /**
@@ -178,6 +196,28 @@ public final class TemperatureCommand {
                                 )
                 );
 
+        var effect = literal("effect")
+                .then(
+                        literal("set_enabled")
+                                .then(
+                                        argument("targets", EntityArgument.entities())
+                                                .then(
+                                                        argument("id", IdentifierArgument.id())
+                                                                .then(
+                                                                        argument("enabled", BoolArgumentType.bool())
+                                                                                .executes(context -> {
+                                                                                    return runEffectEnable(
+                                                                                            context.getSource(),
+                                                                                            EntityArgument.getEntities(context, "targets"),
+                                                                                            IdentifierArgument.getId(context, "id"),
+                                                                                            BoolArgumentType.getBool(context, "enabled")
+                                                                                    );
+                                                                                })
+                                                                )
+                                                )
+                                )
+                );
+
         return literal("thermoo").then(
                 (literal("temperature").requires((src) -> src.permissions()
                         .hasPermission(Permissions.COMMANDS_GAMEMASTER)))
@@ -185,6 +225,7 @@ public final class TemperatureCommand {
                         .then(remove)
                         .then(add)
                         .then(setSubCommand)
+                        .then(effect)
         );
     }
 
@@ -340,5 +381,46 @@ public final class TemperatureCommand {
         return sum;
     }
 
+    private static int runEffectEnable(CommandSourceStack source, Collection<? extends Entity> entities, Identifier id, boolean enabled) throws CommandSyntaxException {
+        if (entities.size() == 1) {
+            return runEffectEnableSingle(source, entities.iterator().next(), id, enabled);
+        }
+
+        int totalAffected = 0;
+
+        for (Entity entity : entities) {
+            if (ConfiguredTemperatureEffect.setEffectEnabled(entity, id, enabled)) {
+                totalAffected++;
+            }
+        }
+
+        final int result = totalAffected;
+
+        if (enabled) {
+            source.sendSuccess(() -> Component.translatable("commands.thermoo.temperature.effect.multiple.enable.on", id.toString(), result), true);
+        } else {
+            source.sendSuccess(() -> Component.translatable("commands.thermoo.temperature.effect.multiple.enable.off", id.toString(), result), true);
+        }
+
+        return result;
+    }
+
+    private static int runEffectEnableSingle(CommandSourceStack source, Entity entity, Identifier id, boolean enabled) throws CommandSyntaxException {
+        if (ConfiguredTemperatureEffect.isEffectEnabled(entity, id) == enabled) {
+            throw enabled ? EFFECT_ALREADY_ENABLED.create(id) : EFFECT_ALREADY_DISABLED.create(id);
+        }
+
+        if (ConfiguredTemperatureEffect.setEffectEnabled(entity, id, enabled)) {
+            if (enabled) {
+                source.sendSuccess(() -> Component.translatable("commands.thermoo.temperature.effect.single.enable.on", id.toString(), entity.getDisplayName()), true);
+            } else {
+                source.sendSuccess(() -> Component.translatable("commands.thermoo.temperature.effect.single.enable.off", id.toString(), entity.getDisplayName()), true);
+            }
+        } else {
+            throw FAILED_TO_ENABLE_EFFECT.create(id);
+        }
+
+        return Command.SINGLE_SUCCESS;
+    }
 }
 
