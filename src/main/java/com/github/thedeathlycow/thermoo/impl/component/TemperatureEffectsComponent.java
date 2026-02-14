@@ -26,7 +26,7 @@ public class TemperatureEffectsComponent implements Component, ServerTickingComp
     public boolean setEffectEnabled(Identifier id, boolean enabled) {
         Settings settings = this.effectsSettings.get(id);
 
-        if (settings != null) {
+        if (settings != null && settings.enabled != enabled) {
             settings.enabled = enabled;
             return true;
         }
