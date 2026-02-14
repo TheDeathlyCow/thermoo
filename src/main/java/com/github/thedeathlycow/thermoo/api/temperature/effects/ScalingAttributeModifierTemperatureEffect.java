@@ -48,10 +48,9 @@ public final class ScalingAttributeModifierTemperatureEffect extends Temperature
             return;
         }
 
-        // add the modifier back with greater strength
-        double amount = config.scale * victim.thermoo$getTemperatureScale();
+        double amount = getModifierValue(victim, config);
 
-        attrInstance.addTransientModifier(
+        attrInstance.addOrUpdateTransientModifier(
                 new AttributeModifier(
                         config.id,
                         amount,
@@ -74,17 +73,23 @@ public final class ScalingAttributeModifierTemperatureEffect extends Temperature
             return true;
         }
 
-        double newAmount = config.scale * victim.thermoo$getTemperatureScale();
+        double newAmount = getModifierValue(victim, config);
         double currentValue = modifier.amount();
 
-        boolean shouldApply = newAmount != currentValue;
+        return newAmount != currentValue;
+    }
 
-        if (shouldApply) {
-            // remove the modifier - even if the other predicate tests fail
-            attrInstance.removeModifier(config.id);
+    private static double getModifierValue(LivingEntity victim, Config config) {
+        return config.scale * victim.thermoo$getTemperatureScale();
+    }
+
+    @Override
+    public void remove(LivingEntity victim, ServerLevel serverWorld, Config config) {
+        super.remove(victim, serverWorld, config);
+        AttributeInstance attributeInstance = victim.getAttribute(config.attribute);
+        if (attributeInstance != null) {
+            attributeInstance.removeModifier(config.id);
         }
-
-        return shouldApply;
     }
 
     public record Config(
