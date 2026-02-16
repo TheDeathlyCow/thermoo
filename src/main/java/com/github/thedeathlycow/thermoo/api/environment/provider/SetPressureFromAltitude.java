@@ -8,6 +8,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponentMap;
+import net.minecraft.util.Mth;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 
@@ -27,7 +28,11 @@ public final class SetPressureFromAltitude implements EnvironmentProvider {
 
     @Override
     public void buildCurrentComponents(Level level, BlockPos pos, Holder<Biome> biome, DataComponentMap.Builder builder) {
-        int altitude = pos.getY() - level.getSeaLevel();
+        int altitude = Mth.clamp(
+                pos.getY() - level.getSeaLevel(),
+                level.getMinY(),
+                level.getMaxY()
+        );
 
         double seaLevelPressure = builder.getOrDefault(EnvironmentComponentTypes.ATMOSPHERIC_PRESSURE, AtmosphericPressureComponent.DEFAULT);
 
