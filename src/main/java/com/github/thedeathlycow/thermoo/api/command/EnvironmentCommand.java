@@ -1,6 +1,7 @@
 package com.github.thedeathlycow.thermoo.api.command;
 
 import com.github.thedeathlycow.thermoo.api.environment.EnvironmentLookup;
+import com.github.thedeathlycow.thermoo.api.environment.component.AtmosphericPressureComponent;
 import com.github.thedeathlycow.thermoo.api.environment.component.EnvironmentComponentTypes;
 import com.github.thedeathlycow.thermoo.api.environment.component.RelativeHumidityComponent;
 import com.github.thedeathlycow.thermoo.api.environment.component.TemperatureRecordComponent;
@@ -75,7 +76,7 @@ public final class EnvironmentCommand {
                                 context -> executeTemperature(
                                         context.getSource(),
                                         BlockPosArgument.getLoadedBlockPos(context, location),
-                                        TemperatureUnit.CELSIUS,
+                                        fallbackUnit,
                                         fallbackTempScale
                                 )
                         )
@@ -126,11 +127,35 @@ public final class EnvironmentCommand {
                         )
         );
 
+        final double fallbackPressureScale = 1.0;
+
+        var pressure = literal("atmospheric_pressure").then(
+                argument(location, BlockPosArgument.blockPos())
+                        .executes(
+                                context -> executeAtmosphericPressure(
+                                        context.getSource(),
+                                        BlockPosArgument.getLoadedBlockPos(context, location),
+                                        fallbackPressureScale
+                                )
+                        )
+                        .then(
+                                argument(scale, DoubleArgumentType.doubleArg(0))
+                                        .executes(
+                                                context -> executeAtmosphericPressure(
+                                                        context.getSource(),
+                                                        BlockPosArgument.getLoadedBlockPos(context, location),
+                                                        DoubleArgumentType.getDouble(context, scale)
+                                                )
+                                        )
+                        )
+        );
+
         return literal("thermoo").then(
                 (literal("environment").requires((src) -> src.permissions()
                         .hasPermission(Permissions.COMMANDS_GAMEMASTER)))
                         .then(temperature)
                         .then(relativeHumidity)
+                        .then(pressure)
         );
     }
 
@@ -222,5 +247,29 @@ public final class EnvironmentCommand {
         );
 
         return (int) (scaledHumidity);
+    }
+
+    private static int executeAtmosphericPressure(CommandSourceStack source, BlockPos location, double scale) {
+        double atmosphericPressure = EnvironmentLookup.getInstance().findEnvironmentComponents(
+                source.getLevel(), location
+        ).getOrDefault(EnvironmentComponentTypes.ATMOSPHERIC_PRESSURE, AtmosphericPressureComponent.DEFAULT);
+        double scaledAtmosphericPressure = atmosphericPressure * scale;
+
+        source.sendSuccess(
+                () -> {
+                    ResourceKey<Biome> biome = source.getLevel().getBiome(location).unwrapKey().orElse(null);
+                    return Component.translatable(
+                            "commands.thermoo.environment.atmospheric_pressure.success",
+                            location.getX(),
+                            location.getY(),
+                            location.getZ(),
+                            biome == null ? "unknown" : biome.identifier().toString(),
+                            String.format("%.2f", scaledAtmosphericPressure)
+                    );
+                },
+                false
+        );
+
+        return (int) (scaledAtmosphericPressure);
     }
 }
