@@ -2,6 +2,7 @@ package com.github.thedeathlycow.thermoo.api.environment.provider;
 
 import com.github.thedeathlycow.thermoo.api.environment.component.AtmosphericPressureComponent;
 import com.github.thedeathlycow.thermoo.api.environment.component.EnvironmentComponentTypes;
+import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
@@ -16,7 +17,7 @@ public final class SetPressureFromAltitude implements EnvironmentProvider {
 
     public static final MapCodec<SetPressureFromAltitude> CODEC = RecordCodecBuilder.mapCodec(
             instance -> instance.group(
-                    AtmosphericPressureComponent.CODEC
+                    Codec.DOUBLE
                             .optionalFieldOf("pressure_change_mbar_per_meter", DEFAULT_PRESSURE_CHANGE)
                             .forGetter(SetPressureFromAltitude::pressureChangePerMeter)
             ).apply(instance, SetPressureFromAltitude::new)

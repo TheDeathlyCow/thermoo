@@ -1,3 +1,4 @@
 {
-    "type": "thermoo:set_pressure_from_altitude"
+    "type": "thermoo:set_pressure_from_altitude",
+    "pressure_change_mbar_per_meter": -1.2
 }
