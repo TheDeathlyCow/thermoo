@@ -28,11 +28,7 @@ public final class SetPressureFromAltitude implements EnvironmentProvider {
 
     @Override
     public void buildCurrentComponents(Level level, BlockPos pos, Holder<Biome> biome, DataComponentMap.Builder builder) {
-        int altitude = Mth.clamp(
-                pos.getY() - level.getSeaLevel(),
-                level.getMinY(),
-                level.getMaxY()
-        );
+        int altitude = Mth.clamp(pos.getY(), level.getMinY(), level.getMaxY()) - level.getSeaLevel();
 
         double seaLevelPressure = builder.getOrDefault(EnvironmentComponentTypes.ATMOSPHERIC_PRESSURE, AtmosphericPressureComponent.DEFAULT);
 
