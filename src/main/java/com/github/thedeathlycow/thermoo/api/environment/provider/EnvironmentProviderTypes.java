@@ -68,6 +68,12 @@ public final class EnvironmentProviderTypes {
      */
     public static final EnvironmentProviderType<SetTemperatureFromPressure> SET_TEMPERATURE_FROM_PRESSURE = new EnvironmentProviderType<>(SetTemperatureFromPressure.CODEC);
 
+    /**
+     * A leaf-modifier provider that reduces atmospheric pressure per metre of altitude.
+     *
+     * @see SetPressureFromAltitude
+     */
+    public static final EnvironmentProviderType<SetPressureFromAltitude> SET_PRESSURE_FROM_ALTITUDE = new EnvironmentProviderType<>(SetPressureFromAltitude.CODEC);
 
     private EnvironmentProviderTypes() {
 
