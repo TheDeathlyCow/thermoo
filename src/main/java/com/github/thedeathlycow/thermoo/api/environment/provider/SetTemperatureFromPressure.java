@@ -61,7 +61,15 @@ public final class SetTemperatureFromPressure implements EnvironmentProvider {
         // based on ideal gas law
         double adjustedTemperatureK = (pressure * baseTemperatureK) / this.basePressure;
 
-        builder.set(EnvironmentComponentTypes.TEMPERATURE, new TemperatureRecord(adjustedTemperatureK, TemperatureUnit.KELVIN));
+        if (adjustedTemperatureK < 0) {
+            adjustedTemperatureK = 0;
+        }
+
+        builder.set(
+                EnvironmentComponentTypes.TEMPERATURE,
+                new TemperatureRecord(adjustedTemperatureK, TemperatureUnit.KELVIN)
+                        .convertToUnit(baseTemperature.unit())
+        );
     }
 
     @Override
