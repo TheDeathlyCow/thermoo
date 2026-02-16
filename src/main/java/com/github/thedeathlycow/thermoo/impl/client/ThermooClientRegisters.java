@@ -4,8 +4,11 @@ import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import com.github.thedeathlycow.thermoo.impl.client.debug.DebugEnvironmentComponents;
 import com.github.thedeathlycow.thermoo.impl.client.debug.DebugEnvironments;
 import com.github.thedeathlycow.thermoo.impl.client.debug.DebugSeasons;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.components.debug.DebugScreenEntries;
 
+@Environment(EnvType.CLIENT)
 public final class ThermooClientRegisters {
     public static void registerDebugEntries() {
         DebugScreenEntries.register(Thermoo.id("environment_components"), new DebugEnvironmentComponents());

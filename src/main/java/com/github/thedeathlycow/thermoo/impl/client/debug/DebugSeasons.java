@@ -4,6 +4,8 @@ import com.github.thedeathlycow.thermoo.api.season.TemperateSeason;
 import com.github.thedeathlycow.thermoo.api.season.ThermooSeason;
 import com.github.thedeathlycow.thermoo.api.season.ThermooSeasonState;
 import com.github.thedeathlycow.thermoo.api.season.TropicalSeason;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.debug.DebugScreenDisplayer;
 import net.minecraft.world.entity.Entity;
@@ -13,6 +15,7 @@ import org.jspecify.annotations.Nullable;
 
 import java.util.Optional;
 
+@Environment(EnvType.CLIENT)
 public class DebugSeasons implements ThermooDebugScreenEntry {
     @Override
     public void display(DebugScreenDisplayer displayer, @Nullable Level level, @Nullable LevelChunk clientChunk, @Nullable LevelChunk serverChunk) {
