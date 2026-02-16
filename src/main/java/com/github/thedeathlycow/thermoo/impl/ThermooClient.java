@@ -1,5 +1,6 @@
 package com.github.thedeathlycow.thermoo.impl;
 
+import com.github.thedeathlycow.thermoo.impl.client.ThermooClientRegisters;
 import com.github.thedeathlycow.thermoo.impl.compat.ThermooPatchesNag;
 import com.github.thedeathlycow.thermoo.impl.compat.init.DependentClientModInitializer;
 import net.fabricmc.api.ClientModInitializer;
@@ -13,6 +14,8 @@ public class ThermooClient implements ClientModInitializer {
     public void onInitializeClient() {
         ThermooPatchesNag.initialize(Thermoo.getConfig());
         initializeDependentEntryPoints();
+
+        ThermooClientRegisters.registerDebugEntries();
     }
 
     private static void initializeDependentEntryPoints() {

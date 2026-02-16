@@ -76,7 +76,6 @@ public class EnvironmentLookupImpl implements EnvironmentLookup {
         });
     }
 
-    @VisibleForTesting
     public static Stream<EnvironmentDefinition> getAllMatchingEnvironments(Holder<Biome> biome, Registry<EnvironmentDefinition> envRegistry) {
         return envRegistry.stream()
                 .filter(entry -> entry.providesFor(biome))
