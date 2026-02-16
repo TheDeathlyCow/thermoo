@@ -1,5 +1,6 @@
 package com.github.thedeathlycow.thermoo.api.environment.attribute;
 
+import com.github.thedeathlycow.thermoo.api.environment.component.AtmosphericPressureComponent;
 import com.github.thedeathlycow.thermoo.api.season.TemperateSeason;
 import com.github.thedeathlycow.thermoo.api.season.TropicalSeason;
 import com.github.thedeathlycow.thermoo.api.util.TemperatureRecord;
@@ -66,6 +67,10 @@ public final class ThermooEnvironmentAttributes {
      */
     public static final EnvironmentAttribute<TemperatureRecord> TEMPERATURE = EnvironmentAttribute.builder(ThermooAttributeTypes.TEMPERATURE)
             .defaultValue(new TemperatureRecord(20, TemperatureUnit.CELSIUS))
+            .build();
+
+    public static final EnvironmentAttribute<Double> ATMOSPHERIC_PRESSURE = EnvironmentAttribute.builder(ThermooAttributeTypes.POSITIVE_DOUBLE)
+            .defaultValue(AtmosphericPressureComponent.DEFAULT)
             .build();
 
     private ThermooEnvironmentAttributes() {

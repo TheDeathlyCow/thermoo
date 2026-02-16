@@ -41,14 +41,22 @@ public class EnvironmentLookupImpl implements EnvironmentLookup {
     public DataComponentMap findEnvironmentComponentsForBiome(Level level, BlockPos pos, Holder<Biome> biome) {
         DataComponentMap.Builder builder = DataComponentMap.builder();
 
-        EnvironmentAttributeSystem attributes = level.environmentAttributes();
-        TemperatureRecord baseValue = attributes.getValue(ThermooEnvironmentAttributes.TEMPERATURE, pos);
-        builder.set(EnvironmentComponentTypes.TEMPERATURE, baseValue);
+        setDefaultValuesFromEnvAttributes(level, pos, builder);
 
         for (Holder<EnvironmentProvider> provider : this.getProviders(biome)) {
             provider.value().buildCurrentComponents(level, pos, biome, builder);
         }
         return builder.build();
+    }
+
+    private static void setDefaultValuesFromEnvAttributes(Level level, BlockPos pos, DataComponentMap.Builder builder) {
+        EnvironmentAttributeSystem attributes = level.environmentAttributes();
+
+        TemperatureRecord baseTemperature = attributes.getValue(ThermooEnvironmentAttributes.TEMPERATURE, pos);
+        double basePressure = attributes.getValue(ThermooEnvironmentAttributes.ATMOSPHERIC_PRESSURE, pos);
+
+        builder.set(EnvironmentComponentTypes.TEMPERATURE, baseTemperature);
+        builder.set(EnvironmentComponentTypes.ATMOSPHERIC_PRESSURE, basePressure);
     }
 
     private List<Holder<EnvironmentProvider>> getProviders(Holder<Biome> biomeEntry) {
