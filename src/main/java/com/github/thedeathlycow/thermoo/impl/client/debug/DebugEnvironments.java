@@ -6,7 +6,6 @@ import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import com.github.thedeathlycow.thermoo.impl.environment.EnvironmentLookupImpl;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.debug.DebugScreenDisplayer;
-import net.minecraft.client.gui.components.debug.DebugScreenEntry;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
@@ -19,7 +18,7 @@ import org.jspecify.annotations.Nullable;
 import java.util.List;
 import java.util.stream.Stream;
 
-public class DebugEnvironments implements DebugScreenEntry {
+public class DebugEnvironments implements ThermooDebugScreenEntry {
     public static final Identifier GROUP = Thermoo.id("thermoo");
 
     @Override

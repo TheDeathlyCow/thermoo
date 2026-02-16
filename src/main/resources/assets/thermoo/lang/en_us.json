@@ -49,5 +49,7 @@
     "text.thermoo.thermoo-patches-nag.body": "The following mod(s) can work with Thermoo, Frostiful, and/or Scorchful, but you are missing the Thermoo Patches compatibility mod:",
     "text.thermoo.thermoo-patches-nag.item": "- %1$s (%2$s)",
     "text.thermoo.thermoo-patches-nag.footer": "You can get Thermoo Patches at the below link:",
-    "text.thermoo.thermoo-patches-nag.disable": "You may disable this message at any time in the Thermoo config."
+    "text.thermoo.thermoo-patches-nag.disable": "You may disable this message at any time in the Thermoo config.",
+    
+    "debug.options.category.thermoo": "Thermoo Screen Text"
 }

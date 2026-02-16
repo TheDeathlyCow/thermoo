@@ -6,7 +6,6 @@ import com.github.thedeathlycow.thermoo.api.season.ThermooSeasonState;
 import com.github.thedeathlycow.thermoo.api.season.TropicalSeason;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.debug.DebugScreenDisplayer;
-import net.minecraft.client.gui.components.debug.DebugScreenEntry;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.chunk.LevelChunk;
@@ -14,7 +13,7 @@ import org.jspecify.annotations.Nullable;
 
 import java.util.Optional;
 
-public class DebugSeasons implements DebugScreenEntry {
+public class DebugSeasons implements ThermooDebugScreenEntry {
     @Override
     public void display(DebugScreenDisplayer displayer, @Nullable Level level, @Nullable LevelChunk clientChunk, @Nullable LevelChunk serverChunk) {
         Minecraft minecraft = Minecraft.getInstance();

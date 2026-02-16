@@ -6,7 +6,6 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.debug.DebugScreenDisplayer;
-import net.minecraft.client.gui.components.debug.DebugScreenEntry;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.util.Util;
 import net.minecraft.world.entity.Entity;
@@ -17,7 +16,7 @@ import org.jspecify.annotations.Nullable;
 import java.util.List;
 
 @Environment(EnvType.CLIENT)
-public class DebugEnvironmentComponents implements DebugScreenEntry {
+public class DebugEnvironmentComponents implements ThermooDebugScreenEntry {
     @Override
     public void display(DebugScreenDisplayer displayer, @Nullable Level level, @Nullable LevelChunk clientChunk, @Nullable LevelChunk serverChunk) {
         Minecraft minecraft = Minecraft.getInstance();
@@ -33,6 +32,7 @@ public class DebugEnvironmentComponents implements DebugScreenEntry {
                         return "%s: %s".formatted(name, component.value().toString());
                     }).toList();
 
+            displayer.addToGroup(DebugEnvironments.GROUP, "Environment components:");
             displayer.addToGroup(DebugEnvironments.GROUP, displayed);
         }
     }
