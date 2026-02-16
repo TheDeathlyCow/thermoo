@@ -10,6 +10,7 @@ import net.minecraft.network.chat.Component;
 public interface ThermooDebugScreenEntry extends DebugScreenEntry {
     DebugEntryCategory CATEGORY = new DebugEntryCategory(Component.translatable("debug.options.category.thermoo"), 3.0f);
 
+    @Override
     default DebugEntryCategory category() {
         return CATEGORY;
     }
