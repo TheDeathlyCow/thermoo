@@ -1,10 +1,14 @@
 package com.github.thedeathlycow.thermoo.api.temperature.effects;
 
 import com.github.thedeathlycow.thermoo.api.ThermooRegistries;
+import com.github.thedeathlycow.thermoo.impl.component.TemperatureEffectsComponent;
+import com.github.thedeathlycow.thermoo.impl.component.ThermooComponents;
 import com.mojang.serialization.Codec;
 import net.minecraft.advancements.criterion.MinMaxBounds;
 import net.minecraft.core.HolderSet;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
@@ -95,6 +99,26 @@ public final class ConfiguredTemperatureEffect<C> {
                     ConfiguredTemperatureEffect::type,
                     TemperatureEffect::getCodec
             );
+
+    public static boolean isEffectEnabled(Entity entity, Identifier effectId) {
+        TemperatureEffectsComponent component = ThermooComponents.TEMPERATURE_EFFECTS.getNullable(entity);
+
+        if (component != null) {
+            return component.isEffectEnabled(effectId);
+        } else {
+            return false;
+        }
+    }
+
+    public static boolean setEffectEnabled(Entity entity, Identifier effectId, boolean enabled) {
+        TemperatureEffectsComponent component = ThermooComponents.TEMPERATURE_EFFECTS.getNullable(entity);
+
+        if (component != null) {
+            return component.setEffectEnabled(effectId, enabled);
+        } else {
+            return false;
+        }
+    }
 
     /**
      * Tests and applies this effect to a living entity if possible

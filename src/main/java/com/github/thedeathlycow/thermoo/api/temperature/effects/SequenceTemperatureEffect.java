@@ -6,6 +6,7 @@ import net.minecraft.core.HolderSet;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 
 import java.util.List;
 
@@ -40,6 +41,15 @@ public final class SequenceTemperatureEffect extends TemperatureEffect<SequenceT
     @Override
     public boolean shouldApply(LivingEntity victim, Config config) {
         return true;
+    }
+
+    @Override
+    public void remove(LivingEntity victim, ServerLevel serverWorld, Config config) {
+        super.remove(victim, serverWorld, config);
+
+        for (ConfiguredTemperatureEffect<?> child : config.children()) {
+            child.remove(victim);
+        }
     }
 
     public record Config(List<ConfiguredTemperatureEffect<?>> children) {
