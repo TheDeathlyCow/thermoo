@@ -40,6 +40,8 @@ public class ThermooCommonRegisters {
         registerEnvironmentProviderType("weather_state", EnvironmentProviderTypes.WEATHER_STATE);
         registerEnvironmentProviderType("precipitation_type", EnvironmentProviderTypes.PRECIPITATION_TYPE);
         registerEnvironmentProviderType("temperature_shift", EnvironmentProviderTypes.TEMPERATURE_SHIFT);
+        registerEnvironmentProviderType("set_temperature_from_pressure", EnvironmentProviderTypes.SET_TEMPERATURE_FROM_PRESSURE);
+        registerEnvironmentProviderType("set_pressure_from_altitude", EnvironmentProviderTypes.SET_PRESSURE_FROM_ALTITUDE);
     }
 
     public static void registerLootConditionTypes() {
