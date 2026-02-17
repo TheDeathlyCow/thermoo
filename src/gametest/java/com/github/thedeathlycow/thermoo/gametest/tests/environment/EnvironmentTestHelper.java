@@ -1,5 +1,6 @@
 package com.github.thedeathlycow.thermoo.gametest.tests.environment;
 
+import com.github.thedeathlycow.thermoo.api.environment.component.AtmosphericPressureComponent;
 import com.github.thedeathlycow.thermoo.api.environment.component.EnvironmentComponentTypes;
 import com.github.thedeathlycow.thermoo.api.environment.component.RelativeHumidityComponent;
 import com.github.thedeathlycow.thermoo.api.environment.component.TemperatureRecordComponent;
@@ -47,15 +48,22 @@ public final class EnvironmentTestHelper {
 
     public static void assertTemperatureEquals(GameTestHelper context, double expected, double actual) {
         context.assertTrue(
-                Math.abs(actual - expected) <= 1e-2,
+                Math.abs(actual - expected) <= 1e-3,
                 Component.literal("Expected temperature was " + expected + "°C but was actually " + actual + "°C")
         );
     }
 
     public static void assertHumidityEquals(GameTestHelper context, double expected, double actual) {
         context.assertTrue(
-                Math.abs(actual - expected) <= 1e-2,
+                Math.abs(actual - expected) <= 1e-3,
                 Component.literal("Expected humidity was " + expected + "% but was actually " + actual + "%")
+        );
+    }
+
+    public static void assertPressureEquals(GameTestHelper context, double expected, double actual) {
+        context.assertTrue(
+                Math.abs(actual - expected) <= 1e-3,
+                Component.literal("Expected pressure was " + expected + " mbar but was actually " + actual + " mbar")
         );
     }
 
@@ -91,6 +99,15 @@ public final class EnvironmentTestHelper {
                 context.absolutePos(BlockPos.ZERO),
                 plains
         ).getOrDefault(EnvironmentComponentTypes.RELATIVE_HUMIDITY, RelativeHumidityComponent.DEFAULT);
+    }
+
+    public static double getBiomePressure(GameTestHelper context, Level world, int y, ResourceKey<Biome> biomeKey) {
+        Holder<Biome> plains = EnvironmentTestHelper.getBiomeEntry(world.registryAccess(), biomeKey);
+        return EnvironmentLookupImpl.INSTANCE.findEnvironmentComponentsForBiome(
+                world,
+                context.absolutePos(BlockPos.ZERO).atY(y),
+                plains
+        ).getOrDefault(EnvironmentComponentTypes.ATMOSPHERIC_PRESSURE, AtmosphericPressureComponent.DEFAULT);
     }
 
     public static Holder<Biome> getBiomeEntry(RegistryAccess access, ResourceKey<Biome> biomeKey) {
