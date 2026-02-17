@@ -1,5 +1,6 @@
 package com.github.thedeathlycow.thermoo.api.environment.provider;
 
+import com.github.thedeathlycow.thermoo.api.environment.attribute.ThermooEnvironmentAttributes;
 import com.github.thedeathlycow.thermoo.api.environment.component.AtmosphericPressureComponent;
 import com.github.thedeathlycow.thermoo.api.environment.component.EnvironmentComponentTypes;
 import com.github.thedeathlycow.thermoo.api.environment.component.TemperatureRecordComponent;
@@ -13,26 +14,49 @@ import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 
+import java.util.Optional;
+
 /**
  * An environment provider that applies the <a href="https://en.wikipedia.org/wiki/Ideal_gas_law">Ideal Gas Law</a> to
- * set the current temperature based on atmospheric pressure, using an assumed baseline pressure. The default baseline
- * pressure is {@value AtmosphericPressureComponent#DEFAULT} mbar.
+ * set the current temperature based on atmospheric pressure, using an assumed baseline pressure. If no baseline
+ * pressure is provided, then it will use {@link ThermooEnvironmentAttributes#ATMOSPHERIC_PRESSURE} to get a baseline.
  */
 public final class SetTemperatureFromPressure implements EnvironmentProvider {
     public static final MapCodec<SetTemperatureFromPressure> CODEC = RecordCodecBuilder.mapCodec(
             instance -> instance.group(
                     AtmosphericPressureComponent.CODEC
-                            .optionalFieldOf("basePressure", AtmosphericPressureComponent.DEFAULT)
+                            .optionalFieldOf("basePressure")
                             .forGetter(SetTemperatureFromPressure::basePressure)
             ).apply(instance, SetTemperatureFromPressure::new)
     );
 
     private static final TemperatureRecord ABSOLUTE_ZERO = new TemperatureRecord(0, TemperatureUnit.KELVIN);
 
-    private final double basePressure;
+    private final Optional<Double> basePressure;
 
-    private SetTemperatureFromPressure(double basePressure) {
+    private SetTemperatureFromPressure(Optional<Double> basePressure) {
         this.basePressure = basePressure;
+    }
+
+    /**
+     * Creates a new instance of this component which uses {@linkplain ThermooEnvironmentAttributes#ATMOSPHERIC_PRESSURE environment attributes}
+     * to get the baseline pressure.
+     */
+    public static SetTemperatureFromPressure create() {
+        return new SetTemperatureFromPressure(Optional.empty());
+    }
+
+    /**
+     * Creates a new instance of this component using a given base pressure.
+     *
+     * @param basePressure The base pressure, in millibars. May not be negative.
+     */
+    public static SetTemperatureFromPressure create(double basePressure) {
+        if (basePressure < 0) {
+            throw new IllegalArgumentException("Pressure cannot be less than 0!");
+        }
+
+        return new SetTemperatureFromPressure(Optional.of(basePressure));
     }
 
     /**
@@ -49,17 +73,22 @@ public final class SetTemperatureFromPressure implements EnvironmentProvider {
      */
     @Override
     public void buildCurrentComponents(Level level, BlockPos pos, Holder<Biome> biome, DataComponentMap.Builder builder) {
-        if (this.basePressure <= 0) {
-            builder.set(EnvironmentComponentTypes.TEMPERATURE, ABSOLUTE_ZERO);
-        }
-
         TemperatureRecord baseTemperature = builder.getOrDefault(EnvironmentComponentTypes.TEMPERATURE, TemperatureRecordComponent.DEFAULT);
+
+        double seaLevelPressure = this.basePressure.orElseGet(() -> {
+            return level.environmentAttributes().getValue(ThermooEnvironmentAttributes.ATMOSPHERIC_PRESSURE, pos);
+        });
+
+        if (seaLevelPressure <= 0) {
+            builder.set(EnvironmentComponentTypes.TEMPERATURE, ABSOLUTE_ZERO.convertToUnit(baseTemperature.unit()));
+            return;
+        }
 
         double baseTemperatureK = baseTemperature.valueInUnit(TemperatureUnit.KELVIN);
         double pressure = builder.getOrDefault(EnvironmentComponentTypes.ATMOSPHERIC_PRESSURE, AtmosphericPressureComponent.DEFAULT);
 
         // based on ideal gas law
-        double adjustedTemperatureK = (pressure * baseTemperatureK) / this.basePressure;
+        double adjustedTemperatureK = (pressure * baseTemperatureK) / seaLevelPressure;
 
         if (adjustedTemperatureK < 0) {
             adjustedTemperatureK = 0;
@@ -80,28 +109,7 @@ public final class SetTemperatureFromPressure implements EnvironmentProvider {
     /**
      * @return The base pressure in millibars.
      */
-    public double basePressure() {
+    public Optional<Double> basePressure() {
         return this.basePressure;
-    }
-
-    /**
-     * Creates a new instance of this component using a base pressure of {@value AtmosphericPressureComponent#DEFAULT}
-     * mbar.
-     */
-    public static SetTemperatureFromPressure create() {
-        return new SetTemperatureFromPressure(AtmosphericPressureComponent.DEFAULT);
-    }
-
-    /**
-     * Creates a new instance of this component using a given base pressure.
-     *
-     * @param basePressure The base pressure, in millibars. May not be negative.
-     */
-    public static SetTemperatureFromPressure create(double basePressure) {
-        if (basePressure < 0) {
-            throw new IllegalArgumentException("Pressure cannot be less than 0!");
-        }
-
-        return new SetTemperatureFromPressure(basePressure);
     }
 }
