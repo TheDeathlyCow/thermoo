@@ -61,7 +61,7 @@ public final class ThermooEnvironmentAttributes {
             .build();
 
     /**
-     * An environment attribute that stores a temperature record. This attribute defaults to 20°C.
+     * An environment attribute that stores the base temperature of an area. This attribute defaults to 20°C.
      *
      * @see ThermooAttributeTypes#TEMPERATURE
      */
@@ -69,6 +69,10 @@ public final class ThermooEnvironmentAttributes {
             .defaultValue(new TemperatureRecord(20, TemperatureUnit.CELSIUS))
             .build();
 
+    /**
+     * An environment attribute that stores the base atmospheric pressure of an area, in millibars. The attribute
+     * defaults to {@value AtmosphericPressureComponent#DEFAULT} mbar.
+     */
     public static final EnvironmentAttribute<Double> ATMOSPHERIC_PRESSURE = EnvironmentAttribute.builder(ThermooAttributeTypes.POSITIVE_DOUBLE)
             .defaultValue(AtmosphericPressureComponent.DEFAULT)
             .build();

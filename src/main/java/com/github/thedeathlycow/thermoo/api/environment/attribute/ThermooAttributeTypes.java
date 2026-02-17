@@ -48,6 +48,11 @@ public final class ThermooAttributeTypes {
             TemperatureModifier::lerp
     );
 
+    /**
+     * An attribute type that holds a double that may not be less than 0. This attribute type is interpolated.
+     * <p>
+     * It may be modified with all the same operations as {@link net.minecraft.world.attribute.AttributeTypes#FLOAT}.
+     */
     public static final AttributeType<Double> POSITIVE_DOUBLE = AttributeType.ofInterpolated(
             Codec.doubleRange(0.0, Double.MAX_VALUE),
             ModifierLibraries.DOUBLE,
