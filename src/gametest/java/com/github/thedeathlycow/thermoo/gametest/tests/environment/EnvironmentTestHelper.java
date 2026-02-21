@@ -48,21 +48,21 @@ public final class EnvironmentTestHelper {
 
     public static void assertTemperatureEquals(GameTestHelper context, double expected, double actual) {
         context.assertTrue(
-                Math.abs(actual - expected) <= 1e-3,
+                Math.abs(actual - expected) <= 1e-4,
                 Component.literal("Expected temperature was " + expected + "°C but was actually " + actual + "°C")
         );
     }
 
     public static void assertHumidityEquals(GameTestHelper context, double expected, double actual) {
         context.assertTrue(
-                Math.abs(actual - expected) <= 1e-3,
+                Math.abs(actual - expected) <= 1e-4,
                 Component.literal("Expected humidity was " + expected + "% but was actually " + actual + "%")
         );
     }
 
     public static void assertPressureEquals(GameTestHelper context, double expected, double actual) {
         context.assertTrue(
-                Math.abs(actual - expected) <= 1e-3,
+                Math.abs(actual - expected) <= 1e-4,
                 Component.literal("Expected pressure was " + expected + " mbar but was actually " + actual + " mbar")
         );
     }

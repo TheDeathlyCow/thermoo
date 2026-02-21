@@ -46,4 +46,32 @@ public class PressureTests  {
 
         helper.succeed();
     }
+
+    @GameTest(environment = EnvironmentTestHelper.NO_SEASONS)
+    public void jagged_peaks_is_constant_pressure_above_max_altitude(GameTestHelper helper) {
+        ServerLevel level = helper.getLevel();
+        double pressure = EnvironmentTestHelper.getBiomePressure(helper, level, level.getMaxY(), Biomes.JAGGED_PEAKS);
+
+        for (int dy = 10; dy <= 100; dy += 10) {
+            int y = level.getMaxY() + dy;
+            double upperPressure = EnvironmentTestHelper.getBiomePressure(helper, level, y, Biomes.JAGGED_PEAKS);
+            EnvironmentTestHelper.assertPressureEquals(helper, pressure, upperPressure);
+        }
+
+        helper.succeed();
+    }
+
+    @GameTest(environment = EnvironmentTestHelper.NO_SEASONS)
+    public void jagged_peaks_is_constant_pressure_below_min_altitude(GameTestHelper helper) {
+        ServerLevel level = helper.getLevel();
+        double pressure = EnvironmentTestHelper.getBiomePressure(helper, level, level.getMinY(), Biomes.JAGGED_PEAKS);
+
+        for (int dy = 10; dy <= 100; dy += 10) {
+            int y = level.getMinY() - dy;
+            double lowerPressure = EnvironmentTestHelper.getBiomePressure(helper, level, y, Biomes.JAGGED_PEAKS);
+            EnvironmentTestHelper.assertPressureEquals(helper, pressure, lowerPressure);
+        }
+
+        helper.succeed();
+    }
 }
