@@ -1,0 +1,16 @@
+{
+    "biomes": [
+        "minecraft:deep_dark"
+    ],
+    "provider": {
+        "type": "thermoo:modify",
+        "modifiers": [
+            "thermoo-test:modifiers/set_pressure_from_altitude",
+            "thermoo-test:modifiers/set_temperature_from_pressure"
+        ],
+        "base": {
+            "type": "thermoo:constant",
+            "components": {}
+        }
+    }
+}

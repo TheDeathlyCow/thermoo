@@ -47,6 +47,17 @@ public final class EnvironmentComponentTypes {
             builder -> builder.persistent(RelativeHumidityComponent.CODEC)
     );
 
+    /**
+     * Stores atmospheric pressure in millibars.
+     *
+     * @see AtmosphericPressureComponent
+     */
+    public static final DataComponentType<Double> ATMOSPHERIC_PRESSURE = register(
+            "atmospheric_pressure",
+            builder -> builder.persistent(AtmosphericPressureComponent.CODEC)
+    );
+
+
     private static <T> DataComponentType<T> register(
             String name,
             UnaryOperator<DataComponentType.Builder<T>> builderOperator

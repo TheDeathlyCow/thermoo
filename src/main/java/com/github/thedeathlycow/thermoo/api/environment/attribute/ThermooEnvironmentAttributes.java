@@ -1,5 +1,6 @@
 package com.github.thedeathlycow.thermoo.api.environment.attribute;
 
+import com.github.thedeathlycow.thermoo.api.environment.component.AtmosphericPressureComponent;
 import com.github.thedeathlycow.thermoo.api.season.TemperateSeason;
 import com.github.thedeathlycow.thermoo.api.season.TropicalSeason;
 import com.github.thedeathlycow.thermoo.api.util.TemperatureRecord;
@@ -60,12 +61,20 @@ public final class ThermooEnvironmentAttributes {
             .build();
 
     /**
-     * An environment attribute that stores a temperature record. This attribute defaults to 20°C.
+     * An environment attribute that stores the base temperature of an area. This attribute defaults to 20°C.
      *
      * @see ThermooAttributeTypes#TEMPERATURE
      */
     public static final EnvironmentAttribute<TemperatureRecord> TEMPERATURE = EnvironmentAttribute.builder(ThermooAttributeTypes.TEMPERATURE)
             .defaultValue(new TemperatureRecord(20, TemperatureUnit.CELSIUS))
+            .build();
+
+    /**
+     * An environment attribute that stores the base atmospheric pressure of an area, in millibars. The attribute
+     * defaults to {@value AtmosphericPressureComponent#DEFAULT} mbar.
+     */
+    public static final EnvironmentAttribute<Double> ATMOSPHERIC_PRESSURE = EnvironmentAttribute.builder(ThermooAttributeTypes.POSITIVE_DOUBLE)
+            .defaultValue(AtmosphericPressureComponent.DEFAULT)
             .build();
 
     private ThermooEnvironmentAttributes() {

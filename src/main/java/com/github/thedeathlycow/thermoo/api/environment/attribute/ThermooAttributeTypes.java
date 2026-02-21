@@ -1,10 +1,14 @@
 package com.github.thedeathlycow.thermoo.api.environment.attribute;
 
+import com.github.thedeathlycow.thermoo.api.environment.component.AtmosphericPressureComponent;
 import com.github.thedeathlycow.thermoo.api.season.TemperateSeason;
 import com.github.thedeathlycow.thermoo.api.season.TropicalSeason;
 import com.github.thedeathlycow.thermoo.api.util.TemperatureRecord;
 import com.github.thedeathlycow.thermoo.impl.CodecHelper;
+import com.github.thedeathlycow.thermoo.impl.environment.attribute.ModifierLibraries;
 import com.github.thedeathlycow.thermoo.impl.environment.attribute.TemperatureModifier;
+import com.mojang.serialization.Codec;
+import net.minecraft.util.Mth;
 import net.minecraft.world.attribute.AttributeType;
 
 import java.util.Optional;
@@ -40,8 +44,19 @@ public final class ThermooAttributeTypes {
      */
     public static final AttributeType<TemperatureRecord> TEMPERATURE = AttributeType.ofInterpolated(
             TemperatureRecord.CODEC,
-            TemperatureModifier.TEMPERATURE_RECORD_LIBRARY,
+            ModifierLibraries.TEMPERATURE_RECORD,
             TemperatureModifier::lerp
+    );
+
+    /**
+     * An attribute type that holds a double that may not be less than 0. This attribute type is interpolated.
+     * <p>
+     * It may be modified with all the same operations as {@link net.minecraft.world.attribute.AttributeTypes#FLOAT}.
+     */
+    public static final AttributeType<Double> POSITIVE_DOUBLE = AttributeType.ofInterpolated(
+            Codec.doubleRange(0.0, Double.MAX_VALUE),
+            ModifierLibraries.DOUBLE,
+            Mth::lerp
     );
 
     private ThermooAttributeTypes() {

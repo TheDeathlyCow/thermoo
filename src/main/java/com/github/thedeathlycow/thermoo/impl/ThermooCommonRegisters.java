@@ -40,6 +40,8 @@ public class ThermooCommonRegisters {
         registerEnvironmentProviderType("weather_state", EnvironmentProviderTypes.WEATHER_STATE);
         registerEnvironmentProviderType("precipitation_type", EnvironmentProviderTypes.PRECIPITATION_TYPE);
         registerEnvironmentProviderType("temperature_shift", EnvironmentProviderTypes.TEMPERATURE_SHIFT);
+        registerEnvironmentProviderType("set_temperature_from_pressure", EnvironmentProviderTypes.SET_TEMPERATURE_FROM_PRESSURE);
+        registerEnvironmentProviderType("set_pressure_from_altitude", EnvironmentProviderTypes.SET_PRESSURE_FROM_ALTITUDE);
     }
 
     public static void registerLootConditionTypes() {
@@ -51,11 +53,13 @@ public class ThermooCommonRegisters {
         registerAttributeType("temperate_season", ThermooAttributeTypes.TEMPERATE_SEASON);
         registerAttributeType("tropical_season", ThermooAttributeTypes.TROPICAL_SEASON);
         registerAttributeType("temperature", ThermooAttributeTypes.TEMPERATURE);
+        registerAttributeType("positive_double", ThermooAttributeTypes.POSITIVE_DOUBLE);
         registerEnvironmentAttribute("gameplay/temperate_season", ThermooEnvironmentAttributes.TEMPERATE_SEASON);
         registerEnvironmentAttribute("gameplay/tropical_season", ThermooEnvironmentAttributes.TROPICAL_SEASON);
         registerEnvironmentAttribute("gameplay/temperate_season_progress", ThermooEnvironmentAttributes.TEMPERATE_SEASON_PROGRESS);
         registerEnvironmentAttribute("gameplay/tropical_season_progress", ThermooEnvironmentAttributes.TROPICAL_SEASON_PROGRESS);
         registerEnvironmentAttribute("gameplay/temperature", ThermooEnvironmentAttributes.TEMPERATURE);
+        registerEnvironmentAttribute("gameplay/atmospheric_pressure", ThermooEnvironmentAttributes.ATMOSPHERIC_PRESSURE);
     }
 
     private static void registerTemperatureEffect(String name, TemperatureEffect<?> temperatureEffect) {
