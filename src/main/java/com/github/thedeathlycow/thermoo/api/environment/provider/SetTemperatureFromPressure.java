@@ -25,7 +25,7 @@ public final class SetTemperatureFromPressure implements EnvironmentProvider {
     public static final MapCodec<SetTemperatureFromPressure> CODEC = RecordCodecBuilder.mapCodec(
             instance -> instance.group(
                     AtmosphericPressureComponent.CODEC
-                            .optionalFieldOf("basePressure")
+                            .optionalFieldOf("base_pressure")
                             .forGetter(SetTemperatureFromPressure::basePressure)
             ).apply(instance, SetTemperatureFromPressure::new)
     );
