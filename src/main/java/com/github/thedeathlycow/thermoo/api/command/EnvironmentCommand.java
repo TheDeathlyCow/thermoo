@@ -106,26 +106,27 @@ public final class EnvironmentCommand {
 
         final double fallbackHumidityScale = 100.0;
 
-        var relativeHumidity = literal("relativehumidity").then(
-                argument(location, BlockPosArgument.blockPos())
-                        .executes(
-                                context -> executeRelativeHumidity(
-                                        context.getSource(),
-                                        BlockPosArgument.getLoadedBlockPos(context, location),
-                                        fallbackHumidityScale
-                                )
+        var relativeHumidityArg = argument(location, BlockPosArgument.blockPos())
+                .executes(
+                        context -> executeRelativeHumidity(
+                                context.getSource(),
+                                BlockPosArgument.getLoadedBlockPos(context, location),
+                                fallbackHumidityScale
                         )
-                        .then(
-                                argument(scale, DoubleArgumentType.doubleArg(0))
-                                        .executes(
-                                                context -> executeRelativeHumidity(
-                                                        context.getSource(),
-                                                        BlockPosArgument.getLoadedBlockPos(context, location),
-                                                        DoubleArgumentType.getDouble(context, scale)
-                                                )
+                )
+                .then(
+                        argument(scale, DoubleArgumentType.doubleArg(0))
+                                .executes(
+                                        context -> executeRelativeHumidity(
+                                                context.getSource(),
+                                                BlockPosArgument.getLoadedBlockPos(context, location),
+                                                DoubleArgumentType.getDouble(context, scale)
                                         )
-                        )
-        );
+                                )
+                );
+
+        var relativeHumidityOld = literal("relativehumidity").then(relativeHumidityArg);
+        var relativeHumidity = literal("relative_humidity").then(relativeHumidityArg);
 
         final double fallbackPressureScale = 1.0;
 
@@ -155,6 +156,7 @@ public final class EnvironmentCommand {
                         .hasPermission(Permissions.COMMANDS_GAMEMASTER)))
                         .then(temperature)
                         .then(relativeHumidity)
+                        .then(relativeHumidityOld)
                         .then(pressure)
         );
     }
