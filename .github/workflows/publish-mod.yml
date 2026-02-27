@@ -8,7 +8,7 @@ jobs:
   github:
     runs-on: ubuntu-22.04
     container:
-      image: mcr.microsoft.com/openjdk/jdk:21-ubuntu
+      image: mcr.microsoft.com/openjdk/jdk:25-ubuntu
       options: --user root
     steps:
       - name: checkout repository
@@ -22,7 +22,7 @@ jobs:
   curseforge:
     runs-on: ubuntu-22.04
     container:
-      image: mcr.microsoft.com/openjdk/jdk:21-ubuntu
+      image: mcr.microsoft.com/openjdk/jdk:25-ubuntu
       options: --user root
     steps:
       - name: checkout repository
@@ -36,7 +36,7 @@ jobs:
   modrinth:
     runs-on: ubuntu-22.04
     container:
-      image: mcr.microsoft.com/openjdk/jdk:21-ubuntu
+      image: mcr.microsoft.com/openjdk/jdk:25-ubuntu
       options: --user root
     steps:
       - name: checkout repository

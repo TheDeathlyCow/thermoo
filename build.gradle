@@ -1,7 +1,7 @@
 plugins {
     id 'net.fabricmc.fabric-loom' version '1.15-SNAPSHOT'
     id 'maven-publish'
-    id "org.jetbrains.kotlin.jvm" version "2.0.0"
+    id "org.jetbrains.kotlin.jvm" version "2.3.10"
     id "me.modmuss50.mod-publish-plugin" version "0.8.4"
 }
 
@@ -116,6 +116,10 @@ java {
 
     sourceCompatibility = JavaVersion.VERSION_25
     targetCompatibility = JavaVersion.VERSION_25
+}
+
+kotlin {
+    jvmToolchain(25)
 }
 
 jar {
