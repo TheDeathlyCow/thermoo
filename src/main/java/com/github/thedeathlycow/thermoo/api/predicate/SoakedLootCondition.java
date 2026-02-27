@@ -8,7 +8,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
-import net.minecraft.world.level.storage.loot.predicates.LootItemConditionType;
 
 /**
  * Loot condition used to test the soaking values of an entity in a predicate. Only works for entities that implement
@@ -37,8 +36,8 @@ public record SoakedLootCondition(
     );
 
     @Override
-    public LootItemConditionType getType() {
-        return ThermooLootConditionTypes.SOAKED;
+    public MapCodec<SoakedLootCondition> codec() {
+        return CODEC;
     }
 
     @Override
