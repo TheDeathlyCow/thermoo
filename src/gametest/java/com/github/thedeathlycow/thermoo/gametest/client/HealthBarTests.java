@@ -27,7 +27,7 @@ public class HealthBarTests implements FabricClientGameTest {
 
         try (TestSingleplayerContext singleplayer = context.worldBuilder().create()) {
             singleplayer.getServer().runCommand("/gamerule fireDamage false"); // hack to prevent damage from affecting health underneath temperature display
-            singleplayer.getClientWorld().waitForChunksRender();
+            singleplayer.getClientLevel().waitForChunksRender();
             offset = 0;
 
             final int maxTemperature = 5600;

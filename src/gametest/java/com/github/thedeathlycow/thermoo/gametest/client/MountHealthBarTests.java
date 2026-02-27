@@ -26,7 +26,7 @@ public class MountHealthBarTests implements FabricClientGameTest {
         });
 
         try (TestSingleplayerContext singleplayer = context.worldBuilder().create()) {
-            singleplayer.getClientWorld().waitForChunksRender();
+            singleplayer.getClientLevel().waitForChunksRender();
             offset = 0;
 
             final int maxTemperature = 5600;
