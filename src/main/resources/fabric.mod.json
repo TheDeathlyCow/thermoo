@@ -54,7 +54,7 @@
     "accessWidener": "thermoo.accesswidener",
     "custom": {
         "loom:injected_interfaces": {
-            "net/minecraft/class_1309": [
+            "net/minecraft/world/entity/LivingEntity": [
                 "com/github/thedeathlycow/thermoo/api/temperature/TemperatureAware",
                 "com/github/thedeathlycow/thermoo/api/temperature/Soakable"
             ]
