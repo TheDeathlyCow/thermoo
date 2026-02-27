@@ -46,9 +46,10 @@ dependencies {
     api "net.fabricmc:fabric-loader:${project.loader_version}"
     api "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-//    implementation "org.ladysnake.cardinal-components-api:cardinal-components-base:${project.cca_version}"
-//    implementation "org.ladysnake.cardinal-components-api:cardinal-components-entity:${project.cca_version}"
+    implementation "org.ladysnake.cardinal-components-api:cardinal-components-base:${project.cca_version}"
+    implementation "org.ladysnake.cardinal-components-api:cardinal-components-entity:${project.cca_version}"
 
+    // TODO: update polymer when available
 //    compileOnly "eu.pb4:polymer-core:${project.polymer_version}"
 
     testImplementation "net.fabricmc:fabric-loader-junit:${project.loader_version}"
