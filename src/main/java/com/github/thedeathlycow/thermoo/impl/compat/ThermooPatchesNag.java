@@ -64,7 +64,7 @@ public class ThermooPatchesNag implements ClientTickEvents.EndTick {
 
         if (nagMessageText != null && player != null) {
             this.naggedPlayer = true;
-            player.displayClientMessage(nagMessageText, false);
+            player.sendSystemMessage(nagMessageText);
             LOGGER.warn(nagMessageText.getString());
         }
     }

@@ -17,7 +17,7 @@ public final class ThermooRegistries {
      * @see TemperatureEffect
      */
     public static final Registry<TemperatureEffect<?>> TEMPERATURE_EFFECTS =
-            FabricRegistryBuilder.createSimple(
+            FabricRegistryBuilder.create(
                     ThermooRegistryKeys.TEMPERATURE_EFFECT
             ).buildAndRegister();
 
@@ -26,7 +26,7 @@ public final class ThermooRegistries {
      *
      * @see com.github.thedeathlycow.thermoo.api.environment.component.EnvironmentComponentTypes
      */
-    public static final Registry<DataComponentType<?>> ENVIRONMENT_COMPONENT_TYPE = FabricRegistryBuilder.createSimple(
+    public static final Registry<DataComponentType<?>> ENVIRONMENT_COMPONENT_TYPE = FabricRegistryBuilder.create(
             ThermooRegistryKeys.ENVIRONMENT_COMPONENT_TYPE
     ).buildAndRegister();
 
@@ -36,7 +36,7 @@ public final class ThermooRegistries {
      * @see EnvironmentProviderType
      */
     public static final Registry<EnvironmentProviderType<?>> ENVIRONMENT_PROVIDER_TYPE =
-            FabricRegistryBuilder.createSimple(
+            FabricRegistryBuilder.create(
                     ThermooRegistryKeys.ENVIRONMENT_PROVIDER_TYPE
             ).buildAndRegister();
 

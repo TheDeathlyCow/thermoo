@@ -124,7 +124,7 @@ kotlin {
 
 jar {
     from("LICENSE") {
-        rename { "${it}_${project.archivesBaseName}" }
+        rename { "${it}_${inputs.properties.archivesName}" }
     }
 }
 

@@ -32,7 +32,7 @@ public final class SequenceTemperatureEffect extends TemperatureEffect<SequenceT
     public void apply(LivingEntity victim, ServerLevel serverLevel, Config config) {
         for (ConfiguredTemperatureEffect<?> child : config.children()) {
             HolderSet<EntityType<?>> allowedTypes = child.entityTypes();
-            if (allowedTypes.size() == 0 || victim.getType().is(allowedTypes)) {
+            if (allowedTypes.size() == 0 ||  victim.is(allowedTypes)) {
                 child.apply(victim);
             }
         }

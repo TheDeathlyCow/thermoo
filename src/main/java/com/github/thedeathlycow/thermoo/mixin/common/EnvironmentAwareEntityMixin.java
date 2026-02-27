@@ -116,15 +116,12 @@ public abstract class EnvironmentAwareEntityMixin extends Entity implements Temp
 
     @Override
     public boolean thermoo$canFreeze() {
-
-        EntityType<?> type = this.getType();
-
         if (this.isSpectator()) {
             return false;
-        } else if (type.is(ThermooTags.BENEFITS_FROM_COLD_ENTITY_TYPE)) {
+        } else if (this.is(ThermooTags.BENEFITS_FROM_COLD_ENTITY_TYPE)) {
             // entities that benefit from heat override entities that are immune to it
             return true;
-        } else if (type.is(ThermooTags.COLD_IMMUNE_ENTITY_TYPE)) {
+        } else if (this.is(ThermooTags.COLD_IMMUNE_ENTITY_TYPE)) {
             return false;
         } else if ((Entity) this instanceof Player player) {
             return !player.isCreative();
@@ -135,14 +132,12 @@ public abstract class EnvironmentAwareEntityMixin extends Entity implements Temp
 
     @Override
     public boolean thermoo$canOverheat() {
-        EntityType<?> type = this.getType();
-
         if (this.isSpectator()) {
             return false;
-        } else if (type.is(ThermooTags.BENEFITS_FROM_HEAT_ENTITY_TYPE)) {
+        } else if (this.is(ThermooTags.BENEFITS_FROM_HEAT_ENTITY_TYPE)) {
             // entities that benefit from heat override entities that are immune to it
             return true;
-        } else if (type.is(ThermooTags.HEAT_IMMUNE_ENTITY_TYPE)) {
+        } else if (this.is(ThermooTags.HEAT_IMMUNE_ENTITY_TYPE)) {
             return false;
         } else if ((Entity) this instanceof Player player) {
             return !player.isCreative();

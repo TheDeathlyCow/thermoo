@@ -20,10 +20,12 @@ public class TemperatureEffectManager {
     private final Map<Identifier, ConfiguredTemperatureEffect<?>> registry = new HashMap<>();
 
     public Set<EntityTypeCacheEntry> getEffectsEntriesForEntity(LivingEntity entity) {
-        EntityType<?> type = entity.getType();
+        Holder<EntityType<?>> entityHolder = entity.typeHolder();
+        ResourceKey<EntityType<?>> entityTypeKey = entityHolder.unwrapKey().orElse(null);
 
-        Holder.Reference<EntityType<?>> entityTypeEntry = type.builtInRegistryHolder();
-        ResourceKey<EntityType<?>> entityTypeKey = entityTypeEntry.key();
+        if (entityTypeKey == null) {
+            return Set.of();
+        }
 
         Set<EntityTypeCacheEntry> effects = this.entityTypeCache.computeIfAbsent(
                 entityTypeKey,
@@ -35,7 +37,7 @@ public class TemperatureEffectManager {
                             .stream()
                             .filter(entry -> {
                                 var allowedTypes = entry.getValue().entityTypes();
-                                return allowedTypes.size() == 0 || type.is(allowedTypes);
+                                return allowedTypes.size() == 0 || entity.is(allowedTypes);
                             })
                             .map(EntityTypeCacheEntry::new)
                             .collect(Collectors.toUnmodifiableSet());
