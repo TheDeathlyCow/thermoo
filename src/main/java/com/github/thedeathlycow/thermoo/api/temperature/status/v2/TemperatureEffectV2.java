@@ -17,8 +17,6 @@ public interface TemperatureEffectV2 {
 
     Codec<Holder<TemperatureEffectV2>> CODEC = RegistryFileCodec.create(ThermooRegistryKeys.TEMPERATURE_EFFECT, DIRECT_CODEC);
 
-    int DEFAULT_INTERVAL = 1;
-
     boolean apply(LivingEntity victim, Level level);
 
     default void remove(LivingEntity victim, Level level) {

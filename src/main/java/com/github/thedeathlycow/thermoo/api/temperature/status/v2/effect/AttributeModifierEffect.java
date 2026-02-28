@@ -118,7 +118,7 @@ public final class AttributeModifierEffect implements TemperatureEffectV2 {
     }
 
     @Override
-    public MapCodec<? extends AttributeModifierEffect> codec() {
+    public MapCodec<AttributeModifierEffect> codec() {
         return CODEC;
     }
 
