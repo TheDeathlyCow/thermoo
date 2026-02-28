@@ -1,21 +1,27 @@
-package com.github.thedeathlycow.thermoo.impl.component;
+package com.github.thedeathlycow.thermoo.impl.temperature.status;
 
+import com.github.thedeathlycow.thermoo.api.ThermooRegistryKeys;
 import com.github.thedeathlycow.thermoo.api.temperature.effects.ConfiguredTemperatureEffect;
-import com.github.thedeathlycow.thermoo.impl.temperature.effect.TemperatureEffectManager;
+import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureStatus;
+import com.github.thedeathlycow.thermoo.impl.component.ThermooComponents;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.resources.Identifier;
+import net.minecraft.core.Holder;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import org.ladysnake.cca.api.v3.component.Component;
 import org.ladysnake.cca.api.v3.component.tick.ServerTickingComponent;
 
-import java.util.HashMap;
+import java.util.IdentityHashMap;
+import java.util.List;
 import java.util.Map;
 
 public class TemperatureEffectsComponent implements Component, ServerTickingComponent {
-    private final Map<Identifier, Settings> effectsSettings = new HashMap<>();
+    private final Map<ResourceKey<TemperatureStatus>, Settings> effectsSettings = new IdentityHashMap<>();
 
     private final LivingEntity provider;
 
@@ -23,8 +29,12 @@ public class TemperatureEffectsComponent implements Component, ServerTickingComp
         this.provider = provider;
     }
 
-    public boolean setEffectEnabled(Identifier id, boolean enabled) {
-        Settings settings = this.effectsSettings.get(id);
+    public static TemperatureEffectsComponent get(LivingEntity entity) {
+        return ThermooComponents.TEMPERATURE_EFFECTS.get(entity);
+    }
+
+    public boolean setEffectEnabled(ResourceKey<TemperatureStatus> key, boolean enabled) {
+        Settings settings = this.effectsSettings.get(key);
 
         if (settings != null && settings.enabled != enabled) {
             settings.enabled = enabled;
@@ -34,8 +44,8 @@ public class TemperatureEffectsComponent implements Component, ServerTickingComp
         return false;
     }
 
-    public boolean isEffectEnabled(Identifier id) {
-        Settings settings = this.effectsSettings.get(id);
+    public boolean isEffectEnabled(ResourceKey<TemperatureStatus> key) {
+        Settings settings = this.effectsSettings.get(key);
 
         if (settings != null) {
             return settings.enabled;
@@ -57,20 +67,29 @@ public class TemperatureEffectsComponent implements Component, ServerTickingComp
 
     @Override
     public void serverTick() {
-        var availableEffects = TemperatureEffectManager.INSTANCE.getEffectsEntriesForEntity(provider);
-        for (TemperatureEffectManager.EntityTypeCacheEntry effectEntry : availableEffects) {
-            Settings settings = this.effectsSettings.computeIfAbsent(effectEntry.location(), ignored -> new Settings());
-            boolean wasApplied = settings.applied;
-            ConfiguredTemperatureEffect<?> effect = effectEntry.effect();
+        Level level = provider.level();
+        HolderLookup<TemperatureStatus> statusLookup = level.holderLookup(ThermooRegistryKeys.TEMPERATURE_STATUS);
+        List<Holder.Reference<TemperatureStatus>> availableEffects = TemperatureStatusManager.getEffects(
+                provider,
+                statusLookup
+        );
 
-            if (settings.enabled && effect.apply(provider)) {
+        for (Holder.Reference<TemperatureStatus> effectReference : availableEffects) {
+            Settings settings = this.effectsSettings.computeIfAbsent(
+                    effectReference.key(),
+                    _ -> new Settings()
+            );
+            boolean wasApplied = settings.applied;
+            TemperatureStatus status = effectReference.value();
+
+            if (settings.enabled && status.apply(provider, level)) {
                 settings.applied = true;
             } else {
                 settings.applied = false;
             }
 
             if (wasApplied && !settings.applied) {
-                effect.remove(provider);
+                status.remove(provider, level);
             }
         }
     }
@@ -88,7 +107,10 @@ public class TemperatureEffectsComponent implements Component, ServerTickingComp
                 })
         );
 
-        public static final Codec<Map<Identifier, Settings>> MAP_CODEC = Codec.unboundedMap(Identifier.CODEC, CODEC);
+        public static final Codec<Map<ResourceKey<TemperatureStatus>, Settings>> MAP_CODEC = Codec.unboundedMap(
+                ResourceKey.codec(ThermooRegistryKeys.TEMPERATURE_STATUS),
+                CODEC
+        );
 
         public static final String SETTINGS_KEY = "settings";
 

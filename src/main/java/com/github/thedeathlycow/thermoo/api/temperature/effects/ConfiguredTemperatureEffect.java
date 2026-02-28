@@ -1,7 +1,7 @@
 package com.github.thedeathlycow.thermoo.api.temperature.effects;
 
 import com.github.thedeathlycow.thermoo.api.ThermooRegistries;
-import com.github.thedeathlycow.thermoo.impl.component.TemperatureEffectsComponent;
+import com.github.thedeathlycow.thermoo.impl.temperature.status.TemperatureEffectsComponent;
 import com.github.thedeathlycow.thermoo.impl.component.ThermooComponents;
 import com.mojang.serialization.Codec;
 import net.minecraft.advancements.criterion.MinMaxBounds;

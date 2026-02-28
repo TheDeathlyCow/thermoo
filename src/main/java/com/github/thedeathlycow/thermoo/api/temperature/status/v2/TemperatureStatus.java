@@ -10,6 +10,8 @@ import net.minecraft.core.HolderSet;
 import net.minecraft.resources.RegistryFixedCodec;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Range;
@@ -35,16 +37,6 @@ public interface TemperatureStatus {
 
     Codec<Holder<TemperatureStatus>> CODEC = RegistryFixedCodec.create(ThermooRegistryKeys.TEMPERATURE_STATUS);
 
-    // TODO: client effects?
-//    StreamCodec<RegistryFriendlyByteBuf, Holder<TemperatureStatus>> STREAM_CODEC = ByteBufCodecs.holderRegistry(ThermooRegistryKeys.TEMPERATURE_STATUS);
-
-    TemperatureStatusSelector selector();
-
-    @Range(from = 1, to = Integer.MAX_VALUE)
-    int interval();
-
-    List<TemperatureEffectV2> effects();
-
     static TemperatureStatusSelector.Builder selector(HolderSet<EntityType<?>> entityTypes) {
         Preconditions.checkNotNull(entityTypes, "Entity types may not be null");
         return new TemperatureStatusSelector.Builder(entityTypes);
@@ -59,6 +51,17 @@ public interface TemperatureStatus {
         return new Builder(selectorBuilder);
     }
 
+    boolean apply(LivingEntity entity, Level level);
+
+    void remove(LivingEntity entity, Level level);
+
+    TemperatureStatusSelector selector();
+
+    @Range(from = 1, to = Integer.MAX_VALUE)
+    int interval();
+
+    List<TemperatureEffectV2> effects();
+
     final class Builder {
         private final TemperatureStatusSelector.Builder selectorBuilder;
         @Nullable
@@ -71,7 +74,7 @@ public interface TemperatureStatus {
 
         public Builder withInterval(int value) {
             Preconditions.checkState(this.interval != null, "Interval already set");
-            Preconditions.checkArgument(value > 0, "Interval must be at least 1");
+            Preconditions.checkArgument(value >= 1, "Interval must be at least 1");
 
             this.interval = value;
             return this;

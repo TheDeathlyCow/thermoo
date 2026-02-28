@@ -3,6 +3,7 @@ package com.github.thedeathlycow.thermoo.impl.temperature.effect;
 import com.github.thedeathlycow.thermoo.api.ThermooRegistryKeys;
 import com.github.thedeathlycow.thermoo.api.temperature.effects.ConfiguredTemperatureEffect;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
+import com.github.thedeathlycow.thermoo.impl.temperature.status.TemperatureStatusManager;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -61,7 +62,7 @@ public class TemperatureEffectLoader implements SimpleSynchronousResourceReloadL
             }
         }
 
-        TemperatureEffectManager.INSTANCE.updateRegistry(updatedRegistry);
+        TemperatureStatusManager.INSTANCE.updateRegistry(updatedRegistry);
     }
 
     private void loadEffect(

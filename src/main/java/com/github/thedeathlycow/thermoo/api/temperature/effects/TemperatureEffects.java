@@ -1,6 +1,6 @@
 package com.github.thedeathlycow.thermoo.api.temperature.effects;
 
-import com.github.thedeathlycow.thermoo.impl.temperature.effect.TemperatureEffectManager;
+import com.github.thedeathlycow.thermoo.impl.temperature.status.TemperatureStatusManager;
 import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.Nullable;
 
@@ -80,7 +80,7 @@ public final class TemperatureEffects {
      */
     @Nullable
     public static ConfiguredTemperatureEffect<?> getEffect(Identifier location) {
-        return TemperatureEffectManager.INSTANCE.getEffect(location);
+        return TemperatureStatusManager.INSTANCE.getEffect(location);
     }
 
 
@@ -88,7 +88,7 @@ public final class TemperatureEffects {
      * @return Returns all currently loaded {@link ConfiguredTemperatureEffect}s
      */
     public static Collection<ConfiguredTemperatureEffect<?>> getLoadedConfiguredEffects() {
-        return TemperatureEffectManager.INSTANCE.getAllEffects();
+        return TemperatureStatusManager.INSTANCE.getAllEffects();
     }
 
     private TemperatureEffects() {
