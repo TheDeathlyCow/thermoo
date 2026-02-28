@@ -9,6 +9,7 @@ import com.github.thedeathlycow.thermoo.api.predicate.SoakedLootCondition;
 import com.github.thedeathlycow.thermoo.api.predicate.TemperatureLootCondition;
 import com.github.thedeathlycow.thermoo.api.temperature.effect.v2.TemperatureEffectV2;
 import com.github.thedeathlycow.thermoo.api.temperature.effect.v2.variants.AttributeModifierEffect;
+import com.github.thedeathlycow.thermoo.api.temperature.effect.v2.variants.DamageEffect;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -20,6 +21,7 @@ import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 public final class ThermooCommonRegisters {
     public static void registerTemperatureEffects() {
         registerTemperatureEffectType("attribute_modifier", AttributeModifierEffect.CODEC);
+        registerTemperatureEffectType("damage", DamageEffect.CODEC);
 //        registerTemperatureEffect("empty", TemperatureEffects.EMPTY);
 //        registerTemperatureEffect("sequence", TemperatureEffects.SEQUENCE);
 //        registerTemperatureEffect("function", TemperatureEffects.FUNCTION);

@@ -12,6 +12,7 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.Range;
 
 public final class AttributeModifierEffect implements TemperatureEffectV2 {
     public static final MapCodec<AttributeModifierEffect> CODEC = RecordCodecBuilder.mapCodec(
@@ -70,6 +71,12 @@ public final class AttributeModifierEffect implements TemperatureEffectV2 {
         if (attributeInstance != null) {
             attributeInstance.removeModifier(this.id);
         }
+    }
+
+    @Override
+    @Range(from = 1, to = Integer.MAX_VALUE)
+    public int interval() {
+        return TemperatureEffectV2.DEFAULT_INTERVAL;
     }
 
     @Override
