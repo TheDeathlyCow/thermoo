@@ -11,6 +11,7 @@ import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureEff
 import com.github.thedeathlycow.thermoo.api.temperature.status.v2.effect.AttributeModifierEffect;
 import com.github.thedeathlycow.thermoo.api.temperature.status.v2.effect.DamageEffect;
 import com.github.thedeathlycow.thermoo.api.temperature.status.v2.effect.FunctionEffect;
+import com.github.thedeathlycow.thermoo.api.temperature.status.v2.effect.MobEffectTemperatureEffect;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -24,18 +25,12 @@ public final class ThermooCommonRegisters {
         registerTemperatureEffectType("attribute_modifier", AttributeModifierEffect.CODEC);
         registerTemperatureEffectType("damage", DamageEffect.CODEC);
         registerTemperatureEffectType("function", FunctionEffect.CODEC);
-//        registerTemperatureEffect("empty", TemperatureEffects.EMPTY);
-//        registerTemperatureEffect("sequence", TemperatureEffects.SEQUENCE);
-//        registerTemperatureEffect("function", TemperatureEffects.FUNCTION);
-//        registerTemperatureEffect("mob_effect", TemperatureEffects.MOB_EFFECT);
-//        registerTemperatureEffect("scaling_attribute_modifier", TemperatureEffects.SCALING_ATTRIBUTE_MODIFIER);
-//        registerTemperatureEffect("attribute_modifier", TemperatureEffects.ATTRIBUTE_MODIFIER);
-//        registerTemperatureEffect("damage", TemperatureEffects.DAMAGE);
-//
-//        ThermooRegistries.TEMPERATURE_EFFECTS.addAlias(
-//                Thermoo.id("status_effect"),
-//                Thermoo.id("mob_effect")
-//        );
+        registerTemperatureEffectType("mob_effect", MobEffectTemperatureEffect.CODEC);
+
+        ThermooRegistries.TEMPERATURE_EFFECT_TYPE.addAlias(
+                Thermoo.id("status_effect"),
+                Thermoo.id("mob_effect")
+        );
     }
 
     public static void registerEnvironmentProviderTypes() {

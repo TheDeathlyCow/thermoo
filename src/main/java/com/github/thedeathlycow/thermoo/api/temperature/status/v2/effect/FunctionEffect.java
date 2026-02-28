@@ -54,6 +54,15 @@ public final class FunctionEffect implements TemperatureEffectV2 {
         this.permissionLevel = permissionLevel;
     }
 
+    public static Builder builder(CacheableFunction function) {
+        Preconditions.checkNotNull(function, "Function may not be null");
+        return new Builder(function);
+    }
+
+    public static Builder builder(Identifier functionId) {
+        return builder(new CacheableFunction(functionId));
+    }
+
     @Override
     public boolean apply(LivingEntity victim, Level level) {
         if (level instanceof ServerLevel serverLevel) {
@@ -132,15 +141,6 @@ public final class FunctionEffect implements TemperatureEffectV2 {
 
     public int permissionLevel() {
         return permissionLevel;
-    }
-
-    public static Builder builder(CacheableFunction function) {
-        Preconditions.checkNotNull(function, "Function may not be null");
-        return new Builder(function);
-    }
-
-    public static Builder builder(Identifier functionId) {
-        return builder(new CacheableFunction(functionId));
     }
 
     public static final class Builder {
