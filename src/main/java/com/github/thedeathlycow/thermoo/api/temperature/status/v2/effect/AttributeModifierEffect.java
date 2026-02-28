@@ -37,7 +37,7 @@ public final class AttributeModifierEffect implements TemperatureEffect {
                             .fieldOf("operation")
                             .forGetter(AttributeModifierEffect::operation),
                     Codec.BOOL
-                            .fieldOf("scale_with_temperature")
+                            .optionalFieldOf("scale_with_temperature", false)
                             .forGetter(AttributeModifierEffect::scaleWithTemperature)
             ).apply(instance, AttributeModifierEffect::new)
     );
@@ -106,6 +106,8 @@ public final class AttributeModifierEffect implements TemperatureEffect {
     @Override
     public boolean apply(LivingEntity victim, Level level) {
         AttributeInstance attrInstance = victim.getAttribute(this.attribute);
+
+        // TODO: implement scale
 
         if (attrInstance != null && !attrInstance.hasModifier(this.id)) {
             attrInstance.addTransientModifier(new AttributeModifier(this.id, this.value, this.operation));

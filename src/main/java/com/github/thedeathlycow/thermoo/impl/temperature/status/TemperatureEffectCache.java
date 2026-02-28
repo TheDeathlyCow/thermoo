@@ -6,7 +6,7 @@ import net.minecraft.core.Holder;
 import java.util.List;
 
 public interface TemperatureEffectCache {
-    void thermoo$setEffects(List<Holder.Reference<TemperatureStatus>> effects);
+    void thermoo$setStatuses(List<Holder.Reference<TemperatureStatus>> effects);
 
-    List<Holder.Reference<TemperatureStatus>> thermoo$getEffects();
+    List<Holder.Reference<TemperatureStatus>> thermoo$getStatuses();
 }

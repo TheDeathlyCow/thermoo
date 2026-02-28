@@ -2,16 +2,18 @@ package com.github.thedeathlycow.thermoo.impl.temperature.status;
 
 import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureStatus;
 import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureStatusTags;
+import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import it.unimi.dsi.fastutil.objects.Object2IntArrayMap;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.HolderSet;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import org.jetbrains.annotations.VisibleForTesting;
+import net.minecraft.world.entity.player.Player;
 
 import java.util.Comparator;
 import java.util.List;
@@ -20,17 +22,20 @@ public class TemperatureStatusManager {
     public static List<Holder.Reference<TemperatureStatus>> getEffects(LivingEntity entity, HolderLookup<TemperatureStatus> lookup) {
         Holder<EntityType<?>> typeHolder = entity.typeHolder();
         TemperatureEffectCache cache = (TemperatureEffectCache) typeHolder.value();
-        var effects = cache.thermoo$getEffects();
+        var statuses = cache.thermoo$getStatuses();
 
-        if (effects == null) {
-            effects = lookup(typeHolder, lookup);
-            cache.thermoo$setEffects(effects);
+        if (statuses == null) {
+            statuses = lookup(typeHolder, lookup);
+            cache.thermoo$setStatuses(statuses);
+
+            if (FabricLoader.getInstance().isDevelopmentEnvironment() && entity instanceof Player && Thermoo.LOGGER.isInfoEnabled()) {
+                Thermoo.LOGGER.info("Player temperature statuses: {}", statuses.stream().map(ref -> ref.key().identifier()).toList());
+            }
         }
 
-        return effects;
+        return statuses;
     }
 
-    @VisibleForTesting
     public static List<Holder.Reference<TemperatureStatus>> lookup(Holder<EntityType<?>> type, HolderLookup<TemperatureStatus> lookup) {
         return lookup.listElements()
                 .filter(statusRef -> {

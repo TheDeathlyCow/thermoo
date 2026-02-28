@@ -23,8 +23,7 @@ public interface TemperatureStatusSelector {
                             .optionalFieldOf("entity_type", HolderSet.empty())
                             .forGetter(TemperatureStatusSelector::entityTypes),
                     MinMaxBounds.Doubles.CODEC
-                            .fieldOf("temperature_scale_range")
-                            .orElse(MinMaxBounds.Doubles.ANY)
+                            .optionalFieldOf("temperature_scale_range", MinMaxBounds.Doubles.ANY)
                             .forGetter(TemperatureStatusSelector::temperatureScaleRange),
                     LootItemCondition.DIRECT_CODEC
                             .optionalFieldOf("predicate")

@@ -24,7 +24,7 @@ public interface TemperatureStatus {
                             TemperatureStatusSelector.CODEC
                                     .forGetter(TemperatureStatus::selector),
                             ExtraCodecs.POSITIVE_INT
-                                    .fieldOf("interval")
+                                    .optionalFieldOf("interval", 1)
                                     .forGetter(TemperatureStatus::interval),
                             TemperatureEffect.DIRECT_CODEC.listOf()
                                     .fieldOf("effects")

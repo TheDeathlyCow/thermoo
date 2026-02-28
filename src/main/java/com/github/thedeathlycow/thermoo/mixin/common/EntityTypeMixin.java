@@ -18,13 +18,13 @@ public class EntityTypeMixin implements TemperatureEffectCache {
 
     @Override
     @Unique
-    public void thermoo$setEffects(List<Holder.Reference<TemperatureStatus>> effects) {
+    public void thermoo$setStatuses(List<Holder.Reference<TemperatureStatus>> effects) {
         this.thermoo$effects = effects;
     }
 
     @Override
     @Unique
-    public List<Holder.Reference<TemperatureStatus>> thermoo$getEffects() {
+    public List<Holder.Reference<TemperatureStatus>> thermoo$getStatuses() {
         return this.thermoo$effects;
     }
 }
