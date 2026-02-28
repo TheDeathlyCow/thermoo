@@ -13,11 +13,19 @@ import net.minecraft.resources.ResourceKey;
 
 public final class ThermooRegistryKeys {
     /**
-     * Key for the temperature effect registry
-     * <p>
-     * Note that the datapack registry for temperature effects is defined by a {@link com.github.thedeathlycow.thermoo.api.temperature.effects.ConfiguredTemperatureEffect}
+     * Registry key for the {@linkplain TemperatureEffectV2 temperature effect} datapack registry.
      *
-     * @see TemperatureEffect
+     * @see TemperatureEffectV2
+     */
+    public static final ResourceKey<Registry<TemperatureEffectV2>> TEMPERATURE_EFFECT = createRegistryKey("temperature_effect_type");
+
+
+    /**
+     * Registry key for {@linkplain TemperatureEffectV2 temperature effect codecs}. Register codecs to this registry
+     * an entry point.
+     *
+     * @see TemperatureEffectV2
+     * @see ThermooRegistries#TEMPERATURE_EFFECT_TYPE
      */
     public static final ResourceKey<Registry<MapCodec<? extends TemperatureEffectV2>>> TEMPERATURE_EFFECT_TYPE = createRegistryKey("temperature_effect_type");
 
