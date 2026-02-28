@@ -1,6 +1,7 @@
 package com.github.thedeathlycow.thermoo.api.temperature.status.v2;
 
 import com.github.thedeathlycow.thermoo.impl.temperature.status.TemperatureStatusSelectorImpl;
+import com.google.common.base.Preconditions;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.advancements.criterion.MinMaxBounds;
@@ -10,6 +11,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
@@ -47,4 +49,75 @@ public interface TemperatureStatusSelector {
      * If not null, then only applies the effect to entities for which this predicate is TRUE.
      */
     Optional<LootItemCondition> predicate();
+
+    static Builder builder() {
+        return new Builder();
+    }
+
+    final class Builder {
+        @Nullable HolderSet<EntityType<?>> entityTypes = null;
+        @Nullable MinMaxBounds.Doubles temperatureScaleRange = null;
+        @Nullable LootItemCondition.Builder predicateBuilder = null;
+
+        private Builder() {
+
+        }
+
+        public Builder selectEntities(HolderSet<EntityType<?>> entityTypes) {
+            Preconditions.checkState(this.entityTypes == null, "Entity types already set");
+            Preconditions.checkNotNull(entityTypes, "Entity types may not be null");
+
+            this.entityTypes = entityTypes;
+            return this;
+        }
+
+        public Builder withCondition(LootItemCondition.Builder predicateBuilder) {
+            Preconditions.checkState(this.predicateBuilder == null, "Predicate already set");
+            Preconditions.checkNotNull(predicateBuilder, "Predicate may not be null");
+
+            this.predicateBuilder = predicateBuilder;
+            return this;
+        }
+
+        public Builder temperatureIsExactly(double value) {
+            Preconditions.checkState(this.temperatureScaleRange == null, "Temperature range already set");
+            Preconditions.checkArgument(Double.isFinite(value), "Temperature range must be finite");
+
+            this.temperatureScaleRange = MinMaxBounds.Doubles.exactly(value);
+            return this;
+        }
+
+        public Builder temperatureIsBetween(double min, double max) {
+            Preconditions.checkState(this.temperatureScaleRange == null, "Temperature range already set");
+            Preconditions.checkArgument(Double.isFinite(min), "Temperature range minimum must be finite");
+            Preconditions.checkArgument(Double.isFinite(max), "Temperature range maximum must be finite");
+
+            this.temperatureScaleRange = MinMaxBounds.Doubles.between(min, max);
+            return this;
+        }
+
+        public Builder temperatureIsAtLeast(double value) {
+            Preconditions.checkState(this.temperatureScaleRange == null, "Temperature range already set");
+            Preconditions.checkArgument(Double.isFinite(value), "Temperature range minimum must be finite");
+
+            this.temperatureScaleRange = MinMaxBounds.Doubles.atLeast(value);
+            return this;
+        }
+
+        public Builder temperatureIsAtMost(double value) {
+            Preconditions.checkState(this.temperatureScaleRange == null, "Temperature range already set");
+            Preconditions.checkArgument(Double.isFinite(value), "Temperature range maximum must be finite");
+
+            this.temperatureScaleRange = MinMaxBounds.Doubles.atMost(value);
+            return this;
+        }
+
+        public TemperatureStatusSelector build() {
+            return new TemperatureStatusSelectorImpl(
+                    this.entityTypes != null ? this.entityTypes : HolderSet.empty(),
+                    this.temperatureScaleRange != null ? this.temperatureScaleRange : MinMaxBounds.Doubles.ANY,
+                    Optional.ofNullable(predicateBuilder).map(LootItemCondition.Builder::build)
+            );
+        }
+    }
 }

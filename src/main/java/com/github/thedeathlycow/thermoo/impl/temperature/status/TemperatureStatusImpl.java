@@ -3,12 +3,13 @@ package com.github.thedeathlycow.thermoo.impl.temperature.status;
 import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureEffectV2;
 import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureStatus;
 import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureStatusSelector;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
 public record TemperatureStatusImpl(
-        TemperatureStatusSelector selector,
+        @NotNull TemperatureStatusSelector selector,
         int interval,
-        List<TemperatureEffectV2> effects
+        @NotNull List<TemperatureEffectV2> effects
 ) implements TemperatureStatus {
 }

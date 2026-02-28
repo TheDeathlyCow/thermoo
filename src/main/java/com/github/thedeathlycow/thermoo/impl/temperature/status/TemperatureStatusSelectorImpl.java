@@ -5,13 +5,14 @@ import net.minecraft.advancements.criterion.MinMaxBounds;
 import net.minecraft.core.HolderSet;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
 public record TemperatureStatusSelectorImpl(
-        HolderSet<EntityType<?>> entityTypes,
-        MinMaxBounds.Doubles temperatureScaleRange,
-        Optional<LootItemCondition> predicate
+        @NotNull HolderSet<EntityType<?>> entityTypes,
+        @NotNull MinMaxBounds.Doubles temperatureScaleRange,
+        @NotNull Optional<LootItemCondition> predicate
 ) implements TemperatureStatusSelector {
 
 }

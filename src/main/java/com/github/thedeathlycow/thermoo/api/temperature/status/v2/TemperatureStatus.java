@@ -2,14 +2,17 @@ package com.github.thedeathlycow.thermoo.api.temperature.status.v2;
 
 import com.github.thedeathlycow.thermoo.api.ThermooRegistryKeys;
 import com.github.thedeathlycow.thermoo.impl.temperature.status.TemperatureStatusImpl;
+import com.google.common.base.Preconditions;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.RegistryFixedCodec;
 import net.minecraft.util.ExtraCodecs;
 import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Range;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @ApiStatus.NonExtendable
@@ -20,7 +23,7 @@ public interface TemperatureStatus {
                                     .forGetter(TemperatureStatus::selector),
                             ExtraCodecs.POSITIVE_INT
                                     .fieldOf("interval")
-                                    .forGetter(TemperatureStatusSelector::interval),
+                                    .forGetter(TemperatureStatus::interval),
                             TemperatureEffectV2.DIRECT_CODEC.listOf()
                                     .fieldOf("effects")
                                     .forGetter(TemperatureStatus::effects)
@@ -39,4 +42,43 @@ public interface TemperatureStatus {
     int interval();
 
     List<TemperatureEffectV2> effects();
+
+    static Builder builder(TemperatureStatusSelector.Builder selectorBuilder) {
+        Preconditions.checkNotNull(selectorBuilder, "Selector must be defined");
+        return new Builder(selectorBuilder);
+    }
+
+    final class Builder {
+        private final TemperatureStatusSelector.Builder selectorBuilder;
+        @Nullable
+        private Integer interval = null;
+        private List<TemperatureEffectV2> effects = new ArrayList<>();
+
+        private Builder(TemperatureStatusSelector.Builder selectorBuilder) {
+            this.selectorBuilder = selectorBuilder;
+        }
+
+        public Builder withInterval(int value) {
+            Preconditions.checkState(this.interval != null, "Interval already set");
+            Preconditions.checkArgument(value > 0, "Interval must be at least 1");
+
+            this.interval = value;
+            return this;
+        }
+
+        public Builder addEffect(TemperatureEffectV2 effect) {
+            Preconditions.checkNotNull(effect, "Null effects are not allowed");
+
+            this.effects.add(effect);
+            return this;
+        }
+
+        public TemperatureStatus build() {
+            return new TemperatureStatusImpl(
+                    this.selectorBuilder.build(),
+                    this.interval != null ? this.interval : 1,
+                    this.effects
+            );
+        }
+    }
 }
