@@ -6,8 +6,10 @@ import com.google.common.base.Preconditions;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.Holder;
+import net.minecraft.core.HolderSet;
 import net.minecraft.resources.RegistryFixedCodec;
 import net.minecraft.util.ExtraCodecs;
+import net.minecraft.world.entity.EntityType;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Range;
@@ -42,6 +44,15 @@ public interface TemperatureStatus {
     int interval();
 
     List<TemperatureEffectV2> effects();
+
+    static TemperatureStatusSelector.Builder selector(HolderSet<EntityType<?>> entityTypes) {
+        Preconditions.checkNotNull(entityTypes, "Entity types may not be null");
+        return new TemperatureStatusSelector.Builder(entityTypes);
+    }
+
+    static TemperatureStatusSelector.Builder selectAllEntities() {
+        return new TemperatureStatusSelector.Builder(HolderSet.empty());
+    }
 
     static Builder builder(TemperatureStatusSelector.Builder selectorBuilder) {
         Preconditions.checkNotNull(selectorBuilder, "Selector must be defined");

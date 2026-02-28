@@ -50,25 +50,15 @@ public interface TemperatureStatusSelector {
      */
     Optional<LootItemCondition> predicate();
 
-    static Builder builder() {
-        return new Builder();
-    }
-
     final class Builder {
-        @Nullable HolderSet<EntityType<?>> entityTypes = null;
-        @Nullable MinMaxBounds.Doubles temperatureScaleRange = null;
-        @Nullable LootItemCondition.Builder predicateBuilder = null;
+        private final HolderSet<EntityType<?>> entityTypes;
+        @Nullable
+        private MinMaxBounds.Doubles temperatureScaleRange = null;
+        @Nullable
+        private LootItemCondition.Builder predicateBuilder = null;
 
-        private Builder() {
-
-        }
-
-        public Builder selectEntities(HolderSet<EntityType<?>> entityTypes) {
-            Preconditions.checkState(this.entityTypes == null, "Entity types already set");
-            Preconditions.checkNotNull(entityTypes, "Entity types may not be null");
-
+        Builder(HolderSet<EntityType<?>> entityTypes) {
             this.entityTypes = entityTypes;
-            return this;
         }
 
         public Builder withCondition(LootItemCondition.Builder predicateBuilder) {
