@@ -1,6 +1,6 @@
 package com.github.thedeathlycow.thermoo.api.temperature.status.v2.effect;
 
-import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureEffectV2;
+import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureEffect;
 import com.google.common.base.Preconditions;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
@@ -23,7 +23,7 @@ import java.util.List;
  * The type, duration, and intensity can all be configured of each status effect can be configured. May specify 1 or more
  * effects to all be applied at once.
  */
-public final class MobEffectTemperatureEffect implements TemperatureEffectV2 {
+public final class MobEffectTemperatureEffect implements TemperatureEffect {
     public static final MapCodec<MobEffectTemperatureEffect> CODEC = RecordCodecBuilder.mapCodec(
             instance -> instance.group(
                     ConfiguredMobEffect.CODEC.listOf()

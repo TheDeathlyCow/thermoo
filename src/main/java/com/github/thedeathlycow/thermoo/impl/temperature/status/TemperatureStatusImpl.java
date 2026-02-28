@@ -1,6 +1,6 @@
 package com.github.thedeathlycow.thermoo.impl.temperature.status;
 
-import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureEffectV2;
+import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureEffect;
 import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureStatus;
 import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureStatusSelector;
 import net.minecraft.world.entity.LivingEntity;
@@ -12,7 +12,7 @@ import java.util.List;
 public record TemperatureStatusImpl(
         @NotNull TemperatureStatusSelector selector,
         int interval,
-        @NotNull List<TemperatureEffectV2> effects
+        @NotNull List<TemperatureEffect> effects
 ) implements TemperatureStatus {
     @Override
     public boolean apply(LivingEntity entity, Level level) {
@@ -28,7 +28,7 @@ public record TemperatureStatusImpl(
 
         boolean anyApplied = false;
 
-        for (TemperatureEffectV2 effect : this.effects) {
+        for (TemperatureEffect effect : this.effects) {
             anyApplied |= effect.apply(entity, level);
         }
 
@@ -37,7 +37,7 @@ public record TemperatureStatusImpl(
 
     @Override
     public void remove(LivingEntity entity, Level level) {
-        for (TemperatureEffectV2 effect : this.effects) {
+        for (TemperatureEffect effect : this.effects) {
             effect.remove(entity, level);
         }
     }

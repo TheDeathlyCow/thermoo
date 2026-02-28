@@ -1,6 +1,6 @@
 package com.github.thedeathlycow.thermoo.api.temperature.status.v2.effect;
 
-import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureEffectV2;
+import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureEffect;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import com.google.common.base.Preconditions;
 import com.mojang.serialization.Codec;
@@ -27,7 +27,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
-public final class FunctionEffect implements TemperatureEffectV2 {
+public final class FunctionEffect implements TemperatureEffect {
     static final int DEFAULT_PERMISSION_LEVEL = 2;
 
     public static final MapCodec<FunctionEffect> CODEC = RecordCodecBuilder.mapCodec(

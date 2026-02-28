@@ -7,7 +7,7 @@ import com.github.thedeathlycow.thermoo.api.environment.provider.EnvironmentProv
 import com.github.thedeathlycow.thermoo.api.environment.provider.EnvironmentProviderTypes;
 import com.github.thedeathlycow.thermoo.api.predicate.SoakedLootCondition;
 import com.github.thedeathlycow.thermoo.api.predicate.TemperatureLootCondition;
-import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureEffectV2;
+import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureEffect;
 import com.github.thedeathlycow.thermoo.api.temperature.status.v2.effect.AttributeModifierEffect;
 import com.github.thedeathlycow.thermoo.api.temperature.status.v2.effect.DamageEffect;
 import com.github.thedeathlycow.thermoo.api.temperature.status.v2.effect.FunctionEffect;
@@ -64,7 +64,7 @@ public final class ThermooCommonRegisters {
         registerEnvironmentAttribute("gameplay/atmospheric_pressure", ThermooEnvironmentAttributes.ATMOSPHERIC_PRESSURE);
     }
 
-    private static void registerTemperatureEffectType(String name, MapCodec<? extends TemperatureEffectV2> temperatureEffect) {
+    private static void registerTemperatureEffectType(String name, MapCodec<? extends TemperatureEffect> temperatureEffect) {
         Registry.register(ThermooRegistries.TEMPERATURE_EFFECT_TYPE, Thermoo.id(name), temperatureEffect);
     }
 

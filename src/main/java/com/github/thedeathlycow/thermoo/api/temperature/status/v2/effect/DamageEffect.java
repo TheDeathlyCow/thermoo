@@ -1,6 +1,6 @@
 package com.github.thedeathlycow.thermoo.api.temperature.status.v2.effect;
 
-import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureEffectV2;
+import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureEffect;
 import com.google.common.base.Preconditions;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -21,7 +21,7 @@ import java.util.Objects;
  * The type and amount of damage can be configured, as well as the damage type. However, the {@link DamageSource}
  * applied only stores the type - the direct source entity, attacker, and position are all {@code null}.
  */
-public final class DamageEffect implements TemperatureEffectV2 {
+public final class DamageEffect implements TemperatureEffect {
     public static final MapCodec<DamageEffect> CODEC = RecordCodecBuilder.mapCodec(
             instance -> instance.group(
                     ExtraCodecs.NON_NEGATIVE_FLOAT

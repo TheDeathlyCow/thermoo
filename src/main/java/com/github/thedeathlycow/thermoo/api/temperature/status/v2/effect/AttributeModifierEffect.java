@@ -1,7 +1,7 @@
 package com.github.thedeathlycow.thermoo.api.temperature.status.v2.effect;
 
 import com.github.thedeathlycow.thermoo.api.temperature.TemperatureAware;
-import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureEffectV2;
+import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureEffect;
 import com.google.common.base.Preconditions;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
@@ -21,7 +21,7 @@ import net.minecraft.world.level.Level;
  * Includes options to increase the modifier in strength with respect to the target's
  * {@linkplain TemperatureAware#thermoo$getTemperatureScale() current temperature scale}.
  */
-public final class AttributeModifierEffect implements TemperatureEffectV2 {
+public final class AttributeModifierEffect implements TemperatureEffect {
     public static final MapCodec<AttributeModifierEffect> CODEC = RecordCodecBuilder.mapCodec(
             instance -> instance.group(
                     BuiltInRegistries.ATTRIBUTE.holderByNameCodec()

@@ -3,7 +3,7 @@ package com.github.thedeathlycow.thermoo.api;
 import com.github.thedeathlycow.thermoo.api.environment.EnvironmentDefinition;
 import com.github.thedeathlycow.thermoo.api.environment.provider.EnvironmentProvider;
 import com.github.thedeathlycow.thermoo.api.environment.provider.EnvironmentProviderType;
-import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureEffectV2;
+import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureEffect;
 import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureStatus;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import com.mojang.serialization.MapCodec;
@@ -20,20 +20,20 @@ public final class ThermooRegistryKeys {
     public static final ResourceKey<Registry<TemperatureStatus>> TEMPERATURE_STATUS = createRegistryKey("temperature_status");
 
     /**
-     * Registry key for the {@linkplain TemperatureEffectV2 temperature effect} datapack registry.
+     * Registry key for the {@linkplain TemperatureEffect temperature effect} datapack registry.
      *
-     * @see TemperatureEffectV2
+     * @see TemperatureEffect
      */
-    public static final ResourceKey<Registry<TemperatureEffectV2>> TEMPERATURE_EFFECT = createRegistryKey("temperature_effect");
+    public static final ResourceKey<Registry<TemperatureEffect>> TEMPERATURE_EFFECT = createRegistryKey("temperature_effect");
 
     /**
-     * Registry key for {@linkplain TemperatureEffectV2 temperature effect codecs}. Register codecs to this registry
+     * Registry key for {@linkplain TemperatureEffect temperature effect codecs}. Register codecs to this registry
      * an entry point.
      *
-     * @see TemperatureEffectV2
+     * @see TemperatureEffect
      * @see ThermooRegistries#TEMPERATURE_EFFECT_TYPE
      */
-    public static final ResourceKey<Registry<MapCodec<? extends TemperatureEffectV2>>> TEMPERATURE_EFFECT_TYPE = createRegistryKey("temperature_effect_type");
+    public static final ResourceKey<Registry<MapCodec<? extends TemperatureEffect>>> TEMPERATURE_EFFECT_TYPE = createRegistryKey("temperature_effect_type");
 
     /**
      * The key for the environment component type registry

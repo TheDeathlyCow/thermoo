@@ -28,7 +28,7 @@ public interface TemperatureStatus {
                             ExtraCodecs.POSITIVE_INT
                                     .fieldOf("interval")
                                     .forGetter(TemperatureStatus::interval),
-                            TemperatureEffectV2.DIRECT_CODEC.listOf()
+                            TemperatureEffect.DIRECT_CODEC.listOf()
                                     .fieldOf("effects")
                                     .forGetter(TemperatureStatus::effects)
                     )
@@ -60,13 +60,13 @@ public interface TemperatureStatus {
     @Range(from = 1, to = Integer.MAX_VALUE)
     int interval();
 
-    List<TemperatureEffectV2> effects();
+    List<TemperatureEffect> effects();
 
     final class Builder {
         private final TemperatureStatusSelector.Builder selectorBuilder;
         @Nullable
         private Integer interval = null;
-        private List<TemperatureEffectV2> effects = new ArrayList<>();
+        private List<TemperatureEffect> effects = new ArrayList<>();
 
         private Builder(TemperatureStatusSelector.Builder selectorBuilder) {
             this.selectorBuilder = selectorBuilder;
@@ -80,7 +80,7 @@ public interface TemperatureStatus {
             return this;
         }
 
-        public Builder addEffect(TemperatureEffectV2 effect) {
+        public Builder addEffect(TemperatureEffect effect) {
             Preconditions.checkNotNull(effect, "Null effects are not allowed");
 
             this.effects.add(effect);

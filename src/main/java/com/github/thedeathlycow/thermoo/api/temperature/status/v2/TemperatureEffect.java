@@ -11,16 +11,16 @@ import net.minecraft.world.level.Level;
 
 import java.util.function.Function;
 
-public interface TemperatureEffectV2 {
-    Codec<TemperatureEffectV2> DIRECT_CODEC = ThermooRegistries.TEMPERATURE_EFFECT_TYPE.byNameCodec()
-            .dispatch(TemperatureEffectV2::codec, Function.identity());
+public interface TemperatureEffect {
+    Codec<TemperatureEffect> DIRECT_CODEC = ThermooRegistries.TEMPERATURE_EFFECT_TYPE.byNameCodec()
+            .dispatch(TemperatureEffect::codec, Function.identity());
 
-    Codec<Holder<TemperatureEffectV2>> CODEC = RegistryFileCodec.create(ThermooRegistryKeys.TEMPERATURE_EFFECT, DIRECT_CODEC);
+    Codec<Holder<TemperatureEffect>> CODEC = RegistryFileCodec.create(ThermooRegistryKeys.TEMPERATURE_EFFECT, DIRECT_CODEC);
 
     boolean apply(LivingEntity victim, Level level);
 
     default void remove(LivingEntity victim, Level level) {
     }
 
-    MapCodec<? extends TemperatureEffectV2> codec();
+    MapCodec<? extends TemperatureEffect> codec();
 }
