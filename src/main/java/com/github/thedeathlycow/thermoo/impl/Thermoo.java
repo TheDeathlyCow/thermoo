@@ -12,9 +12,11 @@ import com.github.thedeathlycow.thermoo.impl.command.TemperatureCommand;
 import com.github.thedeathlycow.thermoo.impl.compat.init.DependentModInitializer;
 import com.github.thedeathlycow.thermoo.impl.config.ThermooConfig;
 import com.github.thedeathlycow.thermoo.impl.environment.EnvironmentLookupImpl;
+import com.github.thedeathlycow.thermoo.impl.temperature.status.TemperatureStatusManager;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.ArgumentTypeRegistry;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.registry.DynamicRegistries;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.commands.synchronization.ArgumentTypeInfo;
@@ -68,6 +70,8 @@ public class Thermoo implements ModInitializer {
                     dispatcher.register(SoakingCommand.create(dispatcher, context, selection));
                 }
         );
+
+        ServerLifecycleEvents.SERVER_STOPPED.register(TemperatureStatusManager::clearCaches);
 
         DynamicRegistries.register(
                 ThermooRegistryKeys.ENVIRONMENT,

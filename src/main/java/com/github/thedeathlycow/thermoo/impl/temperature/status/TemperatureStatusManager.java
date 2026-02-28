@@ -10,6 +10,8 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.HolderSet;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -18,7 +20,7 @@ import net.minecraft.world.entity.player.Player;
 import java.util.Comparator;
 import java.util.List;
 
-public class TemperatureStatusManager {
+public final class TemperatureStatusManager {
     public static List<Holder.Reference<TemperatureStatus>> getEffects(LivingEntity entity, HolderLookup<TemperatureStatus> lookup) {
         Holder<EntityType<?>> typeHolder = entity.typeHolder();
         TemperatureEffectCache cache = (TemperatureEffectCache) typeHolder.value();
@@ -34,6 +36,17 @@ public class TemperatureStatusManager {
         }
 
         return statuses;
+    }
+
+    public static void clearCaches(MinecraftServer server) {
+        if (FabricLoader.getInstance().isDevelopmentEnvironment()) {
+            Thermoo.LOGGER.info("Clearing temperature effect cache");
+        }
+
+        BuiltInRegistries.ENTITY_TYPE.forEach(entityType -> {
+            TemperatureEffectCache cache = (TemperatureEffectCache) entityType;
+            cache.thermoo$setStatuses(null);
+        });
     }
 
     public static List<Holder.Reference<TemperatureStatus>> lookup(Holder<EntityType<?>> type, HolderLookup<TemperatureStatus> lookup) {
