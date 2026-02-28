@@ -1,10 +1,13 @@
-package com.github.thedeathlycow.thermoo.api.command;
+package com.github.thedeathlycow.thermoo.impl.command;
 
 import com.mojang.brigadier.Command;
+import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.permissions.Permissions;
@@ -26,22 +29,17 @@ import static net.minecraft.commands.Commands.literal;
  * {@code thermoo soaking (get|set|add|remove) <target> <args>}
  */
 public final class SoakingCommand {
-
-    /**
-     * Supplier for creating a new soaking command builder to be registered to the Minecraft server
-     * <p>
-     * Registered by the default implementation of this API.
-     */
-    public static final Supplier<LiteralArgumentBuilder<CommandSourceStack>> COMMAND_BUILDER = SoakingCommand::buildCommand;
-
     private static final String TARGET_KEY = "target";
     private static final String SCALE_KEY = "scale";
     private static final String MIN_KEY = "min";
     private static final String MAX_KEY = "max";
     private static final String VALUE_KEY = "value";
 
-    @Contract("->new")
-    private static LiteralArgumentBuilder<CommandSourceStack> buildCommand() {
+    public static LiteralArgumentBuilder<CommandSourceStack> create(
+            CommandDispatcher<CommandSourceStack> dispatcher,
+            CommandBuildContext buildContext,
+            Commands.CommandSelection selection
+    ) {
         return literal("thermoo").then(
                 (literal("soaking").requires(src -> src.permissions()
                         .hasPermission(Permissions.COMMANDS_GAMEMASTER)))

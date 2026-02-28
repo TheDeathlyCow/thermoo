@@ -1,5 +1,6 @@
-package com.github.thedeathlycow.thermoo.api.command;
+package com.github.thedeathlycow.thermoo.impl.command;
 
+import com.github.thedeathlycow.thermoo.api.command.v1.TemperatureUnitArgumentType;
 import com.github.thedeathlycow.thermoo.api.environment.EnvironmentLookup;
 import com.github.thedeathlycow.thermoo.api.environment.component.AtmosphericPressureComponent;
 import com.github.thedeathlycow.thermoo.api.environment.component.EnvironmentComponentTypes;
@@ -9,9 +10,12 @@ import com.github.thedeathlycow.thermoo.api.environment.event.ServerPlayerEnviro
 import com.github.thedeathlycow.thermoo.api.util.TemperatureUnit;
 import com.github.thedeathlycow.thermoo.impl.LivingEntityTickUtil;
 import com.github.thedeathlycow.thermoo.impl.environment.EnvironmentTickContextImpl;
+import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.DoubleArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.commands.arguments.coordinates.BlockPosArgument;
 import net.minecraft.core.BlockPos;
@@ -21,9 +25,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.permissions.Permissions;
 import net.minecraft.world.level.biome.Biome;
-import org.jetbrains.annotations.Contract;
-
-import java.util.function.Supplier;
 
 import static net.minecraft.commands.Commands.argument;
 import static net.minecraft.commands.Commands.literal;
@@ -46,15 +47,11 @@ public final class EnvironmentCommand {
 
     }
 
-    /**
-     * Supplier for creating a new environment command builder to be registered to the Minecraft server
-     * <p>
-     * Registered by the default implementation of this API.
-     */
-    public static final Supplier<LiteralArgumentBuilder<CommandSourceStack>> COMMAND_BUILDER = EnvironmentCommand::buildCommand;
-
-    @Contract("->new")
-    private static LiteralArgumentBuilder<CommandSourceStack> buildCommand() {
+    public static LiteralArgumentBuilder<CommandSourceStack> create(
+            CommandDispatcher<CommandSourceStack> dispatcher,
+            CommandBuildContext buildContext,
+            Commands.CommandSelection selection
+    ) {
         final String location = "location";
         final String target = "target";
         final String unit = "unit";

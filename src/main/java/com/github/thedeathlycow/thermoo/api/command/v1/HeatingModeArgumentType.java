@@ -1,6 +1,8 @@
-package com.github.thedeathlycow.thermoo.api.command;
+package com.github.thedeathlycow.thermoo.api.command.v1;
 
 import com.github.thedeathlycow.thermoo.api.temperature.HeatingModes;
+import com.github.thedeathlycow.thermoo.api.util.TemperatureUnit;
+import com.github.thedeathlycow.thermoo.impl.command.TemperatureCommand;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.serialization.Codec;
 import net.minecraft.commands.CommandSourceStack;
@@ -8,7 +10,7 @@ import net.minecraft.commands.arguments.StringRepresentableArgument;
 import net.minecraft.util.StringRepresentable;
 
 /**
- * Enum argument type for {@link TemperatureCommand}
+ * An argument type to specify a value of the {@link HeatingModes} enum.
  */
 public final class HeatingModeArgumentType extends StringRepresentableArgument<HeatingModes> {
 
