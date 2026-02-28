@@ -12,7 +12,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-class FunctionTemperatureEffectTest {
+class FunctionEffectTest {
 
     @BeforeAll
     static void setup() {
@@ -35,15 +35,11 @@ class FunctionTemperatureEffectTest {
     @ValueSource(
             ints = {Integer.MIN_VALUE, -1, 5, Integer.MAX_VALUE}
     )
-    void invalidPermissionLevel_decode_permissionLevelIsDefault(int permissionLevel) {
+    void invalidPermissionLevel_decode_fails(int permissionLevel) {
         var json = createJson(JsonOps.INSTANCE, permissionLevel);
         DataResult<FunctionEffect> result = FunctionEffect.CODEC.decode(JsonOps.INSTANCE, json);
 
-        Assertions.assertFalse(result.isError());
-        Assertions.assertEquals(
-                FunctionEffect.DEFAULT_PERMISSION_LEVEL,
-                result.getOrThrow().permissionLevel()
-        );
+        Assertions.assertTrue(result.isError());
     }
 
     private static MapLike<JsonElement> createJson(DynamicOps<JsonElement> ops, int permissionLevel) {
