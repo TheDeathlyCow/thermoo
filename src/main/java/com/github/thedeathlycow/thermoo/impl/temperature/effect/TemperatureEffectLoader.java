@@ -108,7 +108,7 @@ public class TemperatureEffectLoader implements SimpleSynchronousResourceReloadL
                     Thermoo.LOGGER.debug(
                             "{} resource of type {} with id {}",
                             verdict,
-                            Registries.elementsDirPath(ThermooRegistryKeys.TEMPERATURE_EFFECT),
+                            Registries.elementsDirPath(ThermooRegistryKeys.TEMPERATURE_EFFECT_TYPE),
                             key
                     );
                 }
@@ -117,7 +117,7 @@ public class TemperatureEffectLoader implements SimpleSynchronousResourceReloadL
             } else {
                 Thermoo.LOGGER.error(
                         "Failed to parse resource conditions for file of type {} with id {}, skipping: {}",
-                        Registries.elementsDirPath(ThermooRegistryKeys.TEMPERATURE_EFFECT),
+                        Registries.elementsDirPath(ThermooRegistryKeys.TEMPERATURE_EFFECT_TYPE),
                         key,
                         conditions.error().get().message()
                 );

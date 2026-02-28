@@ -92,7 +92,7 @@ public final class ConfiguredTemperatureEffect<C> {
      * Codec for all configured temperature effects. Dispatches config codec based on
      * {@linkplain TemperatureEffect type}.
      */
-    public static final Codec<ConfiguredTemperatureEffect<?>> CODEC = ThermooRegistries.TEMPERATURE_EFFECTS
+    public static final Codec<ConfiguredTemperatureEffect<?>> CODEC = ThermooRegistries.TEMPERATURE_EFFECT_TYPE
             .byNameCodec()
             .dispatch(
                     "type",

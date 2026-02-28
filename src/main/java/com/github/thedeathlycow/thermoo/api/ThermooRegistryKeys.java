@@ -3,8 +3,10 @@ package com.github.thedeathlycow.thermoo.api;
 import com.github.thedeathlycow.thermoo.api.environment.EnvironmentDefinition;
 import com.github.thedeathlycow.thermoo.api.environment.provider.EnvironmentProvider;
 import com.github.thedeathlycow.thermoo.api.environment.provider.EnvironmentProviderType;
+import com.github.thedeathlycow.thermoo.api.temperature.effect.v2.TemperatureEffectV2;
 import com.github.thedeathlycow.thermoo.api.temperature.effects.TemperatureEffect;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.resources.ResourceKey;
@@ -17,7 +19,7 @@ public final class ThermooRegistryKeys {
      *
      * @see TemperatureEffect
      */
-    public static final ResourceKey<Registry<TemperatureEffect<?>>> TEMPERATURE_EFFECT = createRegistryKey("temperature_effects");
+    public static final ResourceKey<Registry<MapCodec<? extends TemperatureEffectV2>>> TEMPERATURE_EFFECT_TYPE = createRegistryKey("temperature_effect_type");
 
     /**
      * The key for the environment component type registry

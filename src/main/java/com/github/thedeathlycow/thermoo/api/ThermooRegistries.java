@@ -1,7 +1,9 @@
 package com.github.thedeathlycow.thermoo.api;
 
 import com.github.thedeathlycow.thermoo.api.environment.provider.EnvironmentProviderType;
+import com.github.thedeathlycow.thermoo.api.temperature.effect.v2.TemperatureEffectV2;
 import com.github.thedeathlycow.thermoo.api.temperature.effects.TemperatureEffect;
+import com.mojang.serialization.MapCodec;
 import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponentType;
@@ -16,9 +18,9 @@ public final class ThermooRegistries {
      *
      * @see TemperatureEffect
      */
-    public static final Registry<TemperatureEffect<?>> TEMPERATURE_EFFECTS =
+    public static final Registry<MapCodec<? extends TemperatureEffectV2>> TEMPERATURE_EFFECT_TYPE =
             FabricRegistryBuilder.create(
-                    ThermooRegistryKeys.TEMPERATURE_EFFECT
+                    ThermooRegistryKeys.TEMPERATURE_EFFECT_TYPE
             ).buildAndRegister();
 
     /**
