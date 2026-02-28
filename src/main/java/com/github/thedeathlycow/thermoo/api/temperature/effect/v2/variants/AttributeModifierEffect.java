@@ -16,12 +16,12 @@ import net.minecraft.world.level.Level;
 public final class AttributeModifierEffect implements TemperatureEffectV2 {
     public static final MapCodec<AttributeModifierEffect> CODEC = RecordCodecBuilder.mapCodec(
             instance -> instance.group(
-                    Codec.FLOAT
-                            .fieldOf("value")
-                            .forGetter(AttributeModifierEffect::value),
                     BuiltInRegistries.ATTRIBUTE.holderByNameCodec()
                             .fieldOf("attribute_type")
                             .forGetter(AttributeModifierEffect::attribute),
+                    Codec.DOUBLE
+                            .fieldOf("value")
+                            .forGetter(AttributeModifierEffect::value),
                     Identifier.CODEC
                             .fieldOf("id")
                             .forGetter(AttributeModifierEffect::id),
@@ -31,16 +31,24 @@ public final class AttributeModifierEffect implements TemperatureEffectV2 {
             ).apply(instance, AttributeModifierEffect::new)
     );
 
-    private final float value;
     private final Holder<Attribute> attribute;
+    private final double value;
     private final Identifier id;
     private final AttributeModifier.Operation operation;
 
-    private AttributeModifierEffect(float value, Holder<Attribute> attribute, Identifier id, AttributeModifier.Operation operation) {
+    private AttributeModifierEffect(Holder<Attribute> attribute, double value, Identifier id, AttributeModifier.Operation operation) {
         this.value = value;
         this.attribute = attribute;
         this.id = id;
         this.operation = operation;
+    }
+
+    public static AttributeModifierEffect create(Holder<Attribute> attribute, double value, Identifier id, AttributeModifier.Operation operation) {
+        return new AttributeModifierEffect(attribute, value, id, operation);
+    }
+
+    public static AttributeModifierEffect fromAttributeAndModifier(Holder<Attribute> attribute, AttributeModifier modifier) {
+        return create(attribute, modifier.amount(), modifier.id(), modifier.operation());
     }
 
     @Override
@@ -69,7 +77,7 @@ public final class AttributeModifierEffect implements TemperatureEffectV2 {
         return CODEC;
     }
 
-    public float value() {
+    public double value() {
         return value;
     }
 
