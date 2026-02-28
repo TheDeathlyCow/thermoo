@@ -1,4 +1,4 @@
-package com.github.thedeathlycow.thermoo.api.temperature.effect.v2;
+package com.github.thedeathlycow.thermoo.api.temperature.status.v2;
 
 import com.github.thedeathlycow.thermoo.api.ThermooRegistries;
 import com.github.thedeathlycow.thermoo.api.ThermooRegistryKeys;
@@ -8,7 +8,6 @@ import net.minecraft.core.Holder;
 import net.minecraft.resources.RegistryFileCodec;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.Range;
 
 import java.util.function.Function;
 
@@ -24,9 +23,6 @@ public interface TemperatureEffectV2 {
 
     default void remove(LivingEntity victim, Level level) {
     }
-
-    @Range(from = 1, to = Integer.MAX_VALUE)
-    int interval();
 
     MapCodec<? extends TemperatureEffectV2> codec();
 }

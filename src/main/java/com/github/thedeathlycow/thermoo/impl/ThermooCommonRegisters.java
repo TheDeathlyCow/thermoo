@@ -7,9 +7,9 @@ import com.github.thedeathlycow.thermoo.api.environment.provider.EnvironmentProv
 import com.github.thedeathlycow.thermoo.api.environment.provider.EnvironmentProviderTypes;
 import com.github.thedeathlycow.thermoo.api.predicate.SoakedLootCondition;
 import com.github.thedeathlycow.thermoo.api.predicate.TemperatureLootCondition;
-import com.github.thedeathlycow.thermoo.api.temperature.effect.v2.TemperatureEffectV2;
-import com.github.thedeathlycow.thermoo.api.temperature.effect.v2.variants.AttributeModifierEffect;
-import com.github.thedeathlycow.thermoo.api.temperature.effect.v2.variants.DamageEffect;
+import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureEffectV2;
+import com.github.thedeathlycow.thermoo.api.temperature.status.v2.effect.AttributeModifierEffectV2;
+import com.github.thedeathlycow.thermoo.api.temperature.status.v2.effect.DamageEffectV2;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -20,8 +20,8 @@ import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 
 public final class ThermooCommonRegisters {
     public static void registerTemperatureEffects() {
-        registerTemperatureEffectType("attribute_modifier", AttributeModifierEffect.CODEC);
-        registerTemperatureEffectType("damage", DamageEffect.CODEC);
+        registerTemperatureEffectType("attribute_modifier", AttributeModifierEffectV2.CODEC);
+        registerTemperatureEffectType("damage", DamageEffectV2.CODEC);
 //        registerTemperatureEffect("empty", TemperatureEffects.EMPTY);
 //        registerTemperatureEffect("sequence", TemperatureEffects.SEQUENCE);
 //        registerTemperatureEffect("function", TemperatureEffects.FUNCTION);

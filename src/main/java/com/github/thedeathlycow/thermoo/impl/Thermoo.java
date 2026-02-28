@@ -4,7 +4,7 @@ import com.github.thedeathlycow.thermoo.api.ThermooRegistryKeys;
 import com.github.thedeathlycow.thermoo.api.command.*;
 import com.github.thedeathlycow.thermoo.api.environment.EnvironmentDefinition;
 import com.github.thedeathlycow.thermoo.api.environment.provider.EnvironmentProvider;
-import com.github.thedeathlycow.thermoo.api.temperature.effect.v2.TemperatureEffectV2;
+import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureStatus;
 import com.github.thedeathlycow.thermoo.impl.compat.init.DependentModInitializer;
 import com.github.thedeathlycow.thermoo.impl.config.ThermooConfig;
 import com.github.thedeathlycow.thermoo.impl.environment.EnvironmentLookupImpl;
@@ -33,9 +33,9 @@ public class Thermoo implements ModInitializer {
     public static final Logger LOGGER = LoggerFactory.getLogger(MODID);
 
     public static final ArgumentTypeInfo<
-                HeatingModeArgumentType,
-                SingletonArgumentInfo<HeatingModeArgumentType>.Template
-                > HEATING_MODE_ARG_SERIALIZER = SingletonArgumentInfo.contextFree(HeatingModeArgumentType::heatingMode);
+            HeatingModeArgumentType,
+            SingletonArgumentInfo<HeatingModeArgumentType>.Template
+            > HEATING_MODE_ARG_SERIALIZER = SingletonArgumentInfo.contextFree(HeatingModeArgumentType::heatingMode);
 
 
     public static final ArgumentTypeInfo<
@@ -77,8 +77,8 @@ public class Thermoo implements ModInitializer {
                 EnvironmentProvider.ELEMENT_CODEC
         );
         DynamicRegistries.register(
-                ThermooRegistryKeys.TEMPERATURE_EFFECT,
-                TemperatureEffectV2.DIRECT_CODEC
+                ThermooRegistryKeys.TEMPERATURE_STATUS,
+                TemperatureStatus.DIRECT_CODEC
         );
 
         ThermooCommonRegisters.registerTemperatureEffects();
