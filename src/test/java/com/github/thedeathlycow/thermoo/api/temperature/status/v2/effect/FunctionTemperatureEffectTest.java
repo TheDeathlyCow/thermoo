@@ -51,7 +51,6 @@ class FunctionTemperatureEffectTest {
                 String.format("""
                                 {
                                     "function": "test:test",
-                                    "interval": 20,
                                     "permission_level": %d
                                 }
                                 """,

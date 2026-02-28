@@ -8,10 +8,12 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
+import org.jetbrains.annotations.Nullable;
 import org.ladysnake.cca.api.v3.component.Component;
 import org.ladysnake.cca.api.v3.component.tick.ServerTickingComponent;
 
@@ -30,6 +32,11 @@ public class TemperatureEffectsComponent implements Component, ServerTickingComp
 
     public static TemperatureEffectsComponent get(LivingEntity entity) {
         return ThermooComponents.TEMPERATURE_EFFECTS.get(entity);
+    }
+
+    @Nullable
+    public static TemperatureEffectsComponent getNullable(Entity entity) {
+        return ThermooComponents.TEMPERATURE_EFFECTS.getNullable(entity);
     }
 
     public boolean setEffectEnabled(ResourceKey<TemperatureStatus> key, boolean enabled) {
