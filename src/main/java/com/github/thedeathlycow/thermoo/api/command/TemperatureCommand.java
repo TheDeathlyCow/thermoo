@@ -2,7 +2,7 @@ package com.github.thedeathlycow.thermoo.api.command;
 
 import com.github.thedeathlycow.thermoo.api.temperature.HeatingModes;
 import com.github.thedeathlycow.thermoo.api.temperature.TemperatureAware;
-import com.github.thedeathlycow.thermoo.api.temperature.effects.ConfiguredTemperatureEffect;
+import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureStatusLookup;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
@@ -393,7 +393,7 @@ public final class TemperatureCommand {
         int totalAffected = 0;
 
         for (Entity entity : entities) {
-            if (ConfiguredTemperatureEffect.setEffectEnabled(entity, id, enabled)) {
+            if (TemperatureStatusLookup.setEffectEnabled(entity, id, enabled)) {
                 totalAffected++;
             }
         }
@@ -414,11 +414,11 @@ public final class TemperatureCommand {
     }
 
     private static int runEffectEnableSingle(CommandSourceStack source, Entity entity, Identifier id, boolean enabled) throws CommandSyntaxException {
-        if (ConfiguredTemperatureEffect.isEffectEnabled(entity, id) == enabled) {
+        if (TemperatureStatusLookup.isEffectEnabled(entity, id) == enabled) {
             throw enabled ? EFFECT_ALREADY_ENABLED.create(id) : EFFECT_ALREADY_DISABLED.create(id);
         }
 
-        if (ConfiguredTemperatureEffect.setEffectEnabled(entity, id, enabled)) {
+        if (TemperatureStatusLookup.setEffectEnabled(entity, id, enabled)) {
             if (enabled) {
                 source.sendSuccess(() -> Component.translatable("commands.thermoo.temperature.effect.single.set_enabled.true", id.toString(), entity.getDisplayName()), true);
             } else {

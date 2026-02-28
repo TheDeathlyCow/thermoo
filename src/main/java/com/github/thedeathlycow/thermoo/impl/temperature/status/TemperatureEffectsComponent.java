@@ -1,7 +1,6 @@
 package com.github.thedeathlycow.thermoo.impl.temperature.status;
 
 import com.github.thedeathlycow.thermoo.api.ThermooRegistryKeys;
-import com.github.thedeathlycow.thermoo.api.temperature.effects.ConfiguredTemperatureEffect;
 import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureStatus;
 import com.github.thedeathlycow.thermoo.impl.component.ThermooComponents;
 import com.mojang.serialization.Codec;

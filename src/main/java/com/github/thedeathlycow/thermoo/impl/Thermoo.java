@@ -86,9 +86,6 @@ public class Thermoo implements ModInitializer {
         ThermooCommonRegisters.registerLootConditionTypes();
         ThermooCommonRegisters.registerEnvironmentAttributes();
 
-        ResourceManagerHelper serverManager = ResourceManagerHelper.get(PackType.SERVER_DATA);
-        serverManager.registerReloadListener(TemperatureEffectLoader.ID, TemperatureEffectLoader::new);
-
         EnvironmentLookupImpl.initialize();
 
         initializeDependentEntryPoints();

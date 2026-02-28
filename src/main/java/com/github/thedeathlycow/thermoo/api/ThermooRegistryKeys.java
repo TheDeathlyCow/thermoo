@@ -26,7 +26,6 @@ public final class ThermooRegistryKeys {
      */
     public static final ResourceKey<Registry<TemperatureEffectV2>> TEMPERATURE_EFFECT = createRegistryKey("temperature_effect");
 
-
     /**
      * Registry key for {@linkplain TemperatureEffectV2 temperature effect codecs}. Register codecs to this registry
      * an entry point.

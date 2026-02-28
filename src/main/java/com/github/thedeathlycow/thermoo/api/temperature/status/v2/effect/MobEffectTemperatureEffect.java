@@ -17,6 +17,12 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Applies {@link MobEffect}s to {@link LivingEntity}s if their temperature scale is within a given range.
+ * <p>
+ * The type, duration, and intensity can all be configured of each status effect can be configured. May specify 1 or more
+ * effects to all be applied at once.
+ */
 public final class MobEffectTemperatureEffect implements TemperatureEffectV2 {
     public static final MapCodec<MobEffectTemperatureEffect> CODEC = RecordCodecBuilder.mapCodec(
             instance -> instance.group(

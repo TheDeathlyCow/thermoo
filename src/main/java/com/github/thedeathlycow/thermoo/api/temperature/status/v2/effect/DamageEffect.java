@@ -8,12 +8,19 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.ExtraCodecs;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 
 import java.util.Objects;
 
+/**
+ * Applies damage to {@link LivingEntity}s.
+ * <p>
+ * The type and amount of damage can be configured, as well as the damage type. However, the {@link DamageSource}
+ * applied only stores the type - the direct source entity, attacker, and position are all {@code null}.
+ */
 public final class DamageEffect implements TemperatureEffectV2 {
     public static final MapCodec<DamageEffect> CODEC = RecordCodecBuilder.mapCodec(
             instance -> instance.group(

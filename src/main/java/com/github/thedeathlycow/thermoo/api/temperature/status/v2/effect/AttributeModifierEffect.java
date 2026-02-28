@@ -1,5 +1,6 @@
 package com.github.thedeathlycow.thermoo.api.temperature.status.v2.effect;
 
+import com.github.thedeathlycow.thermoo.api.temperature.TemperatureAware;
 import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureEffectV2;
 import com.google.common.base.Preconditions;
 import com.mojang.serialization.Codec;
@@ -14,6 +15,12 @@ import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.level.Level;
 
+/**
+ * A temperature effect that applies an attribute modifier to a victim.
+ * <p>
+ * Includes options to increase the modifier in strength with respect to the target's
+ * {@linkplain TemperatureAware#thermoo$getTemperatureScale() current temperature scale}.
+ */
 public final class AttributeModifierEffect implements TemperatureEffectV2 {
     public static final MapCodec<AttributeModifierEffect> CODEC = RecordCodecBuilder.mapCodec(
             instance -> instance.group(
