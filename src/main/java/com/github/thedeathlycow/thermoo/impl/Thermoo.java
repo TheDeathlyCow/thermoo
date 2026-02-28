@@ -1,9 +1,13 @@
 package com.github.thedeathlycow.thermoo.impl;
 
 import com.github.thedeathlycow.thermoo.api.ThermooRegistryKeys;
-import com.github.thedeathlycow.thermoo.api.command.*;
+import com.github.thedeathlycow.thermoo.api.command.v1.HeatingModeArgumentType;
+import com.github.thedeathlycow.thermoo.api.command.v1.TemperatureUnitArgumentType;
 import com.github.thedeathlycow.thermoo.api.environment.EnvironmentDefinition;
 import com.github.thedeathlycow.thermoo.api.environment.provider.EnvironmentProvider;
+import com.github.thedeathlycow.thermoo.impl.command.EnvironmentCommand;
+import com.github.thedeathlycow.thermoo.impl.command.SoakingCommand;
+import com.github.thedeathlycow.thermoo.impl.command.TemperatureCommand;
 import com.github.thedeathlycow.thermoo.impl.compat.init.DependentModInitializer;
 import com.github.thedeathlycow.thermoo.impl.config.ThermooConfig;
 import com.github.thedeathlycow.thermoo.impl.environment.EnvironmentLookupImpl;
@@ -32,7 +36,7 @@ public class Thermoo implements ModInitializer {
     public static final Logger LOGGER = LoggerFactory.getLogger(MODID);
 
     public static final ArgumentTypeInfo<
-                HeatingModeArgumentType,
+            HeatingModeArgumentType,
                 SingletonArgumentInfo<HeatingModeArgumentType>.Template
                 > HEATING_MODE_ARG_SERIALIZER = SingletonArgumentInfo.contextFree(HeatingModeArgumentType::heatingMode);
 
@@ -60,10 +64,10 @@ public class Thermoo implements ModInitializer {
         );
 
         CommandRegistrationCallback.EVENT.register(
-                (dispatcher, registryAccess, environment) -> {
-                    dispatcher.register(TemperatureCommand.COMMAND_BUILDER.get());
-                    dispatcher.register(EnvironmentCommand.COMMAND_BUILDER.get());
-                    dispatcher.register(SoakingCommand.COMMAND_BUILDER.get());
+                (dispatcher, context, selection) -> {
+                    dispatcher.register(TemperatureCommand.create(dispatcher, context, selection));
+                    dispatcher.register(EnvironmentCommand.create(dispatcher, context, selection));
+                    dispatcher.register(SoakingCommand.create(dispatcher, context, selection));
                 }
         );
 

@@ -1,4 +1,4 @@
-package com.github.thedeathlycow.thermoo.api.command;
+package com.github.thedeathlycow.thermoo.api.command.v1;
 
 import com.github.thedeathlycow.thermoo.api.util.TemperatureUnit;
 import com.mojang.brigadier.context.CommandContext;
@@ -7,6 +7,9 @@ import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.arguments.StringRepresentableArgument;
 import net.minecraft.util.StringRepresentable;
 
+/**
+ * An argument type to specify {@link TemperatureUnit}s.
+ */
 public final class TemperatureUnitArgumentType extends StringRepresentableArgument<TemperatureUnit> {
     public static final Codec<TemperatureUnit> CODEC = StringRepresentable.fromEnum(TemperatureUnit::values);
 
