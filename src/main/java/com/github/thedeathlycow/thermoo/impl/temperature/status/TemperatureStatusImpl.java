@@ -14,7 +14,6 @@ public record TemperatureStatusImpl(
         int interval,
         @NotNull List<TemperatureEffect> effects
 ) implements TemperatureStatus {
-    @Override
     public boolean apply(LivingEntity entity, Level level) {
         if (entity.tickCount % this.interval == 0) {
             return false;
@@ -35,7 +34,6 @@ public record TemperatureStatusImpl(
         return anyApplied;
     }
 
-    @Override
     public void remove(LivingEntity entity, Level level) {
         for (TemperatureEffect effect : this.effects) {
             effect.remove(entity, level);

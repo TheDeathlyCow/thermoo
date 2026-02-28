@@ -86,7 +86,7 @@ public class TemperatureEffectsComponent implements Component, ServerTickingComp
                     _ -> new Settings()
             );
             boolean wasApplied = settings.applied;
-            TemperatureStatus status = effectReference.value();
+            TemperatureStatusImpl status = (TemperatureStatusImpl) effectReference.value();
 
             if (settings.enabled && status.apply(provider, level)) {
                 settings.applied = true;

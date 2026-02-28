@@ -77,7 +77,7 @@ public class Thermoo implements ModInitializer {
                 ThermooRegistryKeys.ENVIRONMENT_PROVIDER,
                 EnvironmentProvider.ELEMENT_CODEC
         );
-        DynamicRegistries.register(
+        DynamicRegistries.registerSynced(
                 ThermooRegistryKeys.TEMPERATURE_STATUS,
                 TemperatureStatus.DIRECT_CODEC
         );

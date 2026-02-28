@@ -4,7 +4,6 @@ import com.github.thedeathlycow.thermoo.impl.temperature.status.TemperatureEffec
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
 
 public final class TemperatureStatusLookup {
     public static boolean isEnabled(Entity entity, ResourceKey<TemperatureStatus> key) {

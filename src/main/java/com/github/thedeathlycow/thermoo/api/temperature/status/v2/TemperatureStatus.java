@@ -10,8 +10,6 @@ import net.minecraft.core.HolderSet;
 import net.minecraft.resources.RegistryFixedCodec;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Range;
@@ -50,10 +48,6 @@ public interface TemperatureStatus {
         Preconditions.checkNotNull(selectorBuilder, "Selector must be defined");
         return new Builder(selectorBuilder);
     }
-
-    boolean apply(LivingEntity entity, Level level);
-
-    void remove(LivingEntity entity, Level level);
 
     TemperatureStatusSelector selector();
 
