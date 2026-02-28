@@ -14,31 +14,31 @@ import net.minecraft.world.level.Level;
 
 import java.util.Objects;
 
-public final class DamageEffectV2 implements TemperatureEffectV2 {
-    public static final MapCodec<DamageEffectV2> CODEC = RecordCodecBuilder.mapCodec(
+public final class DamageEffect implements TemperatureEffectV2 {
+    public static final MapCodec<DamageEffect> CODEC = RecordCodecBuilder.mapCodec(
             instance -> instance.group(
                     ExtraCodecs.NON_NEGATIVE_FLOAT
                             .fieldOf("amount")
-                            .forGetter(DamageEffectV2::amount),
+                            .forGetter(DamageEffect::amount),
                     ResourceKey.codec(Registries.DAMAGE_TYPE)
                             .fieldOf("damage_type")
-                            .forGetter(DamageEffectV2::damageType)
-            ).apply(instance, DamageEffectV2::new)
+                            .forGetter(DamageEffect::damageType)
+            ).apply(instance, DamageEffect::new)
     );
 
     private final float amount;
     private final ResourceKey<DamageType> damageType;
 
-    private DamageEffectV2(float amount, ResourceKey<DamageType> damageType) {
+    private DamageEffect(float amount, ResourceKey<DamageType> damageType) {
         this.amount = amount;
         this.damageType = damageType;
     }
 
-    public static DamageEffectV2 create(float amount, ResourceKey<DamageType> damageType) {
+    public static DamageEffect create(float amount, ResourceKey<DamageType> damageType) {
         Preconditions.checkArgument(amount >= 0f, "Damage amount must be at least 0");
         Objects.requireNonNull(damageType, "Damage type may not be null");
 
-        return new DamageEffectV2(amount, damageType);
+        return new DamageEffect(amount, damageType);
     }
 
     @Override
@@ -51,7 +51,7 @@ public final class DamageEffectV2 implements TemperatureEffectV2 {
     }
 
     @Override
-    public MapCodec<DamageEffectV2> codec() {
+    public MapCodec<DamageEffect> codec() {
         return CODEC;
     }
 

@@ -14,25 +14,25 @@ import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.level.Level;
 
-public final class AttributeModifierEffectV2 implements TemperatureEffectV2 {
-    public static final MapCodec<AttributeModifierEffectV2> CODEC = RecordCodecBuilder.mapCodec(
+public final class AttributeModifierEffect implements TemperatureEffectV2 {
+    public static final MapCodec<AttributeModifierEffect> CODEC = RecordCodecBuilder.mapCodec(
             instance -> instance.group(
                     BuiltInRegistries.ATTRIBUTE.holderByNameCodec()
                             .fieldOf("attribute_type")
-                            .forGetter(AttributeModifierEffectV2::attribute),
+                            .forGetter(AttributeModifierEffect::attribute),
                     Codec.DOUBLE
                             .fieldOf("value")
-                            .forGetter(AttributeModifierEffectV2::value),
+                            .forGetter(AttributeModifierEffect::value),
                     Identifier.CODEC
                             .fieldOf("id")
-                            .forGetter(AttributeModifierEffectV2::id),
+                            .forGetter(AttributeModifierEffect::id),
                     AttributeModifier.Operation.CODEC
                             .fieldOf("operation")
-                            .forGetter(AttributeModifierEffectV2::operation),
+                            .forGetter(AttributeModifierEffect::operation),
                     Codec.BOOL
                             .fieldOf("scale_with_temperature")
-                            .forGetter(AttributeModifierEffectV2::scaleWithTemperature)
-            ).apply(instance, AttributeModifierEffectV2::new)
+                            .forGetter(AttributeModifierEffect::scaleWithTemperature)
+            ).apply(instance, AttributeModifierEffect::new)
     );
 
     private final Holder<Attribute> attribute;
@@ -41,7 +41,7 @@ public final class AttributeModifierEffectV2 implements TemperatureEffectV2 {
     private final AttributeModifier.Operation operation;
     private final boolean scaleWithTemperature;
 
-    private AttributeModifierEffectV2(
+    private AttributeModifierEffect(
             Holder<Attribute> attribute,
             double value,
             Identifier id,
@@ -55,7 +55,7 @@ public final class AttributeModifierEffectV2 implements TemperatureEffectV2 {
         this.scaleWithTemperature = scaleWithTemperature;
     }
 
-    private static AttributeModifierEffectV2 createChecked(
+    private static AttributeModifierEffect createChecked(
             Holder<Attribute> attribute,
             double value,
             Identifier id,
@@ -67,10 +67,10 @@ public final class AttributeModifierEffectV2 implements TemperatureEffectV2 {
         Preconditions.checkNotNull(id, "ID may not be null");
         Preconditions.checkNotNull(operation, "Operation may not be null");
 
-        return new AttributeModifierEffectV2(attribute, value, id, operation, scaleWithTemperature);
+        return new AttributeModifierEffect(attribute, value, id, operation, scaleWithTemperature);
     }
 
-    public static AttributeModifierEffectV2 create(
+    public static AttributeModifierEffect create(
             Holder<Attribute> attribute,
             double value,
             Identifier id,
@@ -79,11 +79,11 @@ public final class AttributeModifierEffectV2 implements TemperatureEffectV2 {
         return createChecked(attribute, value, id, operation, false);
     }
 
-    public static AttributeModifierEffectV2 create(Holder<Attribute> attribute, AttributeModifier modifier) {
+    public static AttributeModifierEffect create(Holder<Attribute> attribute, AttributeModifier modifier) {
         return create(attribute, modifier.amount(), modifier.id(), modifier.operation());
     }
 
-    public static AttributeModifierEffectV2 createScaled(
+    public static AttributeModifierEffect createScaled(
             Holder<Attribute> attribute,
             double value,
             Identifier id,
@@ -92,7 +92,7 @@ public final class AttributeModifierEffectV2 implements TemperatureEffectV2 {
         return createChecked(attribute, value, id, operation, true);
     }
 
-    public static AttributeModifierEffectV2 createScaled(Holder<Attribute> attribute, AttributeModifier modifier) {
+    public static AttributeModifierEffect createScaled(Holder<Attribute> attribute, AttributeModifier modifier) {
         return createScaled(attribute, modifier.amount(), modifier.id(), modifier.operation());
     }
 
@@ -118,7 +118,7 @@ public final class AttributeModifierEffectV2 implements TemperatureEffectV2 {
     }
 
     @Override
-    public MapCodec<? extends AttributeModifierEffectV2> codec() {
+    public MapCodec<? extends AttributeModifierEffect> codec() {
         return CODEC;
     }
 
