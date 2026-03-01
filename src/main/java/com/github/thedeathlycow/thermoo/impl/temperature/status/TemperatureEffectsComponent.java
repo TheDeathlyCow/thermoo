@@ -4,8 +4,6 @@ import com.github.thedeathlycow.thermoo.api.ThermooRegistryKeys;
 import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureStatus;
 import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureStatusSelector;
 import com.github.thedeathlycow.thermoo.impl.component.ThermooComponents;
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.resources.ResourceKey;
@@ -43,11 +41,12 @@ public class TemperatureEffectsComponent implements Component, ServerTickingComp
     public boolean setEffectEnabled(Holder.Reference<TemperatureStatus> statusRef, boolean enabled) {
         Settings settings = this.getSettingsChecked(statusRef);
 
-        if (settings != null && settings.enabled != enabled) {
-            settings.enabled = enabled;
+        if (settings != null && settings.enabled() != enabled) {
+            settings.setEnabled(enabled);
 
-            if (!settings.enabled) {
+            if (!settings.enabled() && settings.applied()) {
                 ((TemperatureStatusImpl) statusRef.value()).remove(this.provider, this.provider.level());
+                settings.setApplied(false);
             }
 
             return true;
@@ -59,7 +58,7 @@ public class TemperatureEffectsComponent implements Component, ServerTickingComp
         Settings settings = this.getSettingsChecked(statusRef);
 
         if (settings != null) {
-            return settings.enabled;
+            return settings.enabled();
         }
 
         return false;
@@ -93,14 +92,20 @@ public class TemperatureEffectsComponent implements Component, ServerTickingComp
             }
 
             Settings settings = this.getSettings(statusRef);
-            boolean wasApplied = settings.applied;
-            boolean applied = settings.enabled && status.apply(provider, provider.level());
+            this.updateStatus(status, settings);
+        }
+    }
+
+    private void updateStatus(TemperatureStatusImpl status, Settings settings) {
+        if (settings.enabled()) {
+            boolean wasApplied = settings.applied();
+            boolean applied = status.apply(provider, provider.level());
 
             if (wasApplied && !applied) {
                 status.remove(provider, provider.level());
             }
 
-            settings.applied = applied;
+            settings.setApplied(applied);
         }
     }
 
@@ -118,31 +123,7 @@ public class TemperatureEffectsComponent implements Component, ServerTickingComp
     private Settings getSettings(Holder.Reference<TemperatureStatus> statusRef) {
         return this.effectsSettings.computeIfAbsent(
                 statusRef.key(),
-                _ -> new Settings()
+                _ -> new Settings(true)
         );
-    }
-
-    private static class Settings {
-        public static final Codec<Settings> CODEC = RecordCodecBuilder.create(
-                instance -> instance.group(
-                        Codec.BOOL
-                                .fieldOf("enabled")
-                                .forGetter(settings -> settings.enabled)
-                ).apply(instance, enabled -> {
-                    var settings = new Settings();
-                    settings.enabled = enabled;
-                    return settings;
-                })
-        );
-
-        public static final Codec<Map<ResourceKey<TemperatureStatus>, Settings>> MAP_CODEC = Codec.unboundedMap(
-                ResourceKey.codec(ThermooRegistryKeys.TEMPERATURE_STATUS),
-                CODEC
-        );
-
-        public static final String SETTINGS_KEY = "settings";
-
-        private boolean applied = false;
-        private boolean enabled = true;
     }
 }
