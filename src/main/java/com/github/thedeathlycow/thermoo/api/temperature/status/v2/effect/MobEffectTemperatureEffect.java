@@ -45,11 +45,11 @@ public final class MobEffectTemperatureEffect implements TemperatureEffect {
     }
 
     @Override
-    public boolean apply(LivingEntity victim, Level level) {
+    public boolean apply(LivingEntity target, Level level) {
         boolean appliedAny = false;
 
         for (ConfiguredMobEffect effect : this.effects) {
-            appliedAny |= this.applyEffect(victim, effect);
+            appliedAny |= this.applyEffect(target, effect);
         }
 
         return appliedAny;

@@ -52,9 +52,9 @@ public final class DamageEffect implements TemperatureEffect {
     }
 
     @Override
-    public boolean apply(LivingEntity victim, Level level) {
+    public boolean apply(LivingEntity target, Level level) {
         if (level instanceof ServerLevel serverLevel) {
-            return victim.hurtServer(serverLevel, this.damageSource(serverLevel, damageType), amount);
+            return target.hurtServer(serverLevel, this.damageSource(serverLevel, damageType), amount);
         }
 
         return false;

@@ -20,13 +20,6 @@ public final class ThermooRegistryKeys {
     public static final ResourceKey<Registry<TemperatureStatus>> TEMPERATURE_STATUS = createRegistryKey("temperature_status");
 
     /**
-     * Registry key for the {@linkplain TemperatureEffect temperature effect} datapack registry.
-     *
-     * @see TemperatureEffect
-     */
-    public static final ResourceKey<Registry<TemperatureEffect>> TEMPERATURE_EFFECT = createRegistryKey("temperature_effect");
-
-    /**
      * Registry key for {@linkplain TemperatureEffect temperature effect codecs}. Register codecs to this registry
      * an entry point.
      *

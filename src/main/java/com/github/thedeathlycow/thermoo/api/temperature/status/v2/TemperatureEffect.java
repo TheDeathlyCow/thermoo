@@ -1,26 +1,51 @@
 package com.github.thedeathlycow.thermoo.api.temperature.status.v2;
 
 import com.github.thedeathlycow.thermoo.api.ThermooRegistries;
-import com.github.thedeathlycow.thermoo.api.ThermooRegistryKeys;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
-import net.minecraft.core.Holder;
-import net.minecraft.resources.RegistryFileCodec;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 
 import java.util.function.Function;
 
+/**
+ * Base interface for temperature effects. Temperature effects are what actually affect entities with a particular
+ * {@linkplain TemperatureStatus temperature status}.
+ */
 public interface TemperatureEffect {
+    /**
+     * Codec for the temperature effect object.
+     */
     Codec<TemperatureEffect> DIRECT_CODEC = ThermooRegistries.TEMPERATURE_EFFECT_TYPE.byNameCodec()
             .dispatch(TemperatureEffect::codec, Function.identity());
 
-    Codec<Holder<TemperatureEffect>> CODEC = RegistryFileCodec.create(ThermooRegistryKeys.TEMPERATURE_EFFECT, DIRECT_CODEC);
+    /**
+     * Attempts to apply the effect to the target.
+     * <p>
+     * This method is called periodically based on the {@link TemperatureStatus#interval()}.
+     *
+     * @param target The entity receiving the effect.
+     * @param level  The level the entity is in.
+     * @return Returns {@code true} if the effect was successfully applied or remains valid. Returns {@code false} if
+     * the should no longer remain active, <b>which will immediately triggers a call to
+     * {@link #remove(LivingEntity, Level)}.</b>
+     */
+    boolean apply(LivingEntity target, Level level);
 
-    boolean apply(LivingEntity victim, Level level);
-
-    default void remove(LivingEntity victim, Level level) {
+    /**
+     * Performs cleanup logic for this effect on the entity.
+     * <p>
+     * This is called when {@link #apply(LivingEntity, Level)} returns {@code false} or when the parent
+     * {@link TemperatureStatus} is removed from the entity.
+     *
+     * @param target The entity to remove the effect from.
+     * @param level  The level the entity is in.
+     */
+    default void remove(LivingEntity target, Level level) {
     }
 
+    /**
+     * @return Returns the codec of this effect's type.
+     */
     MapCodec<? extends TemperatureEffect> codec();
 }

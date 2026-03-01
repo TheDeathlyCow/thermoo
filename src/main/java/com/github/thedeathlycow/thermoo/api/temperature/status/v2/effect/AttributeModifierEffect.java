@@ -104,12 +104,12 @@ public final class AttributeModifierEffect implements TemperatureEffect {
     }
 
     @Override
-    public boolean apply(LivingEntity victim, Level level) {
-        AttributeInstance attrInstance = victim.getAttribute(this.attribute);
+    public boolean apply(LivingEntity target, Level level) {
+        AttributeInstance attrInstance = target.getAttribute(this.attribute);
 
         if (attrInstance != null) {
             if (this.scaleWithTemperature) {
-                this.applyScaledAttribute(victim, attrInstance);
+                this.applyScaledAttribute(target, attrInstance);
                 return true;
             } else if (!attrInstance.hasModifier(this.id)) {
                 attrInstance.addTransientModifier(new AttributeModifier(this.id, this.value, this.operation));
@@ -130,8 +130,8 @@ public final class AttributeModifierEffect implements TemperatureEffect {
     }
 
     @Override
-    public void remove(LivingEntity victim, Level level) {
-        AttributeInstance attributeInstance = victim.getAttribute(this.attribute);
+    public void remove(LivingEntity target, Level level) {
+        AttributeInstance attributeInstance = target.getAttribute(this.attribute);
 
         if (attributeInstance != null) {
             attributeInstance.removeModifier(this.id);

@@ -64,7 +64,7 @@ public final class FunctionEffect implements TemperatureEffect {
     }
 
     @Override
-    public boolean apply(LivingEntity victim, Level level) {
+    public boolean apply(LivingEntity target, Level level) {
         if (level instanceof ServerLevel serverLevel) {
             MinecraftServer server = serverLevel.getServer();
             ServerFunctionManager functionManager = server.getFunctions();
@@ -73,7 +73,7 @@ public final class FunctionEffect implements TemperatureEffect {
                     func -> {
                         PermissionSet permissionSet = LevelBasedPermissionSet.forLevel(PermissionLevel.byId(this.permissionLevel));
 
-                        CommandSourceStack commandSource = victim.createCommandSourceStackForNameResolution(serverLevel)
+                        CommandSourceStack commandSource = target.createCommandSourceStackForNameResolution(serverLevel)
                                 .withSuppressedOutput()
                                 .withPermission(permissionSet);
 
