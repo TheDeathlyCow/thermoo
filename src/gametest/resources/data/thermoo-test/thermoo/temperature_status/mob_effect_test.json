@@ -1,0 +1,28 @@
+{
+    "predicate": {
+        "condition": "minecraft:reference",
+        "name": "thermoo-test:is_freezing"
+    },
+    "effects": [
+        {
+            "type": "thermoo:mob_effect",
+            "effects": [
+                {
+                    "amplifier": 0,
+                    "duration": 200,
+                    "effect": "minecraft:absorption"
+                }
+            ]
+        },
+        {
+            "type": "thermoo:status_effect",
+            "effects": [
+                {
+                    "amplifier": 2,
+                    "duration": 600,
+                    "effect": "minecraft:mining_fatigue"
+                }
+            ]
+        }
+    ]
+}

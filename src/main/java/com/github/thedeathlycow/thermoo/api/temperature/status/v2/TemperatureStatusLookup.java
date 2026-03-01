@@ -17,7 +17,7 @@ public final class TemperatureStatusLookup {
     }
 
     public static boolean isEnabled(Entity entity, Holder.Reference<TemperatureStatus> status) {
-        return isEnabled(entity, status);
+        return isEnabled(entity, status.key());
     }
 
     public static boolean setEnabled(Entity entity, Holder.Reference<TemperatureStatus> status, boolean value) {
