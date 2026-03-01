@@ -45,9 +45,13 @@ public class TemperatureEffectsComponent implements Component, ServerTickingComp
 
         if (settings != null && settings.enabled != enabled) {
             settings.enabled = enabled;
+
+            if (!settings.enabled) {
+                ((TemperatureStatusImpl) statusRef.value()).remove(this.provider, this.provider.level());
+            }
+
             return true;
         }
-
         return false;
     }
 
@@ -90,10 +94,10 @@ public class TemperatureEffectsComponent implements Component, ServerTickingComp
 
             Settings settings = this.getSettings(statusRef);
             boolean wasApplied = settings.applied;
-            boolean applied = settings.enabled && status.apply(provider, level);
+            boolean applied = settings.enabled && status.apply(provider, provider.level());
 
             if (wasApplied && !applied) {
-                status.remove(provider, level);
+                status.remove(provider, provider.level());
             }
 
             settings.applied = applied;
