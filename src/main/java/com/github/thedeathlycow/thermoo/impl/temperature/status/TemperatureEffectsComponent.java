@@ -81,22 +81,24 @@ public class TemperatureEffectsComponent implements Component, ServerTickingComp
         );
 
         for (Holder.Reference<TemperatureStatus> effectReference : availableEffects) {
+            TemperatureStatusImpl status = (TemperatureStatusImpl) effectReference.value();
+
+            if (provider.tickCount % status.interval() != 0) {
+                continue;
+            }
+
             Settings settings = this.effectsSettings.computeIfAbsent(
                     effectReference.key(),
                     _ -> new Settings()
             );
             boolean wasApplied = settings.applied;
-            TemperatureStatusImpl status = (TemperatureStatusImpl) effectReference.value();
+            boolean applied = settings.enabled && status.apply(provider, level);
 
-            if (settings.enabled && status.apply(provider, level)) {
-                settings.applied = true;
-            } else {
-                settings.applied = false;
-            }
-
-            if (wasApplied && !settings.applied) {
+            if (wasApplied && !applied) {
                 status.remove(provider, level);
             }
+
+            settings.applied = applied;
         }
     }
 
