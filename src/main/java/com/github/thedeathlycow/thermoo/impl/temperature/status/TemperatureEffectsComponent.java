@@ -2,6 +2,7 @@ package com.github.thedeathlycow.thermoo.impl.temperature.status;
 
 import com.github.thedeathlycow.thermoo.api.ThermooRegistryKeys;
 import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureStatus;
+import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureStatusSelector;
 import com.github.thedeathlycow.thermoo.impl.component.ThermooComponents;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -39,8 +40,8 @@ public class TemperatureEffectsComponent implements Component, ServerTickingComp
         return ThermooComponents.TEMPERATURE_EFFECTS.getNullable(entity);
     }
 
-    public boolean setEffectEnabled(ResourceKey<TemperatureStatus> key, boolean enabled) {
-        Settings settings = this.effectsSettings.get(key);
+    public boolean setEffectEnabled(Holder.Reference<TemperatureStatus> statusRef, boolean enabled) {
+        Settings settings = this.getSettingsChecked(statusRef);
 
         if (settings != null && settings.enabled != enabled) {
             settings.enabled = enabled;
@@ -50,8 +51,8 @@ public class TemperatureEffectsComponent implements Component, ServerTickingComp
         return false;
     }
 
-    public boolean isEffectEnabled(ResourceKey<TemperatureStatus> key) {
-        Settings settings = this.effectsSettings.get(key);
+    public boolean isEffectEnabled(Holder.Reference<TemperatureStatus> statusRef) {
+        Settings settings = this.getSettingsChecked(statusRef);
 
         if (settings != null) {
             return settings.enabled;
@@ -75,22 +76,19 @@ public class TemperatureEffectsComponent implements Component, ServerTickingComp
     public void serverTick() {
         Level level = provider.level();
         HolderLookup<TemperatureStatus> statusLookup = level.holderLookup(ThermooRegistryKeys.TEMPERATURE_STATUS);
-        List<Holder.Reference<TemperatureStatus>> availableEffects = TemperatureStatusManager.getEffects(
+        List<Holder.Reference<TemperatureStatus>> possibleStatuses = TemperatureStatusManager.getEffects(
                 provider,
                 statusLookup
         );
 
-        for (Holder.Reference<TemperatureStatus> effectReference : availableEffects) {
-            TemperatureStatusImpl status = (TemperatureStatusImpl) effectReference.value();
+        for (Holder.Reference<TemperatureStatus> statusRef : possibleStatuses) {
+            TemperatureStatusImpl status = (TemperatureStatusImpl) statusRef.value();
 
             if (provider.tickCount % status.interval() != 0) {
                 continue;
             }
 
-            Settings settings = this.effectsSettings.computeIfAbsent(
-                    effectReference.key(),
-                    _ -> new Settings()
-            );
+            Settings settings = this.getSettings(statusRef);
             boolean wasApplied = settings.applied;
             boolean applied = settings.enabled && status.apply(provider, level);
 
@@ -100,6 +98,24 @@ public class TemperatureEffectsComponent implements Component, ServerTickingComp
 
             settings.applied = applied;
         }
+    }
+
+    @Nullable
+    private Settings getSettingsChecked(Holder.Reference<TemperatureStatus> statusRef) {
+        TemperatureStatusSelector selector = statusRef.value().selector();
+
+        if (selector.entityTypes().contains(this.provider.typeHolder())) {
+            return this.getSettings(statusRef);
+        } else {
+            return null;
+        }
+    }
+
+    private Settings getSettings(Holder.Reference<TemperatureStatus> statusRef) {
+        return this.effectsSettings.computeIfAbsent(
+                statusRef.key(),
+                _ -> new Settings()
+        );
     }
 
     private static class Settings {

@@ -4,55 +4,52 @@ import com.github.thedeathlycow.thermoo.impl.temperature.status.TemperatureEffec
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 
 /**
  * Provides interfaces for looking up data about {@linkplain TemperatureStatus temperature statuses} on entities.
  */
 public final class TemperatureStatusLookup {
     /**
-     * Checks if the given temperature status key is enabled on the entity.
+     * Checks if a temperature status is enabled for the given entity.
      *
-     * @return Returns {@code true} if the status could ever be applied to the entity and the status is currently
-     * enabled on the entity. Will return {@code false} if the status has never tried to apply since the last server
-     * start.
+     * @return Returns {@code true} if the status is currently enabled AND the entity's type is supported by the status
+     * selector; returns {@code false} otherwise.
      */
-    public static boolean isEnabled(Entity entity, ResourceKey<TemperatureStatus> key) {
+    public static boolean isEnabled(LivingEntity entity, Holder.Reference<TemperatureStatus> statusRef) {
+        return TemperatureEffectsComponent.get(entity).isEffectEnabled(statusRef);
+    }
+
+    /**
+     * Checks if a temperature status is enabled for the given entity.
+     *
+     * @return Returns {@code true} if the status is currently enabled AND the entity's type is supported by the status
+     * selector AND the {@code entity} is an instance of {@link LivingEntity}; returns {@code false} otherwise.
+     */
+    public static boolean isEnabled(Entity entity, Holder.Reference<TemperatureStatus> statusRef) {
         var component = TemperatureEffectsComponent.getNullable(entity);
-        return component != null && component.isEffectEnabled(key);
+        return component != null && component.isEffectEnabled(statusRef);
     }
 
     /**
-     * Checks if the given temperature status reference is enabled on the entity. Will return {@code false} until the
-     * entity attempts to have the effect applied to them.
+     * Sets the enabled state of a temperature status for an entity. This state is persisted.
      *
-     * @return Returns {@code true} if the status could ever be applied to the entity and the status is currently
-     * enabled on the entity. Will return {@code false} if the status has never tried to apply since the last server
-     * start.
+     * @return Returns {@code true} if the entity's type is supported by the status selector AND the enabled state was
+     * successfully changed; returns {@code false} otherwise.
      */
-    public static boolean isEnabled(Entity entity, Holder.Reference<TemperatureStatus> status) {
-        return isEnabled(entity, status.key());
+    public static boolean setEnabled(LivingEntity entity, Holder.Reference<TemperatureStatus> statusRef, boolean value) {
+        return TemperatureEffectsComponent.get(entity).setEffectEnabled(statusRef, value);
     }
 
     /**
-     * Enables or disables the given temperature status for the given entity. This state is persisted.
+     * Sets the enabled state of a temperature status for an entity. This state is persisted.
      *
-     * @return Returns {@code true} if the status could ever be applied to the entity and if this call actually changes
-     * the enabled value.
+     * @return Returns {@code true} if the entity's type is supported by the status selector AND the {@code entity} is
+     * an instance of {@link LivingEntity} AND the enabled state was successfully changed; returns {@code false} otherwise.
      */
-    public static boolean setEnabled(Entity entity, ResourceKey<TemperatureStatus> key, boolean value) {
+    public static boolean setEnabled(Entity entity, Holder.Reference<TemperatureStatus> statusRef, boolean value) {
         var component = TemperatureEffectsComponent.getNullable(entity);
-        return component != null && component.setEffectEnabled(key, value);
-    }
-
-    /**
-     * Enables or disables the given temperature status for the given entity. This is persisted but will not work until
-     * the status is attempted to be applied internally at least once on this entity.
-     *
-     * @return Returns {@code true} if the status could ever be applied to the entity and if this call actually changes
-     * the enabled value.
-     */
-    public static boolean setEnabled(Entity entity, Holder.Reference<TemperatureStatus> status, boolean value) {
-        return setEnabled(entity, status.key(), value);
+        return component != null && component.setEffectEnabled(statusRef, value);
     }
 
     private TemperatureStatusLookup() {
