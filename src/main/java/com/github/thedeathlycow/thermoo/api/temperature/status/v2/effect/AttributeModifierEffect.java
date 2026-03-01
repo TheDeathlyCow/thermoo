@@ -77,6 +77,13 @@ public final class AttributeModifierEffect implements TemperatureEffect {
         return new AttributeModifierEffect(attribute, value, id, operation, scaleWithTemperature);
     }
 
+    /**
+     * Creates a new modifier effect for data generation. The returned effect is unscaled; the value it applies is
+     * fixed.
+     *
+     * @throws NullPointerException     if any of {@code attribute}, {@code id}, or {@code operation} are {@code null}
+     * @throws IllegalArgumentException if {@code value} is infinite or NaN
+     */
     public static AttributeModifierEffect create(
             Holder<Attribute> attribute,
             double value,
@@ -86,10 +93,24 @@ public final class AttributeModifierEffect implements TemperatureEffect {
         return createChecked(attribute, value, id, operation, false);
     }
 
+    /**
+     * Uses an existing attribute modifier to create a new effect for data generation.
+     *
+     * @throws NullPointerException     if any of {@code attribute}, {@code modifier}, or any of the {@code modifier}'s
+     *                                  fields are {@code null}
+     * @throws IllegalArgumentException if the {@code modifier}'s amount is infinite or NaN
+     */
     public static AttributeModifierEffect create(Holder<Attribute> attribute, AttributeModifier modifier) {
         return create(attribute, modifier.amount(), modifier.id(), modifier.operation());
     }
 
+    /**
+     * Creates a new modifier effect for data generation. The returned effect will scale its value with a target's
+     * temperature scale.
+     *
+     * @throws NullPointerException     if any of {@code attribute}, {@code id}, or {@code operation} are {@code null}
+     * @throws IllegalArgumentException if {@code value} is infinite or NaN
+     */
     public static AttributeModifierEffect createScaled(
             Holder<Attribute> attribute,
             double value,
@@ -99,10 +120,21 @@ public final class AttributeModifierEffect implements TemperatureEffect {
         return createChecked(attribute, value, id, operation, true);
     }
 
+    /**
+     * Uses an existing attribute modifier to create a new effect for data generation. The returned effect will scale
+     * its value with a target's temperature scale.
+     */
     public static AttributeModifierEffect createScaled(Holder<Attribute> attribute, AttributeModifier modifier) {
         return createScaled(attribute, modifier.amount(), modifier.id(), modifier.operation());
     }
 
+    /**
+     * Applies an attribute modifier to the target.
+     *
+     * @param target The entity receiving the effect.
+     * @param level  The level the entity is in.
+     * @return Returns {@code true} if the attribute modifier should not be removed, {@code false} otherwise.
+     */
     @Override
     public boolean apply(LivingEntity target, Level level) {
         AttributeInstance attrInstance = target.getAttribute(this.attribute);
@@ -129,6 +161,12 @@ public final class AttributeModifierEffect implements TemperatureEffect {
         }
     }
 
+    /**
+     * Removes the attribute modifier from the target.
+     *
+     * @param target The entity the effect is being removed from.
+     * @param level  The level the entity is currently in.
+     */
     @Override
     public void remove(LivingEntity target, Level level) {
         AttributeInstance attributeInstance = target.getAttribute(this.attribute);
@@ -138,6 +176,9 @@ public final class AttributeModifierEffect implements TemperatureEffect {
         }
     }
 
+    /**
+     * @return Returns {@link #CODEC}.
+     */
     @Override
     public MapCodec<AttributeModifierEffect> codec() {
         return CODEC;

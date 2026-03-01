@@ -44,6 +44,8 @@ public class TemperatureEffectsComponent implements Component, ServerTickingComp
         if (settings != null && settings.enabled() != enabled) {
             settings.setEnabled(enabled);
 
+            // this is meant to ensure that the effect is cleaned up right away and not have to wait for the next
+            // interval check, especially if that interval is long.
             if (!settings.enabled() && settings.applied()) {
                 ((TemperatureStatusImpl) statusRef.value()).remove(this.provider, this.provider.level());
                 settings.setApplied(false);

@@ -35,11 +35,11 @@ public interface TemperatureEffect {
     /**
      * Performs cleanup logic for this effect on the entity.
      * <p>
-     * This is called when {@link #apply(LivingEntity, Level)} returns {@code false} or when the parent
-     * {@link TemperatureStatus} is removed from the entity.
+     * This method is invoked when the effect is no longer active on the entity. Implementations should use this to
+     * revert any persistent changes, such as removing attribute modifiers.
      *
-     * @param target The entity to remove the effect from.
-     * @param level  The level the entity is in.
+     * @param target The entity the effect is being removed from.
+     * @param level  The level the entity is currently in.
      */
     default void remove(LivingEntity target, Level level) {
     }

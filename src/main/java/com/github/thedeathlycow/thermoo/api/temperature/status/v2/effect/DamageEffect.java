@@ -14,8 +14,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Objects;
-
 /**
  * Applies damage to {@link LivingEntity}s.
  * <p>
@@ -44,13 +42,29 @@ public final class DamageEffect implements TemperatureEffect {
         this.damageType = damageType;
     }
 
+    /**
+     * Creates a new damage effect for data generation.
+     *
+     * @param amount     A non-negative finite float.
+     * @param damageType The damage type key.
+     * @throws IllegalArgumentException if the {@code amount} is negative, infinite, or NaN.
+     * @throws NullPointerException     if the {@code damageType} is {@code null}.
+     */
     public static DamageEffect create(float amount, ResourceKey<DamageType> damageType) {
         Preconditions.checkArgument(amount >= 0f, "Damage amount must be at least 0");
-        Objects.requireNonNull(damageType, "Damage type may not be null");
+        Preconditions.checkArgument(Float.isFinite(amount), "Damage amount must be finite");
+        Preconditions.checkNotNull(damageType, "Damage type may not be null");
 
         return new DamageEffect(amount, damageType);
     }
 
+    /**
+     * Hurts the target.
+     *
+     * @param target The entity receiving the effect.
+     * @param level  The level the entity is in.
+     * @return Returns {@code true} if executed on the logical server AND the target was successfully hurt.
+     */
     @Override
     public boolean apply(LivingEntity target, Level level) {
         if (level instanceof ServerLevel serverLevel) {
@@ -68,15 +82,26 @@ public final class DamageEffect implements TemperatureEffect {
         return this.damageSource;
     }
 
+    /**
+     * @return Returns {@link #CODEC}
+     */
     @Override
     public MapCodec<DamageEffect> codec() {
         return CODEC;
     }
 
+    /**
+     * The amount of damage inflicted by the effect.
+     *
+     * @return Returns a float that is finite and non-negative.
+     */
     public float amount() {
         return amount;
     }
 
+    /**
+     * The damage type of the effect.
+     */
     public ResourceKey<DamageType> damageType() {
         return damageType;
     }
