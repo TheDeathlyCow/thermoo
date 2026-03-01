@@ -22,7 +22,7 @@ public record TemperatureStatusImpl(
         @NotNull List<TemperatureEffect> effects
 ) implements TemperatureStatus {
     public boolean apply(LivingEntity entity, Level level) {
-        if (entity.tickCount % this.interval == 0) {
+        if (entity.tickCount % this.interval != 0) {
             return false;
         }
 

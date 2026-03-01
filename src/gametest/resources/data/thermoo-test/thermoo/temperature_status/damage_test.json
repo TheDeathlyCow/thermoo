@@ -6,7 +6,7 @@
         "condition": "minecraft:reference",
         "name": "thermoo-test:is_hot"
     },
-    "interval": 100,
+    "interval": 20,
     "effects": [
         {
             "type": "thermoo:damage",
