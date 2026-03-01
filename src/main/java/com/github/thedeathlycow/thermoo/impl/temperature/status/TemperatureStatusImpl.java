@@ -12,15 +12,18 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Range;
 
 import java.util.List;
 import java.util.Optional;
 
 public record TemperatureStatusImpl(
         @NotNull TemperatureStatusSelector selector,
-        int interval,
+        @Range(from = 1, to = Integer.MAX_VALUE) int interval,
         @NotNull List<TemperatureEffect> effects
 ) implements TemperatureStatus {
+    public static final int DEFAULT_INTERVAL = 20;
+
     public boolean apply(LivingEntity entity, Level level) {
         float scale = entity.thermoo$getTemperatureScale();
 
