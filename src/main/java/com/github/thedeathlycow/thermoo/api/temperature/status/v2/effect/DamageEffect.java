@@ -12,6 +12,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 
@@ -35,6 +36,8 @@ public final class DamageEffect implements TemperatureEffect {
 
     private final float amount;
     private final ResourceKey<DamageType> damageType;
+    @Nullable
+    private DamageSource damageSource = null;
 
     private DamageEffect(float amount, ResourceKey<DamageType> damageType) {
         this.amount = amount;
@@ -51,10 +54,18 @@ public final class DamageEffect implements TemperatureEffect {
     @Override
     public boolean apply(LivingEntity victim, Level level) {
         if (level instanceof ServerLevel serverLevel) {
-            return victim.hurtServer(serverLevel, serverLevel.damageSources().source(damageType), amount);
+            return victim.hurtServer(serverLevel, this.damageSource(serverLevel, damageType), amount);
         }
 
         return false;
+    }
+
+    private DamageSource damageSource(ServerLevel serverLevel, ResourceKey<DamageType> damageType) {
+        if (this.damageSource == null) {
+            this.damageSource = serverLevel.damageSources().source(damageType);
+        }
+
+        return this.damageSource;
     }
 
     @Override
