@@ -9,6 +9,7 @@ import net.minecraft.commands.functions.CommandFunction;
 import net.minecraft.commands.functions.InstantiatedFunction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.TagParser;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.ServerFunctionManager;
 import net.minecraft.server.level.ServerLevel;
@@ -44,6 +45,9 @@ public final class FunctionWithArguments {
 
     private final Optional<CompoundTag> arguments;
 
+    /**
+     * Create new instances with {@link FunctionEffect#function(Identifier)} or {@link FunctionEffect#function(Identifier, CompoundTag)}
+     */
     FunctionWithArguments(CacheableFunction function, Optional<CompoundTag> arguments) {
         this.function = function;
         this.arguments = arguments;

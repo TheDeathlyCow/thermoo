@@ -8,41 +8,40 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
-import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Range;
 
 /**
  * A class which stores template data for producing new instances of {@link MobEffectInstance}.
  *
- * @see MobEffectTemperatureEffect
+ * @see MobEffectEffect
  */
-public final class ConfiguredMobEffect {
+public final class TemplateMobEffect {
     private static final int DEFAULT_DURATION = 20 * 5;
 
     /**
      * The codec for this type.
      */
-    public static final Codec<ConfiguredMobEffect> CODEC = RecordCodecBuilder.create(
+    public static final Codec<TemplateMobEffect> CODEC = RecordCodecBuilder.create(
             instance -> instance.group(
                     BuiltInRegistries.MOB_EFFECT.holderByNameCodec()
                             .fieldOf("effect")
-                            .forGetter(ConfiguredMobEffect::effect),
+                            .forGetter(TemplateMobEffect::effect),
                     ExtraCodecs.NON_NEGATIVE_INT
                             .optionalFieldOf("duration", DEFAULT_DURATION)
-                            .forGetter(ConfiguredMobEffect::duration),
+                            .forGetter(TemplateMobEffect::duration),
                     Codec.intRange(0, 255)
                             .optionalFieldOf("amplifier", 0)
-                            .forGetter(ConfiguredMobEffect::amplifier),
+                            .forGetter(TemplateMobEffect::amplifier),
                     Codec.BOOL
                             .optionalFieldOf("ambient", false)
-                            .forGetter(ConfiguredMobEffect::ambient),
+                            .forGetter(TemplateMobEffect::ambient),
                     Codec.BOOL
                             .optionalFieldOf("visible", true)
-                            .forGetter(ConfiguredMobEffect::visible),
+                            .forGetter(TemplateMobEffect::visible),
                     Codec.BOOL
                             .optionalFieldOf("show_icon", true)
-                            .forGetter(ConfiguredMobEffect::showIcon)
-            ).apply(instance, ConfiguredMobEffect::new)
+                            .forGetter(TemplateMobEffect::showIcon)
+            ).apply(instance, TemplateMobEffect::new)
     );
 
     private final Holder<MobEffect> effect;
@@ -52,7 +51,7 @@ public final class ConfiguredMobEffect {
     private final boolean visible;
     private final boolean showIcon;
 
-    private ConfiguredMobEffect(Holder<MobEffect> effect, int duration, int amplifier, boolean ambient, boolean visible, boolean showIcon) {
+    private TemplateMobEffect(Holder<MobEffect> effect, int duration, int amplifier, boolean ambient, boolean visible, boolean showIcon) {
         this.effect = effect;
         this.duration = duration;
         this.amplifier = amplifier;
@@ -125,7 +124,7 @@ public final class ConfiguredMobEffect {
         private boolean showIcon = true;
 
         /**
-         * Create new instances of this builder with {@link MobEffectTemperatureEffect#effect(Holder)}.
+         * Create new instances of this builder with {@link MobEffectEffect#effect(Holder)}.
          */
         Builder(Holder<MobEffect> effect) {
             this.effect = effect;
@@ -189,10 +188,10 @@ public final class ConfiguredMobEffect {
         }
 
         /**
-         * Creates a new {@link ConfiguredMobEffect} from this builder.
+         * Creates a new {@link TemplateMobEffect} from this builder.
          */
-        public ConfiguredMobEffect build() {
-            return new ConfiguredMobEffect(
+        public TemplateMobEffect build() {
+            return new TemplateMobEffect(
                     this.effect,
                     this.duration,
                     this.amplifier,

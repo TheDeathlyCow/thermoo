@@ -66,6 +66,10 @@ public final class FunctionEffect implements TemperatureEffect {
 
     /**
      * Creates a new function with macro arguments.
+     *
+     * @param functionId The ID of the function. May not be {@code null}.
+     * @param arguments  The macro arguments of the function. If {@code null}, then no arguments will be supplied.
+     * @throws NullPointerException if {@code functionId} is {@code null}
      */
     public static FunctionWithArguments function(Identifier functionId, @Nullable CompoundTag arguments) {
         Preconditions.checkNotNull(functionId, "Function ID may not be null");
@@ -75,6 +79,9 @@ public final class FunctionEffect implements TemperatureEffect {
 
     /**
      * Creates a new function without any macro arguments.
+     *
+     * @param functionId The ID of the function. May not be {@code null}.
+     * @throws NullPointerException if {@code functionId} is {@code null}
      */
     public static FunctionWithArguments function(Identifier functionId) {
         return function(functionId, null);
@@ -82,6 +89,9 @@ public final class FunctionEffect implements TemperatureEffect {
 
     /**
      * Creates a new builder with an apply function.
+     *
+     * @param function The apply function. May not be {@code null}.
+     * @throws NullPointerException if {@code function} is {@code null}
      */
     public static Builder builder(FunctionWithArguments function) {
         Preconditions.checkNotNull(function, "Function may not be null");
@@ -91,6 +101,9 @@ public final class FunctionEffect implements TemperatureEffect {
     /**
      * Creates a simple function effect which executes at a permission level of {@value #DEFAULT_PERMISSION_LEVEL} and
      * has no cleanup function,
+     *
+     * @param function The apply function. May not be {@code null}.
+     * @throws NullPointerException if {@code function} is {@code null}
      */
     public static FunctionEffect create(FunctionWithArguments function) {
         return builder(function).build();
@@ -174,7 +187,9 @@ public final class FunctionEffect implements TemperatureEffect {
         /**
          * Add a remove function.
          *
+         * @param removeFunction A datapack function that handles cleanup logic.
          * @return Returns this builder.
+         * @throws NullPointerException if the {@code removeFunction} is {@code null}.
          */
         public Builder withRemoveFunction(FunctionWithArguments removeFunction) {
             Preconditions.checkNotNull(removeFunction, "Remove function may not be null");
@@ -186,7 +201,9 @@ public final class FunctionEffect implements TemperatureEffect {
         /**
          * Sets the permission level of the effect.
          *
+         * @param value An int between 0 and 4 (inclusive)
          * @return Returns this builder.
+         * @throws IllegalArgumentException if the {@code value} is not in the specified range.
          */
         public Builder withPermissionLevel(int value) {
             Preconditions.checkArgument(value >= 0 && value <= 4, "Permission level must be between 0 and 4 (inclusive)");
