@@ -7,6 +7,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
 import org.jetbrains.annotations.Nullable;
 
 public final class ConfiguredMobEffect {
@@ -49,6 +50,17 @@ public final class ConfiguredMobEffect {
         this.ambient = ambient;
         this.visible = visible;
         this.showIcon = showIcon;
+    }
+
+    MobEffectInstance toEffectInstance() {
+        return new MobEffectInstance(
+                this.effect(),
+                this.duration(),
+                this.amplifier(),
+                this.ambient(),
+                this.visible(),
+                this.showIcon()
+        );
     }
 
     public Holder<MobEffect> effect() {

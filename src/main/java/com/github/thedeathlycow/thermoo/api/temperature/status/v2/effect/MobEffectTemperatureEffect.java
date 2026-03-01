@@ -63,17 +63,7 @@ public final class MobEffectTemperatureEffect implements TemperatureEffect {
             }
         }
 
-        return victim.addEffect(
-                new MobEffectInstance(
-                        effect.effect(),
-                        effect.duration(),
-                        effect.amplifier(),
-                        effect.ambient(),
-                        effect.visible(),
-                        effect.showIcon()
-                ),
-                null
-        );
+        return victim.addEffect(effect.toEffectInstance(), null);
     }
 
     @Override
