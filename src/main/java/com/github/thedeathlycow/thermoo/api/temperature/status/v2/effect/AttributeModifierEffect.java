@@ -184,22 +184,40 @@ public final class AttributeModifierEffect implements TemperatureEffect {
         return CODEC;
     }
 
+    /**
+     * The value of the modifier. If this modifier is {@link #scaleWithTemperature() scaled} then this is the value at
+     * +100% temperature scale.
+     *
+     * @return Returns a finite double
+     */
     public double value() {
         return value;
     }
 
+    /**
+     * The attribute to be modified
+     */
     public Holder<Attribute> attribute() {
         return attribute;
     }
 
+    /**
+     * The ID of the attribute modifier.
+     */
     public Identifier id() {
         return id;
     }
 
+    /**
+     * The operation of the modifier.
+     */
     public AttributeModifier.Operation operation() {
         return operation;
     }
 
+    /**
+     * Whether the modifier value applied by this effect is scaled with the target's temperature.
+     */
     public boolean scaleWithTemperature() {
         return scaleWithTemperature;
     }
