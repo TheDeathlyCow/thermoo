@@ -27,7 +27,7 @@
                 "config": {
                     "effects": [
                         {
-                            "amplifier": 0,
+                            "amplifier": 1,
                             "duration": 200,
                             "effect": "minecraft:regeneration"
                         }

@@ -2,20 +2,17 @@ package com.github.thedeathlycow.thermoo.impl.component;
 
 import com.github.thedeathlycow.thermoo.api.temperature.effects.ConfiguredTemperatureEffect;
 import com.github.thedeathlycow.thermoo.impl.temperature.effect.TemperatureEffectManager;
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.DataResult;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
+import org.jetbrains.annotations.Nullable;
 import org.ladysnake.cca.api.v3.component.Component;
 import org.ladysnake.cca.api.v3.component.tick.ServerTickingComponent;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 public class TemperatureEffectsComponent implements Component, ServerTickingComponent {
 
@@ -27,22 +24,32 @@ public class TemperatureEffectsComponent implements Component, ServerTickingComp
         this.provider = provider;
     }
 
-    public boolean setEffectEnabled(ResourceLocation id, boolean enabled) {
-        Settings settings = this.effectsSettings.get(id);
+    public boolean setEffectEnabled(ResourceLocation effectId, boolean enabled) {
+        Settings settings = this.getSettingsChecked(effectId);
 
-        if (settings != null && settings.enabled != enabled) {
-            settings.enabled = enabled;
+        if (settings != null && settings.enabled() != enabled) {
+            settings.setEnabled(enabled);
+
+            // this is meant to ensure that the effect is cleaned up right away and not have to wait for the next
+            // interval check, especially if that interval is long.
+            if (!settings.enabled() && settings.applied()) {
+                ConfiguredTemperatureEffect<?> effect = TemperatureEffectManager.INSTANCE.getEffect(effectId);
+                if (effect != null) {
+                    effect.remove(this.provider);
+                    settings.setApplied(false);
+                }
+            }
+
             return true;
         }
-
         return false;
     }
 
-    public boolean isEffectEnabled(ResourceLocation id) {
-        Settings settings = this.effectsSettings.get(id);
+    public boolean isEffectEnabled(ResourceLocation effectId) {
+        Settings settings = this.getSettingsChecked(effectId);
 
         if (settings != null) {
-            return settings.enabled;
+            return settings.enabled();
         }
 
         return false;
@@ -68,40 +75,40 @@ public class TemperatureEffectsComponent implements Component, ServerTickingComp
     public void serverTick() {
         var availableEffects = TemperatureEffectManager.INSTANCE.getEffectsEntriesForEntity(provider);
         for (TemperatureEffectManager.EntityTypeCacheEntry effectEntry : availableEffects) {
-            Settings settings = this.effectsSettings.computeIfAbsent(effectEntry.id(), ignored -> new Settings());
-            boolean wasApplied = settings.applied;
             ConfiguredTemperatureEffect<?> effect = effectEntry.effect();
-
-            if (settings.enabled && effect.apply(provider)) {
-                settings.applied = true;
-            } else {
-                settings.applied = false;
-            }
-
-            if (wasApplied && !settings.applied) {
-                effect.remove(provider);
-            }
+            Settings settings = this.getSettings(effectEntry.id());
+            this.updateStatus(effect, settings);
         }
     }
 
-    private static class Settings {
-        public static final Codec<Settings> CODEC = RecordCodecBuilder.create(
-                instance -> instance.group(
-                        Codec.BOOL
-                                .fieldOf("enabled")
-                                .forGetter(settings -> settings.enabled)
-                ).apply(instance, enabled -> {
-                    var settings = new Settings();
-                    settings.enabled = enabled;
-                    return settings;
-                })
+    private void updateStatus(ConfiguredTemperatureEffect<?> effect, Settings settings) {
+        if (settings.enabled()) {
+            boolean wasApplied = settings.applied();
+            boolean applied = effect.apply(provider);
+
+            if (wasApplied && !applied) {
+                effect.remove(provider);
+            }
+
+            settings.setApplied(applied);
+        }
+    }
+
+    @Nullable
+    private Settings getSettingsChecked(ResourceLocation effectId) {
+        ConfiguredTemperatureEffect<?> effect = TemperatureEffectManager.INSTANCE.getEffect(effectId);
+
+        if (effect != null && (effect.entityTypes().size() == 0 || effect.entityTypes().contains(this.provider.getType().builtInRegistryHolder()))) {
+            return this.getSettings(effectId);
+        } else {
+            return null;
+        }
+    }
+
+    private Settings getSettings(ResourceLocation effectId) {
+        return this.effectsSettings.computeIfAbsent(
+                effectId,
+                ignored -> new Settings(true)
         );
-
-        public static final Codec<Map<ResourceLocation, Settings>> MAP_CODEC = Codec.unboundedMap(ResourceLocation.CODEC, CODEC);
-
-        public static final String SETTINGS_KEY = "settings";
-
-        private boolean applied = false;
-        private boolean enabled = true;
     }
 }
