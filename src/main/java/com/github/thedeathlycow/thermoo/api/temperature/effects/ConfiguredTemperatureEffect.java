@@ -6,7 +6,7 @@ import com.github.thedeathlycow.thermoo.impl.component.ThermooComponents;
 import com.mojang.serialization.Codec;
 import net.minecraft.advancements.critereon.MinMaxBounds;
 import net.minecraft.core.HolderSet;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -128,7 +128,7 @@ public final class ConfiguredTemperatureEffect<C> {
                     TemperatureEffect::getCodec
             );
 
-    public static boolean isEffectEnabled(Entity entity, Identifier effectId) {
+    public static boolean isEffectEnabled(Entity entity, ResourceLocation effectId) {
         TemperatureEffectsComponent component = ThermooComponents.TEMPERATURE_EFFECTS.getNullable(entity);
 
         if (component != null) {
@@ -138,7 +138,7 @@ public final class ConfiguredTemperatureEffect<C> {
         }
     }
 
-    public static boolean setEffectEnabled(Entity entity, Identifier effectId, boolean enabled) {
+    public static boolean setEffectEnabled(Entity entity, ResourceLocation effectId, boolean enabled) {
         TemperatureEffectsComponent component = ThermooComponents.TEMPERATURE_EFFECTS.getNullable(entity);
 
         if (component != null) {

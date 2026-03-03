@@ -12,8 +12,9 @@ import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.arguments.EntityArgument;
-import net.minecraft.commands.arguments.IdentifierArgument;
+import net.minecraft.commands.arguments.ResourceLocationArgument;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -201,14 +202,14 @@ public class TemperatureCommand {
                                 .then(
                                         argument("targets", EntityArgument.entities())
                                                 .then(
-                                                        argument("id", IdentifierArgument.id())
+                                                        argument("id", ResourceLocationArgument.id())
                                                                 .then(
                                                                         argument("enabled", BoolArgumentType.bool())
                                                                                 .executes(context -> {
                                                                                     return runEffectEnable(
                                                                                             context.getSource(),
                                                                                             EntityArgument.getEntities(context, "targets"),
-                                                                                            IdentifierArgument.getId(context, "id"),
+                                                                                            ResourceLocationArgument.getId(context, "id"),
                                                                                             BoolArgumentType.getBool(context, "enabled")
                                                                                     );
                                                                                 })
@@ -379,7 +380,7 @@ public class TemperatureCommand {
         return sum;
     }
 
-    private static int runEffectEnable(CommandSourceStack source, Collection<? extends Entity> entities, Identifier id, boolean enabled) throws CommandSyntaxException {
+    private static int runEffectEnable(CommandSourceStack source, Collection<? extends Entity> entities, ResourceLocation id, boolean enabled) throws CommandSyntaxException {
         if (entities.size() == 1) {
             return runEffectEnableSingle(source, entities.iterator().next(), id, enabled);
         }
@@ -407,7 +408,7 @@ public class TemperatureCommand {
         return result;
     }
 
-    private static int runEffectEnableSingle(CommandSourceStack source, Entity entity, Identifier id, boolean enabled) throws CommandSyntaxException {
+    private static int runEffectEnableSingle(CommandSourceStack source, Entity entity, ResourceLocation id, boolean enabled) throws CommandSyntaxException {
         if (ConfiguredTemperatureEffect.isEffectEnabled(entity, id) == enabled) {
             throw enabled ? EFFECT_ALREADY_ENABLED.create(id) : EFFECT_ALREADY_DISABLED.create(id);
         }

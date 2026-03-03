@@ -2,8 +2,12 @@ package com.github.thedeathlycow.thermoo.impl.component;
 
 import com.github.thedeathlycow.thermoo.api.temperature.effects.ConfiguredTemperatureEffect;
 import com.github.thedeathlycow.thermoo.impl.temperature.effect.TemperatureEffectManager;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.DataResult;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtOps;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import org.ladysnake.cca.api.v3.component.Component;
@@ -11,6 +15,7 @@ import org.ladysnake.cca.api.v3.component.tick.ServerTickingComponent;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class TemperatureEffectsComponent implements Component, ServerTickingComponent {
 
@@ -22,7 +27,7 @@ public class TemperatureEffectsComponent implements Component, ServerTickingComp
         this.provider = provider;
     }
 
-    public boolean setEffectEnabled(Identifier id, boolean enabled) {
+    public boolean setEffectEnabled(ResourceLocation id, boolean enabled) {
         Settings settings = this.effectsSettings.get(id);
 
         if (settings != null && settings.enabled != enabled) {
@@ -33,7 +38,7 @@ public class TemperatureEffectsComponent implements Component, ServerTickingComp
         return false;
     }
 
-    public boolean isEffectEnabled(Identifier id) {
+    public boolean isEffectEnabled(ResourceLocation id) {
         Settings settings = this.effectsSettings.get(id);
 
         if (settings != null) {
@@ -44,14 +49,19 @@ public class TemperatureEffectsComponent implements Component, ServerTickingComp
     }
 
     @Override
-    public void readData(ValueInput readView) {
+    public void readFromNbt(CompoundTag tag, HolderLookup.Provider provider) {
         this.effectsSettings.clear();
-        readView.read(Settings.SETTINGS_KEY, Settings.MAP_CODEC).ifPresent(this.effectsSettings::putAll);
+
+        Settings.MAP_CODEC.decode(NbtOps.INSTANCE, tag).ifSuccess(result -> {
+            this.effectsSettings.putAll(result.getFirst());
+        });
     }
 
     @Override
-    public void writeData(ValueOutput writeView) {
-        writeView.store(Settings.SETTINGS_KEY, Settings.MAP_CODEC, this.effectsSettings);
+    public void writeToNbt(CompoundTag tag, HolderLookup.Provider provider) {
+        Settings.MAP_CODEC.encodeStart(NbtOps.INSTANCE, this.effectsSettings).ifSuccess(serializedMap -> {
+            tag.put(Settings.SETTINGS_KEY, serializedMap);
+        });
     }
 
     @Override
@@ -87,7 +97,7 @@ public class TemperatureEffectsComponent implements Component, ServerTickingComp
                 })
         );
 
-        public static final Codec<Map<Identifier, Settings>> MAP_CODEC = Codec.unboundedMap(Identifier.CODEC, CODEC);
+        public static final Codec<Map<ResourceLocation, Settings>> MAP_CODEC = Codec.unboundedMap(ResourceLocation.CODEC, CODEC);
 
         public static final String SETTINGS_KEY = "settings";
 
