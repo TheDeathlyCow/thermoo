@@ -51,10 +51,7 @@ public final class TemperatureStatusManager {
 
     public static List<Holder.Reference<TemperatureStatus>> lookup(Holder<EntityType<?>> type, HolderLookup<TemperatureStatus> lookup) {
         return lookup.listElements()
-                .filter(statusRef -> {
-                    HolderSet<EntityType<?>> set = statusRef.value().selector().entityTypes();
-                    return set.size() == 0 || set.contains(type);
-                })
+                .filter(statusRef -> statusRef.value().selector().appliesToEntityType(type))
                 .sorted(orderByTag(lookup))
                 .toList();
     }

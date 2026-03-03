@@ -5,6 +5,7 @@ import com.google.common.base.Preconditions;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.advancements.criterion.MinMaxBounds;
+import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.RegistryCodecs;
 import net.minecraft.core.registries.Registries;
@@ -39,6 +40,15 @@ public interface TemperatureStatusSelector {
                             .forGetter(TemperatureStatusSelector::predicate)
             ).apply(instance, TemperatureStatusSelectorImpl::new)
     );
+
+    /**
+     * Checks if this selector applies to the given entity type holder.
+     *
+     * @param typeHolder The entity type holder to check.
+     * @return Returns {@code true} if either {@link #entityTypes()} is empty, or if it is not empty and contains the
+     * given {@code typeHolder}.
+     */
+    boolean appliesToEntityType(Holder<EntityType<?>> typeHolder);
 
     /**
      * Ensures the status will only ever be checked for the given set of entity types. This is computed ahead of time,

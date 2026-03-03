@@ -115,7 +115,7 @@ public class TemperatureEffectsComponent implements Component, ServerTickingComp
     private Settings getSettingsChecked(Holder.Reference<TemperatureStatus> statusRef) {
         TemperatureStatusSelector selector = statusRef.value().selector();
 
-        if (selector.entityTypes().contains(this.provider.typeHolder())) {
+        if (selector.appliesToEntityType(this.provider.typeHolder())) {
             return this.getSettings(statusRef);
         } else {
             return null;
