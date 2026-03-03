@@ -42,6 +42,15 @@ public class SequenceTemperatureEffect extends TemperatureEffect<SequenceTempera
         return true;
     }
 
+    @Override
+    public void remove(LivingEntity victim, ServerLevel serverWorld, Config config) {
+        super.remove(victim, serverWorld, config);
+
+        for (var child : config.children) {
+            child.remove(victim);
+        }
+    }
+
     public record Config(List<ConfiguredTemperatureEffect<?>> children) {
 
     }
