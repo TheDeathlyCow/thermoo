@@ -1,7 +1,7 @@
 package com.github.thedeathlycow.thermoo.impl.temperature.status;
 
 import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureStatus;
-import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureStatusTags;
+import com.github.thedeathlycow.thermoo.api.temperature.status.v2.tag.TemperatureStatusTags;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import it.unimi.dsi.fastutil.objects.Object2IntArrayMap;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
