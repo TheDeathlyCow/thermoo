@@ -1,8 +1,8 @@
 package com.github.thedeathlycow.thermoo.impl;
 
 import com.github.thedeathlycow.thermoo.api.ThermooRegistryKeys;
-import com.github.thedeathlycow.thermoo.api.command.v1.HeatingModeArgumentType;
-import com.github.thedeathlycow.thermoo.api.command.v1.TemperatureUnitArgumentType;
+import com.github.thedeathlycow.thermoo.api.command.v1.HeatingModeArgument;
+import com.github.thedeathlycow.thermoo.api.command.v1.TemperatureUnitArgument;
 import com.github.thedeathlycow.thermoo.api.environment.EnvironmentDefinition;
 import com.github.thedeathlycow.thermoo.api.environment.provider.EnvironmentProvider;
 import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureStatus;
@@ -36,15 +36,15 @@ public class Thermoo implements ModInitializer {
     public static final Logger LOGGER = LoggerFactory.getLogger(MODID);
 
     public static final ArgumentTypeInfo<
-            HeatingModeArgumentType,
-            SingletonArgumentInfo<HeatingModeArgumentType>.Template
-            > HEATING_MODE_ARG_SERIALIZER = SingletonArgumentInfo.contextFree(HeatingModeArgumentType::heatingMode);
+            HeatingModeArgument,
+            SingletonArgumentInfo<HeatingModeArgument>.Template
+            > HEATING_MODE_ARG_SERIALIZER = SingletonArgumentInfo.contextFree(HeatingModeArgument::heatingMode);
 
 
     public static final ArgumentTypeInfo<
-            TemperatureUnitArgumentType,
-            SingletonArgumentInfo<TemperatureUnitArgumentType>.Template
-            > TEMPERATURE_UNIT_ARG_SERIALIZER = SingletonArgumentInfo.contextFree(TemperatureUnitArgumentType::temperatureUnit);
+            TemperatureUnitArgument,
+            SingletonArgumentInfo<TemperatureUnitArgument>.Template
+            > TEMPERATURE_UNIT_ARG_SERIALIZER = SingletonArgumentInfo.contextFree(TemperatureUnitArgument::temperatureUnit);
 
     @Nullable
     private static ThermooConfig config = null;
@@ -53,13 +53,13 @@ public class Thermoo implements ModInitializer {
     public void onInitialize() {
         ArgumentTypeRegistry.registerArgumentType(
                 Thermoo.id("heating_mode"),
-                HeatingModeArgumentType.class,
+                HeatingModeArgument.class,
                 HEATING_MODE_ARG_SERIALIZER
         );
 
         ArgumentTypeRegistry.registerArgumentType(
                 Thermoo.id("temperature_unit"),
-                TemperatureUnitArgumentType.class,
+                TemperatureUnitArgument.class,
                 TEMPERATURE_UNIT_ARG_SERIALIZER
         );
 

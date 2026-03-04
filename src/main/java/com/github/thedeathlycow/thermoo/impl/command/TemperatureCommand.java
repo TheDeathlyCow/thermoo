@@ -1,7 +1,7 @@
 package com.github.thedeathlycow.thermoo.impl.command;
 
 import com.github.thedeathlycow.thermoo.api.ThermooRegistryKeys;
-import com.github.thedeathlycow.thermoo.api.command.v1.HeatingModeArgumentType;
+import com.github.thedeathlycow.thermoo.api.command.v1.HeatingModeArgument;
 import com.github.thedeathlycow.thermoo.api.temperature.HeatingModes;
 import com.github.thedeathlycow.thermoo.api.temperature.TemperatureAware;
 import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureStatus;
@@ -140,13 +140,13 @@ public final class TemperatureCommand {
                                                         }
                                                 )
                                                 .then(
-                                                        argument("mode", HeatingModeArgumentType.heatingMode())
+                                                        argument("mode", HeatingModeArgument.heatingMode())
                                                                 .executes(context -> {
                                                                             return runAdjust(
                                                                                     context.getSource(),
                                                                                     EntityArgument.getEntities(context, "targets"),
                                                                                     IntegerArgumentType.getInteger(context, "amount"),
-                                                                                    HeatingModeArgumentType.getHeatingMode(context, "mode"),
+                                                                                    HeatingModeArgument.getHeatingMode(context, "mode"),
                                                                                     true
                                                                             );
                                                                         }
@@ -172,13 +172,13 @@ public final class TemperatureCommand {
                                                         }
                                                 )
                                                 .then(
-                                                        argument("mode", HeatingModeArgumentType.heatingMode())
+                                                        argument("mode", HeatingModeArgument.heatingMode())
                                                                 .executes(context -> {
                                                                             return runAdjust(
                                                                                     context.getSource(),
                                                                                     EntityArgument.getEntities(context, "targets"),
                                                                                     IntegerArgumentType.getInteger(context, "amount"),
-                                                                                    HeatingModeArgumentType.getHeatingMode(context, "mode"),
+                                                                                    HeatingModeArgument.getHeatingMode(context, "mode"),
                                                                                     false
                                                                             );
                                                                         }

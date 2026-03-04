@@ -1,6 +1,6 @@
 package com.github.thedeathlycow.thermoo.impl.command;
 
-import com.github.thedeathlycow.thermoo.api.command.v1.TemperatureUnitArgumentType;
+import com.github.thedeathlycow.thermoo.api.command.v1.TemperatureUnitArgument;
 import com.github.thedeathlycow.thermoo.api.environment.EnvironmentLookup;
 import com.github.thedeathlycow.thermoo.api.environment.component.AtmosphericPressureComponent;
 import com.github.thedeathlycow.thermoo.api.environment.component.EnvironmentComponentTypes;
@@ -78,12 +78,12 @@ public final class EnvironmentCommand {
                                 )
                         )
                         .then(
-                                argument(unit, TemperatureUnitArgumentType.temperatureUnit())
+                                argument(unit, TemperatureUnitArgument.temperatureUnit())
                                         .executes(
                                                 context -> executeTemperature(
                                                         context.getSource(),
                                                         BlockPosArgument.getLoadedBlockPos(context, location),
-                                                        TemperatureUnitArgumentType.getTemperatureUnit(context, unit),
+                                                        TemperatureUnitArgument.getTemperatureUnit(context, unit),
                                                         fallbackTempScale
                                                 )
                                         )
@@ -93,7 +93,7 @@ public final class EnvironmentCommand {
                                                                 context -> executeTemperature(
                                                                         context.getSource(),
                                                                         BlockPosArgument.getLoadedBlockPos(context, location),
-                                                                        TemperatureUnitArgumentType.getTemperatureUnit(context, unit),
+                                                                        TemperatureUnitArgument.getTemperatureUnit(context, unit),
                                                                         DoubleArgumentType.getDouble(context, scale)
                                                                 )
                                                         )

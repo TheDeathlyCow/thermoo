@@ -10,15 +10,15 @@ import net.minecraft.util.StringRepresentable;
 /**
  * An argument type to specify {@link TemperatureUnit}s.
  */
-public final class TemperatureUnitArgumentType extends StringRepresentableArgument<TemperatureUnit> {
+public final class TemperatureUnitArgument extends StringRepresentableArgument<TemperatureUnit> {
     public static final Codec<TemperatureUnit> CODEC = StringRepresentable.fromEnum(TemperatureUnit::values);
 
-    private TemperatureUnitArgumentType() {
+    private TemperatureUnitArgument() {
         super(CODEC, TemperatureUnit::values);
     }
 
-    public static TemperatureUnitArgumentType temperatureUnit() {
-        return new TemperatureUnitArgumentType();
+    public static TemperatureUnitArgument temperatureUnit() {
+        return new TemperatureUnitArgument();
     }
 
     public static TemperatureUnit getTemperatureUnit(CommandContext<CommandSourceStack> context, String id) {
