@@ -1,6 +1,7 @@
 package com.github.thedeathlycow.thermoo.api.temperature.status.v2;
 
 import com.github.thedeathlycow.thermoo.api.ThermooRegistryKeys;
+import com.github.thedeathlycow.thermoo.api.temperature.TemperatureAware;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import net.minecraft.tags.TagKey;
 
@@ -15,6 +16,31 @@ public final class TemperatureStatusTags {
      * present in this tag are processed afterwards in an undefined order.
      */
     public static final TagKey<TemperatureStatus> APPLICATION_ORDER = create("application_order");
+
+    /**
+     * Statuses that are harmful to their targets.
+     */
+    public static final TagKey<TemperatureStatus> HARMFUL = create("harmful");
+
+    /**
+     * Statuses that are beneficial to their targets.
+     */
+    public static final TagKey<TemperatureStatus> BENEFICIAL = create("beneficial");
+
+    /**
+     * Statuses that are neither harmful nor beneficial.
+     */
+    public static final TagKey<TemperatureStatus> NEUTRAL = create("neutral");
+
+    /**
+     * Statuses that are applied as a result of being {@link TemperatureAware#thermoo$isCold() cold}.
+     */
+    public static final TagKey<TemperatureStatus> COLD = create("cold");
+
+    /**
+     * Statuses that are applied as a result of being {@link TemperatureAware#thermoo$isWarm() warm}.
+     */
+    public static final TagKey<TemperatureStatus> WARM = create("WARM");
 
     private static TagKey<TemperatureStatus> create(String name) {
         return TagKey.create(ThermooRegistryKeys.TEMPERATURE_STATUS, Thermoo.id(name));
