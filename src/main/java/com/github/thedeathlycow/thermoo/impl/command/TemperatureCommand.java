@@ -401,13 +401,13 @@ public final class TemperatureCommand {
         final int result = totalAffected;
 
         if (result == 0) {
-            throw enabled ? FAILED_TO_ENABLE_EFFECT.create(status) : FAILED_TO_DISABLE_EFFECT.create(status);
+            throw enabled ? FAILED_TO_ENABLE_EFFECT.create(status.key().identifier()) : FAILED_TO_DISABLE_EFFECT.create(status.key().identifier());
         }
 
         if (enabled) {
-            source.sendSuccess(() -> Component.translatable("commands.thermoo.temperature.effect.multiple.set_enabled.true", status.toString(), result), true);
+            source.sendSuccess(() -> Component.translatable("commands.thermoo.temperature.effect.multiple.set_enabled.true", status.key().identifier().toString(), result), true);
         } else {
-            source.sendSuccess(() -> Component.translatable("commands.thermoo.temperature.effect.multiple.set_enabled.false", status.toString(), result), true);
+            source.sendSuccess(() -> Component.translatable("commands.thermoo.temperature.effect.multiple.set_enabled.false", status.key().identifier().toString(), result), true);
         }
 
         return result;
@@ -415,17 +415,17 @@ public final class TemperatureCommand {
 
     private static int runStatusEnableSingle(CommandSourceStack source, Entity entity, Holder.Reference<TemperatureStatus> status, boolean enabled) throws CommandSyntaxException {
         if (TemperatureStatusLookup.isEnabled(entity, status) == enabled) {
-            throw enabled ? EFFECT_ALREADY_ENABLED.create(status) : EFFECT_ALREADY_DISABLED.create(status);
+            throw enabled ? EFFECT_ALREADY_ENABLED.create(status.key().identifier()) : EFFECT_ALREADY_DISABLED.create(status.key().identifier());
         }
 
         if (TemperatureStatusLookup.setEnabled(entity, status, enabled)) {
             if (enabled) {
-                source.sendSuccess(() -> Component.translatable("commands.thermoo.temperature.effect.single.set_enabled.true", status.toString(), entity.getDisplayName()), true);
+                source.sendSuccess(() -> Component.translatable("commands.thermoo.temperature.effect.single.set_enabled.true", status.key().identifier().toString(), entity.getDisplayName()), true);
             } else {
-                source.sendSuccess(() -> Component.translatable("commands.thermoo.temperature.effect.single.set_enabled.false", status.toString(), entity.getDisplayName()), true);
+                source.sendSuccess(() -> Component.translatable("commands.thermoo.temperature.effect.single.set_enabled.false", status.key().identifier().toString(), entity.getDisplayName()), true);
             }
         } else {
-            throw enabled ? FAILED_TO_ENABLE_EFFECT.create(status) : FAILED_TO_DISABLE_EFFECT.create(status);
+            throw enabled ? FAILED_TO_ENABLE_EFFECT.create(status.key().identifier()) : FAILED_TO_DISABLE_EFFECT.create(status.key().identifier());
         }
 
         return Command.SINGLE_SUCCESS;
