@@ -40,7 +40,7 @@ public final class TemperatureStatusTags {
     /**
      * Statuses that are applied as a result of being {@link TemperatureAware#thermoo$isWarm() warm}.
      */
-    public static final TagKey<TemperatureStatus> WARM = create("WARM");
+    public static final TagKey<TemperatureStatus> WARM = create("warm");
 
     private static TagKey<TemperatureStatus> create(String name) {
         return TagKey.create(ThermooRegistryKeys.TEMPERATURE_STATUS, Thermoo.id(name));
