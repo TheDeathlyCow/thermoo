@@ -1,0 +1,16 @@
+{
+    "entity_type": "minecraft:player",
+    "interval": 20,
+    "temperature_scale_range": {
+        "min": -1,
+        "max": 1
+    },
+    "enabled_by_default": false,
+    "effects": [
+        {
+            "type": "thermoo:function",
+            "function": "thermoo-test:macro_message",
+            "arguments": "{message:{\"text\":\"This temperature status should be disabled!\",\"color\":\"red\"}}"
+        }
+    ]
+}

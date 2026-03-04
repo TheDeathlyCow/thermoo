@@ -1,2 +1,2 @@
 
-$tellraw @s "$(message)"
+$tellraw @s $(message)

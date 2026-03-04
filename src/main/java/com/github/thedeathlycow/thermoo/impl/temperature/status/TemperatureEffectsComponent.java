@@ -125,7 +125,7 @@ public class TemperatureEffectsComponent implements Component, ServerTickingComp
     private Settings getSettings(Holder.Reference<TemperatureStatus> statusRef) {
         return this.effectsSettings.computeIfAbsent(
                 statusRef.key(),
-                _ -> new Settings(true)
+                _ -> new Settings(statusRef.value().enabledByDefault())
         );
     }
 }

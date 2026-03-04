@@ -35,6 +35,9 @@ public interface TemperatureStatus {
                             ExtraCodecs.POSITIVE_INT
                                     .optionalFieldOf("interval", TemperatureStatusImpl.DEFAULT_INTERVAL)
                                     .forGetter(TemperatureStatus::interval),
+                            Codec.BOOL
+                                    .optionalFieldOf("enabled_by_default", true)
+                                    .forGetter(TemperatureStatus::enabledByDefault),
                             TemperatureEffect.DIRECT_CODEC.listOf()
                                     .fieldOf("effects")
                                     .forGetter(TemperatureStatus::effects)
@@ -90,6 +93,13 @@ public interface TemperatureStatus {
     int interval();
 
     /**
+     * Whether this status is enabled by default.
+     *
+     * @return Returns {@code true} by default.
+     */
+    boolean enabledByDefault();
+
+    /**
      * A list of the {@linkplain TemperatureEffect effects} that are applied periodically to affected entities.
      */
     List<TemperatureEffect> effects();
@@ -102,6 +112,7 @@ public interface TemperatureStatus {
     final class Builder {
         private final TemperatureStatusSelector.Builder selectorBuilder;
         private final List<TemperatureEffect> effects = new ArrayList<>();
+        private boolean enabledByDefault = true;
         private int interval = TemperatureStatusImpl.DEFAULT_INTERVAL;
 
         private Builder(TemperatureStatusSelector.Builder selectorBuilder) {
@@ -119,6 +130,16 @@ public interface TemperatureStatus {
             Preconditions.checkArgument(value >= 1, "Interval must be at least 1");
 
             this.interval = value;
+            return this;
+        }
+
+        /**
+         * Sets this status to be disabled by default.
+         *
+         * @return Returns this builder.
+         */
+        public Builder disabledByDefault() {
+            this.enabledByDefault = false;
             return this;
         }
 
@@ -143,6 +164,7 @@ public interface TemperatureStatus {
             return new TemperatureStatusImpl(
                     this.selectorBuilder.build(),
                     this.interval,
+                    this.enabledByDefault,
                     this.effects
             );
         }

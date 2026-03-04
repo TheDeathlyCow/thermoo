@@ -13,7 +13,7 @@
         {
             "type": "thermoo:function",
             "function": "thermoo-test:macro_message",
-            "arguments": "{message:\"Hi there!\"}",
+            "arguments": "{message:{\"text\":\"This is a macro!\"}}",
             "permission_level": 2
         }
     ]

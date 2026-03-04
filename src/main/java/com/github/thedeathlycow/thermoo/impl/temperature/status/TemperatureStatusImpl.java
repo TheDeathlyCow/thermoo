@@ -20,6 +20,7 @@ import java.util.Optional;
 public record TemperatureStatusImpl(
         @NotNull TemperatureStatusSelector selector,
         @Range(from = 1, to = Integer.MAX_VALUE) int interval,
+        boolean enabledByDefault,
         @NotNull List<TemperatureEffect> effects
 ) implements TemperatureStatus {
     public static final int DEFAULT_INTERVAL = 20;
