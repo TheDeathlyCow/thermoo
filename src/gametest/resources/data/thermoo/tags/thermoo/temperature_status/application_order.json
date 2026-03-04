@@ -8,6 +8,7 @@
         "thermoo-test:function_test",
         "thermoo-test:damage_test",
         "thermoo-test:mod_exists_test",
-        "thermoo-test:mob_effect_test"
+        "thermoo-test:mob_effect_test",
+        "thermoo-test:disabled_by_default"
     ]
 }

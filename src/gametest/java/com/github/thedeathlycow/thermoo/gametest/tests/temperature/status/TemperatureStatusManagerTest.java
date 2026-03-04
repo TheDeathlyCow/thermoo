@@ -33,6 +33,7 @@ public class TemperatureStatusManagerTest {
                 lookup.getOrThrow(key("damage_test")),
                 lookup.getOrThrow(key("mod_exists_test")),
                 lookup.getOrThrow(key("mob_effect_test")),
+                lookup.getOrThrow(key("disabled_by_default")),
                 lookup.getOrThrow(key("scaling_attribute_test")) // tests that items not in tag are last
         );
 
