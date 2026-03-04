@@ -77,6 +77,12 @@ fabricApi {
         eula = true
         enableClientGameTests = true
     }
+
+    configureDataGeneration() {
+        client = true
+        createSourceSet = true
+        modId = "thermoo-datagen"
+    }
 }
 
 loom {
