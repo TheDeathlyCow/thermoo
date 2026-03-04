@@ -1,0 +1,13 @@
+{
+    "values": [
+        "thermoo-test:ordered/first",
+        "thermoo-test:ordered/second",
+        "thermoo-test:ordered/third",
+        "thermoo-test:ordered/fourth",
+        "thermoo-test:attribute_test",
+        "thermoo-test:function_test",
+        "thermoo-test:damage_test",
+        "thermoo-test:mod_exists_test",
+        "thermoo-test:mob_effect_test"
+    ]
+}

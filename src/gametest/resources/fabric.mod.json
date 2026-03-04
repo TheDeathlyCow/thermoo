@@ -29,7 +29,8 @@
             "com.github.thedeathlycow.thermoo.gametest.tests.environment.PrecipitationTypeTests",
             "com.github.thedeathlycow.thermoo.gametest.tests.environment.PressureTests",
             "com.github.thedeathlycow.thermoo.gametest.tests.environment.WeatherStateTests",
-            "com.github.thedeathlycow.thermoo.gametest.tests.soaking.SoakableTests"
+            "com.github.thedeathlycow.thermoo.gametest.tests.soaking.SoakableTests",
+            "com.github.thedeathlycow.thermoo.gametest.tests.temperature.status.TemperatureStatusManagerTest"
         ],
         "fabric-client-gametest": [
             "com.github.thedeathlycow.thermoo.gametest.client.HealthBarTests",

@@ -1,0 +1,24 @@
+{
+    "entity_type": "minecraft:player",
+    "temperature_scale_range": {
+        "max": 0
+    },
+    "effects": [
+        {
+            "type": "thermoo:attribute_modifier",
+            "value": 0.05,
+            "id": "thermoo-test:warming_speed",
+            "attribute_type": "minecraft:movement_speed",
+            "operation": "add_value",
+            "scale_with_temperature": true
+        },
+        {
+            "type": "thermoo:attribute_modifier",
+            "value": -0.5,
+            "id": "thermoo-test:freezing_small",
+            "attribute_type": "minecraft:scale",
+            "operation": "add_value",
+            "scale_with_temperature": true
+        }
+    ]
+}

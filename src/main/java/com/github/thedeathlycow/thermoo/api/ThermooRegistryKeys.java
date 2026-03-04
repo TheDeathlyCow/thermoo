@@ -3,21 +3,30 @@ package com.github.thedeathlycow.thermoo.api;
 import com.github.thedeathlycow.thermoo.api.environment.EnvironmentDefinition;
 import com.github.thedeathlycow.thermoo.api.environment.provider.EnvironmentProvider;
 import com.github.thedeathlycow.thermoo.api.environment.provider.EnvironmentProviderType;
-import com.github.thedeathlycow.thermoo.api.temperature.effects.TemperatureEffect;
+import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureEffect;
+import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureStatus;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.resources.ResourceKey;
 
 public final class ThermooRegistryKeys {
     /**
-     * Key for the temperature effect registry
-     * <p>
-     * Note that the datapack registry for temperature effects is defined by a {@link com.github.thedeathlycow.thermoo.api.temperature.effects.ConfiguredTemperatureEffect}
+     * Registry key for the {@linkplain TemperatureStatus temperature status} datapack registry.
+     *
+     * @see TemperatureStatus
+     */
+    public static final ResourceKey<Registry<TemperatureStatus>> TEMPERATURE_STATUS = createRegistryKey("temperature_status");
+
+    /**
+     * Registry key for {@linkplain TemperatureEffect temperature effect codecs}. Register codecs to this registry
+     * an entry point.
      *
      * @see TemperatureEffect
+     * @see ThermooRegistries#TEMPERATURE_EFFECT_TYPE
      */
-    public static final ResourceKey<Registry<TemperatureEffect<?>>> TEMPERATURE_EFFECT = createRegistryKey("temperature_effects");
+    public static final ResourceKey<Registry<MapCodec<? extends TemperatureEffect>>> TEMPERATURE_EFFECT_TYPE = createRegistryKey("temperature_effect_type");
 
     /**
      * The key for the environment component type registry

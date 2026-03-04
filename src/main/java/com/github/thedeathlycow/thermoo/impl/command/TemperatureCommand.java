@@ -1,9 +1,11 @@
 package com.github.thedeathlycow.thermoo.impl.command;
 
+import com.github.thedeathlycow.thermoo.api.ThermooRegistryKeys;
 import com.github.thedeathlycow.thermoo.api.command.v1.HeatingModeArgumentType;
 import com.github.thedeathlycow.thermoo.api.temperature.HeatingModes;
 import com.github.thedeathlycow.thermoo.api.temperature.TemperatureAware;
-import com.github.thedeathlycow.thermoo.api.temperature.effects.ConfiguredTemperatureEffect;
+import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureStatus;
+import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureStatusLookup;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.BoolArgumentType;
@@ -16,9 +18,9 @@ import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
-import net.minecraft.commands.arguments.IdentifierArgument;
+import net.minecraft.commands.arguments.ResourceArgument;
+import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
 import net.minecraft.server.permissions.Permissions;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
@@ -198,20 +200,20 @@ public final class TemperatureCommand {
                                 )
                 );
 
-        var effect = literal("effect")
+        var status = literal("status")
                 .then(
                         literal("set_enabled")
                                 .then(
                                         argument("targets", EntityArgument.entities())
                                                 .then(
-                                                        argument("id", IdentifierArgument.id())
+                                                        argument("status_id", ResourceArgument.resource(buildContext, ThermooRegistryKeys.TEMPERATURE_STATUS))
                                                                 .then(
                                                                         argument("enabled", BoolArgumentType.bool())
                                                                                 .executes(context -> {
-                                                                                    return runEffectEnable(
+                                                                                    return runStatusEnable(
                                                                                             context.getSource(),
                                                                                             EntityArgument.getEntities(context, "targets"),
-                                                                                            IdentifierArgument.getId(context, "id"),
+                                                                                            ResourceArgument.getResource(context, "status_id", ThermooRegistryKeys.TEMPERATURE_STATUS),
                                                                                             BoolArgumentType.getBool(context, "enabled")
                                                                                     );
                                                                                 })
@@ -227,7 +229,7 @@ public final class TemperatureCommand {
                         .then(remove)
                         .then(add)
                         .then(setSubCommand)
-                        .then(effect)
+                        .then(status)
         );
     }
 
@@ -383,15 +385,15 @@ public final class TemperatureCommand {
         return sum;
     }
 
-    private static int runEffectEnable(CommandSourceStack source, Collection<? extends Entity> entities, Identifier id, boolean enabled) throws CommandSyntaxException {
+    private static int runStatusEnable(CommandSourceStack source, Collection<? extends Entity> entities, Holder.Reference<TemperatureStatus> status, boolean enabled) throws CommandSyntaxException {
         if (entities.size() == 1) {
-            return runEffectEnableSingle(source, entities.iterator().next(), id, enabled);
+            return runStatusEnableSingle(source, entities.iterator().next(), status, enabled);
         }
 
         int totalAffected = 0;
 
         for (Entity entity : entities) {
-            if (ConfiguredTemperatureEffect.setEffectEnabled(entity, id, enabled)) {
+            if (TemperatureStatusLookup.setEnabled(entity, status, enabled)) {
                 totalAffected++;
             }
         }
@@ -399,31 +401,31 @@ public final class TemperatureCommand {
         final int result = totalAffected;
 
         if (result == 0) {
-            throw enabled ? FAILED_TO_ENABLE_EFFECT.create(id) : FAILED_TO_DISABLE_EFFECT.create(id);
+            throw enabled ? FAILED_TO_ENABLE_EFFECT.create(status) : FAILED_TO_DISABLE_EFFECT.create(status);
         }
 
         if (enabled) {
-            source.sendSuccess(() -> Component.translatable("commands.thermoo.temperature.effect.multiple.set_enabled.true", id.toString(), result), true);
+            source.sendSuccess(() -> Component.translatable("commands.thermoo.temperature.effect.multiple.set_enabled.true", status.toString(), result), true);
         } else {
-            source.sendSuccess(() -> Component.translatable("commands.thermoo.temperature.effect.multiple.set_enabled.false", id.toString(), result), true);
+            source.sendSuccess(() -> Component.translatable("commands.thermoo.temperature.effect.multiple.set_enabled.false", status.toString(), result), true);
         }
 
         return result;
     }
 
-    private static int runEffectEnableSingle(CommandSourceStack source, Entity entity, Identifier id, boolean enabled) throws CommandSyntaxException {
-        if (ConfiguredTemperatureEffect.isEffectEnabled(entity, id) == enabled) {
-            throw enabled ? EFFECT_ALREADY_ENABLED.create(id) : EFFECT_ALREADY_DISABLED.create(id);
+    private static int runStatusEnableSingle(CommandSourceStack source, Entity entity, Holder.Reference<TemperatureStatus> status, boolean enabled) throws CommandSyntaxException {
+        if (TemperatureStatusLookup.isEnabled(entity, status) == enabled) {
+            throw enabled ? EFFECT_ALREADY_ENABLED.create(status) : EFFECT_ALREADY_DISABLED.create(status);
         }
 
-        if (ConfiguredTemperatureEffect.setEffectEnabled(entity, id, enabled)) {
+        if (TemperatureStatusLookup.setEnabled(entity, status, enabled)) {
             if (enabled) {
-                source.sendSuccess(() -> Component.translatable("commands.thermoo.temperature.effect.single.set_enabled.true", id.toString(), entity.getDisplayName()), true);
+                source.sendSuccess(() -> Component.translatable("commands.thermoo.temperature.effect.single.set_enabled.true", status.toString(), entity.getDisplayName()), true);
             } else {
-                source.sendSuccess(() -> Component.translatable("commands.thermoo.temperature.effect.single.set_enabled.false", id.toString(), entity.getDisplayName()), true);
+                source.sendSuccess(() -> Component.translatable("commands.thermoo.temperature.effect.single.set_enabled.false", status.toString(), entity.getDisplayName()), true);
             }
         } else {
-            throw enabled ? FAILED_TO_ENABLE_EFFECT.create(id) : FAILED_TO_DISABLE_EFFECT.create(id);
+            throw enabled ? FAILED_TO_ENABLE_EFFECT.create(status) : FAILED_TO_DISABLE_EFFECT.create(status);
         }
 
         return Command.SINGLE_SUCCESS;

@@ -7,8 +7,11 @@ import com.github.thedeathlycow.thermoo.api.environment.provider.EnvironmentProv
 import com.github.thedeathlycow.thermoo.api.environment.provider.EnvironmentProviderTypes;
 import com.github.thedeathlycow.thermoo.api.predicate.SoakedLootCondition;
 import com.github.thedeathlycow.thermoo.api.predicate.TemperatureLootCondition;
-import com.github.thedeathlycow.thermoo.api.temperature.effects.TemperatureEffect;
-import com.github.thedeathlycow.thermoo.api.temperature.effects.TemperatureEffects;
+import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureEffect;
+import com.github.thedeathlycow.thermoo.api.temperature.status.v2.effect.AttributeModifierEffect;
+import com.github.thedeathlycow.thermoo.api.temperature.status.v2.effect.DamageEffect;
+import com.github.thedeathlycow.thermoo.api.temperature.status.v2.effect.FunctionEffect;
+import com.github.thedeathlycow.thermoo.api.temperature.status.v2.effect.MobEffectEffect;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -19,15 +22,12 @@ import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 
 public final class ThermooCommonRegisters {
     public static void registerTemperatureEffects() {
-        registerTemperatureEffect("empty", TemperatureEffects.EMPTY);
-        registerTemperatureEffect("sequence", TemperatureEffects.SEQUENCE);
-        registerTemperatureEffect("function", TemperatureEffects.FUNCTION);
-        registerTemperatureEffect("mob_effect", TemperatureEffects.MOB_EFFECT);
-        registerTemperatureEffect("scaling_attribute_modifier", TemperatureEffects.SCALING_ATTRIBUTE_MODIFIER);
-        registerTemperatureEffect("attribute_modifier", TemperatureEffects.ATTRIBUTE_MODIFIER);
-        registerTemperatureEffect("damage", TemperatureEffects.DAMAGE);
+        registerTemperatureEffectType("attribute_modifier", AttributeModifierEffect.CODEC);
+        registerTemperatureEffectType("damage", DamageEffect.CODEC);
+        registerTemperatureEffectType("function", FunctionEffect.CODEC);
+        registerTemperatureEffectType("mob_effect", MobEffectEffect.CODEC);
 
-        ThermooRegistries.TEMPERATURE_EFFECTS.addAlias(
+        ThermooRegistries.TEMPERATURE_EFFECT_TYPE.addAlias(
                 Thermoo.id("status_effect"),
                 Thermoo.id("mob_effect")
         );
@@ -64,8 +64,8 @@ public final class ThermooCommonRegisters {
         registerEnvironmentAttribute("gameplay/atmospheric_pressure", ThermooEnvironmentAttributes.ATMOSPHERIC_PRESSURE);
     }
 
-    private static void registerTemperatureEffect(String name, TemperatureEffect<?> temperatureEffect) {
-        Registry.register(ThermooRegistries.TEMPERATURE_EFFECTS, Thermoo.id(name), temperatureEffect);
+    private static void registerTemperatureEffectType(String name, MapCodec<? extends TemperatureEffect> temperatureEffect) {
+        Registry.register(ThermooRegistries.TEMPERATURE_EFFECT_TYPE, Thermoo.id(name), temperatureEffect);
     }
 
     private static void registerEnvironmentProviderType(String name, EnvironmentProviderType<?> providerType) {
