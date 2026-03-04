@@ -1,6 +1,7 @@
 package com.github.thedeathlycow.thermoo.api.temperature.status.v2.effect;
 
 import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureEffect;
+import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureEffectContext;
 import com.google.common.base.Preconditions;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -8,12 +9,10 @@ import net.minecraft.core.Holder;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.level.Level;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Applies a set of {@link MobEffect}s to targets. Note that mob effects are not removed from targets immediately when
@@ -64,11 +63,11 @@ public final class MobEffectEffect implements TemperatureEffect {
      * effect.
      *
      * @param target The entity receiving the effect.
-     * @param level  The level the entity is in.
+     * @param context Additional context for the effect.
      * @return Returns {@code true} if any mob effect was applied, {@code false} otherwise.
      */
     @Override
-    public boolean apply(LivingEntity target, Level level) {
+    public boolean apply(LivingEntity target, TemperatureEffectContext context) {
         boolean appliedAny = false;
 
         for (TemplateMobEffect effect : this.effects) {

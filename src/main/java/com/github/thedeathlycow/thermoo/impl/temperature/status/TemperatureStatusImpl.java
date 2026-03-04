@@ -2,10 +2,10 @@ package com.github.thedeathlycow.thermoo.impl.temperature.status;
 
 import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureEffect;
 import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureStatus;
+import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureEffectContext;
 import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureStatusSelector;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
@@ -25,7 +25,7 @@ public record TemperatureStatusImpl(
 ) implements TemperatureStatus {
     public static final int DEFAULT_INTERVAL = 20;
 
-    public boolean apply(LivingEntity entity, Level level) {
+    public boolean apply(LivingEntity entity, TemperatureEffectContext context) {
         float scale = entity.thermoo$getTemperatureScale();
 
         if (!this.selector.temperatureScaleRange().matches(scale)) {
@@ -34,7 +34,7 @@ public record TemperatureStatusImpl(
 
         LootItemCondition predicate = this.selector.predicate().orElse(null);
 
-        if (predicate != null && level instanceof ServerLevel serverLevel) {
+        if (predicate != null && entity.level() instanceof ServerLevel serverLevel) {
             boolean result = predicate.test(
                     new LootContext.Builder(
                             new LootParams.Builder(serverLevel)
@@ -52,15 +52,15 @@ public record TemperatureStatusImpl(
         boolean anyApplied = false;
 
         for (TemperatureEffect effect : this.effects) {
-            anyApplied |= effect.apply(entity, level);
+            anyApplied |= effect.apply(entity, context);
         }
 
         return anyApplied;
     }
 
-    public void remove(LivingEntity entity, Level level) {
+    public void remove(LivingEntity entity, TemperatureEffectContext context) {
         for (TemperatureEffect effect : this.effects) {
-            effect.remove(entity, level);
+            effect.remove(entity, context);
         }
     }
 }

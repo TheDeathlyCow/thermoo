@@ -2,6 +2,7 @@ package com.github.thedeathlycow.thermoo.api.temperature.status.v2.effect;
 
 import com.github.thedeathlycow.thermoo.api.temperature.TemperatureAware;
 import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureEffect;
+import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureEffectContext;
 import com.google.common.base.Preconditions;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
@@ -13,7 +14,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.level.Level;
 
 /**
  * A temperature effect that applies an attribute modifier to a victim.
@@ -132,11 +132,11 @@ public final class AttributeModifierEffect implements TemperatureEffect {
      * Applies an attribute modifier to the target.
      *
      * @param target The entity receiving the effect.
-     * @param level  The level the entity is in.
+     * @param context Additional context for the effect.
      * @return Returns {@code true} if the attribute modifier should not be removed, {@code false} otherwise.
      */
     @Override
-    public boolean apply(LivingEntity target, Level level) {
+    public boolean apply(LivingEntity target, TemperatureEffectContext context) {
         AttributeInstance attrInstance = target.getAttribute(this.attribute);
 
         if (attrInstance != null) {
@@ -165,10 +165,10 @@ public final class AttributeModifierEffect implements TemperatureEffect {
      * Removes the attribute modifier from the target.
      *
      * @param target The entity the effect is being removed from.
-     * @param level  The level the entity is currently in.
+     * @param context Additional context for the effect.
      */
     @Override
-    public void remove(LivingEntity target, Level level) {
+    public void remove(LivingEntity target, TemperatureEffectContext context) {
         AttributeInstance attributeInstance = target.getAttribute(this.attribute);
 
         if (attributeInstance != null) {

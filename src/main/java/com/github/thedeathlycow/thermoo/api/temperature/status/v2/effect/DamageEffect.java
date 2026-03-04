@@ -1,6 +1,7 @@
 package com.github.thedeathlycow.thermoo.api.temperature.status.v2.effect;
 
 import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureEffect;
+import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureEffectContext;
 import com.google.common.base.Preconditions;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -11,7 +12,6 @@ import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -62,12 +62,12 @@ public final class DamageEffect implements TemperatureEffect {
      * Hurts the target.
      *
      * @param target The entity receiving the effect.
-     * @param level  The level the entity is in.
+     * @param context Additional context for the effect.
      * @return Returns {@code true} if executed on the logical server AND the target was successfully hurt.
      */
     @Override
-    public boolean apply(LivingEntity target, Level level) {
-        if (level instanceof ServerLevel serverLevel) {
+    public boolean apply(LivingEntity target, TemperatureEffectContext context) {
+        if (target.level() instanceof ServerLevel serverLevel) {
             return target.hurtServer(serverLevel, this.damageSource(serverLevel, damageType), amount);
         }
 

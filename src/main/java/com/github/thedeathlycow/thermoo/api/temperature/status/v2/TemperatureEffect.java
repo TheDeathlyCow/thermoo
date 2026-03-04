@@ -4,7 +4,6 @@ import com.github.thedeathlycow.thermoo.api.ThermooRegistries;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.level.Level;
 
 import java.util.function.Function;
 
@@ -24,13 +23,13 @@ public interface TemperatureEffect {
      * <p>
      * This method is called periodically based on the {@link TemperatureStatus#interval()}.
      *
-     * @param target The entity receiving the effect.
-     * @param level  The level the entity is in.
-     * @return Returns {@code true} if the effect was successfully applied or remains valid. Returns {@code false} if
+     * @param target  The entity receiving the effect.
+     * @param context Additional context for the effect.
+     * @return context {@code true} if the effect was successfully applied or remains valid. Returns {@code false} if
      * the should no longer remain active, <b>which will immediately triggers a call to
-     * {@link #remove(LivingEntity, Level)}.</b>
+     * {@link #remove(LivingEntity, TemperatureEffectContext)}.</b>
      */
-    boolean apply(LivingEntity target, Level level);
+    boolean apply(LivingEntity target, TemperatureEffectContext context);
 
     /**
      * Performs cleanup logic for this effect on the entity.
@@ -38,10 +37,10 @@ public interface TemperatureEffect {
      * This method is invoked when the effect is no longer active on the entity. Implementations should use this to
      * revert any persistent changes, such as removing attribute modifiers.
      *
-     * @param target The entity the effect is being removed from.
-     * @param level  The level the entity is currently in.
+     * @param target  The entity the effect is being removed from.
+     * @param context Additional context for the effect.
      */
-    default void remove(LivingEntity target, Level level) {
+    default void remove(LivingEntity target, TemperatureEffectContext context) {
     }
 
     /**

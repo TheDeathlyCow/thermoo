@@ -47,7 +47,7 @@ public class TemperatureEffectsComponent implements Component, ServerTickingComp
             // this is meant to ensure that the effect is cleaned up right away and not have to wait for the next
             // interval check, especially if that interval is long.
             if (!settings.enabled() && settings.applied()) {
-                ((TemperatureStatusImpl) statusRef.value()).remove(this.provider, this.provider.level());
+                ((TemperatureStatusImpl) statusRef.value()).remove(this.provider, TemperatureEffectContextImpl.INSTANCE);
                 settings.setApplied(false);
             }
 
@@ -101,10 +101,10 @@ public class TemperatureEffectsComponent implements Component, ServerTickingComp
     private void updateStatus(TemperatureStatusImpl status, Settings settings) {
         if (settings.enabled()) {
             boolean wasApplied = settings.applied();
-            boolean applied = status.apply(provider, provider.level());
+            boolean applied = status.apply(provider, TemperatureEffectContextImpl.INSTANCE);
 
             if (wasApplied && !applied) {
-                status.remove(provider, provider.level());
+                status.remove(provider, TemperatureEffectContextImpl.INSTANCE);
             }
 
             settings.setApplied(applied);

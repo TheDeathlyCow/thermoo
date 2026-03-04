@@ -1,28 +1,16 @@
 package com.github.thedeathlycow.thermoo.api.temperature.status.v2.effect;
 
 import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureEffect;
-import com.github.thedeathlycow.thermoo.impl.Thermoo;
+import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureEffectContext;
 import com.google.common.base.Preconditions;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.commands.*;
-import net.minecraft.commands.execution.ExecutionContext;
-import net.minecraft.commands.functions.CommandFunction;
-import net.minecraft.commands.functions.InstantiatedFunction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.TagParser;
 import net.minecraft.resources.Identifier;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.ServerFunctionManager;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.permissions.LevelBasedPermissionSet;
-import net.minecraft.server.permissions.PermissionLevel;
-import net.minecraft.server.permissions.PermissionSet;
-import net.minecraft.util.profiling.Profiler;
-import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Range;
 
@@ -113,12 +101,12 @@ public final class FunctionEffect implements TemperatureEffect {
      * Calls the main {@link #function()}
      *
      * @param target The entity receiving the effect.
-     * @param level  The level the entity is in.
+     * @param context Additional context for the effect.
      * @return Returns {@code true} when executed on the logical server AND the function was successfully executed.
      */
     @Override
-    public boolean apply(LivingEntity target, Level level) {
-        if (level instanceof ServerLevel serverLevel) {
+    public boolean apply(LivingEntity target, TemperatureEffectContext context) {
+        if (target.level() instanceof ServerLevel serverLevel) {
             return this.function.createContextAndExecute(target, serverLevel, this.permissionLevel);
         }
 
@@ -130,11 +118,11 @@ public final class FunctionEffect implements TemperatureEffect {
      * function.
      *
      * @param target The entity the effect is being removed from.
-     * @param level  The level the entity is currently in.
+     * @param context Additional context for the effect.
      */
     @Override
-    public void remove(LivingEntity target, Level level) {
-        if (this.removeFunction.isPresent() && level instanceof ServerLevel serverLevel) {
+    public void remove(LivingEntity target, TemperatureEffectContext context) {
+        if (this.removeFunction.isPresent() && target.level() instanceof ServerLevel serverLevel) {
             this.removeFunction.orElseThrow().createContextAndExecute(target, serverLevel, this.permissionLevel);
         }
     }
