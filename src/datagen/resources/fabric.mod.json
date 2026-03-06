@@ -1,0 +1,13 @@
+{
+    "schemaVersion": 1,
+    "id": "thermoo-datagen",
+    "name": "Thermoo Datagen Mod",
+    "version": "1.0.0",
+    "environment": "*",
+    "license": "LGPL-3.0",
+    "entrypoints": {
+        "fabric-datagen": [
+            "com.github.thedeathlycow.thermoo.impl.data.ThermooDatagen"
+        ]
+    }
+}
