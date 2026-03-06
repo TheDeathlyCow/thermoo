@@ -62,39 +62,6 @@ public final class EnvironmentDefinition {
     }
 
     /**
-     * Creates an environment definition
-     *
-     * @param biomes   The biomes this definition provides for
-     * @param provider The base value provider of this definition
-     * @return Returns a new definition
-     * @deprecated Use {@link #builder(HolderSet, Holder)}
-     */
-    @Contract("_,_->new")
-    @Deprecated(since = "4.5")
-    public static EnvironmentDefinition create(HolderSet<Biome> biomes, Holder<EnvironmentProvider> provider) {
-        return builder(biomes, provider).build();
-    }
-
-    /**
-     * Creates an environment definition
-     *
-     * @param biomes        The biomes this definition provides for
-     * @param excludeBiomes The biomes this definition has been blocked from providing for
-     * @param provider      The base value provider of this definition
-     * @return Returns a new definition
-     * @deprecated Use {@link #builder(HolderSet, Holder)}
-     */
-    @Contract("_,_,_->new")
-    @Deprecated(since = "4.5")
-    public static EnvironmentDefinition create(
-            HolderSet<Biome> biomes,
-            HolderSet<Biome> excludeBiomes,
-            Holder<EnvironmentProvider> provider
-    ) {
-        return builder(biomes, provider).excludeBiomes(excludeBiomes).build();
-    }
-
-    /**
      * Checks that this definition can provide an environment for the given biome
      *
      * @param biome The biome to check

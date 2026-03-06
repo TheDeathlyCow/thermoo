@@ -24,13 +24,6 @@ public interface EnvironmentProvider {
     );
 
     /**
-     * @deprecated This field was named based on Yarn mappings. Use {@link #HOLDER_CODEC} to better confirm to Official
-     * Mappings.
-     */
-    @Deprecated(since = "8.1.0", forRemoval = true)
-    Codec<Holder<EnvironmentProvider>> ENTRY_CODEC = HOLDER_CODEC;
-
-    /**
      * Builds the current environment parameter components at a point and biome in a world into a reducible builder.
      * <p>
      * The allowed component type keys must be registered in the

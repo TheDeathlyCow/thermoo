@@ -125,18 +125,6 @@ public class LightThresholdLightProvider implements EnvironmentProvider {
      * to determine light level.
      *
      * @return Returns the light layer of this provider.
-     * @deprecated This method is named based on Yarn, use {@link #lightLayer()} to better conform to official mappings.
-     */
-    @Deprecated(since = "8.1.0", forRemoval = true)
-    public Optional<LightLayer> lightType() {
-        return this.lightLayer;
-    }
-
-    /**
-     * The optional light layer of this provider. If not specified, uses {@link net.minecraft.world.level.LevelReader#getMaxLocalRawBrightness(BlockPos)}
-     * to determine light level.
-     *
-     * @return Returns the light layer of this provider.
      */
     public Optional<LightLayer> lightLayer() {
         return this.lightLayer;
