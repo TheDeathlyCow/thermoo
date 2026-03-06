@@ -170,7 +170,7 @@ publishMods {
     curseforge {
         accessToken = providers.environmentVariable("CURSEFORGE_API_KEY")
         projectId = "846544"
-        minecraftVersions.addAll(minecraft_version)
+        minecraftVersions.addAll("26.1-snapshot")
 
         javaVersions.add(JavaVersion.VERSION_25)
 
@@ -186,7 +186,7 @@ publishMods {
     modrinth {
         accessToken = providers.environmentVariable("MODRINTH_TOKEN")
         projectId = "9TbXlAut"
-        minecraftVersions.addAll("26.1-snapshot")
+        minecraftVersions.addAll(minecraft_version)
 
         requires("fabric-api", "cardinal-components-api")
 
@@ -197,7 +197,7 @@ publishMods {
     github {
         repository = "TheDeathlyCow/thermoo"
         accessToken = providers.environmentVariable("RELEASE_GITHUB_TOKEN")
-        commitish = minecraft_version
+        commitish = "26.1-dev"
         tagName = "v${mod_version}"
 
         displayName = "[${minecraft_version}] Thermoo ${mod_version}"
