@@ -7,7 +7,7 @@ import net.minecraft.tags.TagKey;
 
 /**
  * Conventional version of the tags defined in {@link TemperatureStatusTags} provided for those who prefer to use the
- * common 'c' namespace. Note that not all tags are alias here, only the ones that exist exclusively for conventional
+ * common 'c' namespace. Note that not all tags are aliased here, only the ones that exist exclusively for conventional
  * purposes.
  */
 public final class ConventionalTemperatureStatusTags {
