@@ -157,7 +157,7 @@ test {
 
 publishMods {
     changelog = file("changelogs/${mod_version}.md").text
-    type = STABLE
+    type = ALPHA
 
     file = jar.archiveFile
     additionalFiles.from(sourcesJar.archiveFile)
@@ -179,7 +179,8 @@ publishMods {
 
         requires("fabric-api", "cardinal-components-api")
 
-        optional("thermoo-patches", "polymer")
+        // TODO: when polymer and thermoo patches are updated
+//        optional("thermoo-patches", "polymer")
     }
 
     modrinth {
@@ -189,7 +190,8 @@ publishMods {
 
         requires("fabric-api", "cardinal-components-api")
 
-        optional("thermoo-patches", "polymer")
+        // TODO: when polymer and thermoo patches are updated
+//        optional("thermoo-patches", "polymer")
     }
 
     github {
