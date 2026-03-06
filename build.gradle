@@ -186,7 +186,7 @@ publishMods {
     modrinth {
         accessToken = providers.environmentVariable("MODRINTH_TOKEN")
         projectId = "9TbXlAut"
-        minecraftVersions.addAll(minecraft_version)
+        minecraftVersions.addAll("26.1-snapshot")
 
         requires("fabric-api", "cardinal-components-api")
 
