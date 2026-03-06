@@ -8,7 +8,6 @@ import net.minecraft.core.HolderSet;
 import net.minecraft.core.RegistryCodecs;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.biome.Biome;
-import org.jetbrains.annotations.Contract;
 
 /**
  * Defines a biome's environmental temperature and relative humidity values. Must be defined in a datapack registry

@@ -1,8 +1,8 @@
 package com.github.thedeathlycow.thermoo.impl.temperature.status;
 
 import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureEffect;
-import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureStatus;
 import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureEffectContext;
+import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureStatus;
 import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureStatusSelector;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;

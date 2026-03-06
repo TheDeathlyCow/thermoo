@@ -3,9 +3,6 @@ package com.github.thedeathlycow.thermoo.impl.compat.polymer;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import com.github.thedeathlycow.thermoo.impl.attribute.AttributeData;
 import com.github.thedeathlycow.thermoo.impl.compat.init.DependentServerModInitializer;
-//import eu.pb4.polymer.core.api.entity.PolymerEntityUtils;
-//import eu.pb4.polymer.rsm.api.RegistrySyncUtils;
-import net.minecraft.core.registries.BuiltInRegistries;
 
 // TODO: uncomment when polymer is available
 public class ThermooPolymerPatch implements DependentServerModInitializer {

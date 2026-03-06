@@ -18,7 +18,6 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.attribute.EnvironmentAttributeSystem;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
-import org.jetbrains.annotations.VisibleForTesting;
 
 import java.util.Comparator;
 import java.util.List;

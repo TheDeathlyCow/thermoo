@@ -2,7 +2,6 @@ package com.github.thedeathlycow.thermoo.api.temperature.status.v2;
 
 import com.github.thedeathlycow.thermoo.impl.temperature.status.TemperatureEffectsComponent;
 import net.minecraft.core.Holder;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 

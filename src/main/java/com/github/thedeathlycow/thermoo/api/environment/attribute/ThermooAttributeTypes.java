@@ -1,6 +1,5 @@
 package com.github.thedeathlycow.thermoo.api.environment.attribute;
 
-import com.github.thedeathlycow.thermoo.api.environment.component.AtmosphericPressureComponent;
 import com.github.thedeathlycow.thermoo.api.season.TemperateSeason;
 import com.github.thedeathlycow.thermoo.api.season.TropicalSeason;
 import com.github.thedeathlycow.thermoo.api.util.TemperatureRecord;
