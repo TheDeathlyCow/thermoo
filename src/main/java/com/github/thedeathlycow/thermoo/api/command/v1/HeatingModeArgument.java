@@ -1,6 +1,6 @@
 package com.github.thedeathlycow.thermoo.api.command.v1;
 
-import com.github.thedeathlycow.thermoo.api.temperature.HeatingModes;
+import com.github.thedeathlycow.thermoo.api.core.v1.HeatingModes;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.serialization.Codec;
 import net.minecraft.commands.CommandSourceStack;

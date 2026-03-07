@@ -1,4 +1,4 @@
-package com.github.thedeathlycow.thermoo.api.temperature;
+package com.github.thedeathlycow.thermoo.api.core.v1;
 
 import net.minecraft.util.Mth;
 import net.minecraft.util.StringRepresentable;

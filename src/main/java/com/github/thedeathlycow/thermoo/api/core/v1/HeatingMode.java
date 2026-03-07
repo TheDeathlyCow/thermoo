@@ -1,4 +1,4 @@
-package com.github.thedeathlycow.thermoo.api.temperature;
+package com.github.thedeathlycow.thermoo.api.core.v1;
 
 /**
  * The mode of temperature change for a {@link TemperatureAware}.

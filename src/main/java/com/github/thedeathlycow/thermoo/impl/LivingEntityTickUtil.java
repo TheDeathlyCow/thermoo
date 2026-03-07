@@ -1,8 +1,8 @@
 package com.github.thedeathlycow.thermoo.impl;
 
 import com.github.thedeathlycow.thermoo.api.environment.EnvironmentLookup;
-import com.github.thedeathlycow.thermoo.api.temperature.HeatingMode;
-import com.github.thedeathlycow.thermoo.api.temperature.HeatingModes;
+import com.github.thedeathlycow.thermoo.api.core.v1.HeatingMode;
+import com.github.thedeathlycow.thermoo.api.core.v1.HeatingModes;
 import com.github.thedeathlycow.thermoo.api.temperature.event.EnvironmentTickContext;
 import com.github.thedeathlycow.thermoo.api.temperature.event.LivingEntitySoakingTickEvents;
 import com.github.thedeathlycow.thermoo.api.temperature.event.LivingEntityTemperatureTickEvents;

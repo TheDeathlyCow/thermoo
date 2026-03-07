@@ -1,8 +1,8 @@
 package com.github.thedeathlycow.thermoo.api.kt
 
-import com.github.thedeathlycow.thermoo.api.temperature.HeatingMode
-import com.github.thedeathlycow.thermoo.api.temperature.HeatingModes
-import com.github.thedeathlycow.thermoo.api.temperature.TemperatureAware
+import com.github.thedeathlycow.thermoo.api.core.v1.HeatingMode
+import com.github.thedeathlycow.thermoo.api.core.v1.HeatingModes
+import com.github.thedeathlycow.thermoo.api.core.v1.TemperatureAware
 import net.minecraft.util.RandomSource
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.LivingEntity
