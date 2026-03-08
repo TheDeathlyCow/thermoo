@@ -1,8 +1,11 @@
 package com.github.thedeathlycow.thermoo.api.core.v1.event;
 
+import com.github.thedeathlycow.thermoo.api.core.v1.source.TemperatureSource;
+import com.github.thedeathlycow.thermoo.impl.core.UpdateEvents;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 import net.fabricmc.fabric.api.util.TriState;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.LivingEntity;
 
 /**
@@ -24,6 +27,18 @@ import net.minecraft.world.entity.LivingEntity;
  * <li>ALLOW_(PASSIVE|ACTIVE)_TEMPERATURE_CHANGE</ul>
  */
 public final class LivingEntityTemperatureTickEvents {
+    public static Event<AllowTemperatureUpdate> allowUpdate(ResourceKey<TemperatureSource> sourceKey) {
+        return UpdateEvents.getOrCreate(sourceKey).allowUpdate();
+    }
+
+    public static Event<GetTemperatureChange> getTemperatureChange(ResourceKey<TemperatureSource> sourceKey) {
+        return UpdateEvents.getOrCreate(sourceKey).getChange();
+    }
+
+    public static Event<AllowTemperatureChange> allowTemperaturechange(ResourceKey<TemperatureSource> sourceKey) {
+        return UpdateEvents.getOrCreate(sourceKey).allowChange();
+    }
+
     /**
      * Checks if the passive temperature update tick for a living entity should be allowed to proceed at all. Returning
      * any non-default value will force the update to proceed right away. By default, the update will be allowed to
@@ -32,18 +47,7 @@ public final class LivingEntityTemperatureTickEvents {
      * Passive changes should be used for temperature changes from nearby blocks, such as heat from light sources or
      * cooling from an air conditioner.
      */
-    public static final Event<AllowTemperatureUpdate> ALLOW_PASSIVE_TEMPERATURE_UPDATE = EventFactory.createArrayBacked(
-            AllowTemperatureUpdate.class,
-            listeners -> context -> {
-                for (AllowTemperatureUpdate listener : listeners) {
-                    TriState result = listener.allowUpdate(context);
-                    if (result != TriState.DEFAULT) {
-                        return result;
-                    }
-                }
-                return TriState.DEFAULT;
-            }
-    );
+    public static final Event<AllowTemperatureUpdate> ALLOW_PASSIVE_TEMPERATURE_UPDATE = allowUpdate()
 
     /**
      * Gets the passive change update that should be applied to a living entity this tick.

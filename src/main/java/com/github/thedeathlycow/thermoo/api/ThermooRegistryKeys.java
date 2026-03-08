@@ -1,5 +1,6 @@
 package com.github.thedeathlycow.thermoo.api;
 
+import com.github.thedeathlycow.thermoo.api.core.v1.source.TemperatureSource;
 import com.github.thedeathlycow.thermoo.api.environment.EnvironmentDefinition;
 import com.github.thedeathlycow.thermoo.api.environment.provider.EnvironmentProvider;
 import com.github.thedeathlycow.thermoo.api.environment.provider.EnvironmentProviderType;
@@ -12,6 +13,13 @@ import net.minecraft.core.component.DataComponentType;
 import net.minecraft.resources.ResourceKey;
 
 public final class ThermooRegistryKeys {
+    /**
+     * Registry key for the {@linkplain TemperatureStatus temperature status} datapack registry.
+     *
+     * @see TemperatureStatus
+     */
+    public static final ResourceKey<Registry<TemperatureSource>> TEMPERATURE_SOURCE = createRegistryKey("temperature_source");
+
     /**
      * Registry key for the {@linkplain TemperatureStatus temperature status} datapack registry.
      *
