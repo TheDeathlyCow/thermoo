@@ -1,12 +1,7 @@
 package com.github.thedeathlycow.thermoo.api.core.v1.source;
 
 import com.github.thedeathlycow.thermoo.api.ThermooRegistryKeys;
-import com.github.thedeathlycow.thermoo.api.core.v1.TemperatureAware;
-import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureEffect;
-import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureStatus;
-import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureStatusSelector;
 import com.github.thedeathlycow.thermoo.impl.core.TemperatureSourceImpl;
-import com.github.thedeathlycow.thermoo.impl.temperature.status.TemperatureStatusImpl;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.Holder;
@@ -14,6 +9,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentSerialization;
 import net.minecraft.resources.RegistryFixedCodec;
 import net.minecraft.util.ExtraCodecs;
+import net.minecraft.world.entity.LivingEntity;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Range;
 
@@ -43,5 +39,5 @@ public interface TemperatureSource {
     @Range(from = 0, to = Integer.MAX_VALUE)
     int tickInterval();
 
-    int applyReduction(TemperatureAware target, int temperatureChange);
+    int applyReduction(LivingEntity target, int temperatureChange);
 }

@@ -93,6 +93,7 @@ public class Thermoo implements ModInitializer {
                 TemperatureSource.DIRECT_CODEC
         );
 
+        ThermooCommonRegisters.registerTemperatureReductions();
         ThermooCommonRegisters.registerTemperatureEffects();
         ThermooCommonRegisters.registerEnvironmentProviderTypes();
         ThermooCommonRegisters.registerLootConditionTypes();
