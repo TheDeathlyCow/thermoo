@@ -1,4 +1,4 @@
-package com.github.thedeathlycow.thermoo.api.temperature.event;
+package com.github.thedeathlycow.thermoo.api.core.v1.event;
 
 import com.github.thedeathlycow.thermoo.api.environment.component.EnvironmentComponentTypes;
 import com.github.thedeathlycow.thermoo.api.core.v1.Soakable;

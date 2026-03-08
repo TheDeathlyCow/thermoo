@@ -1,6 +1,6 @@
 package com.github.thedeathlycow.thermoo.api.environment.event;
 
-import com.github.thedeathlycow.thermoo.api.temperature.event.EnvironmentTickContext;
+import com.github.thedeathlycow.thermoo.api.core.v1.event.EnvironmentTickContext;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 import net.fabricmc.fabric.api.util.TriState;
