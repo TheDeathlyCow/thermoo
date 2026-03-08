@@ -1,11 +1,9 @@
 package com.github.thedeathlycow.thermoo.gametest.tick;
 
 import com.github.thedeathlycow.thermoo.api.core.v1.event.EnvironmentTickContext;
-import com.github.thedeathlycow.thermoo.api.core.v1.event.LivingEntityTemperatureTickEvents;
 import com.github.thedeathlycow.thermoo.gametest.ThermooTestMod;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleBuilder;
-import net.fabricmc.fabric.api.util.TriState;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
@@ -70,30 +68,30 @@ public class TestTemperatureChanges {
     }
 
     public static void initialize() {
-        LivingEntityTemperatureTickEvents.ALLOW_PASSIVE_TEMPERATURE_UPDATE.register(context -> {
-            boolean applyPassiveChanges = context.level().getGameRules().get(APPLY_PASSIVE_CHANGES);
-            return TriState.of(applyPassiveChanges);
-        });
-        LivingEntityTemperatureTickEvents.GET_PASSIVE_TEMPERATURE_CHANGE.register(TestTemperatureChanges::getPassiveChange);
-        LivingEntityTemperatureTickEvents.ALLOW_PASSIVE_TEMPERATURE_CHANGE.register((context, temperatureChange) -> {
-            if (context.affected().getType() == EntityType.PLAYER && context.affected().tickCount % 20 == 0) {
-                Thermoo.LOGGER.info("Applying passive temperature change of {} to player", temperatureChange);
-            }
-
-            return TriState.DEFAULT;
-        });
-
-        LivingEntityTemperatureTickEvents.ALLOW_ACTIVE_TEMPERATURE_UPDATE.register(context -> {
-            boolean applyActiveChanges = context.level().getGameRules().get(APPLY_ACTIVE_CHANGES);
-            return TriState.of(applyActiveChanges);
-        });
-        LivingEntityTemperatureTickEvents.GET_ACTIVE_TEMPERATURE_CHANGE.register(TestTemperatureChanges::getActiveChange);
-        LivingEntityTemperatureTickEvents.ALLOW_ACTIVE_TEMPERATURE_CHANGE.register((context, temperatureChange) -> {
-            if (context.affected().getType() == EntityType.PLAYER && context.affected().tickCount % 20 == 0) {
-                Thermoo.LOGGER.info("Applying active temperature change of {} to player", temperatureChange);
-            }
-
-            return TriState.DEFAULT;
-        });
+//        LivingEntityTemperatureTickEvents.ALLOW_PASSIVE_TEMPERATURE_UPDATE.register(context -> {
+//            boolean applyPassiveChanges = context.level().getGameRules().get(APPLY_PASSIVE_CHANGES);
+//            return TriState.of(applyPassiveChanges);
+//        });
+//        LivingEntityTemperatureTickEvents.GET_PASSIVE_TEMPERATURE_CHANGE.register(TestTemperatureChanges::getPassiveChange);
+//        LivingEntityTemperatureTickEvents.ALLOW_PASSIVE_TEMPERATURE_CHANGE.register((context, temperatureChange) -> {
+//            if (context.affected().getType() == EntityType.PLAYER && context.affected().tickCount % 20 == 0) {
+//                Thermoo.LOGGER.info("Applying passive temperature change of {} to player", temperatureChange);
+//            }
+//
+//            return TriState.DEFAULT;
+//        });
+//
+//        LivingEntityTemperatureTickEvents.ALLOW_ACTIVE_TEMPERATURE_UPDATE.register(context -> {
+//            boolean applyActiveChanges = context.level().getGameRules().get(APPLY_ACTIVE_CHANGES);
+//            return TriState.of(applyActiveChanges);
+//        });
+//        LivingEntityTemperatureTickEvents.GET_ACTIVE_TEMPERATURE_CHANGE.register(TestTemperatureChanges::getActiveChange);
+//        LivingEntityTemperatureTickEvents.ALLOW_ACTIVE_TEMPERATURE_CHANGE.register((context, temperatureChange) -> {
+//            if (context.affected().getType() == EntityType.PLAYER && context.affected().tickCount % 20 == 0) {
+//                Thermoo.LOGGER.info("Applying active temperature change of {} to player", temperatureChange);
+//            }
+//
+//            return TriState.DEFAULT;
+//        });
     }
 }

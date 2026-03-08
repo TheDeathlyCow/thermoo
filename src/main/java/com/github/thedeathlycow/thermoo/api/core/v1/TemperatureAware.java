@@ -119,9 +119,9 @@ public interface TemperatureAware {
      * a {@link HeatingMode}. See {@link HeatingModes} for some common modes.
      *
      * @param temperatureChange The amount of temperature to add/remove. Positive change adds, negative change removes.
-     * @param mode              The mode of resistance to apply to the change.
+     * @param context           The context of the change.
      */
-    default void thermoo$addTemperature(int temperatureChange, HeatingMode mode) {
+    default void thermoo$addTemperature(int temperatureChange, TemperatureChange context) {
         throw new NotImplementedException();
     }
 
@@ -131,7 +131,7 @@ public interface TemperatureAware {
      * @param temperatureChange The amount of temperature to add/remove. Positive change adds, negative change removes.
      */
     default void thermoo$addTemperature(int temperatureChange) {
-        this.thermoo$addTemperature(temperatureChange, HeatingModes.ABSOLUTE);
+        throw new NotImplementedException();
     }
 
     /**

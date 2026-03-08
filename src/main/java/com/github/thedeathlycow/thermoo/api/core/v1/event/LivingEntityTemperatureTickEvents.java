@@ -28,87 +28,8 @@ import net.minecraft.world.entity.LivingEntity;
  * <li>ALLOW_(PASSIVE|ACTIVE)_TEMPERATURE_CHANGE</ul>
  */
 public final class LivingEntityTemperatureTickEvents {
-    public static Event<AllowTemperatureUpdate> allowUpdate(ResourceKey<TemperatureSource> sourceKey) {
-        return UpdateEvents.getOrCreate(sourceKey).allowUpdate();
-    }
-
     public static Event<GetTemperatureChange> getTemperatureChange(ResourceKey<TemperatureSource> sourceKey) {
         return UpdateEvents.getOrCreate(sourceKey).getChange();
-    }
-
-    public static Event<AllowTemperatureChange> allowTemperatureChange(ResourceKey<TemperatureSource> sourceKey) {
-        return UpdateEvents.getOrCreate(sourceKey).allowChange();
-    }
-
-    /**
-     * Checks if the passive temperature update tick for a living entity should be allowed to proceed at all. Returning
-     * any non-default value will force the update to proceed right away. By default, the update will be allowed to
-     * proceed.
-     * <p>
-     * Passive changes should be used for temperature changes from nearby blocks, such as heat from light sources or
-     * cooling from an air conditioner.
-     */
-    public static final Event<AllowTemperatureUpdate> ALLOW_PASSIVE_TEMPERATURE_UPDATE = allowUpdate(BuiltinTemperatureSources.PASSIVE);
-
-    /**
-     * Gets the passive change update that should be applied to a living entity this tick.
-     * <p>
-     * Passive changes should be used for temperature changes from nearby blocks, such as heat from light sources or
-     * cooling from an air conditioner.
-     */
-    public static final Event<GetTemperatureChange> GET_PASSIVE_TEMPERATURE_CHANGE = getTemperatureChange(BuiltinTemperatureSources.PASSIVE);
-
-    /**
-     * Checks if the final passive temperature change update calculated by {@link #GET_PASSIVE_TEMPERATURE_CHANGE} should be
-     * allowed to be applied to a living entity this tick. Returning any non-default value will force the update to be
-     * applied right away. By default, the update will be allowed to be applied. A temperature change of 0 will not
-     * invoke this event, and temperature changes of 0 will never apply.
-     * <p>
-     * Passive changes should be used for temperature changes from nearby blocks, such as heat from light sources or
-     * cooling from an air conditioner.
-     */
-    public static final Event<AllowTemperatureChange> ALLOW_PASSIVE_TEMPERATURE_CHANGE = allowTemperatureChange(BuiltinTemperatureSources.PASSIVE);
-
-    /**
-     * Checks if the active temperature update tick for a living entity should be allowed to proceed at all. Returning
-     * any non-default value will force the update to proceed right away. By default, the update will be allowed to
-     * proceed.
-     * <p>
-     * Active changes should be used for temperature changes from entity effects such as heat from being on fire, or
-     * cold from being submerged in powder snow.
-     */
-    public static final Event<AllowTemperatureUpdate> ALLOW_ACTIVE_TEMPERATURE_UPDATE = allowUpdate(BuiltinTemperatureSources.ACTIVE);
-
-    /**
-     * Gets the active change update that should be applied to a living entity this tick by summing all values supplied
-     * by listeners. May be positive or negative.
-     * <p>
-     * Active changes should be used for temperature changes from entity effects such as heat from being on fire, or
-     * cold from being submerged in powder snow.
-     */
-    public static final Event<GetTemperatureChange> GET_ACTIVE_TEMPERATURE_CHANGE = getTemperatureChange(BuiltinTemperatureSources.ACTIVE);
-
-    /**
-     * Checks if the final active temperature change update calculated by {@link #GET_ACTIVE_TEMPERATURE_CHANGE} should be
-     * allowed to be applied to a living entity this tick. Returning any non-default value will force the update to be
-     * applied right away. By default, the update will be allowed to be applied. A temperature change of 0 will not
-     * invoke this event, and temperature changes of 0 will never apply.
-     * <p>
-     * Active changes should be used for temperature changes from entity effects such as heat from being on fire, or
-     * cold from being submerged in powder snow.
-     */
-    public static final Event<AllowTemperatureChange> ALLOW_ACTIVE_TEMPERATURE_CHANGE = allowTemperatureChange(BuiltinTemperatureSources.ACTIVE);
-
-    @FunctionalInterface
-    public interface AllowTemperatureUpdate {
-        /**
-         * Whether this listener should allow a temperature change update to begin.
-         *
-         * @param context Context of the living entity for the tick.
-         * @return Return true or false to make the update happen right away, or default to fall back to other listeners.
-         * The default behaviour will be to allow the update.
-         */
-        TriState allowUpdate(EnvironmentTickContext<? extends LivingEntity> context);
     }
 
     @FunctionalInterface
@@ -121,19 +42,6 @@ public final class LivingEntityTemperatureTickEvents {
          * This value is added to the values supplied by the other listeners.
          */
         int addTemperature(EnvironmentTickContext<? extends LivingEntity> context);
-    }
-
-    @FunctionalInterface
-    public interface AllowTemperatureChange {
-        /**
-         * Whether this listener should allow a temperature change update to apply.
-         *
-         * @param context           Context of the living entity for the tick.
-         * @param temperatureChange The actual change in temperature calculated from the {@link GetTemperatureChange} listener. This value is non-zero.
-         * @return Return true or false to make the update apply right away, or default to fall back to other listeners.
-         * The default behaviour will be to allow the update.
-         */
-        TriState allowChange(EnvironmentTickContext<? extends LivingEntity> context, int temperatureChange);
     }
 
     private LivingEntityTemperatureTickEvents() {
