@@ -11,6 +11,7 @@
         "LevelMixin",
         "LivingEntityAttributeMixin",
         "LivingEntityEnvironmentTickMixin",
+        "ServerLevelMixin",
         "accessor.AttributeModifiersComponentBuilderAccessor",
         "accessor.ComponentMapBuilderAccessor",
         "datafix.AttributeIdPrefixFixMixin"

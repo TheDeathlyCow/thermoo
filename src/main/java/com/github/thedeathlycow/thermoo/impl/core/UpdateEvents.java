@@ -8,11 +8,9 @@ import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.entity.LivingEntity;
 
 import java.util.IdentityHashMap;
-import java.util.List;
 import java.util.Map;
 
 public record UpdateEvents(
@@ -20,17 +18,11 @@ public record UpdateEvents(
 ) {
     private static final Map<ResourceKey<TemperatureSource>, UpdateEvents> EVENT_REGISTRY = new IdentityHashMap<>();
 
-    private static List<Holder.Reference<TemperatureSource>> referenceCache = null;
-
-    public static void clearCache(MinecraftServer server) {
-        referenceCache = null;
-    }
-
     public static void invokeAllWithContext(
             EnvironmentTickContext<? extends LivingEntity> context,
             HolderLookup<TemperatureSource> lookup
     ) {
-        for (Holder.Reference<TemperatureSource> ref : getTickingTemperatureSources(lookup)) {
+        for (Holder.Reference<TemperatureSource> ref : ((ThermooServerLevel) context.level()).thermoo$tickingTemperatureSources()) {
             if (context.affected().tickCount % ref.value().tickInterval() == 0) {
                 UpdateEvents events = EVENT_REGISTRY.get(ref.key());
                 int tempChange = events.getChange.invoker().addTemperature(context);
@@ -50,14 +42,8 @@ public record UpdateEvents(
         );
     }
 
-    private static List<Holder.Reference<TemperatureSource>> getTickingTemperatureSources(HolderLookup<TemperatureSource> lookup) {
-        if (referenceCache == null) {
-            referenceCache = lookup.listElements()
-                    .filter(ref -> ref.value().tickInterval() > 0 && EVENT_REGISTRY.containsKey(ref.key()))
-                    .toList();
-        }
-
-        return referenceCache;
+    public static boolean hasRegisteredEvents(ResourceKey<TemperatureSource> key) {
+        return EVENT_REGISTRY.containsKey(key);
     }
 
     private static Event<LivingEntityTemperatureTickEvents.GetTemperatureChange> createGetChange() {

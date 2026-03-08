@@ -74,7 +74,6 @@ public class Thermoo implements ModInitializer {
         );
 
         ServerLifecycleEvents.SERVER_STOPPED.register(TemperatureStatusManager::clearCaches);
-        ServerLifecycleEvents.SERVER_STOPPED.register(UpdateEvents::clearCache);
 
         DynamicRegistries.register(
                 ThermooRegistryKeys.ENVIRONMENT,
