@@ -1,11 +1,8 @@
 package com.github.thedeathlycow.thermoo.api.core.v1.event;
 
-import com.github.thedeathlycow.thermoo.api.core.v1.source.BuiltinTemperatureSources;
 import com.github.thedeathlycow.thermoo.api.core.v1.source.TemperatureSource;
 import com.github.thedeathlycow.thermoo.impl.core.UpdateEvents;
 import net.fabricmc.fabric.api.event.Event;
-import net.fabricmc.fabric.api.event.EventFactory;
-import net.fabricmc.fabric.api.util.TriState;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.LivingEntity;
 

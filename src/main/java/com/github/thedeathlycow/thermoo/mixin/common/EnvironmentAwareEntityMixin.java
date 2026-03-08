@@ -180,8 +180,7 @@ public abstract class EnvironmentAwareEntityMixin extends Entity implements Temp
 
     @Override
     public void thermoo$addTemperature(int temperatureChange) {
-        int oldTemperature = this.thermoo$getTemperature();
-        this.thermoo$setTemperature(oldTemperature + temperatureChange);
+        this.thermoo$addTemperature(temperatureChange, this.level().thermoo$temperatureSources().absolute());
     }
 
     @Override

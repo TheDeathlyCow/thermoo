@@ -8,6 +8,7 @@
         "EntityTypeMixin",
         "EnvironmentAwareEntityMixin",
         "ItemStackMixin",
+        "LevelMixin",
         "LivingEntityAttributeMixin",
         "LivingEntityEnvironmentTickMixin",
         "accessor.AttributeModifiersComponentBuilderAccessor",
