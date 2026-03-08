@@ -1,5 +1,6 @@
 package com.github.thedeathlycow.thermoo.api.core.v1.event;
 
+import com.github.thedeathlycow.thermoo.api.core.v1.source.BuiltinTemperatureSources;
 import com.github.thedeathlycow.thermoo.api.core.v1.source.TemperatureSource;
 import com.github.thedeathlycow.thermoo.impl.core.UpdateEvents;
 import net.fabricmc.fabric.api.event.Event;
@@ -35,7 +36,7 @@ public final class LivingEntityTemperatureTickEvents {
         return UpdateEvents.getOrCreate(sourceKey).getChange();
     }
 
-    public static Event<AllowTemperatureChange> allowTemperaturechange(ResourceKey<TemperatureSource> sourceKey) {
+    public static Event<AllowTemperatureChange> allowTemperatureChange(ResourceKey<TemperatureSource> sourceKey) {
         return UpdateEvents.getOrCreate(sourceKey).allowChange();
     }
 
@@ -47,7 +48,7 @@ public final class LivingEntityTemperatureTickEvents {
      * Passive changes should be used for temperature changes from nearby blocks, such as heat from light sources or
      * cooling from an air conditioner.
      */
-    public static final Event<AllowTemperatureUpdate> ALLOW_PASSIVE_TEMPERATURE_UPDATE = allowUpdate()
+    public static final Event<AllowTemperatureUpdate> ALLOW_PASSIVE_TEMPERATURE_UPDATE = allowUpdate(BuiltinTemperatureSources.PASSIVE);
 
     /**
      * Gets the passive change update that should be applied to a living entity this tick.
@@ -55,16 +56,7 @@ public final class LivingEntityTemperatureTickEvents {
      * Passive changes should be used for temperature changes from nearby blocks, such as heat from light sources or
      * cooling from an air conditioner.
      */
-    public static final Event<GetTemperatureChange> GET_PASSIVE_TEMPERATURE_CHANGE = EventFactory.createArrayBacked(
-            GetTemperatureChange.class,
-            listeners -> context -> {
-                int total = 0;
-                for (GetTemperatureChange listener : listeners) {
-                    total += listener.addTemperature(context);
-                }
-                return total;
-            }
-    );
+    public static final Event<GetTemperatureChange> GET_PASSIVE_TEMPERATURE_CHANGE = getTemperatureChange(BuiltinTemperatureSources.PASSIVE);
 
     /**
      * Checks if the final passive temperature change update calculated by {@link #GET_PASSIVE_TEMPERATURE_CHANGE} should be
@@ -75,18 +67,7 @@ public final class LivingEntityTemperatureTickEvents {
      * Passive changes should be used for temperature changes from nearby blocks, such as heat from light sources or
      * cooling from an air conditioner.
      */
-    public static final Event<AllowTemperatureChange> ALLOW_PASSIVE_TEMPERATURE_CHANGE = EventFactory.createArrayBacked(
-            AllowTemperatureChange.class,
-            listeners -> (context, temperatureChange) -> {
-                for (AllowTemperatureChange listener : listeners) {
-                    TriState result = listener.allowChange(context, temperatureChange);
-                    if (result != TriState.DEFAULT) {
-                        return result;
-                    }
-                }
-                return TriState.DEFAULT;
-            }
-    );
+    public static final Event<AllowTemperatureChange> ALLOW_PASSIVE_TEMPERATURE_CHANGE = allowTemperatureChange(BuiltinTemperatureSources.PASSIVE);
 
     /**
      * Checks if the active temperature update tick for a living entity should be allowed to proceed at all. Returning
@@ -96,18 +77,7 @@ public final class LivingEntityTemperatureTickEvents {
      * Active changes should be used for temperature changes from entity effects such as heat from being on fire, or
      * cold from being submerged in powder snow.
      */
-    public static final Event<AllowTemperatureUpdate> ALLOW_ACTIVE_TEMPERATURE_UPDATE = EventFactory.createArrayBacked(
-            AllowTemperatureUpdate.class,
-            listeners -> context -> {
-                for (AllowTemperatureUpdate listener : listeners) {
-                    TriState result = listener.allowUpdate(context);
-                    if (result != TriState.DEFAULT) {
-                        return result;
-                    }
-                }
-                return TriState.DEFAULT;
-            }
-    );
+    public static final Event<AllowTemperatureUpdate> ALLOW_ACTIVE_TEMPERATURE_UPDATE = allowUpdate(BuiltinTemperatureSources.ACTIVE);
 
     /**
      * Gets the active change update that should be applied to a living entity this tick by summing all values supplied
@@ -116,16 +86,7 @@ public final class LivingEntityTemperatureTickEvents {
      * Active changes should be used for temperature changes from entity effects such as heat from being on fire, or
      * cold from being submerged in powder snow.
      */
-    public static final Event<GetTemperatureChange> GET_ACTIVE_TEMPERATURE_CHANGE = EventFactory.createArrayBacked(
-            GetTemperatureChange.class,
-            listeners -> context -> {
-                int total = 0;
-                for (GetTemperatureChange listener : listeners) {
-                    total += listener.addTemperature(context);
-                }
-                return total;
-            }
-    );
+    public static final Event<GetTemperatureChange> GET_ACTIVE_TEMPERATURE_CHANGE = getTemperatureChange(BuiltinTemperatureSources.ACTIVE);
 
     /**
      * Checks if the final active temperature change update calculated by {@link #GET_ACTIVE_TEMPERATURE_CHANGE} should be
@@ -136,18 +97,7 @@ public final class LivingEntityTemperatureTickEvents {
      * Active changes should be used for temperature changes from entity effects such as heat from being on fire, or
      * cold from being submerged in powder snow.
      */
-    public static final Event<AllowTemperatureChange> ALLOW_ACTIVE_TEMPERATURE_CHANGE = EventFactory.createArrayBacked(
-            AllowTemperatureChange.class,
-            listeners -> (context, temperatureChange) -> {
-                for (AllowTemperatureChange listener : listeners) {
-                    TriState result = listener.allowChange(context, temperatureChange);
-                    if (result != TriState.DEFAULT) {
-                        return result;
-                    }
-                }
-                return TriState.DEFAULT;
-            }
-    );
+    public static final Event<AllowTemperatureChange> ALLOW_ACTIVE_TEMPERATURE_CHANGE = allowTemperatureChange(BuiltinTemperatureSources.ACTIVE);
 
     @FunctionalInterface
     public interface AllowTemperatureUpdate {

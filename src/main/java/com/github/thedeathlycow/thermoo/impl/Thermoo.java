@@ -11,6 +11,7 @@ import com.github.thedeathlycow.thermoo.impl.command.SoakingCommand;
 import com.github.thedeathlycow.thermoo.impl.command.TemperatureCommand;
 import com.github.thedeathlycow.thermoo.impl.compat.init.DependentModInitializer;
 import com.github.thedeathlycow.thermoo.impl.config.ThermooConfig;
+import com.github.thedeathlycow.thermoo.impl.core.UpdateEvents;
 import com.github.thedeathlycow.thermoo.impl.environment.EnvironmentLookupImpl;
 import com.github.thedeathlycow.thermoo.impl.temperature.status.TemperatureStatusManager;
 import net.fabricmc.api.ModInitializer;
@@ -72,6 +73,7 @@ public class Thermoo implements ModInitializer {
         );
 
         ServerLifecycleEvents.SERVER_STOPPED.register(TemperatureStatusManager::clearCaches);
+        ServerLifecycleEvents.SERVER_STOPPED.register(UpdateEvents::clearCache);
 
         DynamicRegistries.register(
                 ThermooRegistryKeys.ENVIRONMENT,
