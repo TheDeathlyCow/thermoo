@@ -3,6 +3,7 @@ package com.github.thedeathlycow.thermoo.impl;
 import com.github.thedeathlycow.thermoo.api.ThermooRegistryKeys;
 import com.github.thedeathlycow.thermoo.api.command.v1.HeatingModeArgument;
 import com.github.thedeathlycow.thermoo.api.command.v1.TemperatureUnitArgument;
+import com.github.thedeathlycow.thermoo.api.core.v1.source.TemperatureSource;
 import com.github.thedeathlycow.thermoo.api.environment.EnvironmentDefinition;
 import com.github.thedeathlycow.thermoo.api.environment.provider.EnvironmentProvider;
 import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureStatus;
@@ -86,6 +87,10 @@ public class Thermoo implements ModInitializer {
         DynamicRegistries.registerSynced(
                 ThermooRegistryKeys.TEMPERATURE_STATUS,
                 TemperatureStatus.DIRECT_CODEC
+        );
+        DynamicRegistries.register(
+                ThermooRegistryKeys.TEMPERATURE_SOURCE,
+                TemperatureSource.DIRECT_CODEC
         );
 
         ThermooCommonRegisters.registerTemperatureEffects();
