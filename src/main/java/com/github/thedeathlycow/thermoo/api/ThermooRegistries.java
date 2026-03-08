@@ -1,5 +1,6 @@
 package com.github.thedeathlycow.thermoo.api;
 
+import com.github.thedeathlycow.thermoo.api.core.v1.source.TemperatureReduction;
 import com.github.thedeathlycow.thermoo.api.environment.provider.EnvironmentProviderType;
 import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureEffect;
 import com.mojang.serialization.MapCodec;
@@ -11,6 +12,11 @@ import net.minecraft.core.component.DataComponentType;
  * Custom registries provided by Thermoo
  */
 public final class ThermooRegistries {
+    public static final Registry<MapCodec<? extends TemperatureReduction>> TEMPERATURE_REDUCTION_TYPE =
+            FabricRegistryBuilder.create(
+                    ThermooRegistryKeys.TEMPERATURE_REDUCTION_TYPE
+            ).buildAndRegister();
+
     /**
      * Registry for {@linkplain TemperatureEffect temperature effect codecs}.
      *
