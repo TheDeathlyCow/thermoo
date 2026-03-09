@@ -2,7 +2,7 @@ plugins {
     id 'java-library'
     id 'maven-publish'
     id 'net.neoforged.moddev' version '2.0.134'
-    id "org.jetbrains.kotlin.jvm" version "2.0.0"
+    id "org.jetbrains.kotlin.jvm" version "2.3.10"
     id 'idea'
     id "me.modmuss50.mod-publish-plugin" version "0.8.4"
 }
@@ -196,7 +196,7 @@ publishing {
     }
     repositories {
         maven {
-            url "file://${project.projectDir}/repo"
+            url layout.projectDirectory.dir('repo').asFile.toURI()
         }
     }
 }
