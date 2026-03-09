@@ -1,9 +1,8 @@
 package com.github.thedeathlycow.thermoo.impl.command;
 
 import com.github.thedeathlycow.thermoo.api.ThermooRegistryKeys;
-import com.github.thedeathlycow.thermoo.api.command.v1.HeatingModeArgument;
-import com.github.thedeathlycow.thermoo.api.core.v1.HeatingModes;
 import com.github.thedeathlycow.thermoo.api.core.v1.TemperatureAware;
+import com.github.thedeathlycow.thermoo.api.core.v1.TemperatureChange;
 import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureStatus;
 import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureStatusLookup;
 import com.mojang.brigadier.Command;
@@ -11,6 +10,7 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import com.mojang.brigadier.builder.RequiredArgumentBuilder;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
@@ -19,6 +19,8 @@ import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.commands.arguments.ResourceArgument;
+import net.minecraft.commands.arguments.coordinates.Vec3Argument;
+import net.minecraft.commands.arguments.selector.EntitySelector;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.permissions.Permissions;
@@ -123,69 +125,8 @@ public final class TemperatureCommand {
                 );
 
 
-        var remove = literal("remove")
-                .then(
-                        argument("targets", EntityArgument.entities())
-                                .then(
-                                        argument("amount", IntegerArgumentType.integer(0))
-                                                .executes(
-                                                        context -> {
-                                                            return runAdjust(
-                                                                    context.getSource(),
-                                                                    EntityArgument.getEntities(context, "targets"),
-                                                                    IntegerArgumentType.getInteger(context, "amount"),
-                                                                    HeatingModes.ABSOLUTE,
-                                                                    true
-                                                            );
-                                                        }
-                                                )
-                                                .then(
-                                                        argument("mode", HeatingModeArgument.heatingMode())
-                                                                .executes(context -> {
-                                                                            return runAdjust(
-                                                                                    context.getSource(),
-                                                                                    EntityArgument.getEntities(context, "targets"),
-                                                                                    IntegerArgumentType.getInteger(context, "amount"),
-                                                                                    HeatingModeArgument.getHeatingMode(context, "mode"),
-                                                                                    true
-                                                                            );
-                                                                        }
-                                                                )
-                                                )
-                                )
-                );
-
-        var add = literal("add")
-                .then(
-                        argument("targets", EntityArgument.entities())
-                                .then(
-                                        argument("amount", IntegerArgumentType.integer(0))
-                                                .executes(
-                                                        context -> {
-                                                            return runAdjust(
-                                                                    context.getSource(),
-                                                                    EntityArgument.getEntities(context, "targets"),
-                                                                    IntegerArgumentType.getInteger(context, "amount"),
-                                                                    HeatingModes.ABSOLUTE,
-                                                                    false
-                                                            );
-                                                        }
-                                                )
-                                                .then(
-                                                        argument("mode", HeatingModeArgument.heatingMode())
-                                                                .executes(context -> {
-                                                                            return runAdjust(
-                                                                                    context.getSource(),
-                                                                                    EntityArgument.getEntities(context, "targets"),
-                                                                                    IntegerArgumentType.getInteger(context, "amount"),
-                                                                                    HeatingModeArgument.getHeatingMode(context, "mode"),
-                                                                                    false
-                                                                            );
-                                                                        }
-                                                                )
-                                                )
-                                )
-                );
+        var remove = literal("remove").then(adjustNode(buildContext, true));
+        var add = literal("add").then(adjustNode(buildContext, false));
 
         var setSubCommand = literal("set")
                 .then(
@@ -231,6 +172,60 @@ public final class TemperatureCommand {
                         .then(setSubCommand)
                         .then(status)
         );
+    }
+
+    private static RequiredArgumentBuilder<CommandSourceStack, EntitySelector> adjustNode(CommandBuildContext buildContext, boolean removing) {
+        return argument("targets", EntityArgument.entities())
+                .then(argument("amount", IntegerArgumentType.integer(0))
+                        .executes(context -> {
+                            return runAdjust(
+                                    context.getSource(),
+                                    EntityArgument.getEntities(context, "targets"),
+                                    IntegerArgumentType.getInteger(context, "amount"),
+                                    context.getSource().getLevel().thermoo$temperatureSources().absolute(),
+                                    removing
+                            );
+                        })
+                        .then(argument("source", ResourceArgument.resource(buildContext, ThermooRegistryKeys.TEMPERATURE_SOURCE))
+                                .executes(context -> {
+                                    return runAdjust(
+                                            context.getSource(),
+                                            EntityArgument.getEntities(context, "targets"),
+                                            IntegerArgumentType.getInteger(context, "amount"),
+                                            TemperatureChange.create(ResourceArgument.getResource(context, "source", ThermooRegistryKeys.TEMPERATURE_SOURCE)),
+                                            removing
+                                    );
+                                })
+                                .then(argument("cause", EntityArgument.entity())
+                                        .executes(context -> {
+                                            return runAdjust(
+                                                    context.getSource(),
+                                                    EntityArgument.getEntities(context, "targets"),
+                                                    IntegerArgumentType.getInteger(context, "amount"),
+                                                    TemperatureChange.create(
+                                                            ResourceArgument.getResource(context, "source", ThermooRegistryKeys.TEMPERATURE_SOURCE),
+                                                            EntityArgument.getEntity(context, "cause")
+                                                    ),
+                                                    removing
+                                            );
+                                        })
+                                )
+                                .then(argument("position", Vec3Argument.vec3())
+                                        .executes(context -> {
+                                            return runAdjust(
+                                                    context.getSource(),
+                                                    EntityArgument.getEntities(context, "targets"),
+                                                    IntegerArgumentType.getInteger(context, "amount"),
+                                                    TemperatureChange.create(
+                                                            ResourceArgument.getResource(context, "source", ThermooRegistryKeys.TEMPERATURE_SOURCE),
+                                                            Vec3Argument.getVec3(context, "position")
+                                                    ),
+                                                    removing
+                                            );
+                                        })
+                                )
+                        )
+                );
     }
 
     private static int runGetScale(CommandSourceStack source, Entity target, int scale) throws CommandSyntaxException {
@@ -302,12 +297,12 @@ public final class TemperatureCommand {
         }
     }
 
-    private static int runAdjust(CommandSourceStack source, Collection<? extends Entity> targets, int amount, HeatingModes mode, boolean isRemoving) throws CommandSyntaxException {
+    private static int runAdjust(CommandSourceStack source, Collection<? extends Entity> targets, int amount, TemperatureChange change, boolean isRemoving) throws CommandSyntaxException {
         amount = isRemoving ? -amount : amount;
         int sum = 0;
         for (Entity target : targets) {
             if (target instanceof TemperatureAware temperatureAware) {
-                temperatureAware.thermoo$addTemperature(amount, mode);
+                temperatureAware.thermoo$addTemperature(amount, change);
                 sum += amount;
             } else if (targets.size() == 1) {
                 throw NOT_LIVING_ENTITY.create();
