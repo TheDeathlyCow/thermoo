@@ -1,16 +1,14 @@
 package com.github.thedeathlycow.thermoo.mixin.common;
 
 import com.github.thedeathlycow.thermoo.api.ThermooRegistryKeys;
-import com.github.thedeathlycow.thermoo.api.core.v1.source.TemperatureSource;
+import com.github.thedeathlycow.thermoo.api.core.v1.TemperatureChange;
 import com.github.thedeathlycow.thermoo.impl.core.ThermooServerLevel;
 import com.github.thedeathlycow.thermoo.impl.core.UpdateEvents;
-import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.CustomSpawner;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.dimension.DimensionType;
 import net.minecraft.world.level.dimension.LevelStem;
 import net.minecraft.world.level.storage.LevelStorageSource;
 import net.minecraft.world.level.storage.ServerLevelData;
@@ -26,7 +24,7 @@ import java.util.concurrent.Executor;
 @Mixin(ServerLevel.class)
 public abstract class ServerLevelMixin implements ThermooServerLevel {
     @Unique
-    private List<Holder.Reference<TemperatureSource>> thermoo$tickingTemperatureSources;
+    private List<TemperatureChange> thermoo$tickingTemperatureSources;
 
     @Inject(
             method = "<init>",
@@ -48,11 +46,12 @@ public abstract class ServerLevelMixin implements ThermooServerLevel {
         this.thermoo$tickingTemperatureSources = server.registryAccess().lookupOrThrow(ThermooRegistryKeys.TEMPERATURE_SOURCE)
                 .listElements()
                 .filter(ref -> ref.value().tickInterval() > 0 && UpdateEvents.hasRegisteredEvents(ref.key()))
+                .map(TemperatureChange::create)
                 .toList();
     }
     
     @Override
-    public List<Holder.Reference<TemperatureSource>> thermoo$tickingTemperatureSources() {
+    public List<TemperatureChange> thermoo$tickingTemperatureSources() {
         return this.thermoo$tickingTemperatureSources;
     }
 }

@@ -26,7 +26,7 @@ import net.minecraft.world.entity.LivingEntity;
  */
 public final class LivingEntityTemperatureTickEvents {
     public static Event<GetTemperatureChange> getTemperatureChange(ResourceKey<TemperatureSource> sourceKey) {
-        return UpdateEvents.getOrCreate(sourceKey).getChange();
+        return UpdateEvents.getOrCreate(sourceKey).event();
     }
 
     @FunctionalInterface

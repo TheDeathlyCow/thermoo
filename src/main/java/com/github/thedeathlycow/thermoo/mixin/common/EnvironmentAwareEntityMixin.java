@@ -5,6 +5,7 @@ import com.github.thedeathlycow.thermoo.api.ThermooTags;
 import com.github.thedeathlycow.thermoo.api.core.v1.Soakable;
 import com.github.thedeathlycow.thermoo.api.core.v1.TemperatureAware;
 import com.github.thedeathlycow.thermoo.api.core.v1.TemperatureChange;
+import com.github.thedeathlycow.thermoo.api.core.v1.event.LivingEntityTemperatureTickEvents;
 import com.github.thedeathlycow.thermoo.api.core.v1.event.TemperatureChangeEvents;
 import com.github.thedeathlycow.thermoo.impl.component.ThermooComponents;
 import net.fabricmc.fabric.api.util.TriState;
@@ -162,18 +163,20 @@ public abstract class EnvironmentAwareEntityMixin extends Entity implements Temp
             return;
         }
 
+        LivingEntity self = (LivingEntity) (Object) this;
+
         TriState allowChange = TemperatureChangeEvents.ALLOW_TEMPERATURE_CHANGE.invoker()
-                .allowChange(this, temperatureChange, context);
+                .allowChange(self, temperatureChange, context);
 
         if (allowChange != TriState.FALSE) {
             int oldTemperature = this.thermoo$getTemperature();
-            int modifiedChange = context.applyReduction((LivingEntity) (Object) this, temperatureChange);
+            int modifiedChange = context.applyReduction(self, temperatureChange);
 
             int newTemperature = oldTemperature + modifiedChange;
             this.thermoo$setTemperature(newTemperature);
 
             TemperatureChangeEvents.AFTER_TEMPERATURE_CHANGE.invoker()
-                    .afterChange(this, oldTemperature, newTemperature, context);
+                    .afterChange(self, oldTemperature, newTemperature, context);
         }
     }
 

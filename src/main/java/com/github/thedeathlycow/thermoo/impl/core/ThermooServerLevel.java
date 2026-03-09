@@ -1,10 +1,9 @@
 package com.github.thedeathlycow.thermoo.impl.core;
 
-import com.github.thedeathlycow.thermoo.api.core.v1.source.TemperatureSource;
-import net.minecraft.core.Holder;
+import com.github.thedeathlycow.thermoo.api.core.v1.TemperatureChange;
 
 import java.util.List;
 
 public interface ThermooServerLevel {
-    List<Holder.Reference<TemperatureSource>> thermoo$tickingTemperatureSources();
+    List<TemperatureChange> thermoo$tickingTemperatureSources();
 }

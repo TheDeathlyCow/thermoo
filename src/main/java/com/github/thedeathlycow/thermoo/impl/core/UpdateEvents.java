@@ -1,5 +1,6 @@
 package com.github.thedeathlycow.thermoo.impl.core;
 
+import com.github.thedeathlycow.thermoo.api.core.v1.TemperatureChange;
 import com.github.thedeathlycow.thermoo.api.core.v1.event.EnvironmentTickContext;
 import com.github.thedeathlycow.thermoo.api.core.v1.event.LivingEntityTemperatureTickEvents;
 import com.github.thedeathlycow.thermoo.api.core.v1.source.TemperatureSource;
@@ -14,7 +15,7 @@ import java.util.IdentityHashMap;
 import java.util.Map;
 
 public record UpdateEvents(
-        Event<LivingEntityTemperatureTickEvents.GetTemperatureChange> getChange
+        Event<LivingEntityTemperatureTickEvents.GetTemperatureChange> event
 ) {
     private static final Map<ResourceKey<TemperatureSource>, UpdateEvents> EVENT_REGISTRY = new IdentityHashMap<>();
 
@@ -22,14 +23,15 @@ public record UpdateEvents(
             EnvironmentTickContext<? extends LivingEntity> context,
             HolderLookup<TemperatureSource> lookup
     ) {
-        for (Holder.Reference<TemperatureSource> ref : ((ThermooServerLevel) context.level()).thermoo$tickingTemperatureSources()) {
-            if (context.affected().tickCount % ref.value().tickInterval() == 0) {
-                UpdateEvents events = EVENT_REGISTRY.get(ref.key());
-                int tempChange = events.getChange.invoker().addTemperature(context);
+        for (TemperatureChange ctx : ((ThermooServerLevel) context.level()).thermoo$tickingTemperatureSources()) {
+            ResourceKey<TemperatureSource> key = ctx.source().unwrapKey().orElse(null);
+
+            if (key != null && context.affected().tickCount % ctx.source().value().tickInterval() == 0) {
+                UpdateEvents events = EVENT_REGISTRY.get(key);
+                int tempChange = events.event.invoker().addTemperature(context);
 
                 if (tempChange != 0) {
-                    // TODO: replace heating mods with sources
-//                        context.affected().thermoo$addTemperature(tempChange, ref);
+                    context.affected().thermoo$addTemperature(tempChange, ctx);
                 }
             }
         }

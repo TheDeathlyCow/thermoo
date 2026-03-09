@@ -5,6 +5,7 @@ import com.github.thedeathlycow.thermoo.api.core.v1.TemperatureChange;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 import net.fabricmc.fabric.api.util.TriState;
+import net.minecraft.world.entity.LivingEntity;
 
 public class TemperatureChangeEvents {
     /**
@@ -57,11 +58,11 @@ public class TemperatureChangeEvents {
          * @return Return true or false to make the update apply right away, or default to fall back to other listeners.
          * The default behaviour will be to allow the update.
          */
-        TriState allowChange(TemperatureAware target, int change, TemperatureChange context);
+        TriState allowChange(LivingEntity target, int change, TemperatureChange context);
     }
 
     @FunctionalInterface
     public interface AfterChange {
-        void afterChange(TemperatureAware target, int oldTemperature, int newTemperature, TemperatureChange context);
+        void afterChange(LivingEntity target, int oldTemperature, int newTemperature, TemperatureChange context);
     }
 }
