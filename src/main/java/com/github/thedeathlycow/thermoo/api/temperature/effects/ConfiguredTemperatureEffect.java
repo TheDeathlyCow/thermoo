@@ -1,8 +1,8 @@
 package com.github.thedeathlycow.thermoo.api.temperature.effects;
 
 import com.github.thedeathlycow.thermoo.api.ThermooRegistries;
-import com.github.thedeathlycow.thermoo.impl.component.TemperatureEffectsComponent;
-import com.github.thedeathlycow.thermoo.impl.component.ThermooComponents;
+import com.github.thedeathlycow.thermoo.impl.attachment.TemperatureEffectAttachment;
+import com.github.thedeathlycow.thermoo.impl.attachment.ThermooAttachments;
 import com.mojang.serialization.Codec;
 import net.minecraft.advancements.critereon.MinMaxBounds;
 import net.minecraft.core.HolderSet;
@@ -129,7 +129,7 @@ public final class ConfiguredTemperatureEffect<C> {
             );
 
     public static boolean isEffectEnabled(Entity entity, ResourceLocation effectId) {
-        TemperatureEffectsComponent component = ThermooComponents.TEMPERATURE_EFFECTS.getNullable(entity);
+        TemperatureEffectAttachment component = entity.getExistingDataOrNull(ThermooAttachments.TEMPERATURE_EFFECTS);
 
         if (component != null) {
             return component.isEffectEnabled(effectId);
@@ -139,7 +139,7 @@ public final class ConfiguredTemperatureEffect<C> {
     }
 
     public static boolean setEffectEnabled(Entity entity, ResourceLocation effectId, boolean enabled) {
-        TemperatureEffectsComponent component = ThermooComponents.TEMPERATURE_EFFECTS.getNullable(entity);
+        TemperatureEffectAttachment component = entity.getExistingDataOrNull(ThermooAttachments.TEMPERATURE_EFFECTS);
 
         if (component != null) {
             return component.setEffectEnabled(effectId, enabled);

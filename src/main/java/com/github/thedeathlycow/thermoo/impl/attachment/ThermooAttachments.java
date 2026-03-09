@@ -33,7 +33,7 @@ public final class ThermooAttachments {
 
     public static final Supplier<AttachmentType<TemperatureEffectAttachment>> TEMPERATURE_EFFECTS = ATTACHMENT_TYPES.register(
             "temperature_effects",
-            () -> AttachmentType.builder(TemperatureEffectAttachment::new)
+            () -> AttachmentType.serializable(TemperatureEffectAttachment::new)
                     .build()
     );
 

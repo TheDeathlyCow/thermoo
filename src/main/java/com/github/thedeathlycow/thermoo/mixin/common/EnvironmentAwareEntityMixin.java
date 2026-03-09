@@ -200,7 +200,7 @@ public abstract class EnvironmentAwareEntityMixin extends Entity implements Temp
     )
     private void afterTick(CallbackInfo ci) {
         if (!this.level().isClientSide()) {
-            this.getData(ThermooAttachments.TEMPERATURE_EFFECTS).serverTick((LivingEntity) (Object) this);
+            this.getData(ThermooAttachments.TEMPERATURE_EFFECTS).serverTick();
         }
     }
 }

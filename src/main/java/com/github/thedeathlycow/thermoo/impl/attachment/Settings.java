@@ -1,4 +1,4 @@
-package com.github.thedeathlycow.thermoo.impl.component;
+package com.github.thedeathlycow.thermoo.impl.attachment;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
