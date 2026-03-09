@@ -1,6 +1,7 @@
 package com.github.thedeathlycow.thermoo.impl;
 
 import com.github.thedeathlycow.thermoo.api.ThermooRegistries;
+import com.github.thedeathlycow.thermoo.api.core.v1.source.RandomlyDodgeReduction;
 import com.github.thedeathlycow.thermoo.api.core.v1.source.ScaledAttributeReduction;
 import com.github.thedeathlycow.thermoo.api.core.v1.source.TemperatureReduction;
 import com.github.thedeathlycow.thermoo.api.environment.attribute.ThermooAttributeTypes;
@@ -25,6 +26,7 @@ import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 public final class ThermooCommonRegisters {
     public static void registerTemperatureReductions() {
         registerTemperatureReduction("scaled_attribute", ScaledAttributeReduction.CODEC);
+        registerTemperatureReduction("randomly_dodge", RandomlyDodgeReduction.CODEC);
     }
 
     public static void registerTemperatureEffects() {
