@@ -195,9 +195,6 @@ publishing {
         }
     }
     repositories {
-        maven {
-            url layout.projectDirectory.dir('repo').asFile.toURI()
-        }
     }
 }
 
