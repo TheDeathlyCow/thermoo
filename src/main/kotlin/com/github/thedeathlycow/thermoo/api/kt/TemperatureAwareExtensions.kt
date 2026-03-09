@@ -3,6 +3,7 @@ package com.github.thedeathlycow.thermoo.api.kt
 import com.github.thedeathlycow.thermoo.api.core.v1.HeatingMode
 import com.github.thedeathlycow.thermoo.api.core.v1.HeatingModes
 import com.github.thedeathlycow.thermoo.api.core.v1.TemperatureAware
+import com.github.thedeathlycow.thermoo.api.core.v1.TemperatureChange
 import net.minecraft.util.RandomSource
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.LivingEntity
@@ -55,8 +56,12 @@ val TemperatureAware.isCold: Boolean
 val TemperatureAware.isWarm: Boolean
     get() = this.`thermoo$isWarm`()
 
-fun TemperatureAware.addTemperature(temperatureChange: Int, mode: HeatingMode = HeatingModes.ABSOLUTE) {
-    this.`thermoo$addTemperature`(temperatureChange, mode)
+fun TemperatureAware.addTemperature(temperatureChange: Int, context: TemperatureChange) {
+    this.`thermoo$addTemperature`(temperatureChange, context)
+}
+
+fun TemperatureAware.addTemperature(temperatureChange: Int) {
+    this.`thermoo$addTemperature`(temperatureChange)
 }
 
 val TemperatureAware.temperatureScale: Float
