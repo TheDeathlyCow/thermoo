@@ -192,6 +192,11 @@ publishing {
     publications {
         register('mavenJava', MavenPublication) {
             from components.java
+
+            artifact(file('src/main/resources/interfaces.json')) {
+                classifier = 'interfaces'
+                extension = 'json'
+            }
         }
     }
     repositories {
