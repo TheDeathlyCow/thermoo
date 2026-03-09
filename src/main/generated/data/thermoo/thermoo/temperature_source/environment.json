@@ -1,0 +1,8 @@
+{
+  "description": "",
+  "reduction": {
+    "type": "thermoo:randomly_dodge",
+    "cold_resistance_attribute": "thermoo:frost_resistance",
+    "heat_resistance_attribute": "thermoo:heat_resistance"
+  }
+}

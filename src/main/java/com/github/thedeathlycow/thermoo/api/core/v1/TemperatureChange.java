@@ -6,6 +6,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
@@ -22,6 +23,8 @@ public interface TemperatureChange {
 
     @Nullable
     Vec3 position();
+
+    int applyReduction(LivingEntity target, int temperatureChange);
 
     static TemperatureChange create(Holder<TemperatureSource> source) {
         return new TemperatureChangeImpl(source, null, null, null);
