@@ -1,10 +1,7 @@
 package com.github.thedeathlycow.thermoo.impl.data;
 
 import com.github.thedeathlycow.thermoo.api.ThermooAttributes;
-import com.github.thedeathlycow.thermoo.api.core.v1.source.RandomlyDodgeReduction;
-import com.github.thedeathlycow.thermoo.api.core.v1.source.ScaledAttributeReduction;
-import com.github.thedeathlycow.thermoo.api.core.v1.source.TemperatureSource;
-import com.github.thedeathlycow.thermoo.api.core.v1.source.TemperatureSources;
+import com.github.thedeathlycow.thermoo.api.core.v1.source.*;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricDynamicRegistryProvider;
 import net.minecraft.core.HolderLookup;
@@ -28,7 +25,7 @@ public class TemperatureSourceProvider extends FabricDynamicRegistryProvider {
         entries.add(
                 TemperatureSources.ACTIVE,
                 TemperatureSource.builder(Component.empty())
-                        .withReduction(new ScaledAttributeReduction(
+                        .withReduction(ScaledAttributeReduction.create(
                                 ThermooAttributes.FROST_RESISTANCE,
                                 ThermooAttributes.HEAT_RESISTANCE,
                                 0.1
@@ -40,7 +37,7 @@ public class TemperatureSourceProvider extends FabricDynamicRegistryProvider {
         entries.add(
                 TemperatureSources.PASSIVE,
                 TemperatureSource.builder(Component.empty())
-                        .withReduction(new ScaledAttributeReduction(
+                        .withReduction(ReinforcingAttributeReduction.create(
                                 ThermooAttributes.FROST_RESISTANCE,
                                 ThermooAttributes.HEAT_RESISTANCE,
                                 0.1

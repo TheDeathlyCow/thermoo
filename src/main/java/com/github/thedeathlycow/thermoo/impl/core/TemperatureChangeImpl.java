@@ -17,7 +17,7 @@ public record TemperatureChangeImpl(
     @Override
     public int applyReduction(LivingEntity target, int temperatureChange) {
         return this.source.value().reduction()
-                .map(reduction -> reduction.applyReduction(target, temperatureChange))
+                .map(reduction -> reduction.applyReduction(target, temperatureChange, this))
                 .orElse(temperatureChange);
     }
 }

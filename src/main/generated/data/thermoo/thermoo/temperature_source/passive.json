@@ -1,7 +1,7 @@
 {
   "description": "",
   "reduction": {
-    "type": "thermoo:scaled_attribute",
+    "type": "thermoo:reinforcing_attribute",
     "cold_resistance_attribute": "thermoo:frost_resistance",
     "heat_resistance_attribute": "thermoo:heat_resistance",
     "scale": 0.1

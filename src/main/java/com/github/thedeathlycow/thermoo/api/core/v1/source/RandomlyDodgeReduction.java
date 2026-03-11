@@ -1,5 +1,6 @@
 package com.github.thedeathlycow.thermoo.api.core.v1.source;
 
+import com.github.thedeathlycow.thermoo.api.core.v1.TemperatureChange;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.Holder;
@@ -29,7 +30,7 @@ public final class RandomlyDodgeReduction implements TemperatureReduction {
     }
 
     @Override
-    public int applyReduction(LivingEntity target, int temperatureChange) {
+    public int applyReduction(LivingEntity target, int temperatureChange, TemperatureChange context) {
         double resistance = temperatureChange < 0
                 ? target.getAttributeValue(coldResistanceAttribute)
                 : target.getAttributeValue(heatResistanceAttribute);
