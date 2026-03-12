@@ -32,12 +32,12 @@ public final class ReinforcingAttributeReduction extends ScaledAttributeReductio
     }
 
     @Override
-    public int applyReduction(LivingEntity target, int temperatureChange, TemperatureChange context) {
+    public int applyReduction(LivingEntity target, TemperatureChange context, int temperatureChange) {
         boolean isReinforcing = (target.thermoo$isCold() && temperatureChange < 0)
                 || (target.thermoo$isWarm() && temperatureChange > 0);
 
         if (isReinforcing) {
-            return super.applyReduction(target, temperatureChange, context);
+            return super.applyReduction(target, context, temperatureChange);
         } else {
             return temperatureChange;
         }

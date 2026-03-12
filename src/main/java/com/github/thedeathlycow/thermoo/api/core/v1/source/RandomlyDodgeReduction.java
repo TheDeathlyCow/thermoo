@@ -30,7 +30,7 @@ public final class RandomlyDodgeReduction implements TemperatureReduction {
     }
 
     @Override
-    public int applyReduction(LivingEntity target, int temperatureChange, TemperatureChange context) {
+    public int applyReduction(LivingEntity target, TemperatureChange context, int temperatureChange) {
         double resistance = temperatureChange < 0
                 ? target.getAttributeValue(coldResistanceAttribute)
                 : target.getAttributeValue(heatResistanceAttribute);

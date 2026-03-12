@@ -4,6 +4,9 @@ import com.github.thedeathlycow.thermoo.api.ThermooRegistryKeys;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import net.minecraft.resources.ResourceKey;
 
+/**
+ * Builtin temperature source types.
+ */
 public final class TemperatureSources {
     public static final ResourceKey<TemperatureSource> ABSOLUTE = key("absolute");
     public static final ResourceKey<TemperatureSource> ACTIVE = key("active");

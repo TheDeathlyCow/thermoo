@@ -12,6 +12,11 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 
+/**
+ * A temperature reduction that reduces an incoming temperature linearly based on a scale factor and resistance attribute.
+ * Allows for different attributes to be used based on whether the change is freezing (cold resistance) or warming
+ * (heat resistance).
+ */
 public sealed class ScaledAttributeReduction implements TemperatureReduction permits ReinforcingAttributeReduction {
     public static final MapCodec<ScaledAttributeReduction> CODEC = createCodec(ScaledAttributeReduction::new);
 
@@ -38,7 +43,7 @@ public sealed class ScaledAttributeReduction implements TemperatureReduction per
     }
 
     @Override
-    public int applyReduction(LivingEntity target, int temperatureChange, TemperatureChange context) {
+    public int applyReduction(LivingEntity target, TemperatureChange context, int temperatureChange) {
         double resistance = temperatureChange < 0
                 ? target.getAttributeValue(this.coldResistanceAttribute)
                 : target.getAttributeValue(this.heatResistanceAttribute);
