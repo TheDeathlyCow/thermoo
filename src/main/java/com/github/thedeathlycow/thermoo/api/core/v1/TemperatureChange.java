@@ -8,6 +8,8 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.TraceableEntity;
+import net.minecraft.world.entity.projectile.arrow.Arrow;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
@@ -83,17 +85,29 @@ public interface TemperatureChange {
     }
 
     /**
-     * Creates a temperature change context with a type and a cause entity. The {@link #directCause()} and
-     * {@link #cause()} will refer to the same entity, and the {@link #position()} will be the cause's position.
+     * Creates a temperature change context with a type and a directCause entity. If the {@code directCause} is a
+     * {@link TraceableEntity} and has a non-null owner, then the {@link #cause()} will refer to the owner. Otherwise,
+     * the {@link #directCause()} and {@link #cause()} will refer to the same entity.
+     * In either case, the {@link #position()} will be the directCause's position.
      *
-     * @param source The type of the change, may not be {@code null}.
-     * @param cause  The entity responsible for the change, may not be {@code null}.
+     * @param source      The type of the change, may not be {@code null}.
+     * @param directCause The entity directly responsible for the change, may not be {@code null}.
      */
-    static TemperatureChange create(Holder<TemperatureSource> source, Entity cause) {
+    static TemperatureChange create(Holder<TemperatureSource> source, Entity directCause) {
         Preconditions.checkNotNull(source);
-        Preconditions.checkNotNull(cause);
+        Preconditions.checkNotNull(directCause);
 
-        return new TemperatureChangeImpl(source, cause, cause, cause.position());
+        Entity cause = directCause;
+
+        if (directCause instanceof TraceableEntity traceable) {
+            Entity owner = traceable.getOwner();
+
+            if (owner != null) {
+                cause = owner;
+            }
+        }
+
+        return new TemperatureChangeImpl(source, cause, directCause, directCause.position());
     }
 
     /**

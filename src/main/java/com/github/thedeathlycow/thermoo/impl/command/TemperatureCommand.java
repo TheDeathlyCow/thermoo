@@ -196,33 +196,52 @@ public final class TemperatureCommand {
                                             removing
                                     );
                                 })
-                                .then(argument("cause", EntityArgument.entity())
-                                        .executes(context -> {
-                                            return runAdjust(
-                                                    context.getSource(),
-                                                    EntityArgument.getEntities(context, "targets"),
-                                                    IntegerArgumentType.getInteger(context, "amount"),
-                                                    TemperatureChange.create(
-                                                            ResourceArgument.getResource(context, "source", ThermooRegistryKeys.TEMPERATURE_SOURCE),
-                                                            EntityArgument.getEntity(context, "cause")
-                                                    ),
-                                                    removing
-                                            );
-                                        })
-                                )
-                                .then(argument("position", Vec3Argument.vec3())
-                                        .executes(context -> {
-                                            return runAdjust(
-                                                    context.getSource(),
-                                                    EntityArgument.getEntities(context, "targets"),
-                                                    IntegerArgumentType.getInteger(context, "amount"),
-                                                    TemperatureChange.create(
-                                                            ResourceArgument.getResource(context, "source", ThermooRegistryKeys.TEMPERATURE_SOURCE),
-                                                            Vec3Argument.getVec3(context, "position")
-                                                    ),
-                                                    removing
-                                            );
-                                        })
+                                .then(literal("by")
+                                        .then(argument("direct_cause", EntityArgument.entity())
+                                                .executes(context -> {
+                                                    return runAdjust(
+                                                            context.getSource(),
+                                                            EntityArgument.getEntities(context, "targets"),
+                                                            IntegerArgumentType.getInteger(context, "amount"),
+                                                            TemperatureChange.create(
+                                                                    ResourceArgument.getResource(context, "source", ThermooRegistryKeys.TEMPERATURE_SOURCE),
+                                                                    EntityArgument.getEntity(context, "direct_cause")
+                                                            ),
+                                                            removing
+                                                    );
+                                                })
+                                                .then(literal("from").then(argument("cause", EntityArgument.entity())
+                                                        .executes(context -> {
+                                                            return runAdjust(
+                                                                    context.getSource(),
+                                                                    EntityArgument.getEntities(context, "targets"),
+                                                                    IntegerArgumentType.getInteger(context, "amount"),
+                                                                    TemperatureChange.create(
+                                                                            ResourceArgument.getResource(context, "source", ThermooRegistryKeys.TEMPERATURE_SOURCE),
+                                                                            EntityArgument.getEntity(context, "cause"),
+                                                                            EntityArgument.getEntity(context, "direct_cause")
+                                                                    ),
+                                                                    removing
+                                                            );
+                                                        }))
+                                                )
+                                        )
+                                        .then(literal("at")
+                                                .then(argument("position", Vec3Argument.vec3())
+                                                        .executes(context -> {
+                                                            return runAdjust(
+                                                                    context.getSource(),
+                                                                    EntityArgument.getEntities(context, "targets"),
+                                                                    IntegerArgumentType.getInteger(context, "amount"),
+                                                                    TemperatureChange.create(
+                                                                            ResourceArgument.getResource(context, "source", ThermooRegistryKeys.TEMPERATURE_SOURCE),
+                                                                            Vec3Argument.getVec3(context, "position")
+                                                                    ),
+                                                                    removing
+                                                            );
+                                                        })
+                                                )
+                                        )
                                 )
                         )
                 );
