@@ -4,6 +4,8 @@ import com.github.thedeathlycow.thermoo.api.core.v1.TemperatureChange;
 import com.github.thedeathlycow.thermoo.api.core.v1.event.EnvironmentTickContext;
 import com.github.thedeathlycow.thermoo.api.core.v1.event.LivingEntityTemperatureTickEvents;
 import com.github.thedeathlycow.thermoo.api.core.v1.source.TemperatureSource;
+import com.github.thedeathlycow.thermoo.api.core.v1.source.TemperatureSources;
+import com.google.common.base.Preconditions;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.core.Holder;
@@ -13,10 +15,12 @@ import net.minecraft.world.entity.LivingEntity;
 
 import java.util.IdentityHashMap;
 import java.util.Map;
+import java.util.Set;
 
 public record UpdateEvents(
         Event<LivingEntityTemperatureTickEvents.GetTemperatureChange> event
 ) {
+    private static final Set<ResourceKey<TemperatureSource>> MAY_NOT_TICK = Set.of(TemperatureSources.ABSOLUTE, TemperatureSources.ENVIRONMENT);
     private static final Map<ResourceKey<TemperatureSource>, UpdateEvents> EVENT_REGISTRY = new IdentityHashMap<>();
 
     public static void invokeAllWithContext(
@@ -38,6 +42,8 @@ public record UpdateEvents(
     }
 
     public static UpdateEvents getOrCreate(ResourceKey<TemperatureSource> key) {
+        Preconditions.checkArgument(!MAY_NOT_TICK.contains(key), "The temperature source " + key.identifier() + " is not allowed to be ticked through this event.");
+
         return EVENT_REGISTRY.computeIfAbsent(
                 key,
                 _ -> new UpdateEvents(createGetChange())

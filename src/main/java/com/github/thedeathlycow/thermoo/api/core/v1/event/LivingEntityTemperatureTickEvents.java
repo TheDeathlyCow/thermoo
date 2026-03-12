@@ -29,6 +29,7 @@ public final class LivingEntityTemperatureTickEvents {
      *
      * @param sourceKey The registry key of the temperature source to get the event for, may not be {@code null}.
      * @return Returns the event for the given source key, creating it if it does not already exist.
+     * @throws IllegalArgumentException If the given source is not allowed to be ticked by this event.
      */
     public static Event<GetTemperatureChange> getTemperatureChange(ResourceKey<TemperatureSource> sourceKey) {
         return UpdateEvents.getOrCreate(sourceKey).event();
