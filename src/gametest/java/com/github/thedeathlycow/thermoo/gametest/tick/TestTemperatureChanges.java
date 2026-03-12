@@ -80,7 +80,7 @@ public class TestTemperatureChanges {
                 TemperatureSources.ACTIVE
         ).register(TestTemperatureChanges::getActiveChange);
 
-        TemperatureChangeEvents.ALLOW_TEMPERATURE_CHANGE.register((target, _, context) -> {
+        TemperatureChangeEvents.ALLOW_TEMPERATURE_CHANGE.register((target, _,  _,context) -> {
             if (target.level() instanceof ServerLevel serverLevel) {
                 if (context.is(TemperatureSources.PASSIVE)) {
                     return TriState.of(serverLevel.getGameRules().get(APPLY_PASSIVE_CHANGES));
