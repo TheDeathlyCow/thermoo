@@ -165,13 +165,12 @@ public abstract class EnvironmentAwareEntityMixin extends Entity implements Temp
 
         LivingEntity self = (LivingEntity) (Object) this;
 
-        TriState allowChange = TemperatureChangeEvents.ALLOW_TEMPERATURE_CHANGE.invoker()
-                .allowChange(self, temperatureChange, context);
+        int oldTemperature = this.thermoo$getTemperature();
+        int modifiedChange = context.applyReduction(self, temperatureChange);
 
-        if (allowChange != TriState.FALSE) {
-            int oldTemperature = this.thermoo$getTemperature();
-            int modifiedChange = context.applyReduction(self, temperatureChange);
+        TemperatureChangeEvents.AllowChange invoker = TemperatureChangeEvents.ALLOW_TEMPERATURE_CHANGE.invoker();
 
+        if (modifiedChange != 0 && invoker.allowChange(self, temperatureChange, modifiedChange, context) != TriState.FALSE) {
             int newTemperature = oldTemperature + modifiedChange;
             this.thermoo$setTemperature(newTemperature);
 

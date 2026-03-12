@@ -49,7 +49,7 @@ public class TemperatureSourceProvider extends FabricDynamicRegistryProvider {
         entries.add(
                 TemperatureSources.ENVIRONMENT,
                 TemperatureSource.builder(Component.empty())
-                        .withReduction(new RandomlyDodgeReduction(
+                        .withReduction(RandomlyDodgeReduction.create(
                                 ThermooAttributes.FROST_RESISTANCE,
                                 ThermooAttributes.HEAT_RESISTANCE
                         ))

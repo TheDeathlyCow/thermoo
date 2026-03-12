@@ -30,6 +30,16 @@ public sealed class ScaledAttributeReduction implements TemperatureReduction per
         this.scale = scale;
     }
 
+    /**
+     * Creates a new scaled attribute reduction. This method is primarily intended for use with data generation.
+     *
+     * @param coldResistanceAttribute The attribute to use for resistance against negative temperature changes. May not
+     *                                be {@code null}, but may be the same as {@code heatResistanceAttribute}.
+     * @param heatResistanceAttribute The attribute to use for resistance against positive temperature changes. May not
+     *                                be {@code null}, but may be the same as {@code heatResistanceAttribute}.
+     * @param scale                   The scale to modify the effectiveness of the resistance. Must be finite.
+     * @return Returns a new reduction.
+     */
     public static ScaledAttributeReduction create(Holder<Attribute> coldResistanceAttribute, Holder<Attribute> heatResistanceAttribute, double scale) {
         Preconditions.checkNotNull(coldResistanceAttribute);
         Preconditions.checkNotNull(heatResistanceAttribute);
@@ -38,10 +48,29 @@ public sealed class ScaledAttributeReduction implements TemperatureReduction per
         return new ScaledAttributeReduction(coldResistanceAttribute, heatResistanceAttribute, scale);
     }
 
+    /**
+     * Creates a new scaled attribute reduction with a scale of 1. This method is primarily intended for use with data
+     * generation.
+     *
+     * @param coldResistanceAttribute The attribute to use for resistance against negative temperature changes. May not
+     *                                be {@code null}, but may be the same as {@code heatResistanceAttribute}.
+     * @param heatResistanceAttribute The attribute to use for resistance against positive temperature changes. May not
+     *                                be {@code null}, but may be the same as {@code heatResistanceAttribute}.
+     * @return Returns a new reduction.
+     */
     public static ScaledAttributeReduction create(Holder<Attribute> coldResistanceAttribute, Holder<Attribute> heatResistanceAttribute) {
         return create(coldResistanceAttribute, heatResistanceAttribute, 1.0);
     }
 
+    /**
+     * Linearly reduces the temperature change based on the relevant resistance type.
+     *
+     * @param target            The target being affected by the temperature change.
+     * @param context           The context of the temperature change.
+     * @param temperatureChange The amount of the temperature change.
+     * @return Returns a reduced temperature change. If the reduced temperature value is not an integer, returns the
+     * {@link Math#ceil(double)} of the value.
+     */
     @Override
     public int applyReduction(LivingEntity target, TemperatureChange context, int temperatureChange) {
         double resistance = temperatureChange < 0
@@ -53,19 +82,33 @@ public sealed class ScaledAttributeReduction implements TemperatureReduction per
         return Mth.ceil((1 - resistanceAsPercent) * temperatureChange);
     }
 
+    /**
+     * @return Returns {@link #CODEC}.
+     */
     @Override
     public MapCodec<? extends ScaledAttributeReduction> codec() {
         return CODEC;
     }
 
+    /**
+     * The resistance attribute to be used for negative temperature changes.
+     */
     public final Holder<Attribute> coldResistanceAttribute() {
         return coldResistanceAttribute;
     }
 
+    /**
+     * The resistance attribute to be used for positive temperature changes.
+     */
     public final Holder<Attribute> heatResistanceAttribute() {
         return heatResistanceAttribute;
     }
 
+    /**
+     * The scale modifies the effectiveness of the resistance attributes.
+     *
+     * @return Returns a finite double.
+     */
     public final double scale() {
         return scale;
     }
