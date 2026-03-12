@@ -7,6 +7,9 @@ import net.fabricmc.fabric.api.event.EventFactory;
 import net.fabricmc.fabric.api.util.TriState;
 import net.minecraft.world.entity.LivingEntity;
 
+/**
+ * Events that allow for finer grained control over all temperature changes.
+ */
 public final class TemperatureChangeEvents {
     /**
      * Checks if a given temperature change should be allowed to proceed. Hooked in after basic checks like

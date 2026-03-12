@@ -7,24 +7,29 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.LivingEntity;
 
 /**
- * Events for ticking passive and active temperature changes on entities on the logical server. These events will apply
- * to spectator entities, but will not apply to dead or removed entities.
+ * Events for ticking temperature changes on living entities on the logical server. These events will not apply
+ * to dead or removed entities.
  * <p>
- * There are two categories of temperature change update ticks: passive and active. Passive changes should be used for
- * temperature changes from nearby blocks, such as heat from light sources or cooling from an air conditioner. Active
- * changes should be used for temperature changes from entity effects such as heat from being on fire, or cold from
- * being submerged in powder snow.
+ * For finer grained control over whether a temperature change is allowed to proceed or to react after a change has
+ * been applied, see {@link TemperatureChangeEvents}.
  * <p>
- * For environmental effects, see the {@link com.github.thedeathlycow.thermoo.api.environment.EnvironmentDefinition} that handles
- * the environment datapack registries, and {@link com.github.thedeathlycow.thermoo.api.environment.event.ServerPlayerEnvironmentTickEvents}
- * for applying temperature changes from those environmental conditions.
- * <p>
- * The events are invoked in the following order:
- * <ul><li>ALLOW_(PASSIVE|ACTIVE)_TEMPERATURE_UPDATE
- * <li>GET_(PASSIVE|ACTIVE)_TEMPERATURE_CHANGE
- * <li>ALLOW_(PASSIVE|ACTIVE)_TEMPERATURE_CHANGE</ul>
+ * For environmental effects, see {@link com.github.thedeathlycow.thermoo.api.environment.EnvironmentDefinition} for
+ * the environment changes, and
+ * {@link com.github.thedeathlycow.thermoo.api.environment.event.ServerPlayerEnvironmentTickEvents} for applying
+ * temperature changes from environmental conditions.
  */
 public final class LivingEntityTemperatureTickEvents {
+    /**
+     * Returns the temperature change event for a specific {@link TemperatureSource}. Each registered listener
+     * contributes a temperature change value that is summed and applied to the entity via
+     * {@link com.github.thedeathlycow.thermoo.api.core.v1.TemperatureAware#thermoo$addTemperature(int, com.github.thedeathlycow.thermoo.api.core.v1.TemperatureChange)}.
+     * <p>
+     * Note that this event is only invoked for sources that are registered to the level's ticking sources and have a
+     * {@link TemperatureSource#tickInterval()} greater than {@code 0}.
+     *
+     * @param sourceKey The registry key of the temperature source to get the event for, may not be {@code null}.
+     * @return Returns the event for the given source key, creating it if it does not already exist.
+     */
     public static Event<GetTemperatureChange> getTemperatureChange(ResourceKey<TemperatureSource> sourceKey) {
         return UpdateEvents.getOrCreate(sourceKey).event();
     }
