@@ -1,5 +1,7 @@
 {
-  "description": "",
+  "description": {
+    "translate": "thermoo.temperature_source.environment"
+  },
   "reduction": {
     "type": "thermoo:randomly_dodge",
     "cold_resistance_attribute": "thermoo:frost_resistance",

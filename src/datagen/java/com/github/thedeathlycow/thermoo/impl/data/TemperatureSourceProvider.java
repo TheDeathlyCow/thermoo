@@ -18,13 +18,13 @@ public class TemperatureSourceProvider extends FabricDynamicRegistryProvider {
     protected void configure(HolderLookup.Provider registries, Entries entries) {
         entries.add(
                 TemperatureSources.ABSOLUTE,
-                TemperatureSource.builder(Component.empty())
+                TemperatureSource.builder(Component.translatable("thermoo.temperature_source.absolute"))
                         .build()
         );
 
         entries.add(
                 TemperatureSources.ACTIVE,
-                TemperatureSource.builder(Component.empty())
+                TemperatureSource.builder(Component.translatable("thermoo.temperature_source.active"))
                         .withReduction(ScaledAttributeReduction.create(
                                 ThermooAttributes.FROST_RESISTANCE,
                                 ThermooAttributes.HEAT_RESISTANCE,
@@ -36,7 +36,7 @@ public class TemperatureSourceProvider extends FabricDynamicRegistryProvider {
 
         entries.add(
                 TemperatureSources.PASSIVE,
-                TemperatureSource.builder(Component.empty())
+                TemperatureSource.builder(Component.translatable("thermoo.temperature_source.passive"))
                         .withReduction(ReinforcingAttributeReduction.create(
                                 ThermooAttributes.FROST_RESISTANCE,
                                 ThermooAttributes.HEAT_RESISTANCE,
@@ -48,7 +48,7 @@ public class TemperatureSourceProvider extends FabricDynamicRegistryProvider {
 
         entries.add(
                 TemperatureSources.ENVIRONMENT,
-                TemperatureSource.builder(Component.empty())
+                TemperatureSource.builder(Component.translatable("thermoo.temperature_source.environment"))
                         .withReduction(RandomlyDodgeReduction.create(
                                 ThermooAttributes.FROST_RESISTANCE,
                                 ThermooAttributes.HEAT_RESISTANCE

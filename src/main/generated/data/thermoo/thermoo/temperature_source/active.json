@@ -1,5 +1,7 @@
 {
-  "description": "",
+  "description": {
+    "translate": "thermoo.temperature_source.active"
+  },
   "reduction": {
     "type": "thermoo:scaled_attribute",
     "cold_resistance_attribute": "thermoo:frost_resistance",

@@ -1,3 +1,5 @@
 {
-  "description": ""
+  "description": {
+    "translate": "thermoo.temperature_source.absolute"
+  }
 }
