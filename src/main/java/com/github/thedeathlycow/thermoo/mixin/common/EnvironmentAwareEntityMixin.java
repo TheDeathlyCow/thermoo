@@ -1,11 +1,11 @@
 package com.github.thedeathlycow.thermoo.mixin.common;
 
-import com.github.thedeathlycow.thermoo.api.entity.v1.ThermooAttributes;
-import com.github.thedeathlycow.thermoo.api.core.v1.registry.ThermooTags;
 import com.github.thedeathlycow.thermoo.api.core.v1.Soakable;
 import com.github.thedeathlycow.thermoo.api.core.v1.TemperatureAware;
 import com.github.thedeathlycow.thermoo.api.core.v1.TemperatureChange;
 import com.github.thedeathlycow.thermoo.api.core.v1.event.TemperatureChangeEvents;
+import com.github.thedeathlycow.thermoo.api.entity.v1.ThermooAttributes;
+import com.github.thedeathlycow.thermoo.api.entity.v1.ThermooEntityTypeTags;
 import com.github.thedeathlycow.thermoo.impl.component.ThermooComponents;
 import net.fabricmc.fabric.api.util.TriState;
 import net.minecraft.core.Holder;
@@ -120,10 +120,10 @@ public abstract class EnvironmentAwareEntityMixin extends Entity implements Temp
     public boolean thermoo$canFreeze() {
         if (this.isSpectator()) {
             return false;
-        } else if (this.is(ThermooTags.BENEFITS_FROM_COLD_ENTITY_TYPE)) {
+        } else if (this.is(ThermooEntityTypeTags.BENEFITS_FROM_COLD_ENTITY_TYPE)) {
             // entities that benefit from heat override entities that are immune to it
             return true;
-        } else if (this.is(ThermooTags.COLD_IMMUNE_ENTITY_TYPE)) {
+        } else if (this.is(ThermooEntityTypeTags.COLD_IMMUNE_ENTITY_TYPE)) {
             return false;
         } else if ((Entity) this instanceof Player player) {
             return !player.isCreative();
@@ -136,10 +136,10 @@ public abstract class EnvironmentAwareEntityMixin extends Entity implements Temp
     public boolean thermoo$canOverheat() {
         if (this.isSpectator()) {
             return false;
-        } else if (this.is(ThermooTags.BENEFITS_FROM_HEAT_ENTITY_TYPE)) {
+        } else if (this.is(ThermooEntityTypeTags.BENEFITS_FROM_HEAT_ENTITY_TYPE)) {
             // entities that benefit from heat override entities that are immune to it
             return true;
-        } else if (this.is(ThermooTags.HEAT_IMMUNE_ENTITY_TYPE)) {
+        } else if (this.is(ThermooEntityTypeTags.HEAT_IMMUNE_ENTITY_TYPE)) {
             return false;
         } else if ((Entity) this instanceof Player player) {
             return !player.isCreative();
