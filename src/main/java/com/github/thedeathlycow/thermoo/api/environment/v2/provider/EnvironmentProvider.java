@@ -1,7 +1,7 @@
 package com.github.thedeathlycow.thermoo.api.environment.v2.provider;
 
-import com.github.thedeathlycow.thermoo.api.ThermooRegistries;
-import com.github.thedeathlycow.thermoo.api.ThermooRegistryKeys;
+import com.github.thedeathlycow.thermoo.api.core.v1.registry.ThermooRegistries;
+import com.github.thedeathlycow.thermoo.api.core.v1.registry.ThermooRegistryKeys;
 import com.github.thedeathlycow.thermoo.api.environment.v2.component.EnvironmentComponentTypes;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;

@@ -1,7 +1,7 @@
 package com.github.thedeathlycow.thermoo.mixin.common;
 
 import com.github.thedeathlycow.thermoo.api.entity.v1.ThermooAttributes;
-import com.github.thedeathlycow.thermoo.api.ThermooTags;
+import com.github.thedeathlycow.thermoo.api.core.v1.registry.ThermooTags;
 import com.github.thedeathlycow.thermoo.api.core.v1.Soakable;
 import com.github.thedeathlycow.thermoo.api.core.v1.TemperatureAware;
 import com.github.thedeathlycow.thermoo.api.core.v1.TemperatureChange;

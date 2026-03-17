@@ -1,6 +1,6 @@
 package com.github.thedeathlycow.thermoo.api.core.v1.source;
 
-import com.github.thedeathlycow.thermoo.api.ThermooRegistries;
+import com.github.thedeathlycow.thermoo.api.core.v1.registry.ThermooRegistries;
 import com.github.thedeathlycow.thermoo.api.core.v1.TemperatureChange;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
@@ -28,7 +28,7 @@ public interface TemperatureReduction {
 
     /**
      * The codec for the reduction type. Implementors should register this codec to
-     * {@link com.github.thedeathlycow.thermoo.api.ThermooRegistries#TEMPERATURE_REDUCTION_TYPE} in an entry point.
+     * {@link ThermooRegistries#TEMPERATURE_REDUCTION_TYPE} in an entry point.
      */
     MapCodec<? extends TemperatureReduction> codec();
 }

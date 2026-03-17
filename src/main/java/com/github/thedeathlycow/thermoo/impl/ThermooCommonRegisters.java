@@ -1,6 +1,6 @@
 package com.github.thedeathlycow.thermoo.impl;
 
-import com.github.thedeathlycow.thermoo.api.ThermooRegistries;
+import com.github.thedeathlycow.thermoo.api.core.v1.registry.ThermooRegistries;
 import com.github.thedeathlycow.thermoo.api.core.v1.source.RandomlyDodgeReduction;
 import com.github.thedeathlycow.thermoo.api.core.v1.source.ReinforcingAttributeReduction;
 import com.github.thedeathlycow.thermoo.api.core.v1.source.ScaledAttributeReduction;
