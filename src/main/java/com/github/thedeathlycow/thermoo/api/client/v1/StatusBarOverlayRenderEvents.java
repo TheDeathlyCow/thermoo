@@ -4,7 +4,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 
@@ -61,7 +61,7 @@ public final class StatusBarOverlayRenderEvents {
          * @param heartBarContext Data associated with the player heart bar.
          */
         void render(
-                GuiGraphics graphics,
+                GuiGraphicsExtractor graphics,
                 Player player,
                 HeartBarContext heartBarContext
         );
@@ -76,7 +76,7 @@ public final class StatusBarOverlayRenderEvents {
          * @param heartBarContext Data associated with the mount heart bar.
          */
         void render(
-                GuiGraphics graphics,
+                GuiGraphicsExtractor graphics,
                 Player player,
                 LivingEntity mount,
                 HeartBarContext heartBarContext

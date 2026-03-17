@@ -6,7 +6,7 @@ import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.Share;
 import com.llamalad7.mixinextras.sugar.ref.LocalRef;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import org.joml.Vector2i;
@@ -21,17 +21,16 @@ import java.util.SequencedCollection;
 
 @Mixin(Gui.class)
 public abstract class GuiPlayerTemperatureMixin {
-
     @Inject(
-            method = "renderHearts",
+            method = "extractHearts",
             at = @At(
                     value = "INVOKE",
-                    target = "Lnet/minecraft/client/gui/Gui;renderHeart(Lnet/minecraft/client/gui/GuiGraphics;Lnet/minecraft/client/gui/Gui$HeartType;IIZZZ)V",
+                    target = "Lnet/minecraft/client/gui/Gui;extractHeart(Lnet/minecraft/client/gui/GuiGraphicsExtractor;Lnet/minecraft/client/gui/Gui$HeartType;IIZZZ)V",
                     ordinal = 0
             )
     )
     private void captureHeartPositions(
-            GuiGraphics graphics,
+            GuiGraphicsExtractor graphics,
             Player player,
             int x, int y,
             int lines,
@@ -42,9 +41,9 @@ public abstract class GuiPlayerTemperatureMixin {
             int absorption,
             boolean blinking,
             CallbackInfo ci,
-            @Local(ordinal = 10) int index,
-            @Local(ordinal = 13) int heartX,
-            @Local(ordinal = 14) int heartY,
+            @Local(name = "containerIndex") int index,
+            @Local(name = "xo") int heartX,
+            @Local(name = "yo") int heartY,
             @Share("thermoo_heart_positions") LocalRef<SequencedCollection<Vector2i>> heartPositionsRef
     ) {
         if (heartPositionsRef.get() == null) {
@@ -54,13 +53,13 @@ public abstract class GuiPlayerTemperatureMixin {
     }
 
     @Inject(
-            method = "renderHearts",
+            method = "extractHearts",
             at = @At(
                     value = "TAIL"
             )
     )
     private void drawHeartOverlayBar(
-            GuiGraphics graphics,
+            GuiGraphicsExtractor graphics,
             Player player,
             int x, int y,
             int lines,

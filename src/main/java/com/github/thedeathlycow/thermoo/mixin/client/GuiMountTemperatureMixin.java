@@ -6,13 +6,12 @@ import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.Share;
 import com.llamalad7.mixinextras.sugar.ref.LocalRef;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector2i;
-import org.spongepowered.asm.mixin.Debug;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -27,7 +26,6 @@ import java.util.SequencedCollection;
  * For the mount health bar. For the player health bar see {@link GuiPlayerTemperatureMixin}
  */
 @Mixin(Gui.class)
-@Debug(export = true)
 public abstract class GuiMountTemperatureMixin {
     @Shadow
     protected abstract LivingEntity getPlayerVehicleWithHealth();
@@ -39,18 +37,18 @@ public abstract class GuiMountTemperatureMixin {
     protected abstract int getVehicleMaxHearts(@Nullable LivingEntity entity);
 
     @Inject(
-            method = "renderVehicleHealth",
+            method = "extractVehicleHealth",
             at = @At(
                     value = "INVOKE",
-                    target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/resources/Identifier;IIII)V",
+                    target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;blitSprite(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/resources/Identifier;IIII)V",
                     ordinal = 0
             )
     )
     private void startHeartCapture(
-            GuiGraphics poseStack,
+            GuiGraphicsExtractor poseStack,
             CallbackInfo ci,
-            @Local(ordinal = 8) int heartX,
-            @Local(ordinal = 4) int heartY,
+            @Local(name = "xo") int heartX,
+            @Local(name = "yo") int heartY,
             @Share("thermoo_heart_positions") LocalRef<SequencedCollection<Vector2i>> heartPositionsRef
     ) {
         if (heartPositionsRef.get() == null) {
@@ -61,11 +59,11 @@ public abstract class GuiMountTemperatureMixin {
     }
 
     @Inject(
-            method = "renderVehicleHealth",
+            method = "extractVehicleHealth",
             at = @At("TAIL")
     )
     private void renderMountHealth(
-            GuiGraphics graphics,
+            GuiGraphicsExtractor graphics,
             CallbackInfo ci,
             @Share("thermoo_heart_positions") LocalRef<SequencedCollection<Vector2i>> heartPositionsRef
     ) {

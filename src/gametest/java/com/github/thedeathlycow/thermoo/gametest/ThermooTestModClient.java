@@ -4,7 +4,7 @@ import com.github.thedeathlycow.thermoo.api.client.v1.HeartBarContext;
 import com.github.thedeathlycow.thermoo.api.client.v1.StatusBarOverlayRenderEvents;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import net.fabricmc.api.ClientModInitializer;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
@@ -27,7 +27,7 @@ public class ThermooTestModClient implements ClientModInitializer {
     }
 
     public static void renderMountFireHeartBar(
-            GuiGraphics graphics,
+            GuiGraphicsExtractor graphics,
             Player player,
             LivingEntity mount,
             HeartBarContext heartBarContext
@@ -72,7 +72,7 @@ public class ThermooTestModClient implements ClientModInitializer {
     }
 
     public static void renderFireHeartBar(
-            GuiGraphics graphics,
+            GuiGraphicsExtractor graphics,
             Player player,
             HeartBarContext heartBarContext
     ) {
