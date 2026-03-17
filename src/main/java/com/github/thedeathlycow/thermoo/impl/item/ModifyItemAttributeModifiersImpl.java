@@ -1,6 +1,6 @@
 package com.github.thedeathlycow.thermoo.impl.item;
 
-import com.github.thedeathlycow.thermoo.api.item.ModifyItemAttributeModifiersCallback;
+import com.github.thedeathlycow.thermoo.api.item.v2.ModifyItemAttributeModifiersCallback;
 import com.github.thedeathlycow.thermoo.mixin.common.accessor.AttributeModifiersComponentBuilderAccessor;
 import it.unimi.dsi.fastutil.Pair;
 import net.minecraft.resources.Identifier;

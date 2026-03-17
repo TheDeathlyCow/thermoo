@@ -1,6 +1,6 @@
 package com.github.thedeathlycow.thermoo.gametest.tests.item;
 
-import com.github.thedeathlycow.thermoo.api.item.ModifyItemAttributeModifiersCallback;
+import com.github.thedeathlycow.thermoo.api.item.v2.ModifyItemAttributeModifiersCallback;
 import com.github.thedeathlycow.thermoo.gametest.ThermooTestMod;
 import net.fabricmc.fabric.api.gametest.v1.GameTest;
 import net.minecraft.core.BlockPos;

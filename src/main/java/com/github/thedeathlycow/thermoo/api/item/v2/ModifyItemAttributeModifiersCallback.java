@@ -1,4 +1,4 @@
-package com.github.thedeathlycow.thermoo.api.item;
+package com.github.thedeathlycow.thermoo.api.item.v2;
 
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
