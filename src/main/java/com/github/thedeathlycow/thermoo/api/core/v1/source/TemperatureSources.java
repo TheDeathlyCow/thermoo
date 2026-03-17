@@ -28,11 +28,11 @@ public final class TemperatureSources {
     public static final ResourceKey<TemperatureSource> PASSIVE = key("passive");
 
     /**
-     * Used by {@link com.github.thedeathlycow.thermoo.api.environment.event.ServerPlayerEnvironmentTickEvents} as the
+     * Used by {@link com.github.thedeathlycow.thermoo.api.environment.v2.event.ServerPlayerEnvironmentTickEvents} as the
      * source for temperature changes sourced from the environmental conditions.
      * <p>
      * This temperature source may never be ticked by {@link com.github.thedeathlycow.thermoo.api.core.v1.event.LivingEntityTemperatureTickEvents}.
-     * Tick-related logic for this source should be exclusively handled through {@link com.github.thedeathlycow.thermoo.api.environment.event.ServerPlayerEnvironmentTickEvents}.
+     * Tick-related logic for this source should be exclusively handled through {@link com.github.thedeathlycow.thermoo.api.environment.v2.event.ServerPlayerEnvironmentTickEvents}.
      */
     public static final ResourceKey<TemperatureSource> ENVIRONMENT = key("environment");
 

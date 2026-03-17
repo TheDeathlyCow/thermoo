@@ -1,7 +1,7 @@
 package com.github.thedeathlycow.thermoo.api;
 
 import com.github.thedeathlycow.thermoo.api.core.v1.source.TemperatureReduction;
-import com.github.thedeathlycow.thermoo.api.environment.provider.EnvironmentProviderType;
+import com.github.thedeathlycow.thermoo.api.environment.v2.provider.EnvironmentProviderType;
 import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureEffect;
 import com.mojang.serialization.MapCodec;
 import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
@@ -37,7 +37,7 @@ public final class ThermooRegistries {
     /**
      * Environment component type registry
      *
-     * @see com.github.thedeathlycow.thermoo.api.environment.component.EnvironmentComponentTypes
+     * @see com.github.thedeathlycow.thermoo.api.environment.v2.component.EnvironmentComponentTypes
      */
     public static final Registry<DataComponentType<?>> ENVIRONMENT_COMPONENT_TYPE = FabricRegistryBuilder.create(
             ThermooRegistryKeys.ENVIRONMENT_COMPONENT_TYPE

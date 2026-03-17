@@ -1,10 +1,10 @@
 package com.github.thedeathlycow.thermoo.gametest.tests.environment;
 
-import com.github.thedeathlycow.thermoo.api.environment.component.AtmosphericPressureComponent;
-import com.github.thedeathlycow.thermoo.api.environment.component.EnvironmentComponentTypes;
-import com.github.thedeathlycow.thermoo.api.environment.component.RelativeHumidityComponent;
-import com.github.thedeathlycow.thermoo.api.environment.component.TemperatureRecordComponent;
-import com.github.thedeathlycow.thermoo.api.environment.provider.EnvironmentProvider;
+import com.github.thedeathlycow.thermoo.api.environment.v2.component.AtmosphericPressureComponent;
+import com.github.thedeathlycow.thermoo.api.environment.v2.component.EnvironmentComponentTypes;
+import com.github.thedeathlycow.thermoo.api.environment.v2.component.RelativeHumidityComponent;
+import com.github.thedeathlycow.thermoo.api.environment.v2.component.TemperatureRecordComponent;
+import com.github.thedeathlycow.thermoo.api.environment.v2.provider.EnvironmentProvider;
 import com.github.thedeathlycow.thermoo.api.season.TemperateSeason;
 import com.github.thedeathlycow.thermoo.api.season.ThermooSeasonState;
 import com.github.thedeathlycow.thermoo.api.season.TropicalSeason;

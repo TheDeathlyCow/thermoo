@@ -1,6 +1,7 @@
 package com.github.thedeathlycow.thermoo.api.core.v1.event;
 
 import com.github.thedeathlycow.thermoo.api.core.v1.source.TemperatureSource;
+import com.github.thedeathlycow.thermoo.api.environment.v2.EnvironmentDefinition;
 import com.github.thedeathlycow.thermoo.impl.core.UpdateEvents;
 import net.fabricmc.fabric.api.event.Event;
 import net.minecraft.resources.ResourceKey;
@@ -13,9 +14,9 @@ import net.minecraft.world.entity.LivingEntity;
  * For finer grained control over whether a temperature change is allowed to proceed or to react after a change has
  * been applied, see {@link TemperatureChangeEvents}.
  * <p>
- * For environmental effects, see {@link com.github.thedeathlycow.thermoo.api.environment.EnvironmentDefinition} for
+ * For environmental effects, see {@link EnvironmentDefinition} for
  * the environment changes, and
- * {@link com.github.thedeathlycow.thermoo.api.environment.event.ServerPlayerEnvironmentTickEvents} for applying
+ * {@link com.github.thedeathlycow.thermoo.api.environment.v2.event.ServerPlayerEnvironmentTickEvents} for applying
  * temperature changes from environmental conditions.
  */
 public final class LivingEntityTemperatureTickEvents {

@@ -1,7 +1,7 @@
 package com.github.thedeathlycow.thermoo.impl.client.debug;
 
 import com.github.thedeathlycow.thermoo.api.ThermooRegistryKeys;
-import com.github.thedeathlycow.thermoo.api.environment.EnvironmentDefinition;
+import com.github.thedeathlycow.thermoo.api.environment.v2.EnvironmentDefinition;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import com.github.thedeathlycow.thermoo.impl.environment.EnvironmentLookupImpl;
 import net.fabricmc.api.EnvType;

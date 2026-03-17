@@ -1,6 +1,6 @@
 package com.github.thedeathlycow.thermoo.gametest.tests.environment;
 
-import com.github.thedeathlycow.thermoo.api.environment.component.TemperatureRecordComponent;
+import com.github.thedeathlycow.thermoo.api.environment.v2.component.TemperatureRecordComponent;
 import com.github.thedeathlycow.thermoo.api.season.TropicalSeason;
 import net.fabricmc.fabric.api.gametest.v1.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;

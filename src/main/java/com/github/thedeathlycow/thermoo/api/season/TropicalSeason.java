@@ -1,6 +1,6 @@
 package com.github.thedeathlycow.thermoo.api.season;
 
-import com.github.thedeathlycow.thermoo.api.environment.attribute.ThermooEnvironmentAttributes;
+import com.github.thedeathlycow.thermoo.api.environment.v2.attribute.ThermooEnvironmentAttributes;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.StringRepresentable;

@@ -1,6 +1,6 @@
 package com.github.thedeathlycow.thermoo.mixin.common;
 
-import com.github.thedeathlycow.thermoo.api.environment.provider.EnvironmentProvider;
+import com.github.thedeathlycow.thermoo.api.environment.v2.provider.EnvironmentProvider;
 import com.github.thedeathlycow.thermoo.impl.environment.ThermooBiome;
 import net.minecraft.core.Holder;
 import net.minecraft.world.level.biome.Biome;

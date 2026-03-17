@@ -72,7 +72,7 @@ public interface TemperatureAware {
 
     /**
      * Supplies the environmental cold resistance of a temperature aware object. Environmental cold resistance is a chance
-     * to dodge a strictly negative {@link com.github.thedeathlycow.thermoo.api.environment.event.ServerPlayerEnvironmentTickEvents environment temperature change}.
+     * to dodge a strictly negative {@link com.github.thedeathlycow.thermoo.api.environment.v2.event.ServerPlayerEnvironmentTickEvents environment temperature change}.
      *
      * @return Returns a double in the range [0, 1] that is the chance that a negative environment temperature change
      * will be dodged
@@ -83,7 +83,7 @@ public interface TemperatureAware {
 
     /**
      * Supplies the environmental heat resistance of a temperature aware object. Environmental heat resistance is a chance
-     * to dodge a strictly positive {@link com.github.thedeathlycow.thermoo.api.environment.event.ServerPlayerEnvironmentTickEvents environment temperature change}.
+     * to dodge a strictly positive {@link com.github.thedeathlycow.thermoo.api.environment.v2.event.ServerPlayerEnvironmentTickEvents environment temperature change}.
      *
      * @return Returns a double in the range [0, 1] that is the chance that a positive environment temperature change
      * will be dodged

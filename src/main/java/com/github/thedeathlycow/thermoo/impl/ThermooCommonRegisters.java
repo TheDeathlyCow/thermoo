@@ -5,10 +5,10 @@ import com.github.thedeathlycow.thermoo.api.core.v1.source.RandomlyDodgeReductio
 import com.github.thedeathlycow.thermoo.api.core.v1.source.ReinforcingAttributeReduction;
 import com.github.thedeathlycow.thermoo.api.core.v1.source.ScaledAttributeReduction;
 import com.github.thedeathlycow.thermoo.api.core.v1.source.TemperatureReduction;
-import com.github.thedeathlycow.thermoo.api.environment.attribute.ThermooAttributeTypes;
-import com.github.thedeathlycow.thermoo.api.environment.attribute.ThermooEnvironmentAttributes;
-import com.github.thedeathlycow.thermoo.api.environment.provider.EnvironmentProviderType;
-import com.github.thedeathlycow.thermoo.api.environment.provider.EnvironmentProviderTypes;
+import com.github.thedeathlycow.thermoo.api.environment.v2.attribute.ThermooAttributeTypes;
+import com.github.thedeathlycow.thermoo.api.environment.v2.attribute.ThermooEnvironmentAttributes;
+import com.github.thedeathlycow.thermoo.api.environment.v2.provider.EnvironmentProviderType;
+import com.github.thedeathlycow.thermoo.api.environment.v2.provider.EnvironmentProviderTypes;
 import com.github.thedeathlycow.thermoo.api.predicate.SoakedLootCondition;
 import com.github.thedeathlycow.thermoo.api.predicate.TemperatureLootCondition;
 import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureEffect;

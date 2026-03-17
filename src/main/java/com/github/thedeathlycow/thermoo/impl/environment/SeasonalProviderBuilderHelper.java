@@ -1,6 +1,6 @@
 package com.github.thedeathlycow.thermoo.impl.environment;
 
-import com.github.thedeathlycow.thermoo.api.environment.provider.EnvironmentProvider;
+import com.github.thedeathlycow.thermoo.api.environment.v2.provider.EnvironmentProvider;
 import net.minecraft.core.Holder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

@@ -2,9 +2,9 @@ package com.github.thedeathlycow.thermoo.api;
 
 import com.github.thedeathlycow.thermoo.api.core.v1.source.TemperatureReduction;
 import com.github.thedeathlycow.thermoo.api.core.v1.source.TemperatureSource;
-import com.github.thedeathlycow.thermoo.api.environment.EnvironmentDefinition;
-import com.github.thedeathlycow.thermoo.api.environment.provider.EnvironmentProvider;
-import com.github.thedeathlycow.thermoo.api.environment.provider.EnvironmentProviderType;
+import com.github.thedeathlycow.thermoo.api.environment.v2.EnvironmentDefinition;
+import com.github.thedeathlycow.thermoo.api.environment.v2.provider.EnvironmentProvider;
+import com.github.thedeathlycow.thermoo.api.environment.v2.provider.EnvironmentProviderType;
 import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureEffect;
 import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureStatus;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
@@ -48,7 +48,7 @@ public final class ThermooRegistryKeys {
     /**
      * The key for the environment component type registry
      *
-     * @see com.github.thedeathlycow.thermoo.api.environment.component.EnvironmentComponentTypes
+     * @see com.github.thedeathlycow.thermoo.api.environment.v2.component.EnvironmentComponentTypes
      */
     public static final ResourceKey<Registry<DataComponentType<?>>> ENVIRONMENT_COMPONENT_TYPE = createRegistryKey("environment_component_type");
 

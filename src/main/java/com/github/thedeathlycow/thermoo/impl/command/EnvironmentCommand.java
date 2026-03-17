@@ -1,12 +1,12 @@
 package com.github.thedeathlycow.thermoo.impl.command;
 
 import com.github.thedeathlycow.thermoo.api.command.v1.TemperatureUnitArgument;
-import com.github.thedeathlycow.thermoo.api.environment.EnvironmentLookup;
-import com.github.thedeathlycow.thermoo.api.environment.component.AtmosphericPressureComponent;
-import com.github.thedeathlycow.thermoo.api.environment.component.EnvironmentComponentTypes;
-import com.github.thedeathlycow.thermoo.api.environment.component.RelativeHumidityComponent;
-import com.github.thedeathlycow.thermoo.api.environment.component.TemperatureRecordComponent;
-import com.github.thedeathlycow.thermoo.api.environment.event.ServerPlayerEnvironmentTickEvents;
+import com.github.thedeathlycow.thermoo.api.environment.v2.EnvironmentLookup;
+import com.github.thedeathlycow.thermoo.api.environment.v2.component.AtmosphericPressureComponent;
+import com.github.thedeathlycow.thermoo.api.environment.v2.component.EnvironmentComponentTypes;
+import com.github.thedeathlycow.thermoo.api.environment.v2.component.RelativeHumidityComponent;
+import com.github.thedeathlycow.thermoo.api.environment.v2.component.TemperatureRecordComponent;
+import com.github.thedeathlycow.thermoo.api.environment.v2.event.ServerPlayerEnvironmentTickEvents;
 import com.github.thedeathlycow.thermoo.api.util.TemperatureUnit;
 import com.github.thedeathlycow.thermoo.impl.LivingEntityTickUtil;
 import com.github.thedeathlycow.thermoo.impl.environment.EnvironmentTickContextImpl;
