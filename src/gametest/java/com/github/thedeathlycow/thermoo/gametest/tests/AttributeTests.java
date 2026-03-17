@@ -1,6 +1,6 @@
 package com.github.thedeathlycow.thermoo.gametest.tests;
 
-import com.github.thedeathlycow.thermoo.api.ThermooAttributes;
+import com.github.thedeathlycow.thermoo.api.entity.v1.ThermooAttributes;
 import net.fabricmc.fabric.api.gametest.v1.GameTest;
 import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTestHelper;

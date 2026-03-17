@@ -9,8 +9,8 @@ import com.github.thedeathlycow.thermoo.api.environment.v2.attribute.ThermooAttr
 import com.github.thedeathlycow.thermoo.api.environment.v2.attribute.ThermooEnvironmentAttributes;
 import com.github.thedeathlycow.thermoo.api.environment.v2.provider.EnvironmentProviderType;
 import com.github.thedeathlycow.thermoo.api.environment.v2.provider.EnvironmentProviderTypes;
-import com.github.thedeathlycow.thermoo.api.predicate.SoakedLootCondition;
-import com.github.thedeathlycow.thermoo.api.predicate.TemperatureLootCondition;
+import com.github.thedeathlycow.thermoo.api.entity.v1.predicate.SoakedLootCondition;
+import com.github.thedeathlycow.thermoo.api.entity.v1.predicate.TemperatureLootCondition;
 import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureEffect;
 import com.github.thedeathlycow.thermoo.api.temperature.status.v2.effect.AttributeModifierEffect;
 import com.github.thedeathlycow.thermoo.api.temperature.status.v2.effect.DamageEffect;

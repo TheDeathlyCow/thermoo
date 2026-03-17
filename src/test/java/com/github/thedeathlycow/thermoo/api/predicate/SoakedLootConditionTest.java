@@ -1,6 +1,7 @@
 package com.github.thedeathlycow.thermoo.api.predicate;
 
 import com.github.thedeathlycow.thermoo.ThermooTest;
+import com.github.thedeathlycow.thermoo.api.entity.v1.predicate.SoakedLootCondition;
 import net.minecraft.advancements.criterion.MinMaxBounds;
 import net.minecraft.world.entity.npc.villager.Villager;
 import net.minecraft.world.entity.vehicle.boat.Boat;
