@@ -1,4 +1,4 @@
-package com.github.thedeathlycow.thermoo.api.client;
+package com.github.thedeathlycow.thermoo.api.client.v1;
 
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.UnmodifiableView;

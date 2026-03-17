@@ -1,6 +1,6 @@
 package com.github.thedeathlycow.thermoo.mixin.client;
 
-import com.github.thedeathlycow.thermoo.api.client.StatusBarOverlayRenderEvents;
+import com.github.thedeathlycow.thermoo.api.client.v1.StatusBarOverlayRenderEvents;
 import com.github.thedeathlycow.thermoo.impl.client.HeartBarContextImpl;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.Share;

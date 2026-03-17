@@ -1,7 +1,7 @@
 package com.github.thedeathlycow.thermoo.gametest;
 
-import com.github.thedeathlycow.thermoo.api.client.HeartBarContext;
-import com.github.thedeathlycow.thermoo.api.client.StatusBarOverlayRenderEvents;
+import com.github.thedeathlycow.thermoo.api.client.v1.HeartBarContext;
+import com.github.thedeathlycow.thermoo.api.client.v1.StatusBarOverlayRenderEvents;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import net.fabricmc.api.ClientModInitializer;
 import net.minecraft.client.gui.GuiGraphics;

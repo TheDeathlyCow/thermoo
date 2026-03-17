@@ -1,6 +1,6 @@
 package com.github.thedeathlycow.thermoo.impl.client;
 
-import com.github.thedeathlycow.thermoo.api.client.HeartBarContext;
+import com.github.thedeathlycow.thermoo.api.client.v1.HeartBarContext;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import org.joml.Vector2i;
