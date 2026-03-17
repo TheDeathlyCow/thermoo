@@ -1,4 +1,4 @@
-package com.github.thedeathlycow.thermoo.api.season;
+package com.github.thedeathlycow.thermoo.api.season.v2;
 
 import com.github.thedeathlycow.thermoo.impl.season.SeasonStateImpl;
 import com.mojang.serialization.Codec;

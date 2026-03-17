@@ -1,4 +1,4 @@
-package com.github.thedeathlycow.thermoo.api.season;
+package com.github.thedeathlycow.thermoo.api.season.v2;
 
 import net.minecraft.util.StringRepresentable;
 import org.jetbrains.annotations.ApiStatus;

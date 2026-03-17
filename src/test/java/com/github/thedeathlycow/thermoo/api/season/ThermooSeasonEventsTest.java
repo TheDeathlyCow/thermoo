@@ -1,6 +1,9 @@
 package com.github.thedeathlycow.thermoo.api.season;
 
 import com.github.thedeathlycow.thermoo.ThermooTest;
+import com.github.thedeathlycow.thermoo.api.season.v2.TemperateSeason;
+import com.github.thedeathlycow.thermoo.api.season.v2.ThermooSeasonEvents;
+import com.github.thedeathlycow.thermoo.api.season.v2.TropicalSeason;
 import org.jetbrains.annotations.Nullable;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;

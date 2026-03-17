@@ -1,6 +1,6 @@
 package com.github.thedeathlycow.thermoo.gametest.tests.environment;
 
-import com.github.thedeathlycow.thermoo.api.season.TemperateSeason;
+import com.github.thedeathlycow.thermoo.api.season.v2.TemperateSeason;
 import net.fabricmc.fabric.api.gametest.v1.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.server.level.ServerLevel;

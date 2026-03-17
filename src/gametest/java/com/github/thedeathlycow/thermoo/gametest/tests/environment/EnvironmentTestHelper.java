@@ -5,9 +5,9 @@ import com.github.thedeathlycow.thermoo.api.environment.v2.component.Environment
 import com.github.thedeathlycow.thermoo.api.environment.v2.component.RelativeHumidityComponent;
 import com.github.thedeathlycow.thermoo.api.environment.v2.component.TemperatureRecordComponent;
 import com.github.thedeathlycow.thermoo.api.environment.v2.provider.EnvironmentProvider;
-import com.github.thedeathlycow.thermoo.api.season.TemperateSeason;
-import com.github.thedeathlycow.thermoo.api.season.ThermooSeasonState;
-import com.github.thedeathlycow.thermoo.api.season.TropicalSeason;
+import com.github.thedeathlycow.thermoo.api.season.v2.TemperateSeason;
+import com.github.thedeathlycow.thermoo.api.season.v2.ThermooSeasonState;
+import com.github.thedeathlycow.thermoo.api.season.v2.TropicalSeason;
 import com.github.thedeathlycow.thermoo.api.util.TemperatureRecord;
 import com.github.thedeathlycow.thermoo.api.util.TemperatureUnit;
 import com.github.thedeathlycow.thermoo.gametest.ThermooTestMod;

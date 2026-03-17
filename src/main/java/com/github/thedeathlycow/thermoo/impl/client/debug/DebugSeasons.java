@@ -1,9 +1,9 @@
 package com.github.thedeathlycow.thermoo.impl.client.debug;
 
-import com.github.thedeathlycow.thermoo.api.season.TemperateSeason;
-import com.github.thedeathlycow.thermoo.api.season.ThermooSeason;
-import com.github.thedeathlycow.thermoo.api.season.ThermooSeasonState;
-import com.github.thedeathlycow.thermoo.api.season.TropicalSeason;
+import com.github.thedeathlycow.thermoo.api.season.v2.TemperateSeason;
+import com.github.thedeathlycow.thermoo.api.season.v2.ThermooSeason;
+import com.github.thedeathlycow.thermoo.api.season.v2.ThermooSeasonState;
+import com.github.thedeathlycow.thermoo.api.season.v2.TropicalSeason;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;

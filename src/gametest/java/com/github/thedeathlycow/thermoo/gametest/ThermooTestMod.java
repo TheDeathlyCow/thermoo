@@ -1,9 +1,9 @@
 package com.github.thedeathlycow.thermoo.gametest;
 
 import com.github.thedeathlycow.thermoo.api.entity.v1.ThermooAttributes;
-import com.github.thedeathlycow.thermoo.api.season.TemperateSeason;
-import com.github.thedeathlycow.thermoo.api.season.ThermooSeasonEvents;
-import com.github.thedeathlycow.thermoo.api.season.TropicalSeason;
+import com.github.thedeathlycow.thermoo.api.season.v2.TemperateSeason;
+import com.github.thedeathlycow.thermoo.api.season.v2.ThermooSeasonEvents;
+import com.github.thedeathlycow.thermoo.api.season.v2.TropicalSeason;
 import com.github.thedeathlycow.thermoo.gametest.tests.item.ModifyItemAttributeModifiersTest;
 import com.github.thedeathlycow.thermoo.gametest.tick.TestEnvironmentChanges;
 import com.github.thedeathlycow.thermoo.gametest.tick.TestSoakableChanges;
