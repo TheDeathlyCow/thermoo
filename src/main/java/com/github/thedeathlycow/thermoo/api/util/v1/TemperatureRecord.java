@@ -1,4 +1,4 @@
-package com.github.thedeathlycow.thermoo.api.util;
+package com.github.thedeathlycow.thermoo.api.util.v1;
 
 import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.Codec;

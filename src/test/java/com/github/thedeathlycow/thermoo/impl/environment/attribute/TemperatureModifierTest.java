@@ -1,7 +1,7 @@
 package com.github.thedeathlycow.thermoo.impl.environment.attribute;
 
-import com.github.thedeathlycow.thermoo.api.util.TemperatureRecord;
-import com.github.thedeathlycow.thermoo.api.util.TemperatureUnit;
+import com.github.thedeathlycow.thermoo.api.util.v1.TemperatureRecord;
+import com.github.thedeathlycow.thermoo.api.util.v1.TemperatureUnit;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

@@ -1,5 +1,6 @@
 package com.github.thedeathlycow.thermoo.api.environment.v2.provider;
 
+import com.github.thedeathlycow.thermoo.api.season.v2.ThermooSeasonEvents;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.MapCodec;
@@ -35,7 +36,7 @@ public abstract sealed class SeasonalEnvironmentProvider<S extends Enum<S> & Str
 
     /**
      * Builds the environment components based on the world's current season state, generally using the
-     * {@link com.github.thedeathlycow.thermoo.api.season.ThermooSeasonEvents season API}.
+     * {@link ThermooSeasonEvents season API}.
      * <p>
      * If no seasons mod is installed, or if the tropical/temperate season state does not exist at this world position,
      * then this will use the components provided by the {@link #fallbackSeason fallback season}.
@@ -81,7 +82,7 @@ public abstract sealed class SeasonalEnvironmentProvider<S extends Enum<S> & Str
 
     /**
      * Gets the current season state of the world at a position (usually by delegating to a
-     * {@linkplain com.github.thedeathlycow.thermoo.api.season.ThermooSeasonEvents season event}.
+     * {@linkplain ThermooSeasonEvents season event}.
      *
      * @param level The world to query the season state of
      * @param pos   The position to query the season state at

@@ -1,6 +1,6 @@
 package com.github.thedeathlycow.thermoo.impl.environment.attribute;
 
-import com.github.thedeathlycow.thermoo.api.util.TemperatureRecord;
+import com.github.thedeathlycow.thermoo.api.util.v1.TemperatureRecord;
 import net.minecraft.world.attribute.modifier.AttributeModifier;
 
 import java.util.Map;

@@ -7,7 +7,7 @@ import com.github.thedeathlycow.thermoo.api.environment.v2.component.Environment
 import com.github.thedeathlycow.thermoo.api.environment.v2.component.RelativeHumidityComponent;
 import com.github.thedeathlycow.thermoo.api.environment.v2.component.TemperatureRecordComponent;
 import com.github.thedeathlycow.thermoo.api.environment.v2.event.ServerPlayerEnvironmentTickEvents;
-import com.github.thedeathlycow.thermoo.api.util.TemperatureUnit;
+import com.github.thedeathlycow.thermoo.api.util.v1.TemperatureUnit;
 import com.github.thedeathlycow.thermoo.impl.LivingEntityTickUtil;
 import com.github.thedeathlycow.thermoo.impl.environment.EnvironmentTickContextImpl;
 import com.mojang.brigadier.CommandDispatcher;

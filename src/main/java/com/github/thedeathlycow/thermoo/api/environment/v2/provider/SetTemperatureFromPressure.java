@@ -4,8 +4,8 @@ import com.github.thedeathlycow.thermoo.api.environment.v2.attribute.ThermooEnvi
 import com.github.thedeathlycow.thermoo.api.environment.v2.component.AtmosphericPressureComponent;
 import com.github.thedeathlycow.thermoo.api.environment.v2.component.EnvironmentComponentTypes;
 import com.github.thedeathlycow.thermoo.api.environment.v2.component.TemperatureRecordComponent;
-import com.github.thedeathlycow.thermoo.api.util.TemperatureRecord;
-import com.github.thedeathlycow.thermoo.api.util.TemperatureUnit;
+import com.github.thedeathlycow.thermoo.api.util.v1.TemperatureRecord;
+import com.github.thedeathlycow.thermoo.api.util.v1.TemperatureUnit;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;

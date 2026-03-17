@@ -3,8 +3,8 @@ package com.github.thedeathlycow.thermoo.api.environment.v2.attribute;
 import com.github.thedeathlycow.thermoo.api.environment.v2.component.AtmosphericPressureComponent;
 import com.github.thedeathlycow.thermoo.api.season.v2.TemperateSeason;
 import com.github.thedeathlycow.thermoo.api.season.v2.TropicalSeason;
-import com.github.thedeathlycow.thermoo.api.util.TemperatureRecord;
-import com.github.thedeathlycow.thermoo.api.util.TemperatureUnit;
+import com.github.thedeathlycow.thermoo.api.util.v1.TemperatureRecord;
+import com.github.thedeathlycow.thermoo.api.util.v1.TemperatureUnit;
 import net.minecraft.world.attribute.AttributeTypes;
 import net.minecraft.world.attribute.EnvironmentAttribute;
 

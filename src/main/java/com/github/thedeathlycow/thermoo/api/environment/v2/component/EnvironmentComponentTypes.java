@@ -1,7 +1,8 @@
 package com.github.thedeathlycow.thermoo.api.environment.v2.component;
 
 import com.github.thedeathlycow.thermoo.api.ThermooRegistries;
-import com.github.thedeathlycow.thermoo.api.util.TemperatureRecord;
+import com.github.thedeathlycow.thermoo.api.util.v1.TemperatureRecord;
+import com.github.thedeathlycow.thermoo.api.util.v1.TemperatureUnit;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.Registry;
@@ -23,7 +24,7 @@ public final class EnvironmentComponentTypes {
     public static final Codec<DataComponentMap> COMPONENT_MAP_CODEC = DataComponentMap.makeCodec(COMPONENT_TYPE_CODEC);
 
     /**
-     * Stores a temperature reading in {@link com.github.thedeathlycow.thermoo.api.util.TemperatureUnit a unit} such as
+     * Stores a temperature reading in {@link TemperatureUnit a unit} such as
      * Celsius, Fahrenheit, Kelvin, or Rankine.
      *
      * @see TemperatureRecordComponent

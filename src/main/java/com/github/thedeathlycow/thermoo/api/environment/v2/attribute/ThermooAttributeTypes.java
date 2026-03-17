@@ -1,8 +1,8 @@
 package com.github.thedeathlycow.thermoo.api.environment.v2.attribute;
 
-import com.github.thedeathlycow.thermoo.api.season.TemperateSeason;
-import com.github.thedeathlycow.thermoo.api.season.TropicalSeason;
-import com.github.thedeathlycow.thermoo.api.util.TemperatureRecord;
+import com.github.thedeathlycow.thermoo.api.season.v2.TemperateSeason;
+import com.github.thedeathlycow.thermoo.api.season.v2.TropicalSeason;
+import com.github.thedeathlycow.thermoo.api.util.v1.TemperatureRecord;
 import com.github.thedeathlycow.thermoo.impl.CodecHelper;
 import com.github.thedeathlycow.thermoo.impl.environment.attribute.ModifierLibraries;
 import com.github.thedeathlycow.thermoo.impl.environment.attribute.TemperatureModifier;
