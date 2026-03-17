@@ -1,4 +1,4 @@
-package com.github.thedeathlycow.thermoo.api.temperature;
+package com.github.thedeathlycow.thermoo.api.core.v1;
 
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
@@ -115,23 +115,26 @@ public interface TemperatureAware {
     }
 
     /**
-     * Adds or removes some amount of temperature to the thermally aware object. Resistance can be applied by specifying
-     * a {@link HeatingMode}. See {@link HeatingModes} for some common modes.
+     * Adds or removes some amount of temperature to the thermally aware object.
+     * <p>
+     * Additional context can be supplied by the {@link TemperatureChange context}. Some builtin context instances can
+     * be obtained from {@link ThermooLevel#thermoo$temperatureSources()}.
      *
      * @param temperatureChange The amount of temperature to add/remove. Positive change adds, negative change removes.
-     * @param mode              The mode of resistance to apply to the change.
+     * @param context           The context of the change.
      */
-    default void thermoo$addTemperature(int temperatureChange, HeatingMode mode) {
+    default void thermoo$addTemperature(int temperatureChange, TemperatureChange context) {
         throw new NotImplementedException();
     }
 
     /**
-     * Adds or removes some amount of temperature to the thermally aware object. Applies no resistance.
+     * Adds or removes some amount of temperature to the thermally aware object. Uses the
+     * {@linkplain com.github.thedeathlycow.thermoo.api.core.v1.source.TemperatureSources#ABSOLUTE absolute temperature source}.
      *
      * @param temperatureChange The amount of temperature to add/remove. Positive change adds, negative change removes.
      */
     default void thermoo$addTemperature(int temperatureChange) {
-        this.thermoo$addTemperature(temperatureChange, HeatingModes.ABSOLUTE);
+        throw new NotImplementedException();
     }
 
     /**

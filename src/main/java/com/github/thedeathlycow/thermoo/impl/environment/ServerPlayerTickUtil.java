@@ -1,7 +1,7 @@
 package com.github.thedeathlycow.thermoo.impl.environment;
 
+import com.github.thedeathlycow.thermoo.api.core.v1.event.EnvironmentTickContext;
 import com.github.thedeathlycow.thermoo.api.environment.event.ServerPlayerEnvironmentTickEvents;
-import com.github.thedeathlycow.thermoo.api.temperature.event.EnvironmentTickContext;
 import net.fabricmc.fabric.api.util.TriState;
 import net.minecraft.server.level.ServerPlayer;
 
@@ -14,7 +14,7 @@ public final class ServerPlayerTickUtil {
         int temperatureChange = ServerPlayerEnvironmentTickEvents.GET_TEMPERATURE_CHANGE.invoker().addPointChange(context);
 
         if (temperatureChange != 0 && invokeAllowChange(context, temperatureChange)) {
-            context.affected().thermoo$addTemperature(temperatureChange, EnvironmentHeatingMode.INSTANCE);
+            context.affected().thermoo$addTemperature(temperatureChange, context.level().thermoo$temperatureSources().environment());
         }
     }
 

@@ -8,8 +8,10 @@
         "EntityTypeMixin",
         "EnvironmentAwareEntityMixin",
         "ItemStackMixin",
+        "LevelMixin",
         "LivingEntityAttributeMixin",
         "LivingEntityEnvironmentTickMixin",
+        "ServerLevelMixin",
         "accessor.AttributeModifiersComponentBuilderAccessor",
         "accessor.ComponentMapBuilderAccessor",
         "datafix.AttributeIdPrefixFixMixin"

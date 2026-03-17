@@ -1,0 +1,12 @@
+{
+  "description": {
+    "translate": "thermoo.temperature_source.passive"
+  },
+  "reduction": {
+    "type": "thermoo:reinforcing_attribute",
+    "cold_resistance_attribute": "thermoo:frost_resistance",
+    "heat_resistance_attribute": "thermoo:heat_resistance",
+    "scale": 0.1
+  },
+  "tick_interval": 1
+}

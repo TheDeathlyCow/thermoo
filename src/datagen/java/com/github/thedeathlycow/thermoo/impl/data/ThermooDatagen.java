@@ -19,6 +19,7 @@ public class ThermooDatagen implements DataGeneratorEntrypoint {
         FabricDataGenerator.Pack pack = fabricDataGenerator.createPack();
 
         pack.addProvider(TemperatureStatusTagProvider::new);
+        pack.addProvider(TemperatureSourceProvider::new);
     }
 
     @Override

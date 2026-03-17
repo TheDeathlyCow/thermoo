@@ -8,7 +8,7 @@
         {
             "type": "thermoo:function",
             "function": "thermoo-test:macro_message",
-            "arguments": "{message:\"Thermoo exists!\"}"
+            "arguments": "{message:{\"text\":\"Thermoo exists!\"}}"
         }
     ],
     "fabric:load_conditions": [

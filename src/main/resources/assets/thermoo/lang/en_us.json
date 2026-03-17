@@ -10,6 +10,11 @@
     "tag.item.thermoo.consumable.cooling": "Cooling consumables",
     "tag.item.thermoo.consumable.warming": "Warming consumables",
     
+    "thermoo.temperature_source.absolute": "Absolute",
+    "thermoo.temperature_source.passive": "Passive",
+    "thermoo.temperature_source.active": "Active",
+    "thermoo.temperature_source.environment": "Environment",
+    
     "commands.thermoo.temperature.exception.not_living_entity": "Target is not a living entity!",
     "commands.thermoo.temperature.get.scale.success": "The temperature scale of %s is %d",
     "commands.thermoo.temperature.get.max.success": "%s can have a maximum temperature of %d",

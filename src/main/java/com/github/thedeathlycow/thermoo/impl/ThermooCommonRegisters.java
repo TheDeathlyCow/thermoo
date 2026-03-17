@@ -1,6 +1,10 @@
 package com.github.thedeathlycow.thermoo.impl;
 
 import com.github.thedeathlycow.thermoo.api.ThermooRegistries;
+import com.github.thedeathlycow.thermoo.api.core.v1.source.RandomlyDodgeReduction;
+import com.github.thedeathlycow.thermoo.api.core.v1.source.ReinforcingAttributeReduction;
+import com.github.thedeathlycow.thermoo.api.core.v1.source.ScaledAttributeReduction;
+import com.github.thedeathlycow.thermoo.api.core.v1.source.TemperatureReduction;
 import com.github.thedeathlycow.thermoo.api.environment.attribute.ThermooAttributeTypes;
 import com.github.thedeathlycow.thermoo.api.environment.attribute.ThermooEnvironmentAttributes;
 import com.github.thedeathlycow.thermoo.api.environment.provider.EnvironmentProviderType;
@@ -21,6 +25,12 @@ import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 
 
 public final class ThermooCommonRegisters {
+    public static void registerTemperatureReductions() {
+        registerTemperatureReduction("scaled_attribute", ScaledAttributeReduction.CODEC);
+        registerTemperatureReduction("reinforcing_attribute", ReinforcingAttributeReduction.CODEC);
+        registerTemperatureReduction("randomly_dodge", RandomlyDodgeReduction.CODEC);
+    }
+
     public static void registerTemperatureEffects() {
         registerTemperatureEffectType("attribute_modifier", AttributeModifierEffect.CODEC);
         registerTemperatureEffectType("damage", DamageEffect.CODEC);
@@ -62,6 +72,10 @@ public final class ThermooCommonRegisters {
         registerEnvironmentAttribute("gameplay/tropical_season_progress", ThermooEnvironmentAttributes.TROPICAL_SEASON_PROGRESS);
         registerEnvironmentAttribute("gameplay/temperature", ThermooEnvironmentAttributes.TEMPERATURE);
         registerEnvironmentAttribute("gameplay/atmospheric_pressure", ThermooEnvironmentAttributes.ATMOSPHERIC_PRESSURE);
+    }
+
+    private static void registerTemperatureReduction(String name, MapCodec<? extends TemperatureReduction> reduction) {
+        Registry.register(ThermooRegistries.TEMPERATURE_REDUCTION_TYPE, Thermoo.id(name), reduction);
     }
 
     private static void registerTemperatureEffectType(String name, MapCodec<? extends TemperatureEffect> temperatureEffect) {

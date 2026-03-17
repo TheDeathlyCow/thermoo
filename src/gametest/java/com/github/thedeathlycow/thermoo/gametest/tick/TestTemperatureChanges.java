@@ -1,7 +1,9 @@
 package com.github.thedeathlycow.thermoo.gametest.tick;
 
-import com.github.thedeathlycow.thermoo.api.temperature.event.EnvironmentTickContext;
-import com.github.thedeathlycow.thermoo.api.temperature.event.LivingEntityTemperatureTickEvents;
+import com.github.thedeathlycow.thermoo.api.core.v1.event.EnvironmentTickContext;
+import com.github.thedeathlycow.thermoo.api.core.v1.event.LivingEntityTemperatureTickEvents;
+import com.github.thedeathlycow.thermoo.api.core.v1.event.TemperatureChangeEvents;
+import com.github.thedeathlycow.thermoo.api.core.v1.source.TemperatureSources;
 import com.github.thedeathlycow.thermoo.gametest.ThermooTestMod;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleBuilder;
@@ -22,7 +24,7 @@ public class TestTemperatureChanges {
      */
     public static final GameRule<@NotNull Boolean> APPLY_PASSIVE_CHANGES =
             GameRuleBuilder.forBoolean(true)
-                            .buildAndRegister(ThermooTestMod.id("apply_passive_changes"));
+                    .buildAndRegister(ThermooTestMod.id("apply_passive_changes"));
 
     /**
      * Gamerule to enable/disable active changes for testing purposes
@@ -70,30 +72,37 @@ public class TestTemperatureChanges {
     }
 
     public static void initialize() {
-        LivingEntityTemperatureTickEvents.ALLOW_PASSIVE_TEMPERATURE_UPDATE.register(context -> {
-            boolean applyPassiveChanges = context.level().getGameRules().get(APPLY_PASSIVE_CHANGES);
-            return TriState.of(applyPassiveChanges);
-        });
-        LivingEntityTemperatureTickEvents.GET_PASSIVE_TEMPERATURE_CHANGE.register(TestTemperatureChanges::getPassiveChange);
-        LivingEntityTemperatureTickEvents.ALLOW_PASSIVE_TEMPERATURE_CHANGE.register((context, temperatureChange) -> {
-            if (context.affected().getType() == EntityType.PLAYER && context.affected().tickCount % 20 == 0) {
-                Thermoo.LOGGER.info("Applying passive temperature change of {} to player", temperatureChange);
+        LivingEntityTemperatureTickEvents.getTemperatureChange(
+                TemperatureSources.PASSIVE
+        ).register(TestTemperatureChanges::getPassiveChange);
+
+        LivingEntityTemperatureTickEvents.getTemperatureChange(
+                TemperatureSources.ACTIVE
+        ).register(TestTemperatureChanges::getActiveChange);
+
+        TemperatureChangeEvents.ALLOW_TEMPERATURE_CHANGE.register((target, _,  _,context) -> {
+            if (target.level() instanceof ServerLevel serverLevel) {
+                if (context.is(TemperatureSources.PASSIVE)) {
+                    return TriState.of(serverLevel.getGameRules().get(APPLY_PASSIVE_CHANGES));
+                }
+
+                if (context.is(TemperatureSources.ACTIVE)) {
+                    return TriState.of(serverLevel.getGameRules().get(APPLY_ACTIVE_CHANGES));
+                }
             }
 
             return TriState.DEFAULT;
         });
 
-        LivingEntityTemperatureTickEvents.ALLOW_ACTIVE_TEMPERATURE_UPDATE.register(context -> {
-            boolean applyActiveChanges = context.level().getGameRules().get(APPLY_ACTIVE_CHANGES);
-            return TriState.of(applyActiveChanges);
-        });
-        LivingEntityTemperatureTickEvents.GET_ACTIVE_TEMPERATURE_CHANGE.register(TestTemperatureChanges::getActiveChange);
-        LivingEntityTemperatureTickEvents.ALLOW_ACTIVE_TEMPERATURE_CHANGE.register((context, temperatureChange) -> {
-            if (context.affected().getType() == EntityType.PLAYER && context.affected().tickCount % 20 == 0) {
-                Thermoo.LOGGER.info("Applying active temperature change of {} to player", temperatureChange);
+        TemperatureChangeEvents.AFTER_TEMPERATURE_CHANGE.register((target, oldTemperature, newTemperature, ctx) -> {
+            if (target.getType() == EntityType.PLAYER && target.tickCount % 20 == 0) {
+                Thermoo.LOGGER.info(
+                        "Player temperature updated from {} to {} (changed: {}) by {}",
+                        oldTemperature, newTemperature,
+                        newTemperature - oldTemperature,
+                        ctx
+                );
             }
-
-            return TriState.DEFAULT;
         });
     }
 }

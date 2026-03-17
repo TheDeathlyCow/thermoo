@@ -1,17 +1,18 @@
 package com.github.thedeathlycow.thermoo.impl;
 
+import com.github.thedeathlycow.thermoo.api.ThermooRegistryKeys;
+import com.github.thedeathlycow.thermoo.api.core.v1.event.EnvironmentTickContext;
+import com.github.thedeathlycow.thermoo.api.core.v1.event.LivingEntitySoakingTickEvents;
+import com.github.thedeathlycow.thermoo.api.core.v1.source.TemperatureSource;
 import com.github.thedeathlycow.thermoo.api.environment.EnvironmentLookup;
-import com.github.thedeathlycow.thermoo.api.temperature.HeatingMode;
-import com.github.thedeathlycow.thermoo.api.temperature.HeatingModes;
-import com.github.thedeathlycow.thermoo.api.temperature.event.EnvironmentTickContext;
-import com.github.thedeathlycow.thermoo.api.temperature.event.LivingEntitySoakingTickEvents;
-import com.github.thedeathlycow.thermoo.api.temperature.event.LivingEntityTemperatureTickEvents;
 import com.github.thedeathlycow.thermoo.impl.component.ThermooComponents;
+import com.github.thedeathlycow.thermoo.impl.core.UpdateEvents;
 import com.github.thedeathlycow.thermoo.impl.environment.EnvironmentTickContextImpl;
 import com.github.thedeathlycow.thermoo.impl.environment.ServerPlayerTickUtil;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.util.TriState;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -39,7 +40,7 @@ public final class LivingEntityTickUtil {
                         pos,
                         EnvironmentLookup.getInstance().findEnvironmentComponents(serverLevel, pos)
                 );
-                invokeEntityEvents(context);
+                invokeEntityEvents(context, serverLevel.holderLookup(ThermooRegistryKeys.TEMPERATURE_SOURCE));
                 ServerPlayerTickUtil.invokePlayerTemperatureEvents(context);
             } else {
                 EnvironmentTickContext<LivingEntity> context = new EnvironmentTickContextImpl<>(
@@ -48,7 +49,7 @@ public final class LivingEntityTickUtil {
                         pos,
                         DataComponentMap.EMPTY
                 );
-                invokeEntityEvents(context);
+                invokeEntityEvents(context, serverLevel.holderLookup(ThermooRegistryKeys.TEMPERATURE_SOURCE));
             }
 
             boolean isSyncTick = entity.tickCount % 20 == 0;
@@ -87,45 +88,17 @@ public final class LivingEntityTickUtil {
         }
     }
 
-    private static void invokeEntityEvents(EnvironmentTickContext<? extends LivingEntity> context) {
+    private static void invokeEntityEvents(
+            EnvironmentTickContext<? extends LivingEntity> context,
+            HolderLookup<TemperatureSource> lookup
+    ) {
         tickSoakingChange(
                 context,
                 LivingEntitySoakingTickEvents.ALLOW_SOAKING_UPDATE,
                 LivingEntitySoakingTickEvents.GET_SOAKING_CHANGE,
                 LivingEntitySoakingTickEvents.ALLOW_SOAKING_CHANGE
         );
-        tickTemperatureChange(
-                context,
-                HeatingModes.PASSIVE,
-                LivingEntityTemperatureTickEvents.ALLOW_PASSIVE_TEMPERATURE_UPDATE,
-                LivingEntityTemperatureTickEvents.GET_PASSIVE_TEMPERATURE_CHANGE,
-                LivingEntityTemperatureTickEvents.ALLOW_PASSIVE_TEMPERATURE_CHANGE
-        );
-
-        tickTemperatureChange(
-                context,
-                HeatingModes.ACTIVE,
-                LivingEntityTemperatureTickEvents.ALLOW_ACTIVE_TEMPERATURE_UPDATE,
-                LivingEntityTemperatureTickEvents.GET_ACTIVE_TEMPERATURE_CHANGE,
-                LivingEntityTemperatureTickEvents.ALLOW_ACTIVE_TEMPERATURE_CHANGE
-        );
-    }
-
-    private static void tickTemperatureChange(
-            EnvironmentTickContext<? extends LivingEntity> context,
-            HeatingMode heatingMode,
-            Event<LivingEntityTemperatureTickEvents.AllowTemperatureUpdate> allowUpdate,
-            Event<LivingEntityTemperatureTickEvents.GetTemperatureChange> getTempChange,
-            Event<LivingEntityTemperatureTickEvents.AllowTemperatureChange> allowChange
-    ) {
-        if (allowUpdate.invoker().allowUpdate(context) == TriState.FALSE) {
-            return;
-        }
-
-        int tempChange = getTempChange.invoker().addTemperature(context);
-        if (tempChange != 0 && allowChange.invoker().allowChange(context, tempChange) != TriState.FALSE) {
-            context.affected().thermoo$addTemperature(tempChange, heatingMode);
-        }
+        UpdateEvents.invokeAllWithContext(context, lookup);
     }
 
     private static void tickSoakingChange(

@@ -1,8 +1,8 @@
 package com.github.thedeathlycow.thermoo.impl;
 
 import com.github.thedeathlycow.thermoo.api.ThermooRegistryKeys;
-import com.github.thedeathlycow.thermoo.api.command.v1.HeatingModeArgument;
 import com.github.thedeathlycow.thermoo.api.command.v1.TemperatureUnitArgument;
+import com.github.thedeathlycow.thermoo.api.core.v1.source.TemperatureSource;
 import com.github.thedeathlycow.thermoo.api.environment.EnvironmentDefinition;
 import com.github.thedeathlycow.thermoo.api.environment.provider.EnvironmentProvider;
 import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureStatus;
@@ -36,12 +36,6 @@ public class Thermoo implements ModInitializer {
     public static final Logger LOGGER = LoggerFactory.getLogger(MODID);
 
     public static final ArgumentTypeInfo<
-            HeatingModeArgument,
-            SingletonArgumentInfo<HeatingModeArgument>.Template
-            > HEATING_MODE_ARG_SERIALIZER = SingletonArgumentInfo.contextFree(HeatingModeArgument::heatingMode);
-
-
-    public static final ArgumentTypeInfo<
             TemperatureUnitArgument,
             SingletonArgumentInfo<TemperatureUnitArgument>.Template
             > TEMPERATURE_UNIT_ARG_SERIALIZER = SingletonArgumentInfo.contextFree(TemperatureUnitArgument::temperatureUnit);
@@ -51,12 +45,6 @@ public class Thermoo implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        ArgumentTypeRegistry.registerArgumentType(
-                Thermoo.id("heating_mode"),
-                HeatingModeArgument.class,
-                HEATING_MODE_ARG_SERIALIZER
-        );
-
         ArgumentTypeRegistry.registerArgumentType(
                 Thermoo.id("temperature_unit"),
                 TemperatureUnitArgument.class,
@@ -85,7 +73,12 @@ public class Thermoo implements ModInitializer {
                 ThermooRegistryKeys.TEMPERATURE_STATUS,
                 TemperatureStatus.DIRECT_CODEC
         );
+        DynamicRegistries.registerSynced(
+                ThermooRegistryKeys.TEMPERATURE_SOURCE,
+                TemperatureSource.DIRECT_CODEC
+        );
 
+        ThermooCommonRegisters.registerTemperatureReductions();
         ThermooCommonRegisters.registerTemperatureEffects();
         ThermooCommonRegisters.registerEnvironmentProviderTypes();
         ThermooCommonRegisters.registerLootConditionTypes();

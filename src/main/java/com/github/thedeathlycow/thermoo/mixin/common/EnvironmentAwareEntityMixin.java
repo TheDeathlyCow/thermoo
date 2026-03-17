@@ -2,10 +2,13 @@ package com.github.thedeathlycow.thermoo.mixin.common;
 
 import com.github.thedeathlycow.thermoo.api.ThermooAttributes;
 import com.github.thedeathlycow.thermoo.api.ThermooTags;
-import com.github.thedeathlycow.thermoo.api.temperature.HeatingMode;
-import com.github.thedeathlycow.thermoo.api.temperature.Soakable;
-import com.github.thedeathlycow.thermoo.api.temperature.TemperatureAware;
+import com.github.thedeathlycow.thermoo.api.core.v1.Soakable;
+import com.github.thedeathlycow.thermoo.api.core.v1.TemperatureAware;
+import com.github.thedeathlycow.thermoo.api.core.v1.TemperatureChange;
+import com.github.thedeathlycow.thermoo.api.core.v1.event.LivingEntityTemperatureTickEvents;
+import com.github.thedeathlycow.thermoo.api.core.v1.event.TemperatureChangeEvents;
 import com.github.thedeathlycow.thermoo.impl.component.ThermooComponents;
+import net.fabricmc.fabric.api.util.TriState;
 import net.minecraft.core.Holder;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -147,7 +150,7 @@ public abstract class EnvironmentAwareEntityMixin extends Entity implements Temp
     }
 
     @Override
-    public void thermoo$addTemperature(int temperatureChange, HeatingMode mode) {
+    public void thermoo$addTemperature(int temperatureChange, TemperatureChange context) {
         if (temperatureChange == 0) {
             // adding 0 will always do nothing
             return;
@@ -160,9 +163,25 @@ public abstract class EnvironmentAwareEntityMixin extends Entity implements Temp
             return;
         }
 
-        int currentTemperature = this.thermoo$getTemperature();
-        int modifiedChange = mode.applyResistance(this, temperatureChange);
-        this.thermoo$setTemperature(currentTemperature + modifiedChange);
+        LivingEntity self = (LivingEntity) (Object) this;
+
+        int oldTemperature = this.thermoo$getTemperature();
+        int modifiedChange = context.applyReduction(self, temperatureChange);
+
+        TemperatureChangeEvents.AllowChange invoker = TemperatureChangeEvents.ALLOW_TEMPERATURE_CHANGE.invoker();
+
+        if (modifiedChange != 0 && invoker.allowChange(self, temperatureChange, modifiedChange, context) != TriState.FALSE) {
+            int newTemperature = oldTemperature + modifiedChange;
+            this.thermoo$setTemperature(newTemperature);
+
+            TemperatureChangeEvents.AFTER_TEMPERATURE_CHANGE.invoker()
+                    .afterChange(self, oldTemperature, newTemperature, context);
+        }
+    }
+
+    @Override
+    public void thermoo$addTemperature(int temperatureChange) {
+        this.thermoo$addTemperature(temperatureChange, this.level().thermoo$temperatureSources().absolute());
     }
 
     @Override
