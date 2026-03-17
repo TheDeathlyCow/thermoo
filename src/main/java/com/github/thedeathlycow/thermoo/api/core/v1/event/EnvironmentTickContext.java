@@ -1,9 +1,8 @@
 package com.github.thedeathlycow.thermoo.api.core.v1.event;
 
-import com.github.thedeathlycow.thermoo.api.core.v1.source.BuiltinTemperatureSources;
-import com.github.thedeathlycow.thermoo.api.environment.component.EnvironmentComponentTypes;
 import com.github.thedeathlycow.thermoo.api.core.v1.Soakable;
 import com.github.thedeathlycow.thermoo.api.core.v1.TemperatureAware;
+import com.github.thedeathlycow.thermoo.api.environment.component.EnvironmentComponentTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.server.level.ServerLevel;
@@ -48,6 +47,4 @@ public interface EnvironmentTickContext<T extends TemperatureAware & Soakable> {
      * @return Returns an {@link EnvironmentComponentTypes environment component map}
      */
     DataComponentMap components();
-
-    BuiltinTemperatureSources temperatureSources();
 }

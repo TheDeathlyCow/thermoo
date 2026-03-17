@@ -12,6 +12,12 @@ import net.minecraft.core.component.DataComponentType;
  * Custom registries provided by Thermoo
  */
 public final class ThermooRegistries {
+    /**
+     * Registry for {@link TemperatureReduction temperature reduction codecs}.
+     *
+     * @see TemperatureReduction
+     * @see ThermooRegistryKeys#TEMPERATURE_REDUCTION_TYPE
+     */
     public static final Registry<MapCodec<? extends TemperatureReduction>> TEMPERATURE_REDUCTION_TYPE =
             FabricRegistryBuilder.create(
                     ThermooRegistryKeys.TEMPERATURE_REDUCTION_TYPE
