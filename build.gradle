@@ -203,7 +203,7 @@ publishMods {
     github {
         repository = "TheDeathlyCow/thermoo"
         accessToken = providers.environmentVariable("RELEASE_GITHUB_TOKEN")
-        commitish = "26.1-dev"
+        commitish = "26.1"
         tagName = "v${mod_version}"
 
         displayName = "[${minecraft_version}] Thermoo ${mod_version}"
