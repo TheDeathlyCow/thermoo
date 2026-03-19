@@ -1,6 +1,6 @@
-package com.github.thedeathlycow.thermoo.api.core.v1.event;
+package com.github.thedeathlycow.thermoo.api.core.v2.event;
 
-import com.github.thedeathlycow.thermoo.api.core.v1.source.TemperatureSource;
+import com.github.thedeathlycow.thermoo.api.core.v2.source.TemperatureSource;
 import com.github.thedeathlycow.thermoo.api.environment.v2.EnvironmentDefinition;
 import com.github.thedeathlycow.thermoo.impl.core.UpdateEvents;
 import dev.yumi.commons.event.Event;
@@ -24,7 +24,7 @@ public final class LivingEntityTemperatureTickEvents {
     /**
      * Returns the temperature change event for a specific {@link TemperatureSource}. Each registered listener
      * contributes a temperature change value that is summed and applied to the entity via
-     * {@link com.github.thedeathlycow.thermoo.api.core.v1.TemperatureAware#thermoo$addTemperature(int, com.github.thedeathlycow.thermoo.api.core.v1.TemperatureChange)}.
+     * {@link com.github.thedeathlycow.thermoo.api.core.v2.TemperatureAware#thermoo$addTemperature(int, com.github.thedeathlycow.thermoo.api.core.v2.TemperatureChange)}.
      * <p>
      * Note that this event is only invoked for sources that are registered to the level's ticking sources and have a
      * {@link TemperatureSource#tickInterval()} greater than {@code 0}.

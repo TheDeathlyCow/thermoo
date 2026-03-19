@@ -1,9 +1,9 @@
 package com.github.thedeathlycow.thermoo.impl.core;
 
-import com.github.thedeathlycow.thermoo.api.core.v1.TemperatureChange;
-import com.github.thedeathlycow.thermoo.api.core.v1.source.BuiltinTemperatureSources;
-import com.github.thedeathlycow.thermoo.api.core.v1.source.TemperatureSource;
-import com.github.thedeathlycow.thermoo.api.core.v1.source.TemperatureSources;
+import com.github.thedeathlycow.thermoo.api.core.v2.TemperatureChange;
+import com.github.thedeathlycow.thermoo.api.core.v2.source.BuiltinTemperatureSources;
+import com.github.thedeathlycow.thermoo.api.core.v2.source.TemperatureSource;
+import com.github.thedeathlycow.thermoo.api.core.v2.source.TemperatureSources;
 import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceKey;

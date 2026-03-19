@@ -1,6 +1,6 @@
-package com.github.thedeathlycow.thermoo.api.core.v1.source;
+package com.github.thedeathlycow.thermoo.api.core.v2.source;
 
-import com.github.thedeathlycow.thermoo.api.core.v1.TemperatureChange;
+import com.github.thedeathlycow.thermoo.api.core.v2.TemperatureChange;
 import com.google.common.base.Preconditions;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.Holder;

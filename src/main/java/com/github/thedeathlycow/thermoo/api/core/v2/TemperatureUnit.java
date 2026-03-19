@@ -1,4 +1,4 @@
-package com.github.thedeathlycow.thermoo.api.core.v1;
+package com.github.thedeathlycow.thermoo.api.core.v2;
 
 import com.mojang.serialization.Codec;
 import net.minecraft.util.StringRepresentable;

@@ -1,6 +1,6 @@
-package com.github.thedeathlycow.thermoo.api.core.v1.source;
+package com.github.thedeathlycow.thermoo.api.core.v2.source;
 
-import com.github.thedeathlycow.thermoo.api.core.v1.registry.ThermooRegistryKeys;
+import com.github.thedeathlycow.thermoo.api.core.v2.registry.ThermooRegistryKeys;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import net.minecraft.resources.ResourceKey;
 
@@ -11,7 +11,7 @@ public final class TemperatureSources {
     /**
      * The fallback temperature source. Should be used to apply temperature sources absolutely with no resistance.
      * <p>
-     * This temperature source may never be ticked by {@link com.github.thedeathlycow.thermoo.api.core.v1.event.LivingEntityTemperatureTickEvents}.
+     * This temperature source may never be ticked by {@link com.github.thedeathlycow.thermoo.api.core.v2.event.LivingEntityTemperatureTickEvents}.
      */
     public static final ResourceKey<TemperatureSource> ABSOLUTE = key("absolute");
 
@@ -31,7 +31,7 @@ public final class TemperatureSources {
      * Used by {@link com.github.thedeathlycow.thermoo.api.environment.v2.event.ServerPlayerEnvironmentTickEvents} as the
      * source for temperature changes sourced from the environmental conditions.
      * <p>
-     * This temperature source may never be ticked by {@link com.github.thedeathlycow.thermoo.api.core.v1.event.LivingEntityTemperatureTickEvents}.
+     * This temperature source may never be ticked by {@link com.github.thedeathlycow.thermoo.api.core.v2.event.LivingEntityTemperatureTickEvents}.
      * Tick-related logic for this source should be exclusively handled through {@link com.github.thedeathlycow.thermoo.api.environment.v2.event.ServerPlayerEnvironmentTickEvents}.
      */
     public static final ResourceKey<TemperatureSource> ENVIRONMENT = key("environment");

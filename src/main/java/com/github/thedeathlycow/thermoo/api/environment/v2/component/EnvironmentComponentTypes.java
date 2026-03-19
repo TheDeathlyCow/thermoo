@@ -1,8 +1,8 @@
 package com.github.thedeathlycow.thermoo.api.environment.v2.component;
 
-import com.github.thedeathlycow.thermoo.api.core.v1.registry.ThermooRegistries;
-import com.github.thedeathlycow.thermoo.api.core.v1.TemperatureRecord;
-import com.github.thedeathlycow.thermoo.api.core.v1.TemperatureUnit;
+import com.github.thedeathlycow.thermoo.api.core.v2.registry.ThermooRegistries;
+import com.github.thedeathlycow.thermoo.api.core.v2.TemperatureRecord;
+import com.github.thedeathlycow.thermoo.api.core.v2.TemperatureUnit;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.Registry;

@@ -1,4 +1,4 @@
-package com.github.thedeathlycow.thermoo.api.core.v1;
+package com.github.thedeathlycow.thermoo.api.core.v2;
 
 import net.minecraft.util.Mth;
 import org.apache.commons.lang3.NotImplementedException;

@@ -55,11 +55,11 @@
     "custom": {
         "loom:injected_interfaces": {
             "net/minecraft/world/entity/LivingEntity": [
-                "com/github/thedeathlycow/thermoo/api/core/v1/TemperatureAware",
-                "com/github/thedeathlycow/thermoo/api/core/v1/Soakable"
+                "com/github/thedeathlycow/thermoo/api/core/v2/TemperatureAware",
+                "com/github/thedeathlycow/thermoo/api/core/v2/Soakable"
             ],
             "net/minecraft/world/level/Level": [
-                "com/github/thedeathlycow/thermoo/api/core/v1/ThermooLevel"
+                "com/github/thedeathlycow/thermoo/api/core/v2/ThermooLevel"
             ]
         },
         "modmenu": {

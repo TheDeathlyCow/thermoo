@@ -1,6 +1,6 @@
 package com.github.thedeathlycow.thermoo.impl.temperature.status;
 
-import com.github.thedeathlycow.thermoo.api.core.v1.registry.ThermooRegistryKeys;
+import com.github.thedeathlycow.thermoo.api.core.v2.registry.ThermooRegistryKeys;
 import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureStatus;
 import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureStatusSelector;
 import com.github.thedeathlycow.thermoo.impl.component.ThermooComponents;

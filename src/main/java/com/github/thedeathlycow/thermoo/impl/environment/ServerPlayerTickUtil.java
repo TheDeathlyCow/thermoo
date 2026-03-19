@@ -1,6 +1,6 @@
 package com.github.thedeathlycow.thermoo.impl.environment;
 
-import com.github.thedeathlycow.thermoo.api.core.v1.event.EnvironmentTickContext;
+import com.github.thedeathlycow.thermoo.api.core.v2.event.EnvironmentTickContext;
 import com.github.thedeathlycow.thermoo.api.environment.v2.event.ServerPlayerEnvironmentTickEvents;
 import net.fabricmc.fabric.api.util.TriState;
 import net.minecraft.server.level.ServerPlayer;

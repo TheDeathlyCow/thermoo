@@ -1,6 +1,6 @@
-package com.github.thedeathlycow.thermoo.api.core.v1.source;
+package com.github.thedeathlycow.thermoo.api.core.v2.source;
 
-import com.github.thedeathlycow.thermoo.api.core.v1.registry.ThermooRegistryKeys;
+import com.github.thedeathlycow.thermoo.api.core.v2.registry.ThermooRegistryKeys;
 import com.github.thedeathlycow.thermoo.impl.core.TemperatureSourceImpl;
 import com.google.common.base.Preconditions;
 import com.mojang.serialization.Codec;
@@ -70,7 +70,7 @@ public interface TemperatureSource {
      * If this source provides temperature changes on a ticked interval, this controls how often those updates apply.
      * <p>
      * If the interval is {@code 0}, then it will not tick at all. For any value greater than {@code 0}, a listener must be
-     * registered to the event {@link com.github.thedeathlycow.thermoo.api.core.v1.event.LivingEntityTemperatureTickEvents#getTemperatureChange(ResourceKey)}
+     * registered to the event {@link com.github.thedeathlycow.thermoo.api.core.v2.event.LivingEntityTemperatureTickEvents#getTemperatureChange(ResourceKey)}
      * for it to tick.
      *
      * @return Returns an int that is not negative.

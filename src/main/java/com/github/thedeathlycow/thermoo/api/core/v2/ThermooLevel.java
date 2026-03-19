@@ -1,6 +1,6 @@
-package com.github.thedeathlycow.thermoo.api.core.v1;
+package com.github.thedeathlycow.thermoo.api.core.v2;
 
-import com.github.thedeathlycow.thermoo.api.core.v1.source.BuiltinTemperatureSources;
+import com.github.thedeathlycow.thermoo.api.core.v2.source.BuiltinTemperatureSources;
 import net.minecraft.world.level.Level;
 import org.apache.commons.lang3.NotImplementedException;
 import org.jetbrains.annotations.ApiStatus;

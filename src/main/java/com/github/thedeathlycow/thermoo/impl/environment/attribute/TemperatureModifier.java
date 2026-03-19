@@ -1,6 +1,6 @@
 package com.github.thedeathlycow.thermoo.impl.environment.attribute;
 
-import com.github.thedeathlycow.thermoo.api.core.v1.TemperatureRecord;
+import com.github.thedeathlycow.thermoo.api.core.v2.TemperatureRecord;
 import com.mojang.serialization.Codec;
 import net.minecraft.util.Mth;
 import net.minecraft.world.attribute.EnvironmentAttribute;

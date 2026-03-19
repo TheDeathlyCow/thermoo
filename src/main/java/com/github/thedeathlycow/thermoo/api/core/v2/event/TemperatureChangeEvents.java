@@ -1,7 +1,7 @@
-package com.github.thedeathlycow.thermoo.api.core.v1.event;
+package com.github.thedeathlycow.thermoo.api.core.v2.event;
 
-import com.github.thedeathlycow.thermoo.api.core.v1.TemperatureAware;
-import com.github.thedeathlycow.thermoo.api.core.v1.TemperatureChange;
+import com.github.thedeathlycow.thermoo.api.core.v2.TemperatureAware;
+import com.github.thedeathlycow.thermoo.api.core.v2.TemperatureChange;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import dev.yumi.commons.event.Event;
 import net.fabricmc.fabric.api.util.TriState;

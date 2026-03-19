@@ -1,9 +1,9 @@
 package com.github.thedeathlycow.thermoo.impl;
 
-import com.github.thedeathlycow.thermoo.api.core.v1.registry.ThermooRegistryKeys;
-import com.github.thedeathlycow.thermoo.api.core.v1.event.EnvironmentTickContext;
-import com.github.thedeathlycow.thermoo.api.core.v1.event.LivingEntitySoakingTickEvents;
-import com.github.thedeathlycow.thermoo.api.core.v1.source.TemperatureSource;
+import com.github.thedeathlycow.thermoo.api.core.v2.registry.ThermooRegistryKeys;
+import com.github.thedeathlycow.thermoo.api.core.v2.event.EnvironmentTickContext;
+import com.github.thedeathlycow.thermoo.api.core.v2.event.LivingEntitySoakingTickEvents;
+import com.github.thedeathlycow.thermoo.api.core.v2.source.TemperatureSource;
 import com.github.thedeathlycow.thermoo.api.environment.v2.EnvironmentLookup;
 import com.github.thedeathlycow.thermoo.impl.component.ThermooComponents;
 import com.github.thedeathlycow.thermoo.impl.core.UpdateEvents;

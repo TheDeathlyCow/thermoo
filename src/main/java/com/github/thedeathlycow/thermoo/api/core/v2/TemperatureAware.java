@@ -1,4 +1,4 @@
-package com.github.thedeathlycow.thermoo.api.core.v1;
+package com.github.thedeathlycow.thermoo.api.core.v2;
 
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
@@ -129,7 +129,7 @@ public interface TemperatureAware {
 
     /**
      * Adds or removes some amount of temperature to the thermally aware object. Uses the
-     * {@linkplain com.github.thedeathlycow.thermoo.api.core.v1.source.TemperatureSources#ABSOLUTE absolute temperature source}.
+     * {@linkplain com.github.thedeathlycow.thermoo.api.core.v2.source.TemperatureSources#ABSOLUTE absolute temperature source}.
      *
      * @param temperatureChange The amount of temperature to add/remove. Positive change adds, negative change removes.
      */

@@ -1,7 +1,7 @@
 package com.github.thedeathlycow.thermoo.mixin.common;
 
-import com.github.thedeathlycow.thermoo.api.core.v1.registry.ThermooRegistryKeys;
-import com.github.thedeathlycow.thermoo.api.core.v1.TemperatureChange;
+import com.github.thedeathlycow.thermoo.api.core.v2.registry.ThermooRegistryKeys;
+import com.github.thedeathlycow.thermoo.api.core.v2.TemperatureChange;
 import com.github.thedeathlycow.thermoo.impl.core.ThermooServerLevel;
 import com.github.thedeathlycow.thermoo.impl.core.UpdateEvents;
 import net.minecraft.resources.ResourceKey;

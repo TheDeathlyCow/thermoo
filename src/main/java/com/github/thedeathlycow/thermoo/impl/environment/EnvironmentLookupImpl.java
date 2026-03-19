@@ -1,12 +1,12 @@
 package com.github.thedeathlycow.thermoo.impl.environment;
 
-import com.github.thedeathlycow.thermoo.api.core.v1.registry.ThermooRegistryKeys;
+import com.github.thedeathlycow.thermoo.api.core.v2.registry.ThermooRegistryKeys;
 import com.github.thedeathlycow.thermoo.api.environment.v2.EnvironmentDefinition;
 import com.github.thedeathlycow.thermoo.api.environment.v2.EnvironmentLookup;
 import com.github.thedeathlycow.thermoo.api.environment.v2.attribute.ThermooEnvironmentAttributes;
 import com.github.thedeathlycow.thermoo.api.environment.v2.component.EnvironmentComponentTypes;
 import com.github.thedeathlycow.thermoo.api.environment.v2.provider.EnvironmentProvider;
-import com.github.thedeathlycow.thermoo.api.core.v1.TemperatureRecord;
+import com.github.thedeathlycow.thermoo.api.core.v2.TemperatureRecord;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.minecraft.core.BlockPos;

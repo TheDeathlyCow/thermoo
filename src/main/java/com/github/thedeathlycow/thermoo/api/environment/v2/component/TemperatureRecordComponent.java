@@ -1,7 +1,7 @@
 package com.github.thedeathlycow.thermoo.api.environment.v2.component;
 
-import com.github.thedeathlycow.thermoo.api.core.v1.TemperatureRecord;
-import com.github.thedeathlycow.thermoo.api.core.v1.TemperatureUnit;
+import com.github.thedeathlycow.thermoo.api.core.v2.TemperatureRecord;
+import com.github.thedeathlycow.thermoo.api.core.v2.TemperatureUnit;
 import com.mojang.serialization.Codec;
 
 /**

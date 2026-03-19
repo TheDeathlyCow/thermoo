@@ -1,7 +1,7 @@
-package com.github.thedeathlycow.thermoo.api.core.v1.event;
+package com.github.thedeathlycow.thermoo.api.core.v2.event;
 
-import com.github.thedeathlycow.thermoo.api.core.v1.Soakable;
-import com.github.thedeathlycow.thermoo.api.core.v1.TemperatureAware;
+import com.github.thedeathlycow.thermoo.api.core.v2.Soakable;
+import com.github.thedeathlycow.thermoo.api.core.v2.TemperatureAware;
 import com.github.thedeathlycow.thermoo.api.environment.v2.component.EnvironmentComponentTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponentMap;

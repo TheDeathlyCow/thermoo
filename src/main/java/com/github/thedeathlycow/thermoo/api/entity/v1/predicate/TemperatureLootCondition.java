@@ -1,7 +1,7 @@
 package com.github.thedeathlycow.thermoo.api.entity.v1.predicate;
 
-import com.github.thedeathlycow.thermoo.api.core.v1.Soakable;
-import com.github.thedeathlycow.thermoo.api.core.v1.TemperatureAware;
+import com.github.thedeathlycow.thermoo.api.core.v2.Soakable;
+import com.github.thedeathlycow.thermoo.api.core.v2.TemperatureAware;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.advancements.criterion.MinMaxBounds;

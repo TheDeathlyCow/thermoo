@@ -1,7 +1,7 @@
 package com.github.thedeathlycow.thermoo.api.kt
 
-import com.github.thedeathlycow.thermoo.api.core.v1.TemperatureRecord
-import com.github.thedeathlycow.thermoo.api.core.v1.TemperatureUnit
+import com.github.thedeathlycow.thermoo.api.core.v2.TemperatureRecord
+import com.github.thedeathlycow.thermoo.api.core.v2.TemperatureUnit
 
 /**
  * Gets this number's double value as a Celsius temperature record

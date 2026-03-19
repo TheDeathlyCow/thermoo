@@ -1,6 +1,6 @@
 package com.github.thedeathlycow.thermoo.api.kt
 
-import com.github.thedeathlycow.thermoo.api.core.v1.Soakable
+import com.github.thedeathlycow.thermoo.api.core.v2.Soakable
 
 var Soakable.wetTicks: Int
     get() = this.`thermoo$getWetTicks`()

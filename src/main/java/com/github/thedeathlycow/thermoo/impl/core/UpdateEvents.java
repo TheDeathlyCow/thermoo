@@ -1,10 +1,10 @@
 package com.github.thedeathlycow.thermoo.impl.core;
 
-import com.github.thedeathlycow.thermoo.api.core.v1.TemperatureChange;
-import com.github.thedeathlycow.thermoo.api.core.v1.event.EnvironmentTickContext;
-import com.github.thedeathlycow.thermoo.api.core.v1.event.LivingEntityTemperatureTickEvents;
-import com.github.thedeathlycow.thermoo.api.core.v1.source.TemperatureSource;
-import com.github.thedeathlycow.thermoo.api.core.v1.source.TemperatureSources;
+import com.github.thedeathlycow.thermoo.api.core.v2.TemperatureChange;
+import com.github.thedeathlycow.thermoo.api.core.v2.event.EnvironmentTickContext;
+import com.github.thedeathlycow.thermoo.api.core.v2.event.LivingEntityTemperatureTickEvents;
+import com.github.thedeathlycow.thermoo.api.core.v2.source.TemperatureSource;
+import com.github.thedeathlycow.thermoo.api.core.v2.source.TemperatureSources;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import com.google.common.base.Preconditions;
 import dev.yumi.commons.event.Event;

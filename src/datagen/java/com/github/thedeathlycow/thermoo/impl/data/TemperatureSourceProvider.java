@@ -1,7 +1,7 @@
 package com.github.thedeathlycow.thermoo.impl.data;
 
 import com.github.thedeathlycow.thermoo.api.entity.v1.ThermooAttributes;
-import com.github.thedeathlycow.thermoo.api.core.v1.source.*;
+import com.github.thedeathlycow.thermoo.api.core.v2.source.*;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricDynamicRegistryProvider;
 import net.minecraft.core.HolderLookup;

@@ -1,4 +1,4 @@
 /**
  * Contains logic for data driven temperature sources.
  */
-package com.github.thedeathlycow.thermoo.api.core.v1.source;
+package com.github.thedeathlycow.thermoo.api.core.v2.source;

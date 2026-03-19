@@ -1,7 +1,7 @@
 package com.github.thedeathlycow.thermoo.impl.core;
 
-import com.github.thedeathlycow.thermoo.api.core.v1.TemperatureChange;
-import com.github.thedeathlycow.thermoo.api.core.v1.source.TemperatureSource;
+import com.github.thedeathlycow.thermoo.api.core.v2.TemperatureChange;
+import com.github.thedeathlycow.thermoo.api.core.v2.source.TemperatureSource;
 import net.minecraft.core.Holder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;

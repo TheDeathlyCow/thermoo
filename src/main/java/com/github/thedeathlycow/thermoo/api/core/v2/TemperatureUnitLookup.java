@@ -1,4 +1,4 @@
-package com.github.thedeathlycow.thermoo.api.core.v1;
+package com.github.thedeathlycow.thermoo.api.core.v2;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

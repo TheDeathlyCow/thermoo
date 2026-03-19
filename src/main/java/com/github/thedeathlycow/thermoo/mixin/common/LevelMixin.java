@@ -1,7 +1,7 @@
 package com.github.thedeathlycow.thermoo.mixin.common;
 
-import com.github.thedeathlycow.thermoo.api.core.v1.ThermooLevel;
-import com.github.thedeathlycow.thermoo.api.core.v1.source.BuiltinTemperatureSources;
+import com.github.thedeathlycow.thermoo.api.core.v2.ThermooLevel;
+import com.github.thedeathlycow.thermoo.api.core.v2.source.BuiltinTemperatureSources;
 import com.github.thedeathlycow.thermoo.impl.core.BuiltinTemperatureSourcesImpl;
 import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;

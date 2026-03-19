@@ -1,6 +1,6 @@
 package com.github.thedeathlycow.thermoo.api.temperature.status.v2.effect;
 
-import com.github.thedeathlycow.thermoo.api.core.v1.TemperatureAware;
+import com.github.thedeathlycow.thermoo.api.core.v2.TemperatureAware;
 import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureEffect;
 import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureEffectContext;
 import com.google.common.base.Preconditions;

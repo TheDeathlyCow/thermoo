@@ -1,6 +1,6 @@
-package com.github.thedeathlycow.thermoo.api.core.v1;
+package com.github.thedeathlycow.thermoo.api.core.v2;
 
-import com.github.thedeathlycow.thermoo.api.core.v1.source.TemperatureSource;
+import com.github.thedeathlycow.thermoo.api.core.v2.source.TemperatureSource;
 import com.github.thedeathlycow.thermoo.impl.core.TemperatureChangeImpl;
 import com.google.common.base.Preconditions;
 import net.minecraft.core.Holder;
@@ -9,7 +9,6 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.TraceableEntity;
-import net.minecraft.world.entity.projectile.arrow.Arrow;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;

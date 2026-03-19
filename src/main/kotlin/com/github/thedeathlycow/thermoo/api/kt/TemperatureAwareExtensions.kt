@@ -1,7 +1,7 @@
 package com.github.thedeathlycow.thermoo.api.kt
 
-import com.github.thedeathlycow.thermoo.api.core.v1.TemperatureAware
-import com.github.thedeathlycow.thermoo.api.core.v1.TemperatureChange
+import com.github.thedeathlycow.thermoo.api.core.v2.TemperatureAware
+import com.github.thedeathlycow.thermoo.api.core.v2.TemperatureChange
 import net.minecraft.util.RandomSource
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.LivingEntity

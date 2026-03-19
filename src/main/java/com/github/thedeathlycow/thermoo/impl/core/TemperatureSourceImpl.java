@@ -1,7 +1,7 @@
 package com.github.thedeathlycow.thermoo.impl.core;
 
-import com.github.thedeathlycow.thermoo.api.core.v1.source.TemperatureReduction;
-import com.github.thedeathlycow.thermoo.api.core.v1.source.TemperatureSource;
+import com.github.thedeathlycow.thermoo.api.core.v2.source.TemperatureReduction;
+import com.github.thedeathlycow.thermoo.api.core.v2.source.TemperatureSource;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.Range;
 

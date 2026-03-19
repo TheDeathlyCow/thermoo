@@ -1,7 +1,7 @@
-package com.github.thedeathlycow.thermoo.api.core.v1.registry;
+package com.github.thedeathlycow.thermoo.api.core.v2.registry;
 
-import com.github.thedeathlycow.thermoo.api.core.v1.source.TemperatureReduction;
-import com.github.thedeathlycow.thermoo.api.core.v1.source.TemperatureSource;
+import com.github.thedeathlycow.thermoo.api.core.v2.source.TemperatureReduction;
+import com.github.thedeathlycow.thermoo.api.core.v2.source.TemperatureSource;
 import com.github.thedeathlycow.thermoo.api.environment.v2.EnvironmentDefinition;
 import com.github.thedeathlycow.thermoo.api.environment.v2.provider.EnvironmentProvider;
 import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureEffect;

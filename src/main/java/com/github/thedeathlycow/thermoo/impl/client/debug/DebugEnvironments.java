@@ -1,6 +1,6 @@
 package com.github.thedeathlycow.thermoo.impl.client.debug;
 
-import com.github.thedeathlycow.thermoo.api.core.v1.registry.ThermooRegistryKeys;
+import com.github.thedeathlycow.thermoo.api.core.v2.registry.ThermooRegistryKeys;
 import com.github.thedeathlycow.thermoo.api.environment.v2.EnvironmentDefinition;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import com.github.thedeathlycow.thermoo.impl.environment.EnvironmentLookupImpl;

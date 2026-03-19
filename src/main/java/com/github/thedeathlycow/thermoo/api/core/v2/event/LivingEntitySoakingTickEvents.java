@@ -1,4 +1,4 @@
-package com.github.thedeathlycow.thermoo.api.core.v1.event;
+package com.github.thedeathlycow.thermoo.api.core.v2.event;
 
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import dev.yumi.commons.event.Event;

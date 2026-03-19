@@ -1,6 +1,6 @@
 package com.github.thedeathlycow.thermoo.impl.core;
 
-import com.github.thedeathlycow.thermoo.api.core.v1.TemperatureChange;
+import com.github.thedeathlycow.thermoo.api.core.v2.TemperatureChange;
 
 import java.util.List;
 

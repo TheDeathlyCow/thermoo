@@ -1,6 +1,6 @@
-package com.github.thedeathlycow.thermoo.api.core.v1.source;
+package com.github.thedeathlycow.thermoo.api.core.v2.source;
 
-import com.github.thedeathlycow.thermoo.api.core.v1.TemperatureChange;
+import com.github.thedeathlycow.thermoo.api.core.v2.TemperatureChange;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.TraceableEntity;

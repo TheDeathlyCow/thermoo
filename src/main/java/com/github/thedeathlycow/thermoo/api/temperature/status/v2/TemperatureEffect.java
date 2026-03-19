@@ -1,6 +1,6 @@
 package com.github.thedeathlycow.thermoo.api.temperature.status.v2;
 
-import com.github.thedeathlycow.thermoo.api.core.v1.registry.ThermooRegistries;
+import com.github.thedeathlycow.thermoo.api.core.v2.registry.ThermooRegistries;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.world.entity.LivingEntity;
