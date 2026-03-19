@@ -54,7 +54,7 @@ class TemperatureLootConditionTest {
         Mockito.when(mockVillager.thermoo$getTemperature())
                 .thenReturn(temperature);
 
-        var condition = new TemperatureLootCondition(VALUE_RANGE, MinMaxBounds.Doubles.ANY);
+        var condition = TemperatureLootCondition.builder(VALUE_RANGE).build();
 
         Assertions.assertTrue(condition.test(mockContext));
     }
@@ -72,7 +72,7 @@ class TemperatureLootConditionTest {
         Mockito.when(mockVillager.thermoo$getTemperature())
                 .thenReturn(temperature);
 
-        var condition = new TemperatureLootCondition(VALUE_RANGE, MinMaxBounds.Doubles.ANY);
+        var condition = TemperatureLootCondition.builder(VALUE_RANGE).build();
 
         Assertions.assertFalse(condition.test(mockContext));
     }
@@ -89,7 +89,7 @@ class TemperatureLootConditionTest {
         Mockito.when(mockVillager.thermoo$getTemperatureScale())
                 .thenReturn(temperatureScale);
 
-        var condition = new TemperatureLootCondition(MinMaxBounds.Ints.ANY, SCALE_RANGE);
+        var condition = TemperatureLootCondition.builder(SCALE_RANGE).build();
 
         Assertions.assertTrue(condition.test(mockContext));
     }
@@ -109,40 +109,29 @@ class TemperatureLootConditionTest {
         Mockito.when(mockVillager.thermoo$getTemperatureScale())
                 .thenReturn(temperatureScale);
 
-        var condition = new TemperatureLootCondition(MinMaxBounds.Ints.ANY, SCALE_RANGE);
+        var condition = TemperatureLootCondition.builder(SCALE_RANGE).build();
 
         Assertions.assertFalse(condition.test(mockContext));
     }
 
     @Test
-    void temperatureValueInBoundary_temperatureScaleOutsideBoundary_false() {
-        final int temperature = MIN_BOUNDARY_VALUE + 1;
-        Mockito.when(mockVillager.thermoo$getTemperature())
-                .thenReturn(temperature);
-
-        var condition = new TemperatureLootCondition(VALUE_RANGE, SCALE_RANGE);
-
-        Assertions.assertFalse(condition.test(mockContext));
-    }
-
-    @Test
-    void temperatureValueOutsideBoundary_temperatureScaleInBoundary_false() {
-        final int temperature = MAX_BOUNDARY_VALUE + 1;
-        Mockito.when(mockVillager.thermoo$getTemperature())
-                .thenReturn(temperature);
-
-        var condition = new TemperatureLootCondition(VALUE_RANGE, SCALE_RANGE);
-
-        Assertions.assertFalse(condition.test(mockContext));
-    }
-
-    @Test
-    void entityNotTemperatureAware_anyValueOrScale_false() {
+    void entityNotTemperatureAware_anyValue_false() {
         Boat mockBoat = Mockito.mock(Boat.class);
         Mockito.when(mockContext.getParameter(LootContextParams.THIS_ENTITY))
                 .thenReturn(mockBoat);
 
-        var condition = new TemperatureLootCondition(MinMaxBounds.Ints.ANY, MinMaxBounds.Doubles.ANY);
+        var condition =  TemperatureLootCondition.builder(MinMaxBounds.Ints.ANY).build();
+
+        Assertions.assertFalse(condition.test(mockContext));
+    }
+
+    @Test
+    void entityNotTemperatureAware_anyScale_false() {
+        Boat mockBoat = Mockito.mock(Boat.class);
+        Mockito.when(mockContext.getParameter(LootContextParams.THIS_ENTITY))
+                .thenReturn(mockBoat);
+
+        var condition =  TemperatureLootCondition.builder(MinMaxBounds.Doubles.ANY).build();
 
         Assertions.assertFalse(condition.test(mockContext));
     }

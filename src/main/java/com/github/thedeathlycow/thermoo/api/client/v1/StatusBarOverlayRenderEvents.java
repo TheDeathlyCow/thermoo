@@ -2,7 +2,6 @@ package com.github.thedeathlycow.thermoo.api.client.v1;
 
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import dev.yumi.commons.event.Event;
-import dev.yumi.commons.event.EventManager;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.GuiGraphicsExtractor;

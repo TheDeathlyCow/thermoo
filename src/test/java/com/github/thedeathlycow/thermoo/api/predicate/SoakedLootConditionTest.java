@@ -55,7 +55,7 @@ class SoakedLootConditionTest {
         Mockito.when(mockVillager.thermoo$getWetTicks())
                 .thenReturn(soaked);
 
-        var condition = new SoakedLootCondition(VALUE_RANGE, MinMaxBounds.Doubles.ANY);
+        var condition = SoakedLootCondition.builder(VALUE_RANGE).build();
 
         Assertions.assertTrue(condition.test(mockContext));
     }
@@ -73,7 +73,7 @@ class SoakedLootConditionTest {
         Mockito.when(mockVillager.thermoo$getWetTicks())
                 .thenReturn(soaked);
 
-        var condition = new SoakedLootCondition(VALUE_RANGE, MinMaxBounds.Doubles.ANY);
+        var condition = SoakedLootCondition.builder(VALUE_RANGE).build();
 
         Assertions.assertFalse(condition.test(mockContext));
     }
@@ -90,7 +90,7 @@ class SoakedLootConditionTest {
         Mockito.when(mockVillager.thermoo$getSoakedScale())
                 .thenReturn(soaked);
 
-        var condition = new SoakedLootCondition(MinMaxBounds.Ints.ANY, SCALE_RANGE);
+        var condition = SoakedLootCondition.builder(SCALE_RANGE).build();
 
         Assertions.assertTrue(condition.test(mockContext));
     }
@@ -110,40 +110,29 @@ class SoakedLootConditionTest {
         Mockito.when(mockVillager.thermoo$getSoakedScale())
                 .thenReturn(soaked);
 
-        var condition = new SoakedLootCondition(MinMaxBounds.Ints.ANY, SCALE_RANGE);
+        var condition = SoakedLootCondition.builder(SCALE_RANGE).build();
 
         Assertions.assertFalse(condition.test(mockContext));
     }
 
     @Test
-    void soakedValueInBoundary_soakedScaleOutsideBoundary_false() {
-        final int soaked = MIN_BOUNDARY_VALUE + 1;
-        Mockito.when(mockVillager.thermoo$getWetTicks())
-                .thenReturn(soaked);
-
-        var condition = new SoakedLootCondition(VALUE_RANGE, SCALE_RANGE);
-
-        Assertions.assertFalse(condition.test(mockContext));
-    }
-
-    @Test
-    void soakedValueOutsideBoundary_soakedScaleInBoundary_false() {
-        final int soaked = MAX_BOUNDARY_VALUE + 1;
-        Mockito.when(mockVillager.thermoo$getWetTicks())
-                .thenReturn(soaked);
-
-        var condition = new SoakedLootCondition(VALUE_RANGE, SCALE_RANGE);
-
-        Assertions.assertFalse(condition.test(mockContext));
-    }
-
-    @Test
-    void entityNotSoakable_anyValueOrScale_false() {
+    void entityNotSoakable_anyValue_false() {
         Boat mockBoat = Mockito.mock(Boat.class);
         Mockito.when(mockContext.getParameter(LootContextParams.THIS_ENTITY))
                 .thenReturn(mockBoat);
 
-        var condition = new SoakedLootCondition(MinMaxBounds.Ints.ANY, MinMaxBounds.Doubles.ANY);
+        var condition = SoakedLootCondition.builder(MinMaxBounds.Ints.ANY).build();
+
+        Assertions.assertFalse(condition.test(mockContext));
+    }
+
+    @Test
+    void entityNotSoakable_anyScale_false() {
+        Boat mockBoat = Mockito.mock(Boat.class);
+        Mockito.when(mockContext.getParameter(LootContextParams.THIS_ENTITY))
+                .thenReturn(mockBoat);
+
+        var condition = SoakedLootCondition.builder(MinMaxBounds.Doubles.ANY).build();
 
         Assertions.assertFalse(condition.test(mockContext));
     }

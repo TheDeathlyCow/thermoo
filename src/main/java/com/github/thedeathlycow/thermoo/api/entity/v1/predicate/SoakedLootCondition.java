@@ -9,18 +9,10 @@ import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 
-/**
- * Loot condition used to test the soaking values of an entity in a predicate. Only works for entities that implement
- * {@link Soakable}, which by default is only {@link net.minecraft.world.entity.LivingEntity}. All other entities will return
- * always false.
- *
- * @param value The {@linkplain Soakable#thermoo$getWetTicks() soaking value}
- * @param scale The {@linkplain Soakable#thermoo$getSoakedScale() soaking scale}
- */
-public record SoakedLootCondition(
-        MinMaxBounds.Ints value,
-        MinMaxBounds.Doubles scale
-) implements LootItemCondition {
+/// Loot condition used to test the soaking values of an entity in a predicate. Only works for entities that implement
+/// [Soakable], which is all instances [net.minecraft.world.entity.LivingEntity]. All other entities will cause this
+/// condition to be `false`.
+public final class SoakedLootCondition implements LootItemCondition {
 
     public static final MapCodec<SoakedLootCondition> CODEC = RecordCodecBuilder.mapCodec(
             instance -> instance.group(
@@ -34,6 +26,14 @@ public record SoakedLootCondition(
                             .forGetter(SoakedLootCondition::scale)
             ).apply(instance, SoakedLootCondition::new)
     );
+
+    private final MinMaxBounds.Ints value;
+    private final MinMaxBounds.Doubles scale;
+
+    private SoakedLootCondition(MinMaxBounds.Ints value, MinMaxBounds.Doubles scale) {
+        this.value = value;
+        this.scale = scale;
+    }
 
     @Override
     public MapCodec<SoakedLootCondition> codec() {
@@ -57,5 +57,16 @@ public record SoakedLootCondition(
 
     public static LootItemCondition.Builder builder(MinMaxBounds.Doubles scale) {
         return () -> new SoakedLootCondition(MinMaxBounds.Ints.ANY, scale);
+    }
+
+
+    /// Range of [soaking ticks][Soakable#thermoo$getWetTicks()] that are required for this condition to pass.
+    public MinMaxBounds.Ints value() {
+        return value;
+    }
+
+    /// Range of [soaking scale][Soakable#thermoo$getSoakedScale()] that are required for this condition to pass.
+    public MinMaxBounds.Doubles scale() {
+        return scale;
     }
 }

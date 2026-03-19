@@ -1,5 +1,6 @@
 package com.github.thedeathlycow.thermoo.api.entity.v1.predicate;
 
+import com.github.thedeathlycow.thermoo.api.core.v1.Soakable;
 import com.github.thedeathlycow.thermoo.api.core.v1.TemperatureAware;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -9,18 +10,10 @@ import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 
-/**
- * Loot condition used to test the soaking values of an entity in a predicate. Only works for entities that implement
- * {@link TemperatureAware}, which by default is only {@link net.minecraft.world.entity.LivingEntity}. All other entities will
- * always return false.
- *
- * @param value The {@linkplain TemperatureAware#thermoo$getTemperature() temperature value}
- * @param scale The {@linkplain TemperatureAware#thermoo$getTemperatureScale() temperature scale}
- */
-public record TemperatureLootCondition(
-        MinMaxBounds.Ints value,
-        MinMaxBounds.Doubles scale
-) implements LootItemCondition {
+/// Loot condition used to test the temperature values of an entity in a predicate. Only works for entities that implement
+/// [TemperatureAware], which is all instances [net.minecraft.world.entity.LivingEntity]. All other entities will cause this
+/// condition to be `false`.
+public final class TemperatureLootCondition implements LootItemCondition {
 
     public static final MapCodec<TemperatureLootCondition> CODEC = RecordCodecBuilder.mapCodec(
             instance -> instance.group(
@@ -34,6 +27,14 @@ public record TemperatureLootCondition(
                             .forGetter(TemperatureLootCondition::scale)
             ).apply(instance, TemperatureLootCondition::new)
     );
+
+    private final MinMaxBounds.Ints value;
+    private final MinMaxBounds.Doubles scale;
+
+    private TemperatureLootCondition(MinMaxBounds.Ints value, MinMaxBounds.Doubles scale) {
+        this.value = value;
+        this.scale = scale;
+    }
 
     @Override
     public MapCodec<TemperatureLootCondition> codec() {
@@ -57,5 +58,15 @@ public record TemperatureLootCondition(
 
     public static LootItemCondition.Builder builder(MinMaxBounds.Doubles scale) {
         return () -> new TemperatureLootCondition(MinMaxBounds.Ints.ANY, scale);
+    }
+
+    /// Range of [soaking ticks][Soakable#thermoo$getWetTicks()] that are required for this condition to pass.
+    public MinMaxBounds.Ints value() {
+        return value;
+    }
+
+    /// Range of [soaking scale][Soakable#thermoo$getSoakedScale()] that are required for this condition to pass.
+    public MinMaxBounds.Doubles scale() {
+        return scale;
     }
 }
