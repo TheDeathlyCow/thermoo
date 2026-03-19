@@ -2,8 +2,7 @@ package com.github.thedeathlycow.thermoo.impl.attribute;
 
 import com.github.thedeathlycow.thermoo.api.entity.v1.ThermooAttributes;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
-import net.fabricmc.fabric.api.event.Event;
-import net.fabricmc.fabric.api.event.EventFactory;
+import dev.yumi.commons.event.Event;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -44,7 +43,7 @@ public enum AttributeData {
 
     private final Identifier location;
     private final Holder<Attribute> attribute;
-    private final Event<ThermooAttributes.SetBaseAttributeValue> baseAttributeValueEvent;
+    private final Event<Identifier, ThermooAttributes.SetBaseAttributeValue> baseAttributeValueEvent;
 
     AttributeData(
             Identifier location,
@@ -63,12 +62,12 @@ public enum AttributeData {
         return attribute;
     }
 
-    public Event<ThermooAttributes.SetBaseAttributeValue> baseValueEvent() {
+    public Event<Identifier, ThermooAttributes.SetBaseAttributeValue> baseValueEvent() {
         return baseAttributeValueEvent;
     }
 
-    private static Event<ThermooAttributes.SetBaseAttributeValue> createEvent(Holder<Attribute> attribute) {
-        return EventFactory.createArrayBacked(
+    private static Event<Identifier, ThermooAttributes.SetBaseAttributeValue> createEvent(Holder<Attribute> attribute) {
+        return Thermoo.EVENT_MANAGER.create(
                 ThermooAttributes.SetBaseAttributeValue.class,
                 listeners -> (entity, baseValue) -> {
                     double value = 0.0;

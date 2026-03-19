@@ -1,7 +1,8 @@
 package com.github.thedeathlycow.thermoo.api.item.v2;
 
-import net.fabricmc.fabric.api.event.Event;
-import net.fabricmc.fabric.api.event.EventFactory;
+import com.github.thedeathlycow.thermoo.impl.Thermoo;
+import dev.yumi.commons.event.Event;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import org.jetbrains.annotations.ApiStatus;
@@ -30,7 +31,7 @@ import org.jetbrains.annotations.ApiStatus;
 @ApiStatus.Experimental
 @FunctionalInterface
 public interface ModifyItemAttributeModifiersCallback {
-    Event<ModifyItemAttributeModifiersCallback> EVENT = EventFactory.createArrayBacked(
+    Event<Identifier, ModifyItemAttributeModifiersCallback> EVENT = Thermoo.EVENT_MANAGER.create(
             ModifyItemAttributeModifiersCallback.class,
             listeners -> (stack, builder) -> {
                 for (ModifyItemAttributeModifiersCallback listener : listeners) {

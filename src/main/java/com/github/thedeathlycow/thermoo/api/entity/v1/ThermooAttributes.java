@@ -2,10 +2,11 @@ package com.github.thedeathlycow.thermoo.api.entity.v1;
 
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import com.github.thedeathlycow.thermoo.impl.attribute.AttributeData;
-import net.fabricmc.fabric.api.event.Event;
+import dev.yumi.commons.event.Event;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.RangedAttribute;
@@ -120,7 +121,7 @@ public final class ThermooAttributes {
      * @return Returns the event for the attribute
      * @throws IllegalArgumentException if the given attribute is not a thermoo attribute defined by this class
      */
-    public static Event<SetBaseAttributeValue> baseValueEvent(Holder<Attribute> attribute) {
+    public static Event<Identifier, SetBaseAttributeValue> baseValueEvent(Holder<Attribute> attribute) {
         for (AttributeData data : AttributeData.values()) {
             if (attribute == data.attribute()) {
                 return data.baseValueEvent();

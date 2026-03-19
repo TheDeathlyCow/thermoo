@@ -13,6 +13,7 @@ import com.github.thedeathlycow.thermoo.impl.compat.init.DependentModInitializer
 import com.github.thedeathlycow.thermoo.impl.config.ThermooConfig;
 import com.github.thedeathlycow.thermoo.impl.environment.EnvironmentLookupImpl;
 import com.github.thedeathlycow.thermoo.impl.temperature.status.TemperatureStatusManager;
+import dev.yumi.commons.event.EventManager;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.ArgumentTypeRegistry;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
@@ -34,6 +35,8 @@ public class Thermoo implements ModInitializer {
     public static final String MODID = "thermoo";
 
     public static final Logger LOGGER = LoggerFactory.getLogger(MODID);
+
+    public static final EventManager<Identifier> EVENT_MANAGER = new EventManager<>(id("default"), Identifier::parse);
 
     public static final ArgumentTypeInfo<
             TemperatureUnitArgument,

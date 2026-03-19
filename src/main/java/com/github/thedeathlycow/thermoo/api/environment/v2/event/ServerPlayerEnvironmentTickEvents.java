@@ -2,9 +2,10 @@ package com.github.thedeathlycow.thermoo.api.environment.v2.event;
 
 import com.github.thedeathlycow.thermoo.api.core.v1.event.EnvironmentTickContext;
 import com.github.thedeathlycow.thermoo.api.environment.v2.EnvironmentDefinition;
-import net.fabricmc.fabric.api.event.Event;
-import net.fabricmc.fabric.api.event.EventFactory;
+import com.github.thedeathlycow.thermoo.impl.Thermoo;
+import dev.yumi.commons.event.Event;
 import net.fabricmc.fabric.api.util.TriState;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 
 /**
@@ -25,7 +26,7 @@ public final class ServerPlayerEnvironmentTickEvents {
      * <p>
      * At this stage, the context's environment components will be empty.
      */
-    public static final Event<AllowTemperatureChangeUpdate> ALLOW_TEMPERATURE_UPDATE = EventFactory.createArrayBacked(
+    public static final Event<Identifier, AllowTemperatureChangeUpdate> ALLOW_TEMPERATURE_UPDATE = Thermoo.EVENT_MANAGER.create(
             AllowTemperatureChangeUpdate.class,
             listeners -> context -> {
                 for (AllowTemperatureChangeUpdate listener : listeners) {
@@ -44,7 +45,7 @@ public final class ServerPlayerEnvironmentTickEvents {
      * <p>
      * From this point onwards, the context environment components will be defined, but some values may still be empty.
      */
-    public static final Event<GetTemperatureChange> GET_TEMPERATURE_CHANGE = EventFactory.createArrayBacked(
+    public static final Event<Identifier, GetTemperatureChange> GET_TEMPERATURE_CHANGE = Thermoo.EVENT_MANAGER.create(
             GetTemperatureChange.class,
             listeners -> context -> {
                 int value = 0;
@@ -61,7 +62,7 @@ public final class ServerPlayerEnvironmentTickEvents {
      * default, the update will be allowed to be applied. A temperature change of 0 will not invoke this event, and
      * temperature changes of 0 will never apply.
      */
-    public static final Event<AllowTemperatureChangeApply> ALLOW_TEMPERATURE_CHANGE = EventFactory.createArrayBacked(
+    public static final Event<Identifier, AllowTemperatureChangeApply> ALLOW_TEMPERATURE_CHANGE = Thermoo.EVENT_MANAGER.create(
             AllowTemperatureChangeApply.class,
             listeners -> (context, temperatureChange) -> {
                 for (AllowTemperatureChangeApply listener : listeners) {

@@ -9,11 +9,12 @@ import com.github.thedeathlycow.thermoo.impl.component.ThermooComponents;
 import com.github.thedeathlycow.thermoo.impl.core.UpdateEvents;
 import com.github.thedeathlycow.thermoo.impl.environment.EnvironmentTickContextImpl;
 import com.github.thedeathlycow.thermoo.impl.environment.ServerPlayerTickUtil;
-import net.fabricmc.fabric.api.event.Event;
+import dev.yumi.commons.event.Event;
 import net.fabricmc.fabric.api.util.TriState;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponentMap;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.BlockTags;
@@ -103,9 +104,9 @@ public final class LivingEntityTickUtil {
 
     private static void tickSoakingChange(
             EnvironmentTickContext<? extends LivingEntity> context,
-            Event<LivingEntitySoakingTickEvents.AllowSoakingUpdate> allowUpdate,
-            Event<LivingEntitySoakingTickEvents.GetSoakingChange> addSoakChange,
-            Event<LivingEntitySoakingTickEvents.AllowSoakingChange> allowChange
+            Event<Identifier, LivingEntitySoakingTickEvents.AllowSoakingUpdate> allowUpdate,
+            Event<Identifier,LivingEntitySoakingTickEvents.GetSoakingChange> addSoakChange,
+            Event<Identifier,LivingEntitySoakingTickEvents.AllowSoakingChange> allowChange
     ) {
         if (allowUpdate.invoker().allowUpdate(context) == TriState.FALSE) {
             return;

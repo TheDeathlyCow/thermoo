@@ -2,9 +2,10 @@ package com.github.thedeathlycow.thermoo.api.core.v1.event;
 
 import com.github.thedeathlycow.thermoo.api.core.v1.TemperatureAware;
 import com.github.thedeathlycow.thermoo.api.core.v1.TemperatureChange;
-import net.fabricmc.fabric.api.event.Event;
-import net.fabricmc.fabric.api.event.EventFactory;
+import com.github.thedeathlycow.thermoo.impl.Thermoo;
+import dev.yumi.commons.event.Event;
 import net.fabricmc.fabric.api.util.TriState;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.LivingEntity;
 
 /**
@@ -15,7 +16,7 @@ public final class TemperatureChangeEvents {
      * Checks if a given temperature change should be allowed to proceed. Hooked in after basic checks like
      * {@link TemperatureAware#thermoo$canFreeze()} and {@link TemperatureAware#thermoo$canOverheat()}.
      */
-    public static final Event<AllowChange> ALLOW_TEMPERATURE_CHANGE = EventFactory.createArrayBacked(
+    public static final Event<Identifier, AllowChange> ALLOW_TEMPERATURE_CHANGE = Thermoo.EVENT_MANAGER.create(
             AllowChange.class,
             listeners -> (target, change, reducedChange, context) -> {
                 for (AllowChange listener : listeners) {
@@ -31,7 +32,7 @@ public final class TemperatureChangeEvents {
     /**
      * Invoked after a temperature change is applied.
      */
-    public static final Event<AfterChange> AFTER_TEMPERATURE_CHANGE = EventFactory.createArrayBacked(
+    public static final Event<Identifier, AfterChange> AFTER_TEMPERATURE_CHANGE = Thermoo.EVENT_MANAGER.create(
             AfterChange.class,
             listeners -> (target, oldTemperature, newTemperature, context) -> {
                 for (AfterChange listener : listeners) {

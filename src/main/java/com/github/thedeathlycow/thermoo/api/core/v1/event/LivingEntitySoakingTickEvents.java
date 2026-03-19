@@ -1,8 +1,9 @@
 package com.github.thedeathlycow.thermoo.api.core.v1.event;
 
-import net.fabricmc.fabric.api.event.Event;
-import net.fabricmc.fabric.api.event.EventFactory;
+import com.github.thedeathlycow.thermoo.impl.Thermoo;
+import dev.yumi.commons.event.Event;
 import net.fabricmc.fabric.api.util.TriState;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.LivingEntity;
 
 /**
@@ -19,7 +20,7 @@ public final class LivingEntitySoakingTickEvents {
      * Checks if the soaking change update tick for a living entity should be allowed to proceed. Returning any non-default
      * value will force the update to proceed right away. By default, the update will be allowed to proceed.
      */
-    public static final Event<AllowSoakingUpdate> ALLOW_SOAKING_UPDATE = EventFactory.createArrayBacked(
+    public static final Event<Identifier, AllowSoakingUpdate> ALLOW_SOAKING_UPDATE = Thermoo.EVENT_MANAGER.create(
             AllowSoakingUpdate.class,
             listeners -> context -> {
                 for (AllowSoakingUpdate listener : listeners) {
@@ -38,7 +39,7 @@ public final class LivingEntitySoakingTickEvents {
      * <p>
      * If the listeners return a sum total of 0, then this event will return -1 (to dry out entities).
      */
-    public static final Event<GetSoakingChange> GET_SOAKING_CHANGE = EventFactory.createArrayBacked(
+    public static final Event<Identifier, GetSoakingChange> GET_SOAKING_CHANGE = Thermoo.EVENT_MANAGER.create(
             GetSoakingChange.class,
             listeners -> context -> {
                 int total = 0;
@@ -55,7 +56,7 @@ public final class LivingEntitySoakingTickEvents {
      * should be allowed to be applied to a living entity this tick. Returning any non-default value will force the
      * update to be applied right away. By default, the update will be allowed to be applied.
      */
-    public static final Event<AllowSoakingChange> ALLOW_SOAKING_CHANGE = EventFactory.createArrayBacked(
+    public static final Event<Identifier, AllowSoakingChange> ALLOW_SOAKING_CHANGE = Thermoo.EVENT_MANAGER.create(
             AllowSoakingChange.class,
             listeners -> (context, soakingChange) -> {
                 for (AllowSoakingChange listener : listeners) {

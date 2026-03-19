@@ -3,7 +3,8 @@ package com.github.thedeathlycow.thermoo.api.core.v1.event;
 import com.github.thedeathlycow.thermoo.api.core.v1.source.TemperatureSource;
 import com.github.thedeathlycow.thermoo.api.environment.v2.EnvironmentDefinition;
 import com.github.thedeathlycow.thermoo.impl.core.UpdateEvents;
-import net.fabricmc.fabric.api.event.Event;
+import dev.yumi.commons.event.Event;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.LivingEntity;
 
@@ -32,7 +33,7 @@ public final class LivingEntityTemperatureTickEvents {
      * @return Returns the event for the given source key, creating it if it does not already exist.
      * @throws IllegalArgumentException If the given source is not allowed to be ticked by this event.
      */
-    public static Event<GetTemperatureChange> getTemperatureChange(ResourceKey<TemperatureSource> sourceKey) {
+    public static Event<Identifier, GetTemperatureChange> getTemperatureChange(ResourceKey<TemperatureSource> sourceKey) {
         return UpdateEvents.getOrCreate(sourceKey).event();
     }
 

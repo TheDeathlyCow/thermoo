@@ -1,10 +1,12 @@
 package com.github.thedeathlycow.thermoo.api.client.v1;
 
+import com.github.thedeathlycow.thermoo.impl.Thermoo;
+import dev.yumi.commons.event.Event;
+import dev.yumi.commons.event.EventManager;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.event.Event;
-import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 
@@ -18,7 +20,7 @@ public final class StatusBarOverlayRenderEvents {
      * <p>
      * Custom heart types, like Frozen Hearts, should be handled separately.
      */
-    public static final Event<RenderHealthBarCallback> AFTER_HEALTH_BAR = EventFactory.createArrayBacked(
+    public static final Event<Identifier, RenderHealthBarCallback> AFTER_HEALTH_BAR = Thermoo.EVENT_MANAGER.create(
             RenderHealthBarCallback.class,
             callbacks -> (context, player, heartBarContext) -> {
                 for (RenderHealthBarCallback callback : callbacks) {
@@ -36,7 +38,7 @@ public final class StatusBarOverlayRenderEvents {
      * Note that indexes are backwards from the regular health: index 0 is the heart on the far RIGHT of the screen.
      * Adjust half-hearts accordingly.
      */
-    public static final Event<RenderMountHealthBarCallback> AFTER_MOUNT_HEALTH_BAR = EventFactory.createArrayBacked(
+    public static final Event<Identifier, RenderMountHealthBarCallback> AFTER_MOUNT_HEALTH_BAR = Thermoo.EVENT_MANAGER.create(
             RenderMountHealthBarCallback.class,
             callbacks -> (context, player, mount, heartBarContext) -> {
                 for (RenderMountHealthBarCallback callback : callbacks) {

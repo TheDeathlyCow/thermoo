@@ -1,9 +1,10 @@
 package com.github.thedeathlycow.thermoo.api.season.v2;
 
 import com.github.thedeathlycow.thermoo.api.environment.v2.attribute.ThermooEnvironmentAttributes;
-import net.fabricmc.fabric.api.event.Event;
-import net.fabricmc.fabric.api.event.EventFactory;
+import com.github.thedeathlycow.thermoo.impl.Thermoo;
+import dev.yumi.commons.event.Event;
 import net.minecraft.core.BlockPos;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.attribute.EnvironmentAttributeSystem;
 import net.minecraft.world.level.Level;
 
@@ -33,7 +34,7 @@ public final class ThermooSeasonEvents {
      * @see TemperateSeason#getCurrentState(Level, BlockPos)
      * @see #GET_CURRENT_TROPICAL_SEASON
      */
-    public static final Event<CurrentSeasonCallback<TemperateSeason>> GET_CURRENT_SEASON = EventFactory.createArrayBacked(
+    public static final Event<Identifier, CurrentSeasonCallback<TemperateSeason>> GET_CURRENT_SEASON = Thermoo.EVENT_MANAGER.create(
             CurrentSeasonCallback.class,
             callbacks -> (level, pos) -> {
                 for (CurrentSeasonCallback<TemperateSeason> callback : callbacks) {
@@ -67,7 +68,7 @@ public final class ThermooSeasonEvents {
      * @see TropicalSeason#getCurrentState(Level, BlockPos)
      * @see #GET_CURRENT_SEASON
      */
-    public static final Event<CurrentSeasonCallback<TropicalSeason>> GET_CURRENT_TROPICAL_SEASON = EventFactory.createArrayBacked(
+    public static final Event<Identifier, CurrentSeasonCallback<TropicalSeason>> GET_CURRENT_TROPICAL_SEASON = Thermoo.EVENT_MANAGER.create(
             CurrentSeasonCallback.class,
             callbacks -> (level, pos) -> {
                 for (CurrentSeasonCallback<TropicalSeason> callback : callbacks) {
