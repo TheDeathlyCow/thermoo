@@ -2,7 +2,7 @@ package com.github.thedeathlycow.thermoo.api.environment.v2.provider;
 
 import com.github.thedeathlycow.thermoo.api.environment.v2.component.EnvironmentComponentTypes;
 import com.github.thedeathlycow.thermoo.api.environment.v2.component.TemperatureRecordComponent;
-import com.github.thedeathlycow.thermoo.api.util.v1.TemperatureRecord;
+import com.github.thedeathlycow.thermoo.api.core.v1.TemperatureRecord;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import com.github.thedeathlycow.thermoo.mixin.common.accessor.ComponentMapBuilderAccessor;
 import com.mojang.serialization.MapCodec;

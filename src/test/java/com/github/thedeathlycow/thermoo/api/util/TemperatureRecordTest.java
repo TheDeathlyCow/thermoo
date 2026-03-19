@@ -1,7 +1,7 @@
 package com.github.thedeathlycow.thermoo.api.util;
 
-import com.github.thedeathlycow.thermoo.api.util.v1.TemperatureRecord;
-import com.github.thedeathlycow.thermoo.api.util.v1.TemperatureUnit;
+import com.github.thedeathlycow.thermoo.api.core.v1.TemperatureRecord;
+import com.github.thedeathlycow.thermoo.api.core.v1.TemperatureUnit;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;

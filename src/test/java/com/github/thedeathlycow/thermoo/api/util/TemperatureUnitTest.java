@@ -1,6 +1,6 @@
 package com.github.thedeathlycow.thermoo.api.util;
 
-import com.github.thedeathlycow.thermoo.api.util.v1.TemperatureUnit;
+import com.github.thedeathlycow.thermoo.api.core.v1.TemperatureUnit;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
