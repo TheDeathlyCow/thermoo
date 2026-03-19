@@ -193,10 +193,11 @@ public final class TemperatureRecord implements Comparable<TemperatureRecord> {
 
     /// Checks if this record stores an equivalent temperature value to the one given in the other record.
     ///
+    /// The comparison is performed in Celsius.
+    ///
     /// @param o The other record to compare to.
     /// @return Returns true if the value of this record is equivalent to the value of the other record, in the unit
     /// of this record.
-    /// @implNote The comparison is performed in Celsius
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
