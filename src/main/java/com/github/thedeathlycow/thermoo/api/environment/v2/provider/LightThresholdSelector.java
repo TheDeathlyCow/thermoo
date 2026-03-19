@@ -20,28 +20,28 @@ import java.util.Optional;
  * Used to pick between two child providers based on a light level threshold. Can filter for {@link LightLayer} and apply
  * or ignore {@link Level#getSkyDarken() ambient darkness} to sky light.
  */
-public class LightThresholdLightProvider implements EnvironmentProvider {
-    public static final MapCodec<LightThresholdLightProvider> CODEC = RecordCodecBuilder.mapCodec(
+public class LightThresholdSelector implements EnvironmentProvider {
+    public static final MapCodec<LightThresholdSelector> CODEC = RecordCodecBuilder.mapCodec(
             instance -> instance.group(
                     Codec.stringResolver(
                                     light -> light.name().toLowerCase(),
                                     name -> LightLayer.valueOf(name.toUpperCase())
                             )
                             .optionalFieldOf("light_type")
-                            .forGetter(LightThresholdLightProvider::lightLayer),
+                            .forGetter(LightThresholdSelector::lightLayer),
                     Codec.BOOL
                             .optionalFieldOf("apply_ambient_darkness", true)
-                            .forGetter(LightThresholdLightProvider::applyAmbientDarkness),
+                            .forGetter(LightThresholdSelector::applyAmbientDarkness),
                     Codec.intRange(0, 15)
                             .fieldOf("threshold")
-                            .forGetter(LightThresholdLightProvider::threshold),
+                            .forGetter(LightThresholdSelector::threshold),
                     EnvironmentProvider.HOLDER_CODEC
                             .fieldOf("above")
-                            .forGetter(LightThresholdLightProvider::above),
+                            .forGetter(LightThresholdSelector::above),
                     EnvironmentProvider.HOLDER_CODEC
                             .fieldOf("below")
-                            .forGetter(LightThresholdLightProvider::below)
-            ).apply(instance, LightThresholdLightProvider::new)
+                            .forGetter(LightThresholdSelector::below)
+            ).apply(instance, LightThresholdSelector::new)
     );
 
     private final Optional<LightLayer> lightLayer;
@@ -73,7 +73,7 @@ public class LightThresholdLightProvider implements EnvironmentProvider {
         return new Builder(threshold, above, below);
     }
 
-    private LightThresholdLightProvider(
+    private LightThresholdSelector(
             Optional<LightLayer> lightLayer,
             boolean applyAmbientDarkness,
             int threshold,
@@ -116,7 +116,7 @@ public class LightThresholdLightProvider implements EnvironmentProvider {
     }
 
     @Override
-    public MapCodec<LightThresholdLightProvider> codec() {
+    public MapCodec<LightThresholdSelector> codec() {
         return CODEC;
     }
 
@@ -202,8 +202,8 @@ public class LightThresholdLightProvider implements EnvironmentProvider {
          * @return Returns a new provider with the parameters of this builder
          */
         @Contract("->new")
-        public LightThresholdLightProvider build() {
-            return new LightThresholdLightProvider(
+        public LightThresholdSelector build() {
+            return new LightThresholdSelector(
                     Optional.ofNullable(this.lightType),
                     this.applyAmbientDarkness,
                     this.threshold,

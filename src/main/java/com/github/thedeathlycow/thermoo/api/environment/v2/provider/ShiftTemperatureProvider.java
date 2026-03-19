@@ -17,18 +17,18 @@ import org.jetbrains.annotations.Contract;
 /**
  * Intended to be used as a modifier, this provider shifts the existing temperature component in a map by a given value.
  */
-public final class TemperatureShiftEnvironmentProvider implements EnvironmentProvider {
-    public static final MapCodec<TemperatureShiftEnvironmentProvider> CODEC = RecordCodecBuilder.mapCodec(
+public final class ShiftTemperatureProvider implements EnvironmentProvider {
+    public static final MapCodec<ShiftTemperatureProvider> CODEC = RecordCodecBuilder.mapCodec(
             instance -> instance.group(
                     TemperatureRecord.CODEC
                             .fieldOf("shift")
-                            .forGetter(TemperatureShiftEnvironmentProvider::shift)
-            ).apply(instance, TemperatureShiftEnvironmentProvider::new)
+                            .forGetter(ShiftTemperatureProvider::shift)
+            ).apply(instance, ShiftTemperatureProvider::new)
     );
 
     private final TemperatureRecord shift;
 
-    private TemperatureShiftEnvironmentProvider(TemperatureRecord shift) {
+    private ShiftTemperatureProvider(TemperatureRecord shift) {
         this.shift = shift;
     }
 
@@ -39,8 +39,8 @@ public final class TemperatureShiftEnvironmentProvider implements EnvironmentPro
      * @return Returns a new temperature shift provider instance
      */
     @Contract("_->new")
-    public static TemperatureShiftEnvironmentProvider create(TemperatureRecord shift) {
-        return new TemperatureShiftEnvironmentProvider(shift);
+    public static ShiftTemperatureProvider create(TemperatureRecord shift) {
+        return new ShiftTemperatureProvider(shift);
     }
 
     /**
@@ -66,7 +66,7 @@ public final class TemperatureShiftEnvironmentProvider implements EnvironmentPro
     }
 
     @Override
-    public MapCodec<TemperatureShiftEnvironmentProvider> codec() {
+    public MapCodec<ShiftTemperatureProvider> codec() {
         return CODEC;
     }
 

@@ -16,33 +16,33 @@ import net.minecraft.world.level.biome.Biome;
  * An environment provider that sets the pressure component based on altitude above or below
  * {@linkplain Level#getSeaLevel() sea level}.
  */
-public final class SetPressureFromAltitude implements EnvironmentProvider {
+public final class SetPressureFromAltitudeProvider implements EnvironmentProvider {
     private static final double DEFAULT_PRESSURE_CHANGE = -0.12; // in mbar/block
 
-    public static final MapCodec<SetPressureFromAltitude> CODEC = RecordCodecBuilder.mapCodec(
+    public static final MapCodec<SetPressureFromAltitudeProvider> CODEC = RecordCodecBuilder.mapCodec(
             instance -> instance.group(
                     Codec.DOUBLE
                             .optionalFieldOf("pressure_change_mbar_per_block", DEFAULT_PRESSURE_CHANGE)
-                            .forGetter(SetPressureFromAltitude::pressureChangePerBlock)
-            ).apply(instance, SetPressureFromAltitude::new)
+                            .forGetter(SetPressureFromAltitudeProvider::pressureChangePerBlock)
+            ).apply(instance, SetPressureFromAltitudeProvider::new)
     );
 
     private final double pressureChangeMbarPerBlock;
 
-    private SetPressureFromAltitude(double pressureChangeMbarPerBlock) {
+    private SetPressureFromAltitudeProvider(double pressureChangeMbarPerBlock) {
         this.pressureChangeMbarPerBlock = pressureChangeMbarPerBlock;
     }
 
-    public static SetPressureFromAltitude create(double pressureChangeMbarPerMeter) {
+    public static SetPressureFromAltitudeProvider create(double pressureChangeMbarPerMeter) {
         if (!Double.isFinite(pressureChangeMbarPerMeter)) {
             throw new IllegalArgumentException("Pressure change must be finite");
         }
 
-        return new SetPressureFromAltitude(pressureChangeMbarPerMeter);
+        return new SetPressureFromAltitudeProvider(pressureChangeMbarPerMeter);
     }
 
-    public static SetPressureFromAltitude create() {
-        return new SetPressureFromAltitude(DEFAULT_PRESSURE_CHANGE);
+    public static SetPressureFromAltitudeProvider create() {
+        return new SetPressureFromAltitudeProvider(DEFAULT_PRESSURE_CHANGE);
     }
 
     /**
@@ -73,7 +73,7 @@ public final class SetPressureFromAltitude implements EnvironmentProvider {
     }
 
     @Override
-    public MapCodec<SetPressureFromAltitude> codec() {
+    public MapCodec<SetPressureFromAltitudeProvider> codec() {
         return CODEC;
     }
 

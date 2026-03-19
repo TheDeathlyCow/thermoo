@@ -18,26 +18,26 @@ import java.util.Optional;
  * or thunder).
  */
 @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-public final class WeatherStateEnvironmentProvider implements EnvironmentProvider {
-    public static final MapCodec<WeatherStateEnvironmentProvider> CODEC = RecordCodecBuilder.mapCodec(
+public final class WeatherStateSelector implements EnvironmentProvider {
+    public static final MapCodec<WeatherStateSelector> CODEC = RecordCodecBuilder.mapCodec(
             instance -> instance.group(
                     EnvironmentProvider.HOLDER_CODEC
                             .optionalFieldOf("clear")
-                            .forGetter(WeatherStateEnvironmentProvider::clear),
+                            .forGetter(WeatherStateSelector::clear),
                     EnvironmentProvider.HOLDER_CODEC
                             .optionalFieldOf("rain")
-                            .forGetter(WeatherStateEnvironmentProvider::rain),
+                            .forGetter(WeatherStateSelector::rain),
                     EnvironmentProvider.HOLDER_CODEC
                             .optionalFieldOf("thunder")
-                            .forGetter(WeatherStateEnvironmentProvider::thunder)
-            ).apply(instance, WeatherStateEnvironmentProvider::new)
+                            .forGetter(WeatherStateSelector::thunder)
+            ).apply(instance, WeatherStateSelector::new)
     );
 
     private final Optional<Holder<EnvironmentProvider>> clear;
     private final Optional<Holder<EnvironmentProvider>> rain;
     private final Optional<Holder<EnvironmentProvider>> thunder;
 
-    private WeatherStateEnvironmentProvider(
+    private WeatherStateSelector(
             Optional<Holder<EnvironmentProvider>> clear,
             Optional<Holder<EnvironmentProvider>> rain,
             Optional<Holder<EnvironmentProvider>> thunder
@@ -78,7 +78,7 @@ public final class WeatherStateEnvironmentProvider implements EnvironmentProvide
     }
 
     @Override
-    public MapCodec<WeatherStateEnvironmentProvider> codec() {
+    public MapCodec<WeatherStateSelector> codec() {
         return CODEC;
     }
 
@@ -161,8 +161,8 @@ public final class WeatherStateEnvironmentProvider implements EnvironmentProvide
          * @return Returns a new weather state provider from this current's current state
          */
         @Contract("->new")
-        public WeatherStateEnvironmentProvider build() {
-            return new WeatherStateEnvironmentProvider(
+        public WeatherStateSelector build() {
+            return new WeatherStateSelector(
                     Optional.ofNullable(this.clear),
                     Optional.ofNullable(this.rain),
                     Optional.ofNullable(this.thunder)

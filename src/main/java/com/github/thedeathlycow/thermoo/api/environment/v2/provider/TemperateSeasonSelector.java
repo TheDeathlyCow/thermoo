@@ -18,17 +18,17 @@ import java.util.Optional;
 /**
  * A seasonal environment provider for the temperate seasons (spring, summer, autumn, and winter).
  */
-public final class TemperateSeasonEnvironmentProvider extends SeasonalEnvironmentProvider<TemperateSeason> {
-    public static final MapCodec<TemperateSeasonEnvironmentProvider> CODEC = validate(
+public final class TemperateSeasonSelector extends SeasonalEnvironmentProvider<TemperateSeason> {
+    public static final MapCodec<TemperateSeasonSelector> CODEC = validate(
             RecordCodecBuilder.mapCodec(
                     instance -> instance.group(
                             TemperateSeason.CODEC
                                     .optionalFieldOf("fallback_season")
-                                    .forGetter(TemperateSeasonEnvironmentProvider::fallbackSeason),
+                                    .forGetter(TemperateSeasonSelector::fallbackSeason),
                             SeasonalEnvironmentProvider.createSeasonMapCodec(TemperateSeason.CODEC, TemperateSeason.values())
                                     .fieldOf("seasons")
-                                    .forGetter(TemperateSeasonEnvironmentProvider::seasons)
-                    ).apply(instance, TemperateSeasonEnvironmentProvider::new)
+                                    .forGetter(TemperateSeasonSelector::seasons)
+                    ).apply(instance, TemperateSeasonSelector::new)
             )
     );
 
@@ -40,7 +40,7 @@ public final class TemperateSeasonEnvironmentProvider extends SeasonalEnvironmen
         return new Builder();
     }
 
-    private TemperateSeasonEnvironmentProvider(
+    private TemperateSeasonSelector(
             Optional<TemperateSeason> fallbackSeason,
             Map<TemperateSeason, Holder<EnvironmentProvider>> seasons
     ) {
@@ -48,7 +48,7 @@ public final class TemperateSeasonEnvironmentProvider extends SeasonalEnvironmen
     }
 
     @Override
-    public MapCodec<TemperateSeasonEnvironmentProvider> codec() {
+    public MapCodec<TemperateSeasonSelector> codec() {
         return CODEC;
     }
 
@@ -98,13 +98,13 @@ public final class TemperateSeasonEnvironmentProvider extends SeasonalEnvironmen
          * Builds a new provider from this builder. The provider must have a non-empty seasons map, and if a fallback season
          * is provided then it must be a key of the seasons map.
          *
-         * @return Returns a new {@link TemperateSeasonEnvironmentProvider}
+         * @return Returns a new {@link TemperateSeasonSelector}
          * @throws IllegalStateException if this builder cannot build a legal provider
          */
         @Contract("->new")
-        public TemperateSeasonEnvironmentProvider build() {
+        public TemperateSeasonSelector build() {
             this.helper.validate();
-            return new TemperateSeasonEnvironmentProvider(
+            return new TemperateSeasonSelector(
                     Optional.ofNullable(this.helper.getFallbackSeason()),
                     this.helper.getSeasons()
             );

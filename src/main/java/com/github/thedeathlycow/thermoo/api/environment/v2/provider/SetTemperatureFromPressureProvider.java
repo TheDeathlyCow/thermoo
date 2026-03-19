@@ -21,20 +21,20 @@ import java.util.Optional;
  * set the current temperature based on atmospheric pressure, using an assumed baseline pressure. If no baseline
  * pressure is provided, then it will use {@link ThermooEnvironmentAttributes#ATMOSPHERIC_PRESSURE} to get a baseline.
  */
-public final class SetTemperatureFromPressure implements EnvironmentProvider {
-    public static final MapCodec<SetTemperatureFromPressure> CODEC = RecordCodecBuilder.mapCodec(
+public final class SetTemperatureFromPressureProvider implements EnvironmentProvider {
+    public static final MapCodec<SetTemperatureFromPressureProvider> CODEC = RecordCodecBuilder.mapCodec(
             instance -> instance.group(
                     AtmosphericPressureComponent.CODEC
                             .optionalFieldOf("base_pressure")
-                            .forGetter(SetTemperatureFromPressure::basePressure)
-            ).apply(instance, SetTemperatureFromPressure::new)
+                            .forGetter(SetTemperatureFromPressureProvider::basePressure)
+            ).apply(instance, SetTemperatureFromPressureProvider::new)
     );
 
     private static final TemperatureRecord ABSOLUTE_ZERO = new TemperatureRecord(0, TemperatureUnit.KELVIN);
 
     private final Optional<Double> basePressure;
 
-    private SetTemperatureFromPressure(Optional<Double> basePressure) {
+    private SetTemperatureFromPressureProvider(Optional<Double> basePressure) {
         this.basePressure = basePressure;
     }
 
@@ -42,8 +42,8 @@ public final class SetTemperatureFromPressure implements EnvironmentProvider {
      * Creates a new instance of this component which uses {@linkplain ThermooEnvironmentAttributes#ATMOSPHERIC_PRESSURE environment attributes}
      * to get the baseline pressure.
      */
-    public static SetTemperatureFromPressure create() {
-        return new SetTemperatureFromPressure(Optional.empty());
+    public static SetTemperatureFromPressureProvider create() {
+        return new SetTemperatureFromPressureProvider(Optional.empty());
     }
 
     /**
@@ -51,12 +51,12 @@ public final class SetTemperatureFromPressure implements EnvironmentProvider {
      *
      * @param basePressure The base pressure, in millibars. May not be negative.
      */
-    public static SetTemperatureFromPressure create(double basePressure) {
+    public static SetTemperatureFromPressureProvider create(double basePressure) {
         if (basePressure < 0) {
             throw new IllegalArgumentException("Pressure cannot be less than 0!");
         }
 
-        return new SetTemperatureFromPressure(Optional.of(basePressure));
+        return new SetTemperatureFromPressureProvider(Optional.of(basePressure));
     }
 
     /**
@@ -102,7 +102,7 @@ public final class SetTemperatureFromPressure implements EnvironmentProvider {
     }
 
     @Override
-    public MapCodec<SetTemperatureFromPressure> codec() {
+    public MapCodec<SetTemperatureFromPressureProvider> codec() {
         return CODEC;
     }
 

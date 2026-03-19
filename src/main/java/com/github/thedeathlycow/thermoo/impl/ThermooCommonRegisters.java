@@ -43,16 +43,22 @@ public final class ThermooCommonRegisters {
     }
 
     public static void registerEnvironmentProviderTypes() {
-        registerEnvironmentProviderType("constant", ConstantEnvironmentProvider.CODEC);
-        registerEnvironmentProviderType("seasonal/temperate", TemperateSeasonEnvironmentProvider.CODEC);
-        registerEnvironmentProviderType("seasonal/tropical", TropicalSeasonEnvironmentProvider.CODEC);
-        registerEnvironmentProviderType("modify", ModifyEnvironmentProvider.CODEC);
-        registerEnvironmentProviderType("light_threshold", LightThresholdLightProvider.CODEC);
-        registerEnvironmentProviderType("weather_state", WeatherStateEnvironmentProvider.CODEC);
-        registerEnvironmentProviderType("precipitation_type", BiomePrecipitationTypeEnvironmentProvider.CODEC);
-        registerEnvironmentProviderType("temperature_shift", TemperatureShiftEnvironmentProvider.CODEC);
-        registerEnvironmentProviderType("set_temperature_from_pressure", SetTemperatureFromPressure.CODEC);
-        registerEnvironmentProviderType("set_pressure_from_altitude", SetPressureFromAltitude.CODEC);
+        registerEnvironmentProviderType("seasonal/temperate", TemperateSeasonSelector.CODEC);
+        registerEnvironmentProviderType("seasonal/tropical", TropicalSeasonSelector.CODEC);
+        registerEnvironmentProviderType("light_threshold", LightThresholdSelector.CODEC);
+        registerEnvironmentProviderType("weather_state", WeatherStateSelector.CODEC);
+        registerEnvironmentProviderType("precipitation_type", PrecipitationTypeSelector.CODEC);
+
+        registerEnvironmentProviderType("modify", ModifyProvider.CODEC);
+        registerEnvironmentProviderType("constant", ConstantProvider.CODEC);
+        registerEnvironmentProviderType("shift_temperature", ShiftTemperatureProvider.CODEC);
+        registerEnvironmentProviderType("set_temperature_from_pressure", SetTemperatureFromPressureProvider.CODEC);
+        registerEnvironmentProviderType("set_pressure_from_altitude", SetPressureFromAltitudeProvider.CODEC);
+
+        ThermooRegistries.ENVIRONMENT_PROVIDER_TYPE.addAlias(
+                Thermoo.id("temperature_shift"),
+                Thermoo.id("shift_temperature")
+        );
     }
 
     public static void registerLootConditionTypes() {

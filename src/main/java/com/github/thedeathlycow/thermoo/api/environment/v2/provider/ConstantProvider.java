@@ -11,18 +11,18 @@ import net.minecraft.world.level.biome.Biome;
 import org.jetbrains.annotations.Contract;
 
 /// Provides constant component values
-public final class ConstantEnvironmentProvider implements EnvironmentProvider {
-    public static final MapCodec<ConstantEnvironmentProvider> CODEC = RecordCodecBuilder.mapCodec(
+public final class ConstantProvider implements EnvironmentProvider {
+    public static final MapCodec<ConstantProvider> CODEC = RecordCodecBuilder.mapCodec(
             instance -> instance.group(
                     EnvironmentComponentTypes.COMPONENT_MAP_CODEC
                             .fieldOf("components")
-                            .forGetter(ConstantEnvironmentProvider::components)
-            ).apply(instance, ConstantEnvironmentProvider::new)
+                            .forGetter(ConstantProvider::components)
+            ).apply(instance, ConstantProvider::new)
     );
 
     private final DataComponentMap components;
 
-    private ConstantEnvironmentProvider(DataComponentMap components) {
+    private ConstantProvider(DataComponentMap components) {
         this.components = components;
     }
 
@@ -32,8 +32,8 @@ public final class ConstantEnvironmentProvider implements EnvironmentProvider {
     /// @param builder The builder to create the provider from
     /// @return Returns a new replacement environment provider
     @Contract("_->new")
-    public static ConstantEnvironmentProvider create(DataComponentMap.Builder builder) {
-        return new ConstantEnvironmentProvider(builder.build());
+    public static ConstantProvider create(DataComponentMap.Builder builder) {
+        return new ConstantProvider(builder.build());
     }
 
     /// Adds the component map stored in this provider's [#components] to the builder. The components supplied by
@@ -50,7 +50,7 @@ public final class ConstantEnvironmentProvider implements EnvironmentProvider {
     }
 
     @Override
-    public MapCodec<ConstantEnvironmentProvider> codec() {
+    public MapCodec<ConstantProvider> codec() {
         return CODEC;
     }
 

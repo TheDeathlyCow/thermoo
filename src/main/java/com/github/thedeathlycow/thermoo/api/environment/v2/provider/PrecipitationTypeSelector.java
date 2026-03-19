@@ -20,18 +20,18 @@ import java.util.Objects;
 
 /// A provider that delegates to a child provider based on the precipitation-type of a biome. At least one precipitation
 /// type provider must be given.
-public final class BiomePrecipitationTypeEnvironmentProvider implements EnvironmentProvider {
-    public static final MapCodec<BiomePrecipitationTypeEnvironmentProvider> CODEC = RecordCodecBuilder.mapCodec(
+public final class PrecipitationTypeSelector implements EnvironmentProvider {
+    public static final MapCodec<PrecipitationTypeSelector> CODEC = RecordCodecBuilder.mapCodec(
             instance -> instance.group(
                     createPrecipitationMapCodec()
                             .fieldOf("precipitation_type")
-                            .forGetter(BiomePrecipitationTypeEnvironmentProvider::precipitationType)
-            ).apply(instance, BiomePrecipitationTypeEnvironmentProvider::new)
+                            .forGetter(PrecipitationTypeSelector::precipitationType)
+            ).apply(instance, PrecipitationTypeSelector::new)
     );
 
     private final Map<Biome.Precipitation, Holder<EnvironmentProvider>> precipitationTypeMap;
 
-    private BiomePrecipitationTypeEnvironmentProvider(Map<Biome.Precipitation, Holder<EnvironmentProvider>> precipitationTypeMap) {
+    private PrecipitationTypeSelector(Map<Biome.Precipitation, Holder<EnvironmentProvider>> precipitationTypeMap) {
         this.precipitationTypeMap = new EnumMap<>(Biome.Precipitation.class);
         this.precipitationTypeMap.putAll(precipitationTypeMap);
     }
@@ -57,7 +57,7 @@ public final class BiomePrecipitationTypeEnvironmentProvider implements Environm
     }
 
     @Override
-    public MapCodec<BiomePrecipitationTypeEnvironmentProvider> codec() {
+    public MapCodec<PrecipitationTypeSelector> codec() {
         return CODEC;
     }
 
@@ -109,12 +109,12 @@ public final class BiomePrecipitationTypeEnvironmentProvider implements Environm
         ///
         /// @return Returns a new provider from this builder's state
         @Contract("->new")
-        public BiomePrecipitationTypeEnvironmentProvider build() {
+        public PrecipitationTypeSelector build() {
             if (this.precipitationMap.keySet().isEmpty()) {
                 throw new IllegalArgumentException("Precipitation map requires at least one key!");
             }
 
-            return new BiomePrecipitationTypeEnvironmentProvider(this.precipitationMap);
+            return new PrecipitationTypeSelector(this.precipitationMap);
         }
     }
 }

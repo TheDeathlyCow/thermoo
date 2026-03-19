@@ -17,17 +17,17 @@ import java.util.Optional;
 /**
  * A seasonal environment provider for the tropical seasons (wet, dry, and mild).
  */
-public final class TropicalSeasonEnvironmentProvider extends SeasonalEnvironmentProvider<TropicalSeason> {
-    public static final MapCodec<TropicalSeasonEnvironmentProvider> CODEC = validate(
+public final class TropicalSeasonSelector extends SeasonalEnvironmentProvider<TropicalSeason> {
+    public static final MapCodec<TropicalSeasonSelector> CODEC = validate(
             RecordCodecBuilder.mapCodec(
                     instance -> instance.group(
                             TropicalSeason.CODEC
                                     .optionalFieldOf("fallback_season")
-                                    .forGetter(TropicalSeasonEnvironmentProvider::fallbackSeason),
+                                    .forGetter(TropicalSeasonSelector::fallbackSeason),
                             SeasonalEnvironmentProvider.createSeasonMapCodec(TropicalSeason.CODEC, TropicalSeason.values())
                                     .fieldOf("seasons")
-                                    .forGetter(TropicalSeasonEnvironmentProvider::seasons)
-                    ).apply(instance, TropicalSeasonEnvironmentProvider::new)
+                                    .forGetter(TropicalSeasonSelector::seasons)
+                    ).apply(instance, TropicalSeasonSelector::new)
             )
     );
 
@@ -38,7 +38,7 @@ public final class TropicalSeasonEnvironmentProvider extends SeasonalEnvironment
         return new Builder();
     }
 
-    private TropicalSeasonEnvironmentProvider(
+    private TropicalSeasonSelector(
             Optional<TropicalSeason> fallbackSeason,
             Map<TropicalSeason, Holder<EnvironmentProvider>> seasons
     ) {
@@ -46,7 +46,7 @@ public final class TropicalSeasonEnvironmentProvider extends SeasonalEnvironment
     }
 
     @Override
-    public MapCodec<TropicalSeasonEnvironmentProvider> codec() {
+    public MapCodec<TropicalSeasonSelector> codec() {
         return CODEC;
     }
 
@@ -94,12 +94,12 @@ public final class TropicalSeasonEnvironmentProvider extends SeasonalEnvironment
          * Builds a new provider from this builder. The provider must have a non-empty seasons map, and if a fallback season
          * is provided then it must be a key of the seasons map.
          *
-         * @return Returns a new {@link TropicalSeasonEnvironmentProvider}
+         * @return Returns a new {@link TropicalSeasonSelector}
          * @throws IllegalStateException if this builder cannot build a legal provider
          */
-        public TropicalSeasonEnvironmentProvider build() {
+        public TropicalSeasonSelector build() {
             this.helper.validate();
-            return new TropicalSeasonEnvironmentProvider(
+            return new TropicalSeasonSelector(
                     Optional.ofNullable(this.helper.getFallbackSeason()),
                     this.helper.getSeasons()
             );

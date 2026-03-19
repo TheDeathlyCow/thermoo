@@ -18,22 +18,22 @@ import net.minecraft.world.level.biome.Biome;
  * <strong>Note:</strong> In general, using the {@linkplain EnvironmentDefinition#priority() environment priority} is more
  * flexible than using this provider type.
  */
-public final class ModifyEnvironmentProvider implements EnvironmentProvider {
-    public static final MapCodec<ModifyEnvironmentProvider> CODEC = RecordCodecBuilder.mapCodec(
+public final class ModifyProvider implements EnvironmentProvider {
+    public static final MapCodec<ModifyProvider> CODEC = RecordCodecBuilder.mapCodec(
             instance -> instance.group(
                     RegistryCodecs.homogeneousList(ThermooRegistryKeys.ENVIRONMENT_PROVIDER)
                             .fieldOf("modifiers")
-                            .forGetter(ModifyEnvironmentProvider::modifiers),
+                            .forGetter(ModifyProvider::modifiers),
                     EnvironmentProvider.HOLDER_CODEC
                             .fieldOf("base")
-                            .forGetter(ModifyEnvironmentProvider::base)
-            ).apply(instance, ModifyEnvironmentProvider::new)
+                            .forGetter(ModifyProvider::base)
+            ).apply(instance, ModifyProvider::new)
     );
 
     private final HolderSet<EnvironmentProvider> modifiers;
     private final Holder<EnvironmentProvider> base;
 
-    private ModifyEnvironmentProvider(
+    private ModifyProvider(
             HolderSet<EnvironmentProvider> modifiers,
             Holder<EnvironmentProvider> base
     ) {
@@ -41,11 +41,11 @@ public final class ModifyEnvironmentProvider implements EnvironmentProvider {
         this.base = base;
     }
 
-    public ModifyEnvironmentProvider create(
+    public ModifyProvider create(
             HolderSet<EnvironmentProvider> modifiers,
             Holder<EnvironmentProvider> base
     ) {
-        return new ModifyEnvironmentProvider(modifiers, base);
+        return new ModifyProvider(modifiers, base);
     }
 
     /**
@@ -66,7 +66,7 @@ public final class ModifyEnvironmentProvider implements EnvironmentProvider {
     }
 
     @Override
-    public MapCodec<ModifyEnvironmentProvider> codec() {
+    public MapCodec<ModifyProvider> codec() {
         return CODEC;
     }
 
