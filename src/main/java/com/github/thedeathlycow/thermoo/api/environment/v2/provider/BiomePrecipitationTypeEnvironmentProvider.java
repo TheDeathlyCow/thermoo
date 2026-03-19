@@ -17,10 +17,9 @@ import java.util.EnumMap;
 import java.util.Map;
 import java.util.Objects;
 
-/**
- * A provider that delegates to a child provider based on the precipitation-type of a biome. At least one precipitation
- * type provider must be given.
- */
+
+/// A provider that delegates to a child provider based on the precipitation-type of a biome. At least one precipitation
+/// type provider must be given.
 public final class BiomePrecipitationTypeEnvironmentProvider implements EnvironmentProvider {
     public static final MapCodec<BiomePrecipitationTypeEnvironmentProvider> CODEC = RecordCodecBuilder.mapCodec(
             instance -> instance.group(
@@ -37,19 +36,17 @@ public final class BiomePrecipitationTypeEnvironmentProvider implements Environm
         this.precipitationTypeMap.putAll(precipitationTypeMap);
     }
 
-    /**
-     * Delegates to a child provider based on the local precipitation type.
-     * <p>
-     * <strong>IMPORTANT:</strong> This is not based on current weather state. For example, snowy biomes will ALWAYS
-     * return the provider mapped to {@link Biome.Precipitation#SNOW}, even when it is not snowing.
-     * <p>
-     * If no provider is mapped to the local precipitation type, then nothing is built.
-     *
-     * @param level   The world/level being queried
-     * @param pos     The position in the world to query
-     * @param biome   The biome at the position in the world
-     * @param builder A component map builder to append to
-     */
+    /// Delegates to a child provider based on the local precipitation type.
+    ///
+    /// **IMPORTANT:** This is not based on current weather state. For example, snowy biomes will ALWAYS
+    /// return the provider mapped to [Biome.Precipitation#SNOW], even when it is not snowing.
+    ///
+    /// If no provider is mapped to the local precipitation type, then nothing is built.
+    ///
+    /// @param level   The world/level being queried
+    /// @param pos     The position in the world to query
+    /// @param biome   The biome at the position in the world
+    /// @param builder A component map builder to append to
     @Override
     public void buildCurrentComponents(Level level, BlockPos pos, Holder<Biome> biome, DataComponentMap.Builder builder) {
         Biome.Precipitation biomePrecipitationType = biome.value().getPrecipitationAt(pos, level.getSeaLevel());
@@ -60,15 +57,13 @@ public final class BiomePrecipitationTypeEnvironmentProvider implements Environm
     }
 
     @Override
-    public EnvironmentProviderType<BiomePrecipitationTypeEnvironmentProvider> getType() {
-        return EnvironmentProviderTypes.PRECIPITATION_TYPE;
+    public MapCodec<BiomePrecipitationTypeEnvironmentProvider> codec() {
+        return CODEC;
     }
 
-    /**
-     * Maps that is used to choose the child provider to delegate to based on local precipitation
-     *
-     * @return Returns an unmodifiable enum map
-     */
+    /// Maps that is used to choose the child provider to delegate to based on local precipitation
+    ///
+    /// @return Returns an unmodifiable enum map
     public Map<Biome.Precipitation, Holder<EnvironmentProvider>> precipitationType() {
         return Collections.unmodifiableMap(precipitationTypeMap);
     }
@@ -87,9 +82,7 @@ public final class BiomePrecipitationTypeEnvironmentProvider implements Environm
         });
     }
 
-    /**
-     * A builder for local precipitation environment providers.
-     */
+    /// A builder for local precipitation environment providers.
     public static final class Builder {
         private final Map<Biome.Precipitation, Holder<EnvironmentProvider>> precipitationMap = new EnumMap<>(Biome.Precipitation.class);
 
@@ -97,13 +90,11 @@ public final class BiomePrecipitationTypeEnvironmentProvider implements Environm
 
         }
 
-        /**
-         * Registers a child provider to a precipitation type.
-         *
-         * @param precipitation Precipitation type to add
-         * @param child         The child for the precipitation type
-         * @return Returns this builder
-         */
+        /// Registers a child provider to a precipitation type.
+        ///
+        /// @param precipitation Precipitation type to add
+        /// @param child         The child for the precipitation type
+        /// @return Returns this builder
         @Contract("_,_->this")
         public Builder addChild(Biome.Precipitation precipitation, Holder<EnvironmentProvider> child) {
             Objects.requireNonNull(precipitation);
@@ -114,11 +105,9 @@ public final class BiomePrecipitationTypeEnvironmentProvider implements Environm
             return this;
         }
 
-        /**
-         * Builds into a new provider. At least one precipitation-child relationship must have been defined.
-         *
-         * @return Returns a new provider from this builder's state
-         */
+        /// Builds into a new provider. At least one precipitation-child relationship must have been defined.
+        ///
+        /// @return Returns a new provider from this builder's state
         @Contract("->new")
         public BiomePrecipitationTypeEnvironmentProvider build() {
             if (this.precipitationMap.keySet().isEmpty()) {

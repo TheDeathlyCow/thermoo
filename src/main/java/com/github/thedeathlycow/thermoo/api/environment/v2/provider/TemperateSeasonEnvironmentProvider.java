@@ -48,8 +48,8 @@ public final class TemperateSeasonEnvironmentProvider extends SeasonalEnvironmen
     }
 
     @Override
-    public EnvironmentProviderType<TemperateSeasonEnvironmentProvider> getType() {
-        return EnvironmentProviderTypes.TEMPERATE_SEASONAL;
+    public MapCodec<TemperateSeasonEnvironmentProvider> codec() {
+        return CODEC;
     }
 
     @Override

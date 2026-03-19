@@ -66,8 +66,8 @@ public final class TemperatureShiftEnvironmentProvider implements EnvironmentPro
     }
 
     @Override
-    public EnvironmentProviderType<TemperatureShiftEnvironmentProvider> getType() {
-        return EnvironmentProviderTypes.TEMPERATURE_SHIFT;
+    public MapCodec<TemperatureShiftEnvironmentProvider> codec() {
+        return CODEC;
     }
 
     public TemperatureRecord shift() {

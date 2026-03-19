@@ -66,8 +66,8 @@ public final class ModifyEnvironmentProvider implements EnvironmentProvider {
     }
 
     @Override
-    public EnvironmentProviderType<ModifyEnvironmentProvider> getType() {
-        return EnvironmentProviderTypes.MODIFY;
+    public MapCodec<ModifyEnvironmentProvider> codec() {
+        return CODEC;
     }
 
     /**

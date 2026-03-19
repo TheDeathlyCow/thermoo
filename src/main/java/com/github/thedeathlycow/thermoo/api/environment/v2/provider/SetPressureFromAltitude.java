@@ -73,8 +73,8 @@ public final class SetPressureFromAltitude implements EnvironmentProvider {
     }
 
     @Override
-    public EnvironmentProviderType<SetPressureFromAltitude> getType() {
-        return EnvironmentProviderTypes.SET_PRESSURE_FROM_ALTITUDE;
+    public MapCodec<SetPressureFromAltitude> codec() {
+        return CODEC;
     }
 
     /**

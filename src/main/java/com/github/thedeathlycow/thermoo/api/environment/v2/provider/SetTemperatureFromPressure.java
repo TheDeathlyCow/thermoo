@@ -102,8 +102,8 @@ public final class SetTemperatureFromPressure implements EnvironmentProvider {
     }
 
     @Override
-    public EnvironmentProviderType<SetTemperatureFromPressure> getType() {
-        return EnvironmentProviderTypes.SET_TEMPERATURE_FROM_PRESSURE;
+    public MapCodec<SetTemperatureFromPressure> codec() {
+        return CODEC;
     }
 
     /**

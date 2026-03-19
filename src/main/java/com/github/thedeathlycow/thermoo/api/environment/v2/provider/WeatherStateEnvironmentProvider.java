@@ -78,8 +78,8 @@ public final class WeatherStateEnvironmentProvider implements EnvironmentProvide
     }
 
     @Override
-    public EnvironmentProviderType<WeatherStateEnvironmentProvider> getType() {
-        return EnvironmentProviderTypes.WEATHER_STATE;
+    public MapCodec<WeatherStateEnvironmentProvider> codec() {
+        return CODEC;
     }
 
     /**

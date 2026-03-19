@@ -46,8 +46,8 @@ public final class TropicalSeasonEnvironmentProvider extends SeasonalEnvironment
     }
 
     @Override
-    public EnvironmentProviderType<TropicalSeasonEnvironmentProvider> getType() {
-        return EnvironmentProviderTypes.TROPICAL_SEASONAL;
+    public MapCodec<TropicalSeasonEnvironmentProvider> codec() {
+        return CODEC;
     }
 
     @Override

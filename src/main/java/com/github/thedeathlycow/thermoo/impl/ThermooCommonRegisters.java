@@ -5,12 +5,11 @@ import com.github.thedeathlycow.thermoo.api.core.v1.source.RandomlyDodgeReductio
 import com.github.thedeathlycow.thermoo.api.core.v1.source.ReinforcingAttributeReduction;
 import com.github.thedeathlycow.thermoo.api.core.v1.source.ScaledAttributeReduction;
 import com.github.thedeathlycow.thermoo.api.core.v1.source.TemperatureReduction;
-import com.github.thedeathlycow.thermoo.api.environment.v2.attribute.ThermooAttributeTypes;
-import com.github.thedeathlycow.thermoo.api.environment.v2.attribute.ThermooEnvironmentAttributes;
-import com.github.thedeathlycow.thermoo.api.environment.v2.provider.EnvironmentProviderType;
-import com.github.thedeathlycow.thermoo.api.environment.v2.provider.EnvironmentProviderTypes;
 import com.github.thedeathlycow.thermoo.api.entity.v1.predicate.SoakedLootCondition;
 import com.github.thedeathlycow.thermoo.api.entity.v1.predicate.TemperatureLootCondition;
+import com.github.thedeathlycow.thermoo.api.environment.v2.attribute.ThermooAttributeTypes;
+import com.github.thedeathlycow.thermoo.api.environment.v2.attribute.ThermooEnvironmentAttributes;
+import com.github.thedeathlycow.thermoo.api.environment.v2.provider.*;
 import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureEffect;
 import com.github.thedeathlycow.thermoo.api.temperature.status.v2.effect.AttributeModifierEffect;
 import com.github.thedeathlycow.thermoo.api.temperature.status.v2.effect.DamageEffect;
@@ -44,16 +43,16 @@ public final class ThermooCommonRegisters {
     }
 
     public static void registerEnvironmentProviderTypes() {
-        registerEnvironmentProviderType("constant", EnvironmentProviderTypes.CONSTANT);
-        registerEnvironmentProviderType("seasonal/temperate", EnvironmentProviderTypes.TEMPERATE_SEASONAL);
-        registerEnvironmentProviderType("seasonal/tropical", EnvironmentProviderTypes.TROPICAL_SEASONAL);
-        registerEnvironmentProviderType("modify", EnvironmentProviderTypes.MODIFY);
-        registerEnvironmentProviderType("light_threshold", EnvironmentProviderTypes.LIGHT_THRESHOLD);
-        registerEnvironmentProviderType("weather_state", EnvironmentProviderTypes.WEATHER_STATE);
-        registerEnvironmentProviderType("precipitation_type", EnvironmentProviderTypes.PRECIPITATION_TYPE);
-        registerEnvironmentProviderType("temperature_shift", EnvironmentProviderTypes.TEMPERATURE_SHIFT);
-        registerEnvironmentProviderType("set_temperature_from_pressure", EnvironmentProviderTypes.SET_TEMPERATURE_FROM_PRESSURE);
-        registerEnvironmentProviderType("set_pressure_from_altitude", EnvironmentProviderTypes.SET_PRESSURE_FROM_ALTITUDE);
+        registerEnvironmentProviderType("constant", ConstantEnvironmentProvider.CODEC);
+        registerEnvironmentProviderType("seasonal/temperate", TemperateSeasonEnvironmentProvider.CODEC);
+        registerEnvironmentProviderType("seasonal/tropical", TropicalSeasonEnvironmentProvider.CODEC);
+        registerEnvironmentProviderType("modify", ModifyEnvironmentProvider.CODEC);
+        registerEnvironmentProviderType("light_threshold", LightThresholdLightProvider.CODEC);
+        registerEnvironmentProviderType("weather_state", WeatherStateEnvironmentProvider.CODEC);
+        registerEnvironmentProviderType("precipitation_type", BiomePrecipitationTypeEnvironmentProvider.CODEC);
+        registerEnvironmentProviderType("temperature_shift", TemperatureShiftEnvironmentProvider.CODEC);
+        registerEnvironmentProviderType("set_temperature_from_pressure", SetTemperatureFromPressure.CODEC);
+        registerEnvironmentProviderType("set_pressure_from_altitude", SetPressureFromAltitude.CODEC);
     }
 
     public static void registerLootConditionTypes() {
@@ -82,8 +81,8 @@ public final class ThermooCommonRegisters {
         Registry.register(ThermooRegistries.TEMPERATURE_EFFECT_TYPE, Thermoo.id(name), temperatureEffect);
     }
 
-    private static void registerEnvironmentProviderType(String name, EnvironmentProviderType<?> providerType) {
-        Registry.register(ThermooRegistries.ENVIRONMENT_PROVIDER_TYPE, Thermoo.id(name), providerType);
+    private static void registerEnvironmentProviderType(String name, MapCodec<? extends EnvironmentProvider> codec) {
+        Registry.register(ThermooRegistries.ENVIRONMENT_PROVIDER_TYPE, Thermoo.id(name), codec);
     }
 
     private static void registerLootConditionType(String name, MapCodec<? extends LootItemCondition> lootConditionType) {

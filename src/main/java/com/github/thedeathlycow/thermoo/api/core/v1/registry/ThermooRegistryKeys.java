@@ -4,7 +4,6 @@ import com.github.thedeathlycow.thermoo.api.core.v1.source.TemperatureReduction;
 import com.github.thedeathlycow.thermoo.api.core.v1.source.TemperatureSource;
 import com.github.thedeathlycow.thermoo.api.environment.v2.EnvironmentDefinition;
 import com.github.thedeathlycow.thermoo.api.environment.v2.provider.EnvironmentProvider;
-import com.github.thedeathlycow.thermoo.api.environment.v2.provider.EnvironmentProviderType;
 import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureEffect;
 import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureStatus;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
@@ -55,9 +54,9 @@ public final class ThermooRegistryKeys {
     /**
      * Key for the environment provider type registry
      *
-     * @see EnvironmentProviderType
+     * @see EnvironmentProvider
      */
-    public static final ResourceKey<Registry<EnvironmentProviderType<?>>> ENVIRONMENT_PROVIDER_TYPE = createRegistryKey("environment_provider_type");
+    public static final ResourceKey<Registry<MapCodec<? extends EnvironmentProvider>>> ENVIRONMENT_PROVIDER_TYPE = createRegistryKey("environment_provider_type");
 
     /**
      * Key for the environment provider registry.
