@@ -152,7 +152,6 @@ public final class EnvironmentCommand {
                         .hasPermission(Permissions.COMMANDS_GAMEMASTER)))
                         .then(temperature)
                         .then(relativeHumidity)
-                        .then(relativeHumidityOld)
                         .then(pressure)
         );
     }
