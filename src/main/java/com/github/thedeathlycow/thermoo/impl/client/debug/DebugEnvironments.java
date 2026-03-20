@@ -22,7 +22,7 @@ import java.util.stream.Stream;
 
 @Environment(EnvType.CLIENT)
 public class DebugEnvironments implements ThermooDebugScreenEntry {
-    public static final Identifier GROUP = Thermoo.id("thermoo");
+    public static final Identifier GROUP = Thermoo.id("environment");
 
     @Override
     public void display(DebugScreenDisplayer displayer, @Nullable Level level, @Nullable LevelChunk clientChunk, @Nullable LevelChunk serverChunk) {
