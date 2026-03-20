@@ -4,7 +4,7 @@ import com.github.thedeathlycow.thermoo.api.core.v2.event.EnvironmentTickContext
 import com.github.thedeathlycow.thermoo.api.environment.v2.EnvironmentDefinition;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import dev.yumi.commons.event.Event;
-import net.fabricmc.fabric.api.util.TriState;
+import dev.yumi.commons.TriState;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 

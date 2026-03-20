@@ -7,7 +7,7 @@ import com.github.thedeathlycow.thermoo.api.core.v2.TemperatureRecord;
 import com.github.thedeathlycow.thermoo.api.core.v2.TemperatureUnit;
 import com.github.thedeathlycow.thermoo.gametest.ThermooTestMod;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleBuilder;
-import net.fabricmc.fabric.api.util.TriState;
+import dev.yumi.commons.TriState;
 import net.minecraft.world.level.gamerules.GameRule;
 import org.jetbrains.annotations.NotNull;
 
@@ -23,7 +23,7 @@ public final class TestEnvironmentChanges {
     private static final TemperatureRecord WARM_TEMPERATURE = new TemperatureRecord(25, TemperatureUnit.CELSIUS);
 
     public static void initialize() {
-        ServerPlayerEnvironmentTickEvents.ALLOW_TEMPERATURE_UPDATE.register(context -> TriState.of(context.level().getGameRules().get(APPLY_ENVIRONMENT_CHANGES)));
+        ServerPlayerEnvironmentTickEvents.ALLOW_TEMPERATURE_UPDATE.register(context -> TriState.from(context.level().getGameRules().get(APPLY_ENVIRONMENT_CHANGES)));
 
         ServerPlayerEnvironmentTickEvents.GET_TEMPERATURE_CHANGE.register(context -> {
             TemperatureRecord temperature = context.components()

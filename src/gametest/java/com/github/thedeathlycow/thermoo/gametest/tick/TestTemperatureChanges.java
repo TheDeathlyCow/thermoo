@@ -7,7 +7,7 @@ import com.github.thedeathlycow.thermoo.api.core.v2.source.TemperatureSources;
 import com.github.thedeathlycow.thermoo.gametest.ThermooTestMod;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleBuilder;
-import net.fabricmc.fabric.api.util.TriState;
+import dev.yumi.commons.TriState;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
@@ -83,11 +83,11 @@ public class TestTemperatureChanges {
         TemperatureChangeEvents.ALLOW_TEMPERATURE_CHANGE.register((target, _,  _,context) -> {
             if (target.level() instanceof ServerLevel serverLevel) {
                 if (context.is(TemperatureSources.PASSIVE)) {
-                    return TriState.of(serverLevel.getGameRules().get(APPLY_PASSIVE_CHANGES));
+                    return TriState.from(serverLevel.getGameRules().get(APPLY_PASSIVE_CHANGES));
                 }
 
                 if (context.is(TemperatureSources.ACTIVE)) {
-                    return TriState.of(serverLevel.getGameRules().get(APPLY_ACTIVE_CHANGES));
+                    return TriState.from(serverLevel.getGameRules().get(APPLY_ACTIVE_CHANGES));
                 }
             }
 

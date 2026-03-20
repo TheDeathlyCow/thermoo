@@ -5,7 +5,7 @@ import com.github.thedeathlycow.thermoo.api.core.v2.event.LivingEntitySoakingTic
 import com.github.thedeathlycow.thermoo.gametest.ThermooTestMod;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleBuilder;
-import net.fabricmc.fabric.api.util.TriState;
+import dev.yumi.commons.TriState;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.block.Blocks;
@@ -42,7 +42,7 @@ public class TestSoakableChanges {
     public static void initialize() {
         LivingEntitySoakingTickEvents.ALLOW_SOAKING_UPDATE.register(context -> {
             boolean applyPassiveChanges = context.level().getGameRules().get(ALLOW_SOAKING_UPDATES);
-            return TriState.of(applyPassiveChanges);
+            return TriState.from(applyPassiveChanges);
         });
         LivingEntitySoakingTickEvents.GET_SOAKING_CHANGE.register(TestSoakableChanges::addSoakingChange);
         LivingEntitySoakingTickEvents.ALLOW_SOAKING_CHANGE.register((context, soakingChange) -> {

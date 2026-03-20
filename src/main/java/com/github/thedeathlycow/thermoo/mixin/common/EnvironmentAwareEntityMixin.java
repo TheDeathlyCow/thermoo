@@ -7,7 +7,7 @@ import com.github.thedeathlycow.thermoo.api.core.v2.event.TemperatureChangeEvent
 import com.github.thedeathlycow.thermoo.api.entity.v1.ThermooAttributes;
 import com.github.thedeathlycow.thermoo.api.entity.v1.ThermooEntityTypeTags;
 import com.github.thedeathlycow.thermoo.impl.component.ThermooComponents;
-import net.fabricmc.fabric.api.util.TriState;
+import dev.yumi.commons.TriState;
 import net.minecraft.core.Holder;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
