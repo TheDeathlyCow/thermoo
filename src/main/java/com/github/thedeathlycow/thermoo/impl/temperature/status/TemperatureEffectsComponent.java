@@ -2,8 +2,10 @@ package com.github.thedeathlycow.thermoo.impl.temperature.status;
 
 import com.github.thedeathlycow.thermoo.api.core.v2.registry.ThermooRegistryKeys;
 import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureStatus;
+import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureStatusEvents;
 import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureStatusSelector;
 import com.github.thedeathlycow.thermoo.impl.component.ThermooComponents;
+import dev.yumi.commons.TriState;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.resources.ResourceKey;
@@ -87,21 +89,23 @@ public class TemperatureEffectsComponent implements Component, ServerTickingComp
         );
 
         for (Holder.Reference<TemperatureStatus> statusRef : possibleStatuses) {
-            TemperatureStatusImpl status = (TemperatureStatusImpl) statusRef.value();
 
-            if (provider.tickCount % status.interval() != 0) {
+            if (provider.tickCount % statusRef.value().interval() != 0) {
                 continue;
             }
 
             Settings settings = this.getSettings(statusRef);
-            this.updateStatus(status, settings);
+            this.updateStatus(statusRef, settings);
         }
     }
 
-    private void updateStatus(TemperatureStatusImpl status, Settings settings) {
+    private void updateStatus(Holder.Reference<TemperatureStatus> statusRef, Settings settings) {
         if (settings.enabled()) {
+            TriState allowed = TemperatureStatusEvents.ALLOW_TEMPERATURE_STATUS.invoker().allow(this.provider, statusRef);
+            TemperatureStatusImpl status = (TemperatureStatusImpl) statusRef.value();
+
             boolean wasApplied = settings.applied();
-            boolean applied = status.apply(provider, TemperatureEffectContextImpl.INSTANCE);
+            boolean applied = allowed != TriState.FALSE && status.apply(provider, TemperatureEffectContextImpl.INSTANCE);
 
             if (wasApplied && !applied) {
                 status.remove(provider, TemperatureEffectContextImpl.INSTANCE);
