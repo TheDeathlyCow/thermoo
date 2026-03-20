@@ -1,19 +1,21 @@
 package com.github.thedeathlycow.thermoo.impl.command;
 
-import com.github.thedeathlycow.thermoo.api.core.v2.registry.ThermooRegistryKeys;
 import com.github.thedeathlycow.thermoo.api.core.v2.TemperatureAware;
 import com.github.thedeathlycow.thermoo.api.core.v2.TemperatureChange;
+import com.github.thedeathlycow.thermoo.api.core.v2.registry.ThermooRegistryKeys;
 import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureStatus;
 import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureStatusLookup;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
+import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.builder.RequiredArgumentBuilder;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
+import com.mojang.brigadier.tree.CommandNode;
 import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
@@ -29,6 +31,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 
 import java.util.Collection;
+import java.util.function.Function;
 
 import static net.minecraft.commands.Commands.argument;
 import static net.minecraft.commands.Commands.literal;
@@ -142,27 +145,47 @@ public final class TemperatureCommand {
                 );
 
         var status = literal("status")
-                .then(
-                        literal("set_enabled")
-                                .then(
-                                        argument("targets", EntityArgument.entities())
-                                                .then(
-                                                        argument("status_id", ResourceArgument.resource(buildContext, ThermooRegistryKeys.TEMPERATURE_STATUS))
-                                                                .then(
-                                                                        argument("enabled", BoolArgumentType.bool())
-                                                                                .executes(context -> {
-                                                                                    return runStatusEnable(
-                                                                                            context.getSource(),
-                                                                                            EntityArgument.getEntities(context, "targets"),
-                                                                                            ResourceArgument.getResource(context, "status_id", ThermooRegistryKeys.TEMPERATURE_STATUS),
-                                                                                            BoolArgumentType.getBool(context, "enabled")
-                                                                                    );
-                                                                                })
-                                                                )
-                                                )
-                                )
+                .then(literal("set_enabled")
+                        .then(enableStatusNode(
+                                buildContext,
+                                _ -> argument("enabled", BoolArgumentType.bool())
+                                        .executes(context -> {
+                                                    return runStatusEnable(
+                                                            context.getSource(),
+                                                            EntityArgument.getEntities(context, "targets"),
+                                                            ResourceArgument.getResource(context, "status_id", ThermooRegistryKeys.TEMPERATURE_STATUS),
+                                                            BoolArgumentType.getBool(context, "enabled")
+                                                    );
+                                                }
+                                        ).build()
+                        ))
+                )
+                .then(literal("enable")
+                        .then(enableStatusNode(
+                                buildContext,
+                                node -> node.executes(context -> {
+                                    return runStatusEnable(
+                                            context.getSource(),
+                                            EntityArgument.getEntities(context, "targets"),
+                                            ResourceArgument.getResource(context, "status_id", ThermooRegistryKeys.TEMPERATURE_STATUS),
+                                            true
+                                    );
+                                }).build()
+                        ))
+                )
+                .then(literal("disable")
+                        .then(enableStatusNode(
+                                buildContext,
+                                node -> node.executes(context -> {
+                                    return runStatusEnable(
+                                            context.getSource(),
+                                            EntityArgument.getEntities(context, "targets"),
+                                            ResourceArgument.getResource(context, "status_id", ThermooRegistryKeys.TEMPERATURE_STATUS),
+                                            false
+                                    );
+                                }).build()
+                        ))
                 );
-
         return literal("thermoo").then(
                 (literal("temperature").requires((src) -> src.permissions()
                         .hasPermission(Permissions.COMMANDS_GAMEMASTER)))
@@ -172,6 +195,16 @@ public final class TemperatureCommand {
                         .then(setSubCommand)
                         .then(status)
         );
+    }
+
+    private static RequiredArgumentBuilder<CommandSourceStack, ?> enableStatusNode(
+            CommandBuildContext buildContext,
+            Function<ArgumentBuilder<CommandSourceStack, ?>, CommandNode<CommandSourceStack>> then
+    ) {
+        var tail = argument("status_id", ResourceArgument.resource(buildContext, ThermooRegistryKeys.TEMPERATURE_STATUS));
+        tail.then(then.apply(tail));
+
+        return argument("targets", EntityArgument.entities()).then(tail);
     }
 
     private static RequiredArgumentBuilder<CommandSourceStack, EntitySelector> adjustNode(CommandBuildContext buildContext, boolean removing) {
