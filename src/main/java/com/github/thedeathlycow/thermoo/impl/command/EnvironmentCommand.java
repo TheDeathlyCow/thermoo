@@ -122,7 +122,6 @@ public final class EnvironmentCommand {
                                 )
                 );
 
-        var relativeHumidityOld = literal("relativehumidity").then(relativeHumidityArg);
         var relativeHumidity = literal("relative_humidity").then(relativeHumidityArg);
 
         final double fallbackPressureScale = 1.0;
