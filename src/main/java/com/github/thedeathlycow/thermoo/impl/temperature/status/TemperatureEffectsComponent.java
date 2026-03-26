@@ -1,6 +1,6 @@
 package com.github.thedeathlycow.thermoo.impl.temperature.status;
 
-import com.github.thedeathlycow.thermoo.api.core.v2.registry.ThermooRegistryKeys;
+import com.github.thedeathlycow.thermoo.api.core.v2.registry.ThermooRegistries;
 import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureStatus;
 import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureStatusEvents;
 import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureStatusSelector;
@@ -82,7 +82,7 @@ public class TemperatureEffectsComponent implements Component, ServerTickingComp
     @Override
     public void serverTick() {
         Level level = provider.level();
-        HolderLookup<TemperatureStatus> statusLookup = level.holderLookup(ThermooRegistryKeys.TEMPERATURE_STATUS);
+        HolderLookup<TemperatureStatus> statusLookup = level.holderLookup(ThermooRegistries.TEMPERATURE_STATUS);
         List<Holder.Reference<TemperatureStatus>> possibleStatuses = TemperatureStatusManager.getEffects(
                 provider,
                 statusLookup

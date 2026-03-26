@@ -1,6 +1,6 @@
 package com.github.thedeathlycow.thermoo.gametest.tests.temperature.status;
 
-import com.github.thedeathlycow.thermoo.api.core.v2.registry.ThermooRegistryKeys;
+import com.github.thedeathlycow.thermoo.api.core.v2.registry.ThermooRegistries;
 import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureStatus;
 import com.github.thedeathlycow.thermoo.gametest.ThermooTestMod;
 import com.github.thedeathlycow.thermoo.impl.temperature.status.TemperatureStatusManager;
@@ -19,7 +19,7 @@ public class TemperatureStatusManagerTest {
     @GameTest
     public void applicationOrderSetsLookupOrder(GameTestHelper helper) {
         ServerLevel level = helper.getLevel();
-        HolderLookup<TemperatureStatus> lookup = level.holderLookup(ThermooRegistryKeys.TEMPERATURE_STATUS);
+        HolderLookup<TemperatureStatus> lookup = level.holderLookup(ThermooRegistries.TEMPERATURE_STATUS);
 
         List<Holder.Reference<TemperatureStatus>> statuses = TemperatureStatusManager.lookup(EntityType.PLAYER.builtInRegistryHolder(), lookup);
 
@@ -45,7 +45,7 @@ public class TemperatureStatusManagerTest {
     @GameTest
     public void modDoesNotExistTestIsNotLoaded(GameTestHelper helper) {
         ServerLevel level = helper.getLevel();
-        HolderLookup<TemperatureStatus> lookup = level.holderLookup(ThermooRegistryKeys.TEMPERATURE_STATUS);
+        HolderLookup<TemperatureStatus> lookup = level.holderLookup(ThermooRegistries.TEMPERATURE_STATUS);
 
         helper.assertTrue(lookup.get(key("mod_does_not_exist_test")).isEmpty(), "Effect did not respect load conditions");
 
@@ -55,7 +55,7 @@ public class TemperatureStatusManagerTest {
     @GameTest
     public void modExistsTestIsLoaded(GameTestHelper helper) {
         ServerLevel level = helper.getLevel();
-        HolderLookup<TemperatureStatus> lookup = level.holderLookup(ThermooRegistryKeys.TEMPERATURE_STATUS);
+        HolderLookup<TemperatureStatus> lookup = level.holderLookup(ThermooRegistries.TEMPERATURE_STATUS);
 
         helper.assertTrue(lookup.get(key("mod_exists_test")).isPresent(), "Effect did not respect load conditions");
 
@@ -63,6 +63,6 @@ public class TemperatureStatusManagerTest {
     }
 
     private ResourceKey<TemperatureStatus> key(String name) {
-        return ResourceKey.create(ThermooRegistryKeys.TEMPERATURE_STATUS, ThermooTestMod.id(name));
+        return ResourceKey.create(ThermooRegistries.TEMPERATURE_STATUS, ThermooTestMod.id(name));
     }
 }

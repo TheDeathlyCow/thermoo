@@ -1,6 +1,6 @@
 package com.github.thedeathlycow.thermoo.api.temperature.status.v2.tag;
 
-import com.github.thedeathlycow.thermoo.api.core.v2.registry.ThermooRegistryKeys;
+import com.github.thedeathlycow.thermoo.api.core.v2.registry.ThermooRegistries;
 import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureStatus;
 import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
@@ -37,7 +37,7 @@ public final class ConventionalTemperatureStatusTags {
     public static final TagKey<TemperatureStatus> WARM = create("warm");
 
     private static TagKey<TemperatureStatus> create(String name) {
-        return TagKey.create(ThermooRegistryKeys.TEMPERATURE_STATUS, Identifier.fromNamespaceAndPath("c", name));
+        return TagKey.create(ThermooRegistries.TEMPERATURE_STATUS, Identifier.fromNamespaceAndPath("c", name));
     }
 
     private ConventionalTemperatureStatusTags() {

@@ -1,6 +1,6 @@
 package com.github.thedeathlycow.thermoo.impl;
 
-import com.github.thedeathlycow.thermoo.api.core.v2.registry.ThermooRegistryKeys;
+import com.github.thedeathlycow.thermoo.api.core.v2.registry.ThermooRegistries;
 import com.github.thedeathlycow.thermoo.api.core.v2.event.EnvironmentTickContext;
 import com.github.thedeathlycow.thermoo.api.core.v2.event.LivingEntitySoakingTickEvents;
 import com.github.thedeathlycow.thermoo.api.core.v2.source.TemperatureSource;
@@ -41,7 +41,7 @@ public final class LivingEntityTickUtil {
                         pos,
                         EnvironmentLookup.getInstance().findEnvironmentComponents(serverLevel, pos)
                 );
-                invokeEntityEvents(context, serverLevel.holderLookup(ThermooRegistryKeys.TEMPERATURE_SOURCE));
+                invokeEntityEvents(context, serverLevel.holderLookup(ThermooRegistries.TEMPERATURE_SOURCE));
                 ServerPlayerTickUtil.invokePlayerTemperatureEvents(context);
             } else {
                 EnvironmentTickContext<LivingEntity> context = new EnvironmentTickContextImpl<>(
@@ -50,7 +50,7 @@ public final class LivingEntityTickUtil {
                         pos,
                         DataComponentMap.EMPTY
                 );
-                invokeEntityEvents(context, serverLevel.holderLookup(ThermooRegistryKeys.TEMPERATURE_SOURCE));
+                invokeEntityEvents(context, serverLevel.holderLookup(ThermooRegistries.TEMPERATURE_SOURCE));
             }
 
             boolean isSyncTick = entity.tickCount % 20 == 0;

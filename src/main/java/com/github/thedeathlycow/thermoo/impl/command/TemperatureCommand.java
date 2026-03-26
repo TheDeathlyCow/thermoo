@@ -2,7 +2,7 @@ package com.github.thedeathlycow.thermoo.impl.command;
 
 import com.github.thedeathlycow.thermoo.api.core.v2.TemperatureAware;
 import com.github.thedeathlycow.thermoo.api.core.v2.TemperatureChange;
-import com.github.thedeathlycow.thermoo.api.core.v2.registry.ThermooRegistryKeys;
+import com.github.thedeathlycow.thermoo.api.core.v2.registry.ThermooRegistries;
 import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureStatus;
 import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureStatusLookup;
 import com.mojang.brigadier.Command;
@@ -152,7 +152,7 @@ public final class TemperatureCommand {
                                 )
                 );
 
-        var temperatureStatuses = buildContext.lookupOrThrow(ThermooRegistryKeys.TEMPERATURE_STATUS);
+        var temperatureStatuses = buildContext.lookupOrThrow(ThermooRegistries.TEMPERATURE_STATUS);
 
         var status = literal("status")
                 .then(literal("set_enabled")
@@ -163,7 +163,7 @@ public final class TemperatureCommand {
                                                     return runStatusEnable(
                                                             context.getSource(),
                                                             EntityArgument.getEntities(context, "targets"),
-                                                            temperatureStatuses.getOrThrow(ResourceKeyArgument.getRegistryKey(context, "status_id", ThermooRegistryKeys.TEMPERATURE_STATUS, ERROR_TEMPERATURE_STATUS_INVALID)),
+                                                            temperatureStatuses.getOrThrow(ResourceKeyArgument.getRegistryKey(context, "status_id", ThermooRegistries.TEMPERATURE_STATUS, ERROR_TEMPERATURE_STATUS_INVALID)),
                                                             BoolArgumentType.getBool(context, "enabled")
                                                     );
                                                 }
@@ -177,7 +177,7 @@ public final class TemperatureCommand {
                                     return runStatusEnable(
                                             context.getSource(),
                                             EntityArgument.getEntities(context, "targets"),
-                                            temperatureStatuses.getOrThrow(ResourceKeyArgument.getRegistryKey(context, "status_id", ThermooRegistryKeys.TEMPERATURE_STATUS, ERROR_TEMPERATURE_STATUS_INVALID)),
+                                            temperatureStatuses.getOrThrow(ResourceKeyArgument.getRegistryKey(context, "status_id", ThermooRegistries.TEMPERATURE_STATUS, ERROR_TEMPERATURE_STATUS_INVALID)),
                                             true
                                     );
                                 }).build()
@@ -190,7 +190,7 @@ public final class TemperatureCommand {
                                     return runStatusEnable(
                                             context.getSource(),
                                             EntityArgument.getEntities(context, "targets"),
-                                            temperatureStatuses.getOrThrow(ResourceKeyArgument.getRegistryKey(context, "status_id", ThermooRegistryKeys.TEMPERATURE_STATUS, ERROR_TEMPERATURE_STATUS_INVALID)),
+                                            temperatureStatuses.getOrThrow(ResourceKeyArgument.getRegistryKey(context, "status_id", ThermooRegistries.TEMPERATURE_STATUS, ERROR_TEMPERATURE_STATUS_INVALID)),
                                             false
                                     );
                                 }).build()
@@ -211,14 +211,14 @@ public final class TemperatureCommand {
             CommandBuildContext buildContext,
             Function<ArgumentBuilder<CommandSourceStack, ?>, CommandNode<CommandSourceStack>> then
     ) {
-        var tail = argument("status_id", ResourceKeyArgument.key(ThermooRegistryKeys.TEMPERATURE_STATUS));
+        var tail = argument("status_id", ResourceKeyArgument.key(ThermooRegistries.TEMPERATURE_STATUS));
         tail.then(then.apply(tail));
 
         return argument("targets", EntityArgument.entities()).then(tail);
     }
 
     private static RequiredArgumentBuilder<CommandSourceStack, EntitySelector> adjustNode(CommandBuildContext buildContext, boolean removing) {
-        var temperatureSources = buildContext.lookupOrThrow(ThermooRegistryKeys.TEMPERATURE_SOURCE);
+        var temperatureSources = buildContext.lookupOrThrow(ThermooRegistries.TEMPERATURE_SOURCE);
 
         return argument("targets", EntityArgument.entities())
                 .then(argument("amount", IntegerArgumentType.integer(0))
@@ -231,14 +231,14 @@ public final class TemperatureCommand {
                                     removing
                             );
                         })
-                        .then(argument("source", ResourceKeyArgument.key(ThermooRegistryKeys.TEMPERATURE_SOURCE))
+                        .then(argument("source", ResourceKeyArgument.key(ThermooRegistries.TEMPERATURE_SOURCE))
                                 .executes(context -> {
                                     return runAdjust(
                                             context.getSource(),
                                             EntityArgument.getEntities(context, "targets"),
                                             IntegerArgumentType.getInteger(context, "amount"),
                                             TemperatureChange.create(
-                                                    temperatureSources.getOrThrow(ResourceKeyArgument.getRegistryKey(context, "source", ThermooRegistryKeys.TEMPERATURE_SOURCE, ERROR_TEMPERATURE_SOURCE_INVALID))
+                                                    temperatureSources.getOrThrow(ResourceKeyArgument.getRegistryKey(context, "source", ThermooRegistries.TEMPERATURE_SOURCE, ERROR_TEMPERATURE_SOURCE_INVALID))
                                             ),
                                             removing
                                     );
@@ -251,7 +251,7 @@ public final class TemperatureCommand {
                                                             EntityArgument.getEntities(context, "targets"),
                                                             IntegerArgumentType.getInteger(context, "amount"),
                                                             TemperatureChange.create(
-                                                                    temperatureSources.getOrThrow(ResourceKeyArgument.getRegistryKey(context, "source", ThermooRegistryKeys.TEMPERATURE_SOURCE, ERROR_TEMPERATURE_SOURCE_INVALID)),
+                                                                    temperatureSources.getOrThrow(ResourceKeyArgument.getRegistryKey(context, "source", ThermooRegistries.TEMPERATURE_SOURCE, ERROR_TEMPERATURE_SOURCE_INVALID)),
                                                                     EntityArgument.getEntity(context, "direct_cause")
                                                             ),
                                                             removing
@@ -265,7 +265,7 @@ public final class TemperatureCommand {
                                                                             EntityArgument.getEntities(context, "targets"),
                                                                             IntegerArgumentType.getInteger(context, "amount"),
                                                                             TemperatureChange.create(
-                                                                                    temperatureSources.getOrThrow(ResourceKeyArgument.getRegistryKey(context, "source", ThermooRegistryKeys.TEMPERATURE_SOURCE, ERROR_TEMPERATURE_SOURCE_INVALID)),
+                                                                                    temperatureSources.getOrThrow(ResourceKeyArgument.getRegistryKey(context, "source", ThermooRegistries.TEMPERATURE_SOURCE, ERROR_TEMPERATURE_SOURCE_INVALID)),
                                                                                     EntityArgument.getEntity(context, "cause"),
                                                                                     EntityArgument.getEntity(context, "direct_cause")
                                                                             ),
@@ -283,7 +283,7 @@ public final class TemperatureCommand {
                                                                     EntityArgument.getEntities(context, "targets"),
                                                                     IntegerArgumentType.getInteger(context, "amount"),
                                                                     TemperatureChange.create(
-                                                                            temperatureSources.getOrThrow(ResourceKeyArgument.getRegistryKey(context, "source", ThermooRegistryKeys.TEMPERATURE_SOURCE, ERROR_TEMPERATURE_SOURCE_INVALID)),
+                                                                            temperatureSources.getOrThrow(ResourceKeyArgument.getRegistryKey(context, "source", ThermooRegistries.TEMPERATURE_SOURCE, ERROR_TEMPERATURE_SOURCE_INVALID)),
                                                                             Vec3Argument.getVec3(context, "position")
                                                                     ),
                                                                     removing

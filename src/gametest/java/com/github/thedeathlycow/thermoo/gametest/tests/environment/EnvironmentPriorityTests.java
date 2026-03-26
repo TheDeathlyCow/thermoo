@@ -1,6 +1,6 @@
 package com.github.thedeathlycow.thermoo.gametest.tests.environment;
 
-import com.github.thedeathlycow.thermoo.api.core.v2.registry.ThermooRegistryKeys;
+import com.github.thedeathlycow.thermoo.api.core.v2.registry.ThermooRegistries;
 import com.github.thedeathlycow.thermoo.api.environment.v2.EnvironmentDefinition;
 import com.github.thedeathlycow.thermoo.gametest.ThermooTestMod;
 import com.github.thedeathlycow.thermoo.impl.environment.EnvironmentLookupImpl;
@@ -22,7 +22,7 @@ public class EnvironmentPriorityTests {
     @GameTest
     public void environments_loaded_in_priority_order(GameTestHelper helper) {
         ServerLevel level = helper.getLevel();
-        Registry<EnvironmentDefinition> registry = level.registryAccess().lookupOrThrow(ThermooRegistryKeys.ENVIRONMENT);
+        Registry<EnvironmentDefinition> registry = level.registryAccess().lookupOrThrow(ThermooRegistries.ENVIRONMENT);
         Holder<Biome> netherWastes = level.registryAccess()
                 .lookupOrThrow(Registries.BIOME)
                 .getOrThrow(Biomes.NETHER_WASTES);

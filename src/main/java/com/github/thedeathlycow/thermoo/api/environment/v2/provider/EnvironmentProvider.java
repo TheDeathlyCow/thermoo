@@ -1,7 +1,7 @@
 package com.github.thedeathlycow.thermoo.api.environment.v2.provider;
 
+import com.github.thedeathlycow.thermoo.api.core.v2.registry.ThermooBuiltInRegistries;
 import com.github.thedeathlycow.thermoo.api.core.v2.registry.ThermooRegistries;
-import com.github.thedeathlycow.thermoo.api.core.v2.registry.ThermooRegistryKeys;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
@@ -15,18 +15,18 @@ import java.util.function.Function;
 
 /// Provides the environment parameters (such as temperature and relative humidity) of a position in a world and biome.
 public interface EnvironmentProvider {
-    Codec<EnvironmentProvider> ELEMENT_CODEC = ThermooRegistries.ENVIRONMENT_PROVIDER_TYPE.byNameCodec()
+    Codec<EnvironmentProvider> ELEMENT_CODEC = ThermooBuiltInRegistries.ENVIRONMENT_PROVIDER_TYPE.byNameCodec()
             .dispatch(EnvironmentProvider::codec, Function.identity());
 
     Codec<Holder<EnvironmentProvider>> HOLDER_CODEC = RegistryFileCodec.create(
-            ThermooRegistryKeys.ENVIRONMENT_PROVIDER,
+            ThermooRegistries.ENVIRONMENT_PROVIDER,
             ELEMENT_CODEC
     );
 
     /// Builds the current environment parameter components at a point and biome in a level into a builder.
     ///
     /// Only component type keys registered in the
-    /// [environment component type registry][ThermooRegistries#ENVIRONMENT_COMPONENT_TYPE]. A set of default components
+    /// [environment component type registry][ThermooBuiltInRegistries#ENVIRONMENT_COMPONENT_TYPE]. A set of default components
     /// for temperature, relative humidity, and atmospheric pressure are defined in [com.github.thedeathlycow.thermoo.api.environment.v2.component.EnvironmentComponentTypes].
     ///
     /// @param level   The level being queried

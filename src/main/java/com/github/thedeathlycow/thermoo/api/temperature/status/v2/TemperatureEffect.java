@@ -1,6 +1,6 @@
 package com.github.thedeathlycow.thermoo.api.temperature.status.v2;
 
-import com.github.thedeathlycow.thermoo.api.core.v2.registry.ThermooRegistries;
+import com.github.thedeathlycow.thermoo.api.core.v2.registry.ThermooBuiltInRegistries;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.world.entity.LivingEntity;
@@ -15,7 +15,7 @@ public interface TemperatureEffect {
     /**
      * Codec for the temperature effect object.
      */
-    Codec<TemperatureEffect> DIRECT_CODEC = ThermooRegistries.TEMPERATURE_EFFECT_TYPE.byNameCodec()
+    Codec<TemperatureEffect> DIRECT_CODEC = ThermooBuiltInRegistries.TEMPERATURE_EFFECT_TYPE.byNameCodec()
             .dispatch(TemperatureEffect::codec, Function.identity());
 
     /**

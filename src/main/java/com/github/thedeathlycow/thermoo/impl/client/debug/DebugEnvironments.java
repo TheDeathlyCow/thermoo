@@ -1,6 +1,6 @@
 package com.github.thedeathlycow.thermoo.impl.client.debug;
 
-import com.github.thedeathlycow.thermoo.api.core.v2.registry.ThermooRegistryKeys;
+import com.github.thedeathlycow.thermoo.api.core.v2.registry.ThermooRegistries;
 import com.github.thedeathlycow.thermoo.api.environment.v2.EnvironmentDefinition;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import com.github.thedeathlycow.thermoo.impl.environment.EnvironmentLookupImpl;
@@ -32,7 +32,7 @@ public class DebugEnvironments implements ThermooDebugScreenEntry {
         if (cameraEntity != null && level instanceof ServerLevel serverLevel) {
             Registry<EnvironmentDefinition> registry = serverLevel
                     .registryAccess()
-                    .lookupOrThrow(ThermooRegistryKeys.ENVIRONMENT);
+                    .lookupOrThrow(ThermooRegistries.ENVIRONMENT);
 
             Stream<EnvironmentDefinition> environments = EnvironmentLookupImpl.getAllMatchingEnvironments(
                     level.getBiome(cameraEntity.blockPosition()),

@@ -1,6 +1,6 @@
 package com.github.thedeathlycow.thermoo.api.temperature.status.v2.tag;
 
-import com.github.thedeathlycow.thermoo.api.core.v2.registry.ThermooRegistryKeys;
+import com.github.thedeathlycow.thermoo.api.core.v2.registry.ThermooRegistries;
 import com.github.thedeathlycow.thermoo.api.core.v2.TemperatureAware;
 import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureStatus;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
@@ -44,7 +44,7 @@ public final class TemperatureStatusTags {
     public static final TagKey<TemperatureStatus> WARM = create("warm");
 
     private static TagKey<TemperatureStatus> create(String name) {
-        return TagKey.create(ThermooRegistryKeys.TEMPERATURE_STATUS, Thermoo.id(name));
+        return TagKey.create(ThermooRegistries.TEMPERATURE_STATUS, Thermoo.id(name));
     }
 
     private TemperatureStatusTags() {

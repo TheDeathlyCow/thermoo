@@ -1,6 +1,6 @@
 package com.github.thedeathlycow.thermoo.api.environment.v2.component;
 
-import com.github.thedeathlycow.thermoo.api.core.v2.registry.ThermooRegistries;
+import com.github.thedeathlycow.thermoo.api.core.v2.registry.ThermooBuiltInRegistries;
 import com.github.thedeathlycow.thermoo.api.core.v2.TemperatureRecord;
 import com.github.thedeathlycow.thermoo.api.core.v2.TemperatureUnit;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
@@ -15,11 +15,11 @@ import java.util.function.UnaryOperator;
  * Stores the codec and component type keys for Thermoo's environment component map.
  * <p>
  * Mods may define their own component types in their own classes, they only need be registered to
- * {@link ThermooRegistries#ENVIRONMENT_COMPONENT_TYPE}.
+ * {@link ThermooBuiltInRegistries#ENVIRONMENT_COMPONENT_TYPE}.
  */
 public final class EnvironmentComponentTypes {
     public static final Codec<DataComponentType<?>> COMPONENT_TYPE_CODEC = Codec.lazyInitialized(
-            ThermooRegistries.ENVIRONMENT_COMPONENT_TYPE::byNameCodec
+            ThermooBuiltInRegistries.ENVIRONMENT_COMPONENT_TYPE::byNameCodec
     );
     public static final Codec<DataComponentMap> COMPONENT_MAP_CODEC = DataComponentMap.makeCodec(COMPONENT_TYPE_CODEC);
 
@@ -64,7 +64,7 @@ public final class EnvironmentComponentTypes {
             UnaryOperator<DataComponentType.Builder<T>> builderOperator
     ) {
         return Registry.register(
-                ThermooRegistries.ENVIRONMENT_COMPONENT_TYPE,
+                ThermooBuiltInRegistries.ENVIRONMENT_COMPONENT_TYPE,
                 Thermoo.id(name),
                 builderOperator.apply(DataComponentType.builder())
                         .build()

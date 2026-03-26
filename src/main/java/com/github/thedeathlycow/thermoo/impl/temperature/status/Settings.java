@@ -1,6 +1,6 @@
 package com.github.thedeathlycow.thermoo.impl.temperature.status;
 
-import com.github.thedeathlycow.thermoo.api.core.v2.registry.ThermooRegistryKeys;
+import com.github.thedeathlycow.thermoo.api.core.v2.registry.ThermooRegistries;
 import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureStatus;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -18,7 +18,7 @@ class Settings {
     );
 
     static final Codec<Map<ResourceKey<TemperatureStatus>, Settings>> MAP_CODEC = Codec.unboundedMap(
-            ResourceKey.codec(ThermooRegistryKeys.TEMPERATURE_STATUS),
+            ResourceKey.codec(ThermooRegistries.TEMPERATURE_STATUS),
             CODEC
     );
 

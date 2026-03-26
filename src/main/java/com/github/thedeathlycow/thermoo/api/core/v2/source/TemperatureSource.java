@@ -1,6 +1,6 @@
 package com.github.thedeathlycow.thermoo.api.core.v2.source;
 
-import com.github.thedeathlycow.thermoo.api.core.v2.registry.ThermooRegistryKeys;
+import com.github.thedeathlycow.thermoo.api.core.v2.registry.ThermooRegistries;
 import com.github.thedeathlycow.thermoo.impl.core.TemperatureSourceImpl;
 import com.google.common.base.Preconditions;
 import com.mojang.serialization.Codec;
@@ -43,7 +43,7 @@ public interface TemperatureSource {
     /**
      * Codec for temperature source registry objects.
      */
-    Codec<Holder<TemperatureSource>> CODEC = RegistryFixedCodec.create(ThermooRegistryKeys.TEMPERATURE_SOURCE);
+    Codec<Holder<TemperatureSource>> CODEC = RegistryFixedCodec.create(ThermooRegistries.TEMPERATURE_SOURCE);
 
     /**
      * Creates a new {@link Builder}.

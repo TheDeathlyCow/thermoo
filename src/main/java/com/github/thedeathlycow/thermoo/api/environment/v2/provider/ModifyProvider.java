@@ -1,6 +1,6 @@
 package com.github.thedeathlycow.thermoo.api.environment.v2.provider;
 
-import com.github.thedeathlycow.thermoo.api.core.v2.registry.ThermooRegistryKeys;
+import com.github.thedeathlycow.thermoo.api.core.v2.registry.ThermooRegistries;
 import com.github.thedeathlycow.thermoo.api.environment.v2.EnvironmentDefinition;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -21,7 +21,7 @@ import net.minecraft.world.level.biome.Biome;
 public final class ModifyProvider implements EnvironmentProvider {
     public static final MapCodec<ModifyProvider> CODEC = RecordCodecBuilder.mapCodec(
             instance -> instance.group(
-                    RegistryCodecs.homogeneousList(ThermooRegistryKeys.ENVIRONMENT_PROVIDER)
+                    RegistryCodecs.homogeneousList(ThermooRegistries.ENVIRONMENT_PROVIDER)
                             .fieldOf("modifiers")
                             .forGetter(ModifyProvider::modifiers),
                     EnvironmentProvider.HOLDER_CODEC

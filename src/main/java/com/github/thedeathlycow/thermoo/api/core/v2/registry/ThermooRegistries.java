@@ -1,53 +1,76 @@
 package com.github.thedeathlycow.thermoo.api.core.v2.registry;
 
 import com.github.thedeathlycow.thermoo.api.core.v2.source.TemperatureReduction;
+import com.github.thedeathlycow.thermoo.api.core.v2.source.TemperatureSource;
+import com.github.thedeathlycow.thermoo.api.environment.v2.EnvironmentDefinition;
 import com.github.thedeathlycow.thermoo.api.environment.v2.provider.EnvironmentProvider;
 import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureEffect;
+import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureStatus;
+import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import com.mojang.serialization.MapCodec;
-import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponentType;
+import net.minecraft.resources.ResourceKey;
 
-/// Custom registries provided by Thermoo
+///  Keys for all registries provided by Thermoo
 public final class ThermooRegistries {
-
-    /// Registry for [temperature reduction codecs][TemperatureReduction].
+    /// Registry key for the [temperature source][TemperatureSource] datapack registry.
     ///
-    /// @see TemperatureReduction
-    /// @see ThermooRegistryKeys#TEMPERATURE_REDUCTION_TYPE
-    public static final Registry<MapCodec<? extends TemperatureReduction>> TEMPERATURE_REDUCTION_TYPE =
-            FabricRegistryBuilder.create(
-                    ThermooRegistryKeys.TEMPERATURE_REDUCTION_TYPE
-            ).buildAndRegister();
+    /// This registry is datapack registry, with elements defined from a datapack in the folder `/thermoo/temperature_status/`
+    ///
+    /// @see TemperatureSource
+    public static final ResourceKey<Registry<TemperatureSource>> TEMPERATURE_SOURCE = createRegistryKey("temperature_source");
 
-    /// Registry for [temperature effect codecs][TemperatureEffect].
+    /// Registry key for the [temperature status][TemperatureStatus] datapack registry.
+    ///
+    /// This registry is datapack registry, with elements defined from a datapack in the folder `/thermoo/temperature_status/`
+    ///
+    /// @see TemperatureStatus
+    public static final ResourceKey<Registry<TemperatureStatus>> TEMPERATURE_STATUS = createRegistryKey("temperature_status");
+
+    /// Registry key for the environment provider registry.
+    ///
+    /// This registry is a datapack registry, with elements defined from a datapack in the folder `/thermoo/environment_provider/`
+    ///
+    /// @see EnvironmentProvider
+    public static final ResourceKey<Registry<EnvironmentProvider>> ENVIRONMENT_PROVIDER = createRegistryKey("environment_provider");
+
+    /// Registry key for the environment definition registry.
+    ///
+    /// This registry is datapack registry, with elements defined from a datapack in the folder `/thermoo/environment/`
+    ///
+    /// @see EnvironmentDefinition
+    public static final ResourceKey<Registry<EnvironmentDefinition>> ENVIRONMENT = createRegistryKey("environment");
+
+    /// Registry key for [environment provider codecs][EnvironmentProvider]. Register codecs to this registry in an entry point.
+    ///
+    /// @see EnvironmentProvider
+    /// @see ThermooBuiltInRegistries#ENVIRONMENT_PROVIDER_TYPE
+    public static final ResourceKey<Registry<MapCodec<? extends EnvironmentProvider>>> ENVIRONMENT_PROVIDER_TYPE = createRegistryKey("environment_provider_type");
+
+    /// Registry key for [temperature effect codecs][TemperatureEffect]. Register codecs to this registry in an entry point.
     ///
     /// @see TemperatureEffect
-    /// @see ThermooRegistryKeys#TEMPERATURE_EFFECT_TYPE
-    public static final Registry<MapCodec<? extends TemperatureEffect>> TEMPERATURE_EFFECT_TYPE =
-            FabricRegistryBuilder.create(
-                    ThermooRegistryKeys.TEMPERATURE_EFFECT_TYPE
-            ).buildAndRegister();
+    /// @see ThermooBuiltInRegistries#TEMPERATURE_EFFECT_TYPE
+    public static final ResourceKey<Registry<MapCodec<? extends TemperatureEffect>>> TEMPERATURE_EFFECT_TYPE = createRegistryKey("temperature_effect_type");
 
-    /// Registry for [environment components][com.github.thedeathlycow.thermoo.api.environment.v2.component.EnvironmentComponentTypes].
+    /// The key for the environment component type registry. Register data component types to this registry in an entry point.
     ///
     /// @see com.github.thedeathlycow.thermoo.api.environment.v2.component.EnvironmentComponentTypes
-    /// @see ThermooRegistryKeys#ENVIRONMENT_COMPONENT_TYPE
-    public static final Registry<DataComponentType<?>> ENVIRONMENT_COMPONENT_TYPE = FabricRegistryBuilder.create(
-            ThermooRegistryKeys.ENVIRONMENT_COMPONENT_TYPE
-    ).buildAndRegister();
+    /// @see ThermooBuiltInRegistries#ENVIRONMENT_COMPONENT_TYPE
+    public static final ResourceKey<Registry<DataComponentType<?>>> ENVIRONMENT_COMPONENT_TYPE = createRegistryKey("environment_component_type");
 
-    /// Registry for [environment provider codecs][EnvironmentProvider].
+    /// Registry key for [temperature status codecs][TemperatureReduction]. Register codecs to this registry in an entry point.
     ///
-    /// @see TemperatureEffect
-    /// @see ThermooRegistryKeys#ENVIRONMENT_PROVIDER_TYPE
-    public static final Registry<MapCodec<? extends EnvironmentProvider>> ENVIRONMENT_PROVIDER_TYPE =
-            FabricRegistryBuilder.create(
-                    ThermooRegistryKeys.ENVIRONMENT_PROVIDER_TYPE
-            ).buildAndRegister();
+    /// @see TemperatureReduction
+    /// @see ThermooBuiltInRegistries#TEMPERATURE_REDUCTION_TYPE
+    public static final ResourceKey<Registry<MapCodec<? extends TemperatureReduction>>> TEMPERATURE_REDUCTION_TYPE = createRegistryKey("temperature_reduction_type");
+
+    private static <T> ResourceKey<Registry<T>> createRegistryKey(String registryId) {
+        return ResourceKey.createRegistryKey(Thermoo.id(registryId));
+    }
 
     private ThermooRegistries() {
 
     }
-
 }

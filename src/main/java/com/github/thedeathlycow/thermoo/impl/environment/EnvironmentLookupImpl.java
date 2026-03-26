@@ -1,6 +1,6 @@
 package com.github.thedeathlycow.thermoo.impl.environment;
 
-import com.github.thedeathlycow.thermoo.api.core.v2.registry.ThermooRegistryKeys;
+import com.github.thedeathlycow.thermoo.api.core.v2.registry.ThermooRegistries;
 import com.github.thedeathlycow.thermoo.api.environment.v2.EnvironmentDefinition;
 import com.github.thedeathlycow.thermoo.api.environment.v2.EnvironmentLookup;
 import com.github.thedeathlycow.thermoo.api.environment.v2.attribute.ThermooEnvironmentAttributes;
@@ -64,7 +64,7 @@ public class EnvironmentLookupImpl implements EnvironmentLookup {
     }
 
     private void addProvidersToBiomes(MinecraftServer server) {
-        Registry<EnvironmentDefinition> envRegistry = server.registryAccess().lookupOrThrow(ThermooRegistryKeys.ENVIRONMENT);
+        Registry<EnvironmentDefinition> envRegistry = server.registryAccess().lookupOrThrow(ThermooRegistries.ENVIRONMENT);
         Registry<Biome> biomeRegistry = server.registryAccess().lookupOrThrow(Registries.BIOME);
 
         biomeRegistry.listElements().forEach(holder -> {

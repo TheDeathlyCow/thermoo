@@ -1,6 +1,6 @@
 package com.github.thedeathlycow.thermoo.impl.compat.polymer;
 
-import com.github.thedeathlycow.thermoo.api.core.v2.registry.ThermooRegistryKeys;
+import com.github.thedeathlycow.thermoo.api.core.v2.registry.ThermooRegistries;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import com.github.thedeathlycow.thermoo.impl.attribute.AttributeData;
 import com.github.thedeathlycow.thermoo.impl.compat.init.DependentServerModInitializer;
@@ -16,8 +16,8 @@ public class ThermooPolymerPatch implements DependentServerModInitializer {
         if (Thermoo.getConfig().enablePolymerPatch()) {
             polymerizeAttributes();
             polymerizeArgumentTypes();
-            PolymerUtils.markAsServerOnlyRegistry(ThermooRegistryKeys.TEMPERATURE_STATUS);
-            PolymerUtils.markAsServerOnlyRegistry(ThermooRegistryKeys.TEMPERATURE_SOURCE);
+            PolymerUtils.markAsServerOnlyRegistry(ThermooRegistries.TEMPERATURE_STATUS);
+            PolymerUtils.markAsServerOnlyRegistry(ThermooRegistries.TEMPERATURE_SOURCE);
 
             Thermoo.LOGGER.info("Patched Thermoo for server-side with Polymer!");
         }

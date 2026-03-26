@@ -1,6 +1,6 @@
 package com.github.thedeathlycow.thermoo.api.temperature.status.v2;
 
-import com.github.thedeathlycow.thermoo.api.core.v2.registry.ThermooRegistryKeys;
+import com.github.thedeathlycow.thermoo.api.core.v2.registry.ThermooRegistries;
 import com.github.thedeathlycow.thermoo.impl.temperature.status.TemperatureStatusImpl;
 import com.google.common.base.Preconditions;
 import com.mojang.serialization.Codec;
@@ -47,7 +47,7 @@ public interface TemperatureStatus {
     /**
      * Codec for temperature status holders.
      */
-    Codec<Holder<TemperatureStatus>> CODEC = RegistryFixedCodec.create(ThermooRegistryKeys.TEMPERATURE_STATUS);
+    Codec<Holder<TemperatureStatus>> CODEC = RegistryFixedCodec.create(ThermooRegistries.TEMPERATURE_STATUS);
 
     /**
      * Creates a selector builder that applies to all entity types in the specified holder set. Primarily intended to be

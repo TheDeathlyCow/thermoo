@@ -1,7 +1,7 @@
 package com.github.thedeathlycow.thermoo.impl;
 
 import com.github.thedeathlycow.thermoo.api.command.v1.TemperatureUnitArgument;
-import com.github.thedeathlycow.thermoo.api.core.v2.registry.ThermooRegistryKeys;
+import com.github.thedeathlycow.thermoo.api.core.v2.registry.ThermooRegistries;
 import com.github.thedeathlycow.thermoo.api.core.v2.source.TemperatureSource;
 import com.github.thedeathlycow.thermoo.api.environment.v2.EnvironmentDefinition;
 import com.github.thedeathlycow.thermoo.api.environment.v2.provider.EnvironmentProvider;
@@ -65,19 +65,19 @@ public class Thermoo implements ModInitializer {
         ServerLifecycleEvents.SERVER_STOPPED.register(TemperatureStatusManager::clearCaches);
 
         DynamicRegistries.register(
-                ThermooRegistryKeys.ENVIRONMENT,
+                ThermooRegistries.ENVIRONMENT,
                 EnvironmentDefinition.CODEC
         );
         DynamicRegistries.register(
-                ThermooRegistryKeys.ENVIRONMENT_PROVIDER,
+                ThermooRegistries.ENVIRONMENT_PROVIDER,
                 EnvironmentProvider.ELEMENT_CODEC
         );
         DynamicRegistries.registerSynced(
-                ThermooRegistryKeys.TEMPERATURE_STATUS,
+                ThermooRegistries.TEMPERATURE_STATUS,
                 TemperatureStatus.DIRECT_CODEC
         );
         DynamicRegistries.registerSynced(
-                ThermooRegistryKeys.TEMPERATURE_SOURCE,
+                ThermooRegistries.TEMPERATURE_SOURCE,
                 TemperatureSource.DIRECT_CODEC
         );
 

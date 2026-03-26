@@ -1,6 +1,6 @@
 package com.github.thedeathlycow.thermoo.impl;
 
-import com.github.thedeathlycow.thermoo.api.core.v2.registry.ThermooRegistries;
+import com.github.thedeathlycow.thermoo.api.core.v2.registry.ThermooBuiltInRegistries;
 import com.github.thedeathlycow.thermoo.api.core.v2.source.RandomlyDodgeReduction;
 import com.github.thedeathlycow.thermoo.api.core.v2.source.ReinforcingAttributeReduction;
 import com.github.thedeathlycow.thermoo.api.core.v2.source.ScaledAttributeReduction;
@@ -36,7 +36,7 @@ public final class ThermooCommonRegisters {
         registerTemperatureEffectType("function", FunctionEffect.CODEC);
         registerTemperatureEffectType("mob_effect", MobEffectEffect.CODEC);
 
-        ThermooRegistries.TEMPERATURE_EFFECT_TYPE.addAlias(
+        ThermooBuiltInRegistries.TEMPERATURE_EFFECT_TYPE.addAlias(
                 Thermoo.id("status_effect"),
                 Thermoo.id("mob_effect")
         );
@@ -55,7 +55,7 @@ public final class ThermooCommonRegisters {
         registerEnvironmentProviderType("set_temperature_from_pressure", SetTemperatureFromPressureProvider.CODEC);
         registerEnvironmentProviderType("set_pressure_from_altitude", SetPressureFromAltitudeProvider.CODEC);
 
-        ThermooRegistries.ENVIRONMENT_PROVIDER_TYPE.addAlias(
+        ThermooBuiltInRegistries.ENVIRONMENT_PROVIDER_TYPE.addAlias(
                 Thermoo.id("temperature_shift"),
                 Thermoo.id("shift_temperature")
         );
@@ -80,15 +80,15 @@ public final class ThermooCommonRegisters {
     }
 
     private static void registerTemperatureReduction(String name, MapCodec<? extends TemperatureReduction> reduction) {
-        Registry.register(ThermooRegistries.TEMPERATURE_REDUCTION_TYPE, Thermoo.id(name), reduction);
+        Registry.register(ThermooBuiltInRegistries.TEMPERATURE_REDUCTION_TYPE, Thermoo.id(name), reduction);
     }
 
     private static void registerTemperatureEffectType(String name, MapCodec<? extends TemperatureEffect> temperatureEffect) {
-        Registry.register(ThermooRegistries.TEMPERATURE_EFFECT_TYPE, Thermoo.id(name), temperatureEffect);
+        Registry.register(ThermooBuiltInRegistries.TEMPERATURE_EFFECT_TYPE, Thermoo.id(name), temperatureEffect);
     }
 
     private static void registerEnvironmentProviderType(String name, MapCodec<? extends EnvironmentProvider> codec) {
-        Registry.register(ThermooRegistries.ENVIRONMENT_PROVIDER_TYPE, Thermoo.id(name), codec);
+        Registry.register(ThermooBuiltInRegistries.ENVIRONMENT_PROVIDER_TYPE, Thermoo.id(name), codec);
     }
 
     private static void registerLootConditionType(String name, MapCodec<? extends LootItemCondition> lootConditionType) {

@@ -1,6 +1,6 @@
 package com.github.thedeathlycow.thermoo.impl.client.debug;
 
-import com.github.thedeathlycow.thermoo.api.core.v2.registry.ThermooRegistries;
+import com.github.thedeathlycow.thermoo.api.core.v2.registry.ThermooBuiltInRegistries;
 import com.github.thedeathlycow.thermoo.api.environment.v2.EnvironmentLookup;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -28,7 +28,7 @@ public class DebugEnvironmentComponents implements ThermooDebugScreenEntry {
 
             List<String> displayed = components.stream()
                     .map(component -> {
-                        String name = Util.getRegisteredName(ThermooRegistries.ENVIRONMENT_COMPONENT_TYPE, component.type());
+                        String name = Util.getRegisteredName(ThermooBuiltInRegistries.ENVIRONMENT_COMPONENT_TYPE, component.type());
                         return "%s: %s".formatted(name, component.value().toString());
                     }).toList();
 

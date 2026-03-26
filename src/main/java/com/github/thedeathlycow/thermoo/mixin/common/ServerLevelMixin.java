@@ -1,6 +1,6 @@
 package com.github.thedeathlycow.thermoo.mixin.common;
 
-import com.github.thedeathlycow.thermoo.api.core.v2.registry.ThermooRegistryKeys;
+import com.github.thedeathlycow.thermoo.api.core.v2.registry.ThermooRegistries;
 import com.github.thedeathlycow.thermoo.api.core.v2.TemperatureChange;
 import com.github.thedeathlycow.thermoo.impl.core.ThermooServerLevel;
 import com.github.thedeathlycow.thermoo.impl.core.UpdateEvents;
@@ -43,7 +43,7 @@ public abstract class ServerLevelMixin implements ThermooServerLevel {
             final boolean tickTime,
             CallbackInfo ci
     ) {
-        this.thermoo$tickingTemperatureSources = server.registryAccess().lookupOrThrow(ThermooRegistryKeys.TEMPERATURE_SOURCE)
+        this.thermoo$tickingTemperatureSources = server.registryAccess().lookupOrThrow(ThermooRegistries.TEMPERATURE_SOURCE)
                 .listElements()
                 .filter(ref -> ref.value().tickInterval() > 0 && UpdateEvents.hasRegisteredEvents(ref.key()))
                 .map(TemperatureChange::create)

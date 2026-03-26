@@ -1,6 +1,6 @@
 package com.github.thedeathlycow.thermoo.api.core.v2.source;
 
-import com.github.thedeathlycow.thermoo.api.core.v2.registry.ThermooRegistryKeys;
+import com.github.thedeathlycow.thermoo.api.core.v2.registry.ThermooRegistries;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import net.minecraft.resources.ResourceKey;
 
@@ -37,7 +37,7 @@ public final class TemperatureSources {
     public static final ResourceKey<TemperatureSource> ENVIRONMENT = key("environment");
 
     private static ResourceKey<TemperatureSource> key(String id) {
-        return ResourceKey.create(ThermooRegistryKeys.TEMPERATURE_SOURCE, Thermoo.id(id));
+        return ResourceKey.create(ThermooRegistries.TEMPERATURE_SOURCE, Thermoo.id(id));
     }
 
     private TemperatureSources() {
