@@ -44,6 +44,8 @@ dependencies {
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
 
     api("dev.yumi.commons:yumi-commons:${project.yumi_version}")
+    api("dev.yumi.commons:yumi-commons-core:${project.yumi_version}")
+    api("dev.yumi.commons:yumi-commons-collections:${project.yumi_version}")
     api("dev.yumi.commons:yumi-commons-event:${project.yumi_version}")
 
     implementation "net.fabricmc:fabric-loader:${project.loader_version}"
@@ -53,10 +55,12 @@ dependencies {
     implementation "org.ladysnake.cardinal-components-api:cardinal-components-entity:${project.cca_version}"
 
     include("dev.yumi.commons:yumi-commons:${project.yumi_version}")
+    include("dev.yumi.commons:yumi-commons-core:${project.yumi_version}")
+    include("dev.yumi.commons:yumi-commons-collections:${project.yumi_version}")
     include("dev.yumi.commons:yumi-commons-event:${project.yumi_version}")
 
-    implementation "eu.pb4:polymer-core:${project.polymer_version}"
-    implementation "eu.pb4:polymer-networking:${project.polymer_version}"
+    compileOnly "eu.pb4:polymer-core:${project.polymer_version}"
+    compileOnly "eu.pb4:polymer-networking:${project.polymer_version}"
 
     testImplementation "net.fabricmc:fabric-loader-junit:${project.loader_version}"
     testImplementation "org.junit.jupiter:junit-jupiter"

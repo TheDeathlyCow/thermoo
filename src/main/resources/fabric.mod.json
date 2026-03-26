@@ -45,7 +45,8 @@
         "minecraft": "~26.1-",
         "java": ">=25",
         "cardinal-components-base": "~8.0-",
-        "cardinal-components-entity": "~8.0-"
+        "cardinal-components-entity": "~8.0-",
+        "yumi_commons_event": "~2.0-"
     },
     "suggests": {
         "frostiful": "*",
