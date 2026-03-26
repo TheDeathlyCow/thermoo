@@ -55,8 +55,7 @@ dependencies {
     include("dev.yumi.commons:yumi-commons:${project.yumi_version}")
     include("dev.yumi.commons:yumi-commons-event:${project.yumi_version}")
 
-    // TODO: update polymer when available
-//    compileOnly "eu.pb4:polymer-core:${project.polymer_version}"
+    compileOnly "eu.pb4:polymer-core:${project.polymer_version}"
 
     testImplementation "net.fabricmc:fabric-loader-junit:${project.loader_version}"
     testImplementation "org.junit.jupiter:junit-jupiter"
@@ -176,7 +175,7 @@ publishMods {
     curseforge {
         accessToken = providers.environmentVariable("CURSEFORGE_API_KEY")
         projectId = "846544"
-        minecraftVersions.addAll("26.1-snapshot")
+        minecraftVersions.addAll(minecraft_version)
 
         javaVersions.add(JavaVersion.VERSION_25)
 
@@ -185,8 +184,7 @@ publishMods {
 
         requires("fabric-api", "cardinal-components-api")
 
-        // TODO: when polymer and thermoo patches are updated
-//        optional("thermoo-patches", "polymer")
+        optional("thermoo-patches", "polymer")
     }
 
     modrinth {
@@ -196,8 +194,7 @@ publishMods {
 
         requires("fabric-api", "cardinal-components-api")
 
-        // TODO: when polymer and thermoo patches are updated
-//        optional("thermoo-patches", "polymer")
+        optional("thermoo-patches", "polymer")
     }
 
     github {
