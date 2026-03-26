@@ -29,29 +29,29 @@ public record BuiltinTemperatureSourcesImpl(
 
     @Override
     public TemperatureChange create(ResourceKey<TemperatureSource> sourceKey) {
-        return TemperatureChange.create(this.lookup(sourceKey));
+        return TemperatureChange.create(lookup(this.access, sourceKey));
     }
 
     @Override
     public TemperatureChange create(ResourceKey<TemperatureSource> sourceKey, Vec3 position) {
-        return TemperatureChange.create(this.lookup(sourceKey), position);
+        return TemperatureChange.create(lookup(this.access, sourceKey), position);
     }
 
     @Override
     public TemperatureChange create(ResourceKey<TemperatureSource> sourceKey, Entity directCause) {
-        return TemperatureChange.create(this.lookup(sourceKey), directCause);
+        return TemperatureChange.create(lookup(this.access, sourceKey), directCause);
     }
 
     @Override
     public TemperatureChange create(ResourceKey<TemperatureSource> sourceKey, Entity cause, Entity directCause) {
-        return TemperatureChange.create(this.lookup(sourceKey), cause, directCause);
+        return TemperatureChange.create(lookup(this.access, sourceKey), cause, directCause);
     }
 
-    private Holder<TemperatureSource> lookup(ResourceKey<TemperatureSource> key) {
+    private static Holder<TemperatureSource> lookup(RegistryAccess access, ResourceKey<TemperatureSource> key) {
         return access.getOrThrow(key);
     }
 
     private static TemperatureChange create(RegistryAccess access, ResourceKey<TemperatureSource> key) {
-        return TemperatureChange.create(access.getOrThrow(key));
+        return TemperatureChange.create(lookup(access, key));
     }
 }

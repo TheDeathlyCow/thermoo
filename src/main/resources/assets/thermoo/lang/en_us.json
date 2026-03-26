@@ -52,6 +52,9 @@
     "commands.thermoo.temperature.exception.effect_already_enabled": "Effect %s is already enabled",
     "commands.thermoo.temperature.exception.effect_already_disabled": "Effect %s is already disabled",
     
+    "commands.thermoo.temperatre.source.invalid": "Temperature source %s does not exist!",
+    "commands.thermoo.temperatre.status.invalid": "Temperature status %s does not exist!",
+    
     "text.thermoo.thermoo-patches-nag.body": "The following mod(s) can work with Thermoo, Frostiful, and/or Scorchful, but you are missing the Thermoo Patches compatibility mod:",
     "text.thermoo.thermoo-patches-nag.item": "- %1$s (%2$s)",
     "text.thermoo.thermoo-patches-nag.footer": "You can get Thermoo Patches at the below link:",
