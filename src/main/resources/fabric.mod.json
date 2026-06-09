@@ -44,8 +44,8 @@
         "fabric-api": ">=0.144.3",
         "minecraft": "~26.1-",
         "java": ">=25",
-        "cardinal-components-base": "~8.0-",
-        "cardinal-components-entity": "~8.0-",
+        "cardinal-components-base": ">=8.0.0",
+        "cardinal-components-entity": ">=8.0.0",
         "yumi_commons_event": "~2.0-"
     },
     "suggests": {
