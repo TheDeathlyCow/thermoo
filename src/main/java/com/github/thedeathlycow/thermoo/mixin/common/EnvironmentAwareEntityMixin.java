@@ -7,6 +7,8 @@ import com.github.thedeathlycow.thermoo.api.core.v2.event.TemperatureChangeEvent
 import com.github.thedeathlycow.thermoo.api.entity.v1.ThermooAttributes;
 import com.github.thedeathlycow.thermoo.api.entity.v1.ThermooEntityTypeTags;
 import com.github.thedeathlycow.thermoo.impl.component.ThermooComponents;
+import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import dev.yumi.commons.TriState;
 import net.minecraft.core.Holder;
 import net.minecraft.util.Mth;
@@ -22,9 +24,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LivingEntity.class)
 public abstract class EnvironmentAwareEntityMixin extends Entity implements TemperatureAware, Soakable {
@@ -188,12 +187,12 @@ public abstract class EnvironmentAwareEntityMixin extends Entity implements Temp
         return this.random;
     }
 
-    @Inject(
-            method = "createLivingAttributes",
-            at = @At("TAIL")
+
+    @WrapMethod(
+            method = "createLivingAttributes"
     )
-    private static void addThermooAttributesToLivingEntities(CallbackInfoReturnable<AttributeSupplier.Builder> cir) {
-        AttributeSupplier.Builder builder = cir.getReturnValue();
+    private static AttributeSupplier.Builder addThermooAttributesToLivingEntities(Operation<AttributeSupplier.Builder> original) {
+        AttributeSupplier.Builder builder = original.call();
 
         // register attributes to living entities
         builder.add(ThermooAttributes.MIN_TEMPERATURE);
@@ -203,5 +202,6 @@ public abstract class EnvironmentAwareEntityMixin extends Entity implements Temp
         builder.add(ThermooAttributes.HEAT_RESISTANCE);
         builder.add(ThermooAttributes.ENVIRONMENT_HEAT_RESISTANCE);
         builder.add(ThermooAttributes.ENVIRONMENT_FROST_RESISTANCE);
+        return builder;
     }
 }
