@@ -1,0 +1,54 @@
+plugins {
+    id 'multiloader-loader'
+    id 'org.relativitymc.neo-loom'
+    id 'me.modmuss50.mod-publish-plugin'
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${minecraft_version}"
+    neoForge "net.neoforged:neoforge:${neoforge_version}"
+}
+
+loom {
+    def aw = project(':common').file("src/main/resources/${mod_id}.accesswidener")
+    if (aw.exists()) {
+        accessWidenerPath.set(aw)
+        convertAw2At(tasks.named("jar"), ["${mod_id}.accesswidener"])
+    }
+
+    runs {
+        client {
+            client()
+            setConfigName('Neoforge Client')
+            ideConfigGenerated(true)
+            runDir('runs/client')
+        }
+        server {
+            server()
+            setConfigName('Neoforge Server')
+            ideConfigGenerated(true)
+            runDir('runs/server')
+        }
+    }
+}
+
+sourceSets.main.resources { srcDir 'src/generated/resources' }
+
+// Implement mcgradleconventions loader attribute
+def loaderAttribute = Attribute.of('io.github.mcgradleconventions.loader', String)
+['apiElements', 'runtimeElements', 'sourcesElements', 'javadocElements', 'includeInternal', 'modCompileClasspath'].each { variant ->
+    configurations.named("$variant") {
+        attributes {
+            attribute(loaderAttribute, 'neoforge')
+        }
+    }
+}
+sourceSets.configureEach {
+    [it.compileClasspathConfigurationName, it.runtimeClasspathConfigurationName].each { variant ->
+        configurations.named("$variant") {
+            attributes {
+                attribute(loaderAttribute, 'neoforge')
+            }
+        }
+    }
+}
