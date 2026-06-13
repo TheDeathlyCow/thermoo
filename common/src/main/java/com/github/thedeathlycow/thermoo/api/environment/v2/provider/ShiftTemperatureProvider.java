@@ -44,7 +44,7 @@ public final class ShiftTemperatureProvider implements EnvironmentProvider {
     }
 
     /**
-     * {@linkplain TemperatureRecord#add(TemperatureRecord) Adds} the shift value of this provider to the existing
+     * {@linkplain TemperatureRecord#shift(TemperatureRecord) Adds} the shift value of this provider to the existing
      * temperature component in the builder. If no temperature component is in the builder, then this will skip and log
      * a warning.
      *
@@ -56,9 +56,9 @@ public final class ShiftTemperatureProvider implements EnvironmentProvider {
     @Override
     public void buildCurrentComponents(Level level, BlockPos pos, Holder<Biome> biome, DataComponentMap.Builder builder) {
         ComponentMapBuilderAccessor accessor = (ComponentMapBuilderAccessor) builder;
-        if (builder.contains(EnvironmentComponentTypes.TEMPERATURE)) {
-            TemperatureRecord base = builder.getOrDefault(EnvironmentComponentTypes.TEMPERATURE, TemperatureRecordComponent.DEFAULT);
-            TemperatureRecord shifted = base.add(this.shift);
+        if (builder.thermoo$contains(EnvironmentComponentTypes.TEMPERATURE)) {
+            TemperatureRecord base = builder.thermoo$getOrAdd(EnvironmentComponentTypes.TEMPERATURE, TemperatureRecordComponent.DEFAULT);
+            TemperatureRecord shifted = base.shift(this.shift);
             builder.set(EnvironmentComponentTypes.TEMPERATURE, shifted);
         } else {
             Thermoo.LOGGER.warn("Unable to shift a missing temperature component in: {}", accessor.thermoo$getMap());

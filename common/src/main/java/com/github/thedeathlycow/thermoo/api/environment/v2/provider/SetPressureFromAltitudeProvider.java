@@ -62,7 +62,7 @@ public final class SetPressureFromAltitudeProvider implements EnvironmentProvide
     public void buildCurrentComponents(Level level, BlockPos pos, Holder<Biome> biome, DataComponentMap.Builder builder) {
         int altitude = Mth.clamp(pos.getY(), level.getMinY(), level.getMaxY()) - level.getSeaLevel();
 
-        double seaLevelPressure = builder.getOrDefault(EnvironmentComponentTypes.ATMOSPHERIC_PRESSURE, AtmosphericPressureComponent.DEFAULT);
+        double seaLevelPressure = builder.thermoo$getOrAdd(EnvironmentComponentTypes.ATMOSPHERIC_PRESSURE, AtmosphericPressureComponent.DEFAULT);
 
         double deltaP = pressureChangeMbarPerBlock * altitude;
 

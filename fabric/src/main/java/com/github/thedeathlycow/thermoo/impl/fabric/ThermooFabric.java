@@ -4,7 +4,6 @@ import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import com.github.thedeathlycow.thermoo.impl.compat.init.DependentModInitializer;
 import dev.yumi.mc.core.api.ModContainer;
 import dev.yumi.mc.core.api.entrypoint.ModInitializer;
-import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
 import net.fabricmc.loader.api.FabricLoader;
 
 import java.util.Arrays;

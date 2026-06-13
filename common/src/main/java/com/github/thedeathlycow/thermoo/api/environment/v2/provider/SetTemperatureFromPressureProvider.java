@@ -73,7 +73,7 @@ public final class SetTemperatureFromPressureProvider implements EnvironmentProv
      */
     @Override
     public void buildCurrentComponents(Level level, BlockPos pos, Holder<Biome> biome, DataComponentMap.Builder builder) {
-        TemperatureRecord baseTemperature = builder.getOrDefault(EnvironmentComponentTypes.TEMPERATURE, TemperatureRecordComponent.DEFAULT);
+        TemperatureRecord baseTemperature = builder.thermoo$getOrAdd(EnvironmentComponentTypes.TEMPERATURE, TemperatureRecordComponent.DEFAULT);
 
         double seaLevelPressure = this.basePressure.orElseGet(() -> {
             return level.environmentAttributes().getValue(ThermooEnvironmentAttributes.ATMOSPHERIC_PRESSURE, pos);
@@ -85,7 +85,7 @@ public final class SetTemperatureFromPressureProvider implements EnvironmentProv
         }
 
         double baseTemperatureK = baseTemperature.valueInUnit(TemperatureUnit.KELVIN);
-        double pressure = builder.getOrDefault(EnvironmentComponentTypes.ATMOSPHERIC_PRESSURE, AtmosphericPressureComponent.DEFAULT);
+        double pressure = builder.thermoo$getOrAdd(EnvironmentComponentTypes.ATMOSPHERIC_PRESSURE, AtmosphericPressureComponent.DEFAULT);
 
         // based on ideal gas law
         double adjustedTemperatureK = (pressure * baseTemperatureK) / seaLevelPressure;
