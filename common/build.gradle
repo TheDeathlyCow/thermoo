@@ -40,12 +40,17 @@ configurations {
         canBeResolved = false
         canBeConsumed = true
     }
+    commonGeneratedResources {
+        canBeResolved = false
+        canBeConsumed = true
+    }
 }
 
 artifacts {
-    commonJava sourceSets.main.java.sourceDirectories.singleFile
-    commonKotlin sourceSets.main.kotlin.sourceDirectories.filter { !it.name.endsWith("java") }.singleFile
-    commonResources sourceSets.main.resources.sourceDirectories.singleFile
+    commonJava file("src/main/java")
+    commonKotlin file("src/main/kotlin")
+    commonResources file("src/main/resources")
+    commonGeneratedResources file("src/main/generated")
 }
 
 // Implement mcgradleconventions loader attribute
