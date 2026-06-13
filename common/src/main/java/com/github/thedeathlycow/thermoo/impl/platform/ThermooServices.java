@@ -11,7 +11,7 @@ public final class ThermooServices {
     public static final ThermooPlatform PLATFORM = load(ThermooPlatform.class);
 
     /// Platform specific service for custom registry handling, like dynamic registries
-    public static final ThermooDynamicRegistries DYNAMIC_REGISTRIES = load(ThermooDynamicRegistries.class);
+    public static final ThermooRegistries REGISTRIES = load(ThermooRegistries.class);
 
     public static <T> T load(Class<T> clazz) {
         final T loadedService = ServiceLoader.load(clazz, ThermooServices.class.getClassLoader())

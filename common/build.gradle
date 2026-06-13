@@ -13,7 +13,7 @@ dependencies {
     api("dev.yumi.commons:yumi-commons-core:${project.yumi_version}")
     api("dev.yumi.commons:yumi-commons-collections:${project.yumi_version}")
     api("dev.yumi.commons:yumi-commons-event:${project.yumi_version}")
-    api("dev.yumi.mc.core:yumi-mc-foundation:${project.yumi_mc_foundation_version}")
+    implementation("dev.yumi.mc.core:yumi-mc-foundation:${project.yumi_mc_foundation_version}")
 
     include("dev.yumi.commons:yumi-commons:${project.yumi_version}")
     include("dev.yumi.commons:yumi-commons-core:${project.yumi_version}")

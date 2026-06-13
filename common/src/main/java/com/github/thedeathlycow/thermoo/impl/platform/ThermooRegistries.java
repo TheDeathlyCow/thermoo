@@ -4,10 +4,13 @@ import com.mojang.serialization.Codec;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 
-/// A platform independent abstraction for a Dynamic Registries API, based on the equivalent class provided by Fabric
+/// A platform independent abstraction for a registry API, based on the FabricRegistryBuilder and DynamicRegistries
+/// classes provided by Fabric
 ///
 /// This is not a stable API!
-public interface ThermooDynamicRegistries {
+public interface ThermooRegistries {
+    <T> Registry<T> createBuiltinRegistry(ResourceKey<Registry<T>> key);
+
     <T> void register(ResourceKey<? extends Registry<T>> key, Codec<T> codec);
 
     <T> void registerSynced(ResourceKey<? extends Registry<T>> key, Codec<T> codec);

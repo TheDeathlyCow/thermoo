@@ -1,4 +1,4 @@
-package com.github.thedeathlycow.thermoo.impl.compat.polymer;
+package com.github.thedeathlycow.thermoo.impl.fabric.compat.polymer;
 
 import com.github.thedeathlycow.thermoo.api.core.v2.registry.ThermooRegistries;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
