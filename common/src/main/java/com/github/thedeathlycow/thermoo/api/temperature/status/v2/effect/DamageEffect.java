@@ -2,6 +2,7 @@ package com.github.thedeathlycow.thermoo.api.temperature.status.v2.effect;
 
 import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureEffect;
 import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureEffectContext;
+import com.github.thedeathlycow.thermoo.mixin.common.accessor.DamageSourcesAccessor;
 import com.google.common.base.Preconditions;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -61,7 +62,7 @@ public final class DamageEffect implements TemperatureEffect {
     /**
      * Hurts the target.
      *
-     * @param target The entity receiving the effect.
+     * @param target  The entity receiving the effect.
      * @param context Additional context for the effect.
      * @return Returns {@code true} if executed on the logical server AND the target was successfully hurt.
      */
@@ -76,7 +77,7 @@ public final class DamageEffect implements TemperatureEffect {
 
     private DamageSource damageSource(ServerLevel serverLevel, ResourceKey<DamageType> damageType) {
         if (this.damageSource == null) {
-            this.damageSource = serverLevel.damageSources().source(damageType);
+            this.damageSource = ((DamageSourcesAccessor) serverLevel.damageSources()).thermoo_invokeSource(damageType);
         }
 
         return this.damageSource;

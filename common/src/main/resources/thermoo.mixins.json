@@ -16,6 +16,7 @@
         "accessor.ArgumentTypeInfosAccessor",
         "accessor.AttributeModifiersComponentBuilderAccessor",
         "accessor.ComponentMapBuilderAccessor",
+        "accessor.DamageSourcesAccessor",
         "datafix.AttributeIdPrefixFixMixin"
     ],
     "injectors": {
