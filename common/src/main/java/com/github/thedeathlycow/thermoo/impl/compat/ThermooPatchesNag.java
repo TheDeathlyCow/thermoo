@@ -2,11 +2,9 @@ package com.github.thedeathlycow.thermoo.impl.compat;
 
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import com.github.thedeathlycow.thermoo.impl.config.ThermooConfig;
-import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.fabricmc.loader.api.FabricLoader;
-import net.fabricmc.loader.api.ModContainer;
-import net.fabricmc.loader.api.VersionParsingException;
-import net.fabricmc.loader.api.metadata.ModMetadata;
+import com.github.thedeathlycow.thermoo.impl.platform.event.ThermooClientTickEvents;
+import dev.yumi.mc.core.api.ModContainer;
+import dev.yumi.mc.core.api.YumiMods;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
@@ -25,7 +23,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class ThermooPatchesNag implements ClientTickEvents.EndTick {
+public final class ThermooPatchesNag implements ThermooClientTickEvents.EndTick {
     private static final Logger LOGGER = LoggerFactory.getLogger(Thermoo.MODID + "-patch-nag");
 
     private static final Style LINK_STYLE = Style.EMPTY
@@ -45,12 +43,12 @@ public class ThermooPatchesNag implements ClientTickEvents.EndTick {
     public static void initialize(ThermooConfig config) {
         if (enableNag(config)) {
             INSTANCE.fetchAsync(config);
-            ClientTickEvents.END_CLIENT_TICK.register(INSTANCE);
+            ThermooClientTickEvents.END_CLIENT_TICK.register(INSTANCE);
         }
     }
 
     private static boolean enableNag(ThermooConfig config) {
-        return !FabricLoader.getInstance().isModLoaded("thermoo-patches") && config.enableThermooPatchesNag();
+        return !YumiMods.get().isModLoaded("thermoo-patches") && config.enableThermooPatchesNag();
     }
 
     @Override
@@ -81,21 +79,21 @@ public class ThermooPatchesNag implements ClientTickEvents.EndTick {
 
     private void fetch(ThermooConfig config) {
         LOGGER.info("Fetching Thermoo Patches patch list data...");
-        List<ModContainer> patchAvailableMods;
+        List<ModContainer> foundMods;
 
         try (HttpClient client = HttpClient.newHttpClient()) {
             PatchList patches = PatchListService.fetchPatchList(client, config.thermooPatchesPatchListUrl());
-            patchAvailableMods = patches.getPatchAvailableMods(FabricLoader.getInstance());
+            foundMods = patches.getPatchAvailableMods(YumiMods.get());
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
             throw new RuntimeException(e);
-        } catch (IOException | VersionParsingException e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
-        if (!patchAvailableMods.isEmpty()) {
+        if (!foundMods.isEmpty()) {
             LOGGER.warn("Thermoo Patches is recommended for this mod set!");
-            this.patchAvailableMods.addAll(patchAvailableMods);
+            this.patchAvailableMods.addAll(foundMods);
         } else if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("Your mod set is patched with Thermoo Patches, great job!");
         }
@@ -119,11 +117,10 @@ public class ThermooPatchesNag implements ClientTickEvents.EndTick {
 
         synchronized (this.patchAvailableMods) {
             patchAvailableMods.forEach(mod -> {
-                ModMetadata metadata = mod.getMetadata();
                 Component modEntry = Component.translatable(
                         "text.thermoo.thermoo-patches-nag.item",
-                        metadata.getName(),
-                        metadata.getId()
+                        mod.getName(),
+                        mod.id()
                 ).withStyle(ChatFormatting.YELLOW);
 
                 message.append(modEntry);

@@ -59,7 +59,7 @@ public record ThermooConfig(
 
         properties.setProperty(ENABLE_THERMOO_PATCHES_NAG_KEY, "true");
         properties.setProperty(ENABLE_POLYMER_PATCH_KEY, "true");
-        properties.setProperty(THERMOO_PATCHES_PATCH_LIST_URL_KEY, "https://thermoo.thedeathlycow.com/assets/thermoo-patches-patch-list.json");
+        properties.setProperty(THERMOO_PATCHES_PATCH_LIST_URL_KEY, "https://thermoo.thedeathlycow.com/assets/thermoo-patches-patch-list-v2.json");
 
         return properties;
     }

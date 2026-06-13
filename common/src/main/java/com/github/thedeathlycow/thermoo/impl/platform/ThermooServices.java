@@ -7,7 +7,10 @@ import java.util.ServiceLoader;
 
 
 public final class ThermooServices {
-    /// platform specific service for custom registry handling, like dynamic registries
+    /// Platform specific info to query the current environment when Yumi is not sufficient.
+    public static final ThermooPlatform PLATFORM = load(ThermooPlatform.class);
+
+    /// Platform specific service for custom registry handling, like dynamic registries
     public static final ThermooDynamicRegistries DYNAMIC_REGISTRIES = load(ThermooDynamicRegistries.class);
 
     public static <T> T load(Class<T> clazz) {

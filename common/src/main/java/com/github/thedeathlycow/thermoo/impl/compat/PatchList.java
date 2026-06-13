@@ -1,12 +1,12 @@
 package com.github.thedeathlycow.thermoo.impl.compat;
 
+import com.github.thedeathlycow.thermoo.impl.platform.Loader;
+import com.github.thedeathlycow.thermoo.impl.platform.ThermooServices;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.fabricmc.loader.api.FabricLoader;
-import net.fabricmc.loader.api.ModContainer;
-import net.fabricmc.loader.api.Version;
-import net.fabricmc.loader.api.VersionParsingException;
-import net.fabricmc.loader.api.metadata.version.VersionPredicate;
+import dev.yumi.commons.function.YumiPredicates;
+import dev.yumi.mc.core.api.ModContainer;
+import dev.yumi.mc.core.api.YumiMods;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,17 +22,16 @@ public record PatchList(
             ).apply(instance, PatchList::new)
     );
 
-    public List<ModContainer> getPatchAvailableMods(FabricLoader loader) throws VersionParsingException {
-        Version gameVersion = loader.getModContainer("minecraft")
+    public List<ModContainer> getPatchAvailableMods(YumiMods loader) {
+        String gameVersion = loader.getMod("minecraft")
                 .orElseThrow()
-                .getMetadata()
-                .getVersion();
+                .getVersionString();
 
         List<ModContainer> patchAvailableMods = new ArrayList<>();
+        Loader currentLoader = ThermooServices.PLATFORM.getLoader();
 
         for (PatchedVersion patch : this.patches) {
-            VersionPredicate predicate = VersionPredicate.parse(patch.minecraftVersion());
-            if (predicate.test(gameVersion)) {
+            if (patch.loader() == currentLoader && patch.minecraftVersions().contains(gameVersion)) {
                 this.extendPatchAvailableMods(loader, patchAvailableMods, patch);
             }
         }
@@ -40,9 +39,9 @@ public record PatchList(
         return patchAvailableMods;
     }
 
-    private void extendPatchAvailableMods(FabricLoader loader, List<ModContainer> patchAvailableMods, PatchedVersion patch) {
+    private void extendPatchAvailableMods(YumiMods loader, List<ModContainer> patchAvailableMods, PatchedVersion patch) {
         for (String modid : patch.mods()) {
-            loader.getModContainer(modid).ifPresent(patchAvailableMods::add);
+            loader.getMod(modid).ifPresent(patchAvailableMods::add);
         }
     }
 }
