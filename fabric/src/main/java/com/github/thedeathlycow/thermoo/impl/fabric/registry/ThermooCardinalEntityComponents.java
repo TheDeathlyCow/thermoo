@@ -21,7 +21,7 @@ public class ThermooCardinalEntityComponents implements EntityComponentInitializ
             SyncedIntCardinalComponent.class
     );
 
-    public static final ComponentKey<TemperatureStatusSettingsComponentImpl> TEMPERATURE_EFFECTS = ComponentRegistry.getOrCreate(
+    public static final ComponentKey<TemperatureStatusSettingsComponentImpl> TEMPERATURE_STATUS_SETTINGS = ComponentRegistry.getOrCreate(
             Thermoo.id("temperature_effects"), // for backwards compatibility, the old id is still used
             TemperatureStatusSettingsComponentImpl.class
     );
@@ -45,7 +45,7 @@ public class ThermooCardinalEntityComponents implements EntityComponentInitializ
         );
         registry.registerFor(
                 LivingEntity.class,
-                TEMPERATURE_EFFECTS,
+                TEMPERATURE_STATUS_SETTINGS,
                 TemperatureStatusSettingsComponentImpl::new
         );
         registry.registerFor(

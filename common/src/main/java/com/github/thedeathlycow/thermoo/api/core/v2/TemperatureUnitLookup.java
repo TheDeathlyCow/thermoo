@@ -1,7 +1,5 @@
 package com.github.thedeathlycow.thermoo.api.core.v2;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.language.LanguageManager;
 
@@ -32,7 +30,6 @@ public final class TemperatureUnitLookup {
     /// This method is only available on the client.
     ///
     /// @return Returns Fahrenheit if the currently selected language is from a US-based locale.
-    @Environment(EnvType.CLIENT)
     public static TemperatureUnit fromCurrentLanguage() {
         LanguageManager manager = Minecraft.getInstance().getLanguageManager();
         return manager.getSelected().endsWith("_us")

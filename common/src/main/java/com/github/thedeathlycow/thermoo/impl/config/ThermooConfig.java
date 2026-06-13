@@ -1,7 +1,7 @@
 package com.github.thedeathlycow.thermoo.impl.config;
 
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
-import net.fabricmc.loader.api.FabricLoader;
+import dev.yumi.mc.core.api.YumiMods;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -65,8 +65,8 @@ public record ThermooConfig(
     }
 
     private static Path getConfigPath() {
-        return FabricLoader.getInstance()
-                .getConfigDir()
+        return YumiMods.get()
+                .getConfigDirectory()
                 .resolve("thermoo.properties");
     }
 }

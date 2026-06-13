@@ -2,8 +2,6 @@ package com.github.thedeathlycow.thermoo.api.client.v1;
 
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import dev.yumi.commons.event.Event;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.LivingEntity;
@@ -12,7 +10,6 @@ import net.minecraft.world.entity.player.Player;
 /**
  * Event for rendering temperature overlays on status bar.
  */
-@Environment(EnvType.CLIENT)
 public final class StatusBarOverlayRenderEvents {
     /**
      * Invoked after the player health bar is drawn. Does not include information on the Absorption bar.

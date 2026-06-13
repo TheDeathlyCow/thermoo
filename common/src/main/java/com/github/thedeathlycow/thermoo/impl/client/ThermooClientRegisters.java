@@ -6,10 +6,7 @@ import com.github.thedeathlycow.thermoo.impl.client.debug.DebugEnvironments;
 import com.github.thedeathlycow.thermoo.impl.client.debug.DebugSeasons;
 import com.github.thedeathlycow.thermoo.impl.client.debug.DebugSelfStatuses;
 import com.github.thedeathlycow.thermoo.mixin.client.DebugScreenEntriesAccessor;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 
-@Environment(EnvType.CLIENT)
 public final class ThermooClientRegisters {
     public static void registerDebugEntries() {
         DebugScreenEntriesAccessor.thermoo_invokeRegister(Thermoo.id("environment_components"), new DebugEnvironmentComponents());

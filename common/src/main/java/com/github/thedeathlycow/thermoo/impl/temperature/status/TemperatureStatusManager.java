@@ -3,10 +3,10 @@ package com.github.thedeathlycow.thermoo.impl.temperature.status;
 import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureStatus;
 import com.github.thedeathlycow.thermoo.api.temperature.status.v2.tag.TemperatureStatusTags;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
+import dev.yumi.mc.core.api.YumiMods;
 import it.unimi.dsi.fastutil.objects.Object2IntArrayMap;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.HolderSet;
@@ -30,7 +30,7 @@ public final class TemperatureStatusManager {
             statuses = lookup(typeHolder, lookup);
             cache.thermoo$setStatuses(statuses);
 
-            if (FabricLoader.getInstance().isDevelopmentEnvironment() && entity instanceof Player && Thermoo.LOGGER.isInfoEnabled()) {
+            if (YumiMods.get().isDevelopmentEnvironment() && entity instanceof Player && Thermoo.LOGGER.isInfoEnabled()) {
                 Thermoo.LOGGER.info("Player temperature statuses: {}", statuses.stream().map(ref -> ref.key().identifier()).toList());
             }
         }
@@ -39,7 +39,7 @@ public final class TemperatureStatusManager {
     }
 
     public static void clearCaches(MinecraftServer server) {
-        if (FabricLoader.getInstance().isDevelopmentEnvironment()) {
+        if (YumiMods.get().isDevelopmentEnvironment()) {
             Thermoo.LOGGER.info("Clearing temperature effect cache");
         }
 

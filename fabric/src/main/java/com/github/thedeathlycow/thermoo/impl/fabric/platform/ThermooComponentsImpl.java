@@ -2,7 +2,6 @@ package com.github.thedeathlycow.thermoo.impl.fabric.platform;
 
 import com.github.thedeathlycow.thermoo.impl.ecs.SyncedIntEntityComponent;
 import com.github.thedeathlycow.thermoo.impl.ecs.TemperatureStatusSettingsComponent;
-import com.github.thedeathlycow.thermoo.impl.ecs.TemperatureStatusSystem;
 import com.github.thedeathlycow.thermoo.impl.fabric.registry.ThermooCardinalEntityComponents;
 import com.github.thedeathlycow.thermoo.impl.platform.ThermooComponents;
 import net.minecraft.world.entity.LivingEntity;
@@ -20,12 +19,7 @@ public class ThermooComponentsImpl implements ThermooComponents {
 
     @Override
     public TemperatureStatusSettingsComponent getTemperatureStatusSettings(LivingEntity provider) {
-        return null;
-    }
-
-    @Override
-    public TemperatureStatusSystem getTemperatureStatusSystem(LivingEntity provider) {
-        return null;
+        return ThermooCardinalEntityComponents.TEMPERATURE_STATUS_SETTINGS.get(provider);
     }
 
     @Override

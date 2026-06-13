@@ -2,8 +2,6 @@ package com.github.thedeathlycow.thermoo.impl.client.debug;
 
 import com.github.thedeathlycow.thermoo.api.core.v2.registry.ThermooBuiltInRegistries;
 import com.github.thedeathlycow.thermoo.api.environment.v2.EnvironmentLookup;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.debug.DebugScreenDisplayer;
 import net.minecraft.core.component.DataComponentMap;
@@ -15,7 +13,6 @@ import org.jspecify.annotations.Nullable;
 
 import java.util.List;
 
-@Environment(EnvType.CLIENT)
 public class DebugEnvironmentComponents implements ThermooDebugScreenEntry {
     @Override
     public void display(DebugScreenDisplayer displayer, @Nullable Level level, @Nullable LevelChunk clientChunk, @Nullable LevelChunk serverChunk) {

@@ -138,7 +138,7 @@ public final class ThermooAttributes {
          * to the entity as a temporary attribute modifier using the {@link net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation#ADD_VALUE}
          * operation.
          * <p>
-         * Note: the actual base value will be unaffected. To modify the base value, use {@link net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry}.
+         * Note: the actual base value will be unaffected. To modify the base value, use {@link net.minecraft.world.entity.ai.attributes.DefaultAttributes}.
          * This method is simply meant to be more compatible.
          *
          * @param entity    The entity to apply the attribute value to.
