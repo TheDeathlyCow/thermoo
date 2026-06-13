@@ -1,25 +1,10 @@
 package com.github.thedeathlycow.thermoo.impl;
 
 import com.github.thedeathlycow.thermoo.api.command.v1.TemperatureUnitArgument;
-import com.github.thedeathlycow.thermoo.api.core.v2.registry.ThermooRegistries;
-import com.github.thedeathlycow.thermoo.api.core.v2.source.TemperatureSource;
-import com.github.thedeathlycow.thermoo.api.environment.v2.EnvironmentDefinition;
-import com.github.thedeathlycow.thermoo.api.environment.v2.provider.EnvironmentProvider;
-import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureStatus;
-import com.github.thedeathlycow.thermoo.impl.command.EnvironmentCommand;
-import com.github.thedeathlycow.thermoo.impl.command.SoakingCommand;
-import com.github.thedeathlycow.thermoo.impl.command.TemperatureCommand;
-import com.github.thedeathlycow.thermoo.impl.compat.init.DependentModInitializer;
 import com.github.thedeathlycow.thermoo.impl.config.ThermooConfig;
 import com.github.thedeathlycow.thermoo.impl.environment.EnvironmentLookupImpl;
-import com.github.thedeathlycow.thermoo.impl.temperature.status.TemperatureStatusManager;
 import dev.yumi.commons.event.EventManager;
-import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.command.v2.ArgumentTypeRegistry;
-import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
-import net.fabricmc.fabric.api.event.registry.DynamicRegistries;
-import net.fabricmc.loader.api.FabricLoader;
+import dev.yumi.mc.core.api.ModContainer;
 import net.minecraft.commands.synchronization.ArgumentTypeInfo;
 import net.minecraft.commands.synchronization.SingletonArgumentInfo;
 import net.minecraft.resources.Identifier;
@@ -28,10 +13,7 @@ import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Arrays;
-import java.util.List;
-
-public class Thermoo implements ModInitializer {
+public final class Thermoo {
     public static final String MODID = "thermoo";
 
     public static final Logger LOGGER = LoggerFactory.getLogger(MODID);
@@ -46,41 +28,7 @@ public class Thermoo implements ModInitializer {
     @Nullable
     private static ThermooConfig config = null;
 
-    @Override
-    public void onInitialize() {
-        ArgumentTypeRegistry.registerArgumentType(
-                Thermoo.id("temperature_unit"),
-                TemperatureUnitArgument.class,
-                TEMPERATURE_UNIT_ARG_SERIALIZER
-        );
-
-        CommandRegistrationCallback.EVENT.register(
-                (dispatcher, context, selection) -> {
-                    dispatcher.register(TemperatureCommand.create(dispatcher, context, selection));
-                    dispatcher.register(EnvironmentCommand.create(dispatcher, context, selection));
-                    dispatcher.register(SoakingCommand.create(dispatcher, context, selection));
-                }
-        );
-
-        ServerLifecycleEvents.SERVER_STOPPED.register(TemperatureStatusManager::clearCaches);
-
-        DynamicRegistries.register(
-                ThermooRegistries.ENVIRONMENT,
-                EnvironmentDefinition.CODEC
-        );
-        DynamicRegistries.register(
-                ThermooRegistries.ENVIRONMENT_PROVIDER,
-                EnvironmentProvider.ELEMENT_CODEC
-        );
-        DynamicRegistries.registerSynced(
-                ThermooRegistries.TEMPERATURE_STATUS,
-                TemperatureStatus.DIRECT_CODEC
-        );
-        DynamicRegistries.registerSynced(
-                ThermooRegistries.TEMPERATURE_SOURCE,
-                TemperatureSource.DIRECT_CODEC
-        );
-
+    public static void onInitialize(ModContainer mod) {
         ThermooCommonRegisters.registerTemperatureReductions();
         ThermooCommonRegisters.registerTemperatureEffects();
         ThermooCommonRegisters.registerEnvironmentProviderTypes();
@@ -88,8 +36,6 @@ public class Thermoo implements ModInitializer {
         ThermooCommonRegisters.registerEnvironmentAttributes();
 
         EnvironmentLookupImpl.initialize();
-
-        initializeDependentEntryPoints();
 
         LOGGER.info("Thermoo initialized");
     }
@@ -112,20 +58,7 @@ public class Thermoo implements ModInitializer {
         return config;
     }
 
-    private static void initializeDependentEntryPoints() {
-        List<DependentModInitializer> initializers = FabricLoader.getInstance().getEntrypoints(
-                DependentModInitializer.ID,
-                DependentModInitializer.class
-        );
+    private Thermoo() {
 
-        for (DependentModInitializer initializer : initializers) {
-            boolean initialize = Arrays.stream(initializer.getRequiredModIds()).allMatch(
-                    id -> FabricLoader.getInstance().isModLoaded(id)
-            );
-
-            if (initialize) {
-                initializer.onInitialize();
-            }
-        }
     }
 }

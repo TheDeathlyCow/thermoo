@@ -1,15 +1,16 @@
-package com.github.thedeathlycow.thermoo.impl;
+package com.github.thedeathlycow.thermoo.impl.fabric;
 
 import com.github.thedeathlycow.thermoo.impl.compat.init.DependentServerModInitializer;
-import net.fabricmc.api.DedicatedServerModInitializer;
+import dev.yumi.mc.core.api.ModContainer;
+import dev.yumi.mc.core.api.entrypoint.server.DedicatedServerModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class ThermooServer implements DedicatedServerModInitializer {
+public class ThermooFabricServer implements DedicatedServerModInitializer {
     @Override
-    public void onInitializeServer() {
+    public void onInitializeDedicatedServer(ModContainer mod) {
         initializeDependentEntryPoints();
     }
 

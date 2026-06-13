@@ -5,31 +5,21 @@ plugins {
 }
 
 dependencies {
-    minecraft "com.mojang:minecraft:${minecraft_version}"
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
     // use this to get mixins and asm in the common module, do not use fabric classes in common!!!!!
-    compileOnly "net.fabricmc:fabric-loader:${fabric_loader_version}"
+    compileOnly "net.fabricmc:fabric-loader:${project.fabric_loader_version}"
 
     api("dev.yumi.commons:yumi-commons:${project.yumi_version}")
     api("dev.yumi.commons:yumi-commons-core:${project.yumi_version}")
     api("dev.yumi.commons:yumi-commons-collections:${project.yumi_version}")
     api("dev.yumi.commons:yumi-commons-event:${project.yumi_version}")
-
-    implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-
-    implementation "org.ladysnake.cardinal-components-api:cardinal-components-base:${project.cca_version}"
-    implementation "org.ladysnake.cardinal-components-api:cardinal-components-entity:${project.cca_version}"
+    api("dev.yumi.mc.core:yumi-mc-foundation:${project.yumi_mc_foundation_version}")
 
     include("dev.yumi.commons:yumi-commons:${project.yumi_version}")
     include("dev.yumi.commons:yumi-commons-core:${project.yumi_version}")
     include("dev.yumi.commons:yumi-commons-collections:${project.yumi_version}")
     include("dev.yumi.commons:yumi-commons-event:${project.yumi_version}")
-
-    compileOnly "eu.pb4:polymer-core:${project.polymer_version}"
-    compileOnly "eu.pb4:polymer-networking:${project.polymer_version}"
-
-    testImplementation "net.fabricmc:fabric-loader-junit:${project.fabric_loader_version}"
-    testImplementation "org.junit.jupiter:junit-jupiter"
-    testImplementation "org.mockito:mockito-core:3.+"
+    include("dev.yumi.mc.core:yumi-mc-foundation:${project.yumi_mc_foundation_version}")
 }
 
 loom {

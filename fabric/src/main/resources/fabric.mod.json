@@ -16,14 +16,14 @@
     "icon": "assets/thermoo/icon.png",
     "environment": "*",
     "entrypoints": {
-        "main": [
-            "com.github.thedeathlycow.thermoo.impl.Thermoo"
+        "yumi:init": [
+            "com.github.thedeathlycow.thermoo.impl.fabric.ThermooFabric"
         ],
-        "client": [
-            "com.github.thedeathlycow.thermoo.impl.ThermooClient"
+        "yumi:client_init": [
+            "com.github.thedeathlycow.thermoo.impl.fabric.ThermooFabricClient"
         ],
-        "server": [
-            "com.github.thedeathlycow.thermoo.impl.ThermooServer"
+        "yumi:dedicated_server_init": [
+            "com.github.thedeathlycow.thermoo.impl.fabric.ThermooFabricServer"
         ],
         "cardinal-components-entity": [
             "com.github.thedeathlycow.thermoo.impl.component.ThermooComponents"
