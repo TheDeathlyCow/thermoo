@@ -2,6 +2,7 @@
 
 .gradle/
 build/
+runs/
 out/
 classes/
 .kotlin/
