@@ -12,6 +12,7 @@
         "LivingEntityAttributeMixin",
         "LivingEntityEnvironmentTickMixin",
         "ServerLevelMixin",
+        "accessor.ArgumentTypeInfosAccessor",
         "accessor.AttributeModifiersComponentBuilderAccessor",
         "accessor.ComponentMapBuilderAccessor",
         "datafix.AttributeIdPrefixFixMixin"
