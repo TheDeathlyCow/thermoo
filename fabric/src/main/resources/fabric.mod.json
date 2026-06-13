@@ -54,17 +54,8 @@
         "frostiful": "*",
         "scorchful": "*"
     },
-    "accessWidener": "thermoo.accesswidener",
+    "accessWidener": "thermoo.classtweaker",
     "custom": {
-        "loom:injected_interfaces": {
-            "net/minecraft/world/entity/LivingEntity": [
-                "com/github/thedeathlycow/thermoo/api/core/v2/TemperatureAware",
-                "com/github/thedeathlycow/thermoo/api/core/v2/Soakable"
-            ],
-            "net/minecraft/world/level/Level": [
-                "com/github/thedeathlycow/thermoo/api/core/v2/ThermooLevel"
-            ]
-        },
         "modmenu": {
             "links": {
                 "modmenu.discord": "https://discord.thedeathlycow.com/",
