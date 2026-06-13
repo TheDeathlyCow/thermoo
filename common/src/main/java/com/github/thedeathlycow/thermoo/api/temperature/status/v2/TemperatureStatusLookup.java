@@ -1,6 +1,6 @@
 package com.github.thedeathlycow.thermoo.api.temperature.status.v2;
 
-import com.github.thedeathlycow.thermoo.impl.temperature.status.TemperatureEffectsComponent;
+import com.github.thedeathlycow.thermoo.impl.platform.ThermooServices;
 import net.minecraft.core.Holder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -16,7 +16,7 @@ public final class TemperatureStatusLookup {
      * selector; returns {@code false} otherwise.
      */
     public static boolean isEnabled(LivingEntity entity, Holder.Reference<TemperatureStatus> statusRef) {
-        return TemperatureEffectsComponent.get(entity).isEffectEnabled(statusRef);
+        return ThermooServices.COMPONENTS.getTemperatureStatusSettings(entity).isEffectEnabled(statusRef);
     }
 
     /**
@@ -26,8 +26,7 @@ public final class TemperatureStatusLookup {
      * selector AND the {@code entity} is an instance of {@link LivingEntity}; returns {@code false} otherwise.
      */
     public static boolean isEnabled(Entity entity, Holder.Reference<TemperatureStatus> statusRef) {
-        var component = TemperatureEffectsComponent.getNullable(entity);
-        return component != null && component.isEffectEnabled(statusRef);
+        return entity instanceof LivingEntity livingEntity && isEnabled(livingEntity, statusRef);
     }
 
     /**
@@ -37,7 +36,7 @@ public final class TemperatureStatusLookup {
      * successfully changed; returns {@code false} otherwise.
      */
     public static boolean setEnabled(LivingEntity entity, Holder.Reference<TemperatureStatus> statusRef, boolean value) {
-        return TemperatureEffectsComponent.get(entity).setEffectEnabled(statusRef, value);
+        return ThermooServices.COMPONENTS.getTemperatureStatusSettings(entity).setEffectEnabled(statusRef, value);
     }
 
     /**
@@ -47,8 +46,7 @@ public final class TemperatureStatusLookup {
      * an instance of {@link LivingEntity} AND the enabled state was successfully changed; returns {@code false} otherwise.
      */
     public static boolean setEnabled(Entity entity, Holder.Reference<TemperatureStatus> statusRef, boolean value) {
-        var component = TemperatureEffectsComponent.getNullable(entity);
-        return component != null && component.setEffectEnabled(statusRef, value);
+        return entity instanceof LivingEntity livingEntity && setEnabled(livingEntity, statusRef, value);
     }
 
     private TemperatureStatusLookup() {

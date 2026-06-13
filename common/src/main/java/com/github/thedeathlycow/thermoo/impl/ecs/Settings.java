@@ -1,4 +1,4 @@
-package com.github.thedeathlycow.thermoo.impl.temperature.status;
+package com.github.thedeathlycow.thermoo.impl.ecs;
 
 import com.github.thedeathlycow.thermoo.api.core.v2.registry.ThermooRegistries;
 import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureStatus;
@@ -8,8 +8,8 @@ import net.minecraft.resources.ResourceKey;
 
 import java.util.Map;
 
-class Settings {
-    static final Codec<Settings> CODEC = RecordCodecBuilder.create(
+public class Settings {
+    public static final Codec<Settings> CODEC = RecordCodecBuilder.create(
             instance -> instance.group(
                     Codec.BOOL
                             .fieldOf("enabled")
@@ -17,33 +17,33 @@ class Settings {
             ).apply(instance, Settings::new)
     );
 
-    static final Codec<Map<ResourceKey<TemperatureStatus>, Settings>> MAP_CODEC = Codec.unboundedMap(
+    public static final Codec<Map<ResourceKey<TemperatureStatus>, Settings>> MAP_CODEC = Codec.unboundedMap(
             ResourceKey.codec(ThermooRegistries.TEMPERATURE_STATUS),
             CODEC
     );
 
-    static final String SETTINGS_KEY = "settings";
+    public static final String SETTINGS_KEY = "settings";
 
     private boolean applied = false;
     private boolean enabled;
 
-    Settings(boolean enabled) {
+    public Settings(boolean enabled) {
         this.enabled = enabled;
     }
 
-    boolean applied() {
+    public boolean applied() {
         return applied;
     }
 
-    void setApplied(boolean applied) {
+    public void setApplied(boolean applied) {
         this.applied = applied;
     }
 
-    boolean enabled() {
+    public boolean enabled() {
         return enabled;
     }
 
-    void setEnabled(boolean enabled) {
+    public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
 }

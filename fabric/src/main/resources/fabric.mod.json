@@ -28,7 +28,7 @@
             "com.github.thedeathlycow.thermoo.impl.fabric.ThermooFabricServer"
         ],
         "cardinal-components-entity": [
-            "com.github.thedeathlycow.thermoo.impl.component.ThermooComponents"
+            "com.github.thedeathlycow.thermoo.impl.fabric.registry.ThermooCardinalEntityComponents"
         ],
         "thermoo-dependent-mod-server": [
             "com.github.thedeathlycow.thermoo.impl.fabric.compat.polymer.ThermooPolymerPatch"
@@ -68,7 +68,8 @@
         "cardinal-components": [
             "thermoo:temperature",
             "thermoo:wetness",
-            "thermoo:temperature_effects"
+            "thermoo:temperature_effects",
+            "thermoo:temperature_status_system"
         ]
     }
 }

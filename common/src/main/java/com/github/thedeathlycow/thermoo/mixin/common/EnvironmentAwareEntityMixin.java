@@ -6,7 +6,7 @@ import com.github.thedeathlycow.thermoo.api.core.v2.TemperatureChange;
 import com.github.thedeathlycow.thermoo.api.core.v2.event.TemperatureChangeEvents;
 import com.github.thedeathlycow.thermoo.api.entity.v1.ThermooAttributes;
 import com.github.thedeathlycow.thermoo.api.entity.v1.ThermooEntityTypeTags;
-import com.github.thedeathlycow.thermoo.impl.component.ThermooComponents;
+import com.github.thedeathlycow.thermoo.impl.platform.ThermooServices;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import dev.yumi.commons.TriState;
@@ -46,12 +46,12 @@ public abstract class EnvironmentAwareEntityMixin extends Entity implements Temp
     @Override
     public void thermoo$setWetTicks(int amount) {
         int value = Mth.clamp(amount, 0, this.thermoo$getMaxWetTicks());
-        ThermooComponents.WETNESS.get(this).setValue(value);
+        ThermooServices.COMPONENTS.getWetnessComponent((LivingEntity) (Object) this).setValue(value);
     }
 
     @Override
     public int thermoo$getWetTicks() {
-        return ThermooComponents.WETNESS.get(this).getValue();
+        return ThermooServices.COMPONENTS.getWetnessComponent((LivingEntity) (Object) this).getValue();
     }
 
     @Override
@@ -71,14 +71,14 @@ public abstract class EnvironmentAwareEntityMixin extends Entity implements Temp
     }
 
     @Override
-    public int thermoo$getTemperature() {
-        return ThermooComponents.TEMPERATURE.get(this).getValue();
+    public void thermoo$setTemperature(int temperature) {
+        int value = Mth.clamp(temperature, this.thermoo$getMinTemperature(), this.thermoo$getMaxTemperature());
+        ThermooServices.COMPONENTS.getTemperatureComponent((LivingEntity) (Object) this).setValue(value);
     }
 
     @Override
-    public void thermoo$setTemperature(int temperature) {
-        int value = Mth.clamp(temperature, this.thermoo$getMinTemperature(), this.thermoo$getMaxTemperature());
-        ThermooComponents.TEMPERATURE.get(this).setValue(value);
+    public int thermoo$getTemperature() {
+        return ThermooServices.COMPONENTS.getTemperatureComponent((LivingEntity) (Object) this).getValue();
     }
 
     @Override

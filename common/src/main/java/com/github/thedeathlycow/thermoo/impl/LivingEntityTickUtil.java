@@ -1,14 +1,14 @@
 package com.github.thedeathlycow.thermoo.impl;
 
-import com.github.thedeathlycow.thermoo.api.core.v2.registry.ThermooRegistries;
 import com.github.thedeathlycow.thermoo.api.core.v2.event.EnvironmentTickContext;
 import com.github.thedeathlycow.thermoo.api.core.v2.event.LivingEntitySoakingTickEvents;
+import com.github.thedeathlycow.thermoo.api.core.v2.registry.ThermooRegistries;
 import com.github.thedeathlycow.thermoo.api.core.v2.source.TemperatureSource;
 import com.github.thedeathlycow.thermoo.api.environment.v2.EnvironmentLookup;
-import com.github.thedeathlycow.thermoo.impl.component.ThermooComponents;
 import com.github.thedeathlycow.thermoo.impl.core.UpdateEvents;
 import com.github.thedeathlycow.thermoo.impl.environment.EnvironmentTickContextImpl;
 import com.github.thedeathlycow.thermoo.impl.environment.ServerPlayerTickUtil;
+import com.github.thedeathlycow.thermoo.impl.platform.ThermooServices;
 import dev.yumi.commons.TriState;
 import dev.yumi.commons.event.Event;
 import net.minecraft.core.BlockPos;
@@ -55,12 +55,12 @@ public final class LivingEntityTickUtil {
 
             boolean isSyncTick = entity.tickCount % 20 == 0;
 
-            if (isSyncTick || ThermooComponents.TEMPERATURE.get(entity).isDirty()) {
-                ThermooComponents.TEMPERATURE.sync(entity);
+            if (isSyncTick || ThermooServices.COMPONENTS.getTemperatureComponent(entity).isDirty()) {
+                ThermooServices.COMPONENTS.doSyncTemperatureComponent(entity);
             }
 
-            if (isSyncTick || ThermooComponents.WETNESS.get(entity).isDirty()) {
-                ThermooComponents.WETNESS.sync(entity);
+            if (isSyncTick || ThermooServices.COMPONENTS.getWetnessComponent(entity).isDirty()) {
+                ThermooServices.COMPONENTS.doSyncWetnessComponent(entity);
             }
         }
     }
@@ -105,8 +105,8 @@ public final class LivingEntityTickUtil {
     private static void tickSoakingChange(
             EnvironmentTickContext<? extends LivingEntity> context,
             Event<Identifier, LivingEntitySoakingTickEvents.AllowSoakingUpdate> allowUpdate,
-            Event<Identifier,LivingEntitySoakingTickEvents.GetSoakingChange> addSoakChange,
-            Event<Identifier,LivingEntitySoakingTickEvents.AllowSoakingChange> allowChange
+            Event<Identifier, LivingEntitySoakingTickEvents.GetSoakingChange> addSoakChange,
+            Event<Identifier, LivingEntitySoakingTickEvents.AllowSoakingChange> allowChange
     ) {
         if (allowUpdate.invoker().allowUpdate(context) == TriState.FALSE) {
             return;

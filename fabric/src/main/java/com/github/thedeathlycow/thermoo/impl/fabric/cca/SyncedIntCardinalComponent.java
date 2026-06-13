@@ -1,45 +1,41 @@
-package com.github.thedeathlycow.thermoo.impl.component;
+package com.github.thedeathlycow.thermoo.impl.fabric.cca;
 
+import com.github.thedeathlycow.thermoo.impl.ecs.SyncedIntEntityComponent;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
-import org.ladysnake.cca.api.v3.component.Component;
 import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
+import org.ladysnake.cca.api.v8.component.CardinalComponent;
 
-public class EnvironmentComponent implements Component, AutoSyncedComponent {
-
+public final class SyncedIntCardinalComponent implements SyncedIntEntityComponent, CardinalComponent, AutoSyncedComponent {
     private static final String NBT_KEY = "value";
-
     private static final int SYNC_DISTANCE = 32;
 
-    private int value = 0;
-
     private final LivingEntity provider;
-
+    private int value = 0;
     private boolean dirty = false;
 
-    public EnvironmentComponent(LivingEntity provider) {
+    public SyncedIntCardinalComponent(LivingEntity provider) {
         this.provider = provider;
     }
 
+    @Override
     public int getValue() {
         return this.value;
     }
 
+    @Override
     public void setValue(int value) {
         if (this.value != value) {
             this.value = value;
-            this.markDirty();
+            this.dirty = true;
         }
     }
 
-    public void markDirty() {
-        this.dirty = true;
-    }
-
+    @Override
     public boolean isDirty() {
         return this.dirty;
     }
@@ -69,7 +65,7 @@ public class EnvironmentComponent implements Component, AutoSyncedComponent {
     public boolean shouldSyncWith(ServerPlayer player) {
         final BlockPos providerPos = this.provider.blockPosition();
         return player == this.provider
-                || providerPos.closerToCenterThan(player.trackingPosition(), EnvironmentComponent.SYNC_DISTANCE);
+                || providerPos.closerToCenterThan(player.trackingPosition(), SYNC_DISTANCE);
     }
 
     @Override
