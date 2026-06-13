@@ -5,6 +5,7 @@ import com.mojang.serialization.Codec;
 import net.fabricmc.fabric.api.event.registry.DynamicRegistries;
 import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
 import net.minecraft.core.Registry;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 
 public class ThermooRegistriesImpl implements ThermooRegistries {
@@ -21,5 +22,10 @@ public class ThermooRegistriesImpl implements ThermooRegistries {
     @Override
     public <T> void registerSynced(ResourceKey<? extends Registry<T>> key, Codec<T> codec) {
         DynamicRegistries.registerSynced(key, codec);
+    }
+
+    @Override
+    public void addAlias(Registry<?> registry, Identifier oldId, Identifier newId) {
+        registry.addAlias(oldId, newId);
     }
 }

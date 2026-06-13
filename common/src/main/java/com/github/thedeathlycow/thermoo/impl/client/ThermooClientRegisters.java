@@ -5,17 +5,17 @@ import com.github.thedeathlycow.thermoo.impl.client.debug.DebugEnvironmentCompon
 import com.github.thedeathlycow.thermoo.impl.client.debug.DebugEnvironments;
 import com.github.thedeathlycow.thermoo.impl.client.debug.DebugSeasons;
 import com.github.thedeathlycow.thermoo.impl.client.debug.DebugSelfStatuses;
+import com.github.thedeathlycow.thermoo.mixin.client.DebugScreenEntriesAccessor;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.gui.components.debug.DebugScreenEntries;
 
 @Environment(EnvType.CLIENT)
 public final class ThermooClientRegisters {
     public static void registerDebugEntries() {
-        DebugScreenEntries.register(Thermoo.id("environment_components"), new DebugEnvironmentComponents());
-        DebugScreenEntries.register(Thermoo.id("environments"), new DebugEnvironments());
-        DebugScreenEntries.register(Thermoo.id("seasons"), new DebugSeasons());
-        DebugScreenEntries.register(Thermoo.id("self_status"), new DebugSelfStatuses());
+        DebugScreenEntriesAccessor.thermoo_invokeRegister(Thermoo.id("environment_components"), new DebugEnvironmentComponents());
+        DebugScreenEntriesAccessor.thermoo_invokeRegister(Thermoo.id("environments"), new DebugEnvironments());
+        DebugScreenEntriesAccessor.thermoo_invokeRegister(Thermoo.id("seasons"), new DebugSeasons());
+        DebugScreenEntriesAccessor.thermoo_invokeRegister(Thermoo.id("self_status"), new DebugSelfStatuses());
     }
 
     private ThermooClientRegisters() {

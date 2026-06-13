@@ -15,6 +15,7 @@ import com.github.thedeathlycow.thermoo.api.temperature.status.v2.effect.Attribu
 import com.github.thedeathlycow.thermoo.api.temperature.status.v2.effect.DamageEffect;
 import com.github.thedeathlycow.thermoo.api.temperature.status.v2.effect.FunctionEffect;
 import com.github.thedeathlycow.thermoo.api.temperature.status.v2.effect.MobEffectEffect;
+import com.github.thedeathlycow.thermoo.impl.platform.ThermooServices;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -36,7 +37,8 @@ public final class ThermooCommonRegisters {
         registerTemperatureEffectType("function", FunctionEffect.CODEC);
         registerTemperatureEffectType("mob_effect", MobEffectEffect.CODEC);
 
-        ThermooBuiltInRegistries.TEMPERATURE_EFFECT_TYPE.addAlias(
+        ThermooServices.REGISTRIES.addAlias(
+                ThermooBuiltInRegistries.TEMPERATURE_EFFECT_TYPE,
                 Thermoo.id("status_effect"),
                 Thermoo.id("mob_effect")
         );
@@ -55,7 +57,8 @@ public final class ThermooCommonRegisters {
         registerEnvironmentProviderType("set_temperature_from_pressure", SetTemperatureFromPressureProvider.CODEC);
         registerEnvironmentProviderType("set_pressure_from_altitude", SetPressureFromAltitudeProvider.CODEC);
 
-        ThermooBuiltInRegistries.ENVIRONMENT_PROVIDER_TYPE.addAlias(
+        ThermooServices.REGISTRIES.addAlias(
+                ThermooBuiltInRegistries.ENVIRONMENT_PROVIDER_TYPE,
                 Thermoo.id("temperature_shift"),
                 Thermoo.id("shift_temperature")
         );

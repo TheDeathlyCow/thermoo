@@ -8,7 +8,7 @@ import com.github.thedeathlycow.thermoo.api.environment.v2.component.Environment
 import com.github.thedeathlycow.thermoo.api.environment.v2.provider.EnvironmentProvider;
 import com.github.thedeathlycow.thermoo.api.core.v2.TemperatureRecord;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
+import com.github.thedeathlycow.thermoo.impl.platform.event.ThermooServerLifecycleEvents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
@@ -28,7 +28,7 @@ public class EnvironmentLookupImpl implements EnvironmentLookup {
     public static final EnvironmentLookupImpl INSTANCE = new EnvironmentLookupImpl();
 
     public static void initialize() {
-        ServerLifecycleEvents.SERVER_STARTED.register(INSTANCE::addProvidersToBiomes);
+        ThermooServerLifecycleEvents.SERVER_STARTED.register(INSTANCE::addProvidersToBiomes);
     }
 
     @Override

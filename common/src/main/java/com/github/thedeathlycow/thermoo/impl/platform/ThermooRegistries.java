@@ -2,6 +2,7 @@ package com.github.thedeathlycow.thermoo.impl.platform;
 
 import com.mojang.serialization.Codec;
 import net.minecraft.core.Registry;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 
 /// A platform independent abstraction for a registry API, based on the FabricRegistryBuilder and DynamicRegistries
@@ -14,4 +15,6 @@ public interface ThermooRegistries {
     <T> void register(ResourceKey<? extends Registry<T>> key, Codec<T> codec);
 
     <T> void registerSynced(ResourceKey<? extends Registry<T>> key, Codec<T> codec);
+
+    void addAlias(Registry<?> registry, Identifier oldId, Identifier newId);
 }
