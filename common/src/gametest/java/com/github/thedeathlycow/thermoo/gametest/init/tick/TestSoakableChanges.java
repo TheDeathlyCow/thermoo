@@ -1,24 +1,24 @@
-package com.github.thedeathlycow.thermoo.gametest.tick;
+package com.github.thedeathlycow.thermoo.gametest.init.tick;
 
 import com.github.thedeathlycow.thermoo.api.core.v2.event.EnvironmentTickContext;
 import com.github.thedeathlycow.thermoo.api.core.v2.event.LivingEntitySoakingTickEvents;
-import com.github.thedeathlycow.thermoo.gametest.ThermooTestMod;
+import com.github.thedeathlycow.thermoo.gametest.init.ThermooTestMod;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
-import net.fabricmc.fabric.api.gamerule.v1.GameRuleBuilder;
+import com.github.thedeathlycow.thermoo.impl.platform.ThermooServices;
 import dev.yumi.commons.TriState;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.gamerules.GameRule;
-import org.jetbrains.annotations.NotNull;
 
 public class TestSoakableChanges {
     /**
      * Gamerule to enable/disable soaking changes for testing purposes
      */
-    public static final GameRule<@NotNull Boolean> ALLOW_SOAKING_UPDATES =
-            GameRuleBuilder.forBoolean(true)
-                            .buildAndRegister(ThermooTestMod.id("allow_soak_updates"));
+    public static final GameRule<Boolean> ALLOW_SOAKING_UPDATES = ThermooServices.GAME_RULES.forBoolean(
+            ThermooTestMod.id("allow_soak_updates"),
+            true
+    );
 
     public static int addSoakingChange(EnvironmentTickContext<? extends LivingEntity> context) {
         LivingEntity entity = context.affected();

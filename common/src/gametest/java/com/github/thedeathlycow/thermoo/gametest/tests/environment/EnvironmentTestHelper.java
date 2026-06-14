@@ -10,7 +10,7 @@ import com.github.thedeathlycow.thermoo.api.season.v2.ThermooSeasonState;
 import com.github.thedeathlycow.thermoo.api.season.v2.TropicalSeason;
 import com.github.thedeathlycow.thermoo.api.core.v2.TemperatureRecord;
 import com.github.thedeathlycow.thermoo.api.core.v2.TemperatureUnit;
-import com.github.thedeathlycow.thermoo.gametest.ThermooTestMod;
+import com.github.thedeathlycow.thermoo.gametest.init.ThermooTestMod;
 import com.github.thedeathlycow.thermoo.impl.environment.EnvironmentLookupImpl;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;

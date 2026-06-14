@@ -1,6 +1,6 @@
 package com.github.thedeathlycow.thermoo.gametest.tests.soaking;
 
-import net.fabricmc.fabric.api.gametest.v1.GameTest;
+import com.github.thedeathlycow.thermoo.gametest.util.GameTest;
 import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.network.chat.Component;

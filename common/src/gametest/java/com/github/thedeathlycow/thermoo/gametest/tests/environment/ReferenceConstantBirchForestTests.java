@@ -1,7 +1,7 @@
 package com.github.thedeathlycow.thermoo.gametest.tests.environment;
 
-import net.fabricmc.fabric.api.gametest.v1.CustomTestMethodInvoker;
-import net.fabricmc.fabric.api.gametest.v1.GameTest;
+import com.github.thedeathlycow.thermoo.gametest.util.CustomTestMethodInvoker;
+import com.github.thedeathlycow.thermoo.gametest.util.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.biome.Biomes;
@@ -10,7 +10,6 @@ import java.lang.reflect.Method;
 
 @SuppressWarnings("unused")
 public class ReferenceConstantBirchForestTests implements CustomTestMethodInvoker {
-
     @GameTest(environment = EnvironmentTestHelper.NO_SEASONS)
     public void birch_forest_temperature_is_22c(GameTestHelper helper) {
         ServerLevel level = helper.getLevel();

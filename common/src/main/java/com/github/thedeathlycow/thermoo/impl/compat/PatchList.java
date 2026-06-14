@@ -31,7 +31,7 @@ public record PatchList(
         Loader currentLoader = ThermooServices.PLATFORM.getLoader();
 
         for (PatchedVersion patch : this.patches) {
-            if (patch.loader() == currentLoader && patch.minecraftVersions().contains(gameVersion)) {
+            if (patch.loader().matches(currentLoader) && patch.minecraftVersions().contains(gameVersion)) {
                 this.extendPatchAvailableMods(loader, patchAvailableMods, patch);
             }
         }

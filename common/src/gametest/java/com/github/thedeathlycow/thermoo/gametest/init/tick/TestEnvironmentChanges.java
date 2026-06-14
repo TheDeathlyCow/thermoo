@@ -1,23 +1,23 @@
-package com.github.thedeathlycow.thermoo.gametest.tick;
+package com.github.thedeathlycow.thermoo.gametest.init.tick;
 
+import com.github.thedeathlycow.thermoo.api.core.v2.TemperatureRecord;
+import com.github.thedeathlycow.thermoo.api.core.v2.TemperatureUnit;
 import com.github.thedeathlycow.thermoo.api.environment.v2.component.EnvironmentComponentTypes;
 import com.github.thedeathlycow.thermoo.api.environment.v2.component.TemperatureRecordComponent;
 import com.github.thedeathlycow.thermoo.api.environment.v2.event.ServerPlayerEnvironmentTickEvents;
-import com.github.thedeathlycow.thermoo.api.core.v2.TemperatureRecord;
-import com.github.thedeathlycow.thermoo.api.core.v2.TemperatureUnit;
-import com.github.thedeathlycow.thermoo.gametest.ThermooTestMod;
-import net.fabricmc.fabric.api.gamerule.v1.GameRuleBuilder;
+import com.github.thedeathlycow.thermoo.gametest.init.ThermooTestMod;
+import com.github.thedeathlycow.thermoo.impl.platform.ThermooServices;
 import dev.yumi.commons.TriState;
 import net.minecraft.world.level.gamerules.GameRule;
-import org.jetbrains.annotations.NotNull;
 
 public final class TestEnvironmentChanges {
     /**
      * Gamerule to enable/disable environment changes for testing purposes
      */
-    public static final GameRule<@NotNull Boolean> APPLY_ENVIRONMENT_CHANGES =
-            GameRuleBuilder.forBoolean(true)
-                            .buildAndRegister(ThermooTestMod.id("apply_environment_changes"));
+    public static final GameRule<Boolean> APPLY_ENVIRONMENT_CHANGES = ThermooServices.GAME_RULES.forBoolean(
+            ThermooTestMod.id("apply_environment_changes"),
+            true
+    );
 
     private static final TemperatureRecord COLD_TEMPERATURE = new TemperatureRecord(5, TemperatureUnit.CELSIUS);
     private static final TemperatureRecord WARM_TEMPERATURE = new TemperatureRecord(25, TemperatureUnit.CELSIUS);

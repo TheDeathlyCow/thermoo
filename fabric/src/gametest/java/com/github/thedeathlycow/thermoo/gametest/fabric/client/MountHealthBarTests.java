@@ -1,4 +1,4 @@
-package com.github.thedeathlycow.thermoo.gametest.client;
+package com.github.thedeathlycow.thermoo.gametest.fabric.client;
 
 import net.fabricmc.fabric.api.client.gametest.v1.FabricClientGameTest;
 import net.fabricmc.fabric.api.client.gametest.v1.context.ClientGameTestContext;

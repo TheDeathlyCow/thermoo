@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec;
 import net.minecraft.util.StringRepresentable;
 
 public enum Loader implements StringRepresentable {
+    COMMON("common"),
     FABRIC("fabric"),
     NEOFORGE("neoforge");
 
@@ -18,5 +19,9 @@ public enum Loader implements StringRepresentable {
     @Override
     public String getSerializedName() {
         return this.name;
+    }
+
+    public boolean matches(Loader other) {
+        return this == other || this == COMMON || other == COMMON;
     }
 }

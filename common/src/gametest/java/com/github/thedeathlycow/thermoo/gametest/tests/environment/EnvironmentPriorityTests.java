@@ -2,9 +2,9 @@ package com.github.thedeathlycow.thermoo.gametest.tests.environment;
 
 import com.github.thedeathlycow.thermoo.api.core.v2.registry.ThermooRegistries;
 import com.github.thedeathlycow.thermoo.api.environment.v2.EnvironmentDefinition;
-import com.github.thedeathlycow.thermoo.gametest.ThermooTestMod;
+import com.github.thedeathlycow.thermoo.gametest.init.ThermooTestMod;
 import com.github.thedeathlycow.thermoo.impl.environment.EnvironmentLookupImpl;
-import net.fabricmc.fabric.api.gametest.v1.GameTest;
+import com.github.thedeathlycow.thermoo.gametest.util.GameTest;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;

@@ -1,7 +1,7 @@
 package com.github.thedeathlycow.thermoo.gametest.tests.environment;
 
 import com.github.thedeathlycow.thermoo.api.season.v2.TemperateSeason;
-import net.fabricmc.fabric.api.gametest.v1.GameTest;
+import com.github.thedeathlycow.thermoo.gametest.util.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.biome.Biomes;

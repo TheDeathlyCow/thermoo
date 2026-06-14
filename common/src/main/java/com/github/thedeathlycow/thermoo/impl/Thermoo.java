@@ -60,19 +60,19 @@ public final class Thermoo {
 
         ThermooServerLifecycleEvents.SERVER_STOPPED.register(TemperatureStatusManager::clearCaches);
 
-        ThermooServices.REGISTRIES.register(
+        ThermooServices.REGISTRIES.registerDynamicRegistry(
                 ThermooRegistries.ENVIRONMENT,
                 EnvironmentDefinition.CODEC
         );
-        ThermooServices.REGISTRIES.register(
+        ThermooServices.REGISTRIES.registerDynamicRegistry(
                 ThermooRegistries.ENVIRONMENT_PROVIDER,
                 EnvironmentProvider.ELEMENT_CODEC
         );
-        ThermooServices.REGISTRIES.registerSynced(
+        ThermooServices.REGISTRIES.registerSyncedDynamicRegistry(
                 ThermooRegistries.TEMPERATURE_STATUS,
                 TemperatureStatus.DIRECT_CODEC
         );
-        ThermooServices.REGISTRIES.registerSynced(
+        ThermooServices.REGISTRIES.registerSyncedDynamicRegistry(
                 ThermooRegistries.TEMPERATURE_SOURCE,
                 TemperatureSource.DIRECT_CODEC
         );

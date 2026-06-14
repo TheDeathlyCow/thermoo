@@ -1,8 +1,8 @@
 package com.github.thedeathlycow.thermoo.gametest.tests.item;
 
 import com.github.thedeathlycow.thermoo.api.item.v2.ModifyItemAttributeModifiersCallback;
-import com.github.thedeathlycow.thermoo.gametest.ThermooTestMod;
-import net.fabricmc.fabric.api.gametest.v1.GameTest;
+import com.github.thedeathlycow.thermoo.gametest.init.ThermooTestMod;
+import com.github.thedeathlycow.thermoo.gametest.util.GameTest;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.gametest.framework.GameTestHelper;
@@ -63,7 +63,7 @@ public class ModifyItemAttributeModifiersTest {
     }
 
     @GameTest
-    public void default_diamond_chestplate_applies_scale(GameTestHelper helper) {
+    public void defaultDiamondChestplateAppliesScale(GameTestHelper helper) {
         Villager villager = helper.spawn(EntityType.VILLAGER, BlockPos.ZERO);
         helper.assertEntityData(BlockPos.ZERO, EntityType.VILLAGER, LivingEntity::getScale, 1f);
 
@@ -72,7 +72,7 @@ public class ModifyItemAttributeModifiersTest {
     }
 
     @GameTest
-    public void default_diamond_chestplate_does_not_apply_scale_when_held(GameTestHelper helper) {
+    public void defaultDiamondChestplateDoesNotApplyScaleWhenHeld(GameTestHelper helper) {
         Villager villager = helper.spawn(EntityType.VILLAGER, BlockPos.ZERO);
         helper.assertEntityData(BlockPos.ZERO, EntityType.VILLAGER, LivingEntity::getScale, 1f);
 
@@ -81,7 +81,7 @@ public class ModifyItemAttributeModifiersTest {
     }
 
     @GameTest
-    public void modified_diamond_chestplate_does_not_apply_scale(GameTestHelper helper) {
+    public void modifiedDiamondChestplateDoesNotApplyScale(GameTestHelper helper) {
         Villager villager = helper.spawn(EntityType.VILLAGER, BlockPos.ZERO);
         helper.assertEntityData(BlockPos.ZERO, EntityType.VILLAGER, LivingEntity::getScale, 1f);
 
@@ -93,7 +93,7 @@ public class ModifyItemAttributeModifiersTest {
     }
 
     @GameTest
-    public void default_diamond_axe_applies_armor(GameTestHelper helper) {
+    public void defaultDiamondAxeAppliesArmor(GameTestHelper helper) {
         Villager villager = helper.spawn(EntityType.VILLAGER, BlockPos.ZERO);
         helper.assertEntityData(BlockPos.ZERO, EntityType.VILLAGER, LivingEntity::getArmorValue, 0);
 
@@ -102,7 +102,7 @@ public class ModifyItemAttributeModifiersTest {
     }
 
     @GameTest
-    public void default_netherite_axe_overwrites_armor(GameTestHelper helper) {
+    public void defaultNetheriteAxeOverwritesArmor(GameTestHelper helper) {
         Villager villager = helper.spawn(EntityType.VILLAGER, BlockPos.ZERO);
         helper.assertEntityData(BlockPos.ZERO, EntityType.VILLAGER, LivingEntity::getArmorValue, 0);
 
@@ -111,7 +111,7 @@ public class ModifyItemAttributeModifiersTest {
     }
 
     @GameTest
-    public void default_diamond_axe_does_not_apply_armor_when_worn(GameTestHelper helper) {
+    public void defaultDiamondAxeDoesNotApplyArmorWhenWorn(GameTestHelper helper) {
         Villager villager = helper.spawn(EntityType.VILLAGER, BlockPos.ZERO);
         helper.assertEntityData(BlockPos.ZERO, EntityType.VILLAGER, LivingEntity::getArmorValue, 0);
 
@@ -120,7 +120,7 @@ public class ModifyItemAttributeModifiersTest {
     }
 
     @GameTest
-    public void modified_diamond_axe_does_not_apply_armor(GameTestHelper helper) {
+    public void modifiedDiamondAxeDoesNotApplyArmor(GameTestHelper helper) {
         Villager villager = helper.spawn(EntityType.VILLAGER, BlockPos.ZERO);
         helper.assertEntityData(BlockPos.ZERO, EntityType.VILLAGER, LivingEntity::getArmorValue, 0);
 

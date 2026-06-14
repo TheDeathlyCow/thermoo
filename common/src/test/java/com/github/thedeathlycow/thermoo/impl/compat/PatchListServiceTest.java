@@ -1,5 +1,6 @@
 package com.github.thedeathlycow.thermoo.impl.compat;
 
+import com.github.thedeathlycow.thermoo.impl.platform.Loader;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,7 +29,8 @@ class PatchListServiceTest {
                 {
                     "patches": [
                         {
-                            "minecraft_version": "1.21.1",
+                            "loader": "fabric",
+                            "minecraft_versions": ["1.21.1"],
                             "mods": [
                                 "seasonsmod",
                                 "hudmod",
@@ -36,7 +38,8 @@ class PatchListServiceTest {
                             ]
                         },
                         {
-                            "minecraft_version": "1.12.2",
+                            "loader": "neoforge",
+                            "minecraft_versions": ["1.12.2"],
                             "mods": [
                                 "seasonsmod",
                                 "hudmod"
@@ -54,8 +57,8 @@ class PatchListServiceTest {
 
         PatchList expectedPatchList = new PatchList(
                 List.of(
-                        new PatchedVersion("1.21.1", List.of("seasonsmod", "hudmod", "othermod")),
-                        new PatchedVersion("1.12.2", List.of("seasonsmod", "hudmod"))
+                        new PatchedVersion(Loader.FABRIC, List.of("1.21.1"), List.of("seasonsmod", "hudmod", "othermod")),
+                        new PatchedVersion(Loader.NEOFORGE, List.of("1.12.2"), List.of("seasonsmod", "hudmod"))
                 )
         );
         Assertions.assertEquals(expectedPatchList, patchList);

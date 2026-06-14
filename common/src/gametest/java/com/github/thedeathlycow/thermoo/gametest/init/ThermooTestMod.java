@@ -1,49 +1,46 @@
-package com.github.thedeathlycow.thermoo.gametest;
+package com.github.thedeathlycow.thermoo.gametest.init;
 
 import com.github.thedeathlycow.thermoo.api.entity.v1.ThermooAttributes;
 import com.github.thedeathlycow.thermoo.api.season.v2.TemperateSeason;
 import com.github.thedeathlycow.thermoo.api.season.v2.ThermooSeasonEvents;
 import com.github.thedeathlycow.thermoo.api.season.v2.TropicalSeason;
 import com.github.thedeathlycow.thermoo.gametest.tests.item.ModifyItemAttributeModifiersTest;
-import com.github.thedeathlycow.thermoo.gametest.tick.TestEnvironmentChanges;
-import com.github.thedeathlycow.thermoo.gametest.tick.TestSoakableChanges;
-import com.github.thedeathlycow.thermoo.gametest.tick.TestTemperatureChanges;
+import com.github.thedeathlycow.thermoo.gametest.init.tick.TestEnvironmentChanges;
+import com.github.thedeathlycow.thermoo.gametest.init.tick.TestSoakableChanges;
+import com.github.thedeathlycow.thermoo.gametest.init.tick.TestTemperatureChanges;
+import com.github.thedeathlycow.thermoo.gametest.util.ThermooGameTestModInitializer;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
-import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.gamerule.v1.GameRuleBuilder;
+import com.github.thedeathlycow.thermoo.impl.platform.ThermooServices;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.gamerules.GameRule;
 import net.minecraft.world.level.gamerules.GameRules;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
-public class ThermooTestMod implements ModInitializer {
+public final class ThermooTestMod {
     public static final String MODID = Thermoo.MODID + "-test";
 
-    public static final GameRule<@NotNull Boolean> ENABLE_SEASONS =
-            GameRuleBuilder.forBoolean(false)
-                    .buildAndRegister(id("enable_seasons"));
+    public static final GameRule<Boolean> ENABLE_SEASONS = ThermooServices.GAME_RULES.forBoolean(id("enable_seasons"), false);
 
-    public static final GameRule<@NotNull Boolean> ENABLE_TROPICAL_SEASONS =
-            GameRuleBuilder.forBoolean(false)
-                    .buildAndRegister(id("enable_tropical_seasons"));
+    public static final GameRule<Boolean> ENABLE_TROPICAL_SEASONS = ThermooServices.GAME_RULES.forBoolean(id("enable_tropical_seasons"), false);
 
-    public static final GameRule<@NotNull TemperateSeason> CURRENT_SEASON =
-            GameRuleBuilder.forEnum(TemperateSeason.SPRING)
-                    .codec(TemperateSeason.CODEC)
-                    .buildAndRegister(id("set_test_season"));
+    public static final GameRule<TemperateSeason> CURRENT_SEASON = ThermooServices.GAME_RULES.forEnum(
+            id("set_test_season"),
+            TemperateSeason.SPRING,
+            TemperateSeason.CODEC
+    );
 
-    public static final GameRule<@NotNull TropicalSeason> CURRENT_TROPICAL_SEASON =
-            GameRuleBuilder.forEnum(TropicalSeason.DRY)
-                    .codec(TropicalSeason.CODEC)
-                    .buildAndRegister(id("set_test_tropical_season"));
+    public static final GameRule<TropicalSeason> CURRENT_TROPICAL_SEASON = ThermooServices.GAME_RULES.forEnum(
+            id("set_test_tropical_season"),
+            TropicalSeason.MILD,
+            TropicalSeason.CODEC
+    );
 
-    @Override
-    public void onInitialize() {
-        ThermooAttributes.baseValueEvent(ThermooAttributes.MIN_TEMPERATURE).register((entity, baseValue) -> 40);
-        ThermooAttributes.baseValueEvent(ThermooAttributes.MAX_TEMPERATURE).register((entity, baseValue) -> 40);
+    public static void onInitialize() {
+        ThermooGameTestModInitializer.onInitialize();
+        ThermooAttributes.baseValueEvent(ThermooAttributes.MIN_TEMPERATURE).register((_, _) -> 40);
+        ThermooAttributes.baseValueEvent(ThermooAttributes.MAX_TEMPERATURE).register((_, _) -> 40);
 
         TestTemperatureChanges.initialize();
         TestSoakableChanges.initialize();
@@ -81,5 +78,9 @@ public class ThermooTestMod implements ModInitializer {
 
     public static Identifier id(String path) {
         return Identifier.fromNamespaceAndPath(MODID, path);
+    }
+
+    private ThermooTestMod() {
+
     }
 }

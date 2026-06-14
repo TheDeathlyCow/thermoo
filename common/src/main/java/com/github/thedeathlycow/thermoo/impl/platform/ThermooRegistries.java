@@ -12,9 +12,9 @@ import net.minecraft.resources.ResourceKey;
 public interface ThermooRegistries {
     <T> Registry<T> createBuiltinRegistry(ResourceKey<Registry<T>> key);
 
-    <T> void register(ResourceKey<? extends Registry<T>> key, Codec<T> codec);
+    <T> void registerDynamicRegistry(ResourceKey<? extends Registry<T>> key, Codec<T> codec);
 
-    <T> void registerSynced(ResourceKey<? extends Registry<T>> key, Codec<T> codec);
+    <T> void registerSyncedDynamicRegistry(ResourceKey<? extends Registry<T>> key, Codec<T> codec);
 
     void addAlias(Registry<?> registry, Identifier oldId, Identifier newId);
 }

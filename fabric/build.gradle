@@ -5,6 +5,14 @@ plugins {
 }
 
 fabricApi {
+    configureTests() {
+        createSourceSet = true
+        modId = "thermoo-test"
+        enableGameTests = true
+        eula = true
+        enableClientGameTests = true
+    }
+
     configureDataGeneration() {
         client = true
         createSourceSet = true
@@ -26,14 +34,14 @@ dependencies {
     compileOnly "eu.pb4:polymer-networking:${project.polymer_version}"
 
     testImplementation "net.fabricmc:fabric-loader-junit:${project.fabric_loader_version}"
-    testImplementation "org.junit.jupiter:junit-jupiter"
-    testImplementation "org.mockito:mockito-core:3.+"
 
     include("dev.yumi.commons:yumi-commons:${project.yumi_version}")
     include("dev.yumi.commons:yumi-commons-core:${project.yumi_version}")
     include("dev.yumi.commons:yumi-commons-collections:${project.yumi_version}")
     include("dev.yumi.commons:yumi-commons-event:${project.yumi_version}")
     include("dev.yumi.mc.core:yumi-mc-foundation:${project.yumi_mc_foundation_version}")
+
+    gametestImplementation project(":common").sourceSets.gametest.output
 }
 
 loom {
@@ -54,16 +62,22 @@ loom {
             ideConfigGenerated(true)
             runDir('runs/server')
         }
-    }
-}
 
-fabricApi {
-    configureTests() {
-        createSourceSet = true
-        modId = "thermoo-test"
-        enableGameTests = true
-        eula = true
-        enableClientGameTests = true
+        clientManualTest {
+            client()
+            setConfigName('Fabric Manual Test Client')
+            ideConfigGenerated(true)
+            runDir('runs/clientManualTest')
+            source(sourceSets.gametest)
+        }
+
+        serverManualTest {
+            server()
+            setConfigName('Fabric Manual Test Server')
+            ideConfigGenerated(true)
+            runDir('runs/serverManualTest')
+            source(sourceSets.gametest)
+        }
     }
 }
 

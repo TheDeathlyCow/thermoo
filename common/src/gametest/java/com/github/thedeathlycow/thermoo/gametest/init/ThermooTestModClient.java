@@ -1,9 +1,8 @@
-package com.github.thedeathlycow.thermoo.gametest;
+package com.github.thedeathlycow.thermoo.gametest.init;
 
 import com.github.thedeathlycow.thermoo.api.client.v1.HeartBarContext;
 import com.github.thedeathlycow.thermoo.api.client.v1.StatusBarOverlayRenderEvents;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
-import net.fabricmc.api.ClientModInitializer;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.resources.Identifier;
@@ -13,15 +12,14 @@ import net.minecraft.world.entity.player.Player;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector2i;
 
-public class ThermooTestModClient implements ClientModInitializer {
+public final class ThermooTestModClient {
 
     public static final Identifier HEART_OVERLAY_TEXTURE = Thermoo.id("textures/gui/fire_heart_overlay.png");
 
     private static final int TEXTURE_WIDTH = 18;
     private static final int TEXTURE_HEIGHT = 30;
 
-    @Override
-    public void onInitializeClient() {
+    public static void onInitializeClient() {
         StatusBarOverlayRenderEvents.AFTER_HEALTH_BAR.register(ThermooTestModClient::renderFireHeartBar);
         StatusBarOverlayRenderEvents.AFTER_MOUNT_HEALTH_BAR.register(ThermooTestModClient::renderMountFireHeartBar);
     }
@@ -118,5 +116,9 @@ public class ThermooTestModClient implements ClientModInitializer {
 
     private static boolean isHalfHeart(int index, int size) {
         return index >= size && index % 2 != 0;
+    }
+
+    private ThermooTestModClient() {
+
     }
 }

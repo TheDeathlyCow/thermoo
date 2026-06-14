@@ -6,13 +6,13 @@
     "environment": "*",
     "license": "LGPL-3.0",
     "entrypoints": {
-        "main": [
-            "com.github.thedeathlycow.thermoo.gametest.ThermooTestMod"
+        "yumi:init": [
+            "com.github.thedeathlycow.thermoo.gametest.fabric.ThermooFabricTestMod"
         ],
-        "client": [
-            "com.github.thedeathlycow.thermoo.gametest.ThermooTestModClient"
+        "yumi:client_init": [
+            "com.github.thedeathlycow.thermoo.gametest.fabric.ThermooFabricTestModClient"
         ],
-        "fabric-gametest": [
+        "thermoo:gametest": [
             "com.github.thedeathlycow.thermoo.gametest.tests.AttributeTests",
             "com.github.thedeathlycow.thermoo.gametest.tests.item.ModifyItemAttributeModifiersTest",
             "com.github.thedeathlycow.thermoo.gametest.tests.environment.SeasonalPlainsTemperatureTests",
@@ -33,8 +33,11 @@
             "com.github.thedeathlycow.thermoo.gametest.tests.temperature.status.TemperatureStatusManagerTest"
         ],
         "fabric-client-gametest": [
-            "com.github.thedeathlycow.thermoo.gametest.client.HealthBarTests",
-            "com.github.thedeathlycow.thermoo.gametest.client.MountHealthBarTests"
+            "com.github.thedeathlycow.thermoo.gametest.fabric.client.HealthBarTests",
+            "com.github.thedeathlycow.thermoo.gametest.fabric.client.MountHealthBarTests"
         ]
-    }
+    },
+    "mixins": [
+        "thermoo-test.mixins.json"
+    ]
 }
