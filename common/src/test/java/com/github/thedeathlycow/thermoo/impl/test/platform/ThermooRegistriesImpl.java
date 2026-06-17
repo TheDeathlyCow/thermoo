@@ -15,12 +15,12 @@ public class ThermooRegistriesImpl implements ThermooRegistries {
     }
 
     @Override
-    public <T> void registerDynamicRegistry(ResourceKey<? extends Registry<T>> key, Codec<T> codec) {
+    public <T> void registerDynamicRegistry(ResourceKey<Registry<T>> key, Codec<T> codec) {
         
     }
 
     @Override
-    public <T> void registerSyncedDynamicRegistry(ResourceKey<? extends Registry<T>> key, Codec<T> codec) {
+    public <T> void registerSyncedDynamicRegistry(ResourceKey<Registry<T>> key, Codec<T> codec) {
 
     }
 

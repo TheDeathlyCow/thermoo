@@ -7,7 +7,15 @@ plugins {
 dependencies {
     minecraft "com.mojang:minecraft:${minecraft_version}"
     neoForge "net.neoforged:neoforge:${neoforge_version}"
-    compileOnly("dev.yumi.mc.core:yumi-mc-foundation:${project.yumi_mc_foundation_version}")
+    implementation("dev.yumi.mc.core:yumi-mc-foundation:${project.yumi_mc_foundation_version}")
+
+    include("dev.yumi.commons:yumi-commons:${project.yumi_version}")
+    include("dev.yumi.commons:yumi-commons-core:${project.yumi_version}")
+    include("dev.yumi.commons:yumi-commons-collections:${project.yumi_version}")
+    include("dev.yumi.commons:yumi-commons-event:${project.yumi_version}")
+    include("dev.yumi.mc.core:yumi-mc-foundation:${project.yumi_mc_foundation_version}")
+
+    gametestImplementation project(":common").sourceSets.gametest.output
 }
 
 loom {
@@ -24,11 +32,38 @@ loom {
             ideConfigGenerated(true)
             runDir('runs/client')
         }
+
         server {
             server()
             setConfigName('Neoforge Server')
             ideConfigGenerated(true)
             runDir('runs/server')
+        }
+
+        clientManualTest {
+            client()
+            setConfigName('Neoforge Manual Test Client')
+            ideConfigGenerated(true)
+            runDir('runs/clientManualTest')
+            source(sourceSets.gametest)
+        }
+
+        serverManualTest {
+            server()
+            setConfigName('Neoforge Manual Test Server')
+            ideConfigGenerated(true)
+            runDir('runs/serverManualTest')
+            source(sourceSets.gametest)
+        }
+
+        gameTest {
+            server()
+            setConfigName('Neoforge Game test')
+            ideConfigGenerated(true)
+            runDir('build/gametest')
+            source(sourceSets.gametest)
+
+            vmArg('-Dneoforge.enableGameTest=true')
         }
     }
 }
