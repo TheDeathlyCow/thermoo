@@ -31,6 +31,13 @@ versionRange = "${minecraft_version_range}"
 ordering = "NONE"
 side = "BOTH"
 
+[[dependencies.${mod_id}]]
+modId = "unruled_api"
+type = "required"
+versionRange = "[1.0.0,)"
+ordering = "NONE"
+side = "BOTH"
+
 [[mixins]]
 config = "${mod_id}.mixins.json"
 

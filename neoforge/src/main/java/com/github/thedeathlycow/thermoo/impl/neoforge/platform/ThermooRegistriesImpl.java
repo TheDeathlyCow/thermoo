@@ -36,9 +36,11 @@ public class ThermooRegistriesImpl implements ThermooRegistries {
     @Override
     public <T> Registry<T> createBuiltinRegistry(ResourceKey<Registry<T>> key) {
         WritableRegistry<T> registry = new MappedRegistry<>(key, Lifecycle.stable(), false);
+        ResourceKey<?> registryKey = registry.key();
 
+        //noinspection unchecked
         BuiltInRegistriesAccessor.thermoo_getWritableRegistry().register(
-                (ResourceKey<WritableRegistry<?>>) registry.key(),
+                (ResourceKey<WritableRegistry<?>>) registryKey,
                 registry,
                 RegistrationInfo.BUILT_IN
         );

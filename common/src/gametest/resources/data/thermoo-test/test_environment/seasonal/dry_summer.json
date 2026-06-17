@@ -6,8 +6,8 @@
             "rules": {
                 "thermoo-test:enable_seasons": true,
                 "thermoo-test:enable_tropical_seasons": true,
-                "thermoo-test:set_test_season": "summer",
-                "thermoo-test:set_test_tropical_season": "dry"
+                "thermoo-test:set_test_season": "SUMMER",
+                "thermoo-test:set_test_tropical_season": "DRY"
             }
         }
     ]

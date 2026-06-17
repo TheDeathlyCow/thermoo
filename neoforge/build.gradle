@@ -9,6 +9,9 @@ dependencies {
     neoForge "net.neoforged:neoforge:${neoforge_version}"
     implementation("dev.yumi.mc.core:yumi-mc-foundation:${project.yumi_mc_foundation_version}")
 
+    // this is literally just to make the game tests work...
+    implementation("maven.modrinth:unruled-api:${project.unruled_version}")
+
     include("dev.yumi.commons:yumi-commons:${project.yumi_version}")
     include("dev.yumi.commons:yumi-commons-core:${project.yumi_version}")
     include("dev.yumi.commons:yumi-commons-collections:${project.yumi_version}")
@@ -108,6 +111,8 @@ publishMods {
         clientRequired = false
         serverRequired = true
 
+        requires("unruled-api")
+
         optional("thermoo-patches")
     }
 
@@ -115,6 +120,8 @@ publishMods {
         accessToken = providers.environmentVariable("MODRINTH_TOKEN")
         projectId = "9TbXlAut"
         minecraftVersions.addAll("26.1", "26.1.1", "26.1.2")
+
+        requires("unruled-api")
 
         optional("thermoo-patches")
     }

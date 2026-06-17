@@ -1,5 +1,6 @@
 package com.github.thedeathlycow.thermoo.gametest.init;
 
+import com.github.thedeathlycow.thermoo.api.core.v2.ThermooCodecs;
 import com.github.thedeathlycow.thermoo.api.entity.v1.ThermooAttributes;
 import com.github.thedeathlycow.thermoo.api.season.v2.TemperateSeason;
 import com.github.thedeathlycow.thermoo.api.season.v2.ThermooSeasonEvents;
@@ -10,6 +11,7 @@ import com.github.thedeathlycow.thermoo.gametest.init.tick.TestSoakableChanges;
 import com.github.thedeathlycow.thermoo.gametest.init.tick.TestTemperatureChanges;
 import com.github.thedeathlycow.thermoo.gametest.util.ThermooGameTestModInitializer;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
+import com.github.thedeathlycow.thermoo.impl.config.ThermooConfig;
 import com.github.thedeathlycow.thermoo.impl.platform.ThermooServices;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
@@ -28,13 +30,13 @@ public final class ThermooTestMod {
     public static final GameRule<TemperateSeason> CURRENT_SEASON = ThermooServices.GAME_RULES.forEnum(
             id("set_test_season"),
             TemperateSeason.SPRING,
-            TemperateSeason.CODEC
+            ThermooCodecs.createEnumCodec(TemperateSeason.class)
     );
 
     public static final GameRule<TropicalSeason> CURRENT_TROPICAL_SEASON = ThermooServices.GAME_RULES.forEnum(
             id("set_test_tropical_season"),
             TropicalSeason.MILD,
-            TropicalSeason.CODEC
+            ThermooCodecs.createEnumCodec(TropicalSeason.class)
     );
 
     public static void onInitialize() {

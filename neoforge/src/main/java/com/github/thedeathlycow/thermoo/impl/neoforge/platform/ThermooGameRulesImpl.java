@@ -3,6 +3,7 @@ package com.github.thedeathlycow.thermoo.impl.neoforge.platform;
 import com.github.thedeathlycow.thermoo.impl.platform.ThermooGameRules;
 import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.serialization.Codec;
+import com.nerjal.unruled_api.UnruledApi;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
@@ -31,17 +32,6 @@ public class ThermooGameRulesImpl implements ThermooGameRules {
 
     @Override
     public <E extends Enum<E>> GameRule<E> forEnum(Identifier id, E defaultValue, Codec<E> codec) {
-        GameRule<E> rule = new GameRule<>(
-                GameRuleCategory.MISC,
-                GameRuleType.INT,
-                null,
-                GameRuleTypeVisitor::visitInteger,
-                codec,
-                Enum::ordinal,
-                defaultValue,
-                FeatureFlagSet.of()
-        );
-
-        return Registry.register(BuiltInRegistries.GAME_RULE, id, rule);
+        return UnruledApi.registerEnum(id, GameRuleCategory.MISC, defaultValue, defaultValue.getDeclaringClass());
     }
 }

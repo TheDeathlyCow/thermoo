@@ -6,7 +6,9 @@ Thermoo is a temperature and environment library mod for Minecraft, targeting th
 
 ## License
 
-Thermoo is free software licensed under [LGPLv3](./LICENSE). You may freely link Thermoo into your own mods, however redistribution of this library requires that you follow the terms of the LGPLv3 license.
+Thermoo is free software licensed under [LGPL-3.0](./LICENSE). You may freely link Thermoo into your own mods, however redistribution of this library requires that you follow the terms of the LGPL-3.0 license.
+
+Note that this library uses components that are available under other licenses, see [LICENSES](./LICENSES) for details.
 
 ## Adding Thermoo to Your Mod
 
