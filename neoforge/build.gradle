@@ -51,3 +51,36 @@ sourceSets.configureEach {
         }
     }
 }
+
+publishMods {
+    changelog = rootProject.file("./changelogs/${project.version}.md").text
+    type = STABLE
+
+    file = jar.archiveFile
+    additionalFiles.from(sourcesJar.archiveFile)
+    additionalFiles.from(javadocJar.archiveFile)
+    displayName = "Thermoo NeoForge ${project.version}"
+
+    modLoaders.add("neoforge")
+
+    curseforge {
+        accessToken = providers.environmentVariable("CURSEFORGE_API_KEY")
+        projectId = "846544"
+        minecraftVersions.addAll("26.1", "26.1.1", "26.1.2")
+
+        javaVersions.add(JavaVersion.VERSION_25)
+
+        clientRequired = false
+        serverRequired = true
+
+        optional("thermoo-patches")
+    }
+
+    modrinth {
+        accessToken = providers.environmentVariable("MODRINTH_TOKEN")
+        projectId = "9TbXlAut"
+        minecraftVersions.addAll("26.1", "26.1.1", "26.1.2")
+
+        optional("thermoo-patches")
+    }
+}

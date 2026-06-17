@@ -1,5 +1,28 @@
 plugins {
     id 'org.jetbrains.kotlin.jvm' version '2.3.10' apply false
     id 'org.relativitymc.neo-loom' version '1.15-SNAPSHOT' apply false
-    id 'me.modmuss50.mod-publish-plugin' version '2.0.0-beta.1' apply false
+    id 'me.modmuss50.mod-publish-plugin' version '2.0.0-beta.1'
+}
+
+gradle.projectsEvaluated {
+    publishMods {
+        type = STABLE
+        changelog = rootProject.file("./changelogs/${project.version}.md").text
+
+        for (loader in [':common', ':fabric', ':neoforge']) {
+            def loaderProject = project(loader)
+            additionalFiles.from(loaderProject.tasks.named('jar', Jar).map { it.archiveFile })
+            additionalFiles.from(loaderProject.tasks.named('sourcesJar', Jar).map { it.archiveFile })
+            additionalFiles.from(loaderProject.tasks.named('javadocJar', Jar).map { it.archiveFile })
+        }
+
+        github {
+            repository = "TheDeathlyCow/thermoo"
+            accessToken = providers.environmentVariable("RELEASE_GITHUB_TOKEN")
+            commitish = "26.1.x"
+            tagName = "${project.version}"
+
+            displayName = "[26.1.x] Thermoo ${project.version}"
+        }
+    }
 }

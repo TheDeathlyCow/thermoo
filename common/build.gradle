@@ -97,19 +97,3 @@ sourceSets.configureEach {
         }
     }
 }
-
-//publishMods {
-//    type = STABLE
-//    changelog = rootProject.file("./changelogs/${project.version}.md").text
-//
-//    github {
-//        repository = "TheDeathlyCow/novoatlas"
-//        accessToken = providers.environmentVariable("RELEASE_GITHUB_TOKEN")
-//        commitish = "26.1.x"
-//        tagName = "${project.version}"
-//
-//        displayName = "[26.1.x] NovoAtlas Example Datapacks ${project.version}"
-//
-//        additionalFiles.from(project.extensions.datapackArchives)
-//    }
-//}
