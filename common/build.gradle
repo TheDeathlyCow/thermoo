@@ -53,10 +53,6 @@ configurations {
         canBeResolved = false
         canBeConsumed = true
     }
-    commonKotlin {
-        canBeResolved = false
-        canBeConsumed = true
-    }
     commonResources {
         canBeResolved = false
         canBeConsumed = true
@@ -65,13 +61,22 @@ configurations {
         canBeResolved = false
         canBeConsumed = true
     }
+    commonGametestJava {
+        canBeResolved = false
+        canBeConsumed = true
+    }
+    commonGametestResources {
+        canBeResolved = false
+        canBeConsumed = true
+    }
 }
 
 artifacts {
     commonJava file("src/main/java")
-    commonKotlin file("src/main/kotlin")
     commonResources file("src/main/resources")
     commonGeneratedResources file("src/main/generated")
+    commonGametestJava file("src/gametest/resources")
+    commonGametestResources file("src/gametest/resources")
 }
 
 // Implement mcgradleconventions loader attribute

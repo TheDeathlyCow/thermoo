@@ -5,14 +5,6 @@ plugins {
 }
 
 fabricApi {
-    configureTests() {
-        createSourceSet = true
-        modId = "thermoo-test"
-        enableGameTests = true
-        eula = true
-        enableClientGameTests = true
-    }
-
     configureDataGeneration() {
         client = true
         createSourceSet = true
@@ -78,7 +70,35 @@ loom {
             runDir('runs/serverManualTest')
             source(sourceSets.gametest)
         }
+
+        gameTest {
+            server()
+            setConfigName('Fabric Game test')
+            ideConfigGenerated(true)
+            runDir('build/gametest')
+            source(sourceSets.gametest)
+
+            vmArg('-Dfabric-api.gametest')
+            vmArg("-Dfabric-api.gametest.report-file=${project.layout.buildDirectory.file("junit.xml").get().getAsFile()}")
+        }
+
+        clientGameTest {
+            client()
+            setConfigName('Fabric Client Game Test')
+            ideConfigGenerated(true)
+            runDir('build/clientGametest')
+            source(sourceSets.gametest)
+
+            vmArg('-Dfabric-api.client.gametest')
+            vmArg("-Dfabric-api.gametest.report-file=${project.layout.buildDirectory.file("junit.xml").get().getAsFile()}")
+        }
     }
+}
+
+tasks.named('build') {
+    dependsOn('runGameTest')
+    // runClientGameTest is OS-specific and difficult to run on github actions, so not including it here
+    // feel free to run these manually :)
 }
 
 // Implement mcgradleconventions loader attribute
@@ -91,7 +111,7 @@ def loaderAttribute = Attribute.of('io.github.mcgradleconventions.loader', Strin
     }
 }
 sourceSets.configureEach {
-    [it.compileClasspathConfigurationName, it.runtimeClasspathConfigurationName].each { variant->
+    [it.compileClasspathConfigurationName, it.runtimeClasspathConfigurationName].each { variant ->
         configurations.named("$variant") {
             attributes {
                 attribute(loaderAttribute, 'fabric')
