@@ -42,4 +42,7 @@ side = "BOTH"
 config = "${mod_id}.mixins.json"
 
 [[mixins]]
+config = "${mod_id}.client.mixins.json"
+
+[[mixins]]
 config = "${mod_id}.neoforge.mixins.json"

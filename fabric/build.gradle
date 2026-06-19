@@ -4,6 +4,8 @@ plugins {
     id 'me.modmuss50.mod-publish-plugin'
 }
 
+def commonProject = project(':common')
+
 fabricApi {
     configureDataGeneration() {
         client = true
@@ -33,11 +35,11 @@ dependencies {
     include("dev.yumi.commons:yumi-commons-event:${project.yumi_version}")
     include("dev.yumi.mc.core:yumi-mc-foundation:${project.yumi_mc_foundation_version}")
 
-    gametestImplementation project(":common").sourceSets.gametest.output
+    gametestImplementation commonProject.sourceSets.gametest.output
 }
 
 loom {
-    def aw = project(':common').file("src/main/resources/${mod_id}.classtweaker")
+    def aw = commonProject.file("src/main/resources/${mod_id}.classtweaker")
     if (aw.exists()) {
         accessWidenerPath.set(aw)
     }

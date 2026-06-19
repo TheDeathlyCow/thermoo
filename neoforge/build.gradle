@@ -4,9 +4,11 @@ plugins {
     id 'me.modmuss50.mod-publish-plugin'
 }
 
+def commonProject = project(':common')
+
 dependencies {
     minecraft "com.mojang:minecraft:${minecraft_version}"
-    neoForge "net.neoforged:neoforge:${neoforge_version}"
+    forgeUserdev "net.neoforged:neoforge:${neoforge_version}:userdev"
     implementation("dev.yumi.mc.core:yumi-mc-foundation:${project.yumi_mc_foundation_version}")
 
     // this is literally just to make the game tests work...
@@ -18,14 +20,18 @@ dependencies {
     include("dev.yumi.commons:yumi-commons-event:${project.yumi_version}")
     include("dev.yumi.mc.core:yumi-mc-foundation:${project.yumi_mc_foundation_version}")
 
-    gametestImplementation project(":common").sourceSets.gametest.output
+    gametestImplementation commonProject.sourceSets.gametest.output
 }
 
 loom {
-    def aw = project(':common').file("src/main/resources/${mod_id}.classtweaker")
+    def aw = commonProject.file("src/main/resources/${mod_id}.classtweaker")
     if (aw.exists()) {
         accessWidenerPath.set(aw)
-        convertAw2At(tasks.named("jar"), ["${mod_id}.classtweaker"])
+        convertAw2At(tasks.named("jar", Jar), ["${mod_id}.classtweaker"])
+    }
+
+    interfaceInjection {
+        enableDependencyInterfaceInjection = true
     }
 
     runs {

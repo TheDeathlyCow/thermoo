@@ -2,6 +2,7 @@ package com.github.thedeathlycow.thermoo.impl.neoforge.mod;
 
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import com.github.thedeathlycow.thermoo.impl.neoforge.platform.ThermooRegistriesImpl;
+import com.github.thedeathlycow.thermoo.impl.neoforge.registry.ThermooAttachments;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.registries.DataPackRegistryEvent;
@@ -10,6 +11,7 @@ import net.neoforged.neoforge.registries.DataPackRegistryEvent;
 @Mod(Thermoo.MODID)
 public class ThermooNeoforgeMod {
     public ThermooNeoforgeMod(IEventBus modBus) {
+        ThermooAttachments.initialize(modBus);
         modBus.addListener(ThermooNeoforgeMod::registerDynamicRegistries);
     }
 

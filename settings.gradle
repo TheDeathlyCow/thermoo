@@ -1,15 +1,8 @@
 pluginManagement {
     repositories {
-        exclusiveContent {
-            forRepository {
-                maven {
-                    name = 'RelativityMC'
-                    url = 'https://repo.codemc.io/repository/relativitymc/'
-                }
-            }
-            filter {
-                includeGroupAndSubgroups('org.relativitymc')
-            }
+        maven {
+            name = 'RelativityMC'
+            url = 'https://repo.codemc.io/repository/relativitymc/'
         }
         maven {
             name = 'Fabric'

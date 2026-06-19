@@ -18,6 +18,9 @@ configurations {
     commonResources {
         canBeResolved = true
     }
+    commonGeneratedResources {
+        canBeResolved = true
+    }
     commonGametestJava {
         canBeResolved = true
     }
@@ -35,6 +38,7 @@ dependencies {
     }
     commonJava project(path: ':common', configuration: 'commonJava')
     commonResources project(path: ':common', configuration: 'commonResources')
+    commonGeneratedResources project(path: ':common', configuration: 'commonGeneratedResources')
 
     commonGametestJava project(path: ':common', configuration: 'commonGametestJava')
     commonGametestResources project(path: ':common', configuration: 'commonGametestResources')
@@ -46,8 +50,8 @@ tasks.named('compileJava', JavaCompile) {
 }
 
 processResources {
-    dependsOn(configurations.commonResources)
-    from(configurations.commonResources)
+    dependsOn(configurations.commonResources, configurations.commonGeneratedResources)
+    from(configurations.commonResources, configurations.commonGeneratedResources)
 }
 
 tasks.named('compileGametestJava', JavaCompile) {

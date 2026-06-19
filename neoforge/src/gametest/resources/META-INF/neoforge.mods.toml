@@ -1,0 +1,52 @@
+modLoader = "javafml"
+loaderVersion = "[1,)"
+issueTrackerURL = "https://github.com/TheDeathlyCow/thermoo/issues"
+license = "LGPL-3.0"
+
+[[mods]]
+modId = "thermoo_test"
+version = "1.0.0"
+displayName = "Thermoo Test Mod"
+authors = "TheDeathlyCow"
+description='''Thermoo test mod'''
+
+
+[modproperties.thermoo_test."yumi:entrypoints"]
+"yumi:init" = "com.github.thedeathlycow.thermoo.gametest.neoforge.ThermooNeoforgeTestMod"
+"thermoo:gametest" = [
+    "com.github.thedeathlycow.thermoo.gametest.tests.AttributeTests",
+    "com.github.thedeathlycow.thermoo.gametest.tests.item.ModifyItemAttributeModifiersTest",
+    "com.github.thedeathlycow.thermoo.gametest.tests.environment.SeasonalPlainsTemperatureTests",
+    "com.github.thedeathlycow.thermoo.gametest.tests.environment.SeasonalPlainsHumidityTests",
+    "com.github.thedeathlycow.thermoo.gametest.tests.environment.TropicalJungleTemperatureTests",
+    "com.github.thedeathlycow.thermoo.gametest.tests.environment.TropicalJungleHumidityTests",
+    "com.github.thedeathlycow.thermoo.gametest.tests.environment.ConstantForestTests",
+    "com.github.thedeathlycow.thermoo.gametest.tests.environment.ReferenceConstantBirchForestTests",
+    "com.github.thedeathlycow.thermoo.gametest.tests.environment.ModifiedDarkForestTests",
+    "com.github.thedeathlycow.thermoo.gametest.tests.environment.DesertDryTemperatureTests",
+    "com.github.thedeathlycow.thermoo.gametest.tests.environment.DesertDryHumidityTests",
+    "com.github.thedeathlycow.thermoo.gametest.tests.environment.DesertWetTemperatureTests",
+    "com.github.thedeathlycow.thermoo.gametest.tests.environment.DesertWetHumidityTests",
+    "com.github.thedeathlycow.thermoo.gametest.tests.environment.PrecipitationTypeTests",
+    "com.github.thedeathlycow.thermoo.gametest.tests.environment.PressureTests",
+    "com.github.thedeathlycow.thermoo.gametest.tests.environment.WeatherStateTests",
+    "com.github.thedeathlycow.thermoo.gametest.tests.soaking.SoakableTests",
+    "com.github.thedeathlycow.thermoo.gametest.tests.temperature.status.TemperatureStatusManagerTest"
+]
+
+[[dependencies.thermoo_test]]
+modId = "neoforge"
+type = "required"
+versionRange = "[1.0,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.thermoo_test]]
+modId = "minecraft"
+type = "required"
+versionRange = "[1.0,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[mixins]]
+config = "thermoo-test.mixins.json"
