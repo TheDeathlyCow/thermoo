@@ -26,17 +26,13 @@ import java.util.function.Consumer;
 
 import dev.yumi.mc.core.api.YumiMods;
 import dev.yumi.mc.core.api.entrypoint.EntrypointContainer;
+import net.minecraft.gametest.framework.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.gametest.framework.FunctionGameTestInstance;
-import net.minecraft.gametest.framework.GameTestHelper;
-import net.minecraft.gametest.framework.GameTestInstance;
-import net.minecraft.gametest.framework.TestData;
-import net.minecraft.gametest.framework.TestEnvironmentDefinition;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 
@@ -143,8 +139,8 @@ final class TestAnnotationLocator {
                     LOGGER.error("Failed to invoke test method", e);
 
                     // Ensure that any GameTestException are propagated without wrapping
-                    if (e.getTargetException() instanceof RuntimeException runtimeException) {
-                        throw runtimeException;
+                    if (e.getTargetException() instanceof GameTestException gameTestException) {
+                        throw gameTestException;
                     }
 
                     throw new RuntimeException("Failed to invoke test method: " + e.getMessage(), e);

@@ -4,7 +4,8 @@
     "package": "com.github.thedeathlycow.thermoo.gametest.neoforge.mixin",
     "compatibilityLevel": "JAVA_25",
     "mixins": [
-        "RegistryDataLoaderMixin"
+        "RegistryDataLoaderMixin",
+        "StructureTemplateManagerMixin"
     ],
     "injectors": {
         "defaultRequire": 1

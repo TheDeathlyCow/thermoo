@@ -23,6 +23,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.gametest.framework.GameTestInstance;
 import net.minecraft.gametest.framework.TestEnvironmentDefinition;
+import net.minecraft.resources.FileToIdConverter;
 import net.minecraft.resources.RegistryLoadTask;
 import net.minecraft.resources.ResourceKey;
 import org.slf4j.Logger;
@@ -36,6 +37,7 @@ import java.util.Objects;
 public final class ThermooGameTestModInitializer {
     private static final Logger LOGGER = LoggerFactory.getLogger(ThermooGameTestModInitializer.class);
     private static TestAnnotationLocator locator = new TestAnnotationLocator(YumiMods.get());
+    public static final FileToIdConverter GAMETEST_STRUCTURE_FINDER = new FileToIdConverter("gametest/structure", ".snbt");
 
     public static void onInitialize() {
         for (TestAnnotationLocator.TestMethod testMethod : locator.getTestMethods()) {
