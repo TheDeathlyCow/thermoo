@@ -56,7 +56,7 @@ public final class EnvironmentTestHelper {
     public static void assertHumidityEquals(GameTestHelper context, double expected, double actual) {
         context.assertTrue(
                 Math.abs(actual - expected) <= 1e-4,
-                Component.literal("Expected humidity was " + expected + "% but was actually " + actual + "%")
+                Component.literal("Expected humidity was " + expected * 100 + "% but was actually " + actual * 100 + "%")
         );
     }
 

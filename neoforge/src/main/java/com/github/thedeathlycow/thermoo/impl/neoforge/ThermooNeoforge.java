@@ -4,6 +4,7 @@ import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import com.mojang.serialization.Codec;
 import com.nerjal.unruled_api.UnruledApi;
 import dev.yumi.mc.core.api.ModContainer;
+import dev.yumi.mc.core.api.YumiMods;
 import dev.yumi.mc.core.api.entrypoint.ModInitializer;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.gamerules.GameRule;
@@ -13,6 +14,10 @@ public class ThermooNeoforge implements ModInitializer {
     @Override
     public void onInitialize(ModContainer mod) {
         Thermoo.onInitialize(mod);
+
+        if (YumiMods.get().isDevelopmentEnvironment()) {
+            Thermoo.LOGGER.info("Thermoo Neoforge initialized");
+        }
     }
 
     public static GameRule<Boolean> booleanGameRule(Identifier id, boolean defaultValue) {
