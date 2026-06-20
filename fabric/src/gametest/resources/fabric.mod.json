@@ -38,6 +38,7 @@
         ]
     },
     "mixins": [
-        "thermoo-test.mixins.json"
+        "thermoo-test.mixins.json",
+        "thermoo-test.fabric.mixins.json"
     ]
 }

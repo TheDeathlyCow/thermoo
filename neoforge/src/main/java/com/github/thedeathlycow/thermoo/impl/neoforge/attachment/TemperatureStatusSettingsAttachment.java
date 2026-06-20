@@ -5,12 +5,10 @@ import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureSta
 import com.github.thedeathlycow.thermoo.impl.ecs.Settings;
 import com.github.thedeathlycow.thermoo.impl.ecs.TemperatureStatusSettingsComponent;
 import net.minecraft.core.Holder;
-import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
-import net.neoforged.neoforge.attachment.AttachmentSyncHandler;
 import net.neoforged.neoforge.attachment.IAttachmentHolder;
 import net.neoforged.neoforge.common.util.ValueIOSerializable;
 import org.jetbrains.annotations.Nullable;

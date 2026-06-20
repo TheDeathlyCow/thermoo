@@ -1,10 +1,6 @@
 pluginManagement {
     repositories {
         maven {
-            name = 'RelativityMC'
-            url = 'https://repo.codemc.io/repository/relativitymc/'
-        }
-        maven {
             name = 'Fabric'
             url = 'https://maven.fabricmc.net/'
         }

@@ -50,3 +50,6 @@ side = "BOTH"
 
 [[mixins]]
 config = "thermoo-test.mixins.json"
+
+[[mixins]]
+config = "thermoo-test.neoforge.mixins.json"

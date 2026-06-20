@@ -1,6 +1,6 @@
 plugins {
     id 'multiloader-common'
-    id 'org.relativitymc.neo-loom'
+    id 'net.fabricmc.fabric-loom'
     id 'org.jetbrains.kotlin.jvm'
 }
 
@@ -75,7 +75,7 @@ artifacts {
     commonJava file("src/main/java")
     commonResources file("src/main/resources")
     commonGeneratedResources file("src/main/generated")
-    commonGametestJava file("src/gametest/resources")
+    commonGametestJava file("src/gametest/java")
     commonGametestResources file("src/gametest/resources")
 }
 

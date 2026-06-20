@@ -1,6 +1,6 @@
 plugins {
     id 'multiloader-loader'
-    id 'org.relativitymc.neo-loom'
+    id 'net.fabricmc.fabric-loom'
     id 'me.modmuss50.mod-publish-plugin'
 }
 
@@ -11,7 +11,7 @@ fabricApi {
         client = true
         createSourceSet = true
         modId = "thermoo-datagen"
-        outputDirectory = project(":common").file("src/main/generated")
+        outputDirectory = commonProject.file("src/main/generated")
     }
 }
 
@@ -105,16 +105,16 @@ tasks.named('build') {
 
 // Implement mcgradleconventions loader attribute
 def loaderAttribute = Attribute.of('io.github.mcgradleconventions.loader', String)
-['apiElements', 'runtimeElements', 'sourcesElements', 'javadocElements', 'includeInternal', 'modCompileClasspath'].each { variant ->
-    configurations.named("$variant") {
+['apiElements', 'runtimeElements', 'sourcesElements', 'javadocElements', 'modCompileClasspath'].each { variant ->
+    configurations.named(variant) {
         attributes {
             attribute(loaderAttribute, 'fabric')
         }
     }
 }
 sourceSets.configureEach {
-    [it.compileClasspathConfigurationName, it.runtimeClasspathConfigurationName].each { variant ->
-        configurations.named("$variant") {
+    [it.compileClasspathConfigurationName, it.runtimeClasspathConfigurationName].each { variant->
+        configurations.named(variant) {
             attributes {
                 attribute(loaderAttribute, 'fabric')
             }
