@@ -1,59 +1,76 @@
 plugins {
     id 'multiloader-loader'
-    id 'net.neoforged.moddev'
+    id 'org.relativitymc.neo-loom'
     id 'me.modmuss50.mod-publish-plugin'
 }
 
 def commonProject = project(':common')
 
 dependencies {
+    minecraft "com.mojang:minecraft:${minecraft_version}"
+    forgeUserdev "net.neoforged:neoforge:${neoforge_version}:userdev"
     implementation("dev.yumi.mc.core:yumi-mc-foundation:${project.yumi_mc_foundation_version}")
 
     // this is literally just to make the game tests work...
     implementation("maven.modrinth:unruled-api:${project.unruled_version}")
 
-    jarJar("dev.yumi.commons:yumi-commons:${project.yumi_version}")
-    jarJar("dev.yumi.commons:yumi-commons-core:${project.yumi_version}")
-    jarJar("dev.yumi.commons:yumi-commons-collections:${project.yumi_version}")
-    jarJar("dev.yumi.commons:yumi-commons-event:${project.yumi_version}")
-    jarJar("dev.yumi.mc.core:yumi-mc-foundation:${project.yumi_mc_foundation_version}")
+    include("dev.yumi.commons:yumi-commons:${project.yumi_version}")
+    include("dev.yumi.commons:yumi-commons-core:${project.yumi_version}")
+    include("dev.yumi.commons:yumi-commons-collections:${project.yumi_version}")
+    include("dev.yumi.commons:yumi-commons-event:${project.yumi_version}")
+    include("dev.yumi.mc.core:yumi-mc-foundation:${project.yumi_mc_foundation_version}")
 
     gametestImplementation commonProject.sourceSets.gametest.output
 }
 
-neoForge {
-    version = project.neoforge_version
+loom {
+    def aw = commonProject.file("src/main/resources/${mod_id}.classtweaker")
+    if (aw.exists()) {
+        accessWidenerPath.set(aw)
+        convertAw2At(tasks.named("jar", Jar), ["${mod_id}.classtweaker"])
+    }
 
-    def at = file("src/main/resources/META-INF/accesstransformer.cfg")
-    if (at.exists()) {
-        accessTransformers.from(at.absolutePath)
+    interfaceInjection {
+        enableDependencyInterfaceInjection = true
     }
 
     runs {
         client {
             client()
+            setConfigName('Neoforge Client')
+            ideConfigGenerated(true)
+            runDir('runs/client')
         }
 
         server {
             server()
-            programArgument '--nogui'
+            setConfigName('Neoforge Server')
+            ideConfigGenerated(true)
+            runDir('runs/server')
         }
 
         clientManualTest {
             client()
-            systemProperty 'neoforge.enabledGameTestNamespaces', "${project.mod_id},${project.mod_id}_test"
+            setConfigName('Neoforge Manual Test Client')
+            ideConfigGenerated(true)
+            runDir('runs/clientManualTest')
+            property('neoforge.enabledGameTestNamespaces', "${project.mod_id},${project.mod_id}_test")
         }
 
         serverManualTest {
             server()
-            programArgument '--nogui'
-            systemProperty 'neoforge.enabledGameTestNamespaces', "${project.mod_id},${project.mod_id}_test"
+            setConfigName('Neoforge Manual Test Server')
+            ideConfigGenerated(true)
+            runDir('runs/serverManualTest')
+            property('neoforge.enabledGameTestNamespaces', "${project.mod_id},${project.mod_id}_test")
         }
 
-        gameTestServer {
-            type = "gameTestServer"
-            systemProperty 'neoforge.enabledGameTestNamespaces', "${project.mod_id},${project.mod_id}_test"
-            logLevel = org.slf4j.event.Level.INFO
+        gameTest {
+            environment("gameTestServer")
+            setConfigName('Neoforge Game test')
+            ideConfigGenerated(true)
+            runDir('build/gametest')
+            property('neoforge.enabledGameTestNamespaces', "${project.mod_id},${project.mod_id}_test")
         }
     }
 
@@ -67,11 +84,11 @@ neoForge {
         }
     }
 
-    interfaceInjectionData.from file('src/main/resources/interfaces.json').absolutePath
-
-    interfaceInjectionData {
-        publish file('src/main/resources/interfaces.json')
-    }
+//    interfaceInjectionData.from file('src/main/resources/interfaces.json').absolutePath
+//
+//    interfaceInjectionData {
+//        publish file('src/main/resources/interfaces.json')
+//    }
 }
 
 tasks.named('build') {
@@ -80,7 +97,7 @@ tasks.named('build') {
 
 // Implement mcgradleconventions loader attribute
 def loaderAttribute = Attribute.of('io.github.mcgradleconventions.loader', String)
-['apiElements', 'runtimeElements', 'sourcesElements', 'javadocElements'].each { variant ->
+['apiElements', 'runtimeElements', 'sourcesElements', 'javadocElements', 'includeInternal', 'modCompileClasspath'].each { variant ->
     configurations.named(variant) {
         attributes {
             attribute(loaderAttribute, 'neoforge')
@@ -88,7 +105,7 @@ def loaderAttribute = Attribute.of('io.github.mcgradleconventions.loader', Strin
     }
 }
 sourceSets.configureEach {
-    [it.compileClasspathConfigurationName, it.runtimeClasspathConfigurationName, it.getTaskName(null, 'jarJar')].each { variant ->
+    [it.compileClasspathConfigurationName, it.runtimeClasspathConfigurationName].each { variant ->
         configurations.named(variant) {
             attributes {
                 attribute(loaderAttribute, 'neoforge')

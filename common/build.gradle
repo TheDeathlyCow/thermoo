@@ -1,6 +1,6 @@
 plugins {
     id 'multiloader-common'
-    id 'net.fabricmc.fabric-loom'
+    id 'org.relativitymc.neo-loom'
     id 'org.jetbrains.kotlin.jvm'
 }
 

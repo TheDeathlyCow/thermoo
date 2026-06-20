@@ -8,6 +8,10 @@ pluginManagement {
             name = 'Neoforge'
             url = 'https://maven.neoforged.net/'
         }
+        maven {
+            name = 'RelativityMC'
+            url = 'https://repo.codemc.io/repository/relativitymc/'
+        }
         mavenCentral()
         gradlePluginPortal()
     }
