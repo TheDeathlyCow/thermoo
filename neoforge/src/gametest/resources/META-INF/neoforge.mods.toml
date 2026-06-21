@@ -13,6 +13,7 @@ description='''Thermoo test mod'''
 
 [modproperties.thermoo_test."yumi:entrypoints"]
 "yumi:init" = "com.github.thedeathlycow.thermoo.gametest.neoforge.ThermooNeoforgeTestMod"
+"yumi:client_init" = "com.github.thedeathlycow.thermoo.gametest.neoforge.ThermooNeoforgeTestModClient"
 "thermoo:gametest" = [
     "com.github.thedeathlycow.thermoo.gametest.tests.AttributeTests",
     "com.github.thedeathlycow.thermoo.gametest.tests.item.ModifyItemAttributeModifiersTest",

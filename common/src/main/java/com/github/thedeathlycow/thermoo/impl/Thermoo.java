@@ -4,6 +4,7 @@ import com.github.thedeathlycow.thermoo.api.command.v1.TemperatureUnitArgument;
 import com.github.thedeathlycow.thermoo.api.core.v2.registry.ThermooRegistries;
 import com.github.thedeathlycow.thermoo.api.core.v2.source.TemperatureSource;
 import com.github.thedeathlycow.thermoo.api.environment.v2.EnvironmentDefinition;
+import com.github.thedeathlycow.thermoo.api.environment.v2.component.EnvironmentComponentTypes;
 import com.github.thedeathlycow.thermoo.api.environment.v2.provider.EnvironmentProvider;
 import com.github.thedeathlycow.thermoo.api.temperature.status.v2.TemperatureStatus;
 import com.github.thedeathlycow.thermoo.impl.command.EnvironmentCommand;
@@ -49,6 +50,7 @@ public final class Thermoo {
         ThermooCommonRegisters.registerEnvironmentProviderTypes();
         ThermooCommonRegisters.registerLootConditionTypes();
         ThermooCommonRegisters.registerEnvironmentAttributes();
+        EnvironmentComponentTypes.initialize();
 
         ThermooArgumentTypeRegistry.registerArgumentType(
                 Thermoo.id("temperature_unit"),

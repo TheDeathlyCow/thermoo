@@ -4,7 +4,8 @@
     "package": "com.github.thedeathlycow.thermoo.mixin.neoforge",
     "compatibilityLevel": "JAVA_25",
     "mixins": [
-        "BuiltInRegistriesAccessor"
+        "BuiltInRegistriesAccessor",
+        "LivingEntityMixin"
     ],
     "injectors": {
         "defaultRequire": 1

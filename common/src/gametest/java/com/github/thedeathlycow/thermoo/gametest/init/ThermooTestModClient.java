@@ -13,7 +13,6 @@ import org.jetbrains.annotations.NotNull;
 import org.joml.Vector2i;
 
 public final class ThermooTestModClient {
-
     public static final Identifier HEART_OVERLAY_TEXTURE = Thermoo.id("textures/gui/fire_heart_overlay.png");
 
     private static final int TEXTURE_WIDTH = 18;

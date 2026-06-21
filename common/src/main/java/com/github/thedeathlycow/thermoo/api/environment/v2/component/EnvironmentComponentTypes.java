@@ -8,6 +8,7 @@ import com.mojang.serialization.Codec;
 import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponentType;
+import org.jetbrains.annotations.ApiStatus;
 
 import java.util.function.UnaryOperator;
 
@@ -58,6 +59,10 @@ public final class EnvironmentComponentTypes {
             builder -> builder.persistent(AtmosphericPressureComponent.CODEC)
     );
 
+    @ApiStatus.Internal
+    public static void initialize() {
+        Thermoo.LOGGER.debug("Initialized Thermoo Environment Component types");
+    }
 
     private static <T> DataComponentType<T> register(
             String name,
