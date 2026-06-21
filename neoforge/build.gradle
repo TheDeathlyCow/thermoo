@@ -54,6 +54,7 @@ loom {
             setConfigName('Neoforge Manual Test Client')
             ideConfigGenerated(true)
             runDir('runs/clientManualTest')
+            source(sourceSets.gametest)
             property('neoforge.enabledGameTestNamespaces', "${project.mod_id},${project.mod_id}_test")
         }
 
@@ -62,6 +63,7 @@ loom {
             setConfigName('Neoforge Manual Test Server')
             ideConfigGenerated(true)
             runDir('runs/serverManualTest')
+            source(sourceSets.gametest)
             property('neoforge.enabledGameTestNamespaces', "${project.mod_id},${project.mod_id}_test")
         }
 
@@ -70,6 +72,7 @@ loom {
             setConfigName('Neoforge Game test')
             ideConfigGenerated(true)
             runDir('build/gametest')
+            source(sourceSets.gametest)
             property('neoforge.enabledGameTestNamespaces', "${project.mod_id},${project.mod_id}_test")
         }
     }
