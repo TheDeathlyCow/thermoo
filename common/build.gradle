@@ -38,7 +38,7 @@ test {
 }
 
 loom {
-    def aw = project(':common').file("src/main/resources/${mod_id}.classtweaker")
+    def aw = project(":common").file("src/main/resources/${mod_id}.classtweaker")
     if (aw.exists()) {
         accessWidenerPath.set(aw)
     }
@@ -47,6 +47,8 @@ loom {
         enableDependencyInterfaceInjection = true
     }
 }
+
+sourceSets.main.resources { srcDir project(":common").file("src/main/generated") }
 
 configurations {
     commonJava {
