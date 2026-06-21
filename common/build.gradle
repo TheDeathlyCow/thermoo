@@ -55,6 +55,10 @@ configurations {
         canBeResolved = false
         canBeConsumed = true
     }
+    commonKotlin {
+        canBeResolved = false
+        canBeConsumed = true
+    }
     commonResources {
         canBeResolved = false
         canBeConsumed = true
@@ -75,6 +79,7 @@ configurations {
 
 artifacts {
     commonJava file("src/main/java")
+    commonKotlin file("src/main/kotlin")
     commonResources file("src/main/resources")
     commonGeneratedResources file("src/main/generated")
     commonGametestJava file("src/gametest/java")

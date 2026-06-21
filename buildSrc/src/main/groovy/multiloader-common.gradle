@@ -1,7 +1,10 @@
+import org.jetbrains.dokka.gradle.DokkaTaskPartial
+
 plugins {
     id 'java-library'
     id 'maven-publish'
     id 'org.jetbrains.kotlin.jvm'
+    id 'org.jetbrains.dokka'
 }
 
 base {
@@ -91,6 +94,28 @@ jar {
                 'Built-On-Minecraft'    : minecraft_version
         ])
     }
+}
+
+tasks.withType(DokkaTaskPartial).configureEach {
+    dokkaSourceSets.configureEach {
+        includeNonPublic = false
+        skipDeprecated = false
+        reportUndocumented = false
+        jdkVersion = java_version.toInteger()
+        sourceRoots.from(sourceSets.main.allSource)
+    }
+}
+
+// Prevent the default javadoc task from running, as Dokka is
+// responsible for generating the docs now
+tasks.named("javadoc", Javadoc) {
+    enabled = false
+}
+
+// Make the javadoc jar take in the Dokka output
+tasks.named("javadocJar", Jar) {
+    dependsOn(tasks.named("dokkaJavadoc"))
+    from(tasks.named("dokkaJavadoc"))
 }
 
 processResources {
