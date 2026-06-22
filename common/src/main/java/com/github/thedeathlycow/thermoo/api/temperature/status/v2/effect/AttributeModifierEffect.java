@@ -142,11 +142,11 @@ public final class AttributeModifierEffect implements TemperatureEffect {
         if (attrInstance != null) {
             if (this.scaleWithTemperature) {
                 this.applyScaledAttribute(target, attrInstance);
-                return true;
             } else if (!attrInstance.hasModifier(this.id)) {
                 attrInstance.addTransientModifier(new AttributeModifier(this.id, this.value, this.operation));
-                return true;
             }
+            
+            return true;
         }
 
         return false;
