@@ -1,10 +1,12 @@
 plugins {
     id 'org.jetbrains.kotlin.jvm' version '2.3.10' apply false
     id 'org.relativitymc.neo-loom' version '1.16-SNAPSHOT' apply false
+    id "dev.yumi.gradle.licenser" version "4.0.+" apply false
     id 'me.modmuss50.mod-publish-plugin' version '2.0.0-beta.1'
 }
 
 gradle.projectsEvaluated {
+
     publishMods {
         type = STABLE
         changelog = rootProject.file("./changelogs/${project.version}.md").text

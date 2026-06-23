@@ -1,18 +1,18 @@
 {
     "schemaVersion": 1,
-    "id": "thermoo",
+    "id": "${mod_id}",
     "version": "${version}",
-    "name": "Thermoo",
-    "description": "A temperature and environment library for Fabric mods",
+    "name": "${mod_name}",
+    "description": "${description}",
     "authors": [
-        "TheDeathlyCow"
+        "${mod_author}"
     ],
     "contact": {
         "homepage": "https://thermoo.thedeathlycow.com/",
         "sources": "https://github.com/TheDeathlyCow/thermoo",
         "issues": "https://github.com/TheDeathlyCow/thermoo/issues"
     },
-    "license": "LGPL-3.0",
+    "license": "${license}",
     "icon": "assets/thermoo/icon.png",
     "environment": "*",
     "entrypoints": {
