@@ -1,0 +1,25 @@
+{
+    "required": true,
+    "minVersion": "0.8",
+    "package": "com.github.thedeathlycow.thermoo.mixin.common",
+    "compatibilityLevel": "JAVA_25",
+    "mixins": [
+        "BiomeMixin",
+        "DataComponentMapBuilderMixin",
+        "EntityTypeMixin",
+        "EnvironmentAwareEntityMixin",
+        "ItemStackMixin",
+        "LevelMixin",
+        "LivingEntityAttributeMixin",
+        "LivingEntityEnvironmentTickMixin",
+        "ServerLevelMixin",
+        "accessor.ArgumentTypeInfosAccessor",
+        "accessor.AttributeModifiersComponentBuilderAccessor",
+        "accessor.ComponentMapBuilderAccessor",
+        "accessor.DamageSourcesAccessor",
+        "datafix.AttributeIdPrefixFixMixin"
+    ],
+    "injectors": {
+        "defaultRequire": 1
+    }
+}

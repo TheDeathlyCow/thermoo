@@ -1,0 +1,78 @@
+{
+    "schemaVersion": 1,
+    "id": "thermoo",
+    "version": "${version}",
+    "name": "Thermoo",
+    "description": "A temperature and environment library for Fabric mods",
+    "authors": [
+        "TheDeathlyCow"
+    ],
+    "contact": {
+        "homepage": "https://thermoo.thedeathlycow.com/",
+        "sources": "https://github.com/TheDeathlyCow/thermoo",
+        "issues": "https://github.com/TheDeathlyCow/thermoo/issues"
+    },
+    "license": "LGPL-3.0",
+    "icon": "assets/thermoo/icon.png",
+    "environment": "*",
+    "entrypoints": {
+        "yumi:init": [
+            "com.github.thedeathlycow.thermoo.impl.fabric.ThermooFabric",
+            "com.github.thedeathlycow.thermoo.impl.fabric.platform.event.ThermooServerLifecycleEventsImpl",
+            "com.github.thedeathlycow.thermoo.impl.fabric.platform.event.ThermooCommandRegistrationCallbackImpl"
+        ],
+        "yumi:client_init": [
+            "com.github.thedeathlycow.thermoo.impl.fabric.ThermooFabricClient"
+        ],
+        "yumi:dedicated_server_init": [
+            "com.github.thedeathlycow.thermoo.impl.fabric.ThermooFabricServer"
+        ],
+        "cardinal-components-entity": [
+            "com.github.thedeathlycow.thermoo.impl.fabric.registry.ThermooCardinalEntityComponents"
+        ],
+        "thermoo-dependent-mod-server": [
+            "com.github.thedeathlycow.thermoo.impl.fabric.compat.polymer.ThermooPolymerPatch"
+        ]
+    },
+    "mixins": [
+        "thermoo.mixins.json",
+        {
+            "config": "thermoo.client.mixins.json",
+            "environment": "client"
+        }
+    ],
+    "depends": {
+        "fabricloader": ">=${fabric_loader_version}",
+        "fabric-api": ">=${fabric_version}",
+        "minecraft": "${minecraft_version_predicate}",
+        "java": ">=${java_version}",
+        "cardinal-components-base": ">=8.0.0",
+        "cardinal-components-entity": ">=8.0.0",
+        "yumi_commons_core": ">=2.0.0",
+        "yumi_commons_collections": ">=2.0.0",
+        "yumi_commons_event": ">=2.0.0",
+        "yumi_mc_core": ">=1.1.0"
+    },
+    "suggests": {
+        "frostiful": "*",
+        "scorchful": "*"
+    },
+    "accessWidener": "thermoo.classtweaker",
+    "custom": {
+        "modmenu": {
+            "links": {
+                "modmenu.discord": "https://discord.thedeathlycow.com/",
+                "modmenu.wiki": "https://thermoo.thedeathlycow.com/"
+            },
+            "badges": [
+                "library"
+            ]
+        },
+        "cardinal-components": [
+            "thermoo:temperature",
+            "thermoo:wetness",
+            "thermoo:temperature_effects",
+            "thermoo:temperature_status_system"
+        ]
+    }
+}

@@ -1,0 +1,155 @@
+plugins {
+    id 'multiloader-loader'
+    id 'org.relativitymc.neo-loom'
+    id 'me.modmuss50.mod-publish-plugin'
+}
+
+def commonProject = project(':common')
+
+dependencies {
+    minecraft "com.mojang:minecraft:${minecraft_version}"
+    forgeUserdev "net.neoforged:neoforge:${neoforge_version}:userdev"
+    implementation("dev.yumi.mc.core:yumi-mc-foundation:${project.yumi_mc_foundation_version}")
+
+    // this is literally just to make the game tests work...
+    implementation("maven.modrinth:unruled-api:${project.unruled_version}")
+
+    include("dev.yumi.commons:yumi-commons:${project.yumi_version}")
+    include("dev.yumi.commons:yumi-commons-core:${project.yumi_version}")
+    include("dev.yumi.commons:yumi-commons-collections:${project.yumi_version}")
+    include("dev.yumi.commons:yumi-commons-event:${project.yumi_version}")
+    include("dev.yumi.mc.core:yumi-mc-foundation:${project.yumi_mc_foundation_version}")
+
+    gametestImplementation commonProject.sourceSets.gametest.output
+}
+
+loom {
+    def aw = commonProject.file("src/main/resources/${mod_id}.classtweaker")
+    if (aw.exists()) {
+        accessWidenerPath.set(aw)
+        convertAw2At(tasks.named("jar", Jar), ["${mod_id}.classtweaker"])
+    }
+
+    interfaceInjection {
+        enableDependencyInterfaceInjection = true
+    }
+
+    runs {
+        client {
+            client()
+            setConfigName('Neoforge Client')
+            ideConfigGenerated(true)
+            runDir('runs/client')
+        }
+
+        server {
+            server()
+            setConfigName('Neoforge Server')
+            ideConfigGenerated(true)
+            runDir('runs/server')
+        }
+
+        clientManualTest {
+            client()
+            setConfigName('Neoforge Manual Test Client')
+            ideConfigGenerated(true)
+            runDir('runs/clientManualTest')
+            source(sourceSets.gametest)
+            property('neoforge.enabledGameTestNamespaces', "${project.mod_id},${project.mod_id}_test")
+        }
+
+        serverManualTest {
+            server()
+            setConfigName('Neoforge Manual Test Server')
+            ideConfigGenerated(true)
+            runDir('runs/serverManualTest')
+            source(sourceSets.gametest)
+            property('neoforge.enabledGameTestNamespaces', "${project.mod_id},${project.mod_id}_test")
+        }
+
+        gameTest {
+            environment("gameTestServer")
+            setConfigName('Neoforge Game test')
+            ideConfigGenerated(true)
+            runDir('build/gametest')
+            source(sourceSets.gametest)
+            property('neoforge.enabledGameTestNamespaces', "${project.mod_id},${project.mod_id}_test")
+        }
+    }
+
+    mods {
+        "${mod_id}" {
+            sourceSet(sourceSets.main)
+        }
+
+        "${mod_id}_test" {
+            sourceSet(sourceSets.gametest)
+        }
+    }
+
+//    interfaceInjectionData.from file('src/main/resources/interfaces.json').absolutePath
+//
+//    interfaceInjectionData {
+//        publish file('src/main/resources/interfaces.json')
+//    }
+}
+
+tasks.named('build') {
+    dependsOn('runGameTest')
+}
+
+// Implement mcgradleconventions loader attribute
+def loaderAttribute = Attribute.of('io.github.mcgradleconventions.loader', String)
+['apiElements', 'runtimeElements', 'sourcesElements', 'javadocElements', 'includeInternal', 'modCompileClasspath'].each { variant ->
+    configurations.named(variant) {
+        attributes {
+            attribute(loaderAttribute, 'neoforge')
+        }
+    }
+}
+sourceSets.configureEach {
+    [it.compileClasspathConfigurationName, it.runtimeClasspathConfigurationName].each { variant ->
+        configurations.named(variant) {
+            attributes {
+                attribute(loaderAttribute, 'neoforge')
+            }
+        }
+    }
+}
+
+publishMods {
+    changelog = rootProject.file("./changelogs/${project.version}.md").text
+    type = STABLE
+
+    file = jar.archiveFile
+    additionalFiles.from(sourcesJar.archiveFile)
+    additionalFiles.from(javadocJar.archiveFile)
+    displayName = "Thermoo NeoForge ${project.version}"
+
+    modLoaders.add("neoforge")
+
+    curseforge {
+        accessToken = providers.environmentVariable("CURSEFORGE_API_KEY")
+        projectId = "846544"
+        minecraftVersions.addAll("26.1", "26.1.1", "26.1.2")
+
+        javaVersions.add(JavaVersion.VERSION_25)
+
+        clientRequired = false
+        serverRequired = true
+
+        requires("unruled-api")
+
+        optional("thermoo-patches")
+    }
+
+    modrinth {
+        accessToken = providers.environmentVariable("MODRINTH_TOKEN")
+        projectId = "9TbXlAut"
+        minecraftVersions.addAll("26.1", "26.1.1", "26.1.2")
+
+        requires("unruled-api")
+
+        optional("thermoo-patches")
+    }
+}

@@ -1,0 +1,14 @@
+{
+    "type": "minecraft:all_of",
+    "definitions": [
+        {
+            "type": "minecraft:game_rules",
+            "rules": {
+                "thermoo-test:enable_seasons": true,
+                "thermoo-test:enable_tropical_seasons": true,
+                "thermoo-test:set_test_season": "WINTER",
+                "thermoo-test:set_test_tropical_season": "DRY"
+            }
+        }
+    ]
+}

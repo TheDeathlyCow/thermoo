@@ -6,7 +6,9 @@ Thermoo is a temperature and environment library mod for Minecraft, targeting th
 
 ## License
 
-Thermoo is free software licensed under [LGPLv3](./LICENSE). You may freely link Thermoo into your own mods, however redistribution of this library requires that you follow the terms of the LGPLv3 license.
+Thermoo is free software licensed under [LGPL-3.0](./LICENSE). You may freely link Thermoo into your own mods, however redistribution of this library requires that you follow the terms of the LGPL-3.0 license.
+
+Note that this library uses components that are available under other licenses, see [LICENSES](./LICENSES) for details.
 
 ## Adding Thermoo to Your Mod
 
@@ -46,10 +48,10 @@ The Thermoo LTS policy can be found on the wiki: https://thermoo.thedeathlycow.c
 ## Repository Structure
 
 * [changelogs](./changelogs) - A record of all production changelogs
-* [src](./src) - The source code of Thermoo
-* [src/main](./src/main) - The Java and Kotlin APIs for Thermoo
-* [src/test](./src/test) - The unit tests for Thermoo
-* [src/gametest](./src/gametest) - The game tests for Thermoo
+* [src](common/src) - The source code of Thermoo
+* [src/main](common/src/main) - The Java and Kotlin APIs for Thermoo
+* [src/test](common/src/test) - The unit tests for Thermoo
+* [src/gametest](common/src/gametest) - The game tests for Thermoo
 
 ## Build and Test Instructions
 

@@ -1,0 +1,13 @@
+{
+    "required": true,
+    "package": "com.github.thedeathlycow.thermoo.mixin.client",
+    "compatibilityLevel": "JAVA_25",
+    "client": [
+        "DebugScreenEntriesAccessor",
+        "GuiMountTemperatureMixin",
+        "GuiPlayerTemperatureMixin"
+    ],
+    "injectors": {
+        "defaultRequire": 1
+    }
+}

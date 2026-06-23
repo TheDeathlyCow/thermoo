@@ -1,0 +1,106 @@
+plugins {
+    id 'multiloader-common'
+    id 'org.relativitymc.neo-loom'
+    id 'org.jetbrains.kotlin.jvm'
+}
+
+sourceSets {
+    gametest {
+        compileClasspath += main.compileClasspath
+        runtimeClasspath += main.runtimeClasspath
+        compileClasspath += main.output
+        runtimeClasspath += main.output
+    }
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    compileOnly("org.spongepowered:mixin:0.8.5")
+    // fabric and neoforge both bundle mixinextras, so it is safe to use it in common
+    compileOnly("io.github.llamalad7:mixinextras-common:0.5.3")
+    annotationProcessor("io.github.llamalad7:mixinextras-common:0.5.3")
+
+    api("dev.yumi.commons:yumi-commons:${project.yumi_version}")
+    api("dev.yumi.commons:yumi-commons-core:${project.yumi_version}")
+    api("dev.yumi.commons:yumi-commons-collections:${project.yumi_version}")
+    api("dev.yumi.commons:yumi-commons-event:${project.yumi_version}")
+    compileOnly("dev.yumi.mc.core:yumi-mc-foundation:${project.yumi_mc_foundation_version}")
+
+    testImplementation "org.junit.jupiter:junit-jupiter:5.+"
+    testImplementation "org.mockito:mockito-core:3.+"
+
+    testRuntimeOnly "org.junit.platform:junit-platform-launcher"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine"
+}
+
+test {
+    useJUnitPlatform()
+}
+
+loom {
+    def aw = project(":common").file("src/main/resources/${mod_id}.classtweaker")
+    if (aw.exists()) {
+        accessWidenerPath.set(aw)
+    }
+
+    interfaceInjection {
+        enableDependencyInterfaceInjection = true
+    }
+}
+
+sourceSets.main.resources { srcDir project(":common").file("src/main/generated") }
+
+configurations {
+    commonJava {
+        canBeResolved = false
+        canBeConsumed = true
+    }
+    commonKotlin {
+        canBeResolved = false
+        canBeConsumed = true
+    }
+    commonResources {
+        canBeResolved = false
+        canBeConsumed = true
+    }
+    commonGeneratedResources {
+        canBeResolved = false
+        canBeConsumed = true
+    }
+    commonGametestJava {
+        canBeResolved = false
+        canBeConsumed = true
+    }
+    commonGametestResources {
+        canBeResolved = false
+        canBeConsumed = true
+    }
+}
+
+artifacts {
+    commonJava file("src/main/java")
+    commonKotlin file("src/main/kotlin")
+    commonResources file("src/main/resources")
+    commonGeneratedResources file("src/main/generated")
+    commonGametestJava file("src/gametest/java")
+    commonGametestResources file("src/gametest/resources")
+}
+
+// Implement mcgradleconventions loader attribute
+def loaderAttribute = Attribute.of('io.github.mcgradleconventions.loader', String)
+['apiElements', 'runtimeElements', 'sourcesElements', 'javadocElements'].each { variant ->
+    configurations.named("$variant") {
+        attributes {
+            attribute(loaderAttribute, 'common')
+        }
+    }
+}
+sourceSets.configureEach {
+    [it.compileClasspathConfigurationName, it.runtimeClasspathConfigurationName].each { variant ->
+        configurations.named("$variant") {
+            attributes {
+                attribute(loaderAttribute, 'common')
+            }
+        }
+    }
+}
