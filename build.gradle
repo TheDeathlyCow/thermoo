@@ -9,7 +9,11 @@ gradle.projectsEvaluated {
 
     publishMods {
         type = STABLE
-        changelog = rootProject.file("./changelogs/${project.version}.md").text
+        def changelogFile = rootProject.file("./changelogs/${project.version}.md")
+
+        if (changelogFile.exists()) {
+            changelog = changelogFile.text
+        }
 
         for (loader in [':common', ':fabric', ':neoforge']) {
             def loaderProject = project(loader)

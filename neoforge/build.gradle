@@ -118,8 +118,12 @@ sourceSets.configureEach {
 }
 
 publishMods {
-    changelog = rootProject.file("./changelogs/${project.version}.md").text
     type = STABLE
+    def changelogFile = rootProject.file("./changelogs/${project.version}.md")
+
+    if (changelogFile.exists()) {
+        changelog = changelogFile.text
+    }
 
     file = jar.archiveFile
     additionalFiles.from(sourcesJar.archiveFile)
