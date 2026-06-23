@@ -172,7 +172,7 @@ license {
     rule(rootProject.file("LICENSE_HEADER"))
     include("**/*.java")
     exclude("**/com/github/thedeathlycow/thermoo/gametest/util/*.java")
-    exclude("**/com/github/thedeathlycow/thermoo/gametest/fabric/mixin/RegistryDataLoader.java")
-    exclude("**/com/github/thedeathlycow/thermoo/gametest/neoforge/mixin/RegistryDataLoader.java")
+    exclude("**/com/github/thedeathlycow/thermoo/gametest/fabric/mixin/RegistryDataLoaderMixin.java")
+    exclude("**/com/github/thedeathlycow/thermoo/gametest/neoforge/mixin/RegistryDataLoaderMixin.java")
     exclude("**/com/github/thedeathlycow/thermoo/gametest/neoforge/mixin/StructureTemplateManagerMixin.java")
 }
