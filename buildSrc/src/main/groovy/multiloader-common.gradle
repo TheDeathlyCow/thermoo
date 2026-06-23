@@ -176,3 +176,7 @@ license {
     exclude("**/com/github/thedeathlycow/thermoo/gametest/neoforge/mixin/RegistryDataLoaderMixin.java")
     exclude("**/com/github/thedeathlycow/thermoo/gametest/neoforge/mixin/StructureTemplateManagerMixin.java")
 }
+
+tasks.named("build") {
+    dependsOn("checkLicenses")
+}
