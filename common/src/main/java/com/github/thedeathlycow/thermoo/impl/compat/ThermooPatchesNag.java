@@ -97,11 +97,12 @@ public final class ThermooPatchesNag implements ThermooClientTickEvents.EndTick 
     }
 
     private void fetch(ThermooConfig config) {
-        LOGGER.info("Fetching Thermoo Patches patch list data...");
+        URI uri = config.thermooPatchesPatchListUrlOverride();
+        LOGGER.info("Fetching Thermoo Patches patch list data from {}", uri);
         List<ModContainer> foundMods;
 
         try (HttpClient client = HttpClient.newHttpClient()) {
-            PatchList patches = PatchListService.fetchPatchList(client, config.thermooPatchesPatchListUrl());
+            PatchList patches = PatchListService.fetchPatchList(client, uri);
             foundMods = patches.getPatchAvailableMods(YumiMods.get());
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
