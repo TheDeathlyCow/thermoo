@@ -81,7 +81,7 @@ jobs:
         env:
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
 
-  github-datapack:
+  github:
     needs: build
     runs-on: ubuntu-22.04
     steps:
