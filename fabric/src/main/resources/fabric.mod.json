@@ -30,7 +30,7 @@
         "cardinal-components-entity": [
             "com.github.thedeathlycow.thermoo.impl.fabric.registry.ThermooCardinalEntityComponents"
         ],
-        "thermoo-dependent-mod-server": [
+        "thermoo-dependent-mod": [
             "com.github.thedeathlycow.thermoo.impl.fabric.compat.polymer.ThermooPolymerPatch"
         ]
     },

@@ -22,16 +22,16 @@ package com.github.thedeathlycow.thermoo.impl.fabric.compat.polymer;
 import com.github.thedeathlycow.thermoo.api.core.v2.registry.ThermooRegistries;
 import com.github.thedeathlycow.thermoo.impl.Thermoo;
 import com.github.thedeathlycow.thermoo.impl.attribute.AttributeData;
-import com.github.thedeathlycow.thermoo.impl.compat.init.DependentServerModInitializer;
+import com.github.thedeathlycow.thermoo.impl.compat.init.DependentModInitializer;
 import eu.pb4.polymer.core.api.entity.PolymerEntityUtils;
 import eu.pb4.polymer.core.api.utils.PolymerUtils;
 import eu.pb4.polymer.rsm.api.RegistrySyncUtils;
 import net.minecraft.core.registries.BuiltInRegistries;
 
 
-public class ThermooPolymerPatch implements DependentServerModInitializer {
+public class ThermooPolymerPatch implements DependentModInitializer {
     @Override
-    public void onInitializeServer() {
+    public void onInitialize() {
         if (Thermoo.getConfig().enablePolymerPatch()) {
             polymerizeAttributes();
             polymerizeArgumentTypes();
@@ -54,6 +54,6 @@ public class ThermooPolymerPatch implements DependentServerModInitializer {
 
     @Override
     public String[] getRequiredModIds() {
-        return new String[]{"polymer-core"};
+        return new String[]{"polymer-core", "polymer-registry-sync-manipulator"};
     }
 }
