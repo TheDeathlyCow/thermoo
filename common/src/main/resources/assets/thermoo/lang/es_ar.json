@@ -10,6 +10,11 @@
     "tag.item.thermoo.consumable.cooling": "Consumibles refrescantes",
     "tag.item.thermoo.consumable.warming": "Consumibles que dan calor",
     
+    "thermoo.temperature_source.absolute": "Absoluto",
+    "thermoo.temperature_source.passive": "Pasivo",
+    "thermoo.temperature_source.active": "Activo",
+    "thermoo.temperature_source.environment": "Ambiental",
+    
     "commands.thermoo.temperature.exception.not_living_entity": "¡El objetivo no es una entidad viva!",
     "commands.thermoo.temperature.get.scale.success": "La escala de temperatura de %s es %d",
     "commands.thermoo.temperature.get.max.success": "%s puede tener una temperatura máxima de %d",
@@ -22,12 +27,11 @@
     "commands.thermoo.temperature.set.success.single": "Se estableció la temperatura de %s en %d",
     "commands.thermoo.temperature.set.success.multiple": "Se estableció la temperatura de %s entidades en %d",
 
-
     "commands.thermoo.environment.temperature.success": "La temperatura ambiental en %s, %s, %s (%s) es de %s°%s",
     "commands.thermoo.environment.humidity.success": "La humedad relativa ambiental en %s, %s, %s (%s) es de %s%%",
+    "commands.thermoo.environment.atmospheric_pressure.success": "La presión atmosférica ambiental en %s, %s, %s (%s) es de %s mbar",
     "commands.thermoo.environment.temperature.player.success": "El cambio de temperatura ambiental de %s es de %s (con una probabilidad de %s de evitarlo)",
     "commands.thermoo.environment.temperature.player.negative.success": "El cambio de temperatura ambiental de %s es de %s (con una probabilidad de %s de duplicarse)",
-
 
     "commands.thermoo.soaking.get.current.success": "El valor actual de empapado de %s es %d",
     "commands.thermoo.soaking.get.scale.success": "La escala de empapado actual de %s es %d",
@@ -36,10 +40,23 @@
     "commands.thermoo.soaking.set.success": "Se estableció el valor de empapado de %s en %d (ahora tiene %d)",
     "commands.thermoo.soaking.add.success": "Se le sumaron %d puntos al valor de empapado de %s (ahora tiene %d)",
     "commands.thermoo.soaking.remove.success": "Se le restaron %d puntos al valor de empapado de %s (ahora tiene %d)",
-
+    
+    "commands.thermoo.temperature.effect.single.set_enabled.true": "Se habilitó el efecto de temperatura %s para %s",
+    "commands.thermoo.temperature.effect.single.set_enabled.false": "Se deshabilitó el efecto de temperatura %s para %s",
+    "commands.thermoo.temperature.effect.multiple.set_enabled.true": "Se habilitó el efecto de temperatura %s para %s entidades",
+    "commands.thermoo.temperature.effect.multiple.set_enabled.false": "Se deshabilitó el efecto de temperatura %s para %s entidades",
+    "commands.thermoo.temperature.exception.failed_to_enable_effect": "No se pudo habilitar el efecto de temperatura %s",
+    "commands.thermoo.temperature.exception.failed_to_disable_effect": "No se pudo deshabilitar el efecto de temperatura %s",
+    "commands.thermoo.temperature.exception.effect_already_enabled": "El efecto %s ya está habilitado",
+    "commands.thermoo.temperature.exception.effect_already_disabled": "El efecto %s ya está deshabilitado",
+    
+    "commands.thermoo.temperatre.source.invalid": "¡La fuente de temperatura %s no existe!",
+    "commands.thermoo.temperatre.status.invalid": "¡El estado de temperatura %s no existe!",
+    
     "text.thermoo.thermoo-patches-nag.body": "Los siguientes mod(s) pueden funcionar con Thermoo, Frostiful y/o Scorchful, pero te falta el mod de compatibilidad Thermoo Patches:",
     "text.thermoo.thermoo-patches-nag.item": "- %1$s (%2$s)",
     "text.thermoo.thermoo-patches-nag.footer": "Podés conseguir Thermoo Patches en el siguiente enlace:",
-    "text.thermoo.thermoo-patches-nag.disable": "Podés desactivar este mensaje en cualquier momento desde la configuración de Thermoo."
-
+    "text.thermoo.thermoo-patches-nag.disable": "Podés desactivar este mensaje en cualquier momento desde la configuración de Thermoo.",
+    
+    "debug.options.category.thermoo": "Texto de pantalla de Thermoo"
 }
