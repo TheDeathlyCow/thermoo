@@ -24,9 +24,9 @@ dependencies {
 }
 
 loom {
-    def aw = commonProject.file("src/main/resources/${mod_id}.classtweaker")
-    if (aw.exists()) {
-        accessWidenerPath.set(aw)
+    def ct = commonProject.file("src/main/resources/${mod_id}.classtweaker")
+    if (ct.exists()) {
+        accessWidenerPath.set(ct)
         convertAw2At(tasks.named("jar", Jar), ["${mod_id}.classtweaker"])
     }
 
