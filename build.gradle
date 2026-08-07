@@ -5,6 +5,8 @@ plugins {
     id 'me.modmuss50.mod-publish-plugin' version '2.0.0-beta.1'
 }
 
+version = project.mod_version
+
 gradle.projectsEvaluated {
 
     publishMods {
