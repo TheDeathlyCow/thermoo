@@ -9,7 +9,7 @@ gradle.projectsEvaluated {
 
     publishMods {
         type = STABLE
-        def changelogFile = rootProject.file("./changelogs/${project.version}.md")
+        def changelogFile = rootProject.file("./changelogs/${project.mod_version}.md")
 
         if (changelogFile.exists()) {
             changelog = changelogFile.text
@@ -26,9 +26,9 @@ gradle.projectsEvaluated {
             repository = "TheDeathlyCow/thermoo"
             accessToken = providers.environmentVariable("RELEASE_GITHUB_TOKEN")
             commitish = "26.1.x"
-            tagName = "${project.version}"
+            tagName = "v${project.mod_version}"
 
-            displayName = "[26.1.x] Thermoo ${project.version}"
+            displayName = "[26.1.x] Thermoo ${project.mod_version}"
         }
     }
 }

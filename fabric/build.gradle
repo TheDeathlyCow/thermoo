@@ -125,7 +125,7 @@ sourceSets.configureEach {
 
 publishMods {
     type = STABLE
-    def changelogFile = rootProject.file("./changelogs/${project.version}.md")
+    def changelogFile = rootProject.file("./changelogs/${project.mod_version}.md")
 
     if (changelogFile.exists()) {
         changelog = changelogFile.text
@@ -134,7 +134,7 @@ publishMods {
     file = jar.archiveFile
     additionalFiles.from(sourcesJar.archiveFile)
     additionalFiles.from(javadocJar.archiveFile)
-    displayName = "Thermoo Fabric ${project.version}"
+    displayName = "Thermoo Fabric ${project.mod_version}"
 
     modLoaders.add("fabric")
     modLoaders.add("quilt")
